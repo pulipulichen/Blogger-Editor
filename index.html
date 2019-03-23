@@ -36,14 +36,18 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Posts</a>
+          <li class="nav-item">
+            <a class="nav-link" 
+               data-toggle="modal" 
+               data-target="#postsManagerModal">
+              Posts
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Theme</a>
+            <a class="nav-link" href="#" id="themeManagerButton">Theme</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Editor</a>
+            <a class="nav-link" href="#" id="editorManagerButton">Editor</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -62,8 +66,43 @@
     -->
     <div id="template"></div>
     
+    <!-- -------------------- -->
+    
+    
+<!-- Modal -->
+<div class="modal fade" 
+     id="postsManagerModal" 
+     tabindex="-1" role="dialog" 
+     aria-labelledby="postsManagerModalLabel" 
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" 
+            id="postsManagerModalLabel">
+          Posts Manager
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        update time | post title | body
+      </div>
+    </div>
+  </div>
+</div>
+    
+    <!-- -------------------- -->
+    
     <script src="vendor/popper/popper.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script> 
+    
+    <!-- -------------------- -->
+    
+    <script src="helpers/PostsManager.js"></script>
+    
+    <!-- -------------------- -->
     
     <script src="helpers/FunctionHelper.js"></script>
     <script src="helpers/CopyPasteHelper.js"></script>
@@ -71,6 +110,8 @@
     <script src="helpers/TemplateHelper.js"></script>
     <script src="helpers/SummerNotePostTitleHelper.js"></script>
     <script src="helpers/SummerNotePostBodyHelper.js"></script>
+    
+    <!-- -------------------- -->
     
     <script src="init.js"></script>
     
