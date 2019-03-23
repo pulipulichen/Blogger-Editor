@@ -1,25 +1,25 @@
-.navbar.section,
-.sidebar.section {
+#template .navbar.section,
+#template .sidebar.section {
   display: none;
 }
 
-header,
-footer {
+#template header,
+#template footer {
   display: none;
 }
 
-h2.date-header,
-.post-footer,
-.blog-pager {
+#template h2.date-header,
+#template .post-footer,
+#template .blog-pager {
   display: none;
 }
 
-body {
+#template body {
   min-width:inherit;
   min-height: inherit;
 }
 
-.content-outer {
+#template .content-outer {
   min-width: inherit;
   max-width: inherit;
 }

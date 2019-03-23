@@ -18,7 +18,7 @@ var CopyHTML = function (context) {
   return button.render();   // return button as jquery object
 }
 
-let summernoteConfig = {
+summernoteConfig = {
   height: 'calc(100vh - 60px)',                 // set editor height
   minHeight: 'calc(100vh - 60px)',             // set minimum height of editor
   maxHeight: null,             // set maximum height of editor
@@ -116,5 +116,5 @@ let summernoteConfig = {
 
 $(document).ready(function() {
   $summernote = $('#summernote')
-  $summernote.summernote(summernoteConfig);
+  //$summernote.summernote(summernoteConfig);
 });
