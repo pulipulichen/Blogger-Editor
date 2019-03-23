@@ -44,10 +44,18 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id="themeManagerButton">Theme</a>
+            <a class="nav-link" 
+               data-toggle="modal" 
+               data-target="#themeManagerModal">
+              Theme
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id="editorManagerButton">Editor</a>
+            <a class="nav-link" 
+               data-toggle="modal" 
+               data-target="#editorManagerModal">
+              Editor
+            </a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -86,9 +94,55 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        update time | post title | body
+      <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+   
+    
+<!-- Modal -->
+<div class="modal fade" 
+     id="themeManagerModal" 
+     tabindex="-1" role="dialog" 
+     aria-labelledby="themeManagerModalLabel" 
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" 
+            id="themeManagerModalLabel">
+          Theme Manager
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+   
+    
+<!-- Modal -->
+<div class="modal fade" 
+     id="editorManagerModal" 
+     tabindex="-1" role="dialog" 
+     aria-labelledby="editorManagerModalLabel" 
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" 
+            id="editorManagerModalLabel">
+          Editor Manager
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
     </div>
   </div>
 </div>
@@ -100,7 +154,10 @@
     
     <!-- -------------------- -->
     
-    <script src="helpers/PostsManager.js"></script>
+    <script src="modules/PostsManager/PostsManager.js"></script>
+    <script src="modules/ThemeManager/ThemeManager.js"></script>
+    <script src="modules/EditorManager/EditorManager.js"></script>
+    
     
     <!-- -------------------- -->
     
@@ -108,8 +165,8 @@
     <script src="helpers/CopyPasteHelper.js"></script>
     <script src="helpers/FileSystemHelper.js"></script>
     <script src="helpers/TemplateHelper.js"></script>
-    <script src="helpers/SummerNotePostTitleHelper.js"></script>
-    <script src="helpers/SummerNotePostBodyHelper.js"></script>
+    <script src="modules/EditorManager/SummerNotePostTitleHelper.js"></script>
+    <script src="modules/EditorManager/SummerNotePostBodyHelper.js"></script>
     
     <!-- -------------------- -->
     
