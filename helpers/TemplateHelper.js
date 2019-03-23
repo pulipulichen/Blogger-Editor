@@ -14,7 +14,8 @@ TemplateHelper = {
       let titleEditor = `<div id="summernotePostTitle">Post Title [TEMP]</div>`
       template = template.replace('${postTitle}', titleEditor)
       
-      let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
+      //let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
+      let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><p>Summernote</p></div>`
       template = template.replace('${postBody}', postEditor)
       
       $('#template').html(template)
