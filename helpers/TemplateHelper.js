@@ -12,7 +12,7 @@ TemplateHelper = {
       let titleEditor = `<input type="text" name="postTitle" id="postTitle" />`
       template = template.replace('${postTitle}', titleEditor)
       
-      let postEditor = `<div id="summernote"><p>HelloAAAA</p><p>Summernote</p></div>`
+      let postEditor = `<div id="summernote"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
       template = template.replace('${postBody}', postEditor)
       
       $('#template').html(template)

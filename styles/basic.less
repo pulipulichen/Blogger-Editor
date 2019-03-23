@@ -1,9 +1,26 @@
-.note-editor.panel {
-  margin-bottom: 0 !important;
-  background-color: transparent !important;
+#template {
+  .note-editor.panel {
+    margin-bottom: 0 !important;
+    background-color: transparent !important;
+    border-width: 0;
+    box-shadow: none;
+  }
+
+  .note-editor.note-frame .note-editing-area .note-editable {
+    background-color: transparent !important;
+    color: inherit;
+  }
+
+  .note-resizebar, 
+  .note-statusbar {
+    display: none;
+  }
 }
 
-.note-editor.note-frame .note-editing-area .note-editable {
-  background-color: transparent !important;
-  color: inherit;
+body {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  min-width: inherit !important;
 }
