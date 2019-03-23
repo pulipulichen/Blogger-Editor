@@ -18,7 +18,7 @@ var CopyHTML = function (context) {
   return button.render();   // return button as jquery object
 }
 
-summernoteConfig = {
+summernotePostBodyConfig = {
   //height: 'calc(100vh - 60px)',                 // set editor height
   //minHeight: 'calc(100vh - 60px)',             // set minimum height of editor
   //maxHeight: null,             // set maximum height of editor
@@ -27,6 +27,8 @@ summernoteConfig = {
   //toolbar: [
     //['mybutton', ['hello']]
   //],
+  
+  placeholder: 'Post Body',
   toolbar: [
     // [groupName, [list of button]]
     ['style', ['style']],
@@ -113,8 +115,3 @@ summernoteConfig = {
     }
   }
 }
-
-$(document).ready(function() {
-  $summernote = $('#summernote')
-  //$summernote.summernote(summernoteConfig);
-});

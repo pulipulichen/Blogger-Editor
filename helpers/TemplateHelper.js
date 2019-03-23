@@ -9,10 +9,11 @@ TemplateHelper = {
     
     $.get(templatePath, (template) => {
       //console.log(template)
-      let titleEditor = `<input type="text" name="postTitle" id="postTitle" />`
+      //let titleEditor = `<input type="text" name="postTitle" id="postTitle" />`
+      let titleEditor = `<div id="summernotePostTitle">Post Title [TEMP]</div>`
       template = template.replace('${postTitle}', titleEditor)
       
-      let postEditor = `<div id="summernote"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
+      let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
       template = template.replace('${postBody}', postEditor)
       
       $('#template').html(template)
