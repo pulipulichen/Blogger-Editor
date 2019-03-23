@@ -10,7 +10,7 @@ let summernoteConfig = {
       // upload image to server and create imgNode...
       //$summernote.summernote('insertNode', imgNode);
       //console.log(files[0])
-      FileSystemHelper.copy(files, function (urlList) {
+      FileSystemHelper.copy("/", files, function (urlList) {
         //console.log(urlList)
         urlList.forEach(imgUrl => {
           //let imgUrl = urlList[0]
@@ -29,7 +29,7 @@ let summernoteConfig = {
           let name = file.name
           //console.log(imageFile)
 
-          FileSystemHelper.copy(file, function (url) {
+          FileSystemHelper.copy("/", file, function (url) {
             let node
             if (type.startsWith('image')) {
               node = $(`<a href="${url}"><img src="${url}" alt="${name}" title="${name}" /></a>`)[0]
@@ -48,25 +48,22 @@ let summernoteConfig = {
     },
     onPaste: function(e) {
       console.log('Called event paste');
-      console.log(e)
+      //console.log(e)
       var orgEvent = e.originalEvent;
+      //console.log(orgEvent.clipboardData.items.length)
       for (var i = 0; i < orgEvent.clipboardData.items.length; i++) {
+        //console.log([orgEvent.clipboardData.items[i].kind
+        //  , orgEvent.clipboardData.items[i].type])
         if (orgEvent.clipboardData.items[i].kind === "file" 
                 && orgEvent.clipboardData.items[i].type.startsWith('image/')) {
           var imageFile = orgEvent.clipboardData.items[i].getAsFile();
-          
-          var fileReader = new FileReader();
-
-          fileReader.onloadend = function () {
-            let file = fileReader.result
-            
-            FileSystemHelper.copy(file, function (imgUrl) {
-              let imgNode = $(`<img src="${imgUrl}" />`)[0]
-              $summernote.summernote('insertNode', imgNode);
-            })
-          }
-
-          fileReader.readAsDataURL(imageFile);
+          //imageFile.name = 'test.png'
+          //console.log(imageFile.name)
+          FileSystemHelper.copy("/", imageFile, 'test.png', function (imgUrl) {
+            let imgNode = $(`<img src="${imgUrl}" />`)[0]
+            $summernote.summernote('insertNode', imgNode);
+          })
+          e.preventDefault();
           break;
         }
       }

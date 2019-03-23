@@ -4724,7 +4724,7 @@
               // stop the browser from opening the dropped content
               event.preventDefault();
               //console.log(dataTransfer.files.length)
-              console.log(dataTransfer.types)
+              //console.log(dataTransfer.types)
               if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
                   _this.$editable.focus();
                   //console.log('AAA')

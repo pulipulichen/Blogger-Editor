@@ -111,11 +111,16 @@ let FileSystemHelper = {
     }, errorHandler);
 
   },
-  copy: function (files, callback) {
+  copy: function (dirPath, files, filename, callback) {
+    if (typeof(filename) === 'function') {
+      callback = filename
+      filename = null
+    }
+    
     //console.log(typeof(files.name))
     if (typeof(files.name) === 'string') {
     //if (files.length > 1) {
-      this.copy([files], (list) => {
+      this.copy(dirPath, [files], filename, (list) => {
         if (typeof(callback) === 'function') {
           callback(list[0])
         }
@@ -131,19 +136,39 @@ let FileSystemHelper = {
       if (i < files.length) {
         let file = files[i]
         //console.log(file.name)
-        fs.root.getFile(file.name, {create: true, exclusive: false}, function(fileEntry) {
-          //console.log(file.name)
-          fileEntry.createWriter(function(fileWriter) {
-            //console.log(file.name)
-            fileWriter.write(file); // Note: write() can take a File or Blob object.
+        let baseFilePath
+        if (filename === null) {
+          baseFilePath = dirPath + file.name
+        }
+        else {
+          baseFilePath = dirPath + filename
+        }
+        
+        let pathPart1 = baseFilePath.slice(0, baseFilePath.lastIndexOf('.'))
+        let pathPart2 = baseFilePath.slice(baseFilePath.lastIndexOf('.'))
+        
+        let dupCount = 0
+        let writeFile = (filePath) => {
+          fs.root.getFile(filePath, {create: true, exclusive: true}, function(fileEntry) {
+            console.log(filePath)
+            fileEntry.createWriter(function(fileWriter) {
+              //console.log(file.name)
+              fileWriter.write(file); // Note: write() can take a File or Blob object.
 
-            let url = fileEntry.toURL()
-            output.push(url)
+              let url = fileEntry.toURL()
+              output.push(url)
 
-            i++
-            loop(i)
-          }, errorHandler);
-        }, errorHandler);
+              i++
+              loop(i)
+            }, errorHandler);
+          }, () => {
+            dupCount++
+            filePath = pathPart1 + '_' + dupCount + pathPart2
+            writeFile(filePath)
+          });
+        }
+        writeFile(baseFilePath)
+          
       }
       else {
         if (typeof(callback) === 'function') {
