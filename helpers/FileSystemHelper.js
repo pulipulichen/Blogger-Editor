@@ -14,7 +14,7 @@ let FileSystemHelper = {
   },
   onInitFs: function (fs) {
     this.fs = fs
-
+    console.log('FileSystem inited')
     /*
     console.log('Opened file system: ' + fs.name);
 
@@ -27,30 +27,34 @@ let FileSystemHelper = {
   },
   errorHandler: function (e) {
     var msg = '';
-
+    // https://developer.mozilla.org/zh-TW/docs/Web/API/FileError#Error_codes
     switch (e.code) {
-      case FileError.QUOTA_EXCEEDED_ERR:
+      case 10: //case FileError.QUOTA_EXCEEDED_ERR:
         msg = 'QUOTA_EXCEEDED_ERR';
         break;
-      case FileError.NOT_FOUND_ERR:
+      case 1: //case FileError.NOT_FOUND_ERR:
         msg = 'NOT_FOUND_ERR';
         break;
-      case FileError.SECURITY_ERR:
+      case 2: //case FileError.SECURITY_ERR:
         msg = 'SECURITY_ERR';
         break;
-      case FileError.INVALID_MODIFICATION_ERR:
+      case 9: //case FileError.INVALID_MODIFICATION_ERR:
         msg = 'INVALID_MODIFICATION_ERR';
         break;
-      case FileError.INVALID_STATE_ERR:
+      case 7: //case FileError.INVALID_STATE_ERR:
         msg = 'INVALID_STATE_ERR';
         break;
+      case 13:
+        msg = 'FILE_EXISTED'
+        break;
       default:
-        msg = 'Unknown Error';
+        msg = 'Unknown Error ' + e.code;
         break;
     }
     ;
 
-    console.log('Error: ' + msg);
+    //console.log('Error: ' + msg);
+    throw 'Error: ' + msg
   },
   write: function (filePath, content, callback) {
     let errorHandler = this.errorHandler
@@ -108,7 +112,9 @@ let FileSystemHelper = {
 
   },
   copy: function (files, callback) {
-    if (Array.isArray(files) === false) {
+    //console.log(typeof(files.name))
+    if (typeof(files.name) === 'string') {
+    //if (files.length > 1) {
       this.copy([files], (list) => {
         if (typeof(callback) === 'function') {
           callback(list[0])
@@ -124,8 +130,11 @@ let FileSystemHelper = {
     let loop = (i) => {
       if (i < files.length) {
         let file = files[i]
-        fs.root.getFile(file.name, {create: true, exclusive: true}, function(fileEntry) {
+        //console.log(file.name)
+        fs.root.getFile(file.name, {create: true, exclusive: false}, function(fileEntry) {
+          //console.log(file.name)
           fileEntry.createWriter(function(fileWriter) {
+            //console.log(file.name)
             fileWriter.write(file); // Note: write() can take a File or Blob object.
 
             let url = fileEntry.toURL()

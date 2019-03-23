@@ -9,17 +9,42 @@ let summernoteConfig = {
     onImageUpload: function(files) {
       // upload image to server and create imgNode...
       //$summernote.summernote('insertNode', imgNode);
-      //console.log(files)
+      //console.log(files[0])
       FileSystemHelper.copy(files, function (urlList) {
+        //console.log(urlList)
         urlList.forEach(imgUrl => {
           //let imgUrl = urlList[0]
-          let imgNode = $(`<img src="${imgUrl}" />`)[0]
+          let imgNode = $(`<a href="${imgUrl}"><img src="${imgUrl}" /></a>`)[0]
           $summernote.summernote('insertNode', imgNode);
         })
       })
     },
     onDrop: function (files) {
-      console.log(files)
+      //console.log(files.length)
+      
+      let loop = (i) => {
+        if (i < files.length) {
+          let file = files[i];
+          let type = file.type
+          let name = file.name
+          //console.log(imageFile)
+
+          FileSystemHelper.copy(file, function (url) {
+            let node
+            if (type.startsWith('image')) {
+              node = $(`<a href="${url}"><img src="${url}" alt="${name}" title="${name}" /></a>`)[0]
+            }
+            else {
+              node = $(`<a href="${url}">${name}</a>`)[0]
+            }
+            $summernote.summernote('insertNode', node);
+
+            i++
+            loop(i)
+          })
+        }
+      }
+      loop(0)
     },
     onPaste: function(e) {
       console.log('Called event paste');

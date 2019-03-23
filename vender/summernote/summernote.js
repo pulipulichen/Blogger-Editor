@@ -4656,6 +4656,7 @@
        */
       Dropzone.prototype.initialize = function () {
           if (this.options.disableDragAndDrop) {
+            //console.log('disable')
               // prevent default drop event
               this.documentEventHandlers.onDrop = function (e) {
                   e.preventDefault();
@@ -4693,7 +4694,8 @@
               }
           };
           this.documentEventHandlers.onDrop = function (event) {
-            //console.log(event)
+            console.log(`this.documentEventHandlers.onDrop = function (event) {`)
+            console.log(event)
             //console.log(_this.options.callbacks.onDrop)
             //_this.options.callbacks.onDrop(event)
             collection = $$1();
@@ -4714,13 +4716,20 @@
           });
           // attach dropImage
           this.$dropzone.on('drop', function (event) {
-            console.log(event)
+            //console.log(`this.$dropzone.on('drop', function (event) {`)
+            //console.log(event)
+            //console.log(event.originalEvent.dataTransfer.getData(0))
+            //EEE = event
               var dataTransfer = event.originalEvent.dataTransfer;
               // stop the browser from opening the dropped content
               event.preventDefault();
+              //console.log(dataTransfer.files.length)
+              console.log(dataTransfer.types)
               if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
                   _this.$editable.focus();
+                  //console.log('AAA')
                   _this.context.invoke('editor.insertImagesOrCallback', dataTransfer.files);
+                  _this.options.callbacks.onDrop(dataTransfer.files)
               }
               else {
                   $$1.each(dataTransfer.types, function (idx, type) {
