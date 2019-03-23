@@ -26,7 +26,7 @@ let summernoteConfig = {
       console.log(e)
       var orgEvent = e.originalEvent;
       for (var i = 0; i < orgEvent.clipboardData.items.length; i++) {
-        if (orgEvent.clipboardData.items[i].kind == "file" 
+        if (orgEvent.clipboardData.items[i].kind === "file" 
                 && orgEvent.clipboardData.items[i].type.startsWith('image/')) {
           var imageFile = orgEvent.clipboardData.items[i].getAsFile();
           
