@@ -1,9 +1,43 @@
+var CopyHTML = function (context) {
+  var ui = $.summernote.ui;
+
+  // create button
+  var button = ui.button({
+    contents: '<i class="fa fa-child"/> Hello',
+    tooltip: 'hello',
+    click: function () {
+      // invoke insertText method with 'hello' on editor module.
+      context.invoke('editor.insertText', 'hello');
+    }
+  });
+
+  return button.render();   // return button as jquery object
+}
+
 let summernoteConfig = {
   height: 'calc(100vh - 60px)',                 // set editor height
   minHeight: 'calc(100vh - 60px)',             // set minimum height of editor
   maxHeight: null,             // set maximum height of editor
   focus: true,                  // set focus to editable area after initializing summernote
   disableResizeEditor: true,
+  //toolbar: [
+    //['mybutton', ['hello']]
+  //],
+  toolbar: [
+    // [groupName, [list of button]]
+    ['style', ['style']],
+    ['font', ['bold', 'underline', 'clear']],
+    ['fontname', ['fontname']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['table', ['table']],
+    ['insert', ['link', 'picture', 'video']],
+    ['view', ['fullscreen', 'codeview', 'help']],
+    ['mybutton', ['hello']]
+  ],
+  buttons: {
+    copyHTML: CopyHTML
+  },
   //disableDragAndDrop: false,
   callbacks: {
     onImageUpload: function(files) {
