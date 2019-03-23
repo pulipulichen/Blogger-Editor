@@ -177,8 +177,13 @@ let FileSystemHelper = {
       }
     }
     loop(0)
+  },
+  getFileName: function (url) {
+    if (url.lastIndexOf('/') > -1) {
+      url = url.slice(url.lastIndexOf('/') + 1)
+    }
+    return url
   }
-
 }
 
 FileSystemHelper.init()

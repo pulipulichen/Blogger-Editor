@@ -3,11 +3,15 @@ var CopyHTML = function (context) {
 
   // create button
   var button = ui.button({
-    contents: '<i class="fa fa-child"/> Hello',
-    tooltip: 'hello',
+    contents: '<i class="fas fa-file-import" /> Copy Code',
+    tooltip: 'Copy Code',
     click: function () {
       // invoke insertText method with 'hello' on editor module.
-      context.invoke('editor.insertText', 'hello');
+      //context.invoke('editor.insertText', 'hello');
+      let code = $summernote.summernote('code');
+      //console.log(code)
+      
+      CopyPasteHelper.copyPlainText(code)
     }
   });
 
@@ -33,7 +37,7 @@ let summernoteConfig = {
     ['table', ['table']],
     ['insert', ['link', 'picture', 'video']],
     ['view', ['fullscreen', 'codeview', 'help']],
-    ['mybutton', ['hello']]
+    ['mybutton', ['copyHTML']]
   ],
   buttons: {
     copyHTML: CopyHTML
@@ -48,7 +52,10 @@ let summernoteConfig = {
         //console.log(urlList)
         urlList.forEach(imgUrl => {
           //let imgUrl = urlList[0]
-          let imgNode = $(`<a href="${imgUrl}"><img src="${imgUrl}" /></a>`)[0]
+          let name = FileSystemHelper.getFileName(imgUrl)
+          let imgNode = $(`<a href="${imgUrl}">
+              <img src="${imgUrl}" alt="${name}" title="${name}" />
+            </a>`)[0]
           $summernote.summernote('insertNode', imgNode);
         })
       })
@@ -66,7 +73,9 @@ let summernoteConfig = {
           FileSystemHelper.copy("/", file, function (url) {
             let node
             if (type.startsWith('image')) {
-              node = $(`<a href="${url}"><img src="${url}" alt="${name}" title="${name}" /></a>`)[0]
+              node = $(`<a href="${url}">
+                  <img src="${url}" alt="${name}" title="${name}" />
+                </a>`)[0]
             }
             else {
               node = $(`<a href="${url}">${name}</a>`)[0]
