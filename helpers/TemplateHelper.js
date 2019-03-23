@@ -1,6 +1,7 @@
 TemplateHelper = {
   init: function (callback) {
-    let name = 'default'
+    //let name = 'default'
+    let name = 'simple'
     
     let templatePath = 'themes/' + name + '/template.html'
     let stylePath = 'themes/' + name + '/style.css'
