@@ -1,5 +1,7 @@
 EditorManager = {
-  template: `<div>editor manager</div>`,
+  template: `<div>
+    <input name="uploadImageDraft" type="text"  data-persist="garlic" />
+  </div>`,
   init: function () {
     $(() => {
       $('#editorManagerModal .modal-body').html(this.template)

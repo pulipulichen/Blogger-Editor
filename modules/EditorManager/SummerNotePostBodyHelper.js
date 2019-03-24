@@ -1,4 +1,4 @@
-var CopyHTML = function (context) {
+let CopyHTML = function (context) {
   var ui = $.summernote.ui;
 
   // create button
