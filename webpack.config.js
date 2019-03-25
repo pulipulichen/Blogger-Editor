@@ -15,9 +15,9 @@ module.exports = (env, argv) => {
     devtool: 'source-map',
     //devtool: false,
     entry: {
-      'test': './[tmp/test.js',
-      //'header': './header.js',
-      //'footer': './footer.js',
+      //'test': './[tmp/test.js',
+      'header': './header.js',
+      'footer': './footer.js',
     },
     output: {
       path: path.resolve('./bundle/'),
@@ -48,6 +48,7 @@ module.exports = (env, argv) => {
             'vue-loader'
           ],
         },
+        { test: /\.(eot|woff|woff2|svg|png|ttf)([\?]?.*)$/, loader: "file-loader" },
                 /*
                  {
                  test: /\.m?js$/,
@@ -76,7 +77,7 @@ module.exports = (env, argv) => {
      */
   } // let webpackConfig = {
 
-  console.log(argv.mode)
+  //console.log(argv.mode)
 
   if (argv.mode === 'production') {
     webpackConfig.devtool = false
