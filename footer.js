@@ -1,10 +1,8 @@
-require('./')
-require('./')
 require('./vendor/garlic/garlic.min.js')
 require('./vendor/dayjs/dayjs.min.js')
 
-require('./vendor/popper/popper.min.js')
-require('./vendor/bootstrap/js/bootstrap.min.js')
+//require('./vendor/popper/popper.min.js')
+//require('./vendor/bootstrap/js/bootstrap.js')
 
 require('./helpers/FunctionHelper.js')
 require('./helpers/CopyPasteHelper.js')
@@ -17,5 +15,3 @@ require('./modules/ThemeManager/ThemeManager.js')
 require('./modules/EditorManager/EditorManager.js')
 require('./modules/EditorManager/SummerNotePostTitleHelper.js')
 require('./modules/EditorManager/SummerNotePostBodyHelper.js')
-
-require('./init.js')
