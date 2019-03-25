@@ -8,12 +8,12 @@ const WebpackShellPlugin = require('webpack-shell-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 let webpackConfig  = {
-  cache: true,
+  //cache: true,
   devtool: 'source-map',
   entry: {
-    'test': './test.js'
-    //'header': './header.js',
-    //'footer': './footer.js',
+    //'test': './test.js',
+    'header': './header.js',
+    'footer': './footer.js',
   },
   output: {
     path: path.resolve('./bundle/'),
@@ -25,17 +25,17 @@ let webpackConfig  = {
         test: /\.css$/, // 針對所有.css 的檔案作預處理，這邊是用 regular express 的格式
         use: [
           'style-loader', // 這個會後執行 (順序很重要)
-          'css-loader', // 這個會先執行
-          'postcss-loader',
+          'css-loader?sourceMap', // 這個會先執行
+          'postcss-loader?sourceMap',
         ]
       },
       {
         test: /\.less$/,
         use: [
           'style-loader', // Step 3
-          'css-loader', // Step 2再執行這個
-          'postcss-loader',
-          'less-loader' // Step 1 要先執行這個
+          'css-loader?sourceMap', // Step 2再執行這個
+          'postcss-loader?sourceMap',
+          'less-loader?sourceMap' // Step 1 要先執行這個
         ]
       },
       {
@@ -72,6 +72,7 @@ let webpackConfig  = {
   */
 }
 
+/*
 if (argv.mode === 'production') { 
   webpackConfig.moduel.rules.push({
         test: /\.m?js$/,
@@ -97,6 +98,6 @@ if (argv.mode === 'production') {
 if (argv.mode === 'development') {
   
 }
+*/
 
-
-//module.exports = [webpackConfig]
+module.exports = [webpackConfig]

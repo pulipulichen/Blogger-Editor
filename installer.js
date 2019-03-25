@@ -85,7 +85,9 @@ let c = {
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-node-externals": "^1.7.2",
-    "webpack-shell-plugin": "^0.5.0"
+    "webpack-shell-plugin": "^0.5.0",
+    "webpack-shell-plugin": "^0.5.0",
+		
 }
 let a = ["install", "-g"]
 
