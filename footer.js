@@ -1,9 +1,9 @@
-import Vue from 'vue';
-import MainContent from './modules/NavBar/NavBar';
-
-let MainComponent = Vue.extend(MainContent);
-
-new MainComponent().$mount("#mainContent");
+import Vue from 'vue'
+import Msg from './modules/NavBar/NavBar.vue'
+new Vue({
+    el: '#mainContent',
+    components:{Msg}
+})
 
 require('./vendor/garlic/garlic.min.js')
 require('./vendor/dayjs/dayjs.min.js')

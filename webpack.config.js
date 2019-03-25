@@ -7,6 +7,8 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const WebpackShellPlugin = require('webpack-shell-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
 module.exports = (env, argv) => {
   //console.log(argv.mode)
   
@@ -16,7 +18,7 @@ module.exports = (env, argv) => {
     //devtool: false,
     entry: {
       //'test': './[tmp/test.js',
-      'header': './header.js',
+      //'header': './header.js',
       'footer': './footer.js',
     },
     output: {
@@ -28,7 +30,7 @@ module.exports = (env, argv) => {
         {
           test: /\.css$/, // 針對所有.css 的檔案作預處理，這邊是用 regular express 的格式
           use: [
-            'style-loader', // 這個會後執行 (順序很重要)
+            'vue-style-loader', // 這個會後執行 (順序很重要)
             'css-loader?sourceMap', // 這個會先執行
             //'postcss-loader?sourceMap',
           ]
@@ -75,6 +77,9 @@ module.exports = (env, argv) => {
      ]
      },
      */
+      plugins: [
+        new VueLoaderPlugin()
+      ]
   } // let webpackConfig = {
 
   //console.log(argv.mode)

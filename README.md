@@ -12,3 +12,5 @@ https://stackoverflow.com/questions/41383621/is-there-any-plugin-available-for-v
 
 gedit /usr/local/netbeans-8.2/etc/netbeans.conf  
 
+https://medium.freecodecamp.org/how-to-create-a-vue-js-app-using-single-file-components-without-the-cli-7e73e5b8244f
+
