@@ -5,16 +5,15 @@
         <img src="icon.png" style="width: 35px; height: 35px;">
       </div>
       -->
-      <a class="item">
+      <a class="item" v-on:click="openPostManager">
         <i class="blogger b icon"></i>
-        <i class="edit icon"></i>
         Post
       </a>
-      <a class="item">
-        <i class="crop icon"></i>
+      <a class="item" v-on:click="openThemeManager">
+        <i class="columns icon"></i>
         Theme
       </a>
-      <a class="item">
+      <a class="item" v-on:click="openEditorManager">
         <i class="keyboard outline icon"></i>
         Editor
       </a>

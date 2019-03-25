@@ -22,7 +22,7 @@ module.exports = (env, argv) => {
       'footer': './src/footer.js',
     },
     output: {
-      path: path.resolve('./bundle/'),
+      path: path.resolve('./dist/'),
       filename: '[name].min.js'
     },
     module: {
@@ -58,7 +58,7 @@ module.exports = (env, argv) => {
               options: {
                 name: '[name].[ext]',
                 outputPath: 'asset',
-                publicPath: 'bundle/asset'
+                publicPath: 'dist/asset'
               }
             }
           ]

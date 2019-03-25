@@ -1,11 +1,10 @@
+import Vue from 'vue'
 
 const VueHelper = {
-  render: function (selector, vuePath) {
-    let component = require(vuePath)
+  render: function (selector, component) {
     new Vue({
       el: selector,
       render: h => h(component),
     })
   }
 }
-module.exports = VueHelper
