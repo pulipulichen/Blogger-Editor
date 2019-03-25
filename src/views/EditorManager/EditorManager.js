@@ -25,9 +25,23 @@ EditorManager.init()
 let config = {
   //name: "main-content",
   data: () => ({
-      // reactive data property of the component.
-      //webpack: 'Powered by webpack! is it work?',
-    }),
+    // reactive data property of the component.
+    //webpack: 'Powered by webpack! is it work?',
+  }),
+  created: function () {
+    $(() => {
+      $('.EditorManager.ui.modal .close.icon').click(() => {
+        //sconsole.log(1)
+        this.close()
+      })
+    })
+    
+  },
+  methods: {
+    close: function () {
+      $('.EditorManager.ui.modal').modal('hide')
+    }
+  }
 }
 
 export default config

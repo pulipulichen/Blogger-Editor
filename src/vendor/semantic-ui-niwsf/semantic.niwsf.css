@@ -23796,7 +23796,7 @@ padding-bottom: 42.85714286%;
 .non-invasive-web-style-framework .ui.modal {
 position: absolute;
 display: none;
-z-index: 1001;
+z-index: 2001;
 text-align: left;
 background: #FFFFFF;
 border: none;
@@ -23813,6 +23813,14 @@ border-radius: 0.28571429rem;
 -ms-user-select: text;
 user-select: text;
 will-change: top, left, margin, transform, opacity;
+    overflow-x: inherit;
+    overflow-y: inherit;
+            top: inherit;
+    right: inherit;
+    bottom: inherit;
+    left: inherit;
+        outline: inherit;
+        z-index: 2001;
 }
 .non-invasive-web-style-framework .ui.modal > :first-child:not(.icon),
 .non-invasive-web-style-framework .ui.modal > .icon:first-child + * {
@@ -23931,30 +23939,40 @@ margin-left: 0.75em;
 .non-invasive-web-style-framework .ui.modal {
 width: 95%;
 margin: 0em 0em 0em 0em;
+left: 2.5%;
+top:6%;
 }
 }
 @media only screen and (min-width: 768px) {
 .non-invasive-web-style-framework .ui.modal {
 width: 88%;
 margin: 0em 0em 0em 0em;
+left: 6%;
+top:6%;
 }
 }
 @media only screen and (min-width: 992px) {
 .non-invasive-web-style-framework .ui.modal {
 width: 850px;
 margin: 0em 0em 0em 0em;
+left: calc((100vw - 850px) / 2);
+top: 6%;
 }
 }
 @media only screen and (min-width: 1200px) {
 .non-invasive-web-style-framework .ui.modal {
 width: 900px;
 margin: 0em 0em 0em 0em;
+left: calc((100vw - 900px) / 2);
+top: 6%;
 }
 }
 @media only screen and (min-width: 1920px) {
 .non-invasive-web-style-framework .ui.modal {
 width: 950px;
 margin: 0em 0em 0em 0em;
+left: calc((100vw - 950px) / 2);
+top: 6%;
 }
 }
 @media only screen and (max-width: 991px) {

@@ -6,7 +6,7 @@ let config = {
   }),
   created: function () {
     $(() => {
-    this.openEditorManager()
+      this.openEditorManager()
       
     })
   },
@@ -18,7 +18,7 @@ let config = {
       console.log(2)
     },
     openEditorManager: function () {
-      $('.ui.modal').modal('show')
+      $('.EditorManager.ui.modal').modal('show')
     },
   }
 }

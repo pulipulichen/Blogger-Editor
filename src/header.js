@@ -4,7 +4,7 @@
 
 require('./vendor/semantic-ui-niwsf/semantic.niwsf.css')
 //require('./vendor/semantic-ui-niwsf/semantic.raw.css')
-require('./vendor/semantic-ui-niwsf/semantic.min.js')
+require('./vendor/semantic-ui-niwsf/semantic.niwsf.js')
 //require('./vendor/bootstrap/css/bootstrap.min.css')
 
 //require('./vendor/summernote/summernote.css')
