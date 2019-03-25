@@ -3,6 +3,7 @@
 //$ = jQuery
 
 require('./vendor/semantic-ui-niwsf/semantic.niwsf.css')
+//require('./vendor/semantic-ui-niwsf/semantic.raw.css')
 require('./vendor/semantic-ui-niwsf/semantic.min.js')
 //require('./vendor/bootstrap/css/bootstrap.min.css')
 
