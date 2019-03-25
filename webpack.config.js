@@ -18,8 +18,8 @@ module.exports = (env, argv) => {
     //devtool: false,
     entry: {
       //'test': './[tmp/test.js',
-      'header': './header.js',
-      'footer': './footer.js',
+      'header': './src/header.js',
+      'footer': './src/footer.js',
     },
     output: {
       path: path.resolve('./bundle/'),
