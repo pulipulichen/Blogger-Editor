@@ -1,9 +1,4 @@
 import Vue from 'vue'
-import Msg from './modules/NavBar/NavBar.vue'
-new Vue({
-    el: '#mainContent',
-    render: h => h(Msg),
-})
 
 require('./vendor/garlic/garlic.min.js')
 require('./vendor/dayjs/dayjs.min.js')
@@ -17,8 +12,16 @@ require('./helpers/FileSystemHelper.js')
 require('./helpers/TemplateHelper.js')
 require('./helpers/FileSystemHelper.js')
 
-require('./modules/PostsManager/PostsManager.js')
-require('./modules/ThemeManager/ThemeManager.js')
-require('./modules/EditorManager/EditorManager.js')
-require('./modules/EditorManager/SummerNotePostTitleHelper.js')
-require('./modules/EditorManager/SummerNotePostBodyHelper.js')
+//VueHelper = require('./helpers/VueHelper.js')
+//VueHelper.render('NavBar', './views/NavBar/NavBar.vue')
+import NavBar from './views/NavBar/NavBar.vue'
+new Vue({
+  el: "#NavBar",
+  render: h => h(NavBar),
+})
+
+require('./views/PostsManager/PostsManager.js')
+require('./views/ThemeManager/ThemeManager.js')
+require('./views/EditorManager/EditorManager.js')
+require('./views/EditorManager/SummerNotePostTitleHelper.js')
+require('./views/EditorManager/SummerNotePostBodyHelper.js')
