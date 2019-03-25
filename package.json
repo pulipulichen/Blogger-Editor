@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "1-webpack-build-development": "webpack --mode development",
-    "2-webpack-watch": "webpack --watch --mode development",
-    "3-webpack-build": "webpack --mode production",
+    "2-webpack-watch-development": "webpack --watch --mode development",
+    "3-webpack-build-production": "webpack --mode production",
     "install": "node installer.js",
     "mocha": "mocha lib-for-link/src/**/*.mocha-test.js",
     "mocha-watch": "mocha --watch lib-for-link/src/**/*.mocha-test.js",
