@@ -38,7 +38,7 @@ module.exports = (env, argv) => {
         {
           test: /\.less$/,
           use: [
-            'style-loader', // Step 3
+            'vue-style-loader', // Step 3
             'css-loader?sourceMap', // Step 2再執行這個
             //'postcss-loader?sourceMap',
             'less-loader?sourceMap' // Step 1 要先執行這個
