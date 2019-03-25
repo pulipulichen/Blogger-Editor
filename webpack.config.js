@@ -50,7 +50,18 @@ module.exports = (env, argv) => {
             'vue-loader'
           ],
         },
-        { test: /\.(eot|woff|woff2|svg|png|ttf)([\?]?.*)$/, loader: "file-loader" },
+        { 
+          test: /\.(eot|woff|woff2|svg|png|ttf)([\?]?.*)$/, 
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                outputPath: 'asset',
+                publicPath: 'bundle/asset'
+              }
+            }
+          ]
+        },
                 /*
                  {
                  test: /\.m?js$/,
