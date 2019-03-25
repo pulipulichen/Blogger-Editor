@@ -8,5 +8,7 @@ https://summernote.org/deep-dive/#basic-api
 
 https://fontawesome.com/icons
 
+https://stackoverflow.com/questions/41383621/is-there-any-plugin-available-for-vuejs-in-netbeans-8-2
+
 gedit /usr/local/netbeans-8.2/etc/netbeans.conf  
 
