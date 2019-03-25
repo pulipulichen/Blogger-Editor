@@ -18,7 +18,7 @@ module.exports = (env, argv) => {
     //devtool: false,
     entry: {
       //'test': './[tmp/test.js',
-      //'header': './header.js',
+      'header': './header.js',
       'footer': './footer.js',
     },
     output: {

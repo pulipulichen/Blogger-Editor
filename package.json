@@ -7,6 +7,7 @@
     "1-webpack-build-development": "webpack --mode development",
     "2-webpack-watch-development": "webpack --watch --mode development",
     "3-webpack-build-production": "webpack --mode production",
+    "webpack-test-build-development": "webpack --mode development --config [tmp/webpack.config.js",
     "install": "node installer.js",
     "mocha": "mocha lib-for-link/src/**/*.mocha-test.js",
     "mocha-watch": "mocha --watch lib-for-link/src/**/*.mocha-test.js",

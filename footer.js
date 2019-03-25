@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Msg from './modules/NavBar/NavBar.vue'
 new Vue({
     el: '#mainContent',
-    components:{Msg}
+    render: h => h(Msg),
 })
 
 require('./vendor/garlic/garlic.min.js')
