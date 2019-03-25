@@ -1,0 +1,19 @@
+{
+  "name": "blogger-editor",
+  "version": "1.0.0",
+  "description": "A editor for Blogger writer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://pulipuli.chen@gmail.com@github.com/pulipulichen/Blogger-Editor.git"
+  },
+  "author": "Pulipuli Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pulipulichen/Blogger-Editor/issues"
+  },
+  "homepage": "https://github.com/pulipulichen/Blogger-Editor#readme"
+}
