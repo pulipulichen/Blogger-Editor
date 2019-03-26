@@ -5,8 +5,4 @@ $(() => {
     
     $('#summernotePostTitle').summernote(summernotePostTitleConfig);
   })
-  
-  setTimeout(() => {
-    $.getScript('dist/views.min.js')
-  }, 10000)
 })
