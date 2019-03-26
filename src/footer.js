@@ -11,6 +11,7 @@ require('./helpers/CopyPasteHelper.js')
 require('./helpers/FileSystemHelper.js')
 require('./helpers/TemplateHelper.js')
 require('./helpers/FileSystemHelper.js')
+require('./helpers/WebSQLDatabaseHelper.js')
 
 
 import EditorManagerComponent from './views/EditorManager/EditorManager.vue'

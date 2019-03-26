@@ -14,7 +14,7 @@ let FileSystemHelper = {
   },
   onInitFs: function (fs) {
     this.fs = fs
-    console.log('FileSystem inited')
+    //console.log('FileSystem inited')
     /*
     console.log('Opened file system: ' + fs.name);
 
