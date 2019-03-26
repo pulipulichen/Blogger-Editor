@@ -1,4 +1,4 @@
- /*
+/*
  * # Semantic UI - 2.4.0
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
@@ -23872,6 +23872,8 @@ font-size: 1em;
 line-height: 1.4;
 padding: 1.5rem;
 background: #FFFFFF;
+max-height: calc(100vh - 13rem);
+    overflow-y: auto;
 }
 .non-invasive-web-style-framework .ui.modal > .image.content {
 display: -webkit-box;

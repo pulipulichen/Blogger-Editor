@@ -19,6 +19,9 @@ var PostManager = {
     return {
       ui: undefined,
       posts: [],
+      filterCondition: '',
+      filteredPosts: [],
+      createTableDone: false,
       //uploadImageDraft: '',
       //disableUploadImageDraft: true
     }
@@ -37,7 +40,7 @@ var PostManager = {
   created: function () {
     //return
     $(() => {
-      this.getUI().find('.close.icon').click(() => {
+      this.getUI().find('.close.icon:first').click(() => {
         //console.log(1)
         this.close()
       })
@@ -55,15 +58,21 @@ var PostManager = {
       return this.ui
     },
     createTable: function () {
-      
+      if (this.createTableDone === true) {
+        return
+      }
+      else {
+        this.createTableDone = true
+      }
       let sql = `Create Table posts
       (id INTEGER PRIMARY KEY, 
        createUnix INTEGER, 
        updateUnix INTEGER, 
        title TEXT, 
        labels TEXT, 
-       abstract TEXT)`
-      console.log(sql)
+       abstract TEXT,
+       thumbnail TEXT)`
+      //console.log(sql)
       WebSQLDatabaseHelper.exec(sql)
       
     },
@@ -76,12 +85,15 @@ var PostManager = {
       //console.log(sql)
       WebSQLDatabaseHelper.exec(sql, (rows) => {
         //console.log(rows.length)
+        this.posts = []
         if (rows.length > 0) {
           for (let i = 0; i < rows.length; i++) {
             let item = rows.item(i)
             this.posts.push(item)
           }
-          console.log(this.posts)
+          //console.log(this.posts)
+          //this.filteredPosts = this.posts
+          this.filterPosts()
           FunctionHelper.triggerCallback(callback)
         }
         else {
@@ -98,17 +110,23 @@ var PostManager = {
     },
     create: function (callback) {
       let unix = dayjs(new Date()).unix()
-      let title = ''
-      let abstract = ''
-      let labels = ''
+      let title = 'This is a title'
+      let abstract = 'balabala'
+      let labels = 'D'
+      let thumbnail = 'icon.png'
       
-      let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract) values(?,?,?,?,?)'
-      WebSQLDatabaseHelper.exec(sql, [unix, unix, title, labels, abstract], (rows) => {
-        this.getLastUpdatePost(callback)
+      let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
+      WebSQLDatabaseHelper.exec(sql, [unix, unix, title, labels, abstract, thumbnail], (rows) => {
+        this.getLastUpdatePost((post) => {
+          console.log(post.id)
+          this.posts = [post].concat(this.posts)
+          this.filterPosts()
+          FunctionHelper.triggerCallback(callback, post)
+        })
       })
     },
     getLastUpdatePost: function (callback) {
-      let sql = 'select * from posts order by updateUnix desc limit 0, 1'
+      let sql = 'select * from posts order by id desc limit 0, 1'
       WebSQLDatabaseHelper.exec(sql, (rows) => {
         if (rows.length > 0) {
           rows = rows.item(0)
@@ -119,7 +137,24 @@ var PostManager = {
         FunctionHelper.triggerCallback(callback, rows)
       })
     },
-    remove: function (id, callback) {
+    newPost: function (callback) {
+      this.create(callback)
+    },
+    editPost: function (id, callback) {
+      console.log(id)
+      FunctionHelper.triggerCallback(callback)
+    },
+    removePost: function (id, callback) {
+      //console.log(id)
+      if (window.confirm(`Are you sure to delete #${id}`)) {
+        id = parseInt(id, 10)
+        
+        this.posts = this.posts.filter(post => post.id !== id)
+        this.filterPosts()
+        
+        let sql = `DELETE FROM posts WHERE id=${id}`
+        WebSQLDatabaseHelper.exec(sql)
+      }
       FunctionHelper.triggerCallback(callback)
     },
     update: function (post, callback) {
@@ -135,6 +170,37 @@ var PostManager = {
     persist() {
       //localStorage.uploadImageDraft = this.uploadImageDraft;
       //console.log('now pretend I did more stuff...');
+    },
+    displayDate: function (unix) {
+      //return dayjs(unix * 1000).format('YYYY MM/DD HH:mm')
+      return dayjs(unix * 1000).format('MM/DD HH:mm')
+    },
+    filterPosts: function () {
+      if (this.filterCondition.trim() === '') {
+        this.filteredPosts = this.posts
+        return
+      }
+      
+      let conds = this.filterCondition.trim().split(' ')
+      this.filteredPosts = []
+      this.posts.forEach((post) => {
+        let match = false
+        conds.forEach(cond => {
+          if (match === true) {
+            return
+          }
+          
+          if (post.title.indexOf(cond) > -1
+                  || post.abstract.indexOf(cond) > -1
+                  || post.labels.indexOf(cond) > -1) {
+            match = true
+          }
+        })
+        
+        if (match === true) {
+          this.filteredPosts.push(post)
+        }
+      })
     }
   }
 }

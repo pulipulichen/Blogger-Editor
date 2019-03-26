@@ -6,28 +6,65 @@
       Post Manager
     </div>
     <!-- ---------------------------------------- -->
+    
     <div class="content">
       <div class="description">
-        <form class="ui form">
-          <div class="field">
-            aaa
+        
+        <div class="ui button" @click="newPost">
+          NEW
+        </div>
+        <div class="ui icon input" >
+          <input type="text" 
+                 placeholder="Filter..."
+                 v-model="filterCondition"
+                 @keyup="filterPosts">
+          <i class="filter icon"></i>
+        </div>
+
+        <div class="ui divided unstackable items post-list">
+          <div class="item" v-for="post in filteredPosts">
+            
+            <div class="image" v-if="post.thumbnail">
+              <img :src="post.thumbnail" />
+            </div>
+            <div class="content">
+              <div class="header">
+                <span>
+                  #{{ post.id }}
+                </span>
+                <span v-if='post.title === ""'>
+                  (No title)
+                </span>
+                <span v-if='post.title !== ""'>
+                  {{ post.title }}
+                </span>
+              </div>
+              <div class="description" v-if='post.abstract !== ""'>
+                {{ post.abstract }}
+              </div>
+              <div class="extra">
+                <div class="ui right floated">
+                  <span>
+                    <i class="calendar alternate outline icon"></i>
+                    {{ displayDate(post.updateUnix) }}   
+                  </span>
+                  <span v-if='post.labels'>
+                    <i class="tag icon" v-if='post.labels.split(",").length === 1'></i>
+                    <i class="tags icon" v-if='post.labels.split(",").length > 1'></i>
+                    {{ post.labels }}
+                  </span>
+                  <!--<i class='close icon'></i>-->
+                  <div class='ui mini button' @click='editPost(post.id)'>
+                    EDIT
+                  </div>
+                  <div class='ui mini button' @click='removePost(post.id)'>
+                    REMOVE
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="field">
-            bbb
-          </div>
-        </form>
-      </div>
-    </div>
-    <!-- ---------------------------------------- -->
-    <div class="actions">
-      <div class="ui deny button"
-           @click='close'>
-        Cancel
-      </div>
-      <div class="ui positive right labeled icon button" 
-           @click='persist();close()'>
-        OK
-        <i class="checkmark icon"></i>
+        </div>
       </div>
     </div>
   </div>
