@@ -29,9 +29,10 @@ let config = {
     //webpack: 'Powered by webpack! is it work?',
   }),
   created: function () {
+    //return
     $(() => {
       $('.EditorManager.ui.modal .close.icon').click(() => {
-        //sconsole.log(1)
+        //console.log(1)
         this.close()
       })
     })

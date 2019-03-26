@@ -20,6 +20,7 @@ module.exports = (env, argv) => {
       //'test': './[tmp/test.js',
       'header': './src/header.js',
       'footer': './src/footer.js',
+      'views': './src/views.js',
     },
     output: {
       path: path.resolve('./dist/'),
