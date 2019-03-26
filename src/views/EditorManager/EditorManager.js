@@ -22,27 +22,42 @@ EditorManager = {
 EditorManager.init()
 */
 
-let config = {
+var EditorManager = {
   //name: "main-content",
-  data: () => ({
-    // reactive data property of the component.
-    //webpack: 'Powered by webpack! is it work?',
-  }),
+  data: function () {
+    return {
+      ui: undefined,
+      uploadImageDraft: 'aaa'
+    }
+  },
   created: function () {
     //return
     $(() => {
-      $('.EditorManager.ui.modal .close.icon').click(() => {
+      this.getUI().find('.close.icon').click(() => {
         //console.log(1)
         this.close()
       })
-    })
-    
+      
+      this.open()
+    })   
   },
   methods: {
+    getUI: function () {
+      if (typeof(this.ui) === 'undefined') {
+        console.log('find ui')
+        this.ui = this.ui = $('.EditorManager.ui.modal')
+      }
+      return this.ui
+    },
+    open: function () {
+      //console.log(this.data)
+      this.getUI().modal('show')
+    },
     close: function () {
-      $('.EditorManager.ui.modal').modal('hide')
+      this.getUI().modal('hide')
     }
   }
 }
 
-export default config
+window.EditorManager = EditorManager
+export default EditorManager

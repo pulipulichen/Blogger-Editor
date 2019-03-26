@@ -1,14 +1,10 @@
-let config = {
+var NavBar = {
   //name: "main-content",
   data: () => ({
       // reactive data property of the component.
       //webpack: 'Powered by webpack! is it work?',
   }),
   created: function () {
-    $(() => {
-      this.openEditorManager()
-      
-    })
   },
   methods: {
     openPostManager: function () {
@@ -18,9 +14,9 @@ let config = {
       console.log(2)
     },
     openEditorManager: function () {
-      $('.EditorManager.ui.modal').modal('show')
+      EditorManager.methods.open()
     },
   }
 }
 
-export default config
+export default NavBar

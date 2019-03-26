@@ -1,3 +1,7 @@
+import Vue from 'vue'
+import VueLocalStorage from 'vue-localstorage'
+Vue.use(VueLocalStorage)
+//
 
 require('./vendor/garlic/garlic.min.js')
 require('./vendor/dayjs/dayjs.min.js')
@@ -11,22 +15,22 @@ require('./helpers/FileSystemHelper.js')
 require('./helpers/TemplateHelper.js')
 require('./helpers/FileSystemHelper.js')
 
+
+import EditorManagerComponent from './views/EditorManager/EditorManager.vue'
+new Vue({
+  el: "#EditorManager",
+  render: h => h(EditorManagerComponent),
+})
+
 //import VueHelper from './helpers/VueHelper.js'
 //let VueHelper = require('./helpers/VueHelper.js')
 //require('./helpers/VueHelper.js')
 //VueHelper.render('#NavBar', require('./views/NavBar/NavBar.vue'))
-import NavBar from './views/NavBar/NavBar.vue'
+import NavBarComponent from './views/NavBar/NavBar.vue'
 //import NavBar from './views/NavBar/NavBar.vue'
 new Vue({
   el: "#NavBar",
-  render: h => h(NavBar),
-})
-
-
-import EditorManager from './views/EditorManager/EditorManager.vue'
-new Vue({
-  el: "#EditorManager",
-  render: h => h(EditorManager),
+  render: h => h(NavBarComponent),
 })
 
 require('./views/PostsManager/PostsManager.js')
