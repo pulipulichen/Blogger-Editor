@@ -68,7 +68,7 @@ var EditorManager = {
     },
     validateUploadImageDrarfUrl: function () {
       this.disableUploadImageDraft = !this.uploadImageDraft.startsWith('https://www.blogger.com/blogger.g?blogID=')
-      console.log(this.disableUploadImageDraft)
+      //console.log(this.disableUploadImageDraft)
     },
     persist() {
       localStorage.uploadImageDraft = this.uploadImageDraft;

@@ -8,10 +8,10 @@ var NavBar = {
   },
   methods: {
     openPostManager: function () {
-      console.log(1)
+      PostManager.methods.open()
     },
     openThemeManager: function () {
-      console.log(2)
+      ThemeManager.methods.open()
     },
     openEditorManager: function () {
       EditorManager.methods.open()

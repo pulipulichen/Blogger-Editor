@@ -14,7 +14,7 @@
                    name="uploadImageDraft" 
                    id="uploadImageDraft"
                    v-model="uploadImageDraft"
-                   @change="persist();validateUploadImageDrarfUrl()"
+                   @change="validateUploadImageDrarfUrl"
                    placeholder="https://www.blogger.com/blogger.g?blogID=...">
           </div>
           <div class="field">
@@ -34,11 +34,13 @@
       </div>
     </div>
     <div class="actions">
-      <div class="ui black deny button">
-        Nope
+      <div class="ui deny button"
+           @click='close'>
+        Cancel
       </div>
-      <div class="ui positive right labeled icon button">
-        Yep, that's me
+      <div class="ui positive right labeled icon button" 
+           @click='persist();close()'>
+        OK
         <i class="checkmark icon"></i>
       </div>
     </div>
