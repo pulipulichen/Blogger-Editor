@@ -19,6 +19,12 @@ new Vue({
   render: h => h(EditorManagerComponent),
 })
 
+import PostManagerComponent from './views/PostManager/PostManager.vue'
+new Vue({
+  el: "#PostManager",
+  render: h => h(PostManagerComponent),
+})
+
 //import VueHelper from './helpers/VueHelper.js'
 //let VueHelper = require('./helpers/VueHelper.js')
 //require('./helpers/VueHelper.js')
@@ -30,7 +36,7 @@ new Vue({
   render: h => h(NavBarComponent),
 })
 
-require('./views/PostsManager/PostsManager.js')
+//require('./views/PostsManager/PostsManager.js')
 require('./views/ThemeManager/ThemeManager.js')
 //require('./views/EditorManager/EditorManager.js')
 require('./views/EditorManager/SummerNotePostTitleHelper.js')

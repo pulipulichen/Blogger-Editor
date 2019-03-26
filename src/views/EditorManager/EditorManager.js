@@ -48,6 +48,7 @@ var EditorManager = {
         this.close()
       })
       
+      return
       this.open()
     })   
   },
