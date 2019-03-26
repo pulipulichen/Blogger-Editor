@@ -14,9 +14,20 @@
                    name="uploadImageDraft" 
                    id="uploadImageDraft"
                    v-model="uploadImageDraft"
+                   @change="persist();validateUploadImageDrarfUrl()"
                    placeholder="https://www.blogger.com/blogger.g?blogID=...">
-            <a href="https://www.blogger.com" target="bloggerManager">
-              <small class="form-text text-muted">Open Blogger console</small>
+          </div>
+          <div class="field">
+            <a href="https://www.blogger.com" 
+               target="bloggerManager"
+               class="mini ui button">
+              Blogger console
+            </a>
+            <a :href="uploadImageDraft"
+               target="uploadImageDraftWindow"
+               v-bind:class="{ disabled: disableUploadImageDraft }"
+               class="mini ui button">
+              Open Draft
             </a>
           </div>
         </form>

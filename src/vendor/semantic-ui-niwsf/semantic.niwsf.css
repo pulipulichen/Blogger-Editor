@@ -23862,6 +23862,8 @@ border-bottom: 1px solid rgba(34, 36, 38, 0.15);
 font-size: 1.42857143rem;
 line-height: 1.28571429em;
 font-weight: bold;
+user-select: none;
+cursor: default;
 }
 .non-invasive-web-style-framework .ui.modal > .content {
 display: block;

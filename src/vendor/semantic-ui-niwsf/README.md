@@ -9,3 +9,5 @@ https://github.com/pulipulichen/Non-Invasive-Web-Style-Framework
 # Reference
 - https://semantic-ui.com/globals/site.html
 - icon: https://semantic-ui.com/elements/icon.html
+https://semantic-ui.com/collections/form.html
+https://semantic-ui.com/elements/button.html

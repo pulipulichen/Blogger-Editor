@@ -27,7 +27,17 @@ var EditorManager = {
   data: function () {
     return {
       ui: undefined,
-      uploadImageDraft: 'aaa'
+      uploadImageDraft: '',
+      disableUploadImageDraft: true
+    }
+  },
+  mounted() {
+    if (localStorage.getItem('uploadImageDraft')) {
+      try {
+        this.uploadImageDraft = localStorage.getItem('uploadImageDraft');
+      } catch(e) {
+        localStorage.removeItem('uploadImageDraft');
+      }
     }
   },
   created: function () {
@@ -55,6 +65,14 @@ var EditorManager = {
     },
     close: function () {
       this.getUI().modal('hide')
+    },
+    validateUploadImageDrarfUrl: function () {
+      this.disableUploadImageDraft = !this.uploadImageDraft.startsWith('https://www.blogger.com/blogger.g?blogID=')
+      console.log(this.disableUploadImageDraft)
+    },
+    persist() {
+      localStorage.uploadImageDraft = this.uploadImageDraft;
+      //console.log('now pretend I did more stuff...');
     }
   }
 }

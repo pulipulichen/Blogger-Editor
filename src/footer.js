@@ -1,9 +1,6 @@
 import Vue from 'vue'
-import VueLocalStorage from 'vue-localstorage'
-Vue.use(VueLocalStorage)
-//
 
-require('./vendor/garlic/garlic.min.js')
+//require('./vendor/garlic/garlic.min.js')
 require('./vendor/dayjs/dayjs.min.js')
 
 //require('./vendor/popper/popper.min.js')
