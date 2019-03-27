@@ -104,7 +104,7 @@ var PostManager = {
     checkTableIsEmpty: function (callback) {
       let sql = 'select count(*) as count from posts'
       WebSQLDatabaseHelper.exec(sql, (rows) => {
-        console.log(rows)
+        //console.log(rows)
         FunctionHelper.triggerCallback(callback)
       })
     },
@@ -118,7 +118,7 @@ var PostManager = {
       let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
       WebSQLDatabaseHelper.exec(sql, [unix, unix, title, labels, abstract, thumbnail], (rows) => {
         this.getLastUpdatePost((post) => {
-          console.log(post.id)
+          //console.log(post.id)
           this.posts = [post].concat(this.posts)
           this.filterPosts()
           FunctionHelper.triggerCallback(callback, post)
@@ -140,8 +140,11 @@ var PostManager = {
     newPost: function (callback) {
       this.create(callback)
     },
+    getPost: function (id) {
+      return this.posts.filter((post) => post.id === id)[0]
+    },
     editPost: function (id, callback) {
-      console.log(id)
+      console.log(this.getPost(id))
       FunctionHelper.triggerCallback(callback)
     },
     removePost: function (id, callback) {
