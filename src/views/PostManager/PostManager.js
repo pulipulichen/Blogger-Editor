@@ -14,15 +14,13 @@ var PostManager = {
     }
   },
   mounted() {
-    /*
-    if (localStorage.getItem('uploadImageDraft')) {
+    if (localStorage.getItem('editingPostId')) {
       try {
-        this.uploadImageDraft = localStorage.getItem('uploadImageDraft');
+        this.editingPostId = localStorage.getItem('editingPostId');
       } catch(e) {
-        localStorage.removeItem('uploadImageDraft');
+        localStorage.removeItem('editingPostId');
       }
     }
-    */
   },
   created: function () {
     //return
@@ -110,6 +108,8 @@ var PostManager = {
         this.getLastUpdatePost((post) => {
           //console.log(post.id)
           this.posts = [post].concat(this.posts)
+          this.editingPostId = post.id
+          this.persist()
           this.filterPosts()
           FunctionHelper.triggerCallback(callback, post)
         })
@@ -130,12 +130,70 @@ var PostManager = {
     newPost: function (callback) {
       this.createPost(callback)
     },
-    getPost: function (id) {
-      return this.posts.filter((post) => post.id === id)[0]
+    getEditingPostId: function (callback) {
+      if (typeof(this.editingPostId) === 'number') {
+        FunctionHelper.triggerCallback(callback, this.editingPostId)
+      }
+      else {
+        this.getLastUpdatePost((post) => {
+          this.editingPostId = post.id
+          this.persist()
+          FunctionHelper.triggerCallback(callback, this.editingPostId)
+        })
+      }
+    },
+    getPost: function (id, callback) {
+      if (typeof(id) === 'function') {
+        callback = id
+        id = undefined
+      }
+      
+      let post
+      if (id === undefined) {
+        //id = this.editingPostId
+        this.getEditingPostId((id) => {
+          post = this.posts.filter((post) => post.id === id)[0]
+          FunctionHelper.triggerCallback(callback, post)
+        })
+      }
+      else {
+        post = this.posts.filter((post) => post.id === id)[0]
+        FunctionHelper.triggerCallback(callback, post)
+      }
+      
+      //return this.posts.filter((post) => post.id === id)[0]
+    },
+    getPostBody: function (id, callback) {
+      if (typeof(id) === 'function') {
+        callback = id
+        id = undefined
+      }
+      
+      let retrievePostBody = (id) => {
+        let path = `/${id}/postBody.html`
+        FileSystemHelper.read(path, (postBody) => {
+          if (postBody === undefined) {
+            postBody = ''
+          }
+          FunctionHelper.triggerCallback(callback, postBody)
+        })
+      }
+      
+      if (id === undefined) {
+        //id = this.editingPostId
+        this.getEditingPostId(retrievePostBody)
+      }
+      else {
+        retrievePostBody(id)
+      }
     },
     editPost: function (id, callback) {
-      console.log(this.getPost(id))
-      FunctionHelper.triggerCallback(callback)
+      //console.log(this.getPost(id))
+      //FunctionHelper.triggerCallback(callback)
+      this.getPost(id, (post) => {
+        console.log(post)
+        FunctionHelper.triggerCallback(callback)
+      })
     },
     removePost: function (id, callback) {
       //console.log(id)
@@ -161,12 +219,12 @@ var PostManager = {
       this.getUI().modal('hide')
     },
     persist() {
-      //localStorage.uploadImageDraft = this.uploadImageDraft;
+      localStorage.editingPostId = this.editingPostId;
       //console.log('now pretend I did more stuff...');
     },
     displayDate: function (unix) {
       //return dayjs(unix * 1000).format('YYYY MM/DD HH:mm')
-      return dayjs(unix * 1000).format('MM/DD HH:mm')
+      return dayjs(unix * 1000).format('MM/DD hh:mm')
     },
     filterPosts: function () {
       if (typeof(this.filterCondition) !== 'string' 

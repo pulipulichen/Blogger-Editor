@@ -207,6 +207,9 @@ var EditorManager = {
           },
           onPaste: (e) => {
             this.onPaste(e)
+          },
+          onChange: (contents, $editable) => {
+            console.log('onChange:', contents, $editable);
           }
         }
       }
@@ -220,6 +223,11 @@ var EditorManager = {
         disableDragAndDrop: true,
         popover: {
           air: []
+        },
+        callbacks: {
+          onChange: (contents, $editable) => {
+            console.log('onChange:', contents, $editable);
+          }
         }
       }
       return config
