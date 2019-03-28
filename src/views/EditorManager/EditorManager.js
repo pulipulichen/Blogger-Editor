@@ -228,6 +228,7 @@ var EditorManager = {
       this.getPostSummerNote().summernote(this.getPostSummerNoteConfig());
     
       $('#summernotePostTitle').summernote(this.getSimpleSummerNoteConfig());
+      $('#summernotePostLabels').summernote(this.getSimpleSummerNoteConfig());
     }
   }
 }

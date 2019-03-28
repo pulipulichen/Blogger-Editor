@@ -32,8 +32,9 @@ var PostManager = {
         this.close()
       })
       
-      this.open()
-      this.initPosts()
+      //this.initPosts()
+      
+      //this.open()
     })   
   },
   methods: {
@@ -63,7 +64,7 @@ var PostManager = {
       WebSQLDatabaseHelper.exec(sql)
       
     },
-    initPosts: function (callback) {
+    init: function (callback) {
       this.createTable()
       //this.checkTableIsEmpty()
       //return
@@ -84,7 +85,7 @@ var PostManager = {
           FunctionHelper.triggerCallback(callback)
         }
         else {
-          this.createPost()
+          this.createPost(callback)
         }
       })
     },

@@ -87,7 +87,10 @@ FileSystemHelper = {
   },
   read: function (filePath, callback) {
     let fs = this.fs
-    let errorHandler = this.errorHandler
+    //let errorHandler = this.errorHandler
+    let errorHandler = () => {
+      FunctionHelper.triggerCallback(callback)
+    }
     fs.root.getFile(filePath, {}, function (fileEntry) {
 
       // Get a File object representing the file,
@@ -183,6 +186,21 @@ FileSystemHelper = {
       url = url.slice(url.lastIndexOf('/') + 1)
     }
     return url
+  },
+  isExists: function (filePath, callback) {
+    let fs = this.fs
+    let errorHandler = () => {
+      FunctionHelper.triggerCallback(callback, false)
+    }
+    fs.root.getFile(filePath, {}, function (fileEntry) {
+
+      // Get a File object representing the file,
+      // then use FileReader to read its contents.
+      fileEntry.file(function (file) {
+        FunctionHelper.triggerCallback(callback, true)
+      }, errorHandler);
+
+    }, errorHandler);
   }
 }
 

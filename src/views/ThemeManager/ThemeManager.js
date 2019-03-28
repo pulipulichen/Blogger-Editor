@@ -66,36 +66,86 @@ var ThemeManager = {
     // -------------------------
     // Other Methods
     // -------------------------
-    loadThemeFile: function (name, callback) {
-      
+    /*
+    loadThemeFile: function (templatePath, callback) {
+      let name = 'simple'
       
       let templatePath, stylePath
-      if (name.startsWith('filesystem:http') === false) {
-        templatePath = 'themes/' + name + '/template.html'
-        stylePath = 'themes/' + name + '/style.css'
+      if (templatePath.startsWith('filesystem:http') === false) {
+        templatePath = 'themes/' + templatePath + '/template.html'
+        stylePath = 'themes/' + templatePath + '/style.css'
       }
       else {
         // filesystem:http://localhost:8383/temporary/home-icon_1.png
         let prefix = 'filesystem:' + location.protocol + '://' + location.host + '/temporary'
-        templatePath = prefix + name + '/template.html'
-        stylePath = prefix + name + '/style.css'
+        templatePath = prefix + templatePath + '/template.html'
+        stylePath = prefix + templatePath + '/style.css'
       }
       $(`<link href="${stylePath}" rel="stylesheet" type="text/css" />`)
               .appendTo('head')
       
       $.get(templatePath, (template) => {
-        //console.log(template)
-        //let titleEditor = `<input type="text" name="postTitle" id="postTitle" />`
-        let titleEditor = `<div id="summernotePostTitle">Post Title [TEMP]</div>`
-        template = template.replace('${postTitle}', titleEditor)
-
-        //let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
-        let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><p>Summernote</p></div>`
-        template = template.replace('${postBody}', postEditor)
-
+        template = this.processTemplate(template)
+        
         $('#template').html(template)
 
         FunctionHelper.triggerCallback(callback)
+      })
+    },
+    */
+    processTemplate: function (template) {
+      //console.log(template)
+      //let titleEditor = `<input type="text" name="postTitle" id="postTitle" />`
+      let titleEditor = `<div id="summernotePostTitle">Post Title [TEMP]</div>`
+      template = template.replace('${postTitle}', titleEditor)
+      
+      let dataContainer = `<span id="summernotePostDate">2019 03-28 15:22</span>`
+      template = template.replace('${postDate}', dataContainer)
+      
+      let labelEditor = `<span id="summernotePostLabels">Label A, Label B, Label C</span>`
+      template = template.replace('${postLabels}', labelEditor)
+
+      //let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
+      let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><p>Summernote</p></div>`
+      template = template.replace('${postBody}', postEditor)
+      
+      return template
+    },
+    loadTemplate: function (callback) {
+      let path = '/template.html'
+      FileSystemHelper.read(path, (template) => {
+        if (template === undefined) {
+          path = 'themes/simple/template.html'
+          $.get(path, (template) => {
+            template = this.processTemplate(template)
+            $('#template').html(template)
+            FunctionHelper.triggerCallback(callback, template)
+          })
+        }
+        else {
+          template = this.processTemplate(template)
+          $('#template').html(template)
+          FunctionHelper.triggerCallback(callback, template)
+        }
+      })
+    },
+    loadStyle: function (callback) {
+      let path = '/style.css'
+      let stylePath = 'filesystem:' + location.protocol + '://' + location.host + '/temporary' + path
+      FileSystemHelper.isExists(path, (isExisted) => {
+        if (isExisted === false) {
+          stylePath = 'themes/simple/style.css'
+        }
+        
+        $(`<link href="${stylePath}" rel="stylesheet" type="text/css" />`)
+              .appendTo('head')
+        
+        FunctionHelper.triggerCallback(callback)
+      })
+    },
+    init: function (callback) {
+      this.loadStyle(() => {
+        this.loadTemplate(callback)
       })
     }
   }
