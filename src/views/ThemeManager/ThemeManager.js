@@ -99,7 +99,7 @@ var ThemeManager = {
       let titleEditor = `<div id="summernotePostTitle">Post Title [TEMP]</div>`
       template = template.replace('${postTitle}', titleEditor)
       
-      let dataContainer = `<span id="summernotePostDate">2019 03-28 15:22</span>`
+      let dataContainer = `<span id="summernotePostDate">03/28 15:22</span>`
       template = template.replace('${postDate}', dataContainer)
       
       let labelEditor = `<span id="summernotePostLabels">Label A, Label B, Label C</span>`

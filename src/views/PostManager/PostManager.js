@@ -32,7 +32,7 @@ var PostManager = {
         this.close()
       })
       
-      //this.initPosts()
+      this.init()
       
       //this.open()
     })   
@@ -53,16 +53,15 @@ var PostManager = {
         this.createTableDone = true
       }
       let sql = `Create Table posts
-      (id INTEGER PRIMARY KEY, 
-       createUnix INTEGER, 
-       updateUnix INTEGER, 
-       title TEXT, 
-       labels TEXT, 
-       abstract TEXT,
-       thumbnail TEXT)`
+        (id INTEGER PRIMARY KEY, 
+         createUnix INTEGER, 
+         updateUnix INTEGER, 
+         title TEXT, 
+         labels TEXT, 
+         abstract TEXT,
+         thumbnail TEXT)`
       //console.log(sql)
-      WebSQLDatabaseHelper.exec(sql)
-      
+      WebSQLDatabaseHelper.exec(sql)     
     },
     init: function (callback) {
       this.createTable()
@@ -81,6 +80,9 @@ var PostManager = {
           }
           //console.log(this.posts)
           //this.filteredPosts = this.posts
+          
+          //console.log(rows.length)
+          
           this.filterPosts()
           FunctionHelper.triggerCallback(callback)
         }
@@ -167,7 +169,8 @@ var PostManager = {
       return dayjs(unix * 1000).format('MM/DD HH:mm')
     },
     filterPosts: function () {
-      if (this.filterCondition.trim() === '') {
+      if (typeof(this.filterCondition) !== 'string' 
+              || this.filterCondition.trim() === '') {
         this.filteredPosts = this.posts
         return
       }

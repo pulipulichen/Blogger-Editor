@@ -2,20 +2,25 @@
   .note-editor.panel {
     margin-bottom: 0 !important;
     background-color: transparent !important;
-    border-width: 0;
+    border-width: 0px;
     box-shadow: none;
   }
-
-  .note-editor.note-frame .note-editing-area .note-editable {
+  
+  .note-editor .note-editing-area .note-editable {
     background-color: transparent !important;
     color: inherit;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+  }
+  
+  .note-editor .note-editing-area .note-editable:focus {
+    border-color: #ccc;
   }
 
   .note-resizebar, 
   .note-statusbar {
     display: none;
   }
-  
   
 }
 
