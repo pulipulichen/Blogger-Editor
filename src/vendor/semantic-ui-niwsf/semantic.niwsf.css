@@ -23832,17 +23832,21 @@ border-bottom-left-radius: 0.28571429rem;
 border-bottom-right-radius: 0.28571429rem;
 }
 .non-invasive-web-style-framework .ui.modal > .close {
-cursor: pointer;
-position: absolute;
-top: -2.5rem;
-right: -2.5rem;
-z-index: 1;
-opacity: 0.8;
-font-size: 1.25em;
-color: #FFFFFF;
-width: 2.25rem;
-height: 2.25rem;
-padding: 0.625rem 0rem 0rem 0rem;
+  cursor: pointer;
+  position: absolute;
+  top: -2.5rem;
+  right: -2.5rem;
+  z-index: 1;
+  opacity: 0.8;
+  font-size: 1.25em;
+  color: #FFFFFF;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.625rem 0rem 0rem 0rem;
+  
+  top: 0.5rem;
+  right: 0.5rem;
+  color: black;
 }
 .non-invasive-web-style-framework .ui.modal > .close:hover {
 opacity: 1;
@@ -23866,14 +23870,14 @@ user-select: none;
 cursor: default;
 }
 .non-invasive-web-style-framework .ui.modal > .content {
-display: block;
-width: 100%;
-font-size: 1em;
-line-height: 1.4;
-padding: 1.5rem;
-background: #FFFFFF;
-max-height: calc(100vh - 13rem);
-    overflow-y: auto;
+  display: block;
+  width: 100%;
+  font-size: 1em;
+  line-height: 1.4;
+  padding: 1.5rem;
+  background: #FFFFFF;
+  max-height: calc(100vh - 13rem);
+  overflow-y: auto;
 }
 .non-invasive-web-style-framework .ui.modal > .image.content {
 display: -webkit-box;
@@ -23984,9 +23988,9 @@ top: 6%;
 padding-right: 2.25rem;
 }
 .non-invasive-web-style-framework .ui.modal > .close {
-top: 1.0535rem;
-right: 1rem;
-color: rgba(0, 0, 0, 0.87);
+  top: 1.0535rem;
+  right: 1rem;
+  color: rgba(0, 0, 0, 0.87);
 }
 }
 @media only screen and (max-width: 767px) {
