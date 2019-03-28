@@ -1,4 +1,4 @@
-let FileSystemHelper = {
+FileSystemHelper = {
   type: window.TEMPORARY,
   quota: 5 * 1024 * 1024 /*5MB*/,
   fs: null,

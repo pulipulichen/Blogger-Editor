@@ -40,7 +40,7 @@ new Vue({
 //require('./views/PostsManager/PostsManager.js')
 require('./views/ThemeManager/ThemeManager.js')
 //require('./views/EditorManager/EditorManager.js')
-require('./views/EditorManager/SummerNotePostTitleHelper.js')
-require('./views/EditorManager/SummerNotePostBodyHelper.js')
+//require('./views/EditorManager/SummerNotePostTitleHelper.js')
+//require('./views/EditorManager/SummerNotePostBodyHelper.js')
 
 //require('./vendor/semantic-ui-niwsf/semantic.niwsf.js')

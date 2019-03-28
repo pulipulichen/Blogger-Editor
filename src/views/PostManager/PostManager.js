@@ -1,18 +1,4 @@
 import dayjs from 'dayjs'
-/*
-PostManager = {
-  template: `<div>okok</div>`,
-  init: function () {
-    $(() => {
-      $('#postsManagerModal .modal-body').html(this.template)
-    })
-  }
-}
-
-PostManager.init()
-*/
-
-
 var PostManager = {
   //name: "main-content",
   data: function () {
@@ -22,6 +8,7 @@ var PostManager = {
       filterCondition: '',
       filteredPosts: [],
       createTableDone: false,
+      editingPostId: null,
       //uploadImageDraft: '',
       //disableUploadImageDraft: true
     }
@@ -97,7 +84,7 @@ var PostManager = {
           FunctionHelper.triggerCallback(callback)
         }
         else {
-          this.create()
+          this.createPost()
         }
       })
     },
@@ -108,7 +95,7 @@ var PostManager = {
         FunctionHelper.triggerCallback(callback)
       })
     },
-    create: function (callback) {
+    createPost: function (callback) {
       let unix = dayjs(new Date()).unix()
       let title = 'This is a title'
       let abstract = 'balabala'
@@ -138,7 +125,7 @@ var PostManager = {
       })
     },
     newPost: function (callback) {
-      this.create(callback)
+      this.createPost(callback)
     },
     getPost: function (id) {
       return this.posts.filter((post) => post.id === id)[0]

@@ -1,8 +1,9 @@
 $(() => {
   TemplateHelper.init(() => {
-    $summernote = $('#summernotePostBody')
-    $summernote.summernote(summernotePostBodyConfig);
+    //$summernote = $('#summernotePostBody')
+    //$summernote.summernote(summernotePostBodyConfig);
     
-    $('#summernotePostTitle').summernote(summernotePostTitleConfig);
+    //$('#summernotePostTitle').summernote(summernotePostTitleConfig);
+    EditorManager.methods.initSummerNote()
   })
 })
