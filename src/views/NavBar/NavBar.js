@@ -8,7 +8,7 @@ var NavBar = {
   },
   methods: {
     openPostManager: function () {
-      PostManager.methods.open()
+      PostManagerModal.methods.open()
     },
     openThemeManager: function () {
       ThemeManager.methods.open()

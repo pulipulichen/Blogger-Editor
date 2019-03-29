@@ -10,7 +10,8 @@
     <i class="filter icon"></i>
   </div>
 
-  <div class="ui divided unstackable items post-list">
+  <div class="ui divided unstackable items post-list"
+       :key="componentRerenderKey">
     <div class="item" 
          v-for="post in filteredPosts"
          v-bind:class="{ editing: (editingPostId === post.id) }">

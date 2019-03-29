@@ -1,6 +1,6 @@
 $(() => {
   FileSystemHelper.init(() => {
-    PostManager.methods.init(() => {
+    PostManagerContent.methods.init(() => {
       ThemeManager.methods.init(() => {
         //$summernote = $('#summernotePostBody')
         //$summernote.summernote(summernotePostBodyConfig);

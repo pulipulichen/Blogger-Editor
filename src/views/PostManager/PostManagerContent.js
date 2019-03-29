@@ -365,4 +365,5 @@ var PostManagerContent = {
 }
 
 window.PostManagerContent = PostManagerContent
+window.PostManager = PostManagerContent
 export default PostManagerContent

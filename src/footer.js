@@ -15,11 +15,18 @@ require('./helpers/WebSQLDatabaseHelper.js')
 require('./helpers/DelayExecHelper.js')
 
 
-import PostManagerComponent from './views/PostManager/PostManager.vue'
+import PostManagerModalComponent from './views/PostManager/PostManagerModal.vue'
 new Vue({
   el: "#PostManager",
-  render: h => h(PostManagerComponent),
+  render: h => h(PostManagerModalComponent),
 })
+
+import PostManagerContentComponent from './views/PostManager/PostManagerContent.vue'
+new Vue({
+  el: "#PostManagerContent",
+  render: h => h(PostManagerContentComponent),
+})
+
 
 import EditorManagerComponent from './views/EditorManager/EditorManager.vue'
 new Vue({
