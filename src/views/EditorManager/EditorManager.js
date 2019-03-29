@@ -92,7 +92,7 @@ var EditorManager = {
           ['para', ['ul', 'ol', 'paragraph']],
           ['table', ['table']],
           ['insert', ['link', 'picture', 'video']],
-          ['view', ['fullscreen', 'codeview', 'help']],
+          ['view', [/*'fullscreen',*/ 'codeview', 'help']],
           ['mybutton', ['copyHTML']]
         ]
         
@@ -285,13 +285,51 @@ var EditorManager = {
       }
       return config
     },
+    init: function (callback) {
+      this.initSummerNote()
+      this.setupPostData(callback)
+    },
     initSummerNote: function () {
-      this.getPostSummerNote().summernote(this.getPostSummerNoteConfig());
-    
-      this.getTitleSummerNote().summernote(this.getSimpleSummerNoteConfig('title', 'Post Title'));
-      this.getLabelsSummerNote().summernote(this.getSimpleSummerNoteConfig('labels', 'Labels'));
+      if (this.summerNoteInited !== true) {
+        this.getPostSummerNote().summernote(this.getPostSummerNoteConfig());
+
+        this.getTitleSummerNote().summernote(this.getSimpleSummerNoteConfig('title', 'Post Title'));
+        this.getLabelsSummerNote().summernote(this.getSimpleSummerNoteConfig('labels', 'Labels'));
+
+        this.summerNoteInited = true
+      }
+    },
+    setupPostData: function (callback) {
       
-      this.summerNoteInited = true
+      PostManager.methods.getPost((post) => {
+        //console.log(post.id)
+        let postDate = PostManager.methods.displayDate(post.updateUnix)
+        //console.log(postDate)
+        // Setup title
+        //let post = PostManager.methods.getPost()
+        
+        /*
+        if (EditorManager.summerNoteInited === false) {
+          $('#summernotePostTitle').html(post.title)
+          $('#summernotePostLabels').html(post.labels)
+          $('#summernotePostDate').html(postDate)
+        }
+        */
+        this.setupPostTitle(post.title)
+        this.setupPostLabels(post.labels)
+        this.setupPostDate(postDate)
+
+        PostManager.methods.getPostBody((postBody) => {
+          //console.log(postBody)
+          /*
+          if (EditorManager.summerNoteInited === false) {
+            $('#summernotePostBody').html(postBody)
+          }
+          */
+          this.setupPostBody(postBody)
+          FunctionHelper.triggerCallback(callback)
+        })
+      })
     },
     setupPostBody: function (value) {
       let summerNote = this.getPostSummerNote()

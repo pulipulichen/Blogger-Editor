@@ -3,17 +3,17 @@ FileSystemHelper = {
   quota: 5 * 1024 * 1024 /*5MB*/,
   fs: null,
   
-  init: function () {
+  init: function (callback) {
     
     // Note: The file system has been prefixed as of Google Chrome 12:
     window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
     window.requestFileSystem(this.type,
             this.quota,
-            (fs) => this.onInitFs(fs),
+            (fs) => this.onInitFs(fs, callback),
             (e) => this.errorHandler(e));
 
   },
-  onInitFs: function (fs) {
+  onInitFs: function (fs, callback) {
     this.fs = fs
     //console.log('FileSystem inited')
     /*
@@ -25,6 +25,7 @@ FileSystemHelper = {
       })
     })
     */
+    FunctionHelper.triggerCallback(callback)
   },
   errorHandler: function (e) {
     var msg = '';
@@ -321,4 +322,4 @@ FileSystemHelper = {
   }
 }
 
-FileSystemHelper.init()
+//FileSystemHelper.init()

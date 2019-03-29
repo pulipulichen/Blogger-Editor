@@ -152,43 +152,9 @@ var ThemeManager = {
         FunctionHelper.triggerCallback(callback)
       })
     },
-    setupPostData: function (callback) {
-      
-      PostManager.methods.getPost((post) => {
-        console.log(post.id)
-        let postDate = PostManager.methods.displayDate(post.updateUnix)
-        console.log(postDate)
-        // Setup title
-        //let post = PostManager.methods.getPost()
-        
-        /*
-        if (EditorManager.summerNoteInited === false) {
-          $('#summernotePostTitle').html(post.title)
-          $('#summernotePostLabels').html(post.labels)
-          $('#summernotePostDate').html(postDate)
-        }
-        */
-        EditorManager.methods.setupPostTitle(post.title)
-        EditorManager.methods.setupPostLabels(post.labels)
-        EditorManager.methods.setupPostDate(postDate)
-
-        PostManager.methods.getPostBody((postBody) => {
-          //console.log(postBody)
-          /*
-          if (EditorManager.summerNoteInited === false) {
-            $('#summernotePostBody').html(postBody)
-          }
-          */
-          EditorManager.methods.setupPostBody(postBody)
-          FunctionHelper.triggerCallback(callback)
-        })
-      })
-    },
     init: function (callback) {
       this.loadStyle(() => {
-        this.loadTemplate(() => {
-          this.setupPostData(callback)
-        })
+        this.loadTemplate(callback)
       })
     }
   }

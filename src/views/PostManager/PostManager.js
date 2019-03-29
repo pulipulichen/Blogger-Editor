@@ -4,6 +4,7 @@ var PostManager = {
   data: function () {
     return {
       ui: undefined,
+      componentRerenderKey: 0,
       posts: [],
       filterCondition: '',
       filteredPosts: [],
@@ -76,12 +77,14 @@ var PostManager = {
             let item = rows.item(i)
             this.posts.push(item)
           }
-          //console.log(this.posts)
+          console.log('PostManager.init()')
+          console.log(this.posts)
           //this.filteredPosts = this.posts
           
           //console.log(rows.length)
           
           this.filterPosts()
+          console.log(this.filteredPosts)
           FunctionHelper.triggerCallback(callback)
         }
         else {
@@ -131,7 +134,8 @@ var PostManager = {
       this.createPost(callback)
     },
     getEditingPostId: function (callback) {
-      if (this.editingPostId !== PostManager.editingPostId) {
+      if (this.editingPostId !== PostManager.editingPostId
+              && typeof(PostManager.editingPostId) === 'number') {
         this.editingPostId = PostManager.editingPostId
       }
       
@@ -159,7 +163,7 @@ var PostManager = {
         //id = this.editingPostId
         //console.log(['getPost', this.editingPostId, PostManager.editingPostId])
         this.getEditingPostId((id) => {
-          //console.log(['getPost', id])
+          console.log(['getPost', id])
           post = this.posts.filter((post) => post.id === id)[0]
           FunctionHelper.triggerCallback(callback, post)
         })
@@ -224,7 +228,7 @@ var PostManager = {
         //console.log(post)
         //FunctionHelper.triggerCallback(callback)
       //})
-      ThemeManager.methods.setupPostData(() => {
+      EditorManager.methods.setupPostData(() => {
         this.close()
         FunctionHelper.triggerCallback(callback)
       })
@@ -278,9 +282,9 @@ var PostManager = {
         thumbnail = img.attr('src') 
       }
       
-      console.log(['updateEditingPostBody'])
+      //console.log(['updateEditingPostBody'])
       this.getPost((post) => {
-        console.log(['updateEditingPostBody 2', post.id])
+        //console.log(['updateEditingPostBody 2', post.id])
         
         post.abstract = abstract
         post.thumbnail = thumbnail
@@ -327,13 +331,21 @@ var PostManager = {
     },
     open: function () {
       //console.log(this.data)
+      
       this.getUI().modal('show')
+      this.init()
+      //this.init(() => {
+       // this.filterPosts()
+      //})
     },
     close: function () {
       this.getUI().modal('hide')
     },
     persist() {
-      localStorage.editingPostId = this.editingPostId;
+      this.getEditingPostId((id) => {
+        localStorage.editingPostId = id
+      })
+      
       //console.log('now pretend I did more stuff...');
     },
     displayDate: function (unix) {
@@ -344,6 +356,7 @@ var PostManager = {
       if (typeof(this.filterCondition) !== 'string' 
               || this.filterCondition.trim() === '') {
         this.filteredPosts = this.posts
+        this.forceRerender()
         return
       }
       
@@ -366,7 +379,17 @@ var PostManager = {
         if (match === true) {
           this.filteredPosts.push(post)
         }
-      })
+      })  // this.posts.forEach((post) => {
+      
+      this.forceRerender() 
+    },
+    forceRerender: function () {
+      if (this.componentRerenderKey === undefined) {
+        this.componentRerenderKey = 0
+      }
+      console.log('forceRerender 1: ',  this.componentRerenderKey)
+      this.componentRerenderKey += 1;
+      console.log('forceRerender 2: ',  this.componentRerenderKey)
     }
   }
 }
