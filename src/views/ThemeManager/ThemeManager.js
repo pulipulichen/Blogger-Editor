@@ -3,8 +3,8 @@ var ThemeManager = {
   data: function () {
     return {
       ui: undefined,
-      defaultTheme: 'simple'
-      //defaultTheme: 'default'
+      //defaultTheme: 'simple'
+      defaultTheme: 'default'
     }
   },
   mounted() {

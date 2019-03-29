@@ -16,6 +16,12 @@ require('./helpers/DelayExecHelper.js')
 
 window.$v = {}
 
+import BrowserDetectorComponent from './views/BrowserDetector/BrowserDetector.vue'
+new Vue({
+  el: "#BrowserDetector",
+  render: h => h(BrowserDetectorComponent),
+})
+
 import PostManagerComponent from './views/PostManager/PostManager.vue'
 new Vue({
   el: "#PostManager",
