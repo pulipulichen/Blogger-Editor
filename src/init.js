@@ -1,5 +1,5 @@
 $(() => {
-  BrowserDetector.init(() => {
+  $v.BrowserDetector.init(() => {
     FileSystemHelper.init(() => {
       $v.PostManager.init(() => {
         $v.ThemeManager.init(() => {
