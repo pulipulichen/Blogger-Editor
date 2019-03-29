@@ -379,6 +379,20 @@ var EditorManager = {
         output.push(img.src)
       })
       return output
+    },
+    setImageList: function (imageList) {
+      let postBody = this.getPostBody()
+      postBody = $(postBody)
+      for (let name in imageList) {
+        let link = imageList[name]
+        postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
+          // we need to fit the image size
+          imgTag.src = link
+        })
+        postBody.find('a[href^="filesystem:"][href$="' + name + '"]').each((i, aTag) => {
+          aTag.src = link
+        })
+      }
     }
   }
 }

@@ -8,7 +8,9 @@
     <div class="content">
       <div class="description">
         <div class="no images">
-          No filesystem image in post body.
+          <div class="ui info message">
+            No filesystem image in post body.
+          </div>
         </div>
         <div class="step-1">
           <div class="ui fluid positive labeled icon button"
@@ -16,6 +18,50 @@
                v-bind:class="{ disabled: isCreatingImagePackage }">
             <i class="file archive icon"></i>
             Download Image Package
+          </div>
+          
+        </div>
+        <div class="step-2">
+          <div class="ui info message">
+            Unzip package into a folder.
+            <a href="https://www.wikihow.com/Unzip-a-File">
+              (How to unzip Image Package)
+            </a>
+          </div>
+          <div class="ui image">
+            <img src="unzip-to-folder.png" />
+          </div>
+        </div>
+        <div class="step-3">
+          <div class="ui info message">
+            Open a Blogger draft in Compose mode and empty content.
+          </div>
+          <div class="ui image">
+            <img src="open-draft.png" />
+          </div>
+        </div>
+        <div class="step-4">
+          <div class="ui info message">
+            Drag images into Blogger draft and upload them.
+          </div>
+          <div class="ui image">
+            <img src="image-uploaded.png" />
+          </div>
+        </div>
+        <div class="step-5">
+          <div class="ui info message">
+            Switch to HTML mode, copy HTML 
+          </div>
+          <div class="ui image">
+            <img src="html-code.png" />
+          </div>
+        </div>
+        <div class="step-6">
+          <div class="ui form">
+            <div class="field">
+              <label>Paste HTML into following field:</label>
+              <textarea v-modal="imageHTML"></textarea>
+            </div>
           </div>
         </div>
       </div>
@@ -32,7 +78,8 @@
         <i class="chevron right icon"></i>
       </div>
       <div class="ui positive right labeled icon button" 
-           @click='close()'>
+           @click='replaceImage'
+           v-bind:class="{ disabled: disableReplaceImage }">
         OK
         <i class="checkmark icon"></i>
       </div>

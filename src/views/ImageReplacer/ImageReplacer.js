@@ -9,7 +9,9 @@ var config = {
     return {
       ui: undefined,
       currentStep: 0,
-      isCreatingImagePackage: false
+      isCreatingImagePackage: false,
+      imageHTML: '',
+      disableReplaceImage: true
     }
   },
   created: function () {
@@ -30,6 +32,22 @@ var config = {
       //console.log(this.data)
       this.getUI().modal('show')
     },
+    validateImageHTML: function () {
+      this.disableReplaceImage = false
+    },
+    replaceImage: function () {
+      let imageList = this.parseImageHTMLList()
+      $v.EditorManager.setImageList(imageList)
+    },
+    parseImageHTMLList: function () {
+      let output = {}
+      $('<div>' + this.imageHTML + '</div>').find('a[href]').each((i, aTag) => {
+        let link = aTag.href
+        let name = FileSystemHelper.getFileSystemUrl(link)
+        output[name] = link
+      })
+      return output
+    },
     close: function () {
       this.getUI().modal('hide')
     },
@@ -39,32 +57,34 @@ var config = {
       //console.log(list)
       if (list.length > 0) {
         
-        let zip = new JSZip();
-        
-        let loop = (i) => {
-          if (i < list.length) {
-            let path = list[i]
-            let name = FileSystemHelper.getFileName(path)
-            //console.log([name, path])
-            JSZipUtils.getBinaryContent(path, (err, data) => {
-              //console.log(data)
-              zip.file(name, data)
-              i++
-              loop(i)
-            })
-          }
-          else {
-            zip.generateAsync({type: "blob"}).then((content) => {
-              // see FileSaver.js
-              $v.PostManager.getEditingPostId((id) => {
-                saveAs(content, `post-${id}-images.zip`)
-                this.isCreatingImagePackage = false
-                FunctionHelper.triggerCallback(callback)
+        $v.PostManager.getEditingPostId((id) => {
+          let zip = new JSZip();
+          let folderName = 'post-${id}-images'
+          let folder = zip.folder(folderName);
+
+          let loop = (i) => {
+            if (i < list.length) {
+              let path = list[i]
+              let name = FileSystemHelper.getFileName(path)
+              //console.log([name, path])
+              JSZipUtils.getBinaryContent(path, (err, data) => {
+                //console.log(data)
+                folder.file(name, data)
+                i++
+                loop(i)
               })
-            });
+            }
+            else {
+              zip.generateAsync({type: "blob"}).then((content) => {
+                // see FileSaver.js
+                  saveAs(content, `${folderName}.zip`)
+                  this.isCreatingImagePackage = false
+                  FunctionHelper.triggerCallback(callback)
+              })
+            }
           }
-        }
-        loop(0)
+          loop(0)
+        })
         
         /*
         zip.file("smile.gif", imgData, {base64: true});
