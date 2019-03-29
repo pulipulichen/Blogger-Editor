@@ -1,13 +1,13 @@
 $(() => {
   FileSystemHelper.init(() => {
-    PostManager.methods.init(() => {
-      ThemeManager.methods.init(() => {
+    $v.PostManager.init(() => {
+      $v.ThemeManager.init(() => {
         //$summernote = $('#summernotePostBody')
         //$summernote.summernote(summernotePostBodyConfig);
 
         //$('#summernotePostTitle').summernote(summernotePostTitleConfig);
         //EditorManager.methods.initSummerNote()
-        EditorManager.methods.init()
+        $v.EditorManager.init()
       })
     })
   })

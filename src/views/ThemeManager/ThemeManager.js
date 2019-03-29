@@ -1,21 +1,10 @@
-/*
-ThemeManager = {
-  template: `<div>ThemeManager</div>`,
-  init: function () {
-    $(() => {
-      $('#themeManagerModal .modal-body').html(this.template)
-    })
-  }
-}
-
-ThemeManager.init()
-*/
-
 var ThemeManager = {
   //name: "main-content",
   data: function () {
     return {
       ui: undefined,
+      defaultTheme: 'simple'
+      //defaultTheme: 'default'
     }
   },
   mounted() {
@@ -29,7 +18,8 @@ var ThemeManager = {
     }
     */
   },
-  created: function () { 
+  created: function () {
+    $v.ThemeManager = this
   },
   methods: {
     // ---------------------
@@ -114,7 +104,7 @@ var ThemeManager = {
       let path = '/template.html'
       FileSystemHelper.read(path, (template) => {
         if (template === undefined) {
-          path = 'themes/simple/template.html'
+          path = 'themes/' + this.defaultTheme + '/template.html'
           $.get(path, (template) => {
             template = this.processTemplate(template)
             $('#template').html(template)
@@ -134,7 +124,7 @@ var ThemeManager = {
       let stylePath = FileSystemHelper.getFileSystemUrl(path)
       FileSystemHelper.isExists(path, (isExisted) => {
         if (isExisted === false) {
-          stylePath = 'themes/simple/style.css'
+          stylePath = 'themes/' + this.defaultTheme + '/style.css'
         }
         
         $(`<link href="${stylePath}" rel="stylesheet" type="text/css" />`)
@@ -151,5 +141,5 @@ var ThemeManager = {
   }
 }
 
-window.ThemeManager = ThemeManager
+//window.ThemeManager = ThemeManager
 export default ThemeManager

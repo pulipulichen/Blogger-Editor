@@ -1,27 +1,4 @@
 import dayjs from 'dayjs'
-/*
-EditorManager = {
-  template: `
-  <div class="form-group">
-    <label for="uploadImageDraft">Upload Image Draft</label>
-    <input name="uploadImageDraft" type="text" 
-      data-persist="garlic"
-      class="form-control" 
-      id="uploadImageDraft" aria-describedby="emailHelp" 
-      placeholder="https://www.blogger.com/blogger.g?blogID=..." />
-    <a href="https://www.blogger.com" target="bloggerManager">
-      <small class="form-text text-muted">Open Blogger console</small>
-    </a>
-  </div>`,
-  init: function () {
-    $(() => {
-      $('#editorManagerModal .modal-body').html(this.template)
-    })
-  }
-}
-
-EditorManager.init()
-*/
 
 var EditorManager = {
   //name: "main-content",
@@ -48,13 +25,13 @@ var EditorManager = {
   },
   created: function () {
     //return
-    $(() => {
+    //$(() => {
       
       this.summerNoteInited = false
-      
-      return
-      this.open()
-    })   
+      $v.EditorManager = this
+      //return
+      //this.open()
+    //})   
   },
   methods: {
     getUI: function () {
@@ -146,7 +123,7 @@ var EditorManager = {
       return button.render();   // return button as jquery object
     },
     getAssetDirPath: function (callback) {
-      PostManager.methods.getEditingPostId((id) => {
+      $v.PostManager.getEditingPostId((id) => {
         let path = `/${id}/assets/`
         FunctionHelper.triggerCallback(callback, path)
       })
@@ -253,7 +230,7 @@ var EditorManager = {
           onChange: (contents) => {
             //console.log('post body onchange')
             DelayExecHelper.exec('postBody', 5, () => {
-              PostManager.methods.updateEditingPostBody(contents)
+              $v.PostManager.updateEditingPostBody(contents)
             })
             //console.log('postBody:', contents);
           }
@@ -273,7 +250,7 @@ var EditorManager = {
         callbacks: {
           onChange: (contents) => {
             DelayExecHelper.exec(fieldName, 3, () => {
-              PostManager.methods.updateEditingPost(fieldName, contents)
+              $v.PostManager.updateEditingPost(fieldName, contents)
             })
             //console.log(fieldName + ':', contents)
           }
@@ -297,9 +274,9 @@ var EditorManager = {
     },
     setupPostData: function (callback) {
       
-      PostManager.methods.getPost((post) => {
+      $v.PostManager.getPost((post) => {
         //console.log(post.id)
-        let postDate = PostManager.methods.displayDate(post.updateUnix)
+        let postDate = $v.PostManager.displayDate(post.updateUnix)
         //console.log(postDate)
         // Setup title
         //let post = PostManager.methods.getPost()
@@ -315,7 +292,7 @@ var EditorManager = {
         this.setupPostLabels(post.labels)
         this.setupPostDate(postDate)
 
-        PostManager.methods.getPostBody((postBody) => {
+        $v.PostManager.getPostBody((postBody) => {
           //console.log(postBody)
           /*
           if (EditorManager.summerNoteInited === false) {
@@ -363,5 +340,5 @@ var EditorManager = {
   }
 }
 
-window.EditorManager = EditorManager
+//window.EditorManager = EditorManager
 export default EditorManager

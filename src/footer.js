@@ -14,8 +14,10 @@ require('./helpers/FileSystemHelper.js')
 require('./helpers/WebSQLDatabaseHelper.js')
 require('./helpers/DelayExecHelper.js')
 
+window.$v = {}
+
 import PostManagerComponent from './views/PostManager/PostManager.vue'
-window.PostManagerG = new Vue({
+new Vue({
   el: "#PostManager",
   render: h => h(PostManagerComponent),
 })

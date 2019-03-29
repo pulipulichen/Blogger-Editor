@@ -5,16 +5,17 @@ var NavBar = {
       //webpack: 'Powered by webpack! is it work?',
   }),
   created: function () {
+    $v.NavBar = this
   },
   methods: {
     openPostManager: function () {
-      PostManager.methods.open()
+      $v.PostManager.open()
     },
     openThemeManager: function () {
-      ThemeManager.methods.open()
+      $v.ThemeManager.open()
     },
     openEditorManager: function () {
-      EditorManager.methods.open()
+      $v.EditorManager.open()
     },
   }
 }

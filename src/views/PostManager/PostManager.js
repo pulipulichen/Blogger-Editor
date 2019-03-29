@@ -25,16 +25,17 @@ var PostManager = {
   },
   created: function () {
     //return
-    $(() => {
+    //$(() => {
       //this.getUI().find('.close.icon:first').click(() => {
       //  //console.log(1)
       //  this.close()
       //})
       
-      this.init()
+    this.init()
       
       //this.open()
-    })   
+    //})
+    $v.PostManager = this
   },
   methods: {
     getUI: function () {
@@ -77,8 +78,8 @@ var PostManager = {
             let item = rows.item(i)
             this.posts.push(item)
           }
-          console.log('PostManager.init()')
-          console.log(this.posts)
+          //console.log('PostManager.init()')
+          //console.log(this.posts)
           //this.filteredPosts = this.posts
           
           //console.log(rows.length)
@@ -134,10 +135,10 @@ var PostManager = {
       this.createPost(callback)
     },
     getEditingPostId: function (callback) {
-      if (this.editingPostId !== PostManager.editingPostId
-              && typeof(PostManager.editingPostId) === 'number') {
-        this.editingPostId = PostManager.editingPostId
-      }
+      //if (this.editingPostId !== PostManager.editingPostId
+      //        && typeof(PostManager.editingPostId) === 'number') {
+      //  this.editingPostId = PostManager.editingPostId
+      //}
       
       if (typeof(this.editingPostId) === 'number') {
         //console.log(this.editingPostId)
@@ -219,16 +220,16 @@ var PostManager = {
       //console.log(this.getPost(id))
       //FunctionHelper.triggerCallback(callback)
       
-      this.editingPostId = parseInt(id, 10)
-      PostManager.editingPostId = parseInt(id, 10)
-      console.log([this.editingPostId, PostManager.editingPostId])
+      this.editingPostId = id
+      //PostManager.editingPostId = parseInt(id, 10)
+      //console.log([this.editingPostId, PostManager.editingPostId])
       this.persist()
       
       //this.getPost(id, (post) => {
         //console.log(post)
         //FunctionHelper.triggerCallback(callback)
       //})
-      EditorManager.methods.setupPostData(() => {
+      $v.EditorManager.setupPostData(() => {
         this.close()
         FunctionHelper.triggerCallback(callback)
       })
@@ -333,7 +334,8 @@ var PostManager = {
       //console.log(this.data)
       
       DelayExecHelper.forceExec()
-      this.getUI().find('.header:first').click()
+      //this.getUI().find('.header:first').click()
+      this.init()
       this.getUI().modal('show')
       //this.init()
       //this.init(() => {
@@ -396,5 +398,5 @@ var PostManager = {
   }
 }
 
-window.PostManager = PostManager
+//window.PostManager = PostManager
 export default PostManager
