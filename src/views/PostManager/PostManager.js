@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
+
 var PostManager = {
-  //name: "main-content",
   data: function () {
     return {
       ui: undefined,
@@ -9,7 +9,7 @@ var PostManager = {
       filterCondition: '',
       filteredPosts: [],
       createTableDone: false,
-      editingPostId: null,
+      editingPostId: null
       //uploadImageDraft: '',
       //disableUploadImageDraft: true
     }
@@ -163,7 +163,7 @@ var PostManager = {
         //id = this.editingPostId
         //console.log(['getPost', this.editingPostId, PostManager.editingPostId])
         this.getEditingPostId((id) => {
-          console.log(['getPost', id])
+          //console.log(['getPost', id])
           post = this.posts.filter((post) => post.id === id)[0]
           FunctionHelper.triggerCallback(callback, post)
         })
@@ -332,8 +332,9 @@ var PostManager = {
     open: function () {
       //console.log(this.data)
       
+      this.getUI().find('.header:first').click()
       this.getUI().modal('show')
-      this.init()
+      //this.init()
       //this.init(() => {
        // this.filterPosts()
       //})

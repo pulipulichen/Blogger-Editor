@@ -1,7 +1,7 @@
 <div class="non-invasive-web-style-framework">
   <div class="ui modal PostManager">
     <i class="close icon" @click="close"></i>
-    <div class="header" @click="init">
+    <div class="header">
       <i class="blogger icon"></i>
       Post Manager
     </div>
@@ -12,7 +12,7 @@
         <div class="ui button" @click="newPost">
           NEW
         </div>
-        <div class="ui icon input post-filter" >
+        <div class="ui icon input" >
           <input type="text" 
                  placeholder="Filter..."
                  v-model="filterCondition"
@@ -22,7 +22,6 @@
 
         <div class="ui divided unstackable items post-list"
               :key="componentRerenderKey">
-          
           <div class="item" 
                v-for="post in filteredPosts"
                v-bind:class="{ editing: (editingPostId === post.id) }">
@@ -65,10 +64,10 @@
                   
                   <div class='ui mini button'
                        @click='openPost(post.id)'>
-                    <span v-if='editingPostId != post.id'>
+                    <span v-if='editingPostId !== post.id'>
                       OPEN
                     </span>
-                    <span v-if='editingPostId == post.id'>
+                    <span v-if='editingPostId === post.id'>
                       EDITING
                     </span>
                   </div>
@@ -80,8 +79,8 @@
                 </div>
               </div>
             </div>
-          </div> <!-- item -->
-        </div> <!-- post-list -->
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -14,7 +14,13 @@ require('./helpers/FileSystemHelper.js')
 require('./helpers/WebSQLDatabaseHelper.js')
 require('./helpers/DelayExecHelper.js')
 
+import PostManagerComponent from './views/PostManager/PostManager.vue'
+window.PostManagerG = new Vue({
+  el: "#PostManager",
+  render: h => h(PostManagerComponent),
+})
 
+/*
 import PostManagerModalComponent from './views/PostManager/PostManagerModal.vue'
 new Vue({
   el: "#PostManager",
@@ -26,7 +32,7 @@ new Vue({
   el: "#PostManagerContent",
   render: h => h(PostManagerContentComponent),
 })
-
+*/
 
 import EditorManagerComponent from './views/EditorManager/EditorManager.vue'
 new Vue({

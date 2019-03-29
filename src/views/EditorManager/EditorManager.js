@@ -255,7 +255,7 @@ var EditorManager = {
             this.onPaste(e)
           },
           onChange: (contents) => {
-            console.log('post body onchange')
+            //console.log('post body onchange')
             DelayExecHelper.exec('postBody', 5, () => {
               PostManager.methods.updateEditingPostBody(contents)
             })
