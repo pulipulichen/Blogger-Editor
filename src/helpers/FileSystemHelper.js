@@ -87,6 +87,16 @@ FileSystemHelper = {
       }
     }, errorHandler);
   },
+  removeDir: function (dirPath, callback) {
+    fs.root.getDirectory(dirPath, {}, function(dirEntry) {
+
+    dirEntry.removeRecursively(function() {
+      //console.log('Directory removed.');
+      FunctionHelper.triggerCallback(callback)
+    }, callback);
+
+  }, callback);
+  },
   write: function (filePath, content, callback) {
     let fs = this.fs
     

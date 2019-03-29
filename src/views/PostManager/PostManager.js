@@ -191,11 +191,18 @@ var PostManager = {
         retrievePostBody(id)
       }
     },
-    editPost: function (id, callback) {
+    openPost: function (id, callback) {
       //console.log(this.getPost(id))
       //FunctionHelper.triggerCallback(callback)
-      this.getPost(id, (post) => {
-        console.log(post)
+      
+      this.editingPostId = id
+      
+      //this.getPost(id, (post) => {
+        //console.log(post)
+        //FunctionHelper.triggerCallback(callback)
+      //})
+      ThemeManager.methods.setupPostData(() => {
+        this.close()
         FunctionHelper.triggerCallback(callback)
       })
     },
@@ -215,7 +222,11 @@ var PostManager = {
           this.persist()
         }
       }
-      FunctionHelper.triggerCallback(callback)
+      
+      // delete files in filesystem
+      let dirPath = `/${id}`
+      FileSystemHelper.removeDir(dirPath, callback)
+      //FunctionHelper.triggerCallback(callback)
     },
     updateEditingPost: function (field, value, callback) {
       this.getPost((post) => {

@@ -23,7 +23,8 @@
 
         <div class="ui divided unstackable items post-list">
           <div class="item" 
-               v-for="post in filteredPosts">
+               v-for="post in filteredPosts"
+               v-bind:class="{ editing: (editingPostId === post.id) }">
             <a class="image" href="#"
                  v-if="post.thumbnail" 
                  @click="editPost(post.id)">
@@ -60,10 +61,19 @@
                     {{ post.labels }}
                   </span>
                   <!--<i class='close icon'></i>-->
-                  <div class='ui mini button' @click='editPost(post.id)'>
-                    EDIT
+                  
+                  <div class='ui mini button'
+                       @click='openPost(post.id)'>
+                    <span v-if='editingPostId !== post.id'>
+                      OPEN
+                    </span>
+                    <span v-if='editingPostId === post.id'>
+                      EDITING
+                    </span>
                   </div>
-                  <div class='ui mini button' @click='removePost(post.id)'>
+                  
+                  <div class='ui mini button' 
+                       @click='removePost(post.id)'>
                     REMOVE
                   </div>
                 </div>

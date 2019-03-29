@@ -32,7 +32,9 @@ var EditorManager = {
       disableUploadImageDraft: true,
       postSummerNote: null,
       titleSummerNote: null,
-      labelSUmmerNote: null
+      labelsSUmmerNote: null,
+      dateContainer: null,
+      summerNoteInited: false
     }
   },
   mounted() {
@@ -52,6 +54,8 @@ var EditorManager = {
         this.close()
       })
       
+      this.summerNoteInited = false
+      
       return
       this.open()
     })   
@@ -59,7 +63,7 @@ var EditorManager = {
   methods: {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
-        console.log('find ui')
+        //console.log('find ui')
         this.ui = this.ui = $('.EditorManager.ui.modal')
       }
       return this.ui
@@ -101,6 +105,30 @@ var EditorManager = {
         this.postSummerNote = $('#summernotePostBody')
       }
       return this.postSummerNote
+    },
+    getTitleSummerNote: function () {
+      if (this.titleSummerNote === undefined
+              || this.titleSummerNote === null
+              || this.titleSummerNote.length === 0) {
+        this.titleSummerNote = $('#summernotePostTitle')
+      }
+      return this.titleSummerNote
+    },
+    getLabelsSummerNote: function () {
+      if (this.labelsSummerNote === undefined
+              || this.labelsSummerNote === null
+              || this.labelsSummerNote.length === 0) {
+        this.labelsSummerNote = $('#summernotePostLabels')
+      }
+      return this.labelsSummerNote
+    },
+    getDateContainer: function () {
+      if (this.dateContainer === undefined
+              || this.dateContainer === null
+              || this.dateContainer.length === 0) {
+        this.dateContainer = $('#summernotePostDate')
+      }
+      return this.dateContainer
     },
     copyCode: function (context) {
       var ui = $.summernote.ui;
@@ -236,10 +264,10 @@ var EditorManager = {
       }
       return config
     },
-    getSimpleSummerNoteConfig: function (fieldName) {
+    getSimpleSummerNoteConfig: function (fieldName, placeholder) {
       let config = {
         airMode: true,
-        placeholder: 'Post Title',
+        placeholder: placeholder,
         shortcuts: false,
         disableDragAndDrop: true,
         popover: {
@@ -250,7 +278,7 @@ var EditorManager = {
             DelayExecHelper.exec(fieldName, 3, () => {
               PostManager.methods.updateEditingPost(fieldName, contents)
             })
-            //console.log(fieldName + ':', contents);
+            //console.log(fieldName + ':', contents)
           }
         }
       }
@@ -259,9 +287,44 @@ var EditorManager = {
     initSummerNote: function () {
       this.getPostSummerNote().summernote(this.getPostSummerNoteConfig());
     
-      $('#summernotePostTitle').summernote(this.getSimpleSummerNoteConfig('title'));
-      $('#summernotePostLabels').summernote(this.getSimpleSummerNoteConfig('labels'));
-    }
+      this.getTitleSummerNote().summernote(this.getSimpleSummerNoteConfig('title', 'Post Title'));
+      this.getLabelsSummerNote().summernote(this.getSimpleSummerNoteConfig('labels', 'Labels'));
+      
+      this.summerNoteInited = true
+    },
+    setupPostBody: function (value) {
+      let summerNote = this.getPostSummerNote()
+      if (this.summerNoteInited === false) {
+        summerNote.html(value)
+      }
+      else {
+        summerNote.summernote('code', value);
+      }
+    },
+    setupPostTitle: function (value) {
+      let summerNote = this.getTitleSummerNote()
+      console.log([this.summerNoteInited, value])
+      if (this.summerNoteInited === undefined 
+              || this.summerNoteInited === false) {
+        summerNote.html(value)
+      }
+      else {
+        summerNote.summernote('code', value);
+      }
+    },
+    setupPostLabels: function (value) {
+      let summerNote = this.getLabelsSummerNote()
+      if (this.summerNoteInited === undefined 
+              || this.summerNoteInited === false) {
+        summerNote.html(value)
+      }
+      else {
+        summerNote.summernote('code', value);
+      }
+    },
+    setupPostDate: function (value) {
+      this.getDateContainer().text(value)
+    },
   }
 }
 

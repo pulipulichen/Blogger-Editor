@@ -96,17 +96,17 @@ var ThemeManager = {
     processTemplate: function (template) {
       //console.log(template)
       //let titleEditor = `<input type="text" name="postTitle" id="postTitle" />`
-      let titleEditor = `<div id="summernotePostTitle">Post Title [TEMP]</div>`
+      let titleEditor = `<div class="summernotePostTitle-wrapper air-mode"><div id="summernotePostTitle"</div></div>`
       template = template.replace('${postTitle}', titleEditor)
       
-      let dataContainer = `<span id="summernotePostDate">03/28 15:22</span>`
+      let dataContainer = `<span class="summernotePostDate-wrapper"><span id="summernotePostDate" class="summernotePostDate"></span></span>`
       template = template.replace('${postDate}', dataContainer)
       
-      let labelEditor = `<span id="summernotePostLabels">Label A, Label B, Label C</span>`
+      let labelEditor = `<span class="summernotePostLabels-wrapper air-mode"><span id="summernotePostLabels" class="summernotePostLabels"></span></span>`
       template = template.replace('${postLabels}', labelEditor)
 
       //let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
-      let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><p>Summernote</p></div>`
+      let postEditor = `<div class="summernotePostBody-wrapper"><div id="summernotePostBody"></div></div>`
       template = template.replace('${postBody}', postEditor)
       
       return template
@@ -147,17 +147,31 @@ var ThemeManager = {
     setupPostData: function (callback) {
       
       PostManager.methods.getPost((post) => {
+        
+        let postDate = PostManager.methods.displayDate(post.updateUnix)
+        
         // Setup title
         //let post = PostManager.methods.getPost()
-        $('#summernotePostTitle').html(post.title)
-        $('#summernotePostLabels').html(post.labels)
-
-        let postDate = PostManager.methods.displayDate(post.updateUnix)
-        $('#summernotePostDate').html(postDate)
+        
+        /*
+        if (EditorManager.summerNoteInited === false) {
+          $('#summernotePostTitle').html(post.title)
+          $('#summernotePostLabels').html(post.labels)
+          $('#summernotePostDate').html(postDate)
+        }
+        */
+        EditorManager.methods.setupPostTitle(post.title)
+        EditorManager.methods.setupPostLabels(post.labels)
+        EditorManager.methods.setupPostDate(postDate)
 
         PostManager.methods.getPostBody((postBody) => {
           //console.log(postBody)
-          $('#summernotePostBody').html(postBody)
+          /*
+          if (EditorManager.summerNoteInited === false) {
+            $('#summernotePostBody').html(postBody)
+          }
+          */
+          EditorManager.methods.setupPostBody(postBody)
           FunctionHelper.triggerCallback(callback)
         })
       })

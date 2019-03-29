@@ -7,6 +7,29 @@
   max-height: calc(100vh - 6rem);
 }
 
+.item .header:hover {
+  text-decoration: underline;
+}
+
 .item > .image {
   width: 120px !important;
+}
+
+.item > .content > .description {
+  word-break: break-all;
+}
+
+.item.editing {
+  background-color: #f8ffff;
+  
+  /*
+  box-shadow: 0 0 0 1px #a9d5de inset, 0 0 0 0 transparent;
+  color: #276f86;
+  border-radius: 4px;
+  */
+}
+
+.item.editing .header,
+.item.editing .description{
+  color: #276f86;
 }
