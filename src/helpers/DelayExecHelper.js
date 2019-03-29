@@ -2,7 +2,7 @@ DelayExecHelper = {
   timers: {},
   events: {},
   exec: function (type, delaySec, event) {
-    //delaySec = 0
+    delaySec = 0
     if (typeof(event) !== 'function') {
       return
     }
@@ -11,7 +11,7 @@ DelayExecHelper = {
             && this.timers[type] !== null) {
       clearTimeout(this.timers[type])
     }
-    //console.log(type, delaySec)
+    console.log(type, delaySec)
     this.events[type] = event
     this.timers[type] = setTimeout(() => {
       this.events[type]()

@@ -135,7 +135,7 @@ FileSystemHelper = {
     }
     
     // we have to check dir is existed.
-    
+    console.log(['write', filePath])
     fs.root.getFile(filePath, 
       {create: true, exclusive: true}, 
       (fileEntry) => {

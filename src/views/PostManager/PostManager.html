@@ -27,12 +27,12 @@
                v-bind:class="{ editing: (editingPostId === post.id) }">
             <a class="image" href="#"
                  v-if="post.thumbnail" 
-                 @click="editPost(post.id)">
+                 @click="openPost(post.id)">
               <img :src="post.thumbnail" />
             </a>
             <div class="content">
               <a class="header" href="#"
-                 @click="editPost(post.id)">
+                 @click="openPost(post.id)">
                 <span>
                   #{{ post.id }}
                 </span>

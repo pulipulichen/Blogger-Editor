@@ -131,7 +131,12 @@ var PostManager = {
       this.createPost(callback)
     },
     getEditingPostId: function (callback) {
+      if (this.editingPostId !== PostManager.editingPostId) {
+        this.editingPostId = PostManager.editingPostId
+      }
+      
       if (typeof(this.editingPostId) === 'number') {
+        //console.log(this.editingPostId)
         FunctionHelper.triggerCallback(callback, this.editingPostId)
       }
       else {
@@ -143,6 +148,7 @@ var PostManager = {
       }
     },
     getPost: function (id, callback) {
+      //console.log(['getPost', this.editingPostId, PostManager.editingPostId])
       if (typeof(id) === 'function') {
         callback = id
         id = undefined
@@ -151,7 +157,9 @@ var PostManager = {
       let post
       if (id === undefined) {
         //id = this.editingPostId
+        //console.log(['getPost', this.editingPostId, PostManager.editingPostId])
         this.getEditingPostId((id) => {
+          //console.log(['getPost', id])
           post = this.posts.filter((post) => post.id === id)[0]
           FunctionHelper.triggerCallback(callback, post)
         })
@@ -171,10 +179,11 @@ var PostManager = {
       
       let retrievePostBody = (id) => {
         let path = `/${id}/postBody.html`
-        let fsPath = FileSystemHelper.getFileSystemUrl(path)
+        //let fsPath = FileSystemHelper.getFileSystemUrl(path)
         //FileSystemHelper.read(path, (postBody) => {
         //console.log(fsPath)
-        $.get(fsPath, (postBody) => {
+        //$.get(fsPath, (postBody) => {
+        FileSystemHelper.read(path, (postBody) => {
           if (postBody === undefined) {
             postBody = ''
           }
@@ -191,11 +200,25 @@ var PostManager = {
         retrievePostBody(id)
       }
     },
+    createPostBodyFile: function (id, callback) {
+      let path = `/${id}/postBody.html`
+      FileSystemHelper.isExists(path, (isExists) => {
+        if (isExists === true) {
+          FunctionHelper.triggerCallback(callback)
+        }
+        else {
+          FileSystemHelper.write(path, '', callback)
+        }
+      })
+    },
     openPost: function (id, callback) {
       //console.log(this.getPost(id))
       //FunctionHelper.triggerCallback(callback)
       
-      this.editingPostId = id
+      this.editingPostId = parseInt(id, 10)
+      PostManager.editingPostId = parseInt(id, 10)
+      console.log([this.editingPostId, PostManager.editingPostId])
+      this.persist()
       
       //this.getPost(id, (post) => {
         //console.log(post)
@@ -230,7 +253,7 @@ var PostManager = {
     },
     updateEditingPost: function (field, value, callback) {
       this.getPost((post) => {
-        console.log([field, post[field], value])
+        //console.log([field, post[field], value])
         if (post[field] !== value) {
           post[field] = value
           this.update(post, callback)
@@ -255,13 +278,17 @@ var PostManager = {
         thumbnail = img.attr('src') 
       }
       
+      console.log(['updateEditingPostBody'])
       this.getPost((post) => {
+        console.log(['updateEditingPostBody 2', post.id])
+        
         post.abstract = abstract
         post.thumbnail = thumbnail
         
         this.update(post, () => {
           let id = post.id
           let path = `/${id}/postBody.html`
+          console.log(['updateEditingPostBody', path])
           FileSystemHelper.write(path, postBody, () => {
             FunctionHelper.triggerCallback(callback, post)
           })

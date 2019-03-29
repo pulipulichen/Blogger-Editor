@@ -255,6 +255,7 @@ var EditorManager = {
             this.onPaste(e)
           },
           onChange: (contents) => {
+            console.log('post body onchange')
             DelayExecHelper.exec('postBody', 5, () => {
               PostManager.methods.updateEditingPostBody(contents)
             })
@@ -303,7 +304,7 @@ var EditorManager = {
     },
     setupPostTitle: function (value) {
       let summerNote = this.getTitleSummerNote()
-      console.log([this.summerNoteInited, value])
+      //console.log([this.summerNoteInited, value])
       if (this.summerNoteInited === undefined 
               || this.summerNoteInited === false) {
         summerNote.html(value)

@@ -96,17 +96,25 @@ var ThemeManager = {
     processTemplate: function (template) {
       //console.log(template)
       //let titleEditor = `<input type="text" name="postTitle" id="postTitle" />`
-      let titleEditor = `<div class="summernotePostTitle-wrapper air-mode"><div id="summernotePostTitle"</div></div>`
+      let titleEditor = `<div class="summernotePostTitle-wrapper air-mode">
+        <div id="summernotePostTitle"</div>
+      </div>`
       template = template.replace('${postTitle}', titleEditor)
       
-      let dataContainer = `<span class="summernotePostDate-wrapper"><span id="summernotePostDate" class="summernotePostDate"></span></span>`
+      let dataContainer = `<span class="summernotePostDate-wrapper">
+        <span id="summernotePostDate" class="summernotePostDate"></span>
+      </span>`
       template = template.replace('${postDate}', dataContainer)
       
-      let labelEditor = `<span class="summernotePostLabels-wrapper air-mode"><span id="summernotePostLabels" class="summernotePostLabels"></span></span>`
+      let labelEditor = `<span class="summernotePostLabels-wrapper air-mode">
+        <span id="summernotePostLabels" class="summernotePostLabels"></span>
+      </span>`
       template = template.replace('${postLabels}', labelEditor)
 
       //let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
-      let postEditor = `<div class="summernotePostBody-wrapper"><div id="summernotePostBody"></div></div>`
+      let postEditor = `<div class="summernotePostBody-wrapper">
+        <div id="summernotePostBody"></div>
+      </div>`
       template = template.replace('${postBody}', postEditor)
       
       return template
@@ -147,9 +155,9 @@ var ThemeManager = {
     setupPostData: function (callback) {
       
       PostManager.methods.getPost((post) => {
-        
+        console.log(post.id)
         let postDate = PostManager.methods.displayDate(post.updateUnix)
-        
+        console.log(postDate)
         // Setup title
         //let post = PostManager.methods.getPost()
         
