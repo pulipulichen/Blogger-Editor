@@ -85,7 +85,7 @@ var PostManager = {
           //console.log(rows.length)
           
           this.filterPosts()
-          console.log(this.filteredPosts)
+          //console.log(this.filteredPosts)
           FunctionHelper.triggerCallback(callback)
         }
         else {
@@ -391,9 +391,9 @@ var PostManager = {
       if (this.componentRerenderKey === undefined) {
         this.componentRerenderKey = 0
       }
-      console.log('forceRerender 1: ',  this.componentRerenderKey)
+      //console.log('forceRerender 1: ',  this.componentRerenderKey)
       this.componentRerenderKey += 1;
-      console.log('forceRerender 2: ',  this.componentRerenderKey)
+      //console.log('forceRerender 2: ',  this.componentRerenderKey)
     }
   }
 }

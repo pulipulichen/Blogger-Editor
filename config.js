@@ -1,4 +1,5 @@
 const CONFIG = {
+  defaultTheme: 'default',
   uploadImageDraft: ''
 }
-modules.exports = CONFIG
+export default CONFIG

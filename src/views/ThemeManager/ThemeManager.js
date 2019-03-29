@@ -4,7 +4,7 @@ var ThemeManager = {
     return {
       ui: undefined,
       //defaultTheme: 'simple'
-      defaultTheme: 'default'
+      defaultTheme: ConfigHelper.get('defaultTheme')
     }
   },
   mounted() {

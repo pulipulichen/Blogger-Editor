@@ -24,11 +24,13 @@ var EditorManager = {
     }
   },
   created: function () {
+    $v.EditorManager = this
     //return
     //$(() => {
       
-      this.summerNoteInited = false
-      $v.EditorManager = this
+      //this.summerNoteInited = false
+      
+      this.validateUploadImageDrarfUrl()
       //return
       //this.open()
     //})   
@@ -51,6 +53,7 @@ var EditorManager = {
     validateUploadImageDrarfUrl: function () {
       this.disableUploadImageDraft = !this.uploadImageDraft.startsWith('https://www.blogger.com/blogger.g?blogID=')
       //console.log(this.disableUploadImageDraft)
+      return this.disableUploadImageDraft
     },
     persist() {
       localStorage.uploadImageDraft = this.uploadImageDraft;
@@ -66,7 +69,7 @@ var EditorManager = {
           ['table', ['table']],
           ['insert', ['link', 'picture', 'video']],
           ['view', [/*'fullscreen',*/ 'codeview', 'help']],
-          ['mybutton', ['copyHTML']]
+          ['mybutton', ['copyHTML', 'ImageReplacer']]
         ]
         
       return toolbar
@@ -104,10 +107,10 @@ var EditorManager = {
       return this.dateContainer
     },
     copyCode: function (context) {
-      var ui = $.summernote.ui;
+      let ui = $.summernote.ui;
 
       // create button
-      var button = ui.button({
+      let button = ui.button({
         contents: '<i class="code icon"></i> Code',
         tooltip: 'Copy Code',
         click: () => {
@@ -117,6 +120,20 @@ var EditorManager = {
           //console.log(code)
 
           CopyPasteHelper.copyPlainText(code)
+        }
+      });
+
+      return button.render();   // return button as jquery object
+    },
+    imageReplacer: function (context) {
+      let ui = $.summernote.ui;
+
+      // create button
+      let button = ui.button({
+        contents: '<i class="images icon"></i> Images',
+        tooltip: 'Replace Images',
+        click: () => {
+          $v.ImageReplacer.open()
         }
       });
 
@@ -214,6 +231,9 @@ var EditorManager = {
         buttons: {
           copyHTML: () => {
             this.copyCode()
+          },
+          imageReplacer: () => {
+            this.imageReplacer()
           }
         },
         //disableDragAndDrop: false,

@@ -9,6 +9,9 @@ var config = {
   },
   created: function () {
     $v.ImageReplacer = this
+    $(() => {
+      //this.open()
+    })
   },
   methods: {
     getUI: function () {
