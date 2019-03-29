@@ -17,5 +17,13 @@ DelayExecHelper = {
       this.events[type]()
       this.timers[type] = null
     }, delaySec * 1000)
+  },
+  forceExec: function () {
+    for (type in this.timers) {
+      if (this.timers[type] !== null) {
+        this.events[type]()
+        clearTimeout(this.timers[type])
+      }
+    }
   }
 }

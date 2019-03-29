@@ -332,6 +332,7 @@ var PostManager = {
     open: function () {
       //console.log(this.data)
       
+      DelayExecHelper.forceExec()
       this.getUI().find('.header:first').click()
       this.getUI().modal('show')
       //this.init()
