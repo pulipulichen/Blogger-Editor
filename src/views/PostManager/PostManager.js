@@ -173,12 +173,12 @@ var PostManager = {
         let path = `/${id}/postBody.html`
         let fsPath = FileSystemHelper.getFileSystemUrl(path)
         //FileSystemHelper.read(path, (postBody) => {
-        console.log(fsPath)
+        //console.log(fsPath)
         $.get(fsPath, (postBody) => {
           if (postBody === undefined) {
             postBody = ''
           }
-          console.log(['getPostBody', postBody])
+          //console.log(['getPostBody', postBody])
           FunctionHelper.triggerCallback(callback, postBody)
         })
       }
@@ -209,6 +209,11 @@ var PostManager = {
         
         let sql = `DELETE FROM posts WHERE id=${id}`
         WebSQLDatabaseHelper.exec(sql)
+        
+        if (this.editingPostId === id) {
+          this.editingPostId = null
+          this.persist()
+        }
       }
       FunctionHelper.triggerCallback(callback)
     },

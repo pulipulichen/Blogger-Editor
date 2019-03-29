@@ -58,13 +58,23 @@ FileSystemHelper = {
     throw 'Error: ' + msg
   },
   createDir: function (rootDirEntry, folders, callback) {
-    let errorHandler = this.errorHandler
+    if (typeof(folders) === 'string') {
+      folders = folders.split('/')
+    }
+    
+    //let errorHandler = this.errorHandler
+    let errorHandler = () => {
+      //console.log(['createDir error'])
+      //console.log(folders)
+      FunctionHelper.triggerCallback(callback)
+    }
     
     // Throw out './' or '/' and move on to prevent something like '/foo/.//bar'.
     if (folders[0] === '.' 
             || folders[0] === '') {
       folders = folders.slice(1);
     }
+    //console.log(folders[0])
     rootDirEntry.getDirectory(folders[0], 
       {create: true}, 
       (dirEntry) => {
@@ -195,52 +205,55 @@ FileSystemHelper = {
     let fs = this.fs
     let errorHandler = this.errorHandler
     
-    let output = []
-    let loop = (i) => {
-      if (i < files.length) {
-        let file = files[i]
-        //console.log(file.name)
-        let baseFilePath
-        if (filename === null) {
-          baseFilePath = dirPath + file.name
+    this.createDir(fs.root, dirPath, () => {
+      let output = []
+      let loop = (i) => {
+        if (i < files.length) {
+          let file = files[i]
+          //console.log(file.name)
+          let baseFilePath
+          if (filename === null) {
+            baseFilePath = dirPath + file.name
+          }
+          else {
+            baseFilePath = dirPath + filename
+          }
+
+          let pathPart1 = baseFilePath.slice(0, baseFilePath.lastIndexOf('.'))
+          let pathPart2 = baseFilePath.slice(baseFilePath.lastIndexOf('.'))
+
+          let dupCount = 0
+          let writeFile = (filePath) => {
+            fs.root.getFile(filePath, {create: true, exclusive: true}, function(fileEntry) {
+              //console.log(filePath)
+              fileEntry.createWriter(function(fileWriter) {
+                //console.log(file.name)
+                fileWriter.write(file); // Note: write() can take a File or Blob object.
+
+                let url = fileEntry.toURL()
+                output.push(url)
+
+                i++
+                loop(i)
+              }, errorHandler);
+            }, () => {
+              dupCount++
+              filePath = pathPart1 + '_' + dupCount + pathPart2
+              writeFile(filePath)
+            });
+          }
+          writeFile(baseFilePath)
+
         }
         else {
-          baseFilePath = dirPath + filename
-        }
-        
-        let pathPart1 = baseFilePath.slice(0, baseFilePath.lastIndexOf('.'))
-        let pathPart2 = baseFilePath.slice(baseFilePath.lastIndexOf('.'))
-        
-        let dupCount = 0
-        let writeFile = (filePath) => {
-          fs.root.getFile(filePath, {create: true, exclusive: true}, function(fileEntry) {
-            //console.log(filePath)
-            fileEntry.createWriter(function(fileWriter) {
-              //console.log(file.name)
-              fileWriter.write(file); // Note: write() can take a File or Blob object.
-
-              let url = fileEntry.toURL()
-              output.push(url)
-
-              i++
-              loop(i)
-            }, errorHandler);
-          }, () => {
-            dupCount++
-            filePath = pathPart1 + '_' + dupCount + pathPart2
-            writeFile(filePath)
-          });
-        }
-        writeFile(baseFilePath)
-          
-      }
-      else {
-        if (typeof(callback) === 'function') {
-          callback(output)
+          if (typeof(callback) === 'function') {
+            callback(output)
+          }
         }
       }
-    }
-    loop(0)
+      loop(0)
+    })  // this.createDir(fs.root, dirPath, () => {
+      
   },
   remove: function (path, callback) {
     let fs = this.fs

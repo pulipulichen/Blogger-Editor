@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 /*
 EditorManager = {
   template: `
@@ -120,71 +121,88 @@ var EditorManager = {
 
       return button.render();   // return button as jquery object
     },
+    getAssetDirPath: function (callback) {
+      PostManager.methods.getEditingPostId((id) => {
+        let path = `/${id}/assets/`
+        FunctionHelper.triggerCallback(callback, path)
+      })
+    },
     onImageUpload: function (files) {
       // upload image to server and create imgNode...
       //$summernote.summernote('insertNode', imgNode);
       //console.log(files[0])
-      FileSystemHelper.copy("/", files, (urlList) => {
-        //console.log(urlList)
-        urlList.forEach(imgUrl => {
-          //let imgUrl = urlList[0]
-          let name = FileSystemHelper.getFileName(imgUrl)
-          let imgNode = $(`<a href="${imgUrl}">
-        <img src="${imgUrl}" alt="${name}" title="${name}" />
-      </a>`)[0]
-          this.getPostSummerNote().summernote('insertNode', imgNode);
+      this.getAssetDirPath((path) => {
+        FileSystemHelper.copy(path, files, (urlList) => {
+          //console.log(urlList)
+          urlList.forEach(imgUrl => {
+            //let imgUrl = urlList[0]
+            let name = FileSystemHelper.getFileName(imgUrl)
+            let imgNode = $(`<a href="${imgUrl}">
+          <img src="${imgUrl}" alt="${name}" title="${name}" />
+        </a>`)[0]
+            this.getPostSummerNote().summernote('insertNode', imgNode);
+          })
         })
       })
     },
     onDrop: function (files) {
       //console.log(files.length)
+      
+      this.getAssetDirPath((path) => {
+        let loop = (i) => {
+          if (i < files.length) {
+            let file = files[i];
+            let type = file.type
+            let name = file.name
+            //console.log(imageFile)
 
-      let loop = (i) => {
-        if (i < files.length) {
-          let file = files[i];
-          let type = file.type
-          let name = file.name
-          //console.log(imageFile)
+            FileSystemHelper.copy(path, file, (url) => {
+              let node
+              if (type.startsWith('image')) {
+                node = $(`<a href="${url}">
+              <img src="${url}" alt="${name}" title="${name}" />
+            </a>`)[0]
+              } else {
+                node = $(`<a href="${url}">${name}</a>`)[0]
+              }
+              this.getPostSummerNote().summernote('insertNode', node);
 
-          FileSystemHelper.copy("/", file, (url) => {
-            let node
-            if (type.startsWith('image')) {
-              node = $(`<a href="${url}">
-            <img src="${url}" alt="${name}" title="${name}" />
-          </a>`)[0]
-            } else {
-              node = $(`<a href="${url}">${name}</a>`)[0]
-            }
-            this.getPostSummerNote().summernote('insertNode', node);
-
-            i++
-            loop(i)
-          })
+              i++
+              loop(i)
+            })
+          }
         }
-      }
-      loop(0)
+
+        loop(0)
+      })
     },
     onPaste: function (e) {
       //console.log('Called event paste');
       //console.log(e)
       var orgEvent = e.originalEvent;
       //console.log(orgEvent.clipboardData.items.length)
-      for (var i = 0; i < orgEvent.clipboardData.items.length; i++) {
-        //console.log([orgEvent.clipboardData.items[i].kind
-        //  , orgEvent.clipboardData.items[i].type])
-        if (orgEvent.clipboardData.items[i].kind === "file"
-                && orgEvent.clipboardData.items[i].type.startsWith('image/')) {
-          var imageFile = orgEvent.clipboardData.items[i].getAsFile();
-          //imageFile.name = 'test.png'
-          //console.log(imageFile.name)
-          FileSystemHelper.copy("/", imageFile, 'test.png', (imgUrl) => {
-            let imgNode = $(`<img src="${imgUrl}" />`)[0]
-            this.getPostSummerNote().summernote('insertNode', imgNode);
-          })
-          e.preventDefault();
-          break;
+      
+      this.getAssetDirPath((path) => {
+        for (var i = 0; i < orgEvent.clipboardData.items.length; i++) {
+          //console.log([orgEvent.clipboardData.items[i].kind
+          //  , orgEvent.clipboardData.items[i].type])
+          if (orgEvent.clipboardData.items[i].kind === "file"
+                  && orgEvent.clipboardData.items[i].type.startsWith('image/')) {
+            var imageFile = orgEvent.clipboardData.items[i].getAsFile();
+            //imageFile.name = 'test.png'
+            //console.log(imageFile.name)
+            let filename = dayjs(new Date()).format('YYYY-MMDD-hhmmss') + '.png'
+            console.log(path)
+            console.log(filename)
+            FileSystemHelper.copy(path, imageFile, filename, (imgUrl) => {
+              let imgNode = $(`<img src="${imgUrl}" />`)[0]
+              this.getPostSummerNote().summernote('insertNode', imgNode);
+            })
+            e.preventDefault();
+            break;
+          }
         }
-      }
+      })
     },
     getPostSummerNoteConfig: function () {
       let config = {

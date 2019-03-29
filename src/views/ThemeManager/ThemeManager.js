@@ -156,7 +156,7 @@ var ThemeManager = {
         $('#summernotePostDate').html(postDate)
 
         PostManager.methods.getPostBody((postBody) => {
-          console.log(postBody)
+          //console.log(postBody)
           $('#summernotePostBody').html(postBody)
           FunctionHelper.triggerCallback(callback)
         })
