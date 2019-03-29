@@ -103,7 +103,7 @@ var PostManager = {
       let labels = 'D'
       let thumbnail = 'icon.png'
       
-      let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
+      //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
       WebSQLDatabaseHelper.exec(sql, [unix, unix, title, labels, abstract, thumbnail], (rows) => {
         this.getLastUpdatePost((post) => {
           //console.log(post.id)
@@ -171,10 +171,14 @@ var PostManager = {
       
       let retrievePostBody = (id) => {
         let path = `/${id}/postBody.html`
-        FileSystemHelper.read(path, (postBody) => {
+        let fsPath = FileSystemHelper.getFileSystemUrl(path)
+        //FileSystemHelper.read(path, (postBody) => {
+        console.log(fsPath)
+        $.get(fsPath, (postBody) => {
           if (postBody === undefined) {
             postBody = ''
           }
+          console.log(['getPostBody', postBody])
           FunctionHelper.triggerCallback(callback, postBody)
         })
       }
@@ -208,8 +212,75 @@ var PostManager = {
       }
       FunctionHelper.triggerCallback(callback)
     },
+    updateEditingPost: function (field, value, callback) {
+      this.getPost((post) => {
+        console.log([field, post[field], value])
+        if (post[field] !== value) {
+          post[field] = value
+          this.update(post, callback)
+        }
+        else {
+          FunctionHelper.triggerCallback(callback, post)
+        }
+      })
+    },
+    updateEditingPostBody: function (postBody, callback) {
+      postBody = postBody.trim()
+      let postBodyObject = $(postBody)
+      let abstract = postBodyObject.text()
+      if (abstract.length > 100) {
+        abstract = abstract.slice(0, 100) + '...'
+      }
+      
+      //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
+      let thumbnail = null
+      let img = postBodyObject.find('img:first')
+      if (img.length > 0) {
+        thumbnail = img.attr('src') 
+      }
+      
+      this.getPost((post) => {
+        post.abstract = abstract
+        post.thumbnail = thumbnail
+        
+        this.update(post, () => {
+          let id = post.id
+          let path = `/${id}/postBody.html`
+          FileSystemHelper.write(path, postBody, () => {
+            FunctionHelper.triggerCallback(callback, post)
+          })
+        })
+      })
+    },
     update: function (post, callback) {
-      FunctionHelper.triggerCallback(callback)
+      let id = post.id 
+      
+      let unix = dayjs(new Date()).unix()
+      let title = post.title
+      let labels = post.labels
+      let abstract = post.abstract
+      let thumbnail = post.thumbnail
+      
+      //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
+      
+      let sql = `UPDATE posts SET 
+        updateUnix = ?,
+        title = ?,
+        labels = ?,
+        abstract = ?,
+        thumbnail =?
+        WHERE id = ${id}`
+      //console.log(sql)
+      
+      WebSQLDatabaseHelper.exec(sql, [
+        unix,
+        title,
+        labels,
+        abstract,
+        thumbnail
+      ], () => {
+        FunctionHelper.triggerCallback(callback, post)
+      })
     },
     open: function () {
       //console.log(this.data)

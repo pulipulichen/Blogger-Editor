@@ -208,14 +208,17 @@ var EditorManager = {
           onPaste: (e) => {
             this.onPaste(e)
           },
-          onChange: (contents, $editable) => {
-            console.log('onChange:', contents, $editable);
+          onChange: (contents) => {
+            DelayExecHelper.exec('postBody', 5, () => {
+              PostManager.methods.updateEditingPostBody(contents)
+            })
+            //console.log('postBody:', contents);
           }
         }
       }
       return config
     },
-    getSimpleSummerNoteConfig: function () {
+    getSimpleSummerNoteConfig: function (fieldName) {
       let config = {
         airMode: true,
         placeholder: 'Post Title',
@@ -225,8 +228,11 @@ var EditorManager = {
           air: []
         },
         callbacks: {
-          onChange: (contents, $editable) => {
-            console.log('onChange:', contents, $editable);
+          onChange: (contents) => {
+            DelayExecHelper.exec(fieldName, 3, () => {
+              PostManager.methods.updateEditingPost(fieldName, contents)
+            })
+            //console.log(fieldName + ':', contents);
           }
         }
       }
@@ -235,8 +241,8 @@ var EditorManager = {
     initSummerNote: function () {
       this.getPostSummerNote().summernote(this.getPostSummerNoteConfig());
     
-      $('#summernotePostTitle').summernote(this.getSimpleSummerNoteConfig());
-      $('#summernotePostLabels').summernote(this.getSimpleSummerNoteConfig());
+      $('#summernotePostTitle').summernote(this.getSimpleSummerNoteConfig('title'));
+      $('#summernotePostLabels').summernote(this.getSimpleSummerNoteConfig('labels'));
     }
   }
 }

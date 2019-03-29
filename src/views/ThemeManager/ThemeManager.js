@@ -131,7 +131,8 @@ var ThemeManager = {
     },
     loadStyle: function (callback) {
       let path = '/style.css'
-      let stylePath = 'filesystem:' + location.protocol + '://' + location.host + '/temporary' + path
+      //let stylePath = 'filesystem:' + location.protocol + '://' + location.host + '/temporary' + path
+      let stylePath = FileSystemHelper.getFileSystemUrl(path)
       FileSystemHelper.isExists(path, (isExisted) => {
         if (isExisted === false) {
           stylePath = 'themes/simple/style.css'

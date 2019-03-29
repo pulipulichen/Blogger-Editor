@@ -2,6 +2,7 @@ FileSystemHelper = {
   type: window.TEMPORARY,
   quota: 5 * 1024 * 1024 /*5MB*/,
   fs: null,
+  
   init: function () {
     
     // Note: The file system has been prefixed as of Google Chrome 12:
@@ -56,31 +57,91 @@ FileSystemHelper = {
     //console.log('Error: ' + msg);
     throw 'Error: ' + msg
   },
-  write: function (filePath, content, callback) {
+  createDir: function (rootDirEntry, folders, callback) {
     let errorHandler = this.errorHandler
+    
+    // Throw out './' or '/' and move on to prevent something like '/foo/.//bar'.
+    if (folders[0] === '.' 
+            || folders[0] === '') {
+      folders = folders.slice(1);
+    }
+    rootDirEntry.getDirectory(folders[0], 
+      {create: true}, 
+      (dirEntry) => {
+      // Recursively add the new subfolder (if we still have another to create).
+      if (folders.length) {
+        this.createDir(dirEntry, folders.slice(1), callback);
+      }
+      else {
+        FunctionHelper.triggerCallback(callback)
+      }
+    }, errorHandler);
+  },
+  write: function (filePath, content, callback) {
     let fs = this.fs
-    fs.root.getFile(filePath, {create: true}, function (fileEntry) {
+    
+    if (filePath.startsWith('/') === false) {
+      filePath = '/' + filePath
+    }
+    
+    //let errorHandler = this.errorHandler
+    let errorHandler = (e) => {
+      let dirPath = filePath.slice(0, filePath.lastIndexOf('/') + 1).trim()
+      //if (dirPath === '') {
+      //  this.errorHandler(e)
+      //  return
+      //}
+      
+      //console.log(dirPath)
+      this.isExists(dirPath, (dirExists) => {
+        if (dirExists === false) {
+          this.createDir(fs.root, dirPath.split('/'), () => {
+            this.write(filePath, content, callback)
+          }); // fs.root is a 
+        }
+        else {
+          this.isExists(filePath, (fileExists) => {
+            if (fileExists === true) {
+              this.remove(filePath, () => {
+                this.write(filePath, content, callback)
+              })
+            }
+            else {
+              this.errorHandler(e)
+            }
+          })
+        }
+      })
+    }
+    
+    // we have to check dir is existed.
+    
+    fs.root.getFile(filePath, 
+      {create: true, exclusive: true}, 
+      (fileEntry) => {
 
       // Create a FileWriter object for our FileEntry (log.txt).
-      fileEntry.createWriter(function (fileWriter) {
+      fileEntry.createWriter((fileWriter) => {
 
-        fileWriter.onwriteend = function (e) {
-          console.log('Write completed: ' + filePath);
-        };
+          fileWriter.onwriteend = (e) => {
+            console.log('Write completed: ' + filePath);
+            //console.log(content)
+            FunctionHelper.triggerCallback(callback)
+          };
 
-        fileWriter.onerror = function (e) {
-          console.log('Write failed: ' + filePath + ': ' + e.toString());
-        };
+          fileWriter.onerror = (e) => {
+            //console.log('Write failed: ' + filePath + ': ' + e.toString());
+            FunctionHelper.triggerCallback(callback)
+          };
 
-        // Create a new Blob and write it to log.txt.
-        //var bb = new BlobBuilder(); // Note: window.WebKitBlobBuilder in Chrome 12.
-        //bb.append(content);
-        //fileWriter.write(bb.getBlob('text/plain'));
-        fileWriter.write(new Blob([content]));
+          // Create a new Blob and write it to log.txt.
+          //var bb = new BlobBuilder(); // Note: window.WebKitBlobBuilder in Chrome 12.
+          //bb.append(content);
+          //fileWriter.write(bb.getBlob('text/plain'));
 
-        if (typeof (callback) === 'function') {
-          callback()
-        }
+          fileWriter.write(new Blob([content]));
+          //fileWriter.write(new Blob([content], {type: 'text/html'}));
+
       }, errorHandler);
 
     }, errorHandler);
@@ -153,7 +214,7 @@ FileSystemHelper = {
         let dupCount = 0
         let writeFile = (filePath) => {
           fs.root.getFile(filePath, {create: true, exclusive: true}, function(fileEntry) {
-            console.log(filePath)
+            //console.log(filePath)
             fileEntry.createWriter(function(fileWriter) {
               //console.log(file.name)
               fileWriter.write(file); // Note: write() can take a File or Blob object.
@@ -181,6 +242,19 @@ FileSystemHelper = {
     }
     loop(0)
   },
+  remove: function (path, callback) {
+    let fs = this.fs
+    let errorHandler = this.errorHandler
+    
+    fs.root.getFile(path, {create: false}, function(fileEntry) {
+
+      fileEntry.remove(function() {
+        //console.log('File removed: ' + path);
+        FunctionHelper.triggerCallback(callback)
+      }, errorHandler);
+
+    }, errorHandler);
+  },
   getFileName: function (url) {
     if (url.lastIndexOf('/') > -1) {
       url = url.slice(url.lastIndexOf('/') + 1)
@@ -190,8 +264,16 @@ FileSystemHelper = {
   isExists: function (filePath, callback) {
     let fs = this.fs
     let errorHandler = () => {
-      FunctionHelper.triggerCallback(callback, false)
+      
+      fs.root.getDirectory(filePath, 
+        {create: false}, 
+        (dirEntry) => {
+          FunctionHelper.triggerCallback(callback, true)
+      }, () => {
+        FunctionHelper.triggerCallback(callback, false)
+      });
     }
+    
     fs.root.getFile(filePath, {}, function (fileEntry) {
 
       // Get a File object representing the file,
@@ -201,6 +283,18 @@ FileSystemHelper = {
       }, errorHandler);
 
     }, errorHandler);
+  },
+  getFileSystemUrl: function (path) {
+    let fsType = 'temporary'
+    if (this.type !== window.TEMPORARY) {
+      fsType = 'persist'
+    }
+    
+    if (path.startsWith('/') === false) {
+      path = '/' + path
+    }
+    
+    return 'filesystem:' + location.protocol + '//' + location.host + '/' + fsType + path
   }
 }
 

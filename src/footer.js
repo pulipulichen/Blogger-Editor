@@ -12,6 +12,7 @@ require('./helpers/FileSystemHelper.js')
 require('./helpers/TemplateHelper.js')
 require('./helpers/FileSystemHelper.js')
 require('./helpers/WebSQLDatabaseHelper.js')
+require('./helpers/DelayExecHelper.js')
 
 
 import EditorManagerComponent from './views/EditorManager/EditorManager.vue'
