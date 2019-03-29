@@ -293,7 +293,7 @@ var PostManager = {
         this.update(post, () => {
           let id = post.id
           let path = `/${id}/postBody.html`
-          console.log(['updateEditingPostBody', path])
+          //console.log(['updateEditingPostBody', path])
           FileSystemHelper.write(path, postBody, () => {
             FunctionHelper.triggerCallback(callback, post)
           })

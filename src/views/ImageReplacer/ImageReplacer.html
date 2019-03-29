@@ -2,12 +2,22 @@
   <div class="ui modal ImageReplacer">
     <i class="close icon" @click="close"></i>
     <div class="header">
-      <i class="images icon"></i>
+      <i class="image icon"></i>
       Image Replace
     </div>
     <div class="content">
       <div class="description">
-        
+        <div class="no images">
+          No filesystem image in post body.
+        </div>
+        <div class="step-1">
+          <div class="ui fluid positive labeled icon button"
+               @click="downloadImagePackage"
+               v-bind:class="{ disabled: isCreatingImagePackage }">
+            <i class="file archive icon"></i>
+            Download Image Package
+          </div>
+        </div>
       </div>
     </div>
     <div class="actions">

@@ -44,17 +44,25 @@ new Vue({
 })
 */
 
+import ThemeManagerComponent from './views/ThemeManager/ThemeManager.vue'
+new Vue({
+  el: "#ThemeManager",
+  render: h => h(ThemeManagerComponent),
+})
+
+
 import EditorManagerComponent from './views/EditorManager/EditorManager.vue'
 new Vue({
   el: "#EditorManager",
   render: h => h(EditorManagerComponent),
 })
 
-import ThemeManagerComponent from './views/ThemeManager/ThemeManager.vue'
+import ImageReplacerComponent from './views/ImageReplacer/ImageReplacer.vue'
 new Vue({
-  el: "#ThemeManager",
-  render: h => h(ThemeManagerComponent),
+  el: "#ImageReplacer",
+  render: h => h(ImageReplacerComponent),
 })
+
 
 //import VueHelper from './helpers/VueHelper.js'
 //let VueHelper = require('./helpers/VueHelper.js')

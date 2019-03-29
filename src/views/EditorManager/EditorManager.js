@@ -69,7 +69,7 @@ var EditorManager = {
           ['table', ['table']],
           ['insert', ['link', 'picture', 'video']],
           ['view', [/*'fullscreen',*/ 'codeview', 'help']],
-          ['mybutton', ['copyHTML', 'ImageReplacer']]
+          ['mybutton', ['copyHTML', 'imageReplacer']]
         ]
         
       return toolbar
@@ -111,7 +111,10 @@ var EditorManager = {
 
       // create button
       let button = ui.button({
-        contents: '<i class="code icon"></i> Code',
+        contents: `<span class="non-invasive-web-style-framework">
+          <i class="code icon"></i>
+          Code
+        </span>`,
         tooltip: 'Copy Code',
         click: () => {
           // invoke insertText method with 'hello' on editor module.
@@ -130,7 +133,10 @@ var EditorManager = {
 
       // create button
       let button = ui.button({
-        contents: '<i class="images icon"></i> Images',
+        contents: `<span class="non-invasive-web-style-framework">
+          <i class="image icon"></i>
+          Images
+        </span>`,
         tooltip: 'Replace Images',
         click: () => {
           $v.ImageReplacer.open()
@@ -210,8 +216,8 @@ var EditorManager = {
             //imageFile.name = 'test.png'
             //console.log(imageFile.name)
             let filename = dayjs(new Date()).format('YYYY-MMDD-hhmmss') + '.png'
-            console.log(path)
-            console.log(filename)
+            //console.log(path)
+            //console.log(filename)
             FileSystemHelper.copy(path, imageFile, filename, (imgUrl) => {
               let imgNode = $(`<img src="${imgUrl}" />`)[0]
               this.getPostSummerNote().summernote('insertNode', imgNode);
@@ -230,10 +236,10 @@ var EditorManager = {
         toolbar: this.getPostSummerNoteToolbarConfig(),
         buttons: {
           copyHTML: () => {
-            this.copyCode()
+            return this.copyCode()
           },
           imageReplacer: () => {
-            this.imageReplacer()
+            return this.imageReplacer()
           }
         },
         //disableDragAndDrop: false,
@@ -357,6 +363,23 @@ var EditorManager = {
     setupPostDate: function (value) {
       this.getDateContainer().text(value)
     },
+    getPostBody: function () {
+      let summerNote = this.getPostSummerNote()
+      if (this.summerNoteInited === false) {
+        return summerNote.html()
+      }
+      else {
+        return summerNote.summernote('code');
+      }
+    },
+    getImageList: function () {
+      let postBody = this.getPostBody()
+      let output = []
+      $(postBody).find('img[src^="filesystem:"]').each((i, img) => {
+        output.push(img.src)
+      })
+      return output
+    }
   }
 }
 
