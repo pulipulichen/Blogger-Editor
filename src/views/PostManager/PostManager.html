@@ -1,16 +1,14 @@
-<div class="non-invasive-web-style-framework">
+<div class="non-invasive-web-style-framework" :key="componentRerenderKey">
   <div class="ui modal PostManager">
-    <i class="close icon"></i>
+    <i class="close icon" @click="close"></i>
     <div class="header">
       <i class="blogger icon"></i>
       Post Manager
-       {{ componentRerenderKey }}
     </div>
     <!-- ---------------------------------------- -->
     
     <div class="content">
       <div class="description">
-        
         <div class="ui button" @click="newPost">
           NEW
         </div>

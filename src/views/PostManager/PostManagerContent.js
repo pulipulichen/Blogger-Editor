@@ -1,9 +1,8 @@
 import dayjs from 'dayjs'
-var PostManager = {
+var PostManagerContent = {
   //name: "main-content",
   data: function () {
     return {
-      ui: undefined,
       componentRerenderKey: 0,
       posts: [],
       filterCondition: '',
@@ -24,26 +23,9 @@ var PostManager = {
     }
   },
   created: function () {
-    //return
-    $(() => {
-      //this.getUI().find('.close.icon:first').click(() => {
-      //  //console.log(1)
-      //  this.close()
-      //})
-      
-      this.init()
-      
-      //this.open()
-    })   
+    this.init()
   },
   methods: {
-    getUI: function () {
-      if (typeof(this.ui) === 'undefined') {
-        //console.log('find ui')
-        this.ui = this.ui = $('.PostManager.ui.modal')
-      }
-      return this.ui
-    },
     createTable: function () {
       if (this.createTableDone === true) {
         return
@@ -229,7 +211,7 @@ var PostManager = {
         //FunctionHelper.triggerCallback(callback)
       //})
       EditorManager.methods.setupPostData(() => {
-        this.close()
+        PostManagerModal.methods.close()
         FunctionHelper.triggerCallback(callback)
       })
     },
@@ -329,18 +311,6 @@ var PostManager = {
         FunctionHelper.triggerCallback(callback, post)
       })
     },
-    open: function () {
-      //console.log(this.data)
-      
-      this.getUI().modal('show')
-      this.init()
-      //this.init(() => {
-       // this.filterPosts()
-      //})
-    },
-    close: function () {
-      this.getUI().modal('hide')
-    },
     persist() {
       this.getEditingPostId((id) => {
         localStorage.editingPostId = id
@@ -394,5 +364,5 @@ var PostManager = {
   }
 }
 
-window.PostManager = PostManager
-export default PostManager
+window.PostManagerContent = PostManagerContent
+export default PostManagerContent
