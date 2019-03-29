@@ -49,10 +49,6 @@ var EditorManager = {
   created: function () {
     //return
     $(() => {
-      this.getUI().find('.close.icon:first').click(() => {
-        //console.log(1)
-        this.close()
-      })
       
       this.summerNoteInited = false
       

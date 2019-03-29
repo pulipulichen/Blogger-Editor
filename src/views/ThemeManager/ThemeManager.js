@@ -29,16 +29,7 @@ var ThemeManager = {
     }
     */
   },
-  created: function () {
-    //return
-    $(() => {
-      this.getUI().find('.close.icon:first').click(() => {
-        //console.log(1)
-        this.close()
-      })
-      
-      //this.open()
-    })   
+  created: function () { 
   },
   methods: {
     // ---------------------
