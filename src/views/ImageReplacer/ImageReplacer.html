@@ -1,0 +1,31 @@
+<div class="non-invasive-web-style-framework">
+  <div class="ui modal ImageReplacer">
+    <i class="close icon" @click="close"></i>
+    <div class="header">
+      <i class="image icon"></i>
+      Image Replace
+    </div>
+    <div class="content">
+      <div class="description">
+        
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui deny labeled icon button"
+           @click='prevStep'>
+        <i class="chevron left icon"></i>
+        Prev
+      </div>
+      <div class="ui positive right labeled icon button"
+           @click='nextStep'>
+        Next
+        <i class="chevron right icon"></i>
+      </div>
+      <div class="ui positive right labeled icon button" 
+           @click='close()'>
+        OK
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
+</div>
