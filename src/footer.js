@@ -14,6 +14,8 @@ require('./helpers/FileSystemHelper.js')
 require('./helpers/WebSQLDatabaseHelper.js')
 require('./helpers/DelayExecHelper.js')
 
+require('./helpers/ConfigHelper.js')
+
 window.$v = {}
 
 import BrowserDetectorComponent from './views/BrowserDetector/BrowserDetector.vue'

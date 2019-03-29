@@ -5,7 +5,7 @@ var EditorManager = {
   data: function () {
     return {
       ui: undefined,
-      uploadImageDraft: '',
+      uploadImageDraft: ConfigHelper.get('uploadImageDraft'),
       disableUploadImageDraft: true,
       postSummerNote: null,
       titleSummerNote: null,
