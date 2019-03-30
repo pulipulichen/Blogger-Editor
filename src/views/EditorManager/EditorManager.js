@@ -43,9 +43,12 @@ var EditorManager = {
       }
       return this.ui
     },
-    open: function () {
+    open: function (focusSelector) {
       //console.log(this.data)
       this.getUI().modal('show')
+      $(() => {
+        $(focusSelector).focus()
+      })
     },
     close: function () {
       this.getUI().modal('hide')
@@ -391,6 +394,7 @@ var EditorManager = {
     setImageList: function (imageList) {
       let postBody = this.getPostBody()
       let doSave = false
+      let count = 0
       for (let name in imageList) {
         let link = imageList[name]
         //console.log([name, link])
@@ -403,6 +407,7 @@ var EditorManager = {
             imgTag.title = name
           }
           doSave = true
+          count++
         })
         postBody.find('a[href^="filesystem:"][href$="' + name + '"]').each((i, aTag) => {
           aTag.href = fullsize
@@ -414,6 +419,7 @@ var EditorManager = {
         this.save(true)
         this.clearFileSystemAsset()
       }
+      return count
     },
     getPostTitleText: function () {
       let summerNote = this.getTitleSummerNote()
@@ -448,10 +454,26 @@ var EditorManager = {
       let postBody = this.getPostBody()
       return (postBody.find('img[src^="filesystem:"]:first').length === 1)
     },
+    getFileSystemImageCount: function () {
+      let postBody = this.getPostBody()
+      return postBody.find('img[src^="filesystem:"]').length
+    },
     clearFileSystemAsset: function () {
       let id = $v.PostManager.editingPostId
       let path = `/${id}/assets`
       return FileSystemHelper.removeDir(path)
+    },
+    openBloggerDraft: function () {
+      let url = this.uploadImageDraft
+      let name = 'uploadImageDraftWindow'
+      
+      WindowHelper.popup(url, name)
+    },
+    openBloggerConsole: function () {
+      let url = 'https://www.blogger.com'
+      let name = 'bloggerConsole'
+      
+      WindowHelper.popup(url, name)
     }
   }
 }

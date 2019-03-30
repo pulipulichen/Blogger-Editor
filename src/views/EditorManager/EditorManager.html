@@ -18,17 +18,15 @@
                    placeholder="https://www.blogger.com/blogger.g?blogID=...">
           </div>
           <div class="field">
-            <a href="https://www.blogger.com" 
-               target="bloggerManager"
-               class="mini ui button">
+            <div class="mini ui button"
+               @click="openBloggerConsole">
               Blogger console
-            </a>
-            <a :href="uploadImageDraft"
-               target="uploadImageDraftWindow"
-               v-bind:class="{ disabled: disableUploadImageDraft }"
-               class="mini ui button">
+            </div>
+            <div v-bind:class="{ disabled: disableUploadImageDraft }"
+               class="mini ui button"
+               @click="openBloggerDraft">
               Open Draft
-            </a>
+            </div>
           </div>
         </form>
       </div>

@@ -69,9 +69,10 @@ var config = {
     },
     replaceImage: function () {
       let imageList = this.parseImageHTMLList()
-      $v.EditorManager.setImageList(imageList)
+      this.replacedImageCount = $v.EditorManager.setImageList(imageList)
+      this.filesystemImageCount = $v.getFileSystemImageCount()
       
-      this.close()
+      //this.close()
       
       this.imageHTML = ''
       this.validateImageHTML()
@@ -134,6 +135,12 @@ var config = {
     },
     nextStep: function () {
       this.currentStep++
+    },
+    openBloggerDraft: function () {
+      $v.EditorManager.openBloggerDraft()
+    },
+    openBloggerDraftSetting: function () {
+      $v.EditorManager.open('#uploadImageDraft')
     }
   }
 }

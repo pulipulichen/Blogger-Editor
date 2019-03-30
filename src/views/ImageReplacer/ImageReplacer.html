@@ -25,7 +25,7 @@
         </div>
         <div class="step step-2"
              v-bind:class="{hide: (currentStep !== 2)}">
-          <div class="ui info message">
+          <div class="ui message">
             Unzip package into a folder.
             <a href="https://www.wikihow.com/Unzip-a-File">
               (How to unzip Image Package)
@@ -37,8 +37,24 @@
         </div>
         <div class="step step-3"
              v-bind:class="{hide: (currentStep !== 3)}">
-          <div class="ui info message">
+          <div class="ui message">
             Open a Blogger draft in Compose mode and empty content.
+          </div>
+          <div class="ui form">
+            <div class="fields">
+              <div class="eleven wide field"
+                   @click="openBloggerDraft">
+                <div class="ui positive button">
+                  Open Blogger Draft
+                </div>
+              </div>
+              <div class="five wide field"
+                   @click="openBloggerDraftSetting">
+                <div class="ui button">
+                  Setting
+                </div>
+              </div>
+            </div>
           </div>
           <div class="ui image">
             <img src="static/open-draft.png" />
@@ -46,7 +62,7 @@
         </div>
         <div class="step step-4"
              v-bind:class="{hide: (currentStep !== 4)}">
-          <div class="ui info message">
+          <div class="ui message">
             Drag images into Blogger draft and upload them.
           </div>
           <div class="ui image">
@@ -55,7 +71,7 @@
         </div>
         <div class="step step-5"
              v-bind:class="{hide: (currentStep !== 5)}">
-          <div class="ui info message">
+          <div class="ui message">
             Switch to HTML mode, copy HTML 
           </div>
           <div class="ui image">
@@ -100,7 +116,7 @@
                 need to upload.
               </li>
               <li v-if="filesystemImageCount === 0">
-                No filesystem images now.
+                No filesystem images now. Well done.
               </li>
             </ul>
           </div>
@@ -110,7 +126,7 @@
     <div class="actions">
       <div class="ui deny button"
            @click='close'
-           v-if="currentStep === 0">
+           v-if="currentStep === 0 || currentStep === 7">
         Close
       </div>
       <div class="ui deny labeled icon button"
@@ -121,10 +137,11 @@
       </div>
       <div class="ui positive right labeled icon button"
            @click='nextStep'
-           v-if="currentStep > 0 && currentStep < 6">
+           v-if="currentStep > 0 && currentStep < 7">
         Next
         <i class="chevron right icon"></i>
       </div>
+      <!--
       <div class="ui positive right labeled icon button" 
            @click='replaceImage'
            v-if="currentStep === 6"
@@ -132,6 +149,7 @@
         OK
         <i class="checkmark icon"></i>
       </div>
+      -->
     </div>
   </div>
 </div>
