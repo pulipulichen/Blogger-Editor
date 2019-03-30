@@ -61,6 +61,7 @@ var EditorManager = {
     },
     getPostSummerNoteToolbarConfig: function () {
       let toolbar = [
+          ['view', ['codeview']],
           ['style', ['style']],
           ['font', ['bold', 'underline', 'clear']],
           ['fontname', ['fontname']],
@@ -68,8 +69,8 @@ var EditorManager = {
           ['para', ['ul', 'ol', 'paragraph']],
           ['table', ['table']],
           ['insert', ['link', 'picture', 'video']],
-          ['view', [/*'fullscreen',*/ 'codeview', 'help']],
-          ['mybutton', ['copyHTML', 'imageReplacer']]
+          ['mybutton', ['copyHTML', 'imageReplacer']],
+          ['help', [/*'fullscreen',*/ 'help']]
         ]
         
       return toolbar
@@ -392,10 +393,15 @@ var EditorManager = {
       let doSave = false
       for (let name in imageList) {
         let link = imageList[name]
+        //console.log([name, link])
         let fullsize = BloggerImageHelper.getFullSize(link)
         postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
           // we need to change the URL size to fit the image
           imgTag.src = BloggerImageHelper.getSize(link, imgTag)
+          
+          if (typeof(imgTag.title) !== 'string') {
+            imgTag.title = name
+          }
           doSave = true
         })
         postBody.find('a[href^="filesystem:"][href$="' + name + '"]').each((i, aTag) => {
@@ -406,6 +412,7 @@ var EditorManager = {
       
       if (doSave === true) {
         this.save(true)
+        this.clearFileSystemAsset()
       }
     },
     getPostTitleText: function () {
@@ -440,6 +447,11 @@ var EditorManager = {
     hasFileSystemImage: function () {
       let postBody = this.getPostBody()
       return (postBody.find('img[src^="filesystem:"]:first').length === 1)
+    },
+    clearFileSystemAsset: function () {
+      let id = $v.PostManager.editingPostId
+      let path = `/${id}/assets`
+      return FileSystemHelper.removeDir(path)
     }
   }
 }

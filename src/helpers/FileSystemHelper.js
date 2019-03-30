@@ -89,6 +89,7 @@ FileSystemHelper = {
     }, errorHandler);
   },
   removeDir: function (dirPath, callback) {
+    let fs = this.fs
     fs.root.getDirectory(dirPath, {}, function(dirEntry) {
 
     dirEntry.removeRecursively(function() {

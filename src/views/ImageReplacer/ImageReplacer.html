@@ -8,13 +8,13 @@
     <div class="content">
       <div class="description">
         <div class="no-images step step-0"
-             v-bind:class="{hide: (currentStep === 6)}">
-          <div class="ui info message">
+             v-bind:class="{hide: (currentStep !== 0)}">
+          <div class="ui warning message">
             No filesystem image in post body.
           </div>
         </div>
         <div class="step step-1"
-             v-bind:class="{hide: (currentStep === 1)}">
+             v-bind:class="{hide: (currentStep !== 1)}">
           <div class="ui fluid positive labeled icon button"
                @click="downloadImagePackage"
                v-bind:class="{ disabled: isCreatingImagePackage }">
@@ -24,7 +24,7 @@
           
         </div>
         <div class="step step-2"
-             v-bind:class="{hide: (currentStep === 2)}">
+             v-bind:class="{hide: (currentStep !== 2)}">
           <div class="ui info message">
             Unzip package into a folder.
             <a href="https://www.wikihow.com/Unzip-a-File">
@@ -32,48 +32,71 @@
             </a>
           </div>
           <div class="ui image">
-            <img src="unzip-to-folder.png" />
+            <img src="static/unzip-to-folder.png" />
           </div>
         </div>
         <div class="step step-3"
-             v-bind:class="{hide: (currentStep === 3)}">
+             v-bind:class="{hide: (currentStep !== 3)}">
           <div class="ui info message">
             Open a Blogger draft in Compose mode and empty content.
           </div>
           <div class="ui image">
-            <img src="open-draft.png" />
+            <img src="static/open-draft.png" />
           </div>
         </div>
         <div class="step step-4"
-             v-bind:class="{hide: (currentStep === 4)}">
+             v-bind:class="{hide: (currentStep !== 4)}">
           <div class="ui info message">
             Drag images into Blogger draft and upload them.
           </div>
           <div class="ui image">
-            <img src="image-uploaded.png" />
+            <img src="static/image-uploaded.png" />
           </div>
         </div>
         <div class="step step-5"
-             v-bind:class="{hide: (currentStep === 5)}">
+             v-bind:class="{hide: (currentStep !== 5)}">
           <div class="ui info message">
             Switch to HTML mode, copy HTML 
           </div>
           <div class="ui image">
-            <img src="html-code.png" />
+            <img src="static/html-code.png" />
           </div>
         </div>
         <div class="step step-6"
-             v-bind:class="{hide: (currentStep === 6)}">
+             v-bind:class="{hide: (currentStep !== 6)}">
           <div class="ui form">
             <div class="field">
               <label>Paste HTML into following field:</label>
-              <textarea v-modal="imageHTML" @change="validateImageHTML"></textarea>
+              <textarea v-model="imageHTML" 
+                        @change="validateImageHTML"
+                        @keyup="validateImageHTML"></textarea>
             </div>
+          </div>
+        </div>
+        <div class="step step-7"
+             v-bind:class="{hide: (currentStep !== 7)}">
+          <div class="ui info message">
+            <ul>
+              <li>
+                ? filesystem images had been replaced.
+              </li>
+              <li>
+                There are still ? filesystem images need to upload.
+              </li>
+              <li>
+                No filesystem images now.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
     <div class="actions">
+      <div class="ui deny button"
+           @click='close'
+           v-if="currentStep === 0">
+        Close
+      </div>
       <div class="ui deny labeled icon button"
            @click='prevStep'
            v-if="currentStep > 1">
@@ -82,7 +105,7 @@
       </div>
       <div class="ui positive right labeled icon button"
            @click='nextStep'
-           v-if="currentStep < 6">
+           v-if="currentStep > 0 && currentStep < 6">
         Next
         <i class="chevron right icon"></i>
       </div>

@@ -17,7 +17,8 @@ var config = {
   created: function () {
     $v.ImageReplacer = this
     $(() => {
-      this.open()
+      this.validateHasFileSystemImage()
+      //this.open()
     })
   },
   methods: {
@@ -30,22 +31,28 @@ var config = {
     },
     open: function () {
       // check post img
-      if ($v.EditorManager.hasFileSystemImage()) {
-        this.currentStep = 1
-      }
-      else {
-        this.currentStep = 0
-      }
+      this.validateHasFileSystemImage()
       
       this.getUI().modal('show')
     },
+    validateHasFileSystemImage: function () {
+      if ($v.EditorManager.hasFileSystemImage()) {
+        this.currentStep = 1
+        return true
+      }
+      else {
+        this.currentStep = 0
+        return false
+      }
+    },
     validateImageHTML: function () {
+      //console.log(this.imageHTML)
       if (this.imageHTML.trim() === "") {
         this.disableReplaceImage = true
         return this.disableReplaceImage
       }
       
-      let html = $(this.imageHTML)
+      let html = $('<div>' + this.imageHTML + '</div>')
       this.disableReplaceImage = (html.find('a[href*="/s1600/"][imageanchor]:first').length === 0)
       return this.disableReplaceImage      
     },
@@ -53,7 +60,7 @@ var config = {
       let output = {}
       $('<div>' + this.imageHTML + '</div>').find('a[href]').each((i, aTag) => {
         let link = aTag.href
-        let name = FileSystemHelper.getFileSystemUrl(link)
+        let name = BloggerImageHelper.getFilename(link)
         output[name] = link
       })
       return output
@@ -78,7 +85,7 @@ var config = {
         
         $v.PostManager.getEditingPostId((id) => {
           let zip = new JSZip();
-          let folderName = 'post-${id}-images'
+          let folderName = `post-${id}-images`
           let folder = zip.folder(folderName);
 
           let loop = (i) => {

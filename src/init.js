@@ -1,3 +1,7 @@
+let init = () => {
+  //$v.ImageReplacer.open()
+}
+
 $(() => {
   $v.BrowserDetector.init(() => {
     FileSystemHelper.init(() => {
@@ -8,7 +12,9 @@ $(() => {
 
           //$('#summernotePostTitle').summernote(summernotePostTitleConfig);
           //EditorManager.methods.initSummerNote()
-          $v.EditorManager.init()
+          $v.EditorManager.init(() => {
+            init()
+          })
         })
       })
     })
