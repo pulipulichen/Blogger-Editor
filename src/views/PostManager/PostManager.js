@@ -269,6 +269,15 @@ var PostManager = {
       })
     },
     updateEditingPostBody: function (postBody, callback) {
+      if (typeof(postBody) !== 'string') {
+        if (typeof(postBody.html) === 'function') {
+          postBody = postBody.html()
+        }
+        else {
+          postBody = JSON.stringify(postBody)
+        }
+      }
+      
       postBody = postBody.trim()
       let postBodyObject = $(postBody)
       let abstract = postBodyObject.text()
@@ -333,7 +342,7 @@ var PostManager = {
     open: function () {
       //console.log(this.data)
       
-      DelayExecHelper.forceExec()
+      $v.EditorManager.save()
       //this.getUI().find('.header:first').click()
       this.init()
       this.getUI().modal('show')

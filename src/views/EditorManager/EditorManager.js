@@ -363,36 +363,83 @@ var EditorManager = {
     setupPostDate: function (value) {
       this.getDateContainer().text(value)
     },
-    getPostBody: function () {
-      let summerNote = this.getPostSummerNote()
+    getSummerNoteContetnObject: function (summerNote) {
       if (this.summerNoteInited === false) {
-        return summerNote.html()
+        return summerNote
       }
       else {
-        return summerNote.summernote('code');
+        //return summerNote.summernote('code');
+        return summerNote.next().find('.note-editing-area .note-editable')
       }
+    },
+    getPostBody: function () {
+      let summerNote = this.getPostSummerNote()
+      return this.getSummerNoteContetnObject(summerNote)
+    },
+    getPostBodyText: function () {
+      return this.getPostBody().html()
     },
     getImageList: function () {
       let postBody = this.getPostBody()
       let output = []
-      $(postBody).find('img[src^="filesystem:"]').each((i, img) => {
+      postBody.find('img[src^="filesystem:"]').each((i, img) => {
         output.push(img.src)
       })
       return output
     },
     setImageList: function (imageList) {
       let postBody = this.getPostBody()
-      postBody = $(postBody)
+      let doSave = false
       for (let name in imageList) {
         let link = imageList[name]
+        let fullsize = BloggerImageHelper.getFullSize(link)
         postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
-          // we need to fit the image size
-          imgTag.src = link
+          // we need to change the URL size to fit the image
+          imgTag.src = BloggerImageHelper.getSize(link, imgTag)
+          doSave = true
         })
         postBody.find('a[href^="filesystem:"][href$="' + name + '"]').each((i, aTag) => {
-          aTag.src = link
+          aTag.href = fullsize
+          doSave = true
         })
       }
+      
+      if (doSave === true) {
+        this.save(true)
+      }
+    },
+    getPostTitleText: function () {
+      let summerNote = this.getTitleSummerNote()
+      return this.getSummerNoteContetnObject(summerNote).html()
+    },
+    getPostLabelsText: function () {
+      let summerNote = this.getLabelsSummerNote()
+      return this.getSummerNoteContetnObject(summerNote).html()
+    },
+    save: function (force) {
+      if (force === undefined) {
+        force = false
+      }
+      
+      if (force === false && DelayExecHelper.isWaiting()) {
+        DelayExecHelper.forceExec()
+        return
+      }
+      
+      let postTitle = this.getPostTitleText()
+      $v.PostManager.updateEditingPost('title', postTitle)
+      
+      let postLabels = this.getPostLabelsText()
+      $v.PostManager.updateEditingPost('labels', postLabels)
+      
+      let postBody = this.getPostBody()
+      $v.PostManager.updateEditingPostBody(postBody)
+      
+      DelayExecHelper.clear()
+    },
+    hasFileSystemImage: function () {
+      let postBody = this.getPostBody()
+      return (postBody.find('img[src^="filesystem:"]:first').length === 1)
     }
   }
 }

@@ -19,11 +19,33 @@ DelayExecHelper = {
     }, delaySec * 1000)
   },
   forceExec: function () {
-    for (type in this.timers) {
+    for (let type in this.timers) {
       if (this.timers[type] !== null) {
         this.events[type]()
         clearTimeout(this.timers[type])
+        this.timers[type] = null
       }
+    }
+  },
+  clear: function () {
+    for (let type in this.timers) {
+      if (this.timers[type] !== null) {
+        clearTimeout(this.timers[type])
+        this.timers[type] = null
+      }
+    }
+  },
+  isWaiting: function (type) {
+    if (type === undefined) {
+      for (type in this.timers) {
+        if (this.timers[type] !== null) {
+          return true
+        }
+      }
+      return false
+    }
+    else {
+      return (this.timers[type] !== null)
     }
   }
 }

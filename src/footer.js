@@ -13,6 +13,7 @@ require('./helpers/TemplateHelper.js')
 require('./helpers/FileSystemHelper.js')
 require('./helpers/WebSQLDatabaseHelper.js')
 require('./helpers/DelayExecHelper.js')
+require('./helpers/BloggerImageHelper.js')
 
 require('./helpers/ConfigHelper.js')
 

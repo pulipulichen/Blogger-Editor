@@ -29,15 +29,25 @@ var config = {
       return this.ui
     },
     open: function () {
-      //console.log(this.data)
+      // check post img
+      if ($v.EditorManager.hasFileSystemImage()) {
+        this.currentStep = 1
+      }
+      else {
+        this.currentStep = 0
+      }
+      
       this.getUI().modal('show')
     },
     validateImageHTML: function () {
-      this.disableReplaceImage = false
-    },
-    replaceImage: function () {
-      let imageList = this.parseImageHTMLList()
-      $v.EditorManager.setImageList(imageList)
+      if (this.imageHTML.trim() === "") {
+        this.disableReplaceImage = true
+        return this.disableReplaceImage
+      }
+      
+      let html = $(this.imageHTML)
+      this.disableReplaceImage = (html.find('a[href*="/s1600/"][imageanchor]:first').length === 0)
+      return this.disableReplaceImage      
     },
     parseImageHTMLList: function () {
       let output = {}
@@ -47,6 +57,15 @@ var config = {
         output[name] = link
       })
       return output
+    },
+    replaceImage: function () {
+      let imageList = this.parseImageHTMLList()
+      $v.EditorManager.setImageList(imageList)
+      
+      this.close()
+      
+      this.imageHTML = ''
+      this.validateImageHTML()
     },
     close: function () {
       this.getUI().modal('hide')
@@ -102,10 +121,10 @@ var config = {
       }
     },
     prevStep: function () {
-      
+      this.currentStep--
     },
     nextStep: function () {
-      
+      this.currentStep++
     }
   }
 }
