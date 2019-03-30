@@ -11,17 +11,13 @@ var EditorManager = {
       titleSummerNote: null,
       labelsSUmmerNote: null,
       dateContainer: null,
-      summerNoteInited: false
+      summerNoteInited: false,
+      imageSizeDefault: 450
     }
   },
   mounted() {
-    if (localStorage.getItem('uploadImageDraft')) {
-      try {
-        this.uploadImageDraft = localStorage.getItem('uploadImageDraft');
-      } catch(e) {
-        localStorage.removeItem('uploadImageDraft');
-      }
-    }
+    VueHelper.mountLocalStorage(this, 'uploadImageDraft')
+    VueHelper.mountLocalStorage(this, 'imageSizeDefault')
   },
   created: function () {
     $v.EditorManager = this
@@ -59,24 +55,42 @@ var EditorManager = {
       return this.disableUploadImageDraft
     },
     persist() {
-      localStorage.uploadImageDraft = this.uploadImageDraft;
+      //localStorage.uploadImageDraft = this.uploadImageDraft;
       //console.log('now pretend I did more stuff...');
+      VueHelper.persistLocalStorage(this, 'uploadImageDraft')
+      VueHelper.persistLocalStorage(this, 'imageSizeDefault')
     },
     getPostSummerNoteToolbarConfig: function () {
       let toolbar = [
           ['view', ['codeview']],
           ['style', ['style']],
-          ['font', ['bold', 'underline', 'clear']],
-          ['fontname', ['fontname']],
+          ['font', ['undo', 'bold', 'underline', 'clear']],
+          //['fontname', ['fontname']],
           ['color', ['color']],
           ['para', ['ul', 'ol', 'paragraph']],
           ['table', ['table']],
-          ['insert', ['link', 'picture', 'video']],
+          ['insert', ['hr', 'link', 'picture', 'video']],
           ['mybutton', ['copyHTML', 'imageReplacer']],
           ['help', [/*'fullscreen',*/ 'help']]
         ]
         
       return toolbar
+    },
+    getPostSummerNoteStyleTagsConfig: function () {
+      //let styleTags = ['p', 'code', 'h4', 'h5', 'h6']
+      let styleTags = [
+        this.buildButtonCopyCode()
+      ]
+        
+      return styleTags
+    },
+    getPostSummerNotePopoverImageConfig: function () {
+      return [
+        //['imagesize', ['copyHTML', 'imageSize100', 'imageSize50', 'imageSize25']],
+        //['float', ['floatLeft', 'floatRight', 'floatNone']],
+        ['imagesize', ['imageSizeOriginal', 'imageSizeDefault']],
+        ['remove', ['removeMedia']]
+      ]
     },
     getPostSummerNote: function () {
       if (this.postSummerNote === undefined
@@ -110,7 +124,7 @@ var EditorManager = {
       }
       return this.dateContainer
     },
-    copyCode: function (context) {
+    buildButtonCopyCode: function (context) {
       let ui = $.summernote.ui;
 
       // create button
@@ -132,7 +146,7 @@ var EditorManager = {
 
       return button.render();   // return button as jquery object
     },
-    imageReplacer: function (context) {
+    buildButtonImageReplacer: function (context) {
       let ui = $.summernote.ui;
 
       // create button
@@ -144,6 +158,34 @@ var EditorManager = {
         tooltip: 'Replace Images',
         click: () => {
           $v.ImageReplacer.open()
+        }
+      });
+
+      return button.render();   // return button as jquery object
+    },
+    buildButtonImageSizeOriginal: function (context) {
+      let ui = $.summernote.ui;
+
+      // create button
+      let button = ui.button({
+        contents: `Original Size`,
+        tooltip: 'Resize to original',
+        click: () => {
+          console.log('@TODO Resize to original')
+        }
+      });
+
+      return button.render();   // return button as jquery object
+    },
+    buildButtonImageSizeDefault: function (context) {
+      let ui = $.summernote.ui;
+
+      // create button
+      let button = ui.button({
+        contents: `Default Size`,
+        tooltip: 'Resize to default size',
+        click: () => {
+          console.log('@TODO Resize to default size')
         }
       });
 
@@ -165,10 +207,7 @@ var EditorManager = {
           urlList.forEach(imgUrl => {
             //let imgUrl = urlList[0]
             let name = FileSystemHelper.getFileName(imgUrl)
-            let imgNode = $(`<a href="${imgUrl}">
-          <img src="${imgUrl}" alt="${name}" title="${name}" />
-        </a>`)[0]
-            this.getPostSummerNote().summernote('insertNode', imgNode);
+            this.insertImageNode(imgUrl, name)
           })
         })
       })
@@ -187,14 +226,11 @@ var EditorManager = {
             FileSystemHelper.copy(path, file, (url) => {
               let node
               if (type.startsWith('image')) {
-                node = $(`<a href="${url}">
-              <img src="${url}" alt="${name}" title="${name}" />
-            </a>`)[0]
+                this.insertImageNode(url, name)
               } else {
                 node = $(`<a href="${url}">${name}</a>`)[0]
+                this.getPostSummerNote().summernote('insertNode', node);
               }
-              this.getPostSummerNote().summernote('insertNode', node);
-
               i++
               loop(i)
             })
@@ -223,8 +259,7 @@ var EditorManager = {
             //console.log(path)
             //console.log(filename)
             FileSystemHelper.copy(path, imageFile, filename, (imgUrl) => {
-              let imgNode = $(`<img src="${imgUrl}" />`)[0]
-              this.getPostSummerNote().summernote('insertNode', imgNode);
+              this.insertImageNode(imgUrl, filename)
             })
             e.preventDefault();
             break;
@@ -232,18 +267,34 @@ var EditorManager = {
         }
       })
     },
+    insertImageNode: function (url, name) {
+      let imgNode = $(`<a href="${url}">
+        <img src="${url}" title="${name}" alt="${name}" onload="BloggerImageHelper.readyToResize(this)" />
+      </a>`)[0]
+      this.getPostSummerNote().summernote('insertNode', imgNode);
+    },
     getPostSummerNoteConfig: function () {
       let config = {
         focus: true, // set focus to editable area after initializing summernote
         disableResizeEditor: true,
         placeholder: 'Post Body',
         toolbar: this.getPostSummerNoteToolbarConfig(),
+        styleTags: this.getPostSummerNoteStyleTagsConfig(),
+        popover: {
+          image: this.getPostSummerNotePopoverImageConfig()
+        },
         buttons: {
           copyHTML: () => {
-            return this.copyCode()
+            return this.buildButtonCopyCode()
           },
           imageReplacer: () => {
-            return this.imageReplacer()
+            return this.buildButtonImageReplacer()
+          },
+          imageSizeOriginal: () => {
+            this.buildButtonImageSizeOriginal()
+          },
+          imageSizeDefault: () => {
+            this.buildButtonImageSizeDefault()
           }
         },
         //disableDragAndDrop: false,

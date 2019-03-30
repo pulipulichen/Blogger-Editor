@@ -15,7 +15,7 @@
                    id="uploadImageDraft"
                    v-model="uploadImageDraft"
                    @change="validateUploadImageDrarfUrl"
-                   placeholder="https://www.blogger.com/blogger.g?blogID=...">
+                   placeholder="https://www.blogger.com/blogger.g?blogID=..." />
           </div>
           <div class="field">
             <div class="mini ui button"
@@ -27,6 +27,16 @@
                @click="openBloggerDraft">
               Open Draft
             </div>
+          </div>
+          
+          <!-- --------------------------- -->
+          
+          <div class="field">
+            <label>Default Image Size</label>
+            <input type="number" 
+                   name="imageSizeDefault" 
+                   id="imageSizeDefault"
+                   v-model="imageSizeDefault" />
           </div>
         </form>
       </div>

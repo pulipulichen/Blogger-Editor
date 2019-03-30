@@ -48,5 +48,10 @@ BloggerImageHelper = {
       img = $(img)
     }
     return Math.max(img.width(), img.height())
+  },
+  readyToResize: function (img) {
+    let defaultSize = $v.EditorManager.imageSizeDefault
+    console.log(img)
+    console.log(defaultSize)
   }
 }
