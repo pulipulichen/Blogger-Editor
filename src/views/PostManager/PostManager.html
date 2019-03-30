@@ -9,16 +9,31 @@
     
     <div class="content">
       <div class="description">
-        <div class="ui button" @click="newPost">
-          NEW
+        <div class="fields">
+          <div class="three wide field"
+                @click="newPost">
+            <div class="ui fluid button">
+              NEW
+            </div>
+          </div>
+          <div class="ten wide field">
+            <div class="ui icon input post-filter" >
+              <input type="text" 
+                     placeholder="Filter..."
+                     v-model="filterCondition"
+                     @keyup="filterPosts">
+              <i class="filter icon"></i>
+            </div>
+          </div>
+          <div class="three wide field"
+                @click="backupPost">
+            <div class="ui fluid button">
+              BACKUP
+            </div>
+          </div>
         </div>
-        <div class="ui icon input post-filter" >
-          <input type="text" 
-                 placeholder="Filter..."
-                 v-model="filterCondition"
-                 @keyup="filterPosts">
-          <i class="filter icon"></i>
-        </div>
+        
+        
 
         <div class="ui divided unstackable items post-list"
               :key="componentRerenderKey">
@@ -62,7 +77,8 @@
                     {{ post.labels }}
                   </span>
                   <!--<i class='close icon'></i>-->
-                  
+                </div>
+                <div class="ui right floated">
                   <div class='ui mini button'
                        @click='openPost(post.id)'>
                     <span v-if='editingPostId != post.id'>
@@ -76,6 +92,14 @@
                   <div class='ui mini button' 
                        @click='removePost(post.id)'>
                     REMOVE
+                  </div>
+                  <div class='ui mini button' 
+                       @click='clonePost(post.id)'>
+                    CLONE
+                  </div>
+                  <div class='ui mini button' 
+                       @click='backupPost(post.id)'>
+                    BACKUP
                   </div>
                 </div>
               </div>

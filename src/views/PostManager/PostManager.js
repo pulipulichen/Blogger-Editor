@@ -107,7 +107,7 @@ var PostManager = {
       let labels = 'D'
       let thumbnail = 'icon.png'
       
-      //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
+      let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
       WebSQLDatabaseHelper.exec(sql, [unix, unix, title, labels, abstract, thumbnail], (rows) => {
         this.getLastUpdatePost((post) => {
           //console.log(post.id)
@@ -403,6 +403,14 @@ var PostManager = {
       //console.log('forceRerender 1: ',  this.componentRerenderKey)
       this.componentRerenderKey += 1;
       //console.log('forceRerender 2: ',  this.componentRerenderKey)
+    },
+    backupPost: function (id, callback) {
+      console.log(id)
+      FunctionHelper.triggerCallback(callback)
+    },
+    clonePost: function (id, callback) {
+      console.log(id)
+      FunctionHelper.triggerCallback(callback)
     }
   }
 }
