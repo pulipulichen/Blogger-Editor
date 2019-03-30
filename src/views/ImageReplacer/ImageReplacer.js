@@ -14,6 +14,7 @@ var config = {
       disableReplaceImage: true,
       replacedImageCount: 0,
       filesystemImageCount: 0,
+      disableUploadImageDraft: false,
     }
   },
   created: function () {
@@ -34,6 +35,7 @@ var config = {
     open: function () {
       // check post img
       this.validateHasFileSystemImage()
+      this.disableUploadImageDraft = $v.EditorManager.disableUploadImageDraft
       
       this.getUI().modal('show')
     },
@@ -70,12 +72,13 @@ var config = {
     replaceImage: function () {
       let imageList = this.parseImageHTMLList()
       this.replacedImageCount = $v.EditorManager.setImageList(imageList)
-      this.filesystemImageCount = $v.getFileSystemImageCount()
+      this.filesystemImageCount = $v.EditorManager.getFileSystemImageCount()
       
       //this.close()
       
       this.imageHTML = ''
       this.validateImageHTML()
+      this.nextStep()
     },
     close: function () {
       this.getUI().modal('hide')

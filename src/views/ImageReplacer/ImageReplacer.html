@@ -6,7 +6,7 @@
       Image Replace
     </div>
     <div class="content">
-      <div class="description">
+      <div class="description fixed-height">
         <div class="no-images step step-0"
              v-bind:class="{hide: (currentStep !== 0)}">
           <div class="ui warning message">
@@ -15,7 +15,7 @@
         </div>
         <div class="step step-1"
              v-bind:class="{hide: (currentStep !== 1)}">
-          <div class="ui fluid positive labeled icon button"
+          <div class="ui fluid positive labeled icon massive button"
                @click="downloadImagePackage"
                v-bind:class="{ disabled: isCreatingImagePackage }">
             <i class="file archive icon"></i>
@@ -44,13 +44,14 @@
             <div class="fields">
               <div class="eleven wide field"
                    @click="openBloggerDraft">
-                <div class="ui positive button">
+                <div class="ui fluid positive button"
+                     v-bind:class="{disabled: disableUploadImageDraft}">
                   Open Blogger Draft
                 </div>
               </div>
               <div class="five wide field"
                    @click="openBloggerDraftSetting">
-                <div class="ui button">
+                <div class="ui fluid button">
                   Setting
                 </div>
               </div>
@@ -83,7 +84,8 @@
           <div class="ui form">
             <div class="field">
               <label>Paste HTML into following field:</label>
-              <textarea v-model="imageHTML" 
+              <textarea id="imageHTMLtextarea"
+                        v-model="imageHTML" 
                         @change="validateImageHTML"
                         @keyup="validateImageHTML"></textarea>
             </div>
@@ -91,7 +93,8 @@
         </div>
         <div class="step step-7"
              v-bind:class="{hide: (currentStep !== 7)}">
-          <div class="ui info message">
+          <div class="ui message"
+               v-bind:class="{positive: (filesystemImageCount === 0), warning: (filesystemImageCount > 0)}">
             <ul>
               <li v-if="replacedImageCount > 0">
                 {{ replacedImageCount }} filesystem 
@@ -124,11 +127,6 @@
       </div>
     </div>
     <div class="actions">
-      <div class="ui deny button"
-           @click='close'
-           v-if="currentStep === 0 || currentStep === 7">
-        Close
-      </div>
       <div class="ui deny labeled icon button"
            @click='prevStep'
            v-if="currentStep > 1">
@@ -137,19 +135,22 @@
       </div>
       <div class="ui positive right labeled icon button"
            @click='nextStep'
-           v-if="currentStep > 0 && currentStep < 7">
+           v-if="currentStep > 0 && currentStep < 6">
         Next
         <i class="chevron right icon"></i>
       </div>
-      <!--
       <div class="ui positive right labeled icon button" 
            @click='replaceImage'
            v-if="currentStep === 6"
            v-bind:class="{ disabled: disableReplaceImage }">
-        OK
-        <i class="checkmark icon"></i>
+        Next
+        <i class="chevron right icon"></i>
       </div>
-      -->
+      <div class="ui deny button"
+           @click='close'
+           v-if="currentStep === 0 || currentStep === 7">
+        Close
+      </div>
     </div>
   </div>
 </div>

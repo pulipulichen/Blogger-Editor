@@ -467,7 +467,7 @@ var EditorManager = {
       let url = this.uploadImageDraft
       let name = 'uploadImageDraftWindow'
       
-      WindowHelper.popup(url, name)
+      WindowHelper.popup(url, name, 900)
     },
     openBloggerConsole: function () {
       let url = 'https://www.blogger.com'
