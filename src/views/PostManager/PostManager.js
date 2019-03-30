@@ -101,7 +101,7 @@ var PostManager = {
       })
     },
     createPost: function (callback) {
-      let unix = dayjs(new Date()).unix()
+      let unix = DayjsHelper.unix()
       let title = 'This is a title'
       let abstract = 'balabala'
       let labels = 'D'
@@ -360,10 +360,6 @@ var PostManager = {
       })
       
       //console.log('now pretend I did more stuff...');
-    },
-    displayDate: function (unix) {
-      //return dayjs(unix * 1000).format('YYYY MM/DD HH:mm')
-      return dayjs(unix * 1000).format('MM/DD hh:mm')
     },
     filterPosts: function () {
       if (typeof(this.filterCondition) !== 'string' 
