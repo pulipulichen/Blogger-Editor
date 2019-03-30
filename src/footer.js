@@ -21,6 +21,13 @@ require('./helpers/VueHelper.js')
 
 require('./helpers/ConfigHelper.js')
 
+require('./views/EditorManager/FieldPostBody.js')
+require('./views/EditorManager/FieldPostLabels.js')
+require('./views/EditorManager/FieldPostTitle.js')
+require('./views/EditorManager/SummerNoteButtons.js')
+require('./views/EditorManager/SummerNoteCallbacks.js')
+require('./views/EditorManager/SummerNoteConfig.js')
+
 window.$v = {}
 
 import BrowserDetectorComponent from './views/BrowserDetector/BrowserDetector.vue'
