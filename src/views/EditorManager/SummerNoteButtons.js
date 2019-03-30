@@ -1,4 +1,26 @@
 SummerNoteButtons = {
+  config: function () {
+    return {
+      copyHTML: (c) => {
+        return this.copyCode(c)
+      },
+      imageReplacer: (c) => {
+        return this.imageReplacer(c)
+      },
+      popoverImageSizeOriginal: (c) => {
+        return this.popoverImageSizeOriginal(c)
+      },
+      popoverImageSizeDefault: (c) => {
+        return this.popoverImageSizeDefault(c)
+      },
+      imageSizeOriginal: (c) => {
+        return this.imageSizeOriginal(c)
+      },
+      imageSizeDefault: (c) => {
+        return this.imageSizeDefault(c)
+      }
+    }
+  },
   build: function (contents, tooltip, click) {
     let ui = $.summernote.ui;
 
@@ -19,7 +41,7 @@ SummerNoteButtons = {
     let tooltip = 'Copy Code'
     let click = () => {
       //let code = this.getPostSummerNote().summernote('code');
-      let code = FieldPostBody.getText()
+      let code = FieldPostBody.getHTML()
       CopyPasteHelper.copyPlainText(code)
     }
     return this.build(contents, tooltip, click)

@@ -6,7 +6,11 @@ FieldPostBody = {
     }
     return this.ui
   },
-  getText: function () {
+  init: function () {
+    this.get().summernote(SummerNoteConfig.config())
+    return this
+  },
+  getHTML: function () {
     return this.get().summernote('code');
   },
   getSelectTarget: function () {
@@ -14,5 +18,69 @@ FieldPostBody = {
   },
   getElement: function () {
     return this.get().next().find('.note-editing-area .note-editable')
-  }
+  },
+  insert: function (html) {
+    this.get().summernote('insertNode', html);
+    return this
+  },
+  set: function (value) {
+    this.get().summernote('code', value);
+    return this
+  },
+  getImageList: function () {
+    let postBody = this.getElement()
+    let output = []
+    postBody.find('img[src^="filesystem:"]').each((i, img) => {
+      output.push(img.src)
+    })
+    return output
+  },
+  setImageList: function (imageList) {
+    let postBody = this.getElement()
+    let doSave = false
+    let count = 0
+    for (let name in imageList) {
+      let link = imageList[name]
+      //console.log([name, link])
+      let fullsize = BloggerImageHelper.getFullSize(link)
+      postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
+        // we need to change the URL size to fit the image
+        imgTag.src = BloggerImageHelper.getSize(link, imgTag)
+
+        if (typeof(imgTag.title) !== 'string') {
+          imgTag.title = name
+        }
+        doSave = true
+        count++
+      })
+      postBody.find('a[href^="filesystem:"][href$="' + name + '"]').each((i, aTag) => {
+        aTag.href = fullsize
+        doSave = true
+      })
+    }
+
+    if (doSave === true) {
+      this.save(true)
+      this.clearFileSystemAsset()
+    }
+    return count
+  },
+  hasFileSystemImage: function () {
+    let postBody = this.getElement()
+    return (postBody.find('img[src^="filesystem:"]:first').length === 1)
+  },
+  countFileSystemImage: function () {
+    let postBody = this.getElement()
+    return postBody.find('img[src^="filesystem:"]').length
+  },
+  clearFileSystemAsset: function () {
+    if (this.hasFileSystemImage()) {
+      console.log('Filesystem Images are still used. You cannot remove them.')
+      return
+    }
+
+    let id = $v.PostManager.editingPostId
+    let path = `/${id}/assets`
+    return FileSystemHelper.removeDir(path)
+  },
 }

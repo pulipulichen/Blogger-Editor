@@ -8,7 +8,7 @@ FieldPostDate = {
   },
   set: function (text) {
     if (typeof(text) === 'number') {
-      text = 
+      text = DayjsHelper.postDate(text)
     }
     
     this.get().html(text)

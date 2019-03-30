@@ -40,7 +40,7 @@ var config = {
       this.getUI().modal('show')
     },
     validateHasFileSystemImage: function () {
-      if ($v.EditorManager.hasFileSystemImage()) {
+      if (FieldPostBody.hasFileSystemImage()) {
         this.currentStep = 1
         return true
       }
@@ -71,8 +71,8 @@ var config = {
     },
     replaceImage: function () {
       let imageList = this.parseImageHTMLList()
-      this.replacedImageCount = $v.EditorManager.setImageList(imageList)
-      this.filesystemImageCount = $v.EditorManager.getFileSystemImageCount()
+      this.replacedImageCount = FieldPostBody.setImageList(imageList)
+      this.filesystemImageCount = FieldPostBody.countFileSystemImage()
       
       //this.close()
       
@@ -85,7 +85,7 @@ var config = {
     },
     downloadImagePackage: function (callback) {
       this.isCreatingImagePackage = true
-      let list = $v.EditorManager.getImageList()
+      let list = FieldPostBody.getImageList()
       //console.log(list)
       if (list.length > 0) {
         
