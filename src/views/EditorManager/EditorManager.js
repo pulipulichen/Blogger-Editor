@@ -70,6 +70,7 @@ var EditorManager = {
           ['para', ['ul', 'ol', 'paragraph']],
           ['table', ['table']],
           ['insert', ['hr', 'link', 'picture', 'video']],
+          ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
           ['mybutton', ['copyHTML', 'imageReplacer']],
           ['help', [/*'fullscreen',*/ 'help']]
         ]
@@ -88,7 +89,7 @@ var EditorManager = {
       return [
         //['imagesize', ['copyHTML', 'imageSize100', 'imageSize50', 'imageSize25']],
         //['float', ['floatLeft', 'floatRight', 'floatNone']],
-        ['imagesize', ['imageSizeOriginal', 'imageSizeDefault']],
+        ['imagesize', ['popoverImageSizeOriginal', 'popoverImageSizeDefault']],
         ['remove', ['removeMedia']]
       ]
     },
@@ -163,15 +164,128 @@ var EditorManager = {
 
       return button.render();   // return button as jquery object
     },
+    getSummerNoteTarget: function () {
+      return this.getPostSummerNote().summernote('restoreTarget')
+    },
+    /*
+    getSummerNoteTargetImage: function () {
+      let target = this.getSummerNoteTarget()
+      let link = target.src
+      let postBody = this.getPostBody()
+      return postBody.find(`img[src="${link}"]:first`)
+    },
+    */
+    removeImageOnLoad: function () {
+      let postBody = this.getPostBody()
+      postBody.find(`img[onload]`).removeAttr('onload')
+    },
+    buildButtonPopoverImageSizeOriginal: function (context) {
+      let ui = $.summernote.ui;
+
+      // create button
+      let button = ui.button({
+        contents: `<span class="non-invasive-web-style-framework">
+          <i class="expand arrows icon"></i>
+          Resize Original
+        </span>`,
+        tooltip: 'Resize to original',
+        click: () => {
+          let target = this.getSummerNoteTarget()
+          target = $(target)
+          //console.log(target)
+          
+          /*
+          if (target.hasAttr('width')) {
+            //delete target.width
+            $(target).removeAttr('width')
+            console.log('delete width')
+          }
+          
+          if (typeof(target.height) !== 'undefined') {
+            delete target.height
+            console.log('delete height')
+          }
+          */
+          target.removeAttr('width')
+          target.removeAttr('height')
+          
+          let link = target.attr('src')
+          //console.log(link)
+          if (BloggerImageHelper.isBloggerImageLink(link)) {
+            if (BloggerImageHelper.isFullSizeLink(link) === false) {
+              target.attr('src', BloggerImageHelper.getFullSize(link))
+              //console.log('change src: ', target.attr('src'))
+            } 
+          }
+          //console.log('@TODO Resize to original')
+        }
+      });
+
+      return button.render();   // return button as jquery object
+    },
+    buildButtonPopoverImageSizeDefault: function (context) {
+      let ui = $.summernote.ui;
+
+      // create button
+      let button = ui.button({
+        contents: `<span class="non-invasive-web-style-framework">
+          <i class="compress icon"></i>
+          Resize Default
+        </span>`,
+        tooltip: 'Resize to default size',
+        click: () => {
+          let target = this.getSummerNoteTarget()
+          target = $(target)
+          
+          let defaultSize = this.imageSizeDefault
+          let resize = BloggerImageHelper.calcResize(defaultSize, target)
+          if (resize !== undefined) {
+            target.attr('width', resize.width)
+              .attr('height', resize.height)
+          }
+          
+          //target.removeAttr('width')
+          //target.removeAttr('height')
+          
+          let link = target.attr('src')
+          //console.log(link)
+          if (BloggerImageHelper.isBloggerImageLink(link)) {
+            target.attr('src', BloggerImageHelper.getSize(link, defaultSize))
+            //console.log('change src: ', target.attr('src'))
+          }
+        }
+      });
+
+      return button.render();   // return button as jquery object
+    },
     buildButtonImageSizeOriginal: function (context) {
       let ui = $.summernote.ui;
 
       // create button
       let button = ui.button({
-        contents: `Original Size`,
-        tooltip: 'Resize to original',
+        contents: `<span class="non-invasive-web-style-framework">
+          <i class="expand arrows icon"></i>
+          Resize Original
+        </span>`,
+        tooltip: 'Resize images to original',
         click: () => {
-          console.log('@TODO Resize to original')
+          let postBody = this.getPostBody()
+          postBody.find('img').each((i, img) => {
+            let target = $(img)
+            target.removeAttr('width')
+            target.removeAttr('height')
+
+            let link = target.attr('src')
+            //console.log(link)
+            if (BloggerImageHelper.isBloggerImageLink(link)) {
+              if (BloggerImageHelper.isFullSizeLink(link) === false) {
+                target.attr('src', BloggerImageHelper.getFullSize(link))
+                //console.log('change src: ', target.attr('src'))
+              } 
+            }
+            //console.log('@TODO Resize to original')
+          })
+
         }
       });
 
@@ -182,10 +296,30 @@ var EditorManager = {
 
       // create button
       let button = ui.button({
-        contents: `Default Size`,
-        tooltip: 'Resize to default size',
+        contents: `<span class="non-invasive-web-style-framework">
+          <i class="compress icon"></i>
+          Resize Default
+        </span>`,
+        tooltip: 'Resize images to default size',
         click: () => {
-          console.log('@TODO Resize to default size')
+          let postBody = this.getPostBody()
+          postBody.find('img').each((i, img) => {
+            let target = $(img)
+            
+            let defaultSize = this.imageSizeDefault
+            let resize = BloggerImageHelper.calcResize(defaultSize, target)
+            if (resize !== undefined) {
+              target.attr('width', resize.width)
+                .attr('height', resize.height)
+            }
+
+            let link = target.attr('src')
+            //console.log(link)
+            if (BloggerImageHelper.isBloggerImageLink(link)) {
+              target.attr('src', BloggerImageHelper.getSize(link, defaultSize))
+              //console.log('change src: ', target.attr('src'))
+            }
+          })
         }
       });
 
@@ -284,17 +418,23 @@ var EditorManager = {
           image: this.getPostSummerNotePopoverImageConfig()
         },
         buttons: {
-          copyHTML: () => {
-            return this.buildButtonCopyCode()
+          copyHTML: (c) => {
+            return this.buildButtonCopyCode(c)
           },
-          imageReplacer: () => {
-            return this.buildButtonImageReplacer()
+          imageReplacer: (c) => {
+            return this.buildButtonImageReplacer(c)
           },
-          imageSizeOriginal: () => {
-            this.buildButtonImageSizeOriginal()
+          popoverImageSizeOriginal: (c) => {
+            return this.buildButtonPopoverImageSizeOriginal(c)
           },
-          imageSizeDefault: () => {
-            this.buildButtonImageSizeDefault()
+          popoverImageSizeDefault: (c) => {
+            return this.buildButtonPopoverImageSizeDefault(c)
+          },
+          imageSizeOriginal: (c) => {
+            return this.buildButtonImageSizeOriginal(c)
+          },
+          imageSizeDefault: (c) => {
+            return this.buildButtonImageSizeDefault(c)
           }
         },
         //disableDragAndDrop: false,
@@ -510,6 +650,11 @@ var EditorManager = {
       return postBody.find('img[src^="filesystem:"]').length
     },
     clearFileSystemAsset: function () {
+      if (this.hasFileSystemImage()) {
+        console.log('Filesystem Images are still used. You cannot remove them.')
+        return
+      }
+      
       let id = $v.PostManager.editingPostId
       let path = `/${id}/assets`
       return FileSystemHelper.removeDir(path)

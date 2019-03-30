@@ -18,7 +18,7 @@ BloggerImageHelper = {
       size = this.getImageElementSize(size)
     }
     
-    if (link.indexOf('/s/' + size) > 10) {
+    if (link.indexOf('/s' + size + '/') > 10) {
       return this.changeProtocol(link)
     }
     
@@ -51,7 +51,54 @@ BloggerImageHelper = {
   },
   readyToResize: function (img) {
     let defaultSize = $v.EditorManager.imageSizeDefault
-    console.log(img)
-    console.log(defaultSize)
+    //console.log(img)
+    //console.log(defaultSize)
+    //delete img.onload
+    //$v.EditorManager.removeImageOnLoad()
+    
+    img = $(img)
+    img.removeAttr('onload')
+    
+    let resize = this.calcResize(defaultSize, img)
+    if (resize !== undefined) {
+      img.attr('width', resize.width)
+         .attr('height', resize.height)
+    }
+  },
+  calcResize: function (defaultSize, width, height) {
+    if (typeof(width.width) === 'function') {
+      let img = width
+      width = img.width()
+      height = img.height()
+    }
+    
+    if (width > defaultSize 
+            || height > defaultSize) {
+      // we have to resize them
+      if (width > height) {
+        height = Math.round(height * (defaultSize / width))
+        width = defaultSize
+      }
+      else {
+        width = Math.round(width * (defaultSize / height))
+        height = defaultSize
+      }
+      return {
+        width: width,
+        height: height
+      }
+    }
+  },
+  isBloggerImageLink: function (link) {
+    return (!link.startsWith('filesystem:') 
+            && link.indexOf('.bp.blogspot.com/') > 1)
+  },
+  isFullSizeLink: function (link) {
+    if (this.isBloggerImageLink(link)) {
+      return (link.indexOf('/s' + this.size.full + '/') > 10)
+    }
+    else {
+      return false
+    }
   }
 }
