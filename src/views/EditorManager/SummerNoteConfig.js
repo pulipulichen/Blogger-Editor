@@ -32,16 +32,31 @@ SummerNoteConfig = {
       ['remove', ['removeMedia']]
     ]
   },
-  
+  popoverLink: function () {
+    return [
+      ['link', ['linkDialogShow', 'unlink']]
+    ]
+  },
+  popoverAir: function () {
+    return [
+      ['color', ['color']],
+      ['font', ['bold', 'underline', 'clear']],
+      ['para', ['ul', 'paragraph']],
+      ['table', ['table']],
+      ['insert', ['link', 'picture']]
+    ]
+  },
   fullConfig: function () {
     let config = {
       focus: true, // set focus to editable area after initializing summernote
       disableResizeEditor: true,
       placeholder: 'Post Body',
       toolbar: this.toolbar(),
-      styleTags: this.getPostSummerNoteStyleTagsConfig(),
+      styleTags: this.styleTags(),
       popover: {
-        image: this.getPostSummerNotePopoverImageConfig()
+        image: this.popoverImage(),
+        link: this.popoverLink(),
+        //air: this.popoverAir()
       },
       buttons: SummerNoteButtons.config(),
       //disableDragAndDrop: false,

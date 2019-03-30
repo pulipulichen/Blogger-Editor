@@ -1,7 +1,8 @@
 FieldPostTitle = {
   ui: null,
   get: function () {
-    if (this.ui === null) {
+    if (this.ui === null
+            || this.ui.length === 0) {
       this.ui = $('#summernotePostTitle')
     }
     return this.ui
@@ -20,5 +21,9 @@ FieldPostTitle = {
   set: function (value) {
     this.get().summernote('code', value);
     return this
+  },
+  save: function () {
+    let postTitle = this.getText()
+    $v.PostManager.updateEditingPost('title', postTitle)
   }
 }

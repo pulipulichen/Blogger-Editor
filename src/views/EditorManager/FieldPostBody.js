@@ -1,13 +1,16 @@
 FieldPostBody = {
   ui: null,
   get: function () {
-    if (this.ui === null) {
+    if (this.ui === null
+            || this.ui.length === 0) {
       this.ui = $('#summernotePostBody')
     }
     return this.ui
   },
   init: function () {
-    this.get().summernote(SummerNoteConfig.config())
+    //console.log('FieldPostBody init')
+    this.get().summernote(SummerNoteConfig.fullConfig())
+    //console.log(SummerNoteConfig.fullConfig())
     return this
   },
   getHTML: function () {
@@ -24,6 +27,7 @@ FieldPostBody = {
     return this
   },
   set: function (value) {
+    //console.log('postBody: ', value)
     this.get().summernote('code', value);
     return this
   },
@@ -83,4 +87,7 @@ FieldPostBody = {
     let path = `/${id}/assets`
     return FileSystemHelper.removeDir(path)
   },
+  save: function () {
+    $v.PostManager.updateEditingPostBody(this.getHTML())
+  }
 }

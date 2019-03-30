@@ -52,13 +52,12 @@ var EditorManager = {
       VueHelper.persistLocalStorage(this, 'imageSizeDefault')
     },
     init: function (callback) {
-      this.initSummerNote()
-      this.setupPostData(callback)
-    },
-    initSummerNote: function () {
+      
       FieldPostBody.init()
       FieldPostTitle.init()
       FieldPostLabels.init()
+      
+      this.setupPostData(callback)
     },
     setupPostData: function (callback) {
       $v.PostManager.getPost((post) => {
@@ -82,14 +81,9 @@ var EditorManager = {
         return
       }
       
-      let postTitle = FieldPostTitle.getText()
-      $v.PostManager.updateEditingPost('title', postTitle)
-      
-      let postLabels = FieldPostLabels.getText()
-      $v.PostManager.updateEditingPost('labels', postLabels)
-      
-      let postBody = FieldPostBody.getHTML()
-      $v.PostManager.updateEditingPostBody(postBody)
+      FieldPostTitle.save()
+      FieldPostLabels.save()
+      FieldPostBody.save()
       
       DelayExecHelper.clear()
     },

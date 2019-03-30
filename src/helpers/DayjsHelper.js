@@ -1,4 +1,5 @@
-import dayjs from 'dayjs'
+//import dayjs from 'dayjs'
+const dayjs = require('dayjs')
 
 DayjsHelper = {
   nowFormat: function () {

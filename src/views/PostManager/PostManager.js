@@ -1,5 +1,3 @@
-import dayjs from 'dayjs'
-
 var PostManager = {
   data: function () {
     return {
@@ -312,7 +310,7 @@ var PostManager = {
     update: function (post, callback) {
       let id = post.id 
       
-      let unix = dayjs(new Date()).unix()
+      let unix = DayjsHelper.unix()
       let title = post.title
       let labels = post.labels
       let abstract = post.abstract
@@ -399,6 +397,9 @@ var PostManager = {
       //console.log('forceRerender 1: ',  this.componentRerenderKey)
       this.componentRerenderKey += 1;
       //console.log('forceRerender 2: ',  this.componentRerenderKey)
+    },
+    displayDate: function (unix) {
+      return DayjsHelper.postDate(unix)
     },
     backupPost: function (id, callback) {
       console.log(id)

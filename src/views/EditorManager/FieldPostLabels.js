@@ -1,7 +1,8 @@
 FieldPostLabels = {
   ui: null,
   get: function () {
-    if (this.ui === null) {
+    if (this.ui === null
+            || this.ui.length === 0) {
       this.ui = $('#summernotePostLabels')
     }
     return this.ui
@@ -20,5 +21,9 @@ FieldPostLabels = {
   set: function (value) {
     this.get().summernote('code', value);
     return this
+  },
+  save: function () {
+    let postLabels = this.getText()
+    $v.PostManager.updateEditingPost('labels', postLabels)
   }
 }
