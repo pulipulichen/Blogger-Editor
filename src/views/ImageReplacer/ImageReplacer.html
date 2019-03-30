@@ -77,13 +77,29 @@
              v-bind:class="{hide: (currentStep !== 7)}">
           <div class="ui info message">
             <ul>
-              <li>
-                ? filesystem images had been replaced.
+              <li v-if="replacedImageCount > 0">
+                {{ replacedImageCount }} filesystem 
+                <span v-if="replacedImageCount === 1">
+                  image
+                </span>
+                <span v-if="replacedImageCount > 1">
+                  images
+                </span>
+                had been replaced.
               </li>
-              <li>
-                There are still ? filesystem images need to upload.
+              <li v-if="filesystemImageCount > 0">
+                There are still 
+                {{ filesystemImageCount }} 
+                filesystem 
+                <span v-if="filesystemImageCount === 1">
+                  image
+                </span>
+                <span v-if="filesystemImageCount > 1">
+                  images
+                </span>
+                need to upload.
               </li>
-              <li>
+              <li v-if="filesystemImageCount === 0">
                 No filesystem images now.
               </li>
             </ul>

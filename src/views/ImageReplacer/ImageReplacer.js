@@ -11,7 +11,9 @@ var config = {
       currentStep: 0,
       isCreatingImagePackage: false,
       imageHTML: '',
-      disableReplaceImage: true
+      disableReplaceImage: true,
+      replacedImageCount: 0,
+      filesystemImageCount: 0,
     }
   },
   created: function () {
