@@ -1,0 +1,5 @@
+SemanticUIHelper = {
+  openTab: function (tab) {
+    
+  }
+}

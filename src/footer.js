@@ -18,6 +18,7 @@ require('./helpers/WindowHelper.js')
 //require('./helpers/SummerNoteHelper.js')
 require('./helpers/VueHelper.js')
 require('./helpers/DayjsHelper.js')
+require('./helpers/SemanticUIHelper.js')
 
 
 require('./helpers/ConfigHelper.js')
@@ -65,11 +66,11 @@ new Vue({
   render: h => h(EditorManagerComponent),
 })
 
-import ImageReplacerComponent from './views/ImageReplacer/ImageReplacer.vue'
-new Vue({
-  el: "#ImageReplacer",
-  render: h => h(ImageReplacerComponent),
-})
+//import ImageReplacerComponent from './views/ImageReplacer/ImageReplacer.vue'
+//new Vue({
+//  el: "#ImageReplacer",
+//  render: h => h(ImageReplacerComponent),
+//})
 
 
 //import VueHelper from './helpers/VueHelper.js'

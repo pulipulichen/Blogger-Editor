@@ -11,13 +11,20 @@
       <div class="description">
         
         <div class="ui top attached tabular menu">
-          <a class="item active" data-tab="template">Template</a>
-          <a class="item" data-tab="style">Style</a>
+          <a class="item active" 
+             data-tab="template"
+             @click="openTab(this)">
+            Template
+          </a>
+          <a class="item" 
+             data-tab="style"
+             @click="openTab(this)"
+             >Style</a>
         </div>
-        <div class="ui bottom attached tab segment active" data-tab="template">
+        <div class="ui bottom attached tab segment active form" data-tab="template">
           
           <div class="fields">
-            <div class="field">
+            <div class="six wide field">
               <div class="ui positive labeled icon fluid button" 
                    v-if="useCustomTemplate === false"
                    @click="TemplateManager.upload">
@@ -31,14 +38,14 @@
                 Reset
               </div>
             </div>
-            <div class="field">
+            <div class="five wide field">
               <div class="ui fluid labeled icon button" 
                    @click="TemplateManager.open">
                 <i class="folder open icon"></i>
                 Open
               </div>
             </div>
-            <div class="field">
+            <div class="five wide field">
               <div class="ui fluid labeled icon button" 
                    @click="TemplateManager.download">
                 <i class="download icon"></i>
@@ -47,13 +54,11 @@
             </div>
           </div>
           
-          <div class="fields">
-            <div class="field">
-              <div class="ui fluid button"
-                 @click="openTemplateBuilder">
-                <i class="cog icon"></i>
-                Open Template Builder
-              </div>
+          <div class="field">
+            <div class="ui fluid button"
+               @click="openTemplateBuilder">
+              <i class="cog icon"></i>
+              Open Template Builder
             </div>
           </div>
           

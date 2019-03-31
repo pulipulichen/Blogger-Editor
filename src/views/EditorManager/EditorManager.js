@@ -12,6 +12,8 @@ import FieldPostLabels from './FieldPostLabels.js'
 import FieldPostTitle from './FieldPostTitle.js'
 import FieldPostDate from './FieldPostDate.js'
 
+import ImageReplacerSfc from './ImageReplacer/ImageReplacer.vue'
+
 var EditorManager = {
   //name: "main-content",
   data: function () {
@@ -28,7 +30,8 @@ var EditorManager = {
       FieldPostBody: FieldPostBody,
       FieldPostLabels: FieldPostLabels,
       FieldPostTitle: FieldPostTitle,
-      FieldPostDate: FieldPostDate
+      FieldPostDate: FieldPostDate,
+      ImageReplacer: null
     }
   },
   mounted() {
@@ -37,7 +40,12 @@ var EditorManager = {
   },
   created: function () {
     $v.EditorManager = this
-    this.validateUploadImageDrarfUrl()
+    
+    VueHelper.init(ImageReplacerSfc, (vue) => {
+      this.ImageReplacer = vue
+      this.validateUploadImageDrarfUrl()
+    })
+    
     //this.open()
   },
   methods: {

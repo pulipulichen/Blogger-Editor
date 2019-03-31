@@ -3,6 +3,8 @@ import JSZipUtils from 'jszip-utils'
 import {saveAs} from 'file-saver'
 //var FileSaver = require('file-saver');
 
+import FieldPostBody from './../FieldPostBody.js'
+
 var config = {
   //name: "main-content",
   data: function () {
@@ -24,7 +26,6 @@ var config = {
       this.validateHasFileSystemImage()
       //this.open()
     })
-    this.FieldPostBody = $v.EditorManager.FieldPostBody
   },
   methods: {
     getUI: function () {

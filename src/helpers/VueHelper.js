@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import $ from 'jquery'
 
-export default {
+let VueHelper = {
   mountLocalStorage: function (vue, key) {
     if (localStorage.getItem(key)) {
       try {
@@ -14,12 +14,38 @@ export default {
   persistLocalStorage: function (vue, key) {
     localStorage[key] = vue[key];
   },
-  init: function (id, component) {
+  _vueIdCount: 0,
+  init: function (id, sfc, callback) {
+    if (typeof(id) === 'object') {
+      callback = sfc
+      sfc = id
+      id = `vue_sfc_${this._vueIdCount}`
+      this._vueIdCount++
+    }
+    
     $('body').append(`<div id="${id}"></div>`)
+    
+    if (typeof(callback) === 'function') {
+      if (typeof(sfc.created) === 'function') {
+        let created = sfc.created
+        sfc.created = function () {
+          callback(this)
+          created.call(this)
+        }
+      }
+      else {
+        sfc.created = function () {
+          callback(this)
+        }
+      }
+    }
     
     new Vue({
       el: `#${id}`,
-      render: h => h(component),
+      render: h => h(sfc),
     })
   }
 }
+
+window.VueHelper = VueHelper
+export default VueHelper
