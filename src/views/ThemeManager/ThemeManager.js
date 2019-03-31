@@ -1,4 +1,6 @@
 import TemplateManager from './TemplateManager.js'
+import TemplateBuilderComponent from './TemplateBuilder/TemplateBuilder.vue'
+import VueHelper from './../../helpers/VueHelper.js'
 
 var ThemeManager = {
   //name: "main-content",
@@ -33,6 +35,7 @@ var ThemeManager = {
       this.open()
     })
     $v.ThemeManager = this
+    VueHelper.init('TemplateBuilder', TemplateBuilderComponent)
   },
   methods: {
     // ---------------------
