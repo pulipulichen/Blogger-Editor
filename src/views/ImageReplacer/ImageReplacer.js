@@ -15,6 +15,7 @@ var config = {
       replacedImageCount: 0,
       filesystemImageCount: 0,
       disableUploadImageDraft: false,
+      FieldPostBody: null
     }
   },
   created: function () {
@@ -23,6 +24,7 @@ var config = {
       this.validateHasFileSystemImage()
       //this.open()
     })
+    this.FieldPostBody = $v.EditorManager.FieldPostBody
   },
   methods: {
     getUI: function () {

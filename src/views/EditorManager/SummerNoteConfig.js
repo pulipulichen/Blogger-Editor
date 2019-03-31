@@ -1,4 +1,7 @@
-SummerNoteConfig = {
+import SummerNoteButtons from './SummerNoteButtons.js'
+import SummerNoteCallbacks from './SummerNoteCallbacks.js'
+
+let SummerNoteConfig = {
   toolbar: function () {
     let toolbar = [
         ['view', ['codeview']],
@@ -85,3 +88,5 @@ SummerNoteConfig = {
     return config
   },
 }
+
+export default SummerNoteConfig

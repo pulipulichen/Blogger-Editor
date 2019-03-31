@@ -1,4 +1,4 @@
-FieldPostDate = {
+let FieldPostDate = {
   ui: null,
   get: function () {
     if (this.ui === null) {
@@ -15,3 +15,5 @@ FieldPostDate = {
     return this
   }
 }
+
+export default FieldPostDate

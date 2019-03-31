@@ -1,4 +1,6 @@
-FieldPostLabels = {
+import SummerNoteConfig from './SummerNoteConfig.js'
+
+let FieldPostLabels = {
   ui: null,
   get: function () {
     if (this.ui === null
@@ -27,3 +29,5 @@ FieldPostLabels = {
     $v.PostManager.updateEditingPost('labels', postLabels)
   }
 }
+
+export default FieldPostLabels

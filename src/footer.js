@@ -22,13 +22,7 @@ require('./helpers/DayjsHelper.js')
 
 require('./helpers/ConfigHelper.js')
 
-require('./views/EditorManager/FieldPostBody.js')
-require('./views/EditorManager/FieldPostLabels.js')
-require('./views/EditorManager/FieldPostTitle.js')
-require('./views/EditorManager/FieldPostDate.js')
-require('./views/EditorManager/SummerNoteButtons.js')
-require('./views/EditorManager/SummerNoteCallbacks.js')
-require('./views/EditorManager/SummerNoteConfig.js')
+//TemplateManager = import('./views/ThemeManager/TemplateManager.js')
 
 window.$v = {}
 

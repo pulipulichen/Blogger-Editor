@@ -16,25 +16,54 @@
         </div>
         <div class="ui bottom attached tab segment active" data-tab="template">
           
-          <div class="ui positive button" 
-               v-if="useCustomTemplate === false"
-               @click="uploadTemplate">
-            UPLOAD
+          <div class="fields">
+            <div class="field">
+              <div class="ui positive labeled icon fluid button" 
+                   v-if="useCustomTemplate === false"
+                   @click="TemplateManager.upload">
+                <i class="upload icon"></i>
+                Upload
+              </div>
+              <div class="ui fluid labeled icon button" 
+                   v-if="useCustomTemplate"
+                   @click="TemplateManager.reset">
+                <i class="redo alternate icon"></i>
+                Reset
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui fluid labeled icon button" 
+                   @click="TemplateManager.open">
+                <i class="folder open icon"></i>
+                Open
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui fluid labeled icon button" 
+                   @click="TemplateManager.download">
+                <i class="download icon"></i>
+                Download
+              </div>
+            </div>
           </div>
-          <div class="ui button" 
-               v-if="useCustomTemplate"
-               @click="resetTemplate">
-            RESET
-          </div>
-          <div class="ui button"
-               @click="openTemplateBuilder">
-            Open Template Builder
+          
+          <div class="fields">
+            <div class="field">
+              <div class="ui fluid button"
+                 @click="openTemplateBuilder">
+                <i class="cog icon"></i>
+                Open Template Builder
+              </div>
+            </div>
           </div>
           
         </div>
+        
+        <!-- ------------------------------------- -->
+        
         <div class="ui bottom attached tab segment" data-tab="style">
           
-          Second
+          <div class="fields"></div>
           
         </div>
       </div> <!-- <div class="description"> -->

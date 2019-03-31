@@ -1,4 +1,6 @@
-FieldPostTitle = {
+import SummerNoteConfig from './SummerNoteConfig.js'
+
+let FieldPostTitle = {
   ui: null,
   get: function () {
     if (this.ui === null
@@ -27,3 +29,5 @@ FieldPostTitle = {
     $v.PostManager.updateEditingPost('title', postTitle)
   }
 }
+
+export default FieldPostTitle

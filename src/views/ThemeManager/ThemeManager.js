@@ -1,3 +1,5 @@
+import TemplateManager from './TemplateManager.js'
+
 var ThemeManager = {
   //name: "main-content",
   data: function () {
@@ -10,7 +12,8 @@ var ThemeManager = {
       path: {
         template: '/template.html',
         style: '/style.css'
-      }
+      },
+      TemplateManager: TemplateManager
     }
   },
   mounted() {
@@ -27,6 +30,7 @@ var ThemeManager = {
   created: function () {
     $(() => {
       $('.ThemeManager.modal .menu .item').tab()
+      this.open()
     })
     $v.ThemeManager = this
   },
@@ -157,12 +161,9 @@ var ThemeManager = {
       let path = this.path.style
       FileSystemHelper.isExists(path, callback)
     },
-    uploadTemplate: function () {
-      console.log('uploadTemplate')
-    },
-    resetTemplate: function () {
-      console.log('resetTemplate')
-    },
+    
+    // --------
+    
     openTemplateBuilder: function () {
       console.log('resetTemplate')
     }

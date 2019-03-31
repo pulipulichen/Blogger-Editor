@@ -1,4 +1,4 @@
-SummerNoteCallbacks = {
+let SummerNoteCallbacks = {
   config: function () {
     return {
       onImageUpload: (files) => {
@@ -86,3 +86,5 @@ SummerNoteCallbacks = {
     FieldPostBody.insert(imgNode)
   },
 }
+
+export default SummerNoteCallbacks

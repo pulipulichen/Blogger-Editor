@@ -11,7 +11,9 @@
     "install": "node installer.js",
     "mocha": "mocha lib-for-link/src/**/*.mocha-test.js",
     "mocha-watch": "mocha --watch lib-for-link/src/**/*.mocha-test.js",
-    "selenium-side-runner": "selenium-side-runner lib-for-link/src/**/*.side"
+    "selenium-side-runner": "selenium-side-runner lib-for-link/src/**/*.side",
+    "t1-webpack-build-development": "webpack --mode development --config test/webpack.config.js",
+    "t2-webpack-watch-development": "webpack --watch --mode development --config test/webpack.config.js"
   },
   "repository": {
     "type": "git",

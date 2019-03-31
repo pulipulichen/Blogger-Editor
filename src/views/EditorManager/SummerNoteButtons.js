@@ -1,4 +1,4 @@
-SummerNoteButtons = {
+let SummerNoteButtons = {
   config: function () {
     return {
       copyHTML: (c) => {
@@ -129,3 +129,5 @@ SummerNoteButtons = {
     return this.build(contents, tooltip, click)
   },
 }
+
+export default SummerNoteButtons

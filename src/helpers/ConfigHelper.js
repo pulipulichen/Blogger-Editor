@@ -1,5 +1,6 @@
 const globalConfig = require('../../config.js')
 const localConfig = require('../../config.local.js')
+
 //console.log(globalConfig.default)
 ConfigHelper = {
   get: function (key, defaultValue) {

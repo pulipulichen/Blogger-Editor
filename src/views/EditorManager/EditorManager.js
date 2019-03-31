@@ -1,3 +1,17 @@
+/*
+require('./views/EditorManager/FieldPostBody.js')
+require('./views/EditorManager/FieldPostLabels.js')
+require('./views/EditorManager/FieldPostTitle.js')
+require('./views/EditorManager/FieldPostDate.js')
+require('./views/EditorManager/SummerNoteButtons.js')
+require('./views/EditorManager/SummerNoteCallbacks.js')
+require('./views/EditorManager/SummerNoteConfig.js')
+*/
+import FieldPostBody from './FieldPostBody.js'
+import FieldPostLabels from './FieldPostLabels.js'
+import FieldPostTitle from './FieldPostTitle.js'
+import FieldPostDate from './FieldPostDate.js'
+
 var EditorManager = {
   //name: "main-content",
   data: function () {
@@ -10,7 +24,11 @@ var EditorManager = {
       labelsSUmmerNote: null,
       dateContainer: null,
       summerNoteInited: false,
-      imageSizeDefault: 450
+      imageSizeDefault: 450,
+      FieldPostBody: FieldPostBody,
+      FieldPostLabels: FieldPostLabels,
+      FieldPostTitle: FieldPostTitle,
+      FieldPostDate: FieldPostDate
     }
   },
   mounted() {

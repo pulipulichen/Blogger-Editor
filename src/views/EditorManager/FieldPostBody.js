@@ -1,4 +1,6 @@
-FieldPostBody = {
+import SummerNoteConfig from './SummerNoteConfig.js'
+
+let FieldPostBody = {
   ui: null,
   get: function () {
     if (this.ui === null
@@ -91,3 +93,5 @@ FieldPostBody = {
     $v.PostManager.updateEditingPostBody(this.getHTML())
   }
 }
+
+export default FieldPostBody
