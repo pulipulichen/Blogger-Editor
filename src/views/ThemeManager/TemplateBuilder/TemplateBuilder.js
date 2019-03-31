@@ -1,6 +1,7 @@
 var config = {
   data: function () {
     return {
+      name: 'TemplateBuilder',
       ui: undefined,
     }
   },
@@ -18,7 +19,7 @@ var config = {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')
-        this.ui = this.ui = $('.BrowserDetector.ui.modal')
+        this.ui = this.ui = $(`.${this.name}.ui.modal`)
       }
       return this.ui
     },

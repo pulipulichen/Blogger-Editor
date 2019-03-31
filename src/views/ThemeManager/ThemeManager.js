@@ -129,8 +129,8 @@ var ThemeManager = {
       this.TemplateBuilder.open()
     },
     
-    openTab: function (tab) {
-      
+    openTab: function (e) {
+      SemanticUIHelper.openTab(e)
     }
   }
 }
