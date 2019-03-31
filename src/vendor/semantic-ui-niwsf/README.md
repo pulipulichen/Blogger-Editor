@@ -11,3 +11,7 @@ https://github.com/pulipulichen/Non-Invasive-Web-Style-Framework
 - icon: https://semantic-ui.com/elements/icon.html
 - form: https://semantic-ui.com/collections/form.html
 - button: https://semantic-ui.com/elements/button.html
+
+# Offline Manual
+Zeal doc
+https://zealdocs.org/download.html

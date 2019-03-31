@@ -25,6 +25,9 @@ var ThemeManager = {
     */
   },
   created: function () {
+    $(() => {
+      $('.ThemeManager.modal .menu .item').tab()
+    })
     $v.ThemeManager = this
   },
   methods: {
@@ -153,6 +156,15 @@ var ThemeManager = {
     hasCustomStyle: function (callback) {
       let path = this.path.style
       FileSystemHelper.isExists(path, callback)
+    },
+    uploadTemplate: function () {
+      console.log('uploadTemplate')
+    },
+    resetTemplate: function () {
+      console.log('resetTemplate')
+    },
+    openTemplateBuilder: function () {
+      console.log('resetTemplate')
     }
   }
 }
