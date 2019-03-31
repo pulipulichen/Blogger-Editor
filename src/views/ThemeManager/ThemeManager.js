@@ -4,7 +4,13 @@ var ThemeManager = {
     return {
       ui: undefined,
       //defaultTheme: 'simple'
-      defaultTheme: ConfigHelper.get('defaultTheme')
+      defaultTheme: ConfigHelper.get('defaultTheme'),
+      useCustomTemplate: false,
+      useCustomStyle: false,
+      path: {
+        template: '/template.html',
+        style: '/style.css'
+      }
     }
   },
   mounted() {
@@ -119,10 +125,12 @@ var ThemeManager = {
       })
     },
     loadStyle: function (callback) {
-      let path = '/style.css'
+      
       //let stylePath = 'filesystem:' + location.protocol + '://' + location.host + '/temporary' + path
-      let stylePath = FileSystemHelper.getFileSystemUrl(path)
-      FileSystemHelper.isExists(path, (isExisted) => {
+      
+      this.hasCustomStyle((isExisted) => {
+        let path = this.path.style
+        let stylePath = FileSystemHelper.getFileSystemUrl(path)
         if (isExisted === false) {
           stylePath = 'themes/' + this.defaultTheme + '/style.css'
         }
@@ -137,6 +145,14 @@ var ThemeManager = {
       this.loadStyle(() => {
         this.loadTemplate(callback)
       })
+    },
+    getCustomTemplate: function (callback) {
+      let path = this.path.template
+      FileSystemHelper.read(path, callback)
+    },
+    hasCustomStyle: function (callback) {
+      let path = this.path.style
+      FileSystemHelper.isExists(path, callback)
     }
   }
 }
