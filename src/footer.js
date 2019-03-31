@@ -19,6 +19,7 @@ require('./helpers/WindowHelper.js')
 require('./helpers/VueHelper.js')
 require('./helpers/DayjsHelper.js')
 require('./helpers/SemanticUIHelper.js')
+require('./helpers/FileHelper.js')
 
 
 require('./helpers/ConfigHelper.js')

@@ -32,7 +32,7 @@ WindowHelper = {
     let top = Math.ceil((window.screen.availHeight - height) / 2)
 
     let newWindow = window.open(url, name, `width=${width},height=${height},top=${top},left=${left},toolbar=0,menubar=0,location=0`);
-    if (window.focus) {
+    if (window.focus && newWindow !== null) {
       newWindow.focus()
     }
     return newWindow

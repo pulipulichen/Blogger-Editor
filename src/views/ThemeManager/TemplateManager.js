@@ -5,23 +5,40 @@ let TemplateManager = {
     console.log('TemplateManager.upload')
   },
   reset: function () {
-    console.log('TemplateManager.reset')
+    FileSystemHelper.remove(this.path)
   },
   open: function () {
-    console.log('TemplateManager.open')
+    
+    FileSystemHelper.isExists(TemplateManager.path, (isExists) => {
+      let url = TemplateManager.getDefaultPath()
+      if (isExists === true) {
+        url = FileSystemHelper.getFileSystemUrl(TemplateManager.path)
+      }
+      WindowHelper.popup(url, 'template')
+    })
   },
   download: function () {
-    console.log('TemplateManager.download')
+    FileSystemHelper.isExists(TemplateManager.path, (isExists) => {
+      let url = TemplateManager.getDefaultPath()
+      if (isExists === true) {
+        url = FileSystemHelper.getFileSystemUrl(TemplateManager.path)
+      }
+      FileHelper.download(url, 'template.html')
+    })
   },
   getCustom: function (callback) {
     let path = this.path
     FileSystemHelper.read(path, callback)
   },
+  getDefaultPath: function () {
+    let defaultTheme = ConfigHelper.get('defaultTheme')
+    return './themes/' + defaultTheme + '/template.html'
+  },
   load: function (defaultTheme, callback) {
     let path = this.path
     FileSystemHelper.read(path, (template) => {
       if (template === undefined) {
-        path = 'themes/' + defaultTheme + '/template.html'
+        path = this.getDefaultPath()
         $.get(path, (template) => {
           template = this.replacePlaceholder(template)
           $(this.selector).html(template)
