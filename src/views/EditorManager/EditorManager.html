@@ -27,6 +27,11 @@
                @click="openBloggerDraft">
               Open Draft
             </div>
+            <div v-bind:class="{ disabled: disableUploadImageDraft }"
+               class="mini ui button"
+               @click="openImageReplacer">
+              Replace Images
+            </div>
           </div>
           
           <!-- --------------------------- -->
@@ -38,6 +43,7 @@
                    id="imageSizeDefault"
                    v-model="imageSizeDefault" />
           </div>
+
         </form>
       </div>
     </div>

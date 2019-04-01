@@ -131,6 +131,9 @@ var EditorManager = {
       let url = 'https://www.blogger.com'
       let name = 'bloggerConsole'
       WindowHelper.popup(url, name)
+    },
+    openImageReplacer: function () {
+      this.ImageReplacer.open()
     }
   }
 }

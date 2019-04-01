@@ -16,5 +16,3 @@ require('./styles/bootstrap.less')
 require('./styles/summernote.less')
 require('./styles/custom.less')
 require('./styles/templateReform.less')
-
-require('./init.js')

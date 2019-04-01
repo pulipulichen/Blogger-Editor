@@ -32,66 +32,40 @@ import PageLoaderSfc from './views/PageLoader/PageLoader.vue'
 VueHelper.init(PageLoaderSfc)
 
 import BrowserDetectorComponent from './views/BrowserDetector/BrowserDetector.vue'
-new Vue({
-  el: "#BrowserDetector",
-  render: h => h(BrowserDetectorComponent),
-})
+//new Vue({
+//  el: "#BrowserDetector",
+//  render: h => h(BrowserDetectorComponent),
+//})
+VueHelper.init(BrowserDetectorComponent)
 
 import PostManagerComponent from './views/PostManager/PostManager.vue'
-new Vue({
-  el: "#PostManager",
-  render: h => h(PostManagerComponent),
-})
-
-/*
-import PostManagerModalComponent from './views/PostManager/PostManagerModal.vue'
-new Vue({
-  el: "#PostManager",
-  render: h => h(PostManagerModalComponent),
-})
-
-import PostManagerContentComponent from './views/PostManager/PostManagerContent.vue'
-new Vue({
-  el: "#PostManagerContent",
-  render: h => h(PostManagerContentComponent),
-})
-*/
+//new Vue({
+//  el: "#PostManager",
+//  render: h => h(PostManagerComponent),
+//})
+VueHelper.init(PostManagerComponent)
 
 import ThemeManagerComponent from './views/ThemeManager/ThemeManager.vue'
-new Vue({
-  el: "#ThemeManager",
-  render: h => h(ThemeManagerComponent),
-})
-
+//new Vue({
+//  el: "#ThemeManager",
+//  render: h => h(ThemeManagerComponent),
+//})
+VueHelper.init(ThemeManagerComponent)
 
 import EditorManagerComponent from './views/EditorManager/EditorManager.vue'
-new Vue({
-  el: "#EditorManager",
-  render: h => h(EditorManagerComponent),
-})
-
-//import ImageReplacerComponent from './views/ImageReplacer/ImageReplacer.vue'
 //new Vue({
-//  el: "#ImageReplacer",
-//  render: h => h(ImageReplacerComponent),
+//  el: "#EditorManager",
+//  render: h => h(EditorManagerComponent),
 //})
+VueHelper.init(EditorManagerComponent)
 
-
-//import VueHelper from './helpers/VueHelper.js'
-//let VueHelper = require('./helpers/VueHelper.js')
-//require('./helpers/VueHelper.js')
-//VueHelper.render('#NavBar', require('./views/NavBar/NavBar.vue'))
 import NavBarComponent from './views/NavBar/NavBar.vue'
-//import NavBar from './views/NavBar/NavBar.vue'
-new Vue({
-  el: "#NavBar",
-  render: h => h(NavBarComponent),
-})
+//new Vue({
+//  el: "#NavBar",
+//  render: h => h(NavBarComponent),
+//})
+VueHelper.init(NavBarComponent)
 
-//require('./views/PostsManager/PostsManager.js')
-require('./views/ThemeManager/ThemeManager.js')
-//require('./views/EditorManager/EditorManager.js')
-//require('./views/EditorManager/SummerNotePostTitleHelper.js')
-//require('./views/EditorManager/SummerNotePostBodyHelper.js')
+// --------------------
 
-//require('./vendor/semantic-ui-niwsf/semantic.niwsf.js')
+require('./init.js')
