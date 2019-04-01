@@ -41,10 +41,13 @@ var EditorManager = {
   created: function () {
     $v.EditorManager = this
     
-    VueHelper.init(ImageReplacerSfc, (vue) => {
-      this.ImageReplacer = vue
-      this.validateUploadImageDrarfUrl()
-    })
+    this.validateUploadImageDrarfUrl()
+    
+    if (ConfigHelper.get('debug').disableImageReplacer === false) {
+      VueHelper.init(ImageReplacerSfc, (vue) => {
+        this.ImageReplacer = vue
+      })
+    }
     
     //this.open()
   },
@@ -78,6 +81,9 @@ var EditorManager = {
       VueHelper.persistLocalStorage(this, 'imageSizeDefault')
     },
     init: function (callback) {
+      if (ConfigHelper.get('debug').disableEditorManager === true) {
+        return FunctionHelper.triggerCallback(callback)
+      }
       
       FieldPostTitle.init(() => {
         FieldPostBody.init(() => {
@@ -86,6 +92,7 @@ var EditorManager = {
           })
         })
       })
+      
     },
     setupPostData: function (callback) {
       $v.PostManager.getPost((post) => {

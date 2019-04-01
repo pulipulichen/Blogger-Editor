@@ -267,6 +267,10 @@ var PostManager = {
       })
     },
     updateEditingPostBody: function (postBody, callback) {
+      if (ConfigHelper.get('debug').disableEditorManager === true) {
+        return FunctionHelper.triggerCallback(callback)
+      }
+      
       if (typeof(postBody) !== 'string') {
         if (typeof(postBody.html) === 'function') {
           postBody = postBody.html()

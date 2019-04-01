@@ -36,9 +36,12 @@ var ThemeManager = {
       //this.open()
     })
     $v.ThemeManager = this
-    VueHelper.init('TemplateBuilder', TemplateBuilderSfc, (TemplateBuilder) => {
-      this.TemplateBuilder = TemplateBuilder
-    })
+    
+    if (ConfigHelper.get('debug').disableTemplateBuilder === false) {
+      VueHelper.init('TemplateBuilder', TemplateBuilderSfc, (TemplateBuilder) => {
+        this.TemplateBuilder = TemplateBuilder
+      })
+    }
   },
   methods: {
     // ---------------------
@@ -113,6 +116,10 @@ var ThemeManager = {
       })
     },
     init: function (callback) {
+      if (ConfigHelper.get('debug').disableThemeManager === true) {
+        return FunctionHelper.triggerCallback(callback)
+      }
+      
       this.loadStyle(() => {
         //this.loadTemplate(callback)
         this.TemplateManager.load(this.defaultTheme, callback)
