@@ -1,8 +1,10 @@
 let init = () => {
   //$v.ImageReplacer.open()
+  PageLoadingHelper.close()
 }
 
 $(() => {
+  PageLoadingHelper.open()
   $v.BrowserDetector.init(() => {
     FileSystemHelper.init(() => {
       $v.PostManager.init(() => {

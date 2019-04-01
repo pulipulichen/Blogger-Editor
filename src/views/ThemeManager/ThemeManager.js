@@ -33,7 +33,7 @@ var ThemeManager = {
   created: function () {
     $(() => {
       $('.ThemeManager.modal .menu .item').tab()
-      this.open()
+      //this.open()
     })
     $v.ThemeManager = this
     VueHelper.init('TemplateBuilder', TemplateBuilderSfc, (TemplateBuilder) => {

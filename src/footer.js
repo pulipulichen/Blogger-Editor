@@ -20,6 +20,7 @@ require('./helpers/VueHelper.js')
 require('./helpers/DayjsHelper.js')
 require('./helpers/SemanticUIHelper.js')
 require('./helpers/FileHelper.js')
+require('./helpers/PageLoader.js')
 
 
 require('./helpers/ConfigHelper.js')
