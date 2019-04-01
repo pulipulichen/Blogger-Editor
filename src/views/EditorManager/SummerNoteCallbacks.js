@@ -1,6 +1,9 @@
 let SummerNoteCallbacks = {
   config: function (callback) {
     return {
+      onInit: () => {
+        FunctionHelper.triggerCallback(callback)
+      },
       onImageUpload: (files) => {
         this.onImageUpload(files)
       },
@@ -15,9 +18,6 @@ let SummerNoteCallbacks = {
           $v.PostManager.updateEditingPostBody(contents)
         })
       },
-      onInit: () => {
-        FunctionHelper.triggerCallback(callback)
-      }
     }
   },
   getAssetDirPath: function () {

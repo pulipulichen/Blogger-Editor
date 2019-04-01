@@ -13,7 +13,7 @@ let FieldPostLabels = {
       return this
     }
     
-    this.get().summernote(SummerNoteConfig.airConfig('labels', 'Labels', callback))
+    this.get().summernote(SummerNoteConfig.airConfig('labels', 'No Label', callback))
     // 'labels', 'Labels'
     return this
   },

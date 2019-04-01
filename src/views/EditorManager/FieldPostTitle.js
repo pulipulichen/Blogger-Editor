@@ -13,7 +13,7 @@ let FieldPostTitle = {
       return this
     }
     
-    this.get().summernote(SummerNoteConfig.airConfig('title', 'Post Title', callback))
+    this.get().summernote(SummerNoteConfig.airConfig('title', 'No Title', callback))
     // 'labels', 'Labels'
     return this
   },

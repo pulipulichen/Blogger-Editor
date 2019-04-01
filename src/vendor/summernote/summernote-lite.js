@@ -896,7 +896,8 @@
               style: 'Style',
               p: 'Normal',
               blockquote: 'Quote',
-              pre: 'Code',
+              pre: 'pre',
+              code: 'Code',
               h1: 'Header 1',
               h2: 'Header 2',
               h3: 'Header 3',
@@ -4982,8 +4983,36 @@
           }
           return rng.toString();
       };
+      
+      Editor.prototype.inlineTags = ["b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong", "samp", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup"]
+      
       Editor.prototype.onFormatBlock = function (tagName, $target) {
           // [workaround] for MSIE, IE need `<`
+          
+          if (this.inlineTags.indexOf(tagName) > -1) {
+            this.inlineStyling({
+              tagName: tagName
+            })
+          }
+          else if (tagName === '') {
+            let t = $($target)
+            let options = {
+              tagName: t.prop('tagName')
+            }
+            
+            if (t.attr('style') !== undefined && t.attr('style') !== '') {
+              options.style = t.attr('style')
+            }
+            
+            if (t.prop('className') !== '') {
+              options.className = t.prop('className')
+            }
+            
+            this.inlineStyling(options)
+            
+            return
+          }
+          
           tagName = env.isMSIE ? '<' + tagName + '>' : tagName;
           document.execCommand('FormatBlock', false, tagName);
           // support custom class
@@ -5014,6 +5043,130 @@
                       this.$editable.data(KEY_BOGUS, firstSpan);
                   }
               }
+          }
+      };
+      Editor.prototype.toggleClassName = function (className) {
+          var rng = this.createRange();
+          if (rng) {
+              var spans = this.style.styleNodes(rng);
+              $$1(spans).toggleClass(className);
+              // [workaround] added styled bogus span for style
+              //  - also bogus character needed for cursor position
+              if (rng.isCollapsed()) {
+                  var firstSpan = lists.head(spans);
+                  if (firstSpan && !dom.nodeLength(firstSpan)) {
+                      firstSpan.innerHTML = dom.ZERO_WIDTH_NBSP_CHAR;
+                      range.createFromNodeAfter(firstSpan.firstChild).select();
+                      this.$editable.data(KEY_BOGUS, firstSpan);
+                  }
+              }
+          }
+      };
+      Editor.prototype.addInlineTag = function (tagName) {
+          var rng = this.createRange();
+          if (rng) {
+              var spans = this.style.styleNodes(rng, {
+                nodeName: tagName,
+                expandClosestSibling: true,
+                onlyPartialContains: true
+              });
+              // [workaround] added styled bogus span for style
+              //  - also bogus character needed for cursor position
+              if (rng.isCollapsed()) {
+                  var firstSpan = lists.head(spans);
+                  if (firstSpan && !dom.nodeLength(firstSpan)) {
+                      firstSpan.innerHTML = dom.ZERO_WIDTH_NBSP_CHAR;
+                      range.createFromNodeAfter(firstSpan.firstChild).select();
+                      this.$editable.data(KEY_BOGUS, firstSpan);
+                  }
+              }
+          }
+      };
+      Editor.prototype.inlineStyling = function (options) {
+          //this.saveRange()
+          var rng = this.createRange();
+          if (rng) {
+              //console.log(rng)
+              if (rng.sc.nodeValue === '') {
+                return
+              }
+              
+              let parent = $(rng.sc.parentElement)
+              let parentTagName = rng.sc.parentElement.tagName.toLowerCase()
+              let parentClassName = rng.sc.parentElement.className
+              let parentStyle = parent.attr('style')
+              //console.log(parentTagName)
+              
+              let spans, styleNodesOption = {}
+              
+              //console.log([options.tagName, parentTagName])
+              //console.log([options.className, parentClassName])
+              //console.log([options.style, parentStyle])
+              
+              let reset = true
+              
+              if ((typeof(options.tagName) === 'string' && parentTagName !== options.tagName.toLowerCase()) 
+                  || (typeof(options.className) === 'string' && parentClassName !== options.className.trim())
+                  || (typeof(options.style) === 'string' && parentStyle !== options.style.trim())
+              ) {
+                reset = false
+              }
+              
+              if (reset === true) {
+                  // 取代，然後取消
+                  let content = parent.html()
+                  parent.replaceWith(content)
+                  parent.select()
+                  return
+                }
+              
+              if (typeof(options.tagName) === 'string') {
+              
+                if (this.inlineTags.indexOf(parentTagName) === -1) {
+                  styleNodesOption = {
+                    nodeName: options.tagName,
+                    expandClosestSibling: true,
+                    onlyPartialContains: true
+                  };
+                  spans = this.style.styleNodes(rng, styleNodesOption)
+                }
+                else {
+                  if (parentTagName !== options.tagName.toLowerCase()) {
+                    let content = parent.html()
+                    let t = options.tagName
+                    parent.replaceWith(`<${t}>${content}</${t}>`)
+                  }
+                  
+                  spans = rng.sc.parentElement
+                }
+              }
+              
+          
+              if (typeof(options.className) === 'string') {
+                $$1(spans).toggleClass(options.className);
+              }
+              
+              if (typeof(options.style) === 'string') {
+                if ($$1(spans).attr('style') !== options.style) {
+                  $$1(spans).attr('style', options.style);
+                }
+                else {
+                  $$1(spans).removeAttr('style');
+                }
+              }
+          
+              // [workaround] added styled bogus span for style
+              //  - also bogus character needed for cursor position
+              if (rng.isCollapsed()) {
+                  var firstSpan = lists.head(spans);
+                  if (firstSpan && !dom.nodeLength(firstSpan)) {
+                      firstSpan.innerHTML = dom.ZERO_WIDTH_NBSP_CHAR;
+                      range.createFromNodeAfter(firstSpan.firstChild).select();
+                      this.$editable.data(KEY_BOGUS, firstSpan);
+                  }
+              }
+              
+              rng.select()
           }
       };
       /**

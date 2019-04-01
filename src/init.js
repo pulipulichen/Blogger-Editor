@@ -1,7 +1,7 @@
 let init = () => {
   //$v.ImageReplacer.open()
 
-  $v.EditorManager.open()
+  //$v.EditorManager.open()
 }
 
 $(() => {

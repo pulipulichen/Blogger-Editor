@@ -1401,7 +1401,8 @@ a.note-dropdown-item:hover {
 
 .note-popover .note-popover-content .note-dropdown-menu .note-dropdown-item>*,
 .note-toolbar .note-dropdown-menu .note-dropdown-item>* {
-  margin: 0
+  margin: 0;
+  display: block;
 }
 
 .note-popover .note-popover-content .note-fontsize-10,
