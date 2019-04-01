@@ -4,7 +4,7 @@
     <title>TODO supply a title</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="../icon.png" />
+    <link rel="icon" type="image/png" href="icon.png" />
   </head>
   <body>
     <div>TODO write content</div>
@@ -21,16 +21,32 @@
     <script src="../src/vendor/semantic-ui-niwsf/semantic.niwsf.js"></script>
     <link href="../src/vendor/semantic-ui-niwsf/semantic.niwsf.css" rel="stylesheet">
     
-    
+    <!--
     <div class="non-invasive-web-style-framework">
       <div class="ui basic modal page-loader">
-        <div class="ui massive text loader">Loading</div>
+        <div class="content">
+          <div class="description">
+            <div class="ui massive text loader">Loading</div>
+          </div>
+        </div>
       </div>
     </div>
     
     <script>
       $('.page-loader').modal('show')
     </script>
+    -->
+    
+<div class="non-invasive-web-style-framework">
+  <div class="ui page dimmer">
+    <div class="content">
+      Hello
+    </div>
+  </div>
+</div>
+<script>
+  $('.page.dimmer').dimmer('show');
+</script>
     
     <!--
     <script src="dist/test.min.js"></script>
