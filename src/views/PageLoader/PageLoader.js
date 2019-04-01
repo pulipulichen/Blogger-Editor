@@ -25,7 +25,9 @@ var config = {
       return this.ui
     },
     open: function () {
-      this.getUI().modal('show')
+      this.getUI().modal({
+        closable: false
+      }).modal('show')
     },
     close: function () {
       this.getUI().modal('hide')

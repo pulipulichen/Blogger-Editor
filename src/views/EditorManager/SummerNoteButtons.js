@@ -41,7 +41,7 @@ let SummerNoteButtons = {
     let tooltip = 'Copy Code'
     let click = () => {
       //let code = this.getPostSummerNote().summernote('code');
-      let code = FieldPostBody.getHTML()
+      let code = $v.EditorManager.FieldPostBody.getHTML()
       CopyPasteHelper.copyPlainText(code)
     }
     return this.build(contents, tooltip, click)
@@ -74,7 +74,7 @@ let SummerNoteButtons = {
     let contents = this.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
     let tooltip = 'Resize to original'
     let click = () => {
-      let target = FieldPostBody.getSelectTarget()
+      let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       this.removeImageTargetSize(target)
     }
     return this.build(contents, tooltip, click)
@@ -83,7 +83,7 @@ let SummerNoteButtons = {
     let contents = this.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
     let tooltip = 'Resize images to original'
     let click = () => {
-      let postBody = FieldPostBody.getElement()
+      let postBody = $v.EditorManager.FieldPostBody.getElement()
       postBody.find('img').each((i, img) => {
         this.removeImageTargetSize(img)
       })
@@ -110,7 +110,7 @@ let SummerNoteButtons = {
     let contents = this.wrapNIWSF(`<i class="compress icon"></i> Resize Default`)
     let tooltip = 'Resize to default size'
     let click = () => {
-      let target = FieldPostBody.getSelectTarget()
+      let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       let defaultSize = $v.EditorManager.imageSizeDefault
       this.setImageTargetSize(target, defaultSize)
     }
@@ -121,7 +121,7 @@ let SummerNoteButtons = {
     let tooltip = 'Resize to default size'
     let click = () => {
       let defaultSize = $v.EditorManager.imageSizeDefault
-      let postBody = FieldPostBody.getElement()
+      let postBody = $v.EditorManager.FieldPostBody.getElement()
       postBody.find('img').each((i, img) => {
         this.setImageTargetSize(img, defaultSize)
       })

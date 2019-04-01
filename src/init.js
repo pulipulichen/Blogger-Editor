@@ -5,7 +5,6 @@ let init = () => {
 
 $(() => {
   $v.PageLoader.open()
-  return
   $v.BrowserDetector.init(() => {
     FileSystemHelper.init(() => {
       $v.PostManager.init(() => {

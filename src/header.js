@@ -21,7 +21,7 @@ require('./vendor/semantic-ui-niwsf/semantic.niwsf.js')
 //console.log(typeof($.summernote))
 //require('summernote')
 
-require('./styles/bootstrap.less')
+require('./styles/semantic-ui.less')
 require('./styles/summernote.less')
 require('./styles/custom.less')
 require('./styles/templateReform.less')
