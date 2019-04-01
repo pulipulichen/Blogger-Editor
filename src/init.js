@@ -1,6 +1,7 @@
 let init = () => {
   //$v.ImageReplacer.open()
-  $v.PageLoader.close()
+
+  $v.EditorManager.open()
 }
 
 $(() => {
@@ -15,7 +16,11 @@ $(() => {
           //$('#summernotePostTitle').summernote(summernotePostTitleConfig);
           //EditorManager.methods.initSummerNote()
           $v.EditorManager.init(() => {
-            init()
+            $v.PageLoader.close()
+            
+            setTimeout(() => {
+              init()
+            }, 1000)
           })
         })
       })

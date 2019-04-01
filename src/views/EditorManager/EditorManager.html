@@ -17,20 +17,26 @@
                    @change="validateUploadImageDrarfUrl"
                    placeholder="https://www.blogger.com/blogger.g?blogID=..." />
           </div>
-          <div class="field">
-            <div class="mini ui button"
-               @click="openBloggerConsole">
-              Blogger console
+          <div class="three fields">
+            <div class="field">
+              <div class="mini ui fluid button"
+                 @click="openBloggerConsole">
+                Blogger console
+              </div>
             </div>
-            <div v-bind:class="{ disabled: disableUploadImageDraft }"
-               class="mini ui button"
-               @click="openBloggerDraft">
-              Open Draft
+            <div class="field">
+              <div v-bind:class="{ disabled: disableUploadImageDraft }"
+                 class="mini ui fluid button"
+                 @click="openBloggerDraft">
+                Open Draft
+              </div>
             </div>
-            <div v-bind:class="{ disabled: disableUploadImageDraft }"
-               class="mini ui button"
-               @click="openImageReplacer">
-              Replace Images
+            <div class="field">
+              <div v-bind:class="{ disabled: disableUploadImageDraft }"
+                 class="mini ui fluid button"
+                 @click="openImageReplacer">
+                Replace Images
+              </div>
             </div>
           </div>
           

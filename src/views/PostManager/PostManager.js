@@ -29,7 +29,7 @@ var PostManager = {
       //  this.close()
       //})
       
-    this.init()
+    //this.init()
       
       //this.open()
     //})
@@ -344,7 +344,10 @@ var PostManager = {
     open: function () {
       //console.log(this.data)
       
-      $v.EditorManager.save()
+      if (typeof($v.EditorManager) !== 'undefined') {
+        $v.EditorManager.save()
+      }
+      
       //this.getUI().find('.header:first').click()
       this.init()
       this.getUI().modal('show')

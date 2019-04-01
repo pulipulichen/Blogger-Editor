@@ -8,31 +8,34 @@
     <!-- ---------------------------------------- -->
     
     <div class="content">
-      <div class="description ui form">
-        <div class="fields">
-          <div class="three wide field"
-                @click="newPost">
-            <div class="ui fluid button">
-              NEW
+      <div class="description">
+        <form class="ui form">
+          
+          <div class="fields">
+            <div class="four wide field"
+                  @click="newPost">
+              <div class="ui fluid button">
+                NEW
+              </div>
+            </div>
+            <div class="eight wide field">
+              <div class="ui icon input post-filter" >
+                <input type="text" 
+                       placeholder="Filter..."
+                       v-model="filterCondition"
+                       @keyup="filterPosts">
+                <i class="filter icon"></i>
+              </div>
+            </div>
+            <div class="four wide field"
+                  @click="backupPost">
+              <div class="ui fluid button">
+                BACKUP
+              </div>
             </div>
           </div>
-          <div class="ten wide field">
-            <div class="ui icon input post-filter" >
-              <input type="text" 
-                     placeholder="Filter..."
-                     v-model="filterCondition"
-                     @keyup="filterPosts">
-              <i class="filter icon"></i>
-            </div>
-          </div>
-          <div class="three wide field"
-                @click="backupPost">
-            <div class="ui fluid button">
-              BACKUP
-            </div>
-          </div>
-        </div>
         
+        </form>
         
 
         <div class="ui divided unstackable items post-list"

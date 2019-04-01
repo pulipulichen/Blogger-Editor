@@ -3,12 +3,12 @@ const CONFIG = {
   uploadImageDraft: '',
   debug: {
     //disablePostManager: true,
-    disableThemeManager: false,
-    disableEditorManager: false,
+    disableThemeManager: true,
+    disableEditorManager: true,
     
-    disableSummerNode: false,
-    disableImageReplacer: false,
-    disableTemplateBuilder: false
+    disableSummerNode: true,
+    disableImageReplacer: true,
+    disableTemplateBuilder: true
   }
 }
 export default CONFIG
