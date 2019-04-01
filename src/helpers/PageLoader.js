@@ -9,6 +9,7 @@ let PageLoader = {
     if ($('#PageLoader').length === 0) {
       this.ui = $(this.content)
       $('body').append(this.ui)
+      //this.ui = $('body')
     }
   },
   open: function () {
