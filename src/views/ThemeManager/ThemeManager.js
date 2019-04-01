@@ -48,7 +48,8 @@ var ThemeManager = {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')
-        this.ui = this.ui = $('.ThemeManager.ui.modal')
+        //this.ui = $('.ThemeManager.ui.modal')
+        this.ui = $(this.$refs.modal)
       }
       return this.ui
     },
