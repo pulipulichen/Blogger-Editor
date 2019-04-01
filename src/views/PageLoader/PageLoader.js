@@ -1,7 +1,7 @@
 var config = {
   data: function () {
     return {
-      name: 'Base',
+      name: 'PageLoader',
       ui: undefined,
     }
   },
@@ -9,7 +9,7 @@ var config = {
     
   },
   created: function () {
-    $v.base = this
+    $v[this.name] = this
   },
   methods: {
     // ---------------------

@@ -20,7 +20,6 @@ require('./helpers/VueHelper.js')
 require('./helpers/DayjsHelper.js')
 require('./helpers/SemanticUIHelper.js')
 require('./helpers/FileHelper.js')
-require('./helpers/PageLoader.js')
 
 
 require('./helpers/ConfigHelper.js')
@@ -28,6 +27,9 @@ require('./helpers/ConfigHelper.js')
 //TemplateManager = import('./views/ThemeManager/TemplateManager.js')
 
 window.$v = {}
+
+import PageLoaderSfc from './views/PageLoader/PageLoader.vue'
+VueHelper.init(PageLoaderSfc)
 
 import BrowserDetectorComponent from './views/BrowserDetector/BrowserDetector.vue'
 new Vue({
