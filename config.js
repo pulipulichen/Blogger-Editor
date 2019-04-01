@@ -1,5 +1,8 @@
 const CONFIG = {
   defaultTheme: 'default',
-  uploadImageDraft: ''
+  uploadImageDraft: '',
+  debug: {
+    disableSummerNode: true
+  }
 }
 export default CONFIG

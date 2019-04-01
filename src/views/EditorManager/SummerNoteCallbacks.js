@@ -1,5 +1,5 @@
 let SummerNoteCallbacks = {
-  config: function () {
+  config: function (callback) {
     return {
       onImageUpload: (files) => {
         this.onImageUpload(files)
@@ -14,6 +14,9 @@ let SummerNoteCallbacks = {
         DelayExecHelper.exec('postBody', 5, () => {
           $v.PostManager.updateEditingPostBody(contents)
         })
+      },
+      onInit: () => {
+        FunctionHelper.triggerCallback(callback)
       }
     }
   },

@@ -23804,7 +23804,8 @@ padding-bottom: 56.25%;
 padding-bottom: 42.85714286%;
 }
 .non-invasive-web-style-framework .ui.modal {
-position: absolute;
+/* position: absolute; */
+position: fixed;
 display: none;
 z-index: 2001;
 text-align: left;

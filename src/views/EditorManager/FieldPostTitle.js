@@ -2,6 +2,21 @@ import SummerNoteConfig from './SummerNoteConfig.js'
 
 let FieldPostTitle = {
   ui: null,
+  debug: {
+    disableSummerNode: false
+  },
+  init: function (callback) {
+    this.debug.disableSummerNode = ConfigHelper.get('debug').disableSummerNode
+    
+    if (this.debug.disableSummerNode === true) {
+      FunctionHelper.triggerCallback(callback)
+      return this
+    }
+    
+    this.get().summernote(SummerNoteConfig.airConfig('title', 'Post Title', callback))
+    // 'labels', 'Labels'
+    return this
+  },
   get: function () {
     if (this.ui === null
             || this.ui.length === 0) {
@@ -10,17 +25,21 @@ let FieldPostTitle = {
     return this.ui
   },
   getElement: function () {
+    if (this.debug.disableSummerNode === true) {
+      return this.get()
+    }
+    
     return this.get().next().find('.note-editing-area .note-editable')
   },
   getText: function () {
     return this.getElement().text()
   },
-  init: function () {
-    this.get().summernote(SummerNoteConfig.airConfig('title', 'Post Title'))
-    // 'labels', 'Labels'
-    return this
-  },
   set: function (value) {
+    if (this.debug.disableSummerNode === true) {
+      this.get().html(value)
+      return this
+    }
+    
     this.get().summernote('code', value);
     return this
   },

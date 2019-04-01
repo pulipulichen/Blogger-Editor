@@ -49,7 +49,7 @@ let SummerNoteConfig = {
       ['insert', ['link', 'picture']]
     ]
   },
-  fullConfig: function () {
+  fullConfig: function (callback) {
     let config = {
       focus: true, // set focus to editable area after initializing summernote
       disableResizeEditor: true,
@@ -63,11 +63,11 @@ let SummerNoteConfig = {
       },
       buttons: SummerNoteButtons.config(),
       //disableDragAndDrop: false,
-      callbacks: SummerNoteCallbacks.config()
+      callbacks: SummerNoteCallbacks.config(callback)
     }
     return config
   },
-  airConfig: function (fieldName, placeholder) {
+  airConfig: function (fieldName, placeholder, callback) {
     let config = {
       airMode: true,
       placeholder: placeholder,
@@ -82,6 +82,9 @@ let SummerNoteConfig = {
             $v.PostManager.updateEditingPost(fieldName, contents)
           })
           //console.log(fieldName + ':', contents)
+        },
+        onInit: function() {
+          FunctionHelper.triggerCallback(callback)
         }
       }
     }

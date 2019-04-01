@@ -79,11 +79,13 @@ var EditorManager = {
     },
     init: function (callback) {
       
-      FieldPostBody.init()
-      FieldPostTitle.init()
-      FieldPostLabels.init()
-      
-      this.setupPostData(callback)
+      FieldPostTitle.init(() => {
+        FieldPostBody.init(() => {
+          FieldPostLabels.init(() => {
+            this.setupPostData(callback)
+          })
+        })
+      })
     },
     setupPostData: function (callback) {
       $v.PostManager.getPost((post) => {

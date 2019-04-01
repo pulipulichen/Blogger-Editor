@@ -2,6 +2,22 @@ import SummerNoteConfig from './SummerNoteConfig.js'
 
 let FieldPostBody = {
   ui: null,
+  debug: {
+    disableSummerNode: false
+  },
+  init: function (callback) {
+    this.debug.disableSummerNode = ConfigHelper.get('debug').disableSummerNode
+    
+    if (this.debug.disableSummerNode === true) {
+      FunctionHelper.triggerCallback(callback)
+      return this
+    }
+    
+    //console.log('FieldPostBody init')
+    this.get().summernote(SummerNoteConfig.fullConfig(callback))
+    //console.log(SummerNoteConfig.fullConfig())
+    return this
+  },
   get: function () {
     if (this.ui === null
             || this.ui.length === 0) {
@@ -9,26 +25,42 @@ let FieldPostBody = {
     }
     return this.ui
   },
-  init: function () {
-    //console.log('FieldPostBody init')
-    this.get().summernote(SummerNoteConfig.fullConfig())
-    //console.log(SummerNoteConfig.fullConfig())
-    return this
-  },
   getHTML: function () {
+    if (this.debug.disableSummerNode === true) {
+      return this.get().html()
+    }
+    
     return this.get().summernote('code');
   },
   getSelectTarget: function () {
+    if (this.debug.disableSummerNode === true) {
+      return
+    }
+    
     return this.get().summernote('restoreTarget')
   },
   getElement: function () {
+    if (this.debug.disableSummerNode === true) {
+      return this.get()
+    }
+    
     return this.get().next().find('.note-editing-area .note-editable')
   },
   insert: function (html) {
+    if (this.debug.disableSummerNode === true) {
+      this.get().append(html)
+      return this
+    }
+    
     this.get().summernote('insertNode', html);
     return this
   },
   set: function (value) {
+    if (this.debug.disableSummerNode === true) {
+      this.get().html(value)
+      return this
+    }
+    
     //console.log('postBody: ', value)
     this.get().summernote('code', value);
     return this
