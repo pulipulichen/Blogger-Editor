@@ -15,6 +15,7 @@ let VueHelper = {
     localStorage[key] = vue[key];
   },
   _vueIdCount: 0,
+  _vueContainer: null,
   init: function (id, sfc, callback) {
     if (typeof(id) === 'object') {
       callback = sfc
@@ -23,7 +24,12 @@ let VueHelper = {
       this._vueIdCount++
     }
     
-    $('body').append(`<div id="${id}"></div>`)
+    if (this._vueContainer === null) {
+      this._vueContainer = $('<div class="non-invasive-web-style-framework"></div>')
+              .appendTo('body')
+    }
+    
+    this._vueContainer.append(`<div id="${id}"></div>`)
     
     if (typeof(callback) === 'function') {
       if (typeof(sfc.created) === 'function') {

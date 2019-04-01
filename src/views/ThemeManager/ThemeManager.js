@@ -32,7 +32,10 @@ var ThemeManager = {
   },
   created: function () {
     $(() => {
-      $('.ThemeManager.modal .menu .item').tab()
+      let items = $('.ThemeManager.modal .menu .item')
+      if (typeof(items.tab) === 'function') {
+        items.tab()
+      }
       //this.open()
     })
     $v.ThemeManager = this

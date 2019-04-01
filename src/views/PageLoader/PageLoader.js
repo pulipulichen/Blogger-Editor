@@ -19,7 +19,8 @@ var config = {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')
-        this.ui = $(this.$refs.modal)
+        //this.ui = $(this.$refs.modal)
+        this.ui = $('.page-loader.modal')
       }
       return this.ui
     },

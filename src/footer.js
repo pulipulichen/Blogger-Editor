@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+
+
 require('./helpers/ConfigHelper.js')
 
 //require('./vendor/garlic/garlic.min.js')
