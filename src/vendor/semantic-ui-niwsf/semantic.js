@@ -9,7 +9,7 @@
  *
  */
 /*!
- * # Semantic UI 2.4.2 - Site
+ * # Semantic UI - Site
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -497,7 +497,7 @@ $.extend($.expr[ ":" ], {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Form Validation
+ * # Semantic UI - Form Validation
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -2204,7 +2204,7 @@ $.fn.form.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Accordion
+ * # Semantic UI - Accordion
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -2818,7 +2818,7 @@ $.extend( $.easing, {
 
 
 /*!
- * # Semantic UI 2.4.2 - Checkbox
+ * # Semantic UI - Checkbox
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -3650,7 +3650,7 @@ $.fn.checkbox.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Dimmer
+ * # Semantic UI - Dimmer
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -4037,8 +4037,7 @@ $.fn.dimmer = function(parameters) {
             return !module.is.disabled();
           },
           page: function () {
-            //return $dimmable.is('body');
-            return $dimmable.is('.non-invasive-web-style-framework');
+            return $dimmable.is('body');
           },
           pageDimmer: function() {
             return $dimmer.hasClass(className.pageDimmer);
@@ -4385,7 +4384,7 @@ $.fn.dimmer.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Dropdown
+ * # Semantic UI - Dropdown
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -8341,7 +8340,7 @@ $.fn.dropdown.settings.templates = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Embed
+ * # Semantic UI - Embed
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -9048,7 +9047,7 @@ $.fn.embed.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Modal
+ * # Semantic UI - Modal
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -9073,8 +9072,7 @@ $.fn.modal = function(parameters) {
     $allModules    = $(this),
     $window        = $(window),
     $document      = $(document),
-    //$body          = $('body'),
-    $body          = $('.non-invasive-web-style-framework:first'),
+    $body          = $('body'),
 
     moduleSelector = $allModules.selector || '',
 
@@ -10030,8 +10028,7 @@ $.fn.modal.settings = {
   // whether to use keyboard shortcuts
   keyboardShortcuts: true,
 
-  //context    : 'body',
-  context    : '.non-invasive-web-style-framework:first',
+  context    : 'body',
 
   queue      : false,
   duration   : 500,
@@ -10085,7 +10082,7 @@ $.fn.modal.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Nag
+ * # Semantic UI - Nag
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -10138,8 +10135,7 @@ $.fn.nag = function(parameters) {
         $close          = $module.find(selector.close),
         $context        = (settings.context)
           ? $(settings.context)
-          //: $('body'),
-          : $('.non-invasive-web-style-framework:first'),
+          : $('body'),
 
         element         = this,
         instance        = $module.data(moduleNamespace),
@@ -10594,7 +10590,7 @@ $.extend( $.easing, {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Popup
+ * # Semantic UI - Popup
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -10619,8 +10615,7 @@ $.fn.popup = function(parameters) {
     $allModules    = $(this),
     $document      = $(document),
     $window        = $(window),
-    //$body          = $('body'),
-    $body          = $('.non-invasive-web-style-framework:first'),
+    $body          = $('body'),
 
     moduleSelector = $allModules.selector || '',
 
@@ -12007,8 +12002,7 @@ $.fn.popup.settings = {
   exclusive      : false,
 
   // context to attach popups
-  //context        : 'body',
-  context        : '.non-invasive-web-style-framework:first',
+  context        : 'body',
 
   // context for binding scroll events
   scrollContext  : window,
@@ -12129,7 +12123,7 @@ $.fn.popup.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Progress
+ * # Semantic UI - Progress
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -13061,7 +13055,7 @@ $.fn.progress.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Rating
+ * # Semantic UI - Rating
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -13570,7 +13564,7 @@ $.fn.rating.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Search
+ * # Semantic UI - Search
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -15076,7 +15070,7 @@ $.fn.search.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Shape
+ * # Semantic UI - Shape
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -15099,8 +15093,7 @@ window = (typeof window != 'undefined' && window.Math == Math)
 $.fn.shape = function(parameters) {
   var
     $allModules     = $(this),
-    //$body           = $('body'),
-    $body           = $('.non-invasive-web-style-framework:first'),
+    $body           = $('body'),
 
     time            = new Date().getTime(),
     performance     = [],
@@ -15999,7 +15992,7 @@ $.fn.shape.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Sidebar
+ * # Semantic UI - Sidebar
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -16257,8 +16250,7 @@ $.fn.sidebar = function(parameters) {
               if(direction === 'left' || direction === 'right') {
                 module.debug('Adding CSS rules for animation distance', width);
                 style  += ''
-                  //+ ' body.pushable > .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
-                  + ' .non-invasive-web-style-framework.pushable > .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
+                  + ' body.pushable > .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
                   + '   -webkit-transform: translate3d('+ distance[direction] + 'px, 0, 0);'
                   + '           transform: translate3d('+ distance[direction] + 'px, 0, 0);'
                   + ' }'
@@ -16266,8 +16258,7 @@ $.fn.sidebar = function(parameters) {
               }
               else if(direction === 'top' || direction == 'bottom') {
                 style  += ''
-                  //+ ' body.pushable > .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
-                  + ' .non-invasive-web-style-framework.pushable > .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
+                  + ' body.pushable > .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
                   + '   -webkit-transform: translate3d(0, ' + distance[direction] + 'px, 0);'
                   + '           transform: translate3d(0, ' + distance[direction] + 'px, 0);'
                   + ' }'
@@ -16275,10 +16266,8 @@ $.fn.sidebar = function(parameters) {
               }
               /* opposite sides visible forces content overlay */
               style += ''
-                //+ ' body.pushable > .ui.visible.left.sidebar ~ .ui.visible.right.sidebar ~ .pusher:after,'
-                + ' .non-invasive-web-style-framework.pushable > .ui.visible.left.sidebar ~ .ui.visible.right.sidebar ~ .pusher:after,'
-                //+ ' body.pushable > .ui.visible.right.sidebar ~ .ui.visible.left.sidebar ~ .pusher:after {'
-                + ' .non-invasive-web-style-framework.pushable > .ui.visible.right.sidebar ~ .ui.visible.left.sidebar ~ .pusher:after {'
+                + ' body.pushable > .ui.visible.left.sidebar ~ .ui.visible.right.sidebar ~ .pusher:after,'
+                + ' body.pushable > .ui.visible.right.sidebar ~ .ui.visible.left.sidebar ~ .pusher:after {'
                 + '   -webkit-transform: translate3d(0px, 0, 0);'
                 + '           transform: translate3d(0px, 0, 0);'
                 + ' }'
@@ -16979,8 +16968,7 @@ $.fn.sidebar.settings = {
     }
   },
 
-  //context           : 'body',
-  context           : '.non-invasive-web-style-framework:first',
+  context           : 'body',
   exclusive         : false,
   closable          : true,
   dimPage           : true,
@@ -17038,7 +17026,7 @@ $.fn.sidebar.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Sticky
+ * # Semantic UI - Sticky
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -17998,7 +17986,7 @@ $.fn.sticky.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Tab
+ * # Semantic UI - Tab
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -18144,8 +18132,7 @@ $.fn.tab = function(parameters) {
             module.verbose('Using selector for tab context', settings.context, $context);
           }
           else {
-            //$context = $('body');
-            $context = $('.non-invasive-web-style-framework:first');
+            $context = $('body');
           }
           // find tabs
           if(settings.childrenOnly) {
@@ -18952,7 +18939,7 @@ $.fn.tab.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Transition
+ * # Semantic UI - Transition
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -20048,7 +20035,7 @@ $.fn.transition.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - API
+ * # Semantic UI - API
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -21216,7 +21203,7 @@ $.api.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.4.2 - Visibility
+ * # Semantic UI - Visibility
  * http://github.com/semantic-org/semantic-ui/
  *
  *
