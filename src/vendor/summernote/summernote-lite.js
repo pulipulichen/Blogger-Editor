@@ -8,9 +8,12 @@
  * Date: 2018-11-24T12:13Z
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
-  typeof define === 'function' && define.amd ? define(['jquery'], factory) :
-  (factory(global.jQuery));
+  //typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
+  //typeof define === 'function' && define.amd ? define(['jquery'], factory) :
+  //(factory(global.jQuery));
+  factory($)
+  //console.log(typeof($))
+  // 看起來是這沒錯
 }(this, (function ($$1) { 'use strict';
 
   $$1 = $$1 && $$1.hasOwnProperty('default') ? $$1['default'] : $$1;
@@ -4986,6 +4989,10 @@
       
       Editor.prototype.inlineTags = ["b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong", "samp", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup"]
       
+      Editor.prototype.isInlineTag = function (tagName) {
+        return this.inlineTags.indexOf(tagName) > -1
+      }
+      
       Editor.prototype.onFormatBlock = function (tagName, $target) {
           // [workaround] for MSIE, IE need `<`
           
@@ -5086,55 +5093,129 @@
           //this.saveRange()
           var rng = this.createRange();
           if (rng) {
-              //console.log(rng)
-              if (rng.sc.nodeValue === '') {
-                return
+              console.log(rng)
+              
+              
+              let parent = $(rng.sc)
+              console.log([rng.sc.nodeType, Node.TEXT_NODE])
+              if (rng.sc.nodeType === Node.TEXT_NODE) {
+                parent = $(rng.sc.parentElement)
               }
               
-              let parent = $(rng.sc.parentElement)
-              let parentTagName = rng.sc.parentElement.tagName.toLowerCase()
-              let parentClassName = rng.sc.parentElement.className
+              
+              let parentTagName = parent.prop('tagName').toLowerCase()
+              let parentClassName = parent.prop('className')
               let parentStyle = parent.attr('style')
               //console.log(parentTagName)
               
+              
+              //if (this.isInlineTag(parentTagName) === false 
+              //  && rng.sc.nodeValue === '') {
+              //  return
+              //}
+              
               let spans, styleNodesOption = {}
               
-              //console.log([options.tagName, parentTagName])
-              //console.log([options.className, parentClassName])
-              //console.log([options.style, parentStyle])
+              console.log([options.tagName, parentTagName])
+              console.log([options.className, parentClassName])
+              console.log([options.style, parentStyle])
+              console.log([rng.sc.nodeValue])
               
-              let reset = true
+              let reset = false
               
-              if ((typeof(options.tagName) === 'string' && parentTagName !== options.tagName.toLowerCase()) 
-                  || (typeof(options.className) === 'string' && parentClassName !== options.className.trim())
-                  || (typeof(options.style) === 'string' && parentStyle !== options.style.trim())
+              
+              if ((
+                    (typeof(options.tagName) === 'string' && parentTagName === options.tagName.toLowerCase())
+                    || typeof(options.tagName) !== 'string'
+                  ) 
+                  && (
+                    (typeof(options.className) === 'string' && parentClassName === options.className.trim())
+                    || (typeof(options.className) !== 'string' && parentClassName === undefined)
+                  )
+                  && (
+                    (typeof(options.style) === 'string' && parentStyle === options.style.trim())
+                    || (typeof(options.style) !== 'string' && parentStyle === undefined)
+                  )
               ) {
-                reset = false
+                reset = true
               }
               
               if (reset === true) {
                   // 取代，然後取消
+                  let upParent = parent.parent()
+                  let doSelect = false
+                  if (upParent.text() === parent.text()) {
+                    doSelect = true
+                  }
+                  
                   let content = parent.html()
+                  //let contentNodes = parent.children()
+                  //console.log(contentNodes)
                   parent.replaceWith(content)
-                  parent.select()
+                  //parent.select()
+                  //console.log(['cancel', parent[0]])
+                  
+                  if (doSelect === true) {
+                    this.selectElement(upParent[0])
+                  }
+                  //this.selectElement(contentNodes[0])
+                  /*
+                  var elm = upParent[0],
+    fc = elm.firstChild,
+    ec = elm.lastChild,
+    range = document.createRange(),
+    sel;
+elm.focus();
+range.setStart(fc,2);
+range.setEnd(ec,4);
+sel = window.getSelection();
+sel.removeAllRanges();
+sel.addRange(range);
+                 */ 
+                  
                   return
                 }
               
               if (typeof(options.tagName) === 'string') {
-              
-                if (this.inlineTags.indexOf(parentTagName) === -1) {
-                  styleNodesOption = {
-                    nodeName: options.tagName,
-                    expandClosestSibling: true,
-                    onlyPartialContains: true
-                  };
-                  spans = this.style.styleNodes(rng, styleNodesOption)
+                console.log([parentTagName, this.isInlineTag(parentTagName), rng.sc.nodeValue, parent])
+                if (this.isInlineTag(parentTagName) === false) {
+                  //if (rng.sc.nodeValue !== '') {
+                  if (rng.so !== rng.eo) {
+                    styleNodesOption = {
+                      nodeName: options.tagName,
+                      expandClosestSibling: true,
+                      onlyPartialContains: true
+                    };
+                    spans = this.style.styleNodes(rng, styleNodesOption)
+                  }
+                  else if (parent.hasClass('note-editable') === false) {
+                    let content = parent.html()
+                    let t = options.tagName
+                    parent.html(`<${t}>${content}</${t}>`)
+                    spans = parent.children()[0]
+                  }
+                  else {
+                    return
+                  }
                 }
                 else {
                   if (parentTagName !== options.tagName.toLowerCase()) {
                     let content = parent.html()
                     let t = options.tagName
-                    parent.replaceWith(`<${t}>${content}</${t}>`)
+                    
+                    // Only replace tagName. Keep className and style
+                    
+                    let c = parent.prop('className')
+                    if (c !== undefined) {
+                      c = ` class="${c}"`
+                    }
+                    
+                    let s = parent.attr('style')
+                    if (s !== undefined) {
+                      s = ` style="${s}"`
+                    }
+                    
+                    parent.replaceWith(`<${t}${c}${s}>${content}</${t}>`)
                   }
                   
                   spans = rng.sc.parentElement
@@ -5143,16 +5224,17 @@
               
           
               if (typeof(options.className) === 'string') {
-                $$1(spans).toggleClass(options.className);
+                //$$1(spans).addClass(options.className);
+                $$1(spans).prop('className', options.className);
               }
               
               if (typeof(options.style) === 'string') {
                 if ($$1(spans).attr('style') !== options.style) {
                   $$1(spans).attr('style', options.style);
                 }
-                else {
-                  $$1(spans).removeAttr('style');
-                }
+                //else {
+                //  $$1(spans).removeAttr('style');
+                //}
               }
           
               // [workaround] added styled bogus span for style
@@ -5166,9 +5248,27 @@
                   }
               }
               
-              rng.select()
+              //rng.select()
+              //$(spans).select()
+              // https://stackoverflow.com/questions/9975707/use-jquery-select-to-select-contents-of-a-div
+              this.selectElement(spans)
           }
       };
+      
+      Editor.prototype.selectElement = function (node) {
+              if (document.body.createTextRange) {
+                  var range = document.body.createTextRange();
+                  range.moveToElementText(node);
+                  range.select();
+              } else if (window.getSelection) {
+                  var selection = window.getSelection();        
+                  var range = document.createRange();
+                  range.selectNodeContents($$1(node)[0]);
+                  selection.removeAllRanges();
+                  selection.addRange(range);
+              }      
+      }
+      
       /**
        * unlink
        *
