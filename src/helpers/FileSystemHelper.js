@@ -89,6 +89,11 @@ FileSystemHelper = {
     }, errorHandler);
   },
   removeDir: function (dirPath, callback) {
+    if (InitHelper.ready === false) {
+      console.log('wait init ready')
+      return
+    }
+    
     let fs = this.fs
     fs.root.getDirectory(dirPath, {}, function(dirEntry) {
 
@@ -100,6 +105,11 @@ FileSystemHelper = {
   }, callback);
   },
   write: function (filePath, content, callback) {
+    if (InitHelper.ready === false) {
+      console.log('wait init ready')
+      return
+    }
+    
     let fs = this.fs
     
     if (filePath.startsWith('/') === false) {
@@ -268,6 +278,11 @@ FileSystemHelper = {
       
   },
   remove: function (path, callback) {
+    if (InitHelper.ready === false) {
+      console.log('wait init ready')
+      return
+    }
+    
     let fs = this.fs
     let errorHandler = this.errorHandler
     

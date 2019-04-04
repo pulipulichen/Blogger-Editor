@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+require('./helpers/InitHelper.js')
 
 
 require('./helpers/ConfigHelper.js')
@@ -44,4 +45,5 @@ VueHelper.init(NavBarComponent)
 
 // --------------------
 
-require('./init.js')
+//require('./init.js')
+InitHelper.init()
