@@ -44,7 +44,7 @@ var ThemeManager = {
       VueHelper.init('TemplateBuilder', TemplateBuilderSfc, (TemplateBuilder) => {
         this.TemplateBuilder = TemplateBuilder
       })
-    }
+    }    
   },
   methods: {
     // ---------------------
@@ -60,8 +60,13 @@ var ThemeManager = {
       return this.ui
     },
     open: function () {
+      this.TemplateManager.hasCustomTemplate((isExists) => {
+        this.useCustomTemplate = isExists
+        this.getUI().modal('show')
+      })
+      
       //console.log(this.data)
-      this.getUI().modal('show')
+      
     },
     close: function () {
       this.getUI().modal('hide')

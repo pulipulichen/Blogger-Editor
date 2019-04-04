@@ -106,21 +106,33 @@ var EditorManager = {
         })
       })
     },
-    save: function (force) {
+    save: function (force, callback) {
+      if (typeof(force) === 'function') {
+        callback = force
+        force = false
+      }
+      
       if (force === undefined) {
         force = false
       }
       
       if (force === false && DelayExecHelper.isWaiting()) {
         DelayExecHelper.forceExec()
+        FunctionHelper.triggerCallback(callback)
         return
       }
       
-      FieldPostTitle.save()
-      FieldPostLabels.save()
-      FieldPostBody.save()
-      
-      DelayExecHelper.clear()
+      //console.log('title save')
+      FieldPostTitle.save(() => {
+        //console.log('labels save')
+        FieldPostLabels.save(() => {
+          //console.log('body save')
+          FieldPostBody.save(() => {
+            DelayExecHelper.clear()
+            FunctionHelper.triggerCallback(callback)
+          })
+        })
+      })
     },
     openBloggerDraft: function () {
       let url = this.uploadImageDraft

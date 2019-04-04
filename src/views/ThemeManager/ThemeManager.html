@@ -25,16 +25,18 @@
           
           <div class="fields">
             <div class="six wide field">
+              <input type="file" name="uploadTemplate"
+                     @change="TemplateManager.upload"/>
               <div class="ui positive labeled icon fluid button" 
                    v-if="useCustomTemplate === false"
-                   @click="TemplateManager.upload">
+                   @click="TemplateManager.triggerUpload">
                 <i class="upload icon"></i>
                 Upload
               </div>
               <div class="ui fluid labeled icon button" 
                    v-if="useCustomTemplate"
                    @click="TemplateManager.reset">
-                <i class="redo alternate icon"></i>
+                <i class="undo icon"></i>
                 Reset
               </div>
             </div>

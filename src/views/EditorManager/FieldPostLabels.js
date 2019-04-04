@@ -43,9 +43,9 @@ let FieldPostLabels = {
     this.get().summernote('code', value);
     return this
   },
-  save: function () {
+  save: function (callback) {
     let postLabels = this.getText()
-    $v.PostManager.updateEditingPost('labels', postLabels)
+    $v.PostManager.updateEditingPost('labels', postLabels, callback)
   }
 }
 

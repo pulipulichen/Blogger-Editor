@@ -43,9 +43,10 @@ let FieldPostTitle = {
     this.get().summernote('code', value);
     return this
   },
-  save: function () {
+  save: function (callback) {
     let postTitle = this.getText()
-    $v.PostManager.updateEditingPost('title', postTitle)
+    $v.PostManager.updateEditingPost('title', postTitle, callback)
+    return this
   }
 }
 

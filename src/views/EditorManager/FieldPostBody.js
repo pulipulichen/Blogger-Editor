@@ -121,8 +121,8 @@ let FieldPostBody = {
     let path = `/${id}/assets`
     return FileSystemHelper.removeDir(path)
   },
-  save: function () {
-    $v.PostManager.updateEditingPostBody(this.getHTML())
+  save: function (callback) {
+    $v.PostManager.updateEditingPostBody(this.getHTML(), callback)
   }
 }
 

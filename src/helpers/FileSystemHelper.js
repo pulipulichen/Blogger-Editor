@@ -208,6 +208,11 @@ FileSystemHelper = {
 
   },
   copy: function (dirPath, files, filename, callback) {
+    if (InitHelper.ready === false) {
+      console.log('wait init ready')
+      return
+    }
+    
     if (typeof(filename) === 'function') {
       callback = filename
       filename = null

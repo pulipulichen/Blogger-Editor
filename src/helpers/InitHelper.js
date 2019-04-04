@@ -4,6 +4,7 @@ let InitHelper = {
     //$v.ImageReplacer.open()
 
     //$v.EditorManager.open()
+    $v.ThemeManager.open()
     FunctionHelper.triggerCallback(callback)
   },
   init: function (callback) {

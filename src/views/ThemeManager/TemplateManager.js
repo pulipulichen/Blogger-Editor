@@ -1,11 +1,41 @@
 let TemplateManager = {
   selector: '#template',
   path: '/template.html',
-  upload: function () {
-    console.log('TemplateManager.upload')
+  i18n: {
+    needReload: 'We need reload webpage to active the change. Do you want to reload now?'
+  },
+  triggerUpload: function (e) {
+    //console.log(this)
+    $(e.target).parent().children('input:file:first').click()
+  },
+  upload: function (e) {
+    //console.log('TemplateManager.upload')
+    //console.log(e)
+    let files = e.target.files
+    
+    // do we need to vaildate template?
+    
+    FileSystemHelper.copy('/', files, 'template.html', () => {
+      //console.log(`template uploaded.`)
+      $v.ThemeManager.useCustomTemplate = true
+      TemplateManager.reloadRequest()
+    })
   },
   reset: function () {
-    FileSystemHelper.remove(this.path)
+    FileSystemHelper.remove(TemplateManager.path)
+    $v.ThemeManager.useCustomTemplate = false
+    TemplateManager.reloadRequest()
+  },
+  reloadRequest: function () {
+    //if (window.confirm(TemplateManager.i18n.needReload)) {
+    //  location.reload()
+    //}
+    WindowHelper.confirm(TemplateManager.i18n.needReload, () => {
+      $v.PageLoader.open()
+      $v.EditorManager.save(() => {
+        location.reload()
+      })
+    })
   },
   open: function () {
     
@@ -14,8 +44,10 @@ let TemplateManager = {
       if (isExists === true) {
         url = FileSystemHelper.getFileSystemUrl(TemplateManager.path)
       }
+      console.log(url)
       WindowHelper.popup(url, 'template')
     })
+    return this
   },
   download: function () {
     FileSystemHelper.isExists(TemplateManager.path, (isExists) => {
@@ -25,10 +57,16 @@ let TemplateManager = {
       }
       FileHelper.download(url, 'template.html')
     })
+    return this
   },
   getCustom: function (callback) {
     let path = this.path
     FileSystemHelper.read(path, callback)
+    return this
+  },
+  hasCustomTemplate: function (callback) {
+    FileSystemHelper.isExists(this.path, callback)
+    return this
   },
   getDefaultPath: function () {
     let defaultTheme = ConfigHelper.get('defaultTheme')
@@ -51,6 +89,7 @@ let TemplateManager = {
         FunctionHelper.triggerCallback(callback, template)
       }
     })
+    return this
   },
   replacePlaceholder: function (template) {
     //console.log(template)

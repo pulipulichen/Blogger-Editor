@@ -36,5 +36,13 @@ WindowHelper = {
       newWindow.focus()
     }
     return newWindow
+  },
+  confirm: function (message, yesCallback, noCallback) {
+    if (window.confirm(message)) {
+      FunctionHelper.triggerCallback(yesCallback)
+    }
+    else {
+      FunctionHelper.triggerCallback(noCallback)
+    }
   }
 }
