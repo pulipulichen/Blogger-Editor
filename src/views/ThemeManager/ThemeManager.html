@@ -24,8 +24,8 @@
         <div class="ui bottom attached tab segment active form" 
              data-tab="template">
           
-          <div class="fields">
-            <div class="six wide field">
+          <div class="three fields">
+            <div class="field">
               <input type="file" name="uploadTemplate"
                      @change="TemplateManager.upload"/>
               <div class="ui positive labeled icon fluid button" 
@@ -41,14 +41,14 @@
                 Reset
               </div>
             </div>
-            <div class="five wide field">
+            <div class="field">
               <div class="ui fluid labeled icon button" 
                    @click="TemplateManager.open">
                 <i class="folder open icon"></i>
                 Open
               </div>
             </div>
-            <div class="five wide field">
+            <div class="field">
               <div class="ui fluid labeled icon button" 
                    @click="TemplateManager.download">
                 <i class="download icon"></i>
@@ -74,9 +74,51 @@
         
         <!-- ------------------------------------- -->
         
-        <div class="ui bottom attached tab segment" data-tab="style">
+        <div class="ui bottom attached tab segment" 
+             data-tab="style">
           
-          <div class="fields"></div>
+          
+          <div class="three fields">
+            <div class="field">
+              <input type="file" name="uploadStyle"
+                     @change="StyleManager.upload"/>
+              <div class="ui positive labeled icon fluid button" 
+                   v-if="useCustomStyle === false"
+                   @click="StyleManager.triggerUpload">
+                <i class="upload icon"></i>
+                Upload
+              </div>
+              <div class="ui fluid labeled icon button" 
+                   v-if="useCustomTemplate"
+                   @click="StyleManager.reset">
+                <i class="undo icon"></i>
+                Reset
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui fluid labeled icon button" 
+                   @click="StyleManager.open">
+                <i class="folder open icon"></i>
+                Open
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui fluid labeled icon button" 
+                   @click="StyleManager.download">
+                <i class="download icon"></i>
+                Download
+              </div>
+            </div>
+          </div>
+          
+          <div class="field">
+            <textarea name="style"></textarea>
+          </div>
+          
+          <div class="dragover-message"
+               @drop="StyleManager.drop">
+            Drop file to upload
+          </div>
           
         </div>
       </div> <!-- <div class="description"> -->

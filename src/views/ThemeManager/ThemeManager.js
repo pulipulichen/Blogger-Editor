@@ -1,4 +1,5 @@
 import TemplateManager from './TemplateManager.js'
+import StyleManager from './StyleManager.js'
 import TemplateBuilderSfc from './TemplateBuilder/TemplateBuilder.vue'
 import VueHelper from './../../helpers/VueHelper.js'
 
@@ -16,6 +17,7 @@ var ThemeManager = {
         style: '/style.css'
       },
       TemplateManager: TemplateManager,
+      StyleManager: StyleManager,
       TemplateBuilder: null,
       onCloseReload: false
     }
