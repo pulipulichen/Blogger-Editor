@@ -12,33 +12,37 @@ let TemplateManager = {
     //console.log('TemplateManager.upload')
     //console.log(e)
     let files = e.target.files
+    TemplateManager.uploadFiles(files)
+  },
+  uploadFiles: function (files, callback) {
+    if (files.length === 0) {
+      return
+    }
     
     // do we need to vaildate template?
-    
-    FileSystemHelper.copy('/', files, 'template.html', () => {
-      //console.log(`template uploaded.`)
-      this.afterUpload()
+    TemplateManager.validate(files, (result) => {
+      if (result === false) {
+        window.alert('Invalid template file')
+        return
+      }
+      
+      FileSystemHelper.copy('/', files, 'template.html', () => {
+        //console.log(`template uploaded.`)
+        $v.ThemeManager.useCustomTemplate = true
+        
+        WindowHelper.confirm(TemplateManager.i18n.needReload, () => {
+          $v.PageLoader.open()
+          $v.EditorManager.save(() => {
+            location.reload()
+          })
+        })
+      })
     })
-  },
-  afterUpload: function () {
-    $v.ThemeManager.useCustomTemplate = true
-    TemplateManager.reloadRequest()
   },
   reset: function () {
     FileSystemHelper.remove(TemplateManager.path)
     $v.ThemeManager.useCustomTemplate = false
     TemplateManager.reloadRequest()
-  },
-  reloadRequest: function () {
-    //if (window.confirm(TemplateManager.i18n.needReload)) {
-    //  location.reload()
-    //}
-    WindowHelper.confirm(TemplateManager.i18n.needReload, () => {
-      $v.PageLoader.open()
-      $v.EditorManager.save(() => {
-        location.reload()
-      })
-    })
   },
   open: function () {
     
@@ -134,25 +138,24 @@ let TemplateManager = {
   drop: function (e) {
     //e.preventDefault()
     //e.stopPropagation()
-    console.log(e.dataTransfer.items.length)
-    console.log('drop')
-    FileSystemHelper.copy('/', e.dataTransfer.files, 'template.html', () => {
-      //console.log('uploaded')
-      //console.log(FileSystemHelper.getFileSystemUrl(TemplateManager.path))
-      TemplateManager.afterUpload()
-    })
-    //let droppedFiles = e.dataTransfer.items
-    /*
-    let droppedFiles = e.dataTransfer.files;
-    let input = $(e.target).parent().find('input:file:first')
-    console.log(input.length)
-    input.prop('files', droppedFiles)
-            .change()
-            */
+    //console.log(e.dataTransfer.items.length)
+    //console.log('drop')
+    
+    let files = e.dataTransfer.files
+    TemplateManager.uploadFiles(files)
     return false
   },
-  
-  
+  validate: function (files, callback) {
+    console.log(files)
+    if (files.length !== 1 && files[0].type !== 'text/html') {
+      FunctionHelper.triggerCallback(callback, false)
+      return
+    }
+    //return true
+    //let result = true
+    FunctionHelper.triggerCallback(callback, true)
+    return this
+  }
 }
 
 export default TemplateManager

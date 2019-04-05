@@ -340,6 +340,41 @@ FileSystemHelper = {
     }
     
     return 'filesystem:' + location.protocol + '//' + location.host + '/' + fsType + path
+  },
+  readEventFiles: function (files, callback) {
+    //console.log(typeof(files.name))
+    let isArray = true
+    if (typeof(files.name) === 'string') {
+    //if (files.length > 1) {
+      files = [files]
+      isArray = false
+    }
+    
+    let output = []
+    let i = 0
+    
+    let reader = new FileReader();
+    reader.onload = function (event) {
+      let result = event.target.result
+      output.push(result)
+      i++
+      loop(i)
+    };
+    
+    let loop = (i) => {
+      if (i < files.length) {
+        let file = files[i]
+        //console.log(file);
+        reader.readAsDataURL(file);
+      }
+      else {
+        if (isArray) {
+          output = output[0]
+        }
+        FunctionHelper.triggerCallback(callback, output)
+      }
+    }
+    loop(i)
   }
 }
 
