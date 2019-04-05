@@ -1,9 +1,6 @@
 let TemplateManager = {
   selector: '#template',
   path: '/template.html',
-  i18n: {
-    needReload: 'We need reload webpage to active the change. Do you want to reload now?'
-  },
   triggerUpload: function (e) {
     //console.log(this)
     $(e.target).parent().children('input:file:first').click()
@@ -29,14 +26,14 @@ let TemplateManager = {
     }
     
     // do we need to vaildate template?
-    TemplateManager.validate(files, (result) => {
+    TemplateManager.validateFiles(files, (result) => {
       if (result === false) {
         window.alert('Invalid template file')
         return
       }
       
       FileSystemHelper.copy('/', files, 'template.html', () => {
-        console.log(`template uploaded.`)
+        //console.log(`template uploaded.`)
         console.log(FileSystemHelper.getFileSystemUrl('/template.html'))
         $v.ThemeManager.useCustomTemplate = true
         
@@ -94,20 +91,28 @@ let TemplateManager = {
     let path = this.path
     FileSystemHelper.read(path, (template) => {
       if (template === undefined) {
-        path = this.getDefaultPath()
-        $.get(path, (template) => {
+        this.loadDefault(callback)
+      }
+      else {
+        if (this.validate(template) === true) {
           template = this.replacePlaceholder(template)
           $(this.selector).html(template)
           FunctionHelper.triggerCallback(callback, template)
-        })
-      }
-      else {
-        template = this.replacePlaceholder(template)
-        $(this.selector).html(template)
-        FunctionHelper.triggerCallback(callback, template)
+        }
+        else {
+          this.loadDefault(callback)
+        }
       }
     })
     return this
+  },
+  loadDefault: function (callback) {
+    let path = this.getDefaultPath()
+    $.get(path, (template) => {
+      template = this.replacePlaceholder(template)
+      $(this.selector).html(template)
+      FunctionHelper.triggerCallback(callback, template)
+    })
   },
   replacePlaceholder: function (template) {
     //console.log(template)
@@ -156,7 +161,7 @@ let TemplateManager = {
     TemplateManager.uploadFiles(files)
     return false
   },
-  validate: function (files, callback) {
+  validateFiles: function (files, callback) {
     //console.log(files)
     if (files.length !== 1 || files[0].type !== 'text/html') {
       FunctionHelper.triggerCallback(callback, false)
@@ -166,15 +171,18 @@ let TemplateManager = {
     //let result = true
     FileSystemHelper.readEventFilesText(files[0], (content) => {
       //console.log(content)
-      let result = (content.split('${postTitle}').length === 2
-              && content.split('${postDate}').length === 2
-              && content.split('${postLabels}').length === 2
-              && content.split('${postBody}').length === 2)
+      let result = TemplateManager.validate(content)
       
       FunctionHelper.triggerCallback(callback, result)
     })
     
     return this
+  },
+  validate: function (template) {
+    return (template.split('${postTitle}').length === 2
+              && template.split('${postDate}').length === 2
+              && template.split('${postLabels}').length === 2
+              && template.split('${postBody}').length === 2)
   }
 }
 

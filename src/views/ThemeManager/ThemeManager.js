@@ -19,7 +19,8 @@ var ThemeManager = {
       TemplateManager: TemplateManager,
       StyleManager: StyleManager,
       TemplateBuilder: null,
-      onCloseReload: false
+      onCloseReload: false,
+      customStyle: ''
     }
   },
   mounted() {
@@ -47,7 +48,7 @@ var ThemeManager = {
       VueHelper.init('TemplateBuilder', TemplateBuilderSfc, (TemplateBuilder) => {
         this.TemplateBuilder = TemplateBuilder
       })
-    }   
+    }
     
   },
   methods: {
@@ -66,7 +67,10 @@ var ThemeManager = {
     open: function () {
       this.TemplateManager.hasCustomTemplate((isExists) => {
         this.useCustomTemplate = isExists
-        this.getUI().modal('show')
+        this.StyleManager.hasCustomStyle((isExists) => {
+          this.useCustomStyle = isExists
+          this.getUI().modal('show')
+        })  
       })
       
       //console.log(this.data)
@@ -79,8 +83,11 @@ var ThemeManager = {
         this.onCloseReload = false
         //this.reload(() => {
         //console.log('get ready to reload')
-        InitHelper.reload(() => {
-          this.getUI().modal('hide')
+        let style = this.customStyle
+        this.StyleManager.saveStyle(style, () => {
+          InitHelper.reload(() => {
+            this.getUI().modal('hide')
+          })
         })
       }
       else {
@@ -152,7 +159,13 @@ var ThemeManager = {
       //  this.TemplateManager.load(callback)
       //})
       
+      
+      this.StyleManager.getStyle((style) => {
+        this.customStyle = style
+      })
+      
       this.StyleManager.load(() => {
+        //console.log('StyleManager loaded')
         this.TemplateManager.load(callback)
       })
     },

@@ -112,7 +112,9 @@
           </div>
           
           <div class="field">
-            <textarea name="style"></textarea>
+            <textarea name="style" 
+                      v-model="customStyle"
+                      @change="StyleManager.setSave"></textarea>
           </div>
           
           <div class="dragover-message"

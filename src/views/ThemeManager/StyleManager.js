@@ -1,8 +1,5 @@
 let StyleManager = {
   path: '/style.css',
-  i18n: {
-    needReload: 'We need reload webpage to active the change. Do you want to reload now?'
-  },
   triggerUpload: function (e) {
     //console.log(this)
     $(e.target).parent().children('input:file:first').click()
@@ -18,39 +15,31 @@ let StyleManager = {
       return this
     }
     
-    if ($v.ThemeManager.useCustomStyle === true) {
-      FileSystemHelper.remove(StyleManager.path, () => {
-        //console.log('deleted')
-        $v.ThemeManager.useCustomStyle = false
-        StyleManager.uploadFiles(files, callback)
-      })
-      return this
-    }
-    
-    // do we need to vaildate template?
+    // do we need to vaildate style?
     StyleManager.validate(files, (result) => {
       if (result === false) {
-        window.alert('Invalid template file')
+        window.alert('Invalid style file')
         return
       }
       
-      FileSystemHelper.copy('/', files, 'template.html', () => {
-        console.log(`template uploaded.`)
-        console.log(FileSystemHelper.getFileSystemUrl('/template.html'))
-        $v.ThemeManager.useCustomStyle = true
+      FileSystemHelper.readEventFilesText(files[0], (style) => {
+        style = style.trim()
+        if (style === '') {
+          StyleManager.reset()
+          return
+        }
         
-        //WindowHelper.confirm(StyleManager.i18n.needReload, () => {
-        //  $v.PageLoader.open()
-        //  $v.EditorManager.save(() => {
-        //    location.reload()
-        //  })
-        //})
+        $v.ThemeManager.customStyle = style
+        $v.ThemeManager.useCustomStyle = true
         $v.ThemeManager.onCloseReload = true
+        
+        FunctionHelper.triggerCallback(callback)
       })
     })
   },
   reset: function () {
-    FileSystemHelper.remove(StyleManager.path)
+    //FileSystemHelper.remove(StyleManager.path)
+    $v.ThemeManager.customStyle = ''
     $v.ThemeManager.useCustomStyle = false
     $v.ThemeManager.onCloseReload = true
   },
@@ -71,7 +60,7 @@ let StyleManager = {
       if (isExists === true) {
         url = FileSystemHelper.getFileSystemUrl(StyleManager.path)
       }
-      FileHelper.download(url, 'template.html')
+      FileHelper.download(url, 'style.css')
     })
     return this
   },
@@ -94,6 +83,9 @@ let StyleManager = {
       if (content === undefined) {
         path = this.getDefaultPath()
       }
+      else {
+        path = FileSystemHelper.getFileSystemUrl(this.path)
+      }
       
       let linkTag = $('link#StyleManager')
       
@@ -107,35 +99,9 @@ let StyleManager = {
       
       //$(`<link href="${path}" rel="stylesheet" type="text/css" id="StyleManager" />`)
       //        .appendTo('head')
-      FunctionHelper.triggerCallback(callback, template)
+      FunctionHelper.triggerCallback(callback)
     })
     return this
-  },
-  replacePlaceholder: function (template) {
-    //console.log(template)
-    //let titleEditor = `<input type="text" name="postTitle" id="postTitle" />`
-    let titleEditor = `<div class="summernotePostTitle-wrapper air-mode">
-      <div id="summernotePostTitle"</div>
-    </div>`
-    template = template.replace('${postTitle}', titleEditor)
-
-    let dataContainer = `<span class="summernotePostDate-wrapper">
-      <span id="summernotePostDate" class="summernotePostDate"></span>
-    </span>`
-    template = template.replace('${postDate}', dataContainer)
-
-    let labelEditor = `<span class="summernotePostLabels-wrapper air-mode">
-      <span id="summernotePostLabels" class="summernotePostLabels"></span>
-    </span>`
-    template = template.replace('${postLabels}', labelEditor)
-
-    //let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
-    let postEditor = `<div class="summernotePostBody-wrapper">
-      <div id="summernotePostBody"></div>
-    </div>`
-    template = template.replace('${postBody}', postEditor)
-
-    return template
   },
   dragenter: function (e) {
     //console.log('dragenter')
@@ -168,6 +134,27 @@ let StyleManager = {
       FunctionHelper.triggerCallback(callback, true)
       return this
     }
+  },
+  setSave: function (e) {
+    $v.ThemeManager.onCloseReload = true
+  },
+  getStyle: function (callback) {
+    FileSystemHelper.read(this.path, (style) => {
+      if (style === undefined) {
+        style = ''
+      }
+      FunctionHelper.triggerCallback(callback, style)
+    })
+  },
+  saveStyle: function (style, callback) {
+    if (style === '') {
+      this.reset()
+      FileSystemHelper.remove(this.path, callback)
+    }
+    else {
+      FileSystemHelper.write(this.path, style, callback)
+    }
+    return this
   }
 }
 
