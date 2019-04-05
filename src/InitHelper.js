@@ -16,6 +16,7 @@ let InitHelper = {
   init: function (callback) {
     $(() => {
       $v.PageLoader.open()
+      SemanticUIHelper.initDrop()
       //return 
       $v.BrowserDetector.init(() => {
         FileSystemHelper.init(() => {

@@ -28259,7 +28259,10 @@ background-color: #FFF6CD;
 100% {
 background-color: #FCFCFD;
 }
-}.non-invasive-web-style-framework {
+}
+
+.non-invasive-web-style-framework {
   overflow-y: inherit !important;
   overflow-x: initial !important;
 }
+

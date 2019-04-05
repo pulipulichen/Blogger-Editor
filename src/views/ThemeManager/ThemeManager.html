@@ -21,7 +21,8 @@
              @click="openTab"
              >Style</a>
         </div>
-        <div class="ui bottom attached tab segment active form" data-tab="template">
+        <div class="ui bottom attached tab segment active form" 
+             data-tab="template">
           
           <div class="fields">
             <div class="six wide field">
@@ -62,6 +63,11 @@
               <i class="cog icon"></i>
               Open Template Builder
             </div>
+          </div>
+          
+          <div class="dragover-message"
+               @drop="TemplateManager.drop">
+            Drop file to upload
           </div>
           
         </div>

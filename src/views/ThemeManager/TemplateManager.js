@@ -117,7 +117,30 @@ let TemplateManager = {
 
     return template
   },
-
+  dragenter: function (e) {
+    //console.log('dragenter')
+    $(e.target).addClass('dragover')
+  },
+  //dragover: function (e) {
+  //  console.log('dragover')
+  //},
+  dragleave: function (e) {
+    //console.log('dragleave')
+    $(e.target).removeClass('dragover')
+  },
+  drop: function (e) {
+    //e.preventDefault()
+    //e.stopPropagation()
+    console.log(e.dataTransfer.items.length)
+    console.log('drop')
+    FileSystemHelper.copy('/', e.dataTransfer.items[0], 'template.html', () => {
+      console.log('uploaded')
+      console.log(FileSystemHelper.getFileSystemUrl(TemplateManager.path))
+    })
+    return false
+  },
+  
+  
 }
 
 export default TemplateManager
