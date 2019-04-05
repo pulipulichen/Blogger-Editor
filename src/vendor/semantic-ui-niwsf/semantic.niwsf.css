@@ -230,7 +230,7 @@ display: none;
 }
 html .non-invasive-web-style-framework,
 body .non-invasive-web-style-framework {
-height: 100%;
+  /*height: 100%;*/
 }
 html .non-invasive-web-style-framework {
 font-size: 14px;

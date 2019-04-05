@@ -5,11 +5,13 @@ let InitHelper = {
 
     //$v.EditorManager.open()
     $v.ThemeManager.open()
+    //$v.PageLoader.open()
     FunctionHelper.triggerCallback(callback)
   },
   init: function (callback) {
     $(() => {
       $v.PageLoader.open()
+      //return 
       $v.BrowserDetector.init(() => {
         FileSystemHelper.init(() => {
           $v.PostManager.init(() => {
