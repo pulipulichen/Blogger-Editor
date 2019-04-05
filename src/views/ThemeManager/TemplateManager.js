@@ -30,12 +30,13 @@ let TemplateManager = {
         //console.log(`template uploaded.`)
         $v.ThemeManager.useCustomTemplate = true
         
-        WindowHelper.confirm(TemplateManager.i18n.needReload, () => {
-          $v.PageLoader.open()
-          $v.EditorManager.save(() => {
-            location.reload()
-          })
-        })
+        //WindowHelper.confirm(TemplateManager.i18n.needReload, () => {
+        //  $v.PageLoader.open()
+        //  $v.EditorManager.save(() => {
+        //    location.reload()
+        //  })
+        //})
+        $v.ThemeManager.onCloseReload = true
       })
     })
   },

@@ -16,7 +16,8 @@ var ThemeManager = {
         style: '/style.css'
       },
       TemplateManager: TemplateManager,
-      TemplateBuilder: null
+      TemplateBuilder: null,
+      onCloseReload: false
     }
   },
   mounted() {
@@ -72,7 +73,16 @@ var ThemeManager = {
       
     },
     close: function () {
-      this.getUI().modal('hide')
+      if (this.onCloseReload === true) {
+        this.onCloseReload = false
+        this.reload(() => {
+          this.getUI().modal('hide')
+        })
+      }
+      else {
+        this.getUI().modal('hide')
+      }
+      
     },
     persist() {
       //localStorage.uploadImageDraft = this.uploadImageDraft;
@@ -150,6 +160,10 @@ var ThemeManager = {
     
     openTab: function (e) {
       SemanticUIHelper.openTab(e)
+    },
+    
+    reload: function (callback) {
+      
     }
   }
 }
