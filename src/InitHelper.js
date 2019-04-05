@@ -4,7 +4,7 @@ let InitHelper = {
     //$v.ImageReplacer.open()
 
     //$v.EditorManager.open()
-    //$v.ThemeManager.open()
+    $v.ThemeManager.open()
     
     //setTimeout(function () {
     //  $v.EditorManager.open()
