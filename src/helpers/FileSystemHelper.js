@@ -289,7 +289,10 @@ FileSystemHelper = {
     }
     
     let fs = this.fs
-    let errorHandler = this.errorHandler
+    //let errorHandler = this.errorHandler
+    let errorHandler = () => {
+      FunctionHelper.triggerCallback(callback)
+    }
     
     fs.root.getFile(path, {create: false}, function(fileEntry) {
 

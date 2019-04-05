@@ -1,7 +1,8 @@
 let FieldPostDate = {
   ui: null,
   get: function () {
-    if (this.ui === null) {
+    if (this.ui === null 
+            || this.ui.length === 0) {
       this.ui = $('#summernotePostDate')
     }
     return this.ui

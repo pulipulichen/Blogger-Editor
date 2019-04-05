@@ -44,6 +44,7 @@ let InitHelper = {
   },
   reload: function (callback) {
     $v.PageLoader.open()
+    //return
     $v.EditorManager.save(() => {
       $v.ThemeManager.reload(() => {
         //$summernote = $('#summernotePostBody')
@@ -51,9 +52,12 @@ let InitHelper = {
 
         //$('#summernotePostTitle').summernote(summernotePostTitleConfig);
         //EditorManager.methods.initSummerNote()
-        $v.EditorManager.init(() => {
-          $v.PageLoader.close()
-          FunctionHelper.triggerCallback(callback)
+        $v.EditorManager.reload(() => {
+          //setTimeout(() => {
+            $v.PageLoader.close()
+            FunctionHelper.triggerCallback(callback)
+            //console.log('reload finish')
+          //}, 1000)
         })
       })
     })

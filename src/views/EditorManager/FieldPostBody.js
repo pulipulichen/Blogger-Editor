@@ -18,6 +18,11 @@ let FieldPostBody = {
     //console.log(SummerNoteConfig.fullConfig())
     return this
   },
+  reload: function (callback) {
+    this.ui = null
+    this.get().summernote(SummerNoteConfig.fullConfig(callback))
+    return this
+  },
   get: function () {
     if (this.ui === null
             || this.ui.length === 0) {

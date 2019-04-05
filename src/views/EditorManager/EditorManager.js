@@ -94,6 +94,15 @@ var EditorManager = {
       })
       
     },
+    reload: function (callback) {
+      FieldPostTitle.reload(() => {
+        FieldPostBody.reload(() => {
+          FieldPostLabels.reload(() => {
+            this.setupPostData(callback)
+          })
+        })
+      })
+    },
     setupPostData: function (callback) {
       $v.PostManager.getPost((post) => {
         FieldPostTitle.set(post.title)

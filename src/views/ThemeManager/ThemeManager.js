@@ -64,18 +64,19 @@ var ThemeManager = {
     open: function () {
       this.TemplateManager.hasCustomTemplate((isExists) => {
         this.useCustomTemplate = isExists
-        this.getUI().modal('show', {
-          allowMultiple: true
-        })
+        this.getUI().modal('show')
       })
       
       //console.log(this.data)
       
     },
     close: function () {
+      //console.log('close')
+      //return false
       if (this.onCloseReload === true) {
         this.onCloseReload = false
         //this.reload(() => {
+        //console.log('get ready to reload')
         InitHelper.reload(() => {
           this.getUI().modal('hide')
         })

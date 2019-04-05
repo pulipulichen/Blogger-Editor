@@ -16,7 +16,16 @@ let TemplateManager = {
   },
   uploadFiles: function (files, callback) {
     if (files.length === 0) {
-      return
+      return this
+    }
+    
+    if ($v.ThemeManager.useCustomTemplate === true) {
+      FileSystemHelper.remove('/template.html', () => {
+        console.log('deleted')
+        $v.ThemeManager.useCustomTemplate = false
+        TemplateManager.uploadFiles(files, callback)
+      })
+      return this
     }
     
     // do we need to vaildate template?
@@ -27,7 +36,8 @@ let TemplateManager = {
       }
       
       FileSystemHelper.copy('/', files, 'template.html', () => {
-        //console.log(`template uploaded.`)
+        console.log(`template uploaded.`)
+        console.log(FileSystemHelper.getFileSystemUrl('/template.html'))
         $v.ThemeManager.useCustomTemplate = true
         
         //WindowHelper.confirm(TemplateManager.i18n.needReload, () => {
@@ -43,7 +53,7 @@ let TemplateManager = {
   reset: function () {
     FileSystemHelper.remove(TemplateManager.path)
     $v.ThemeManager.useCustomTemplate = false
-    TemplateManager.reloadRequest()
+    $v.ThemeManager.onCloseReload = true
   },
   open: function () {
     

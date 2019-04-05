@@ -17,6 +17,11 @@ let FieldPostTitle = {
     // 'labels', 'Labels'
     return this
   },
+  reload: function (callback) {
+    this.ui = null
+    this.get().summernote(SummerNoteConfig.airConfig('title', 'No Title', callback))
+    return this
+  },
   get: function () {
     if (this.ui === null
             || this.ui.length === 0) {
