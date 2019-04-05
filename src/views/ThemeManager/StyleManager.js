@@ -90,8 +90,8 @@ let StyleManager = {
   },
   load: function (callback) {
     let path = this.path
-    FileSystemHelper.read(path, (template) => {
-      if (template === undefined) {
+    FileSystemHelper.read(path, (content) => {
+      if (content === undefined) {
         path = this.getDefaultPath()
       }
       
