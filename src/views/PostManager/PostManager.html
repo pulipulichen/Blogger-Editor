@@ -18,19 +18,13 @@
                 NEW
               </div>
             </div>
-            <div class="eight wide field">
+            <div class="twelve wide field">
               <div class="ui icon input post-filter" >
                 <input type="text" 
                        placeholder="Filter..."
                        v-model="filterCondition"
                        @keyup="filterPosts">
                 <i class="filter icon"></i>
-              </div>
-            </div>
-            <div class="four wide field"
-                  @click="backupPost">
-              <div class="ui fluid button">
-                BACKUP
               </div>
             </div>
           </div>
@@ -96,19 +90,45 @@
                        @click='removePost(post.id)'>
                     REMOVE
                   </div>
-                  <div class='ui mini button' 
+                  <div class='ui icon mini button' 
                        @click='clonePost(post.id)'>
-                    CLONE
+                    <i class="copy icon"></i>
+                    <!-- CLONE -->
                   </div>
                   <div class='ui mini button' 
                        @click='backupPost(post.id)'>
-                    BACKUP
+                    <!-- BACKUP -->
+                    <i class="download icon"></i>
                   </div>
                 </div>
               </div>
             </div>
           </div> <!-- item -->
         </div> <!-- post-list -->
+        
+        <div class="two fields">
+          <input type="file" name="uploadPost"
+              @change="uploadPost"/>
+          <div class="field" 
+                @click="backupPost">
+            <div class="ui labeled icon fluid button">
+              <i class="download icon"></i>
+              BACKUP
+            </div>
+          </div>
+          <div class="field" 
+                @click="triggerUploadPost">
+            <div class="ui labeled icon fluid button">
+              <i class="upload icon"></i>
+              UPLOAD
+            </div>
+          </div>
+          
+          <div class="dragover-message"
+               @drop="dropPost">
+            Drop file to upload
+          </div>
+        </div>
       </div>
     </div>
   </div>

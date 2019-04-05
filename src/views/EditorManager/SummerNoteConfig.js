@@ -141,6 +141,7 @@ let SummerNoteConfig = {
       callbacks: {
         onChange: (contents) => {
           DelayExecHelper.exec(fieldName, 3, () => {
+            $v.EditorManager.FieldPostDate.set()
             $v.PostManager.updateEditingPost(fieldName, contents)
           })
           //console.log(fieldName + ':', contents)

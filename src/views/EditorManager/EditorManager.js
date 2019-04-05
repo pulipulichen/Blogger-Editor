@@ -167,6 +167,7 @@ var EditorManager = {
       }
       
       //console.log('title save')
+      FieldPostDate.set()
       FieldPostTitle.save(() => {
         //console.log('labels save')
         FieldPostLabels.save(() => {

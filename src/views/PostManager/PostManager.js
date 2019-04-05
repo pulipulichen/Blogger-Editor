@@ -415,7 +415,16 @@ var PostManager = {
     clonePost: function (id, callback) {
       console.log(id)
       FunctionHelper.triggerCallback(callback)
-    }
+    },
+    uploadPost: function (e) {
+      console.log('uploadPost')
+    },
+    triggerUploadPost: function (e) {
+      FileHelper.triggerInput(e)
+    },
+    dropPost: function (e) {
+      console.log('uploadPost')
+    },
   }
 }
 

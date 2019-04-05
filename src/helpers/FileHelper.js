@@ -26,6 +26,9 @@ let FileHelper = {
   save: function (content, filename) {
     let blob = new Blob([content])
     saveAs(blob, filename)
+  },
+  triggerInput: function (e) {
+    $(e.target).parent().children('input:file:first').click()
   }
 }
 

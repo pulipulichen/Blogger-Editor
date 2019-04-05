@@ -3,8 +3,9 @@ let InitHelper = {
   onInit: function (callback) {
     //$v.ImageReplacer.open()
 
-    $v.EditorManager.open()
+    $v.PostManager.open()
     //$v.ThemeManager.open()
+    //$v.EditorManager.open()
     
     //setTimeout(function () {
     //  $v.EditorManager.open()
