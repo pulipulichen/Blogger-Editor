@@ -9517,7 +9517,7 @@ $.fn.modal = function(parameters) {
                     }
                     
                     modalQueue.pop()
-                    console.log(modalQueue.length)
+                    //console.log(modalQueue.length)
                     if (modalQueue.length > 0) {
                       //modalQueue[(modalQueue.length - 1)].addClass('move-top')
                       modalQueue[(modalQueue.length - 1)].removeClass('behind')

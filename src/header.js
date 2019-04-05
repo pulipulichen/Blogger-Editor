@@ -16,7 +16,7 @@ require('./vendor/semantic-ui-niwsf/semantic.niwsf.js')
 //require('./vendor/summernote/summernote.js')
 
 //require('./vendor/summernote/summernote-lite.css')
-//require('./vendor/summernote/summernote-lite.js')
+require('./vendor/summernote/summernote-lite.js')
 
 //console.log(typeof($.summernote))
 //require('summernote')
