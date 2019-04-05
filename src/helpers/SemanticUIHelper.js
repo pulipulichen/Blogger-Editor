@@ -12,7 +12,7 @@ let SemanticUIHelper = {
     }
     
     let dataTab = tab.attr('data-tab')
-    console.log(dataTab)
+    //console.log(dataTab)
     let menuContainer = tab.parents('.menu:first')
     let tabContainer = menuContainer.parent()
     
