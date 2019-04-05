@@ -227,39 +227,43 @@ var EditorManager = {
     readConfig: function (files) {
       if (files.length !== 1 
               || files[0].type !== 'application/json') {
-        return
+        return this
       }
       //console.log(files[0])
       
       FileSystemHelper.readEventFilesText(files[0], (config) => {
         //console.log(config)
         config = JSON.parse(config)
-        if (typeof(config.image) === 'object') {
-          let image = config.image
-          if (typeof(image.uploadImageDraft) === 'string') {
-            this.uploadImageDraft = image.uploadImageDraft
-          }
-          if (typeof(image.imageSizeDefault) === 'number') {
-            this.imageSizeDefault = image.imageSizeDefault
-          }
-        }
-        if (typeof(config.toolbar) === 'object') {
-          let toolbar = config.toolbar
-          if (Array.isArray(toolbar.toolbar)) {
-            this.summerNoteConfigToolbar = JSON.stringify(toolbar.toolbar)
-            if (this.summerNoteConfigToolbar === '[]') {
-              this.summerNoteConfigToolbar = ''
-            }
-          }
-          if (Array.isArray(toolbar.styleTags)) {
-            this.summerNoteConfigStyleTags = JSON.stringify(toolbar.styleTags)
-            if (this.summerNoteConfigStyleTags === '[]') {
-              this.summerNoteConfigStyleTags = ''
-            }
-          }
-        }
+        this.setConfig(config)
         WindowHelper.alert('Config uploaded')
       })
+      return this
+    },
+    setConfig: function (config) {
+      if (typeof(config.image) === 'object') {
+        let image = config.image
+        if (typeof(image.uploadImageDraft) === 'string') {
+          this.uploadImageDraft = image.uploadImageDraft
+        }
+        if (typeof(image.imageSizeDefault) === 'number') {
+          this.imageSizeDefault = image.imageSizeDefault
+        }
+      }
+      if (typeof(config.toolbar) === 'object') {
+        let toolbar = config.toolbar
+        if (Array.isArray(toolbar.toolbar)) {
+          this.summerNoteConfigToolbar = JSON.stringify(toolbar.toolbar)
+          if (this.summerNoteConfigToolbar === '[]') {
+            this.summerNoteConfigToolbar = ''
+          }
+        }
+        if (Array.isArray(toolbar.styleTags)) {
+          this.summerNoteConfigStyleTags = JSON.stringify(toolbar.styleTags)
+          if (this.summerNoteConfigStyleTags === '[]') {
+            this.summerNoteConfigStyleTags = ''
+          }
+        }
+      }
     },
     setChanged: function () {
       this.onCloseReload = true

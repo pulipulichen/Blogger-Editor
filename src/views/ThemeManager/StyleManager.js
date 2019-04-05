@@ -155,6 +155,16 @@ let StyleManager = {
       FileSystemHelper.write(this.path, style, callback)
     }
     return this
+  },
+  set: function (content, callback) {
+    if (content === undefined 
+            || content.trim() === '') {
+      this.reset()
+      FunctionHelper.triggerCallback(callback)
+    }
+    else {
+      FileSystemHelper.write(content, this.path, callback)
+    }
   }
 }
 

@@ -409,20 +409,24 @@ var PostManager = {
       return DayjsHelper.postDate(unix)
     },
     backupPost: function (id, callback) {
-      console.log(id)
+      console.log('backupPost', id)
+      FunctionHelper.triggerCallback(callback)
+    },
+    backupAllPosts: function (callback) {
+      console.log('backupAllPosts')
       FunctionHelper.triggerCallback(callback)
     },
     clonePost: function (id, callback) {
-      console.log(id)
+      console.log('clonePost', id)
       FunctionHelper.triggerCallback(callback)
     },
-    uploadPost: function (e) {
+    uploadPosts: function (e) {
       console.log('uploadPost')
     },
-    triggerUploadPost: function (e) {
+    triggerUploadPosts: function (e) {
       FileHelper.triggerInput(e)
     },
-    dropPost: function (e) {
+    dropPosts: function (e) {
       console.log('uploadPost')
     },
   }

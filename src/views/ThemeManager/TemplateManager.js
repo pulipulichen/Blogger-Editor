@@ -34,7 +34,7 @@ let TemplateManager = {
       
       FileSystemHelper.copy('/', files, 'template.html', () => {
         //console.log(`template uploaded.`)
-        console.log(FileSystemHelper.getFileSystemUrl('/template.html'))
+        //console.log(FileSystemHelper.getFileSystemUrl('/template.html'))
         $v.ThemeManager.useCustomTemplate = true
         
         //WindowHelper.confirm(TemplateManager.i18n.needReload, () => {
@@ -183,6 +183,16 @@ let TemplateManager = {
               && template.split('${postDate}').length === 2
               && template.split('${postLabels}').length === 2
               && template.split('${postBody}').length === 2)
+  },
+  set: function (content, callback) {
+    if (content === undefined 
+            || content.trim() === '') {
+      this.reset()
+      FunctionHelper.triggerCallback(callback)
+    }
+    else {
+      FileSystemHelper.write(content, this.path, callback)
+    }
   }
 }
 
