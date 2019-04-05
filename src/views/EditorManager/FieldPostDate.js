@@ -14,6 +14,9 @@ let FieldPostDate = {
     
     this.get().html(text)
     return this
+  },
+  reset: function () {
+    this.ui = null
   }
 }
 

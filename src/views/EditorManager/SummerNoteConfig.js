@@ -3,6 +3,28 @@ import SummerNoteCallbacks from './SummerNoteCallbacks.js'
 
 let SummerNoteConfig = {
   toolbar: function () {
+    let config = $v.EditorManager.summerNoteConfigToolbar.trim()
+    
+    if (config !== undefined 
+            && config !== '') {
+      try {
+        //let config = JSON.parse($v.EditorManager.summerNoteConfigToolbar.trim())
+        //config = $v.EditorManager.summerNoteConfigToolbar.trim()
+        eval(`config = ${config}`)
+        if (config.length > 0) {
+          return config
+        }
+        else {
+          return this.defaultToolbar()
+        }
+      }
+      catch (e) {
+        return this.defaultToolbar()
+      } 
+    }
+    return this.defaultToolbar()
+  },
+  defaultToolbar: function () {
     let toolbar = [
         ['view', ['codeview']],
         ['style', ['style']],
@@ -20,6 +42,25 @@ let SummerNoteConfig = {
     return toolbar
   },
   styleTags: function () {
+    if ($v.EditorManager.summerNoteConfigStyleTags.trim() !== '') {
+      try {
+        //let config = JSON.parse($v.EditorManager.summerNoteConfigStyleTags.trim())
+        let config = $v.EditorManager.summerNoteConfigStyleTags.trim()
+        eval(`config = ${config}`)
+        if (config.length > 0) {
+          return config
+        }
+        else {
+          return this.defaultStyleTags()
+        }
+      }
+      catch (e) {
+        return this.defaultStyleTags()
+      } 
+    }
+    return this.defaultStyleTags()
+  },
+  defaultStyleTags: function () {
     let styleTags = ['p', 'code', 'h4', 'h5', 'h6', {
         tag: 'sub',
         title: 'ttt',

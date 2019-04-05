@@ -12,6 +12,8 @@ import FieldPostLabels from './FieldPostLabels.js'
 import FieldPostTitle from './FieldPostTitle.js'
 import FieldPostDate from './FieldPostDate.js'
 
+import SummerNoteConfig from './SummerNoteConfig.js'
+
 import ImageReplacerSfc from './ImageReplacer/ImageReplacer.vue'
 
 var EditorManager = {
@@ -31,12 +33,20 @@ var EditorManager = {
       FieldPostLabels: FieldPostLabels,
       FieldPostTitle: FieldPostTitle,
       FieldPostDate: FieldPostDate,
-      ImageReplacer: null
+      SummerNoteConfig: SummerNoteConfig,
+      summerNoteConfigToolbar: '',
+      summerNoteConfigStyleTags: '',
+      ImageReplacer: null,
+      onCloseReload: false
     }
   },
   mounted() {
     VueHelper.mountLocalStorage(this, 'uploadImageDraft')
     VueHelper.mountLocalStorage(this, 'imageSizeDefault')
+    
+    VueHelper.mountLocalStorage(this, 'summerNoteConfigToolbar')
+    VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')
+    
   },
   created: function () {
     $v.EditorManager = this
@@ -50,6 +60,16 @@ var EditorManager = {
     }
     
     //this.open()
+  },
+  computed: {
+    toolbarJSON: function () {
+      let config = SummerNoteConfig.defaultToolbar()
+      return JSON.stringify(config)
+    },
+    styleTagsJSON: function () {
+      let config = SummerNoteConfig.defaultStyleTags()
+      return JSON.stringify(config)
+    },
   },
   methods: {
     getUI: function () {
@@ -65,9 +85,21 @@ var EditorManager = {
       $(() => {
         $(focusSelector).focus()
       })
+      this.onCloseReload = false
     },
     close: function () {
-      this.getUI().modal('hide')
+      //this.getUI().modal('hide')
+      
+      if (this.onCloseReload === true) {
+        this.onCloseReload = false
+        InitHelper.reload(() => {
+          this.getUI().modal('hide')
+        })
+      }
+      else {
+        this.getUI().modal('hide')
+      }
+      
     },
     validateUploadImageDrarfUrl: function () {
       this.disableUploadImageDraft = !this.uploadImageDraft.startsWith('https://www.blogger.com/blogger.g?blogID=')
@@ -79,6 +111,9 @@ var EditorManager = {
       //console.log('now pretend I did more stuff...');
       VueHelper.persistLocalStorage(this, 'uploadImageDraft')
       VueHelper.persistLocalStorage(this, 'imageSizeDefault')
+      
+      VueHelper.persistLocalStorage(this, 'summerNoteConfigToolbar')
+      VueHelper.persistLocalStorage(this, 'summerNoteConfigStyleTags')
     },
     init: function (callback) {
       if (ConfigHelper.get('debug').disableEditorManager === true) {
@@ -92,9 +127,9 @@ var EditorManager = {
           })
         })
       })
-      
     },
     reload: function (callback) {
+      FieldPostDate.reset()
       FieldPostTitle.reload(() => {
         FieldPostBody.reload(() => {
           FieldPostLabels.reload(() => {
@@ -155,6 +190,18 @@ var EditorManager = {
     },
     openImageReplacer: function () {
       this.ImageReplacer.open()
+    },
+    openTab: function (e) {
+      SemanticUIHelper.openTab(e)
+    },
+    configDownload: function () {
+      console.log('configDownload')
+    },
+    configUpload: function () {
+      console.log('configUpload')
+    },
+    setChanged: function () {
+      this.onCloseReload = true
     }
   }
 }
