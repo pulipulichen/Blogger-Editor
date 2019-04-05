@@ -9361,6 +9361,7 @@ $.fn.modal = function(parameters) {
         },
 
         show: function(callback) {
+        
           callback = $.isFunction(callback)
             ? callback
             : function(){}
@@ -9368,11 +9369,12 @@ $.fn.modal = function(parameters) {
           module.refreshModals();
           module.set.dimmerSettings();
           module.set.dimmerStyles();
-
+          
           module.showModal(callback);
         },
 
         hide: function(callback) {
+        
           callback = $.isFunction(callback)
             ? callback
             : function(){}
@@ -9382,6 +9384,9 @@ $.fn.modal = function(parameters) {
         },
 
         showModal: function(callback) {
+          
+          $('body').addClass('non-invasive-web-style-framework.scroll-disable')
+          
           callback = $.isFunction(callback)
             ? callback
             : function(){}
@@ -9444,6 +9449,7 @@ $.fn.modal = function(parameters) {
         },
 
         hideModal: function(callback, keepDimmed) {
+        
           callback = $.isFunction(callback)
             ? callback
             : function(){}

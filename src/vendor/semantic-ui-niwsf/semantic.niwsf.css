@@ -235,6 +235,11 @@ body .non-invasive-web-style-framework {
 html .non-invasive-web-style-framework {
 font-size: 14px;
 }
+
+body.non-invasive-web-style-framework-scroll-disable {
+  overflow: hidden !important; /**/
+}
+
 body .non-invasive-web-style-framework {
 margin: 0px;
 padding: 0px;

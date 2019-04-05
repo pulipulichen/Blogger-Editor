@@ -9384,6 +9384,8 @@ $.fn.modal = function(parameters) {
         },
 
         showModal: function(callback) {
+          $('body').addClass('non-invasive-web-style-framework-scroll-disable')
+          
           callback = $.isFunction(callback)
             ? callback
             : function(){}
@@ -9446,6 +9448,9 @@ $.fn.modal = function(parameters) {
         },
 
         hideModal: function(callback, keepDimmed) {
+          // let body enable scroll
+          $('body').removeClass('non-invasive-web-style-framework-scroll-disable')
+        
           callback = $.isFunction(callback)
             ? callback
             : function(){}
