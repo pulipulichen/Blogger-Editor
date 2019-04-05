@@ -38,15 +38,26 @@ WindowHelper = {
     
     if (url.startsWith('filesystem:') === false) {
       newWindow = window.open(url, name, windowSetting);
+      if (newWindow === null) {
+        this.alert('Please allow popup.')
+        return
+      }
+      
       if (window.focus && newWindow !== null) {
         newWindow.focus()
       }
     }
     else {
       newWindow = window.open('', name, windowSetting);
+      if (newWindow === null) {
+        this.alert('Please allow popup.')
+        return
+      }
+      
+      //console.log(newWindow)
       $.get(url, (content) => {
-        console.log(content)
-        newWindow.document.body.write(content)
+        //console.log(content)
+        newWindow.document.write(content)
         if (window.focus && newWindow !== null) {
           newWindow.focus()
         }
@@ -61,5 +72,9 @@ WindowHelper = {
     else {
       FunctionHelper.triggerCallback(noCallback)
     }
+  },
+  alert: function (message, callback) {
+    window.alert(message)
+    FunctionHelper.triggerCallback(callback)
   }
 }
