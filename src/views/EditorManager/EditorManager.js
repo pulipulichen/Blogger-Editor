@@ -195,10 +195,27 @@ var EditorManager = {
       SemanticUIHelper.openTab(e)
     },
     configDownload: function () {
-      console.log('configDownload')
+      //console.log('configDownload')
+      
+      let config = {
+        image: {
+          uploadImageDraft: this.uploadImageDraft,
+          imageSizeDefault: this.imageSizeDefault
+        },
+        toolbar: {
+          toolbar: this.SummerNoteConfig.toolbar(false),
+          styleTags: this.SummerNoteConfig.styleTags(false),
+        }
+      }
+      
+      config = JSON.stringify(config)
+      FileHelper.save(config, 'editorConfig.json')
     },
     configUpload: function () {
       console.log('configUpload')
+    },
+    configDrop: function () {
+      console.log('configDrop')
     },
     setChanged: function () {
       this.onCloseReload = true

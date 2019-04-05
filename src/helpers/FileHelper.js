@@ -22,6 +22,10 @@ let FileHelper = {
       let blob = new Blob([data])
       saveAs(blob, filename)
     })
+  },
+  save: function (content, filename) {
+    let blob = new Blob([content])
+    saveAs(blob, filename)
   }
 }
 

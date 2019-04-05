@@ -2,7 +2,11 @@ import SummerNoteButtons from './SummerNoteButtons.js'
 import SummerNoteCallbacks from './SummerNoteCallbacks.js'
 
 let SummerNoteConfig = {
-  toolbar: function () {
+  toolbar: function (loadDefault) {
+    if (loadDefault === undefined) {
+      loadDefault = true
+    }
+    
     let config = $v.EditorManager.summerNoteConfigToolbar.trim()
     
     if (config !== undefined 
@@ -15,16 +19,20 @@ let SummerNoteConfig = {
           return config
         }
         else {
-          return this.defaultToolbar()
+          return this.defaultToolbar(loadDefault)
         }
       }
       catch (e) {
-        return this.defaultToolbar()
+        return this.defaultToolbar(loadDefault)
       } 
     }
-    return this.defaultToolbar()
+    return this.defaultToolbar(loadDefault)
   },
-  defaultToolbar: function () {
+  defaultToolbar: function (loadDefault) {
+    if (loadDefault === false) {
+      return []
+    }
+    
     let toolbar = [
         ['view', ['codeview']],
         ['style', ['style']],
@@ -41,7 +49,11 @@ let SummerNoteConfig = {
 
     return toolbar
   },
-  styleTags: function () {
+  styleTags: function (loadDefault) {
+    if (loadDefault === undefined) {
+      loadDefault = true
+    }
+    
     if ($v.EditorManager.summerNoteConfigStyleTags.trim() !== '') {
       try {
         //let config = JSON.parse($v.EditorManager.summerNoteConfigStyleTags.trim())
@@ -51,16 +63,20 @@ let SummerNoteConfig = {
           return config
         }
         else {
-          return this.defaultStyleTags()
+          return this.defaultStyleTags(loadDefault)
         }
       }
       catch (e) {
-        return this.defaultStyleTags()
+        return this.defaultStyleTags(loadDefault)
       } 
     }
-    return this.defaultStyleTags()
+    return this.defaultStyleTags(loadDefault)
   },
-  defaultStyleTags: function () {
+  defaultStyleTags: function (loadDefault) {
+    if (loadDefault === false) {
+      return []
+    }
+    
     let styleTags = ['p', 'code', 'h4', 'h5', 'h6', {
         tag: 'sub',
         title: 'ttt',
