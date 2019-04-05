@@ -42,6 +42,22 @@ let InitHelper = {
       })
     })
   },
+  reload: function (callback) {
+    $v.PageLoader.open()
+    $v.EditorManager.save(() => {
+      $v.ThemeManager.reload(() => {
+        //$summernote = $('#summernotePostBody')
+        //$summernote.summernote(summernotePostBodyConfig);
+
+        //$('#summernotePostTitle').summernote(summernotePostTitleConfig);
+        //EditorManager.methods.initSummerNote()
+        $v.EditorManager.init(() => {
+          $v.PageLoader.close()
+          FunctionHelper.triggerCallback(callback)
+        })
+      })
+    })
+  }
 }
 
 window.InitHelper = InitHelper

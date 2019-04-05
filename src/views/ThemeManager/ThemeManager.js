@@ -75,7 +75,8 @@ var ThemeManager = {
     close: function () {
       if (this.onCloseReload === true) {
         this.onCloseReload = false
-        this.reload(() => {
+        //this.reload(() => {
+        InitHelper.reload(() => {
           this.getUI().modal('hide')
         })
       }
@@ -161,9 +162,9 @@ var ThemeManager = {
     openTab: function (e) {
       SemanticUIHelper.openTab(e)
     },
-    
     reload: function (callback) {
-      
+      $('#template').empty()
+      this.init(callback)
     }
   }
 }
