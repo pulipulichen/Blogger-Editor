@@ -95,8 +95,18 @@ let StyleManager = {
         path = this.getDefaultPath()
       }
       
-      $(`<link href="${path}" rel="stylesheet" type="text/css" />`)
+      let linkTag = $('link#StyleManager')
+      
+      if (linkTag.length === 0) {
+        linkTag = $(`<link href="${path}" rel="stylesheet" type="text/css" id="StyleManager" />`)
               .appendTo('head')
+      }
+      else {
+        linkTag.attr('href', path)
+      }
+      
+      //$(`<link href="${path}" rel="stylesheet" type="text/css" id="StyleManager" />`)
+      //        .appendTo('head')
       FunctionHelper.triggerCallback(callback, template)
     })
     return this
