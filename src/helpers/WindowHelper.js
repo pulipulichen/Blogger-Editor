@@ -66,15 +66,21 @@ WindowHelper = {
     return newWindow
   },
   confirm: function (message, yesCallback, noCallback) {
-    if (window.confirm(message)) {
-      FunctionHelper.triggerCallback(yesCallback)
-    }
-    else {
-      FunctionHelper.triggerCallback(noCallback)
-    }
+    $(() => {
+      if (window.confirm(message)) {
+        FunctionHelper.triggerCallback(yesCallback)
+      }
+      else {
+        FunctionHelper.triggerCallback(noCallback)
+      }
+    })
+      
   },
   alert: function (message, callback) {
-    window.alert(message)
-    FunctionHelper.triggerCallback(callback)
+    $(() => {
+      window.alert(message)
+      FunctionHelper.triggerCallback(callback)
+    })
+      
   }
 }

@@ -17,9 +17,12 @@ let TemplateManager = {
     
     FileSystemHelper.copy('/', files, 'template.html', () => {
       //console.log(`template uploaded.`)
-      $v.ThemeManager.useCustomTemplate = true
-      TemplateManager.reloadRequest()
+      this.afterUpload()
     })
+  },
+  afterUpload: function () {
+    $v.ThemeManager.useCustomTemplate = true
+    TemplateManager.reloadRequest()
   },
   reset: function () {
     FileSystemHelper.remove(TemplateManager.path)
@@ -133,10 +136,19 @@ let TemplateManager = {
     //e.stopPropagation()
     console.log(e.dataTransfer.items.length)
     console.log('drop')
-    FileSystemHelper.copy('/', e.dataTransfer.items[0], 'template.html', () => {
-      console.log('uploaded')
-      console.log(FileSystemHelper.getFileSystemUrl(TemplateManager.path))
+    FileSystemHelper.copy('/', e.dataTransfer.files, 'template.html', () => {
+      //console.log('uploaded')
+      //console.log(FileSystemHelper.getFileSystemUrl(TemplateManager.path))
+      TemplateManager.afterUpload()
     })
+    //let droppedFiles = e.dataTransfer.items
+    /*
+    let droppedFiles = e.dataTransfer.files;
+    let input = $(e.target).parent().find('input:file:first')
+    console.log(input.length)
+    input.prop('files', droppedFiles)
+            .change()
+            */
     return false
   },
   
