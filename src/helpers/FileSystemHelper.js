@@ -341,7 +341,7 @@ FileSystemHelper = {
     
     return 'filesystem:' + location.protocol + '//' + location.host + '/' + fsType + path
   },
-  readEventFiles: function (files, callback) {
+  readEventFilesText: function (files, callback) {
     //console.log(typeof(files.name))
     let isArray = true
     if (typeof(files.name) === 'string') {
@@ -365,10 +365,11 @@ FileSystemHelper = {
       if (i < files.length) {
         let file = files[i]
         //console.log(file);
-        reader.readAsDataURL(file);
+        //reader.readAsDataURL(file);
+        reader.readAsText(file)
       }
       else {
-        if (isArray) {
+        if (isArray === false) {
           output = output[0]
         }
         FunctionHelper.triggerCallback(callback, output)

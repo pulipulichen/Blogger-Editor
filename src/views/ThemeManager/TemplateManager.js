@@ -146,14 +146,15 @@ let TemplateManager = {
     return false
   },
   validate: function (files, callback) {
-    console.log(files)
-    if (files.length !== 1 && files[0].type !== 'text/html') {
+    //console.log(files)
+    if (files.length !== 1 || files[0].type !== 'text/html') {
       FunctionHelper.triggerCallback(callback, false)
       return
     }
     //return true
     //let result = true
-    FileSystemHelper.readEventFiles(files[0], (content) => {
+    FileSystemHelper.readEventFilesText(files[0], (content) => {
+      //console.log(content)
       let result = (content.split('${postTitle}').length === 2
               && content.split('${postDate}').length === 2
               && content.split('${postLabels}').length === 2
