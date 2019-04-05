@@ -5,7 +5,11 @@ let InitHelper = {
 
     //$v.EditorManager.open()
     $v.ThemeManager.open()
-    $v.EditorManager.open()
+    
+    setTimeout(function () {
+      $v.EditorManager.open()
+    }, 3000)
+    
     //$v.PageLoader.open()
     FunctionHelper.triggerCallback(callback)
   },

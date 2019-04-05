@@ -44,7 +44,8 @@ var ThemeManager = {
       VueHelper.init('TemplateBuilder', TemplateBuilderSfc, (TemplateBuilder) => {
         this.TemplateBuilder = TemplateBuilder
       })
-    }    
+    }   
+    
   },
   methods: {
     // ---------------------
@@ -62,7 +63,9 @@ var ThemeManager = {
     open: function () {
       this.TemplateManager.hasCustomTemplate((isExists) => {
         this.useCustomTemplate = isExists
-        this.getUI().modal('show')
+        this.getUI().modal('show', {
+          allowMultiple: true
+        })
       })
       
       //console.log(this.data)

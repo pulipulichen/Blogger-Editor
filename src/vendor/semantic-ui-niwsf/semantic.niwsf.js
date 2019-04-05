@@ -9068,11 +9068,14 @@ window = (typeof window != 'undefined' && window.Math == Math)
     : Function('return this')()
 ;
 
+window.modalQueue      = [],
+
 $.fn.modal = function(parameters) {
   var
     $allModules    = $(this),
     $window        = $(window),
     $document      = $(document),
+    
     //$body          = $('body'),
     $body          = $('body > .non-invasive-web-style-framework:first'),
 
@@ -9428,7 +9431,28 @@ $.fn.modal = function(parameters) {
                         module.add.keyboardShortcuts();
                       }
                       module.save.focus();
+                      
+                      if (modalQueue.length > 0) {
+                        //modalQueue[(modalQueue.length - 1)].removeClass('move-top')
+                        modalQueue.forEach(m => m.addClass('behind'))
+                        
+                        let parent = $module.parent()
+                        let overlay = parent.children('.niwsf-overlay')
+                        if (overlay.length === 0) {
+                          overlay = $('<div class="niwsf-overlay"></div>').appendTo(parent)
+                        }
+                        else {
+                          overlay.show()
+                        }
+                      }
+                      modalQueue.push($module)
+                      //$module.addClass('move-top')
+                      //console.log(modalQueue.length)
+                      
                       module.set.active();
+                      
+                      
+                      
                       if(settings.autofocus) {
                         module.set.autofocus();
                       }
@@ -9448,7 +9472,7 @@ $.fn.modal = function(parameters) {
         },
 
         hideModal: function(callback, keepDimmed) {
-          console.log(keepDimmed)
+          //console.log(keepDimmed)
           callback = $.isFunction(callback)
             ? callback
             : function(){}
@@ -9484,6 +9508,19 @@ $.fn.modal = function(parameters) {
                     // let body enable scroll
                     if ($('.non-invasive-web-style-framework.dimmable.dimmed').length === 0) {
                       $('body').removeClass('non-invasive-web-style-framework-scroll-disable')
+                    }
+                    
+                    if (modalQueue.length === 0) {
+                      let parent = $module.parent()
+                      let overlay = parent.children('.niwsf-overlay')
+                      overlay.hide()
+                    }
+                    
+                    modalQueue.pop()
+                    console.log(modalQueue.length)
+                    if (modalQueue.length > 0) {
+                      //modalQueue[(modalQueue.length - 1)].addClass('move-top')
+                      modalQueue[(modalQueue.length - 1)].removeClass('behind')
                     }
                     
                     module.restore.focus();
@@ -10021,7 +10058,7 @@ $.fn.modal.settings = {
 
   observeChanges : false,
 
-  allowMultiple  : false,
+  allowMultiple  : true,
   detachable     : true,
   closable       : true,
   autofocus      : true,

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-require('./helpers/InitHelper.js')
+require('./InitHelper.js')
 
 
 require('./helpers/ConfigHelper.js')

@@ -1210,7 +1210,8 @@ a.note-dropdown-item:hover {
   border-bottom-width: 0;
   background: #f5f5f5;
   border-radius: 1px;
-  z-index: 6000;
+  /*z-index: 6000;*/
+  z-index: 600;
 }
 
 .note-popover .note-popover-content>.note-btn-group,

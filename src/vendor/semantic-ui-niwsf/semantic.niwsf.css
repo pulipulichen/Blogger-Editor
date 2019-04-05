@@ -24156,6 +24156,23 @@ position: absolute;
 left: 50%;
 margin-top: 1rem !important;
 }
+
+.non-invasive-web-style-framework .ui.modal.behind {
+  /*opacity: 0.5;*/
+  z-index: 1998;
+}
+
+.non-invasive-web-style-framework .niwsf-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  background-color: black;
+  opacity: 0.7;
+}
+
 .non-invasive-web-style-framework .ui.modal .scrolling.content {
 max-height: calc(70vh);
 overflow: auto;
