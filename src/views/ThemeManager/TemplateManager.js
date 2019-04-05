@@ -21,7 +21,7 @@ let TemplateManager = {
     
     if ($v.ThemeManager.useCustomTemplate === true) {
       FileSystemHelper.remove('/template.html', () => {
-        console.log('deleted')
+        //console.log('deleted')
         $v.ThemeManager.useCustomTemplate = false
         TemplateManager.uploadFiles(files, callback)
       })
@@ -63,7 +63,7 @@ let TemplateManager = {
         url = FileSystemHelper.getFileSystemUrl(TemplateManager.path)
       }
       console.log(url)
-      WindowHelper.popup(url, 'template')
+      WindowHelper.popup(url, 'customeTemplate')
     })
     return this
   },
@@ -90,7 +90,7 @@ let TemplateManager = {
     let defaultTheme = ConfigHelper.get('defaultTheme')
     return './themes/' + defaultTheme + '/template.html'
   },
-  load: function (defaultTheme, callback) {
+  load: function (callback) {
     let path = this.path
     FileSystemHelper.read(path, (template) => {
       if (template === undefined) {
@@ -160,7 +160,7 @@ let TemplateManager = {
     //console.log(files)
     if (files.length !== 1 || files[0].type !== 'text/html') {
       FunctionHelper.triggerCallback(callback, false)
-      return
+      return this
     }
     //return true
     //let result = true

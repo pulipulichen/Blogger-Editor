@@ -122,12 +122,13 @@ var ThemeManager = {
       })
     },
     */
-    
+    /*
     loadStyle: function (callback) {
       
       //let stylePath = 'filesystem:' + location.protocol + '://' + location.host + '/temporary' + path
       
-      this.hasCustomStyle((isExisted) => {
+      //this.hasCustomStyle((isExisted) => {
+      this.StyleManager.hasCustomStyle((isExisted) => {
         let path = this.path.style
         let stylePath = FileSystemHelper.getFileSystemUrl(path)
         if (isExisted === false) {
@@ -140,22 +141,27 @@ var ThemeManager = {
         FunctionHelper.triggerCallback(callback)
       })
     },
+    */
     init: function (callback) {
       if (ConfigHelper.get('debug').disableThemeManager === true) {
         return FunctionHelper.triggerCallback(callback)
       }
       
-      this.loadStyle(() => {
+      //this.loadStyle(() => {
         //this.loadTemplate(callback)
-        this.TemplateManager.load(this.defaultTheme, callback)
+      //  this.TemplateManager.load(callback)
+      //})
+      
+      this.StyleManager.load(() => {
+        this.TemplateManager.load(callback)
       })
     },
-    
+    /*
     hasCustomStyle: function (callback) {
       let path = this.path.style
       FileSystemHelper.isExists(path, callback)
     },
-    
+    */
     // --------
     
     openTemplateBuilder: function () {

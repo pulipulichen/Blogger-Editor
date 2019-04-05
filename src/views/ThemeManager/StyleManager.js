@@ -1,6 +1,5 @@
-let TemplateManager = {
-  selector: '#template',
-  path: '/template.html',
+let StyleManager = {
+  path: '/style.css',
   i18n: {
     needReload: 'We need reload webpage to active the change. Do you want to reload now?'
   },
@@ -9,27 +8,27 @@ let TemplateManager = {
     $(e.target).parent().children('input:file:first').click()
   },
   upload: function (e) {
-    //console.log('TemplateManager.upload')
+    //console.log('StyleManager.upload')
     //console.log(e)
     let files = e.target.files
-    TemplateManager.uploadFiles(files)
+    StyleManager.uploadFiles(files)
   },
   uploadFiles: function (files, callback) {
     if (files.length === 0) {
       return this
     }
     
-    if ($v.ThemeManager.useCustomTemplate === true) {
-      FileSystemHelper.remove('/template.html', () => {
-        console.log('deleted')
-        $v.ThemeManager.useCustomTemplate = false
-        TemplateManager.uploadFiles(files, callback)
+    if ($v.ThemeManager.useCustomStyle === true) {
+      FileSystemHelper.remove(StyleManager.path, () => {
+        //console.log('deleted')
+        $v.ThemeManager.useCustomStyle = false
+        StyleManager.uploadFiles(files, callback)
       })
       return this
     }
     
     // do we need to vaildate template?
-    TemplateManager.validate(files, (result) => {
+    StyleManager.validate(files, (result) => {
       if (result === false) {
         window.alert('Invalid template file')
         return
@@ -38,9 +37,9 @@ let TemplateManager = {
       FileSystemHelper.copy('/', files, 'template.html', () => {
         console.log(`template uploaded.`)
         console.log(FileSystemHelper.getFileSystemUrl('/template.html'))
-        $v.ThemeManager.useCustomTemplate = true
+        $v.ThemeManager.useCustomStyle = true
         
-        //WindowHelper.confirm(TemplateManager.i18n.needReload, () => {
+        //WindowHelper.confirm(StyleManager.i18n.needReload, () => {
         //  $v.PageLoader.open()
         //  $v.EditorManager.save(() => {
         //    location.reload()
@@ -51,27 +50,26 @@ let TemplateManager = {
     })
   },
   reset: function () {
-    FileSystemHelper.remove(TemplateManager.path)
-    $v.ThemeManager.useCustomTemplate = false
+    FileSystemHelper.remove(StyleManager.path)
+    $v.ThemeManager.useCustomStyle = false
     $v.ThemeManager.onCloseReload = true
   },
   open: function () {
-    
-    FileSystemHelper.isExists(TemplateManager.path, (isExists) => {
-      let url = TemplateManager.getDefaultPath()
+    FileSystemHelper.isExists(StyleManager.path, (isExists) => {
+      let url = StyleManager.getDefaultPath()
       if (isExists === true) {
-        url = FileSystemHelper.getFileSystemUrl(TemplateManager.path)
+        url = FileSystemHelper.getFileSystemUrl(StyleManager.path)
       }
       console.log(url)
-      WindowHelper.popup(url, 'template')
+      WindowHelper.popup(url, 'customeStyle')
     })
     return this
   },
   download: function () {
-    FileSystemHelper.isExists(TemplateManager.path, (isExists) => {
-      let url = TemplateManager.getDefaultPath()
+    FileSystemHelper.isExists(StyleManager.path, (isExists) => {
+      let url = StyleManager.getDefaultPath()
       if (isExists === true) {
-        url = FileSystemHelper.getFileSystemUrl(TemplateManager.path)
+        url = FileSystemHelper.getFileSystemUrl(StyleManager.path)
       }
       FileHelper.download(url, 'template.html')
     })
@@ -82,30 +80,24 @@ let TemplateManager = {
     FileSystemHelper.read(path, callback)
     return this
   },
-  hasCustomTemplate: function (callback) {
+  hasCustomStyle: function (callback) {
     FileSystemHelper.isExists(this.path, callback)
     return this
   },
   getDefaultPath: function () {
     let defaultTheme = ConfigHelper.get('defaultTheme')
-    return './themes/' + defaultTheme + '/template.html'
+    return './themes/' + defaultTheme + '/style.css'
   },
-  load: function (defaultTheme, callback) {
+  load: function (callback) {
     let path = this.path
     FileSystemHelper.read(path, (template) => {
       if (template === undefined) {
         path = this.getDefaultPath()
-        $.get(path, (template) => {
-          template = this.replacePlaceholder(template)
-          $(this.selector).html(template)
-          FunctionHelper.triggerCallback(callback, template)
-        })
       }
-      else {
-        template = this.replacePlaceholder(template)
-        $(this.selector).html(template)
-        FunctionHelper.triggerCallback(callback, template)
-      }
+      
+      $(`<link href="${path}" rel="stylesheet" type="text/css" />`)
+              .appendTo('head')
+      FunctionHelper.triggerCallback(callback, template)
     })
     return this
   },
@@ -153,29 +145,20 @@ let TemplateManager = {
     //console.log('drop')
     
     let files = e.dataTransfer.files
-    TemplateManager.uploadFiles(files)
+    StyleManager.uploadFiles(files)
     return false
   },
   validate: function (files, callback) {
     //console.log(files)
-    if (files.length !== 1 || files[0].type !== 'text/html') {
+    if (files.length !== 1 || files[0].type !== 'text/css') {
       FunctionHelper.triggerCallback(callback, false)
-      return
+      return this
     }
-    //return true
-    //let result = true
-    FileSystemHelper.readEventFilesText(files[0], (content) => {
-      //console.log(content)
-      let result = (content.split('${postTitle}').length === 2
-              && content.split('${postDate}').length === 2
-              && content.split('${postLabels}').length === 2
-              && content.split('${postBody}').length === 2)
-      
-      FunctionHelper.triggerCallback(callback, result)
-    })
-    
-    return this
+    else {
+      FunctionHelper.triggerCallback(callback, true)
+      return this
+    }
   }
 }
 
-export default TemplateManager
+export default StyleManager
