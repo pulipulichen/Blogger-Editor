@@ -5601,6 +5601,7 @@ sel.addRange(range);
           this.context.invoke('toolbar.updateCodeview', true);
           this.$editor.addClass('codeview');
           this.$codable.focus();
+          //this.$codable.show();
           // activate CodeMirror as codable
           if (env.hasCodeMirror) {
               var cmEditor_1 = CodeMirror.fromTextArea(this.$codable[0], this.options.codemirror);
@@ -5624,6 +5625,7 @@ sel.addRange(range);
                   _this.context.triggerEvent('blur.codeview', _this.$codable.val(), event);
               });
           }
+          this.$codable.show();
       };
       /**
        * deactivate code view
@@ -5645,6 +5647,7 @@ sel.addRange(range);
           }
           this.$editable.focus();
           this.context.invoke('toolbar.updateCodeview', false);
+          //this.$codable.hide()
       };
       CodeView.prototype.destroy = function () {
           if (this.isActivated()) {

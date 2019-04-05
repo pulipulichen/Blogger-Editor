@@ -1017,7 +1017,8 @@ a.note-dropdown-item:hover {
 }
 
 .note-editor.note-frame.codeview .note-editing-area .note-codable {
-  display: block
+  display: block;
+  border-radius: 0.5rem;
 }
 
 .note-editor.note-frame .note-editing-area {
