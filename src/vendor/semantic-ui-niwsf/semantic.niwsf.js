@@ -9074,7 +9074,7 @@ $.fn.modal = function(parameters) {
     $window        = $(window),
     $document      = $(document),
     //$body          = $('body'),
-    $body          = $('.non-invasive-web-style-framework:first'),
+    $body          = $('body > .non-invasive-web-style-framework:first'),
 
     moduleSelector = $allModules.selector || '',
 
@@ -9448,9 +9448,7 @@ $.fn.modal = function(parameters) {
         },
 
         hideModal: function(callback, keepDimmed) {
-          // let body enable scroll
-          $('body').removeClass('non-invasive-web-style-framework-scroll-disable')
-        
+          console.log(keepDimmed)
           callback = $.isFunction(callback)
             ? callback
             : function(){}
@@ -9482,6 +9480,12 @@ $.fn.modal = function(parameters) {
                   onComplete : function() {
                     settings.onHidden.call(element);
                     module.remove.dimmerStyles();
+                    
+                    // let body enable scroll
+                    if ($('.non-invasive-web-style-framework.dimmable.dimmed').length === 0) {
+                      $('body').removeClass('non-invasive-web-style-framework-scroll-disable')
+                    }
+                    
                     module.restore.focus();
                     callback();
                   }
@@ -10036,7 +10040,7 @@ $.fn.modal.settings = {
   keyboardShortcuts: true,
 
   //context    : 'body',
-  context    : '.non-invasive-web-style-framework:first',
+  context    : 'body > .non-invasive-web-style-framework:first',
 
   queue      : false,
   duration   : 500,
@@ -10144,7 +10148,7 @@ $.fn.nag = function(parameters) {
         $context        = (settings.context)
           ? $(settings.context)
           //: $('body'),
-          : $('.non-invasive-web-style-framework:first'),
+          : $('body > .non-invasive-web-style-framework:first'),
 
         element         = this,
         instance        = $module.data(moduleNamespace),
@@ -10625,7 +10629,7 @@ $.fn.popup = function(parameters) {
     $document      = $(document),
     $window        = $(window),
     //$body          = $('body'),
-    $body          = $('.non-invasive-web-style-framework:first'),
+    $body          = $('body > .non-invasive-web-style-framework:first'),
 
     moduleSelector = $allModules.selector || '',
 
@@ -12013,7 +12017,7 @@ $.fn.popup.settings = {
 
   // context to attach popups
   //context        : 'body',
-  context        : '.non-invasive-web-style-framework:first',
+  context        : 'body > .non-invasive-web-style-framework:first',
 
   // context for binding scroll events
   scrollContext  : window,
@@ -15105,7 +15109,7 @@ $.fn.shape = function(parameters) {
   var
     $allModules     = $(this),
     //$body           = $('body'),
-    $body           = $('.non-invasive-web-style-framework:first'),
+    $body           = $('body > .non-invasive-web-style-framework:first'),
 
     time            = new Date().getTime(),
     performance     = [],
@@ -16985,7 +16989,7 @@ $.fn.sidebar.settings = {
   },
 
   //context           : 'body',
-  context           : '.non-invasive-web-style-framework:first',
+  context           : 'body > .non-invasive-web-style-framework:first',
   exclusive         : false,
   closable          : true,
   dimPage           : true,
@@ -18150,7 +18154,7 @@ $.fn.tab = function(parameters) {
           }
           else {
             //$context = $('body');
-            $context = $('.non-invasive-web-style-framework:first');
+            $context = $('body > .non-invasive-web-style-framework:first');
           }
           // find tabs
           if(settings.childrenOnly) {

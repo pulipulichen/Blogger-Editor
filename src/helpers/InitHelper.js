@@ -5,6 +5,7 @@ let InitHelper = {
 
     //$v.EditorManager.open()
     $v.ThemeManager.open()
+    $v.EditorManager.open()
     //$v.PageLoader.open()
     FunctionHelper.triggerCallback(callback)
   },
