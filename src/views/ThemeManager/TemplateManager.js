@@ -153,7 +153,15 @@ let TemplateManager = {
     }
     //return true
     //let result = true
-    FunctionHelper.triggerCallback(callback, true)
+    FileSystemHelper.readEventFiles(files[0], (content) => {
+      let result = (content.split('${postTitle}').length === 2
+              && content.split('${postDate}').length === 2
+              && content.split('${postLabels}').length === 2
+              && content.split('${postBody}').length === 2)
+      
+      FunctionHelper.triggerCallback(callback, result)
+    })
+    
     return this
   }
 }
