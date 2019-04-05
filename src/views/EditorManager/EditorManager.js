@@ -211,11 +211,54 @@ var EditorManager = {
       config = JSON.stringify(config)
       FileHelper.save(config, 'editorConfig.json')
     },
-    configUpload: function () {
-      console.log('configUpload')
+    triggerConfigUpload: function (e) {
+      $(e.target).parent().children('input:file:first').click()
     },
-    configDrop: function () {
-      console.log('configDrop')
+    configUpload: function (e) {
+      let files = e.target.files
+      this.readConfig(files)
+    },
+    configDrop: function (e) {
+      //console.log('configDrop')
+      let files = e.dataTransfer.files
+      this.readConfig(files)
+    },
+    readConfig: function (files) {
+      if (files.length !== 1 
+              || files[0].type !== 'application/json') {
+        return
+      }
+      //console.log(files[0])
+      
+      FileSystemHelper.readEventFilesText(files[0], (config) => {
+        //console.log(config)
+        config = JSON.parse(config)
+        if (typeof(config.image) === 'object') {
+          let image = config.image
+          if (typeof(image.uploadImageDraft) === 'string') {
+            this.uploadImageDraft = image.uploadImageDraft
+          }
+          if (typeof(image.imageSizeDefault) === 'number') {
+            this.imageSizeDefault = image.imageSizeDefault
+          }
+        }
+        if (typeof(config.toolbar) === 'object') {
+          let toolbar = config.toolbar
+          if (Array.isArray(toolbar.toolbar)) {
+            this.summerNoteConfigToolbar = JSON.stringify(toolbar.toolbar)
+            if (this.summerNoteConfigToolbar === '[]') {
+              this.summerNoteConfigToolbar = ''
+            }
+          }
+          if (Array.isArray(toolbar.styleTags)) {
+            this.summerNoteConfigStyleTags = JSON.stringify(toolbar.styleTags)
+            if (this.summerNoteConfigStyleTags === '[]') {
+              this.summerNoteConfigStyleTags = ''
+            }
+          }
+        }
+        WindowHelper.alert('Config uploaded')
+      })
     },
     setChanged: function () {
       this.onCloseReload = true
