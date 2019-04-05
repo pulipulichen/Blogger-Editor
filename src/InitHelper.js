@@ -4,11 +4,11 @@ let InitHelper = {
     //$v.ImageReplacer.open()
 
     //$v.EditorManager.open()
-    $v.ThemeManager.open()
+    //$v.ThemeManager.open()
     
-    setTimeout(function () {
-      $v.EditorManager.open()
-    }, 3000)
+    //setTimeout(function () {
+    //  $v.EditorManager.open()
+    //}, 3000)
     
     //$v.PageLoader.open()
     FunctionHelper.triggerCallback(callback)

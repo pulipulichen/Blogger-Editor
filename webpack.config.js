@@ -13,6 +13,7 @@ module.exports = (env, argv) => {
   //console.log(argv.mode)
   
   let webpackConfig = {
+    mode: argv.mode,
     //cache: false,
     devtool: 'source-map',
     //devtool: false,
