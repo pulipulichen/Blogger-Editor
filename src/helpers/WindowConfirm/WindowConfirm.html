@@ -1,0 +1,21 @@
+<div class="ui basic modal window-confirm" 
+     ref="modal">
+  <div class="ui icon header">
+    <i class="info icon"></i>
+    {{ message }}
+  </div>
+  <div class="actions">
+    <button type="button" 
+            class="yes ui green basic inverted icon button" 
+            @click="yes">
+      <i class="checkmark icon"></i>
+      Yes
+    </button>
+    <button type="button" 
+            class="ui red basic inverted button" 
+            @click="no">
+      <i class="remove icon"></i>
+      No
+    </button>
+  </div>
+</div>

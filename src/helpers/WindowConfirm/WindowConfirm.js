@@ -1,9 +1,10 @@
 var config = {
   data: function () {
     return {
-      name: 'WindowAlert',
+      name: 'WindowConfirm',
       ui: undefined,
-      onClose: null,
+      onYes: null,
+      onNo: null,
       message: ''
     }
   },
@@ -26,30 +27,41 @@ var config = {
       }
       return this.ui
     },
-    open: function (message, onClose) {
+    open: function (message, onYes, onNo) {
       if (message === undefined) {
         return
       }
       
       if (typeof(message) === 'function') {
-        onClose = message
+        onYes = message
         message = ''
       }
       
-      if (typeof(onClose) === 'function') {
-        this.onClose = onClose
+      if (typeof(onYes) === 'function') {
+        this.onYes = onYes
+      }
+      if (typeof(onNo) === 'function') {
+        this.onNo = onNo
       }
       this.message = message
       
       this.getUI().modal({
         closable: false
       }).modal('show')
-      this.getUI().find('.ok.button').focus()
+      this.getUI().find('.yes.button').focus()
+    },
+    yes: function () {
+      FunctionHelper.triggerCallback(this.onYes)
+      this.close()
+    },
+    no: function () {
+      FunctionHelper.triggerCallback(this.onNo)
+      this.close()
     },
     close: function () {
+      this.onYes = null
+      this.onNo = null
       this.getUI().modal('hide')
-      FunctionHelper.triggerCallback(this.onClose)
-      this.onClose = null
     }
   }
 }

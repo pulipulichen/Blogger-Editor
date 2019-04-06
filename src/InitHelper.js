@@ -3,9 +3,9 @@ let InitHelper = {
   onInit: function (callback) {
     //$v.ImageReplacer.open()
 
-    WindowHelper.alert('TEST', () => {
-      alert('OK')
-    })
+    //WindowHelper.alert('TEST', () => {
+    //  alert('OK')
+    //})
 
     //$v.PostManager.open()
     //$v.ThemeManager.open()

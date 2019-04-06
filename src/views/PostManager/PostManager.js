@@ -234,7 +234,8 @@ var PostManager = {
     },
     removePost: function (id, callback) {
       //console.log(id)
-      if (window.confirm(`Are you sure to delete #${id}`)) {
+      let message = `Are you sure to delete #${id}`
+      WindowHelper.confirm(message, () => {
         id = parseInt(id, 10)
         
         this.posts = this.posts.filter(post => post.id !== id)
@@ -247,12 +248,12 @@ var PostManager = {
           this.editingPostId = null
           this.persist()
         }
-      }
-      
-      // delete files in filesystem
-      let dirPath = `/${id}`
-      FileSystemHelper.removeDir(dirPath, callback)
-      //FunctionHelper.triggerCallback(callback)
+        
+        // delete files in filesystem
+        let dirPath = `/${id}`
+        FileSystemHelper.removeDir(dirPath, callback)
+        //FunctionHelper.triggerCallback(callback)
+      })
     },
     updateEditingPost: function (field, value, callback) {
       this.getPost((post) => {

@@ -1,11 +1,13 @@
 <div class="ui basic modal window-alert" 
      ref="modal">
-  <div class="ui header">
+  <div class="ui icon header">
+    <i class="info icon"></i>
     {{ message }}
   </div>
   <div class="actions">
-    <div class="ui button" @click="close">
+    <button type="button"
+            class="ui basic inverted button ok" @click="close">
       OK
-    </div>
+    </button>
   </div>
 </div>

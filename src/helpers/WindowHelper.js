@@ -66,6 +66,8 @@ WindowHelper = {
     return newWindow
   },
   confirm: function (message, yesCallback, noCallback) {
+    $v.WindowConfirm.open(message, yesCallback, noCallback)
+    /*
     $(() => {
       if (window.confirm(message)) {
         FunctionHelper.triggerCallback(yesCallback)
@@ -74,7 +76,7 @@ WindowHelper = {
         FunctionHelper.triggerCallback(noCallback)
       }
     })
-      
+    */
   },
   alert: function (message, callback) {
     $v.WindowAlert.open(message, callback)

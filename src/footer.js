@@ -33,8 +33,8 @@ VueHelper.init(PageLoaderSfc)
 import WindowAlertSfc from './helpers/WindowAlert/WindowAlert.vue'
 VueHelper.init(WindowAlertSfc)
 
-//import WindowConfirmSfc from './helpers/WindowConfirm/WindowConfirm.vue'
-//VueHelper.init(WindowConfirm)
+import WindowConfirmSfc from './helpers/WindowConfirm/WindowConfirm.vue'
+VueHelper.init(WindowConfirmSfc)
 
 // -------------
 
