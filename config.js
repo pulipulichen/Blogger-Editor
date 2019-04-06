@@ -5,6 +5,7 @@ const CONFIG = {
     //disablePostManager: true,
     disableThemeManager: false,
     disableEditorManager: false,
+    disableConfigManager: false,
     
     disableSummerNode: false,
     disableImageReplacer: true,
