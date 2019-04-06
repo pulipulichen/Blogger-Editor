@@ -11,20 +11,22 @@
 
       <div class="two fields">
         <div class="field">
-          <div class="ui labeled icon fluid button"
-               @click="configDownload">
+          <button type="button" 
+                  class="backup ui labeled icon fluid button"
+                  @click="configDownload">
             <i class="download icon"></i>
-            Download
-          </div>
+            Backup
+          </button>
         </div>
         <div class="field">
           <input type="file" name="uploadStyle"
                  @change="configUpload"/>
-          <div class="ui labeled icon fluid button"
-               @click="triggerConfigUpload">
+          <button type="button"
+                  class="ui labeled icon fluid button"
+                  @click="triggerConfigUpload">
             <i class="upload icon"></i>
-            Upload
-          </div>
+            Restore
+          </button>
         </div>
 
         <div class="dragover-message"

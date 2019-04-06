@@ -22,6 +22,7 @@ let config = {
     open: function () {
       //console.log(this.data)
       this.getUI().modal('show')
+      this.getUI().find('.backup.button').focus()
     },
     close: function () {
       
@@ -37,21 +38,12 @@ let config = {
       
     },
     configDownload: function () {
-      //console.log('configDownload')
       
-      let config = {
-        image: {
-          uploadImageDraft: this.uploadImageDraft,
-          imageSizeDefault: this.imageSizeDefault
-        },
-        toolbar: {
-          toolbar: this.SummerNoteConfig.toolbar(false),
-          styleTags: this.SummerNoteConfig.styleTags(false),
-        }
-      }
-      
-      config = JSON.stringify(config)
-      FileHelper.save(config, 'editorConfig.json')
+      let editorConfig = $v.EditorManager.getConfig()
+      $v.ThemeManager.getConfig((template, style) => {
+        // make a zip
+        // saveAs them
+      })
     },
     triggerConfigUpload: function (e) {
       $(e.target).parent().children('input:file:first').click()

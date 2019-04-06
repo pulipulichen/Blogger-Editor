@@ -200,6 +200,12 @@ var EditorManager = {
     configDownload: function () {
       //console.log('configDownload')
       
+      let config = this.getConfig()
+      
+      config = JSON.stringify(config)
+      FileHelper.save(config, 'editorConfig.json')
+    },
+    getConfig: function () {
       let config = {
         image: {
           uploadImageDraft: this.uploadImageDraft,
@@ -210,9 +216,7 @@ var EditorManager = {
           styleTags: this.SummerNoteConfig.styleTags(false),
         }
       }
-      
-      config = JSON.stringify(config)
-      FileHelper.save(config, 'editorConfig.json')
+      return config
     },
     triggerConfigUpload: function (e) {
       $(e.target).parent().children('input:file:first').click()
