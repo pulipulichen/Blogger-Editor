@@ -504,18 +504,59 @@ let PostManager = {
       }
       loop(0)
     },
-    clonePost: function (id, callback) {
-      console.log('clonePost', id)
-      FunctionHelper.triggerCallback(callback)
-    },
-    uploadPosts: function (e) {
-      console.log('uploadPost')
-    },
     triggerUploadPosts: function (e) {
       FileHelper.triggerInput(e)
     },
-    dropPosts: function (e) {
+    uploadPosts: function (e) {
+      let files = e.target.files
       console.log('uploadPost')
+    },
+    dropPosts: function (e) {
+      let files = e.dataTransfer.files
+      console.log('uploadPost')
+    },
+    readPostsZip: function (files) {
+      $v.PageLoader.open()
+      
+      let i = 0
+      
+      let loop = (i) => {
+        if (i < files.length) {
+          let file = files[i]
+          if (file.type !== 'application/zip') {
+            next()
+            return
+          }
+          
+          FileHelper.readZip(file, (file) => {
+            let path = file.path
+            if (path.startsWith('/blogger-editor-post-') 
+                    && path.endsWith('.zip')) {
+              this.readAllPostsZip(file, next)
+            }
+            else {
+              // this is not finish
+              throw 'this is not finish now'
+              
+              //this.readSingle
+            }
+          }, next)
+        }
+        else {
+          $v.PageLoader.close()
+        }
+      }
+      
+      let next = () => {
+        i++
+        loop(i)
+      }
+      
+      loop(i)
+    },
+    clonePost: function (id, callback) {
+      console.log('clonePost', id)
+      FunctionHelper.triggerCallback(callback)
     },
   }
 }

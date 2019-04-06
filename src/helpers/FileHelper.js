@@ -32,7 +32,7 @@ let FileHelper = {
   },
   readZip: function (file, readCallback, callback) {
     JSZip.loadAsync(file) // 1) read the Blob
-      .then(function(zip) {
+      .then((zip) => {
         //console.log(zip.files)
         let key = []
         zip.forEach((relativePath) => {
@@ -47,7 +47,15 @@ let FileHelper = {
             let path = key[i]
             let filename = path.slice(path.lastIndexOf('/') + 1)
             let zipEntry = zip.files[path]
-            zipEntry.async("string").then((content) => {
+            
+            let type = 'blob'
+            if (filename.endsWith('.html')
+                    || filename.endsWith('.css')
+                    || filename.endsWith('.htm')) {
+              type = 'string'
+            }
+            
+            zipEntry.async(type).then((content) => {
               FunctionHelper.triggerCallback(readCallback, {
                 filename: filename,
                 path: path,
