@@ -1,9 +1,11 @@
-<div class="ui basic fullscreen modal window-alert" 
+<div class="ui basic modal window-alert" 
      ref="modal">
-  <div class="ui massive text loader">
+  <div class="ui header">
     {{ message }}
   </div>
-  <div class="ui button" @click="close">
-    OK
+  <div class="actions">
+    <div class="ui button" @click="close">
+      OK
+    </div>
   </div>
 </div>

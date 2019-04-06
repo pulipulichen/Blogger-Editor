@@ -37,7 +37,7 @@ var config = {
       }
       
       if (typeof(onClose) === 'function') {
-        this.onclose = onClose
+        this.onClose = onClose
       }
       this.message = message
       
@@ -48,6 +48,7 @@ var config = {
     close: function () {
       this.getUI().modal('hide')
       FunctionHelper.triggerCallback(this.onClose)
+      this.onClose = null
     }
   }
 }

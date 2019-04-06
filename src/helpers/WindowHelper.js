@@ -77,7 +77,7 @@ WindowHelper = {
       
   },
   alert: function (message, callback) {
-    $.WindowAlert.open(message, callback)
+    $v.WindowAlert.open(message, callback)
     
     /*
     $(() => {
