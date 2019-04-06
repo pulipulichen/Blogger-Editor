@@ -414,6 +414,16 @@ let PostManager = {
       return DayjsHelper.postDate(unix)
     },
     backupPost: function (id, callback) {
+      let folderName = `blogger-editor-post-${id}`
+      this.createBackupZip(id, (zip) => {
+        zip.generateAsync({type: "blob"}).then((content) => {
+          // see FileSaver.js
+            saveAs(content, `${folderName}.zip`)
+            FunctionHelper.triggerCallback(callback)
+        })
+      })
+    },
+    createBackupZip: function (id, callback) {
       let FieldPostBody = $v.EditorManager.FieldPostBody
       this.getPost(id, (post) => {
         this.getPostBody(id, (postBody) => {
@@ -433,16 +443,11 @@ let PostManager = {
             postBody = FieldPostBody.filterImageList(postBody)
             folder.file('postBody.html', postBody)
 
-
-            zip.generateAsync({type: "blob"}).then((content) => {
-              // see FileSaver.js
-                saveAs(content, `${folderName}.zip`)
-            })
+            FunctionHelper.triggerCallback(callback, zip)
           })
         })
       })
       //console.log('backupPost', id)
-      FunctionHelper.triggerCallback(callback)
     },
     addFileSystemFiles: function (folder, postBody, callback) {
       let FieldPostBody = $v.EditorManager.FieldPostBody
