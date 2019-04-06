@@ -50,6 +50,9 @@ VueHelper.init(ThemeManagerComponent)
 import EditorManagerComponent from './views/EditorManager/EditorManager.vue'
 VueHelper.init(EditorManagerComponent)
 
+import ConfigManagerSfc from './views/ConfigManager/ConfigManager.vue'
+VueHelper.init(ConfigManagerSfc)
+
 import NavBarComponent from './views/NavBar/NavBar.vue'
 VueHelper.init(NavBarComponent)
 

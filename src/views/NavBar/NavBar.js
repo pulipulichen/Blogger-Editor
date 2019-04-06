@@ -17,6 +17,9 @@ var NavBar = {
     openEditorManager: function () {
       $v.EditorManager.open()
     },
+    openConfigManager: function () {
+      $v.ConfigManager.open()
+    },
   }
 }
 

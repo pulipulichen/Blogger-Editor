@@ -82,9 +82,11 @@ var EditorManager = {
     open: function (focusSelector) {
       //console.log(this.data)
       this.getUI().modal('show')
-      $(() => {
-        $(focusSelector).focus()
-      })
+      if (typeof(focusSelector) === 'string') {
+        $(() => {
+          $(focusSelector).focus()
+        })
+      }
       this.onCloseReload = false
     },
     close: function () {

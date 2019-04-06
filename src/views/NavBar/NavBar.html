@@ -1,16 +1,25 @@
 <div class="non-invasive-web-style-framework">
   <div class="ui top fixed inverted menu">
-    <a class="item" v-on:click="openPostManager">
+    <a class="item" 
+       @click="openPostManager">
       <i class="blogger icon"></i>
       Post
     </a>
-    <a class="item" v-on:click="openThemeManager">
+    <a class="item" 
+       @click="openThemeManager">
       <i class="columns icon"></i>
       Theme
     </a>
-    <a class="item" v-on:click="openEditorManager">
+    <a class="item" 
+       @click="openEditorManager">
       <i class="keyboard outline icon"></i>
       Editor
+    </a>
+    
+    <a class="item" 
+       @click="openConfigManager">
+      <i class="cogs icon"></i>
+      Config
     </a>
   </div>
 </div>

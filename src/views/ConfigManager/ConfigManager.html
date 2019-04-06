@@ -1,0 +1,46 @@
+<div class="non-invasive-web-style-framework">
+  <div class="ui modal"
+       v-bind:class="name"
+       ref="modal">
+    <i class="close icon" @click="close"></i>
+    <div class="header">
+      <i class="keyboard outline icon"></i>
+      Config Manager
+    </div>
+    <div class="content">
+      <div class="ui form description">
+          
+            <div class="two fields">
+              <div class="field">
+                <div class="ui labeled icon fluid button"
+                   @click="configDownload">
+                  <i class="download icon"></i>
+                  Download
+                </div>
+              </div>
+              <div class="field">
+                <input type="file" name="uploadStyle"
+                     @change="configUpload"/>
+                <div class="ui labeled icon fluid button"
+                   @click="triggerConfigUpload">
+                  <i class="upload icon"></i>
+                  Upload
+                </div>
+              </div>
+              
+              <div class="dragover-message"
+               @drop="configDrop">
+                Drop file to upload
+              </div>
+            </div>
+            
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui button"
+           @click='close'>
+        Close
+      </div>
+    </div>
+  </div>
+</div>
