@@ -80,44 +80,30 @@ let config = {
     },
     readConfig: function (files) {
       if (files.length !== 1 
-              || files[0].type !== 'application/json') {
+              || files[0].type !== 'application/zip') {
         return this
       }
-      //console.log(files[0])
       
-      FileSystemHelper.readEventFilesText(files[0], (config) => {
-        //console.log(config)
-        config = JSON.parse(config)
-        this.setConfig(config)
-        WindowHelper.alert('Config uploaded')
+      this.onCloseReload = true
+      
+      FileHelper.readZip(files[0], (file, callback)=> {
+        let path = file.path
+        let content = file.content
+        if (path.endsWith('/editorConfig.json')) {
+          $v.EditorManager.setConfig(content)
+          FunctionHelper.triggerCallback(callback)
+        }
+        else if (path.endsWith('/template.html')) {
+          $v.ThemeManager.TemplateManager.setConfig(content, callback)
+        }
+        else if (path.endsWith('/style.css')) {
+          $v.ThemeManager.StyleManager.setConfig(content, callback)
+        }
+      }, () => {
+        //console.log('finish')
+        WindowHelper.alert('Config restored.')
       })
       return this
-    },
-    setConfig: function (config) {
-      if (typeof(config.image) === 'object') {
-        let image = config.image
-        if (typeof(image.uploadImageDraft) === 'string') {
-          this.uploadImageDraft = image.uploadImageDraft
-        }
-        if (typeof(image.imageSizeDefault) === 'number') {
-          this.imageSizeDefault = image.imageSizeDefault
-        }
-      }
-      if (typeof(config.toolbar) === 'object') {
-        let toolbar = config.toolbar
-        if (Array.isArray(toolbar.toolbar)) {
-          this.summerNoteConfigToolbar = JSON.stringify(toolbar.toolbar)
-          if (this.summerNoteConfigToolbar === '[]') {
-            this.summerNoteConfigToolbar = ''
-          }
-        }
-        if (Array.isArray(toolbar.styleTags)) {
-          this.summerNoteConfigStyleTags = JSON.stringify(toolbar.styleTags)
-          if (this.summerNoteConfigStyleTags === '[]') {
-            this.summerNoteConfigStyleTags = ''
-          }
-        }
-      }
     },
   }
 }

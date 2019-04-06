@@ -246,6 +246,10 @@ var EditorManager = {
       return this
     },
     setConfig: function (config) {
+      if (typeof(config) === 'string') {
+        config = JSON.parse(config)
+      }
+      
       if (typeof(config.image) === 'object') {
         let image = config.image
         if (typeof(image.uploadImageDraft) === 'string') {

@@ -176,6 +176,13 @@ let StyleManager = {
         FileSystemHelper.read(this.path, callback)
       }
     })
+  },
+  setConfig: function (content, callback) {
+    if (content === undefined) {
+      FunctionHelper.triggerCallback(callback)
+      return
+    }
+    FileSystemHelper.write(this.path, content, callback)
   }
 }
 

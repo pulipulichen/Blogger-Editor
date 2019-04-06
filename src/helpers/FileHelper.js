@@ -29,6 +29,43 @@ let FileHelper = {
   },
   triggerInput: function (e) {
     $(e.target).parent().children('input:file:first').click()
+  },
+  readZip: function (file, readCallback, callback) {
+    JSZip.loadAsync(file) // 1) read the Blob
+      .then(function(zip) {
+        //console.log(zip.files)
+        let key = []
+        zip.forEach((relativePath) => {
+          if (relativePath.endsWith('/')) {
+            return
+          }
+          key.push(relativePath)
+        })
+        
+        let loop = (i) => {
+          if (i < key.length) {
+            let path = key[i]
+            let filename = path.slice(path.lastIndexOf('/') + 1)
+            let zipEntry = zip.files[path]
+            zipEntry.async("string").then((content) => {
+              FunctionHelper.triggerCallback(readCallback, {
+                filename: filename,
+                path: path,
+                content, content
+              }, () => {
+                i++
+                loop(i)
+              })
+              //console.log(data)
+            })
+          }
+          else {
+            FunctionHelper.triggerCallback(callback)
+          }
+        }
+        loop(0)
+      });
+    return this
   }
 }
 

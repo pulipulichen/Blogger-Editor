@@ -204,6 +204,16 @@ let TemplateManager = {
         FileSystemHelper.read(this.path, callback)
       }
     })
+  },
+  setConfig: function (content, callback) {
+    if (content === undefined) {
+      FunctionHelper.triggerCallback(callback)
+      return
+    }
+    
+    if (this.validate(content)) {
+      FileSystemHelper.write(this.path, content, callback)
+    }
   }
 }
 
