@@ -25,8 +25,18 @@ require('./helpers/FileHelper.js')
 
 window.$v = {}
 
-import PageLoaderSfc from './views/PageLoader/PageLoader.vue'
+// -------------
+
+import PageLoaderSfc from './helpers/PageLoader/PageLoader.vue'
 VueHelper.init(PageLoaderSfc)
+
+import WindowAlertSfc from './helpers/WindowAlert/WindowAlert.vue'
+VueHelper.init(WindowAlertSfc)
+
+//import WindowConfirmSfc from './helpers/WindowConfirm/WindowConfirm.vue'
+//VueHelper.init(WindowConfirm)
+
+// -------------
 
 import BrowserDetectorComponent from './views/BrowserDetector/BrowserDetector.vue'
 VueHelper.init(BrowserDetectorComponent)

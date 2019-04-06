@@ -3,7 +3,11 @@ let InitHelper = {
   onInit: function (callback) {
     //$v.ImageReplacer.open()
 
-    $v.PostManager.open()
+    WindowHelper.alert('TEST', () => {
+      alert('OK')
+    })
+
+    //$v.PostManager.open()
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     

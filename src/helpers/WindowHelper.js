@@ -77,10 +77,13 @@ WindowHelper = {
       
   },
   alert: function (message, callback) {
+    $.WindowAlert.open(message, callback)
+    
+    /*
     $(() => {
       window.alert(message)
       FunctionHelper.triggerCallback(callback)
     })
-      
+    */
   }
 }
