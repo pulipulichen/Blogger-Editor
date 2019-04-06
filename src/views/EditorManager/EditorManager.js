@@ -75,7 +75,7 @@ var EditorManager = {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')
-        this.ui = this.ui = $('.EditorManager.ui.modal')
+        this.ui = $('.EditorManager.ui.modal')
       }
       return this.ui
     },

@@ -39,7 +39,7 @@ var PostManager = {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')
-        this.ui = this.ui = $('.PostManager.ui.modal')
+        this.ui = $('.PostManager.ui.modal')
       }
       return this.ui
     },

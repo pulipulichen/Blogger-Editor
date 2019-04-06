@@ -15,7 +15,7 @@ let config = {
   methods: {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
-        this.ui = this.ui = $(this.$ref.modal)
+        this.ui = $(this.$refs.modal)
       }
       return this.ui
     },
