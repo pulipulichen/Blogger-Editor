@@ -1,3 +1,8 @@
+import JSZip from 'jszip'
+import JSZipUtils from 'jszip-utils'
+import {saveAs} from 'file-saver'
+import dayjs from 'dayjs'
+
 let config = {
   //name: "main-content",
   data: function () {
@@ -41,8 +46,24 @@ let config = {
       
       let editorConfig = $v.EditorManager.getConfig()
       $v.ThemeManager.getConfig((template, style) => {
-        // make a zip
-        // saveAs them
+        let zip = new JSZip()
+        let date = DayjsHelper.nowFormat('YYYY-MMDD')
+        let folderName = `blogger-editor-config-${date}`
+        let folder = zip.folder(folderName);
+
+        
+        folder.file('editorConfig.json', JSON.stringify(editorConfig))
+        if (template !== undefined) {
+          folder.file('template.html', template)
+        }
+        if (style !== undefined) {
+          folder.file('style.css', style)
+        }
+        
+        zip.generateAsync({type: "blob"}).then((content) => {
+          // see FileSaver.js
+            saveAs(content, `${folderName}.zip`)
+        })
       })
     },
     triggerConfigUpload: function (e) {

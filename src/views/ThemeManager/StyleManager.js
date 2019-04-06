@@ -165,6 +165,17 @@ let StyleManager = {
     else {
       FileSystemHelper.write(content, this.path, callback)
     }
+  },
+  getConfig: function (callback) {
+    this.hasCustomStyle((isExists) => {
+      if (isExists === false) {
+        FunctionHelper.triggerCallback(callback)
+        return
+      }
+      else {
+        FileSystemHelper.read(this.path, callback)
+      }
+    })
   }
 }
 

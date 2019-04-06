@@ -187,6 +187,13 @@ var ThemeManager = {
     reload: function (callback) {
       $('#template').empty()
       this.init(callback)
+    },
+    getConfig: function (callback) {
+      this.TemplateManager.getConfig((template) => {
+        this.StyleManager.getConfig((style) => {
+          FunctionHelper.triggerCallback(callback, template, style)
+        })
+      })
     }
   }
 }

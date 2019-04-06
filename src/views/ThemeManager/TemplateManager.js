@@ -193,6 +193,17 @@ let TemplateManager = {
     else {
       FileSystemHelper.write(content, this.path, callback)
     }
+  },
+  getConfig: function (callback) {
+    this.hasCustomTemplate((isExists) => {
+      if (isExists === false) {
+        FunctionHelper.triggerCallback(callback)
+        return
+      }
+      else {
+        FileSystemHelper.read(this.path, callback)
+      }
+    })
   }
 }
 
