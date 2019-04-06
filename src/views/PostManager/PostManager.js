@@ -1,4 +1,8 @@
-var PostManager = {
+import JSZip from 'jszip'
+import JSZipUtils from 'jszip-utils'
+import {saveAs} from 'file-saver'
+
+let PostManager = {
   data: function () {
     return {
       ui: undefined,
@@ -410,8 +414,58 @@ var PostManager = {
       return DayjsHelper.postDate(unix)
     },
     backupPost: function (id, callback) {
-      console.log('backupPost', id)
+      let FieldPostBody = $v.EditorManager.FieldPostBody
+      this.getPost(id, (post) => {
+        this.getPostBody(id, (postBody) => {
+          
+          let zip = new JSZip()
+          let folderName = `blogger-editor-post-${id}`
+          let folder = zip.folder(folderName);
+          
+          
+          folder.file('post.json', JSON.stringify(post))
+          
+          if (postBody === undefined) {
+            postBody = ''
+          }
+          
+          this.addFileSystemFiles(folder, postBody, () => {
+            postBody = FieldPostBody.filterImageList(postBody)
+            folder.file('postBody.html', postBody)
+
+
+            zip.generateAsync({type: "blob"}).then((content) => {
+              // see FileSaver.js
+                saveAs(content, `${folderName}.zip`)
+            })
+          })
+        })
+      })
+      //console.log('backupPost', id)
       FunctionHelper.triggerCallback(callback)
+    },
+    addFileSystemFiles: function (folder, postBody, callback) {
+      let FieldPostBody = $v.EditorManager.FieldPostBody
+      
+      // we need download images
+      let imageList = FieldPostBody.getImageList(postBody)
+      let assetFolder = folder.folder('assets')
+      let loop = (i) => {
+        if (i < imageList.length) {
+          let path = imageList[i]
+          let name = path.slice(path.lastIndexOf('/') + 1)
+          JSZipUtils.getBinaryContent(path, (err, data) => {
+            //console.log(data)
+            assetFolder.file(name, data)
+            i++
+            loop(i)
+          })
+        }
+        else {
+          FunctionHelper.triggerCallback(callback)
+        }
+      }
+      loop(0)
     },
     backupAllPosts: function (callback) {
       console.log('backupAllPosts')

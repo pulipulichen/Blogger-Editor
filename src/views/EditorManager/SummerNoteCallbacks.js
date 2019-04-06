@@ -54,7 +54,7 @@ let SummerNoteCallbacks = {
             this.insertImageNode(url, name)
           } else {
             node = $(`<a href="${url}">${name}</a>`)[0]
-            FieldPostBody.insert(node)
+            $v.EditorManager.FieldPostBody.insert(node)
           }
           i++
           loop(i)
@@ -87,7 +87,7 @@ let SummerNoteCallbacks = {
       <img src="${url}" title="${name}" alt="${name}" onload="BloggerImageHelper.readyToResize(this)" />
     </a>`)[0]
     //this.getPostSummerNote().summernote('insertNode', imgNode);
-    FieldPostBody.insert(imgNode)
+    $v.EditorManager.FieldPostBody.insert(imgNode)
   },
 }
 

@@ -70,13 +70,38 @@ let FieldPostBody = {
     this.get().summernote('code', value);
     return this
   },
-  getImageList: function () {
-    let postBody = this.getElement()
+  getImageList: function (postBody) {
+    if (postBody === undefined) {
+      postBody = this.getElement()
+    }
+    else if (postBody === '') {
+      return []
+    }
+    else if (typeof(postBody) === 'string') {
+      postBody = $(`<div>${postBody}</div>`)
+    }
+    
     let output = []
     postBody.find('img[src^="filesystem:"]').each((i, img) => {
       output.push(img.src)
     })
     return output
+  },
+  filterImageList: function (postBodyString) {
+    let postBody = $(`<div>${postBodyString}</div>`)
+    
+    let filterUrl = function (url) {
+      return url.slice(url.lastIndexOf('/assets/') + 1)
+    }
+    
+    postBody.find('img[src^="filesystem:"]').each((i, img) => {
+      img.src = filterUrl(img.src)
+    })
+    postBody.find('a[href^="filesystem:"]').each((i, aTag) => {
+      aTag.href = filterUrl(aTag.href)
+    })
+    
+    return postBody.html()
   },
   setImageList: function (imageList) {
     let postBody = this.getElement()
