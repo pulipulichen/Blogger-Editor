@@ -7,10 +7,10 @@ let InitHelper = {
     //  alert('OK')
     //})
 
-    //$v.PostManager.open()
+    $v.PostManager.open()
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
-    $v.ConfigManager.open()
+    //$v.ConfigManager.open()
     
     //setTimeout(function () {
     //  $v.EditorManager.open()
