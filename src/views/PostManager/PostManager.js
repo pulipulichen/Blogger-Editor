@@ -476,6 +476,7 @@ let PostManager = {
     createBackupZip: function (id, callback) {
       let FieldPostBody = $v.EditorManager.FieldPostBody
       this.getPost(id, (post) => {
+        post = JSON.parse(JSON.stringify(post))
         this.getPostBody(id, (postBody) => {
           
           let zip = new JSZip()
@@ -485,6 +486,8 @@ let PostManager = {
           //let thumb = post.thumbnail
           //post.thumbnail = thumb.slice(thumb.lastIndexOf('/assets/') + 1)
           post.thumbnail = FileSystemHelper.stripAssetFileSystemPrefix(post.thumbnail)
+          //console.log(post.thumbnail)
+          //return
           folder.file('post.json', JSON.stringify(post))
           
           if (postBody === undefined) {
@@ -683,7 +686,7 @@ let PostManager = {
                 //let thumb = post.thumbnail
                 //thumb = thumb.slice(thumb.lastIndexOf('assets/'))
                 //thumb = `/${postId}/${thumb}`
-                post.thumbnail = FileSystemHelper.appendAssetFileSystemPrefix(post.thumbnail)
+                post.thumbnail = FileSystemHelper.appendAssetFileSystemPrefix(post.thumbnail, postId)
                 //console.log(['thumb', thumb])
                 next()
               })

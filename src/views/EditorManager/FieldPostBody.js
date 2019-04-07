@@ -107,7 +107,7 @@ let FieldPostBody = {
     let postBody = $(`<div>${postBodyString}</div>`)
     
     let filterUrl = function (url) {
-      return FileSystemHelper.appendAssetFileSystemPrefix(url)
+      return FileSystemHelper.appendAssetFileSystemPrefix(url, postId)
     }
     
     postBody.find('img[src]').each((i, img) => {
