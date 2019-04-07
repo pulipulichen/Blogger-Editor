@@ -333,9 +333,9 @@ let PostManager = {
       
       postBody = postBody.trim()
       let postBodyObject = $(postBody)
-      let abstract = postBodyObject.text()
+      let abstract = postBodyObject.text().trim()
       if (abstract.length > 100) {
-        abstract = abstract.slice(0, 100) + '...'
+        abstract = abstract.slice(0, 100).trim() + '...'
       }
       
       //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
@@ -477,7 +477,8 @@ let PostManager = {
           let folderName = `blogger-editor-post-${id}`
           let folder = zip.folder(folderName);
           
-          
+          let thumb = post.thumbnail
+          post.thumbnail = thumb.slice(thumb.lastIndexOf('/assets/') + 1)
           folder.file('post.json', JSON.stringify(post))
           
           if (postBody === undefined) {
@@ -583,7 +584,7 @@ let PostManager = {
                   continue
                 }
                 
-                console.log(['readPostsZip', path])
+                //console.log(['readPostsZip', path])
                 if (path.startsWith('blogger-editor-post-')
                         && path.endsWith('.zip')) {
                   this.readAllPostsZip(zip, next)
@@ -620,12 +621,12 @@ let PostManager = {
       let loop = (i) => {
         if (i < pathList.length) {
           let path = pathList[i]
-          console.log(['readAllPostsZip', path])
+          //console.log(['readAllPostsZip', path])
           let zipEntry = zip.files[path]
           zipEntry.async('blob').then((content) => {
             JSZip.loadAsync(content) // 1) read the Blob
               .then((zip) => {
-                console.log(zip.files)
+                //console.log(zip.files)
                 this.readSinglePostZip(zip, next)
               })
           })
@@ -665,7 +666,7 @@ let PostManager = {
       let loop = (i) => {
         if (i < pathList.length) {
           let path = pathList[i]
-          console.log(['readSinglePostZip', path])
+          //console.log(['readSinglePostZip', path])
           let zipEntry = zip.files[path]
           
           if (path.indexOf('/assets/') === -1) {
@@ -673,12 +674,19 @@ let PostManager = {
               zipEntry.async('string').then((content) => {
                 post = JSON.parse(content)
                 post.id = postId
-                this.createPost(post, next)
+                let thumb = post.thumbnail
+                thumb = thumb.slice(thumb.lastIndexOf('assets/'))
+                thumb = `/${postId}/${thumb}`
+                post.thumbnail = FileSystemHelper.getFileSystemUrl(thumb)
+                console.log(['thumb', thumb])
+                next()
               })
             }
             else if (path.endsWith('/postBody.html')) {
               zipEntry.async('string').then((content) => {
+                //console.log(['readSinglePostZip 1', content])
                 content = FieldPostBody.filterImageListToFileSystem(content, postId)
+                //console.log(['readSinglePostZip 2', content])
                 //let postBodyPath = `/${postId}/postBody.html`
                 //FileSystemHelper.write(postBodyPath, content, next)
                 this.createPostBodyFile(postId, content, next)
@@ -694,7 +702,7 @@ let PostManager = {
           }
         }
         else {
-          FunctionHelper.triggerCallback(callback)
+          this.createPost(post, callback)
         }
       }
       
