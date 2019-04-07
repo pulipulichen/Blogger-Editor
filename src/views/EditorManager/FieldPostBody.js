@@ -87,7 +87,7 @@ let FieldPostBody = {
     })
     return output
   },
-  filterImageList: function (postBodyString) {
+  filterImageListToRelative: function (postBodyString) {
     let postBody = $(`<div>${postBodyString}</div>`)
     
     let filterUrl = function (url) {
@@ -98,6 +98,29 @@ let FieldPostBody = {
       img.src = filterUrl(img.src)
     })
     postBody.find('a[href^="filesystem:"]').each((i, aTag) => {
+      aTag.href = filterUrl(aTag.href)
+    })
+    
+    return postBody.html()
+  },
+  filterImageListToFileSystem: function (postBodyString, postId) {
+    let postBody = $(`<div>${postBodyString}</div>`)
+    
+    let filterUrl = function (url) {
+      if (url.startsWith('//')
+              || url.startsWith('http://')
+              || url.startsWith('https://')) {
+        return url
+      }
+      // filesystem:http://localhost:8383/temporary/2/assets/2019-0406-062107.png
+      url = `/${postId}/${url}`
+      return FileSystemHelper.getFileSystemUrl(url)
+    }
+    
+    postBody.find('img[src]').each((i, img) => {
+      img.src = filterUrl(img.src)
+    })
+    postBody.find('a[href]').each((i, aTag) => {
       aTag.href = filterUrl(aTag.href)
     })
     
