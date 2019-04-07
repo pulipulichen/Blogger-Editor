@@ -5513,12 +5513,18 @@ sel.addRange(range);
           });
           // attach dropImage
           this.$dropzone.on('drop', function (event) {
+              //console.log('ondrop')
               var dataTransfer = event.originalEvent.dataTransfer;
               // stop the browser from opening the dropped content
               event.preventDefault();
               if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
                   _this.$editable.focus();
-                  _this.context.invoke('editor.insertImagesOrCallback', dataTransfer.files);
+                  if (typeof(_this.options.callbacks.onDrop) === 'function') {
+                    _this.options.callbacks.onDrop(dataTransfer.files)
+                  }
+                  else {
+                    _this.context.invoke('editor.insertImagesOrCallback', dataTransfer.files);
+                  }
               }
               else {
                   $$1.each(dataTransfer.types, function (idx, type) {

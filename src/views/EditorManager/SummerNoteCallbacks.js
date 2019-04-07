@@ -8,6 +8,7 @@ let SummerNoteCallbacks = {
         this.onImageUpload(files)
       },
       onDrop: (files) => {
+        console.log('onDrop')
         this.onDrop(files)
       },
       onPaste: (e) => {
@@ -39,6 +40,7 @@ let SummerNoteCallbacks = {
     })
   },
   onDrop: function (files) {
+    console.log(['onDrop', files])
     let path = this.getAssetDirPath()
     
     let loop = (i) => {
