@@ -730,8 +730,20 @@ let PostManager = {
       
     },
     clonePost: function (id, callback) {
+      $v.PageLoader.open()
       console.log('clonePost', id)
-      FunctionHelper.triggerCallback(callback)
+      this.getPostBody(id, (postBody) => {
+        this.getPost(id, (post) => {
+          post = JSON.parse(JSON.stringify(post))
+          this.createPost(post, (post) => {
+            let postId = post.id
+            this.createPostBodyFile(postId, postBody, () => {
+              $v.PageLoader.close()
+              FunctionHelper.triggerCallback(callback)
+            })
+          })
+        })
+      })
     },
   }
 }
