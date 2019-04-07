@@ -32,22 +32,22 @@ let SemanticUIHelper = {
     //let timer = null
     
     doc.on('dragenter', (e) => {
-      //e.preventDefault()
-      //e.stopPropagation()
+      e.preventDefault()
+      e.stopPropagation()
       body.addClass(dragoverClassname)
       //console.log('body dragenter')
     })
     
     doc.on('dragover', (e) => {
-      //e.preventDefault()
-      //e.stopPropagation()
+      e.preventDefault()
+      e.stopPropagation()
     })
     
     doc.on('drop', (e) => {
       //body.addClass(dragoverClassname)
       //console.log('body dragenter')
-      //e.preventDefault()
-      //e.stopPropagation()
+      e.preventDefault()
+      e.stopPropagation()
       body.removeClass(dragoverClassname)
       return false
     })
