@@ -2,7 +2,7 @@ FileSystemHelper = {
   type: window.TEMPORARY,
   quota: 5 * 1024 * 1024 /*5MB*/,
   fs: null,
-  
+  currentBaseUrl: null,
   init: function (callback) {
     
     // Note: The file system has been prefixed as of Google Chrome 12:
@@ -379,6 +379,35 @@ FileSystemHelper = {
       }
     }
     loop(i)
+  },
+  stripAssetFileSystemPrefix: function (url) {
+    if (!url.startsWith('filesystem:')
+            || url.lastIndexOf('/assets/') === -1) {
+      return url
+    }
+    
+    return url.slice(url.lastIndexOf('/assets/') + 1)
+    
+  },
+  appendAssetFileSystemPrefix: function (url, postId) {
+    if (this.currentBaseUrl === null) {
+      let currentBaseUrl = location.href
+      this.currentBaseUrl = currentBaseUrl.slice(0, currentBaseUrl.lastIndexOf('/') + 1)
+    }
+      
+    //console.log(['filterImageListToFileSystem url 1:', url])
+    if (url.startsWith(this.currentBaseUrl) === false 
+            && (
+            url.startsWith('//')
+            || url.startsWith('http://')
+            || url.startsWith('https://'))) {
+      return url
+    }
+    // filesystem:http://localhost:8383/temporary/2/assets/2019-0406-062107.png
+    url = url.slice(url.lastIndexOf('/assets/') + 1)
+    url = `/${postId}/${url}`
+    //console.log(['filterImageListToFileSystem url 2:', this.getFileSystemUrl(url)])
+    return this.getFileSystemUrl(url)
   }
 }
 

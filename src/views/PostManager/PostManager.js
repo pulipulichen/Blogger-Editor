@@ -39,6 +39,11 @@ let PostManager = {
     //})
     $v.PostManager = this
   },
+  computed: {
+    postsLegnth: function () {
+      return this.posts.length
+    }
+  },
   methods: {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
@@ -477,8 +482,9 @@ let PostManager = {
           let folderName = `blogger-editor-post-${id}`
           let folder = zip.folder(folderName);
           
-          let thumb = post.thumbnail
-          post.thumbnail = thumb.slice(thumb.lastIndexOf('/assets/') + 1)
+          //let thumb = post.thumbnail
+          //post.thumbnail = thumb.slice(thumb.lastIndexOf('/assets/') + 1)
+          post.thumbnail = FileSystemHelper.stripAssetFileSystemPrefix(post.thumbnail)
           folder.file('post.json', JSON.stringify(post))
           
           if (postBody === undefined) {
@@ -674,11 +680,11 @@ let PostManager = {
               zipEntry.async('string').then((content) => {
                 post = JSON.parse(content)
                 post.id = postId
-                let thumb = post.thumbnail
-                thumb = thumb.slice(thumb.lastIndexOf('assets/'))
-                thumb = `/${postId}/${thumb}`
-                post.thumbnail = FileSystemHelper.getFileSystemUrl(thumb)
-                console.log(['thumb', thumb])
+                //let thumb = post.thumbnail
+                //thumb = thumb.slice(thumb.lastIndexOf('assets/'))
+                //thumb = `/${postId}/${thumb}`
+                post.thumbnail = FileSystemHelper.appendAssetFileSystemPrefix(post.thumbnail)
+                //console.log(['thumb', thumb])
                 next()
               })
             }
@@ -691,6 +697,9 @@ let PostManager = {
                 //FileSystemHelper.write(postBodyPath, content, next)
                 this.createPostBodyFile(postId, content, next)
               })
+            }
+            else {
+              next()
             }
           }
           else {
