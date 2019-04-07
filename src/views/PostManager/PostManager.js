@@ -147,7 +147,9 @@ let PostManager = {
         this.getLastUpdatePost((post) => {
           //console.log(post.id)
           this.posts = [post].concat(this.posts)
-          this.editingPostId = post.id
+          if (post === null) {
+            this.editingPostId = post.id
+          }
           this.persist()
           this.filterPosts()
           FunctionHelper.triggerCallback(callback, post)
@@ -553,11 +555,13 @@ let PostManager = {
     },
     uploadPosts: function (e) {
       let files = e.target.files
-      console.log('uploadPost')
+      //console.log('uploadPost')
+      this.readPostsZip(files)
     },
     dropPosts: function (e) {
       let files = e.dataTransfer.files
-      console.log('uploadPost')
+      //console.log('uploadPost')
+      this.readPostsZip(files)
     },
     readPostsZip: function (files) {
       $v.PageLoader.open()
@@ -574,12 +578,13 @@ let PostManager = {
           
           JSZip.loadAsync(file) // 1) read the Blob
             .then((zip) => {
-              for (let path in zip) {
+              for (let path in zip.files) {
                 if (path.endsWith('/')) {
                   continue
                 }
                 
-                if (path.startsWith('/blogger-editor-post-')
+                console.log(['readPostsZip', path])
+                if (path.startsWith('blogger-editor-post-')
                         && path.endsWith('.zip')) {
                   this.readAllPostsZip(zip, next)
                 }
@@ -603,7 +608,39 @@ let PostManager = {
       loop(i)
     },
     readAllPostsZip: function (zip, callback) {
+      let pathList = []
+      for (let path in zip.files) {
+        if (path.endsWith('/')) {
+          continue
+        }
+        pathList.push(path)
+      }
       
+      let i = 0
+      let loop = (i) => {
+        if (i < pathList.length) {
+          let path = pathList[i]
+          console.log(['readAllPostsZip', path])
+          let zipEntry = zip.files[path]
+          zipEntry.async('blob').then((content) => {
+            JSZip.loadAsync(content) // 1) read the Blob
+              .then((zip) => {
+                console.log(zip.files)
+                this.readSinglePostZip(zip, next)
+              })
+          })
+        }
+        else {
+          FunctionHelper.triggerCallback(callback)
+        }
+      }
+      
+      let next = () => {
+        i++
+        loop(i)
+      }
+      
+      loop(i)
     },
     readSinglePostZip: function (zip, callback) {
       let FieldPostBody = $v.EditorManager.FieldPostBody
@@ -615,7 +652,10 @@ let PostManager = {
       // -----------
       
       let pathList = []
-      for (let path in zip) {
+      for (let path in zip.files) {
+        if (path.endsWith('/')) {
+          continue
+        }
         pathList.push(path)
       }
       
@@ -625,7 +665,8 @@ let PostManager = {
       let loop = (i) => {
         if (i < pathList.length) {
           let path = pathList[i]
-          let zipEntry = zip.files[i]
+          console.log(['readSinglePostZip', path])
+          let zipEntry = zip.files[path]
           
           if (path.indexOf('/assets/') === -1) {
             if (path.endsWith('/post.json')) {

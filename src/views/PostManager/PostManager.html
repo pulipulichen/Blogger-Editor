@@ -81,7 +81,8 @@
                     </span>
                   </div>
                   
-                  <div class='ui mini button' 
+                  <div class='ui mini button'
+                       @v-if="posts.length > 1"
                        @click='removePost(post.id)'>
                     REMOVE
                   </div>

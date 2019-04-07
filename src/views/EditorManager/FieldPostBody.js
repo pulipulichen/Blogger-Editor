@@ -114,6 +114,7 @@ let FieldPostBody = {
       }
       // filesystem:http://localhost:8383/temporary/2/assets/2019-0406-062107.png
       url = `/${postId}/${url}`
+      console.log(['filterImageListToFileSystem', url])
       return FileSystemHelper.getFileSystemUrl(url)
     }
     
