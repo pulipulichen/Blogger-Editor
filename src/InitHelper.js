@@ -7,7 +7,7 @@ let InitHelper = {
     //  alert('OK')
     //})
 
-    //$v.PostManager.open()
+    $v.PostManager.open()
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()
