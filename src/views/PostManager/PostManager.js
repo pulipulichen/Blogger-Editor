@@ -140,7 +140,7 @@ let PostManager = {
         }
         
         if (typeof(post.id) === 'number') {
-          sql = 'insert into posts(id, createUnix, updateUnix, title, labels, abstract, thumbnail) values(?, ?,?,?,?,?,?)'
+          sql = 'insert into posts(id, createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?,?)'
           data = [postId, unix, unix, title, labels, abstract, thumbnail]
         }
         else {
@@ -148,8 +148,12 @@ let PostManager = {
         }
       }
       
+      //console.log(sql)
+      //console.log(data)
       WebSQLDatabaseHelper.exec(sql, data, (rows) => {
+        //console.log('after sql')
         this.getLastUpdatePost((post) => {
+          //console.log('after get last update post')
           //console.log(post.id)
           this.posts = [post].concat(this.posts)
           if (post === null) {
@@ -730,16 +734,22 @@ let PostManager = {
       
     },
     clonePost: function (id, callback) {
-      $v.PageLoader.open()
-      console.log('clonePost', id)
-      this.getPostBody(id, (postBody) => {
-        this.getPost(id, (post) => {
-          post = JSON.parse(JSON.stringify(post))
-          this.createPost(post, (post) => {
-            let postId = post.id
-            this.createPostBodyFile(postId, postBody, () => {
-              $v.PageLoader.close()
-              FunctionHelper.triggerCallback(callback)
+      $v.PageLoader.open(() => {
+        //console.log('clonePost', id)
+        this.getPostBody(id, (postBody) => {
+          //console.log('getPostboy')
+          this.getPost(id, (post) => {
+            //console.log('getPost')
+            post = JSON.parse(JSON.stringify(post))
+            delete post.id
+            this.createPost(post, (post) => {
+              //console.log('createPost')
+              let postId = post.id
+              this.createPostBodyFile(postId, postBody, () => {
+                //console.log('createPostBodyFile')
+                $v.PageLoader.close(callback)
+                //FunctionHelper.triggerCallback(callback)
+              })
             })
           })
         })
