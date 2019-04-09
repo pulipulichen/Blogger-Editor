@@ -111,16 +111,16 @@
                 <div class="ui right floated">
                   <div class="ui mini buttons">
                     <div class='ui mini labeled icon button'
-                         @click='openPost(post.id)'
-                         :class="{'positive': (editingPostId == post.id)}">
-                      <template v-if='editingPostId != post.id'>
+                         v-if="editingPostId !== post.id"
+                         @click='openPost(post.id)'>
                         <i class="folder open icon"></i>
                         OPEN
-                      </template>
-                      <template v-if='editingPostId == post.id'>
+                    </div>
+                    <div class='ui mini labeled icon positive button'
+                         v-if="editingPostId === post.id"
+                         @click='close'>
                         <i class="edit icon"></i>
                         EDITING
-                      </template>
                     </div>
 
                     <div class='ui mini labeled icon button'

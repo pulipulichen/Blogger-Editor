@@ -1,5 +1,5 @@
 BloggerImageHelper = {
-  protocol: 'http',
+  //protocol: 'http',
   size: {
     full: 1600,
     normal: 450
@@ -27,10 +27,15 @@ BloggerImageHelper = {
     return baseUrl + '/s' + size + '/' + name
   },
   changeProtocol: function (link) {
-    if (typeof(this.protocol) === 'string') {
-      if (link.startsWith(this.protocol + '://') === false) {
-        return this.protocol + link.slice(link.indexOf('://'))
-      }
+    //if (typeof(this.protocol) === 'string') {
+      //if (link.startsWith())
+      //if (link.startsWith(this.protocol + '://') === false) {
+      //  return this.protocol + link.slice(link.indexOf('://'))
+      //}
+    //}
+    if (link.startsWith('http://')
+            || link.startsWith('https://')) {
+      link = link.slice(link.indexOf('//'))
     }
     return link
   },

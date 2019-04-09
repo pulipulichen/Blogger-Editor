@@ -67,13 +67,14 @@ var config = {
       let output = {}
       $('<div>' + this.imageHTML + '</div>').find('a[href]').each((i, aTag) => {
         let link = aTag.href
+        /*
         if (link.startsWith('http://')) {
           link = link.slice(7)
         }
         if (link.startsWith('https://')) {
           link = link.slice(8)
         }
-        
+        */
         let name = BloggerImageHelper.getFilename(link)
         output[name] = link
       })

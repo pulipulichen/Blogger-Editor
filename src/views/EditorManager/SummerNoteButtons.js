@@ -37,7 +37,7 @@ let SummerNoteButtons = {
     return `<span class="non-invasive-web-style-framework">${text}</span>`
   },
   copyCode: function (context) {
-    let contents = this.wrapNIWSF(`<i class="code icon"></i>Code`)
+    let contents = this.wrapNIWSF(`<i class="code icon"></i>Copy Code`)
     let tooltip = 'Copy Code'
     let click = () => {
       //let code = this.getPostSummerNote().summernote('code');
@@ -47,7 +47,7 @@ let SummerNoteButtons = {
     return this.build(contents, tooltip, click)
   },
   imageReplacer: function (context) {
-    let contents = this.wrapNIWSF(`<i class="image icon"></i>Images`)
+    let contents = this.wrapNIWSF(`<i class="image icon"></i>Upload Images`)
     let tooltip = 'Replace Images with Blogger'
     let click = () => {
       $v.ImageReplacer.open()

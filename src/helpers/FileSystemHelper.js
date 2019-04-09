@@ -269,7 +269,7 @@ Message: ${e.message}`
     let fs = this.fs
     let errorHandler = this.errorHandler
     
-    console.log('go createDir')
+    //console.log('go createDir')
     this.createDir(fs.root, dirPath, () => {
       let output = []
       let loop = (i) => {
@@ -289,7 +289,7 @@ Message: ${e.message}`
 
           let dupCount = 0
           let writeFile = (filePath) => {
-            console.log(['go write file', filePath])
+            //console.log(['go write file', filePath])
             fs.root.getFile(filePath, {create: true, exclusive: true}, function(fileEntry) {
               //console.log(filePath)
               fileEntry.createWriter(function(fileWriter) {

@@ -168,26 +168,26 @@
       </div>
     </div>
     <div class="actions">
-      <div class="ui deny labeled icon button"
+      <div class="ui labeled icon button"
            @click='prevStep'
            v-if="currentStep > 1">
         <i class="chevron left icon"></i>
         Prev
       </div>
-      <div class="ui positive right labeled icon button"
+      <div class="ui green right labeled icon button"
            @click='nextStep'
            v-if="currentStep > 0 && currentStep < 6">
         Next
         <i class="chevron right icon"></i>
       </div>
-      <div class="ui positive right labeled icon button" 
+      <div class="ui green right labeled icon button" 
            @click='replaceImage'
            v-if="currentStep === 6"
            v-bind:class="{ disabled: disableReplaceImage }">
         Next
         <i class="chevron right icon"></i>
       </div>
-      <div class="ui deny button"
+      <div class="ui button"
            @click='close'
            v-if="currentStep === 0 || currentStep === 7">
         Close
