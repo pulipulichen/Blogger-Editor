@@ -15,9 +15,10 @@ let PostManager = {
       editingPostId: null,
       //uploadImageDraft: '',
       //disableUploadImageDraft: true,
-      quotaUsed: 3,
-      quotaTotal: 5,
+      quotaUsed: 0,
+      quotaTotal: FileSystemHelper.quota,
       enableRemovePost: true,
+      quotaProgressBar: null
     }
   },
   mounted() {
@@ -47,7 +48,24 @@ let PostManager = {
     quotaUsage: function () {
       let usage = Math.round( (this.quotaUsed / this.quotaTotal) * 100 )
       //this.getUI().find('.ui.progress > .bar').css('width', `${usage}%`)
+      if (this.ui !== undefined
+              && this.quotaProgressBar === null) {
+        this.quotaProgressBar = this.ui.find('.ui.progress > .bar')
+      }
+      if (this.quotaProgressBar !== null) {
+        this.quotaProgressBar.css('width', `${usage}%`)
+      }
       return usage
+    },
+    quotaUsedMB: function () {
+      let data = this.quotaUsed / 1024 / 1024
+      data = Math.round(data * 100) / 100
+      return data
+    },
+    quotaTotalMB: function () {
+      let data = this.quotaTotal / 1024 / 1024
+      data = Math.round(data * 100) / 100
+      return data
     }
   },
   methods: {
@@ -281,6 +299,7 @@ let PostManager = {
         else {
           FileSystemHelper.write(path, content, callback)
         }
+        this.statisticQuota()
       })
     },
     openPost: function (id, callback) {
@@ -378,6 +397,7 @@ let PostManager = {
           let path = `/${id}/postBody.html`
           //console.log(['updateEditingPostBody', path])
           FileSystemHelper.write(path, postBody, () => {
+            this.statisticQuota()
             FunctionHelper.triggerCallback(callback, post)
           })
         })
@@ -418,6 +438,7 @@ let PostManager = {
       
       if (typeof($v.EditorManager) !== 'undefined') {
         $v.EditorManager.save()
+        this.statisticQuota()
       }
       
       //this.getUI().find('.header:first').click()
@@ -501,7 +522,9 @@ let PostManager = {
           
           //let thumb = post.thumbnail
           //post.thumbnail = thumb.slice(thumb.lastIndexOf('/assets/') + 1)
-          post.thumbnail = FileSystemHelper.stripAssetFileSystemPrefix(post.thumbnail)
+          if (post.thumbnail !== null) {
+            post.thumbnail = FileSystemHelper.stripAssetFileSystemPrefix(post.thumbnail)
+          }
           //console.log(post.thumbnail)
           //return
           folder.file('post.json', JSON.stringify(post))
@@ -577,7 +600,8 @@ let PostManager = {
       loop(0)
     },
     triggerUploadPosts: function (e) {
-      FileHelper.triggerInput(e)
+      //FileHelper.triggerInput(e)
+      this.getUI().find('input:file[name="uploadPosts"]').click()
     },
     uploadPosts: function (e) {
       let files = e.target.files
@@ -622,6 +646,7 @@ let PostManager = {
             })
         }
         else {
+          this.statisticQuota()
           $v.PageLoader.close()
         }
       }
@@ -759,6 +784,7 @@ let PostManager = {
               let postId = post.id
               this.createPostBodyFile(postId, postBody, () => {
                 //console.log('createPostBodyFile')
+                this.statisticQuota()
                 $v.PageLoader.close(callback)
                 //FunctionHelper.triggerCallback(callback)
               })
@@ -767,6 +793,13 @@ let PostManager = {
         })
       })
     },
+    statisticQuota: function (callback) {
+      FileSystemHelper.statsticQuotaUsage((quotaUsed, quotaTotal) => {
+        this.quotaUsed = quotaUsed
+        this.quotaTotal = quotaTotal
+        FunctionHelper.triggerCallback(callback)
+      })
+    }
   }
 }
 

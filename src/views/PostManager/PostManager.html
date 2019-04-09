@@ -15,17 +15,16 @@
              :data-total="quotaTotal">
           <div class="bar"></div>
           <div class="label">Quota Usage: 
-            {{ quotaUsage }}
+            {{ quotaUsedMB }}MB 
+            /
+            {{ quotaTotalMB }}MB 
+            ({{ quotaUsage }}%)
           </div>
         </div>
         <div class="fields">
-          <div class="four wide field"
-                @click="newPost">
-            <div class="ui mini fluid button">
-              NEW
-            </div>
-          </div>
-          <div class="ten wide field">
+          
+          
+          <div class="eleven wide field">
             <div class="ui icon mini input post-filter" >
               <input type="text" 
                      placeholder="Filter..."
@@ -35,20 +34,24 @@
             </div>
           </div>
           
-          <input type="file" name="uploadPosts"
-              @change="uploadPosts"/>
-          <div class="one wide field" 
+          
+          <div class="five wide field">
+            <div class="ui mini buttons">
+              <div class="ui mini labeled icon button"
+                @click="newPost">
+                <i class="file icon"></i>
+                NEW
+              </div>
+              <div class="ui mini icon button"
                 @click="backupAllPosts">
-            <div class="ui mini icon button">
-              <i class="download icon"></i>
-              <!-- BACKUP -->
-            </div>
-          </div>
-          <div class="one wide field" 
-                @click="triggerUploadPosts">
-            <div class="ui mini icon button">
-              <i class="upload icon"></i>
-              <!-- UPLOAD -->
+                <i class="download icon"></i>
+                <!-- BACKUP -->
+              </div>
+              <div class="ui mini icon button"
+                 @click="triggerUploadPosts">
+                <i class="upload icon"></i>
+                <!-- UPLOAD -->
+              </div>
             </div>
           </div>
           
@@ -56,6 +59,9 @@
                @drop="dropPosts">
             Drop file to upload
           </div>
+          
+          <input type="file" name="uploadPosts"
+              @change="uploadPosts"/>
         </div>
 
         <div class="ui divided unstackable items post-list"
@@ -65,9 +71,9 @@
                v-for="post in filteredPosts"
                v-bind:class="{ editing: (editingPostId === post.id) }">
             <a class="image" href="#"
-                 v-if="post.thumbnail" 
                  @click="openPost(post.id)">
-              <img :src="post.thumbnail" />
+              <img :src="post.thumbnail" 
+                 v-if="post.thumbnail"  />
             </a>
             <div class="content">
               <a class="header" href="#"
@@ -102,30 +108,36 @@
                   <!--<i class='close icon'></i>-->
                 </div>
                 <div class="ui right floated">
-                  <div class='ui mini button'
-                       @click='openPost(post.id)'>
-                    <span v-if='editingPostId != post.id'>
-                      OPEN
-                    </span>
-                    <span v-if='editingPostId == post.id'>
-                      EDITING
-                    </span>
-                  </div>
-                  
-                  <div class='ui mini button'
-                       @v-if="enableRemovePost"
-                       @click='removePost(post.id)'>
-                    REMOVE
-                  </div>
-                  <div class='ui icon mini button' 
-                       @click='clonePost(post.id)'>
-                    <i class="copy icon"></i>
-                    <!-- CLONE -->
-                  </div>
-                  <div class='ui icon mini button' 
-                       @click='backupPost(post.id)'>
-                    <!-- BACKUP -->
-                    <i class="download icon"></i>
+                  <div class="ui mini buttons">
+                    <div class='ui mini labeled icon button'
+                         @click='openPost(post.id)'
+                         :class="{'positive': (editingPostId == post.id)}">
+                      <template v-if='editingPostId != post.id'>
+                        <i class="folder open icon"></i>
+                        OPEN
+                      </template>
+                      <template v-if='editingPostId == post.id'>
+                        <i class="edit icon"></i>
+                        EDITING
+                      </template>
+                    </div>
+
+                    <div class='ui mini labeled icon button'
+                         v-if="enableRemovePost"
+                         @click='removePost(post.id)'>
+                      <i class="close icon"></i>
+                      REMOVE
+                    </div>
+                    <div class='ui icon mini button' 
+                         @click='clonePost(post.id)'>
+                      <i class="clone icon"></i>
+                      <!-- CLONE -->
+                    </div>
+                    <div class='ui icon mini button' 
+                         @click='backupPost(post.id)'>
+                      <!-- BACKUP -->
+                      <i class="download icon"></i>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -34,6 +34,7 @@ FileSystemHelper = {
   },
   onInitFs: function (fs, callback) {
     this.fs = fs
+    //this.statsticQuotaUsage()
     console.log('FileSystem inited')
     /*
     console.log('Opened file system: ' + fs.name);
@@ -400,7 +401,9 @@ FileSystemHelper = {
     loop(i)
   },
   stripAssetFileSystemPrefix: function (url) {
-    if (!url.startsWith('filesystem:')
+    if (url === null
+            || typeof(url) !== 'string'
+            || !url.startsWith('filesystem:')
             || url.lastIndexOf('/assets/') === -1) {
       return url
     }
@@ -427,6 +430,11 @@ FileSystemHelper = {
     url = `/${postId}/${url}`
     //console.log(['filterImageListToFileSystem url 2:', this.getFileSystemUrl(url)])
     return this.getFileSystemUrl(url)
+  },
+  statsticQuotaUsage: function (callback) {
+    window.webkitStorageInfo.queryUsageAndQuota(this.type, (quoteUsed, quotaTotal) => {
+      FunctionHelper.triggerCallback(callback, quoteUsed, quotaTotal)
+    })
   }
 }
 
