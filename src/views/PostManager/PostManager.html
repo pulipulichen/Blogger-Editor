@@ -1,5 +1,6 @@
-<div class="non-invasive-web-style-framework">
-  <div class="ui modal PostManager">
+<div class="ui modal"
+     v-bind:class="name"
+     ref="modal">
     <i class="close icon" @click="close"></i>
     <div class="header">
       <i class="blogger icon"></i>
@@ -13,23 +14,47 @@
              :data-value="quotaUsed"
              :data-total="quotaTotal">
           <div class="bar"></div>
-          <div class="label">Tiny</div>
+          <div class="label">Quota Usage: 
+            {{ quotaUsage }}
+          </div>
         </div>
         <div class="fields">
           <div class="four wide field"
                 @click="newPost">
-            <div class="ui fluid button">
+            <div class="ui mini fluid button">
               NEW
             </div>
           </div>
-          <div class="twelve wide field">
-            <div class="ui icon input post-filter" >
+          <div class="ten wide field">
+            <div class="ui icon mini input post-filter" >
               <input type="text" 
                      placeholder="Filter..."
                      v-model="filterCondition"
                      @keyup="filterPosts">
               <i class="filter icon"></i>
             </div>
+          </div>
+          
+          <input type="file" name="uploadPosts"
+              @change="uploadPosts"/>
+          <div class="one wide field" 
+                @click="backupAllPosts">
+            <div class="ui mini icon button">
+              <i class="download icon"></i>
+              <!-- BACKUP -->
+            </div>
+          </div>
+          <div class="one wide field" 
+                @click="triggerUploadPosts">
+            <div class="ui mini icon button">
+              <i class="upload icon"></i>
+              <!-- UPLOAD -->
+            </div>
+          </div>
+          
+          <div class="dragover-message"
+               @drop="dropPosts">
+            Drop file to upload
           </div>
         </div>
 
@@ -88,7 +113,7 @@
                   </div>
                   
                   <div class='ui mini button'
-                       @v-if="postsLength > 1"
+                       @v-if="enableRemovePost"
                        @click='removePost(post.id)'>
                     REMOVE
                   </div>
@@ -97,7 +122,7 @@
                     <i class="copy icon"></i>
                     <!-- CLONE -->
                   </div>
-                  <div class='ui mini button' 
+                  <div class='ui icon mini button' 
                        @click='backupPost(post.id)'>
                     <!-- BACKUP -->
                     <i class="download icon"></i>
@@ -108,30 +133,6 @@
           </div> <!-- item -->
         </div> <!-- post-list -->
         
-        <div class="two fields">
-          <input type="file" name="uploadPosts"
-              @change="uploadPosts"/>
-          <div class="field" 
-                @click="backupAllPosts">
-            <div class="ui labeled icon fluid button">
-              <i class="download icon"></i>
-              BACKUP
-            </div>
-          </div>
-          <div class="field" 
-                @click="triggerUploadPosts">
-            <div class="ui labeled icon fluid button">
-              <i class="upload icon"></i>
-              UPLOAD
-            </div>
-          </div>
-          
-          <div class="dragover-message"
-               @drop="dropPosts">
-            Drop file to upload
-          </div>
-        </div>
       </div>
     </div>
   </div>
-</div>

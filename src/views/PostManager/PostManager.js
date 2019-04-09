@@ -5,6 +5,7 @@ import {saveAs} from 'file-saver'
 let PostManager = {
   data: function () {
     return {
+      name: 'PostManager',
       ui: undefined,
       componentRerenderKey: 0,
       posts: [],
@@ -15,7 +16,8 @@ let PostManager = {
       //uploadImageDraft: '',
       //disableUploadImageDraft: true,
       quotaUsed: 3,
-      quotaTotal: 5
+      quotaTotal: 5,
+      enableRemovePost: true,
     }
   },
   mounted() {
@@ -42,15 +44,18 @@ let PostManager = {
     $v.PostManager = this
   },
   computed: {
-    postsLegnth: function () {
-      return this.posts.length
+    quotaUsage: function () {
+      let usage = Math.round( (this.quotaUsed / this.quotaTotal) * 100 )
+      //this.getUI().find('.ui.progress > .bar').css('width', `${usage}%`)
+      return usage
     }
   },
   methods: {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')
-        this.ui = $('.PostManager.ui.modal')
+        this.ui = $(this.$refs.modal)
+        this.ui.find('.ui.progress').progress()
       }
       return this.ui
     },
@@ -92,6 +97,7 @@ let PostManager = {
           //this.filteredPosts = this.posts
           
           //console.log(rows.length)
+          this.enableRemovePost = (this.posts.length > 1)
           
           this.filterPosts()
           //console.log(this.filteredPosts)
@@ -163,6 +169,8 @@ let PostManager = {
           }
           this.persist()
           this.filterPosts()
+          
+          this.enableRemovePost = (this.posts.length > 1)
           FunctionHelper.triggerCallback(callback, post)
         })
       })
@@ -314,6 +322,8 @@ let PostManager = {
         let dirPath = `/${id}`
         FileSystemHelper.removeDir(dirPath, callback)
         //FunctionHelper.triggerCallback(callback)
+        
+        this.enableRemovePost = (this.posts.length > 1)
       })
     },
     updateEditingPost: function (field, value, callback) {
