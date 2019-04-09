@@ -1,5 +1,6 @@
 FileSystemHelper = {
-  type: window.TEMPORARY,
+  //type: window.TEMPORARY,
+  type: window.PERSISTENT,
   quota: 5 * 1024 * 1024 /*5MB*/,
   fs: null,
   currentBaseUrl: null,
@@ -7,15 +8,33 @@ FileSystemHelper = {
     
     // Note: The file system has been prefixed as of Google Chrome 12:
     window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-    window.requestFileSystem(this.type,
-            this.quota,
+    
+    // window.webkitStorageInfo.queryUsageAndQuota()
+    // window.StorageInfo.queryUsageAndQuota()
+    
+    let requestFS = (quota) => {
+      window.requestFileSystem(this.type,
+            quota,
             (fs) => this.onInitFs(fs, callback),
             (e) => this.errorHandler(e));
+    }
+    
+    if (this.type === window.TEMPORARY) {
+      requestFS(quota)
+    }
+    else {
+      window.webkitStorageInfo.requestQuota(this.type, this.quota, (grantedBytes) => {
+        requestFS(grantedBytes)
+        //window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
+      }, function(e) {
+        console.log('Error', e);
+      });
+    }
 
   },
   onInitFs: function (fs, callback) {
     this.fs = fs
-    //console.log('FileSystem inited')
+    console.log('FileSystem inited')
     /*
     console.log('Opened file system: ' + fs.name);
 

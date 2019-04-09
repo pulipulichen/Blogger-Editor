@@ -9,6 +9,12 @@
     
     <div class="content">
       <div class="description ui form">
+        <div class="ui tiny progress"
+             :data-value="quotaUsed"
+             :data-total="quotaTotal">
+          <div class="bar"></div>
+          <div class="label">Tiny</div>
+        </div>
         <div class="fields">
           <div class="four wide field"
                 @click="newPost">

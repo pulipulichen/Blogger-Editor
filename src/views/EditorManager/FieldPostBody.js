@@ -117,7 +117,7 @@ let FieldPostBody = {
       aTag.href = filterUrl(aTag.href)
     })
     
-    console.log(['filterImageListToFileSystem', postBody.find('a[href]').length])
+    //console.log(['filterImageListToFileSystem', postBody.find('a[href]').length])
     
     return postBody.html()
   },

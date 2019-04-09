@@ -11,9 +11,11 @@ let PostManager = {
       filterCondition: '',
       filteredPosts: [],
       createTableDone: false,
-      editingPostId: null
+      editingPostId: null,
       //uploadImageDraft: '',
-      //disableUploadImageDraft: true
+      //disableUploadImageDraft: true,
+      quotaUsed: 3,
+      quotaTotal: 5
     }
   },
   mounted() {
