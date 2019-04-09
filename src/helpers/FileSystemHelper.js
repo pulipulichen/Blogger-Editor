@@ -1,7 +1,7 @@
 FileSystemHelper = {
   //type: window.TEMPORARY,
   type: window.PERSISTENT,
-  quota: 5 * 1024 * 1024 /*5MB*/,
+  quota: ConfigHelper.get('quotaInMB') * 1024 * 1024 /*5MB*/,
   fs: null,
   currentBaseUrl: null,
   init: function (callback) {
