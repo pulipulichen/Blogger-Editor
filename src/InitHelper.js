@@ -10,10 +10,16 @@ let InitHelper = {
     //  alert('OK')
     //})
 
+    /*
     $v.PostManager.open()
     setTimeout(() => {
-      $v.PostManager.clonePost(1)
+      $v.PostManager.clonePost(1, () => {
+        setTimeout(() => {
+          $v.PostManager.close()
+        }, 3000)
+      })
     }, 3000)
+    */
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()

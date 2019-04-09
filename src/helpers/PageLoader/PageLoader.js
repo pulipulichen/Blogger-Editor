@@ -4,7 +4,9 @@ var config = {
       name: 'PageLoader',
       ui: undefined,
       onShow: null,
-      onHide: null
+      onHide: null,
+      isOpening: false,
+      isClosing: false
     }
   },
   mounted: function () {
@@ -24,11 +26,13 @@ var config = {
         //this.ui = $(this.$refs.modal)
         this.ui = $('.page-loader.modal').modal({
           closable: false,
-          onShow: () => {
+          onVisible: () => {
+            this.isOpening = false
             FunctionHelper.triggerCallback(this.onShow)
             this.onShow = null
           },
           onHide: () => {
+            this.isClosing = false
             FunctionHelper.triggerCallback(this.onHide)
             this.onHide = null
           }
@@ -38,12 +42,35 @@ var config = {
       return this.ui
     },
     open: function (callback) {
+      if (this.isClosing === true) {
+        setTimeout(() => {
+          this.open(callback)
+        }, 1000)
+        return
+      }
+      if (this.isOpening === true) {
+        return
+      }
+      
+      this.isOpening = true
       if (typeof(callback) === 'function') {
         this.onShow = callback
       }
       this.getUI().modal('show')
     },
     close: function (callback) {
+      if (this.isOpening === true) {
+        setTimeout(() => {
+          this.close(callback)
+        }, 1000)
+        return
+      }
+      
+      if (this.isClosing === true) {
+        return
+      }
+      
+      this.isClosing = true
       if (typeof(callback) === 'function') {
         this.onHide = callback
       }

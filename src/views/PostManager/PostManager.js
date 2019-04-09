@@ -43,6 +43,7 @@ let PostManager = {
       //this.open()
     //})
     $v.PostManager = this
+    console.log(this.editingPostId)
   },
   computed: {
     quotaUsage: function () {
@@ -226,6 +227,8 @@ let PostManager = {
         FunctionHelper.triggerCallback(callback, this.editingPostId)
       }
       else {
+        //console.trace('who?')
+        throw 'who reset editing id?'
         this.getLastUpdatePost((post) => {
           this.editingPostId = post.id
           this.persist()
@@ -454,9 +457,10 @@ let PostManager = {
       this.getUI().modal('hide')
     },
     persist() {
-      this.getEditingPostId((id) => {
-        localStorage.editingPostId = id
-      })
+      //this.getEditingPostId((id) => {
+      //  localStorage.editingPostId = id
+      //})
+      localStorage.editingPostId = this.editingPostId
       
       //console.log('now pretend I did more stuff...');
     },
@@ -786,7 +790,9 @@ let PostManager = {
               this.createPostBodyFile(postId, postBody, () => {
                 //console.log('createPostBodyFile')
                 this.statisticQuota()
+                
                 $v.PageLoader.close(callback)
+                
                 //FunctionHelper.triggerCallback(callback)
               })
             })

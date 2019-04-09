@@ -480,7 +480,16 @@ Message: ${e.message}`
   list: function (path, callback) {
     let fs = this.fs
     let errorHandler = (e) => {
-      this.errorHandler(e)
+      if (e.code === 8) {
+        // Error code: 8
+        // Name: NotFoundError
+        // Message: A requested file or directory could not be found at the time an operation was processed.
+        console.log('list not found: ' + path)
+        FunctionHelper.triggerCallback(callback)
+      }
+      else {
+        this.errorHandler(e)
+      }
     }
     let fileList = []
     /*
