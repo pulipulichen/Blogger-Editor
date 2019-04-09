@@ -11,6 +11,9 @@ let InitHelper = {
     //})
 
     $v.PostManager.open()
+    setTimeout(() => {
+      $v.PostManager.clonePost(1)
+    }, 3000)
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()
