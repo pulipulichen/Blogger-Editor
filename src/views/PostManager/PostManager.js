@@ -148,7 +148,8 @@ let PostManager = {
       let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
       let data = [unix, unix, title, labels, abstract, thumbnail]
       
-      if (typeof(post) === 'object') {
+      if (post !== null 
+              && typeof(post) === 'object') {
         if (typeof(post.id) === 'number') {
           postId = post.id
         }
