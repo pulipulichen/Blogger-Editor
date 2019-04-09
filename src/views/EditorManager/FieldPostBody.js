@@ -170,11 +170,11 @@ let FieldPostBody = {
     return FileSystemHelper.removeDir(path)
   },
   save: function (callback) {
-    this.cleanFileSystem(() => {
+    this.cleanUnusedFileSystem(() => {
       $v.PostManager.updateEditingPostBody(this.getHTML(), callback)
     })
   },
-  cleanFileSystem: function (callback) {
+  cleanUnusedFileSystem: function (callback) {
     // list the files in postBody
     let postBodyList = []
     
