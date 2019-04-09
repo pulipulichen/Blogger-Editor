@@ -53,6 +53,7 @@ FileSystemHelper = {
     switch (e.code) {
       case 10: //case FileError.QUOTA_EXCEEDED_ERR:
         msg = 'QUOTA_EXCEEDED_ERR';
+        WindowHelper.alert('Quota Exceeded. Please delete data.')
         break;
       case 1: //case FileError.NOT_FOUND_ERR:
         msg = 'NOT_FOUND_ERR';

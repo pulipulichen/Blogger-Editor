@@ -12,7 +12,8 @@
       <div class="description ui form">
         <div class="ui tiny progress"
              :data-value="quotaUsed"
-             :data-total="quotaTotal">
+             :data-total="quotaTotal"
+             :class="{'error': (quotaUsage > 90), 'warning': (quotaUsage >= 60 && quotaUsage <= 90)}">
           <div class="bar"></div>
           <div class="label">Quota Usage: 
             {{ quotaUsedMB }}MB 
@@ -25,7 +26,7 @@
           
           
           <div class="eleven wide field">
-            <div class="ui icon mini input post-filter" >
+            <div class="ui icon mini input post-filter">
               <input type="text" 
                      placeholder="Filter..."
                      v-model="filterCondition"
