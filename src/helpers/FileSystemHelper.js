@@ -23,7 +23,7 @@ FileSystemHelper = {
       requestFS(quota)
     }
     else {
-      window.webkitStorageInfo.requestQuota(this.type, this.quota, (grantedBytes) => {
+      navigator.webkitPersistentStorage.requestQuota(this.quota, (grantedBytes) => {
         requestFS(grantedBytes)
         //window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
       }, function(e) {
@@ -48,10 +48,24 @@ FileSystemHelper = {
     FunctionHelper.triggerCallback(callback)
   },
   errorHandler: function (e) {
+    //console.log('Filesystem error')
+    //console.trace(e)
+    
+    let message = `Error code: ${e.code}<br />
+Name: ${e.name}<br />
+Message: ${e.message}`
+    WindowHelper.alert(message)
+    
+    //let errorObject = new Error(e.message);
+    //console.log(errorObject.stack);
+    console.trace(`FileSystem error: ${e.message}`)
+    /*
     var msg = '';
+    console.log(['errorHandler', e.code])
     // https://developer.mozilla.org/zh-TW/docs/Web/API/FileError#Error_codes
     switch (e.code) {
       case 10: //case FileError.QUOTA_EXCEEDED_ERR:
+      case 22: //case FileError.QUOTA_EXCEEDED_ERR:
         msg = 'QUOTA_EXCEEDED_ERR';
         WindowHelper.alert('Quota Exceeded. Please delete data.')
         break;
@@ -78,6 +92,7 @@ FileSystemHelper = {
 
     //console.log('Error: ' + msg);
     throw 'Error: ' + msg
+    */
   },
   createDir: function (rootDirEntry, folders, callback) {
     if (typeof(folders) === 'string') {
@@ -85,9 +100,10 @@ FileSystemHelper = {
     }
     
     //let errorHandler = this.errorHandler
-    let errorHandler = () => {
+    let errorHandler = (e) => {
       //console.log(['createDir error'])
       //console.log(folders)
+      console.log(['createDir', e])
       FunctionHelper.triggerCallback(callback)
     }
     
@@ -253,6 +269,7 @@ FileSystemHelper = {
     let fs = this.fs
     let errorHandler = this.errorHandler
     
+    console.log('go createDir')
     this.createDir(fs.root, dirPath, () => {
       let output = []
       let loop = (i) => {
@@ -272,6 +289,7 @@ FileSystemHelper = {
 
           let dupCount = 0
           let writeFile = (filePath) => {
+            console.log(['go write file', filePath])
             fs.root.getFile(filePath, {create: true, exclusive: true}, function(fileEntry) {
               //console.log(filePath)
               fileEntry.createWriter(function(fileWriter) {
@@ -284,10 +302,19 @@ FileSystemHelper = {
                 i++
                 loop(i)
               }, errorHandler);
-            }, () => {
-              dupCount++
-              filePath = pathPart1 + '_' + dupCount + pathPart2
-              writeFile(filePath)
+            }, (e) => {
+              if (e.code === 13) {
+                // code: 13
+                // message: "An attempt was made to create a file or directory where an element already exists."
+                // name: "InvalidModificationError"
+                dupCount++
+                filePath = pathPart1 + '_' + dupCount + pathPart2
+                writeFile(filePath)
+              }
+              else {
+                //console.log(['error2', e])
+                this.errorHandler(e)
+              }
             });
           }
           writeFile(baseFilePath)
@@ -436,7 +463,43 @@ FileSystemHelper = {
     window.webkitStorageInfo.queryUsageAndQuota(this.type, (quoteUsed, quotaTotal) => {
       FunctionHelper.triggerCallback(callback, quoteUsed, quotaTotal)
     })
-  }
+  },
+  list: function (path, callback) {
+    let fs = this.fs
+    let errorHandler = this.errorHandler
+    let fileList = []
+    /*
+    var dirReader = fs.root.createReader();
+    var entries = [];
+
+    // Call the reader.readEntries() until no more results are returned.
+    var readEntries = function() {
+       dirReader.readEntries (function(results) {
+        if (!results.length) {
+          listResults(entries.sort());
+        } else {
+          entries = entries.concat(toArray(results));
+          readEntries();
+        }
+      }, errorHandler);
+    };
+
+    readEntries(); // Start reading dirs.
+    */
+    fs.root.getDirectory(path, {}, function(dirEntry){
+      var dirReader = dirEntry.createReader();
+      dirReader.readEntries(function(entries) {
+        for(var i = 0; i < entries.length; i++) {
+          var entry = entries[i];
+          if (entry.isFile){
+            //console.log('File: ' + entry.fullPath);
+            fileList.push(entry.fullPath)
+          }
+        }
+        FunctionHelper.triggerCallback(callback, fileList)
+      }, errorHandler);
+    }, errorHandler);
+  },
 }
 
 //FileSystemHelper.init()

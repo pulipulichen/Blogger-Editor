@@ -1,13 +1,15 @@
 let InitHelper = {
   ready: false,
   onInit: function (callback) {
+    //$v.EditorManager.FieldPostBody.cleanFileSystem()
+    
     //$v.ImageReplacer.open()
 
     //WindowHelper.alert('TEST', () => {
     //  alert('OK')
     //})
 
-    $v.PostManager.open()
+    //$v.PostManager.open()
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()

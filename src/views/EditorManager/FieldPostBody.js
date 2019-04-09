@@ -170,7 +170,61 @@ let FieldPostBody = {
     return FileSystemHelper.removeDir(path)
   },
   save: function (callback) {
-    $v.PostManager.updateEditingPostBody(this.getHTML(), callback)
+    this.cleanFileSystem(() => {
+      $v.PostManager.updateEditingPostBody(this.getHTML(), callback)
+    })
+  },
+  cleanFileSystem: function (callback) {
+    // list the files in postBody
+    let postBodyList = []
+    
+    let pushPostBodyList = (url) => {
+      url = url.slice(url.lastIndexOf('/') + 1)
+      if (postBodyList.indexOf(url) === -1) {
+        postBodyList.push(url)
+      }
+    }
+    
+    let postBody = this.getElement()
+    postBody.find('img[src^="filesystem:"]').each((i, img) => {
+      pushPostBodyList(img.src)
+    })
+    postBody.find('a[href^="filesystem:"]').each((i, aTag) => {
+      pushPostBodyList(aTag.href)
+    })
+    
+    //console.log(filesystemList)
+    
+    // list the files under filesystem folder
+    let postId = $v.PostManager.editingPostId
+    let path = `/${postId}/assets/`
+    FileSystemHelper.list(path, (files) => {
+      let i = 0
+      
+      let loop = (i) => {
+        if (i < files.length) {
+          let file = files[i]
+          let filename = file.slice(file.lastIndexOf('/') + 1)
+          if (postBodyList.indexOf(filename) === -1) {
+            console.log(['remove', file])
+            FileSystemHelper.remove(file, next)
+          }
+          else {
+            next()
+          }
+        }
+        else {
+          FunctionHelper.triggerCallback(callback)
+        }
+      }
+      
+      let next = () => {
+        i++
+        loop(i)
+      }
+      
+      loop(i)
+    })
   }
 }
 
