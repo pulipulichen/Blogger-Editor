@@ -170,14 +170,20 @@ let FieldPostBody = {
     return FileSystemHelper.removeDir(path)
   },
   save: function (callback) {
-    this.toggleCodeVide()
+    this.deactivateCodeView()
     this.cleanUnusedFileSystem(() => {
       $v.PostManager.updateEditingPostBody(this.getHTML(), callback)
     })
   },
-  toggleCodeVide: function () {
+  deactivateCodeView: function () {
     let ui = this.get()
-    if (ui.summernote('codeview.isActivated')) {
+    if (ui.summernote('codeview.isActivated') === true) {
+      ui.summernote('codeview.toggle')
+    }
+  },
+  activateCodeView: function () {
+    let ui = this.get()
+    if (ui.summernote('codeview.isActivated') === false) {
       ui.summernote('codeview.toggle')
     }
   },

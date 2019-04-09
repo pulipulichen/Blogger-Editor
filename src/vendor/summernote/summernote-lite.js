@@ -1022,6 +1022,8 @@
   var isEdge = /Edge\/\d+/.test(userAgent);
   var hasCodeMirror = !!window.CodeMirror;
   if (!hasCodeMirror && isSupportAmd) {
+      hasCodeMirror = false;
+      /*
       // Webpack
       if (typeof __webpack_require__ === 'function') { // eslint-disable-line
           try {
@@ -1052,6 +1054,7 @@
               hasCodeMirror = require.specified('codemirror');
           }
       }
+      */
   }
   var isSupportTouch = (('ontouchstart' in window) ||
       (navigator.MaxTouchPoints > 0) ||
@@ -5589,12 +5592,15 @@ sel.addRange(range);
        * toggle codeview
        */
       CodeView.prototype.toggle = function () {
+          //console.log(["a", $(this.$codable).val()])
           if (this.isActivated()) {
+              //console.log(["b", $(this.$codable).val()])
               this.deactivate();
           }
           else {
               this.activate();
           }
+          
           this.context.triggerEvent('codeview.toggled');
       };
       /**
@@ -5637,15 +5643,33 @@ sel.addRange(range);
        * deactivate code view
        */
       CodeView.prototype.deactivate = function () {
+          //console.log(["c", $(this.$codable).val()])
           // deactivate CodeMirror as codable
+          //console.log(env.hasCodeMirror)
           if (env.hasCodeMirror) {
+          //if (false) {
               var cmEditor = this.$codable.data('cmEditor');
               this.$codable.val(cmEditor.getValue());
               cmEditor.toTextArea();
           }
+          //console.log(["d", $(this.$codable).val()])
+          //console.log(this.$editor.find('.note-codable').val())
+          //console.log(this.$codable)
+          //console.log(dom.emptyPara)
+          
+          //console.log($(this.$codable).val())
           var value = dom.value(this.$codable, this.options.prettifyHtml) || dom.emptyPara;
-          var isChange = this.$editable.html() !== value;
+          //console.log(value)
+          //console.log(this.$codable[0])
+          //console.log(["e", $(this.$codable).val()])
+          //var value = $(this.$codable).val()
+          var isChange = this.$editable.html() !== value
+          //window.$e = this.$editable
+          //console.log(this.$editable)
           this.$editable.html(value);
+          //console.log(value)
+          //console.log(this.$editable.html())
+          //$(this.$editable).html(value)
           this.$editable.height(this.options.height ? this.$codable.height() : 'auto');
           this.$editor.removeClass('codeview');
           if (isChange) {

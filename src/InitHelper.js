@@ -2,6 +2,7 @@ let InitHelper = {
   ready: false,
   onInit: function (callback) {
     //$v.EditorManager.FieldPostBody.cleanFileSystem()
+    //$v.EditorManager.FieldPostBody.activateCodeView()
     
     //$v.ImageReplacer.open()
 
@@ -9,7 +10,7 @@ let InitHelper = {
     //  alert('OK')
     //})
 
-    //$v.PostManager.open()
+    $v.PostManager.open()
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()

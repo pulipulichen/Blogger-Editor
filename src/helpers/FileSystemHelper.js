@@ -218,8 +218,18 @@ Message: ${e.message}`
   read: function (filePath, callback) {
     let fs = this.fs
     //let errorHandler = this.errorHandler
-    let errorHandler = () => {
-      FunctionHelper.triggerCallback(callback)
+    let errorHandler = (e) => {
+      if (e.code === 8) {
+        // Error code: 8
+        // Name: NotFoundError
+        // Message: A requested file or directory could not be found at the time an operation was processed.
+        
+        console.log('File not found: ' + filePath)
+        FunctionHelper.triggerCallback(callback)
+      }
+      else {
+        this.errorHandler(e)
+      }
     }
     fs.root.getFile(filePath, {}, function (fileEntry) {
 
@@ -267,7 +277,9 @@ Message: ${e.message}`
     }
     
     let fs = this.fs
-    let errorHandler = this.errorHandler
+    let errorHandler = (e) => {
+      this.errorHandler(e)
+    }
     
     //console.log('go createDir')
     this.createDir(fs.root, dirPath, () => {
@@ -338,7 +350,8 @@ Message: ${e.message}`
     
     let fs = this.fs
     //let errorHandler = this.errorHandler
-    let errorHandler = () => {
+    let errorHandler = (e) => {
+      this.errorHandler(e)
       FunctionHelper.triggerCallback(callback)
     }
     
@@ -359,7 +372,7 @@ Message: ${e.message}`
   },
   isExists: function (filePath, callback) {
     let fs = this.fs
-    let errorHandler = () => {
+    let errorHandler = (e) => {
       
       fs.root.getDirectory(filePath, 
         {create: false}, 
@@ -466,7 +479,9 @@ Message: ${e.message}`
   },
   list: function (path, callback) {
     let fs = this.fs
-    let errorHandler = this.errorHandler
+    let errorHandler = (e) => {
+      this.errorHandler(e)
+    }
     let fileList = []
     /*
     var dirReader = fs.root.createReader();
