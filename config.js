@@ -1,4 +1,5 @@
 const CONFIG = {
+  locale: 'auto',
   defaultTheme: 'default',
   uploadImageDraft: '',
   quotaInMB: 5,

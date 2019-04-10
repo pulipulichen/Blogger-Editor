@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import VueI18n from 'vue-i18n'
+
+Vue.use(VueI18n)
 import $ from 'jquery'
 
 let VueHelper = {
@@ -25,6 +28,19 @@ let VueHelper = {
   },
   _vueIdCount: 0,
   _vueContainer: null,
+  _i18nConfig: null,
+  _getI18nConfig: function () {
+    if (this._i18nConfig === null) {
+      let locale = ConfigHelper.get('locale')
+      if (locale === 'auto') {
+        locale = navigator.language || navigator.userLanguage
+      }
+      this._i18nConfig = new VueI18n({
+        locale: locale
+      })
+    }
+    return this._i18nConfig
+  },
   init: function (id, sfc, callback) {
     if (typeof(id) === 'object') {
       callback = sfc
@@ -55,8 +71,11 @@ let VueHelper = {
       }
     }
     
+    
+    
     new Vue({
       el: `#${id}`,
+      i18n: this._getI18nConfig(),
       render: h => h(sfc),
     })
   }
