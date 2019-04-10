@@ -1,6 +1,6 @@
 FileSystemHelper = {
-  //type: window.TEMPORARY,
-  type: window.PERSISTENT,
+  type: window.TEMPORARY,
+  //type: window.PERSISTENT,
   quota: ConfigHelper.get('quotaInMB') * 1024 * 1024 /*5MB*/,
   fs: null,
   currentBaseUrl: null,
@@ -20,7 +20,7 @@ FileSystemHelper = {
     }
     
     if (this.type === window.TEMPORARY) {
-      requestFS(quota)
+      requestFS(this.quota)
     }
     else {
       navigator.webkitPersistentStorage.requestQuota(this.quota, (grantedBytes) => {

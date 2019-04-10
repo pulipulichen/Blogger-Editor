@@ -212,6 +212,10 @@ let FieldPostBody = {
     let postId = $v.PostManager.editingPostId
     let path = `/${postId}/assets/`
     FileSystemHelper.list(path, (files) => {
+      if (files === undefined) {
+        return FunctionHelper.triggerCallback(callback)
+      }
+      
       let i = 0
       
       let loop = (i) => {

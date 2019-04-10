@@ -11,6 +11,15 @@ let VueHelper = {
       }
     }
   },
+  mountLocalStorageInt: function (vue, key) {
+    if (localStorage.getItem(key)) {
+      try {
+        vue[key] = parseInt(localStorage.getItem(key), 10);
+      } catch(e) {
+        localStorage.removeItem(key);
+      }
+    }
+  },
   persistLocalStorage: function (vue, key) {
     localStorage[key] = vue[key];
   },

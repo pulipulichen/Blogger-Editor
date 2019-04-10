@@ -42,7 +42,7 @@ var EditorManager = {
   },
   mounted() {
     VueHelper.mountLocalStorage(this, 'uploadImageDraft')
-    VueHelper.mountLocalStorage(this, 'imageSizeDefault')
+    VueHelper.mountLocalStorageInt(this, 'imageSizeDefault')
     
     VueHelper.mountLocalStorage(this, 'summerNoteConfigToolbar')
     VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')

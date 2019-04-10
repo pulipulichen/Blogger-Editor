@@ -2,6 +2,8 @@ import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
 import {saveAs} from 'file-saver'
 
+import PostZIPManager from './PostZIPManager.js'
+
 let PostManager = {
   data: function () {
     return {
@@ -22,13 +24,7 @@ let PostManager = {
     }
   },
   mounted() {
-    if (localStorage.getItem('editingPostId')) {
-      try {
-        this.editingPostId = localStorage.getItem('editingPostId');
-      } catch(e) {
-        localStorage.removeItem('editingPostId');
-      }
-    }
+    VueHelper.mountLocalStorageInt(this, 'editingPostId')
   },
   created: function () {
     //return
@@ -43,7 +39,7 @@ let PostManager = {
       //this.open()
     //})
     $v.PostManager = this
-    console.log(this.editingPostId)
+    //console.log(this.editingPostId)
   },
   computed: {
     quotaUsage: function () {
@@ -222,13 +218,15 @@ let PostManager = {
       //  this.editingPostId = PostManager.editingPostId
       //}
       
+      //console.log([typeof(this.editingPostId), localStorage.getItem('editingPostId')])
+      
       if (typeof(this.editingPostId) === 'number') {
         //console.log(this.editingPostId)
         FunctionHelper.triggerCallback(callback, this.editingPostId)
       }
       else {
-        //console.trace('who?')
-        throw 'who reset editing id?'
+        //console.trace(['who reset editing id?', this.editingPostId])
+        //throw 'who reset editing id?'
         this.getLastUpdatePost((post) => {
           this.editingPostId = post.id
           this.persist()
@@ -376,6 +374,9 @@ let PostManager = {
       }
       
       postBody = postBody.trim()
+      if (!postBody.startsWith('<') && !postBody.endsWith('>')) {
+        postBody = `<div>${postBody}</div>`
+      }
       let postBodyObject = $(postBody)
       let abstract = postBodyObject.text().trim()
       if (abstract.length > 100) {
