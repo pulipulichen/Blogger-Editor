@@ -473,7 +473,12 @@ Message: ${e.message}`
     return this.getFileSystemUrl(url)
   },
   statsticQuotaUsage: function (callback) {
-    window.webkitStorageInfo.queryUsageAndQuota(this.type, (quoteUsed, quotaTotal) => {
+    let storage = navigator.webkitTemporaryStorage
+    if (this.type === window.PERSISTENT) {
+      storage = navigator.webkitPersistentStorage
+    }
+    
+    storage.queryUsageAndQuota((quoteUsed, quotaTotal) => {
       FunctionHelper.triggerCallback(callback, quoteUsed, quotaTotal)
     })
   },

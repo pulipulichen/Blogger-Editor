@@ -120,23 +120,23 @@ let TemplateManager = {
     let titleEditor = `<div class="summernotePostTitle-wrapper air-mode">
       <div id="summernotePostTitle"</div>
     </div>`
-    template = template.replace('${postTitle}', titleEditor)
+    template = template.replace('${PostTitle}', titleEditor)
 
     let dataContainer = `<span class="summernotePostDate-wrapper">
       <span id="summernotePostDate" class="summernotePostDate"></span>
     </span>`
-    template = template.replace('${postDate}', dataContainer)
+    template = template.replace('${PostDate}', dataContainer)
 
     let labelEditor = `<span class="summernotePostLabels-wrapper air-mode">
       <span id="summernotePostLabels" class="summernotePostLabels"></span>
     </span>`
-    template = template.replace('${postLabels}', labelEditor)
+    template = template.replace('${PostLabels}', labelEditor)
 
     //let postEditor = `<div id="summernotePostBody"><p>HelloAAAA</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><p>Summernote</p></div>`
     let postEditor = `<div class="summernotePostBody-wrapper">
       <div id="summernotePostBody"></div>
     </div>`
-    template = template.replace('${postBody}', postEditor)
+    template = template.replace('${PostBody}', postEditor)
 
     return template
   },
