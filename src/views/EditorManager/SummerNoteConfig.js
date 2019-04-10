@@ -97,6 +97,12 @@ let SummerNoteConfig = {
       ['remove', ['removeMedia']]
     ]
   },
+  popoverTable: function () {
+    return [
+      ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+      ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]
+    ]
+  },
   popoverLink: function () {
     return [
       ['link', ['linkDialogShow', 'unlink']]
@@ -120,6 +126,7 @@ let SummerNoteConfig = {
       styleTags: this.styleTags(),
       popover: {
         image: this.popoverImage(),
+        table: this.popoverTable(),
         link: this.popoverLink(),
         //air: this.popoverAir()
       },
