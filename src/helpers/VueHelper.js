@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import i18nGlobal from './../i18n/global.js'
 
 Vue.use(VueI18n)
 import $ from 'jquery'
@@ -36,7 +37,8 @@ let VueHelper = {
         locale = navigator.language || navigator.userLanguage
       }
       this._i18nConfig = new VueI18n({
-        locale: locale
+        locale: locale,
+        messages: i18nGlobal
       })
     }
     return this._i18nConfig
