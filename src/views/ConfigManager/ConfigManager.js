@@ -16,6 +16,7 @@ let config = {
   },
   created: function () {
     $v[this.name] = this
+    //console.log(this.$t('Config Manager'))
   },
   methods: {
     getUI: function () {

@@ -3,7 +3,8 @@ let i18n = {
     'button': 'Button'
   },
   'zh-TW': {
-    'button': '按鈕aaaa'
+    'button': '按鈕aaaa',
+    "Config Manager": "設定g"
   }
 }
 export default i18n
