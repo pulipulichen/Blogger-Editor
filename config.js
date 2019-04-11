@@ -1,5 +1,6 @@
 const CONFIG = {
   locale: 'auto',
+  localeOptions: ['auto', 'en', 'zh-TW'],
   defaultTheme: 'default',
   uploadImageDraft: '',
   quotaInMB: 5,

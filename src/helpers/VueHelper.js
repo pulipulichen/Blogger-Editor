@@ -6,7 +6,23 @@ Vue.use(VueI18n)
 import $ from 'jquery'
 
 let VueHelper = {
-  mountLocalStorage: function (vue, key) {
+  getLocalStorage: function (key, defaultValue) {
+    if (localStorage.getItem(key)) {
+      return localStorage.getItem(key)
+    }
+    else if (defaultValue !== undefined) {
+      return defaultValue
+    }
+  },
+  getLocalStorageInt: function (key, defaultValue) {
+    if (localStorage.getItem(key)) {
+      return parseInt(localStorage.getItem(key), 10)
+    }
+    else if (defaultValue !== undefined) {
+      return parseInt(defaultValue, 10)
+    }
+  },
+  mountLocalStorage: function (vue, key, defaultValue) {
     if (localStorage.getItem(key)) {
       try {
         vue[key] = localStorage.getItem(key);
@@ -14,14 +30,20 @@ let VueHelper = {
         localStorage.removeItem(key);
       }
     }
+    else if (defaultValue !== undefined) {
+      vue[key] = defaultValue
+    }
   },
-  mountLocalStorageInt: function (vue, key) {
+  mountLocalStorageInt: function (vue, key, defaultValue) {
     if (localStorage.getItem(key)) {
       try {
         vue[key] = parseInt(localStorage.getItem(key), 10);
       } catch(e) {
         localStorage.removeItem(key);
       }
+    }
+    else if (defaultValue !== undefined) {
+      vue[key] = parseInt(defaultValue, 10)
     }
   },
   persistLocalStorage: function (vue, key) {
@@ -32,7 +54,8 @@ let VueHelper = {
   _i18nConfig: null,
   _getI18nConfig: function () {
     if (this._i18nConfig === null) {
-      let locale = ConfigHelper.get('locale')
+      //let locale = ConfigHelper.get('locale')
+      let locale = this.getLocalStorage('locale', ConfigHelper.get('locale'))
       if (locale === 'auto') {
         locale = navigator.language || navigator.userLanguage
       }

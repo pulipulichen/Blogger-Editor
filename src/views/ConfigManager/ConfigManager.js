@@ -9,10 +9,14 @@ let config = {
     return {
       name: 'ConfigManager',
       ui: undefined,
-      onCloseReload: false
+      onCloseReload: false,
+      onCloseReloadI18n: false,
+      locale: ConfigHelper.get('locale'),
+      localeOptions: ConfigHelper.get('localeOptions')
     }
   },
   mounted() {
+    VueHelper.mountLocalStorage(this, 'locale', ConfigHelper.get('locale'))
   },
   created: function () {
     $v[this.name] = this
@@ -22,15 +26,27 @@ let config = {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
         this.ui = $(this.$refs.modal)
+        this.ui.find('select.dropdown').dropdown()
       }
       return this.ui
     },
     open: function () {
       //console.log(this.data)
       this.getUI().modal('show')
-      this.getUI().find('.backup.button').focus()
+      //this.getUI().find('.backup.button').focus()
     },
     close: function () {
+      if (this.onCloseReloadI18n === true) {
+        this.onCloseReloadI18n = false
+        WindowHelper.confirm(this.$t('You need reload this page to change language. <br />Do you want to reload?'), () => {
+          // yes reload
+          location.reload()
+        }, () => {
+          // no just close
+          this.close()
+        })
+        return
+      }
       
       if (this.onCloseReload === true) {
         this.onCloseReload = false
@@ -106,6 +122,10 @@ let config = {
       })
       return this
     },
+    persist() {
+      VueHelper.persistLocalStorage(this, 'locale')
+      this.onCloseReloadI18n = true
+    }
   }
 }
 
