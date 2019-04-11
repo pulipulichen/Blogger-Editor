@@ -3,6 +3,19 @@ var config = {
     return {
       name: 'FileUploader',
       ui: undefined,
+      delimiter: ', ',
+      links: [
+        {
+          name: 'GitHub',
+          uploadURL: 'http://blog.pulipuli.info',
+          downloadURL: 'http://blog.pulipuli.info'
+        },
+        {
+          name: 'GitHub 2',
+          uploadURL: 'http://blog.pulipuli.info',
+          downloadURL: 'http://blog.pulipuli.info'
+        }
+      ]
     }
   },
   mounted: function () {
