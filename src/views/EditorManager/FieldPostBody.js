@@ -54,10 +54,16 @@ let FieldPostBody = {
     return this.get().next().find('.note-editing-area .note-editable')
   },
   insert: function (html) {
+    if (typeof(html) === 'string') {
+      html = $(html)
+    }
+    
     if (this.debug.disableSummerNode === true) {
       this.get().append(html)
       return this
     }
+    
+    html = html[0]
     
     this.get().summernote('insertNode', html);
     return this

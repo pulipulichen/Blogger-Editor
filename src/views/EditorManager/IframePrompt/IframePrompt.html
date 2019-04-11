@@ -3,7 +3,7 @@
        ref="modal">
     <i class="close icon" @click="close"></i>
     <div class="header">
-      <i class="times circle icon"></i>
+      <i class="plus square outline icon"></i>
       {{ $t('Title') }}
     </div>
     <!-- ---------------------------------------- -->
@@ -26,6 +26,7 @@
         {{ $t('Close') }}
       </div>
       <div class="ui button"
+           :class="{'green': (iframePromptInput.length > 8), 'disabled': (iframePromptInput.length <= 8)}"
            @click='insert'>
         {{ $t('Insert') }}
       </div>

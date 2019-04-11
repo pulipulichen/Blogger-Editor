@@ -1,8 +1,10 @@
 {
   "en-US": {
-    "Title": "iframe Prompt"
+    "Title": "iframe Prompt",
+    "URL": "iframe URL"
   },
   "zh-TW": {
-    "Title": "插入iframe"
+    "Title": "插入iframe",
+    "URL": "iframe URL"
   }
 }

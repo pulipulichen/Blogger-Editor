@@ -1552,8 +1552,14 @@
    * @return {Function}
    */
   function makePredByNodeName(nodeName) {
+      if (nodeName === undefined) {
+        return false
+      }
       nodeName = nodeName.toUpperCase();
       return function (node) {
+          if (node === undefined || typeof(node.nodeName) === "undefined") {
+            return false
+          }
           return node && node.nodeName.toUpperCase() === nodeName;
       };
   }
@@ -1584,6 +1590,9 @@
    * @see http://www.w3.org/html/wg/drafts/html/master/syntax.html#void-elements
    */
   function isVoid(node) {
+      if (node === undefined || typeof(node.nodeName) === "undefined") {
+        return false
+      }
       return node && /^BR|^IMG|^HR|^IFRAME|^BUTTON|^INPUT|^VIDEO|^EMBED/.test(node.nodeName.toUpperCase());
   }
   function isPara(node) {
@@ -1591,9 +1600,16 @@
           return false;
       }
       // Chrome(v31.0), FF(v25.0.1) use DIV for paragraph
+      if (node === undefined || typeof(node.nodeName) === "undefined") {
+        return false
+      }
+      
       return node && /^DIV|^P|^LI|^H[1-7]/.test(node.nodeName.toUpperCase());
   }
   function isHeading(node) {
+      if (node === undefined || typeof(node.nodeName) === "undefined") {
+        return false
+      }
       return node && /^H[1-7]/.test(node.nodeName.toUpperCase());
   }
   var isPre = makePredByNodeName('PRE');
@@ -1613,10 +1629,16 @@
           !isData(node);
   }
   function isList(node) {
+      if (node === undefined || typeof(node.nodeName) === "undefined") {
+        return false
+      }
       return node && /^UL|^OL/.test(node.nodeName.toUpperCase());
   }
   var isHr = makePredByNodeName('HR');
   function isCell(node) {
+      if (node === undefined || typeof(node.nodeName) === "undefined") {
+        return false
+      }
       return node && /^TD|^TH/.test(node.nodeName.toUpperCase());
   }
   var isBlockquote = makePredByNodeName('BLOCKQUOTE');

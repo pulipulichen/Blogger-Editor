@@ -28,6 +28,8 @@ let InitHelper = {
     //  $v.EditorManager.open()
     //}, 3000)
     
+    $v.IframePrompt.open()
+    
     //$v.PageLoader.open()
     FunctionHelper.triggerCallback(callback)
   },

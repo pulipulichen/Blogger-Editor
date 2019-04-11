@@ -3,6 +3,7 @@ var config = {
     return {
       name: 'IframePrompt',
       ui: undefined,
+      //iframePromptInput: 'http://blog.pulipuli.info/'
       iframePromptInput: ''
     }
   },
@@ -33,7 +34,8 @@ var config = {
     insert: function () {
       //console.log(this.iframePromptInput)
       let url = this.iframePromptInput
-      let code = `<iframe src="${url}" width="100%" style="height: 90vh" frameborder="0" class="post-iframe"></iframe>`
+      let code = `<div><iframe src="${url}" width="100%" style="height: 90vh" frameborder="0" class="post-iframe"></iframe></div>`
+      //let code = '<img src="icon.png" />'
       $v.EditorManager.FieldPostBody.insert(code)
       this.iframePromptInput = ''
       this.close()
