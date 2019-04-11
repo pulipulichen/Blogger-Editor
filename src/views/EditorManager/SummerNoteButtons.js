@@ -1,14 +1,17 @@
 let SummerNoteButtons = {
   config: function () {
     return {
-      copyHTML: (c) => {
-        return this.copyCode(c)
+      CopyHTML: (c) => {
+        return this.CopyCode(c)
       },
-      imageReplacer: (c) => {
-        return this.imageReplacer(c)
+      ImageReplacer: (c) => {
+        return this.ImageReplacer(c)
       },
-      iframePrompt: (c) => {
-        return this.iframePrompt(c)
+      IframePrompt: (c) => {
+        return this.IframePrompt(c)
+      },
+      FileUploader: (c) => {
+        return this.FileUploader(c)
       },
       popoverImageSizeOriginal: (c) => {
         return this.popoverImageSizeOriginal(c)
@@ -39,7 +42,7 @@ let SummerNoteButtons = {
   wrapNIWSF: function (text) {
     return `<span class="non-invasive-web-style-framework">${text}</span>`
   },
-  copyCode: function (context) {
+  CopyCode: function (context) {
     let contents = this.wrapNIWSF(`<i class="code icon"></i>Copy Code`)
     let tooltip = 'Copy Code'
     let click = () => {
@@ -49,7 +52,7 @@ let SummerNoteButtons = {
     }
     return this.build(contents, tooltip, click)
   },
-  imageReplacer: function (context) {
+  ImageReplacer: function (context) {
     let contents = this.wrapNIWSF(`<i class="image icon"></i>Upload Images`)
     let tooltip = 'Replace Images with Blogger'
     let click = () => {
@@ -57,9 +60,17 @@ let SummerNoteButtons = {
     }
     return this.build(contents, tooltip, click)
   },
-  iframePrompt: function (context) {
+  IframePrompt: function (context) {
     let contents = this.wrapNIWSF(`<i class="plus square outline icon"></i> Iframe`)
     let tooltip = 'Insert iframe'
+    let click = () => {
+      $v.IframePrompt.open()
+    }
+    return this.build(contents, tooltip, click)
+  },
+  FileUploader: function (context) {
+    let contents = this.wrapNIWSF(`<i class="upload icon"></i> Upload File`)
+    let tooltip = 'Upload file and insert links'
     let click = () => {
       $v.IframePrompt.open()
     }

@@ -3,7 +3,7 @@
        ref="modal">
     <i class="close icon" @click="close"></i>
     <div class="header">
-      <i class="times circle icon"></i>
+      <i class="upload icon"></i>
       {{ $t('Title') }}
     </div>
     <!-- ---------------------------------------- -->
@@ -14,13 +14,16 @@
       </div> <!-- <div class="description"> -->
     </div> <!-- <div class="content"> -->
     
+    
     <div class="actions">
       <div class="ui button"
            @click='close'>
         {{ $t('Close') }}
       </div>
-      <div class="ui button">
+      <div class="ui button"
+           :class="enableInsert"
+           @click='insert'>
         {{ $t('Insert') }}
       </div>
-    </div> <!-- actions -->
+    </div>
   </div>

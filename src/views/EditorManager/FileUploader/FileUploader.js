@@ -1,7 +1,7 @@
 var config = {
   data: function () {
     return {
-      name: 'Base',
+      name: 'FileUploader',
       ui: undefined,
     }
   },
@@ -9,7 +9,9 @@ var config = {
     
   },
   computed: function {
-    
+    enableInsert: function () {
+      return 'green'
+    }
   },
   created: function () {
     $v[this.name] = this
@@ -31,6 +33,10 @@ var config = {
     },
     close: function () {
       this.getUI().modal('hide')
+    },
+    insert: function () {
+      $v.EditorManager.FieldPostBody.insert('OK')
+      this.close()
     }
   }
 }

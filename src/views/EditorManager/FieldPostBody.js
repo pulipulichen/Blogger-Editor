@@ -54,18 +54,30 @@ let FieldPostBody = {
     return this.get().next().find('.note-editing-area .note-editable')
   },
   insert: function (html) {
-    if (typeof(html) === 'string') {
-      html = $(html)
-    }
-    
     if (this.debug.disableSummerNode === true) {
+      if (typeof(html) === 'string') {
+        html = html.trim()
+        if (!html.startsWith('<') && !html.endsWith('>')) {
+          html = `<span>${html}</span>`
+        }
+        html = $(html)
+      }
       this.get().append(html)
       return this
     }
     
-    html = html[0]
+    let insertType = 'insertNode'
+    if (typeof(html) === 'string') {
+      html = html.trim()
+      if (!html.startsWith('<') && !html.endsWith('>')) {
+        insertType = 'insertText'
+      }
+      else {
+        html = $(html)[0]
+      }
+    }
     
-    this.get().summernote('insertNode', html);
+    this.get().summernote(insertType, html);
     return this
   },
   set: function (value) {

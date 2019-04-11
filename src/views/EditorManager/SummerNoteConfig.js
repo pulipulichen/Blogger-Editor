@@ -43,7 +43,7 @@ let SummerNoteConfig = {
         ['table', ['table']],
         ['insert', ['hr', 'link', 'picture', 'video']],
         ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
-        ['mybutton', ['copyHTML', 'imageReplacer', 'iframePrompt']],
+        ['mybutton', ['IopyHTML', 'ImageReplacer', 'IframePrompt', 'FileUploader']],
         ['help', [/*'fullscreen',*/ 'help']]
       ]
 
