@@ -55,10 +55,7 @@ let VueHelper = {
   _getI18nConfig: function () {
     if (this._i18nConfig === null) {
       //let locale = ConfigHelper.get('locale')
-      let locale = this.getLocalStorage('locale', ConfigHelper.get('locale'))
-      if (locale === 'auto') {
-        locale = navigator.language || navigator.userLanguage
-      }
+      let locale = I18nHelper.locale()
       this._i18nConfig = new VueI18n({
         locale: locale,
         messages: i18nGlobal

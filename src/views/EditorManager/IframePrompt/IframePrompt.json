@@ -1,8 +1,8 @@
 {
-  "en": {
-    "Title": "Example Title"
+  "en-US": {
+    "Title": "iframe Prompt"
   },
   "zh-TW": {
-    "Title": "範例標題"
+    "Title": "插入iframe"
   }
 }

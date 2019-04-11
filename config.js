@@ -1,6 +1,6 @@
 const CONFIG = {
   locale: 'auto',
-  localeOptions: ['auto', 'en', 'zh-TW'],
+  localeOptions: ['auto', 'en-US', 'zh-TW'],
   defaultTheme: 'default',
   uploadImageDraft: '',
   quotaInMB: 5,
@@ -11,8 +11,9 @@ const CONFIG = {
     disableConfigManager: false,
     
     disableSummerNode: false,
-    disableImageReplacer: true,
-    disableTemplateBuilder: true
+    disableImageReplacer: false,
+    disableTemplateBuilder: false,
+    disableIframePrompt: false
   }
 }
 export default CONFIG

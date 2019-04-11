@@ -13,5 +13,8 @@ ConfigHelper = {
     else {
       return defaultValue
     }
+  },
+  lang: function () {
+    return VueHelper.getLocalStorage('locale', this.get('locale'))
   }
 }

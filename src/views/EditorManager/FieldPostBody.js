@@ -14,7 +14,9 @@ let FieldPostBody = {
     }
     
     //console.log('FieldPostBody init')
-    this.get().summernote(SummerNoteConfig.fullConfig(callback))
+    SummerNoteConfig.loadLocale(() => {
+      this.get().summernote(SummerNoteConfig.fullConfig(callback))
+    })
     //console.log(SummerNoteConfig.fullConfig())
     return this
   },

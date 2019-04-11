@@ -7,6 +7,9 @@ let SummerNoteButtons = {
       imageReplacer: (c) => {
         return this.imageReplacer(c)
       },
+      iframePrompt: (c) => {
+        return this.iframePrompt(c)
+      },
       popoverImageSizeOriginal: (c) => {
         return this.popoverImageSizeOriginal(c)
       },
@@ -51,6 +54,14 @@ let SummerNoteButtons = {
     let tooltip = 'Replace Images with Blogger'
     let click = () => {
       $v.ImageReplacer.open()
+    }
+    return this.build(contents, tooltip, click)
+  },
+  iframePrompt: function (context) {
+    let contents = this.wrapNIWSF(`<i class="plus square outline icon"></i> Iframe`)
+    let tooltip = 'Insert iframe'
+    let click = () => {
+      $v.IframePrompt.open()
     }
     return this.build(contents, tooltip, click)
   },

@@ -3,13 +3,14 @@ var config = {
     return {
       name: 'IframePrompt',
       ui: undefined,
+      iframePromptInput: ''
     }
   },
   mounted: function () {
     
   },
   created: function () {
-    $v.base = this
+    $v[this.name] = this
   },
   methods: {
     // ---------------------
@@ -28,6 +29,14 @@ var config = {
     },
     close: function () {
       this.getUI().modal('hide')
+    },
+    insert: function () {
+      //console.log(this.iframePromptInput)
+      let url = this.iframePromptInput
+      let code = `<iframe src="${url}" width="100%" style="height: 90vh" frameborder="0" class="post-iframe"></iframe>`
+      $v.EditorManager.FieldPostBody.insert(code)
+      this.iframePromptInput = ''
+      this.close()
     }
   }
 }

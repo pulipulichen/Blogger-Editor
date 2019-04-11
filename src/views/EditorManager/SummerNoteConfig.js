@@ -43,7 +43,7 @@ let SummerNoteConfig = {
         ['table', ['table']],
         ['insert', ['hr', 'link', 'picture', 'video']],
         ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
-        ['mybutton', ['copyHTML', 'imageReplacer']],
+        ['mybutton', ['copyHTML', 'imageReplacer', 'iframePrompt']],
         ['help', [/*'fullscreen',*/ 'help']]
       ]
 
@@ -117,8 +117,25 @@ let SummerNoteConfig = {
       ['insert', ['link', 'picture']]
     ]
   },
+  loadLocale: function (callback) {
+    let locale = I18nHelper.locale()
+    if (locale === 'auto' || locale.startsWith('en')) {
+    //if (locale === 'auto') {
+      FunctionHelper.triggerCallback(callback)
+    }
+    else {
+      let path = `static/summernote/lang/summernote-${locale}.js`
+      $.ajax({
+        url: path,
+        dataType: "script",
+        complete: callback
+      })
+    }
+  },
   fullConfig: function (callback) {
+    let locale = I18nHelper.locale()
     let config = {
+      lang: locale,
       focus: true, // set focus to editable area after initializing summernote
       disableResizeEditor: true,
       placeholder: 'Post Body',

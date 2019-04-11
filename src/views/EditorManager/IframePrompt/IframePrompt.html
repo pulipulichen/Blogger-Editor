@@ -9,8 +9,25 @@
     <!-- ---------------------------------------- -->
     
     <div class="content">
-      <div class="description">
-        
+      <div class="description ui form">
+        <div class="field">
+          <label>
+            {{ $t('URL') }}
+          </label>
+          <input type="url" 
+                 name="iframePromptInput"
+                 v-model="iframePromptInput" />
+        </div>
       </div> <!-- <div class="description"> -->
     </div> <!-- <div class="content"> -->
+    <div class="actions">
+      <div class="ui button"
+           @click='close'>
+        {{ $t('Close') }}
+      </div>
+      <div class="ui button"
+           @click='insert'>
+        {{ $t('Insert') }}
+      </div>
+    </div>
   </div>

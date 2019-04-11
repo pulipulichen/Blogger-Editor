@@ -9,7 +9,7 @@ var config = {
     
   },
   created: function () {
-    $v.base = this
+    $v[this.name] = this
   },
   methods: {
     // ---------------------

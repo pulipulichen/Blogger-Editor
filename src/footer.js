@@ -7,6 +7,8 @@ require('./InitHelper.js')
 
 
 require('./helpers/ConfigHelper.js')
+require('./helpers/VueHelper.js')
+require('./helpers/I18nHelper.js')
 
 //require('./vendor/garlic/garlic.min.js')
 //require('./vendor/dayjs/dayjs.min.js')
@@ -21,7 +23,6 @@ require('./helpers/DelayExecHelper.js')
 require('./helpers/BloggerImageHelper.js')
 require('./helpers/WindowHelper.js')
 //require('./helpers/SummerNoteHelper.js')
-require('./helpers/VueHelper.js')
 require('./helpers/DayjsHelper.js')
 require('./helpers/SemanticUIHelper.js')
 require('./helpers/FileHelper.js')

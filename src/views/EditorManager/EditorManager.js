@@ -15,6 +15,7 @@ import FieldPostDate from './FieldPostDate.js'
 import SummerNoteConfig from './SummerNoteConfig.js'
 
 import ImageReplacerSfc from './ImageReplacer/ImageReplacer.vue'
+import IframePromptSfc from './IframePrompt/IframePrompt.vue'
 
 var EditorManager = {
   //name: "main-content",
@@ -37,6 +38,7 @@ var EditorManager = {
       summerNoteConfigToolbar: '',
       summerNoteConfigStyleTags: '',
       ImageReplacer: null,
+      IframePrompt: null,
       onCloseReload: false
     }
   },
@@ -56,6 +58,12 @@ var EditorManager = {
     if (ConfigHelper.get('debug').disableImageReplacer === false) {
       VueHelper.init(ImageReplacerSfc, (vue) => {
         this.ImageReplacer = vue
+      })
+    }
+    
+    if (ConfigHelper.get('debug').disableIframePrompt === false) {
+      VueHelper.init(IframePromptSfc, (vue) => {
+        this.IframePrompt = vue
       })
     }
     
