@@ -11,9 +11,11 @@ const CONFIG = {
     disableConfigManager: false,
     
     disableSummerNode: false,
+    
     disableImageReplacer: false,
     disableTemplateBuilder: false,
-    disableIframePrompt: false
+    disableIframePrompt: false,
+    disableFileUploader: false,
   }
 }
 export default CONFIG

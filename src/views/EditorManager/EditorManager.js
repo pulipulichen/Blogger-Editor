@@ -16,6 +16,7 @@ import SummerNoteConfig from './SummerNoteConfig.js'
 
 import ImageReplacerSfc from './ImageReplacer/ImageReplacer.vue'
 import IframePromptSfc from './IframePrompt/IframePrompt.vue'
+import FileUploaderSfc from './FileUploader/FileUploader.vue'
 
 var EditorManager = {
   //name: "main-content",
@@ -30,16 +31,19 @@ var EditorManager = {
       dateContainer: null,
       summerNoteInited: false,
       imageSizeDefault: 450,
+      summerNoteConfigToolbar: '',
+      summerNoteConfigStyleTags: '',
+      onCloseReload: false,
+      
       FieldPostBody: FieldPostBody,
       FieldPostLabels: FieldPostLabels,
       FieldPostTitle: FieldPostTitle,
       FieldPostDate: FieldPostDate,
       SummerNoteConfig: SummerNoteConfig,
-      summerNoteConfigToolbar: '',
-      summerNoteConfigStyleTags: '',
+      
       ImageReplacer: null,
       IframePrompt: null,
-      onCloseReload: false
+      FileUploader: null
     }
   },
   mounted() {
@@ -64,6 +68,12 @@ var EditorManager = {
     if (ConfigHelper.get('debug').disableIframePrompt === false) {
       VueHelper.init(IframePromptSfc, (vue) => {
         this.IframePrompt = vue
+      })
+    }
+    
+    if (ConfigHelper.get('debug').disableFileUploader === false) {
+      VueHelper.init(FileUploaderSfc, (vue) => {
+        this.FileUploader = vue
       })
     }
     

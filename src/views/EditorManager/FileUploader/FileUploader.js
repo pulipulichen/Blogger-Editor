@@ -8,7 +8,7 @@ var config = {
   mounted: function () {
     
   },
-  computed: function {
+  computed: {
     enableInsert: function () {
       return 'green'
     }
