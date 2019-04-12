@@ -1,0 +1,10 @@
+{
+  "en-US": {
+    "Title": "Code Inserter"
+  },
+  "zh-TW": {
+    "Title": "插入程式碼",
+    "We recommend you replace \"http://\" with \"//\"": "建議您用「//」取代「http://」",
+    "We recommend you replace \"https://\" with \"//\"": "建議您用「//」取代「https://」"
+  }
+}
