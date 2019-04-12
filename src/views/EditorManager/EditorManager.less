@@ -6,3 +6,9 @@ textarea.summernote-config-toolbar {
 input[type='file'] {
   display: none;
 }
+
+@media only screen and (max-width: 767px) {
+  textarea.summernote-config-toolbar {
+    height: calc(100vh - 32rem) !important;
+  }
+}

@@ -234,7 +234,7 @@ Message: ${e.message}`
         // Name: NotFoundError
         // Message: A requested file or directory could not be found at the time an operation was processed.
         
-        console.log('File not found: ' + filePath)
+        //console.log('File not found: ' + filePath)
         FunctionHelper.triggerCallback(callback)
       }
       else {

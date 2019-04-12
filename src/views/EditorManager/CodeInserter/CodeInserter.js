@@ -76,14 +76,17 @@ var config = {
         return output
       }).join('\n')
       */
-      console.log(this.nl2br)
-      if (this.nl2br === true) {
-        console.log('nl2br')
-        code = code.split('\n').join('<br class="aaa" />\n')
-      }
+      //console.log(this.nl2br)
+      //if (this.nl2br === true) {
+      //if (true) {
+        //console.log('nl2br')
+        //code = code.split('\n').join('<br />\n')
+      //}
       
+      code = code.split(" ").join("&nbsp;")
+      //console.log(code)
       code = `<pre><code${className}>${code}</code></pre>`
-      console.log(code)
+      //console.log(code)
       //let code = '<img src="icon.png" />'
       $v.EditorManager.FieldPostBody.insert(code)
       this.close()
