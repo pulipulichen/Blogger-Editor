@@ -18,7 +18,13 @@ let config = {
   },
   computed: {
     enableInsert: function () {
-      return 'green'
+      for (let i = 0; i < this.links.length; i++) {
+        if (this.validateDownloadURL(this.links[i].downloadURL)) {
+          return 'green'
+        }
+      }
+      
+      return 'disabled'
     }
   },
   created: function () {
