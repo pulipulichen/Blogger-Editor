@@ -5,11 +5,25 @@ let config = {
       ui: undefined,
       currentStep: 1,
       rawHTML: '',
-      parsedTemplate: ''
+      parsedTemplate: '',
+      placeholderFound: [],
+      placeholderNotFound: [],
     }
   },
   mounted: function () {
     
+  },
+  computed: {
+    validateRawHTML: function () {
+      if (this.rawHTML.length < 100
+              || this.rawHTML.split('<html').length === 0
+              || this.rawHTML.split('</html>').length === 0) {
+        return false
+      }
+      else {
+        return true
+      }
+    }
   },
   created: function () {
     $v.base = this
@@ -32,14 +46,95 @@ let config = {
     close: function () {
       this.getUI().modal('hide')
     },
-    prev: function () {
+    prevStep: function () {
       this.currentStep--
     },
-    next: function () {
+    nextStep: function () {
       this.currentStep++
     },
     parseRawHTML: function () {
+      let rawHTML = this.rawHTML.trim()
+      if (rawHTML.startsWith('<!DOCTYPE ')) {
+        rawHTML = rawHTML.slice(rawHTML.indexOf('\n') + 1)
+      }
       
+      rawHTML = `<div>${rawHTML}</div>`
+      
+      let htmlObject = $(rawHTML)
+      htmlObject = this.extactBobdy(htmlObject)
+      htmlObject = this.detectPostTitle(htmlObject)
+      htmlObject = this.detectPostLabels(htmlObject)
+      htmlObject = this.detectPostDate(htmlObject)
+      htmlObject = this.detectPostBody(htmlObject)
+      //console.log(rawHTML)
+      
+      this.parsedTemplate = htmlObject.html()
+      this.next()
+    },
+    extractBody: function (htmlObject) {
+      return htmlObject
+    },
+    detectPostTitle: function (htmlObject) {
+      let found = false
+      let placeholder = '${PostTitle}'
+      
+      // process htmlObject
+      
+      if (found === true) {
+        this.placeholderFound.push(placeholder)
+      }
+      else {
+        this.placeholderNotFound.push(placeholder)
+      }
+      return htmlObject
+    },
+    detectPostLabels: function (htmlObject) {
+      let found = false
+      let placeholder = '${PostLabels}'
+      
+      // process htmlObject
+      
+      if (found === true) {
+        this.placeholderFound.push(placeholder)
+      }
+      else {
+        this.placeholderNotFound.push(placeholder)
+      }
+      return htmlObject
+    },
+    detectPostDate: function (htmlObject) {
+      let found = false
+      let placeholder = '${PostDate}'
+      
+      // process htmlObject
+      
+      if (found === true) {
+        this.placeholderFound.push(placeholder)
+      }
+      else {
+        this.placeholderNotFound.push(placeholder)
+      }
+      return htmlObject
+    },
+    detectPostBody: function (htmlObject) {
+      let found = false
+      let placeholder = '${PostBody}'
+      
+      // process htmlObject
+      
+      if (found === true) {
+        this.placeholderFound.push(placeholder)
+      }
+      else {
+        this.placeholderNotFound.push(placeholder)
+      }
+      return htmlObject
+    },
+    downloadParedResult: function () {
+      console.log('downloadParedResult')
+    },
+    setAsTemplate: function () {
+      console.log('setAsTemplate')
     }
   }
 }

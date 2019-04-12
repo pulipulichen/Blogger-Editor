@@ -1,197 +1,195 @@
-<div class="non-invasive-web-style-framework">
-  <div class="ui modal ImageReplacer">
-    <i class="close icon" @click="close"></i>
-    <div class="header">
-      <i class="image icon"></i>
-      Image Replace
-    </div>
-    <div class="content">
-      <div class="description fixed-height">
-        <div class="no-images step step-0"
-             v-bind:class="{hide: (currentStep !== 0)}">
-          <div class="ui warning message">
-            No filesystem image in post body.
-          </div>
-        </div>
-        <div class="step step-1"
-             v-bind:class="{hide: (currentStep !== 1)}">
-          <div class="ui fluid positive labeled icon massive button"
-               @click="downloadImagePackage"
-               v-bind:class="{ disabled: isCreatingImagePackage }">
-            <i class="file archive icon"></i>
-            Download Image Package
-          </div>
-          
-        </div>
-        <div class="step step-2"
-             v-bind:class="{hide: (currentStep !== 2)}">
-          <div class="ui message">
-            Unzip package into a folder.
-            <a href="https://www.wikihow.com/Unzip-a-File">
-              (How to unzip Image Package)
-            </a>
-          </div>
-          <div class="ui image">
-            <img src="static/ImageReplacer/unzip-to-folder.png" />
-          </div>
-        </div>
-        <div class="step step-3"
-             v-bind:class="{hide: (currentStep !== 3)}">
-          <div class="ui message">
-            Open a Blogger draft in Compose mode and empty content.
-          </div>
-          <div class="ui form">
-            <div class="fields">
-              <div class="eleven wide field"
-                   @click="openBloggerDraft">
-                <div class="ui fluid positive button"
-                     v-bind:class="{disabled: disableUploadImageDraft}">
-                  Open Blogger Draft
-                </div>
-              </div>
-              <div class="five wide field"
-                   @click="openBloggerDraftSetting">
-                <div class="ui fluid button">
-                  Setting
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="ui image">
-            <img src="static/ImageReplacer/open-draft.png" />
-          </div>
-        </div>
-        <div class="step step-4"
-             v-bind:class="{hide: (currentStep !== 4)}">
-          <div class="ui message">
-            Drag images into Blogger draft and upload them.
-          </div>
-          <div class="ui image">
-            <img src="static/ImageReplacer/image-uploaded.png" />
-          </div>
-        </div>
-        <div class="step step-5"
-             v-bind:class="{hide: (currentStep !== 5)}">
-          <div class="ui message">
-            Switch to HTML mode, copy HTML 
-          </div>
-          <div class="ui image">
-            <img src="static/ImageReplacer/html-code.png" />
-          </div>
-        </div>
-        <div class="step step-6"
-             v-bind:class="{hide: (currentStep !== 6)}">
-          <div class="ui form">
-            <div class="field">
-              <label>Paste HTML into following field:</label>
-              <textarea id="imageHTMLtextarea"
-                        v-model="imageHTML" 
-                        @change="validateImageHTML"
-                        @keyup="validateImageHTML"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="step step-7"
-             v-bind:class="{hide: (currentStep !== 7)}">
-          <div class="ui message"
-               v-bind:class="{positive: (filesystemImageCount === 0), warning: (filesystemImageCount > 0)}">
-            
-            <div class="ui statistics">
-              <div class="statistic"
-                   v-bind:class="{green: (replacedImageCount > 0)}">
-                <div class="value">
-                  {{ replacedImageCount }}
-                </div>
-                <div class="label">
-                  Replaced
-                </div>
-              </div>
-              
-              <div class="statistic"
-                   v-bind:class="{red: (filesystemImageCount > 0)}">
-                <div class="value">
-                  {{ filesystemImageCount }}
-                </div>
-                <div class="label">
-                  Filesystem 
-                  <span v-if="filesystemImageCount === 1">
-                    image
-                  </span>
-                  <span v-if="filesystemImageCount > 1">
-                    images
-                  </span>
-                  Remained
-                </div>
-              </div>
-            </div>
-            
-            <div class="ui positive icon message"
-                 v-if="filesystemImageCount === 0">
-              <i class="check circle icon"></i>
-              <div class="content">
-                <div class="header">
-                  Well done.
-                </div>
-                All filesystem 
-                <span v-if="replacedImageCount === 1">
-                  image
-                </span>
-                <span v-if="replacedImageCount > 1">
-                  images
-                </span>
-                had been uploaded.
-              </div>
-            </div>
-              
-            <div class="ui warning icon message"
-                 v-if="filesystemImageCount > 0">
-              <i class="exclamation triangle icon"></i>
-              <div class="content">
-                <div class="header">
-                  Not Finished!
-                </div>
-                There are still 
-                {{ filesystemImageCount }}
-                filesystem 
-                <span v-if="replacedImageCount === 1">
-                  image
-                </span>
-                <span v-if="replacedImageCount > 1">
-                  images
-                </span>
-                need to upload.
-              </div>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui labeled icon button"
-           @click='prevStep'
-           v-if="currentStep > 1">
-        <i class="chevron left icon"></i>
-        Prev
-      </div>
-      <div class="ui green right labeled icon button"
-           @click='nextStep'
-           v-if="currentStep > 0 && currentStep < 6">
-        Next
-        <i class="chevron right icon"></i>
-      </div>
-      <div class="ui green right labeled icon button" 
-           @click='replaceImage'
-           v-if="currentStep === 6"
-           v-bind:class="{ disabled: disableReplaceImage }">
-        Next
-        <i class="chevron right icon"></i>
-      </div>
-      <div class="ui button"
-           @click='close'
-           v-if="currentStep === 0 || currentStep === 7">
-        {{ $t('Close') }}
-      </div>
-    </div> <!-- <div class="actions"> -->
+<div class="ui modal ImageReplacer">
+  <i class="close icon" @click="close"></i>
+  <div class="header">
+    <i class="image icon"></i>
+    Image Replace
   </div>
+  <div class="content">
+    <div class="description fixed-height">
+      <div class="no-images step step-0"
+           v-bind:class="{hide: (currentStep !== 0)}">
+        <div class="ui warning message">
+          No filesystem image in post body.
+        </div>
+      </div>
+      <div class="step step-1"
+           v-bind:class="{hide: (currentStep !== 1)}">
+        <div class="ui fluid positive labeled icon massive button"
+             @click="downloadImagePackage"
+             v-bind:class="{ disabled: isCreatingImagePackage }">
+          <i class="file archive icon"></i>
+          Download Image Package
+        </div>
+
+      </div>
+      <div class="step step-2"
+           v-bind:class="{hide: (currentStep !== 2)}">
+        <div class="ui message">
+          Unzip package into a folder.
+          <a href="https://www.wikihow.com/Unzip-a-File">
+            (How to unzip Image Package)
+          </a>
+        </div>
+        <div class="ui image">
+          <img src="static/ImageReplacer/unzip-to-folder.png" />
+        </div>
+      </div>
+      <div class="step step-3"
+           v-bind:class="{hide: (currentStep !== 3)}">
+        <div class="ui message">
+          Open a Blogger draft in Compose mode and empty content.
+        </div>
+        <div class="ui form">
+          <div class="fields">
+            <div class="eleven wide field"
+                 @click="openBloggerDraft">
+              <div class="ui fluid positive button"
+                   v-bind:class="{disabled: disableUploadImageDraft}">
+                Open Blogger Draft
+              </div>
+            </div>
+            <div class="five wide field"
+                 @click="openBloggerDraftSetting">
+              <div class="ui fluid button">
+                Setting
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui image">
+          <img src="static/ImageReplacer/open-draft.png" />
+        </div>
+      </div>
+      <div class="step step-4"
+           v-bind:class="{hide: (currentStep !== 4)}">
+        <div class="ui message">
+          Drag images into Blogger draft and upload them.
+        </div>
+        <div class="ui image">
+          <img src="static/ImageReplacer/image-uploaded.png" />
+        </div>
+      </div>
+      <div class="step step-5"
+           v-bind:class="{hide: (currentStep !== 5)}">
+        <div class="ui message">
+          Switch to HTML mode, copy HTML 
+        </div>
+        <div class="ui image">
+          <img src="static/ImageReplacer/html-code.png" />
+        </div>
+      </div>
+      <div class="step step-6"
+           v-bind:class="{hide: (currentStep !== 6)}">
+        <div class="ui form">
+          <div class="field">
+            <label>Paste HTML into following field:</label>
+            <textarea id="imageHTMLtextarea"
+                      v-model="imageHTML" 
+                      @change="validateImageHTML"
+                      @keyup="validateImageHTML"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="step step-7"
+           v-bind:class="{hide: (currentStep !== 7)}">
+        <div class="ui message"
+             v-bind:class="{positive: (filesystemImageCount === 0), warning: (filesystemImageCount > 0)}">
+
+          <div class="ui statistics">
+            <div class="statistic"
+                 v-bind:class="{green: (replacedImageCount > 0)}">
+              <div class="value">
+                {{ replacedImageCount }}
+              </div>
+              <div class="label">
+                Replaced
+              </div>
+            </div>
+
+            <div class="statistic"
+                 v-bind:class="{red: (filesystemImageCount > 0)}">
+              <div class="value">
+                {{ filesystemImageCount }}
+              </div>
+              <div class="label">
+                Filesystem 
+                <span v-if="filesystemImageCount === 1">
+                  image
+                </span>
+                <span v-if="filesystemImageCount > 1">
+                  images
+                </span>
+                Remained
+              </div>
+            </div>
+          </div>
+
+          <div class="ui positive icon message"
+               v-if="filesystemImageCount === 0">
+            <i class="check circle icon"></i>
+            <div class="content">
+              <div class="header">
+                Well done.
+              </div>
+              All filesystem 
+              <span v-if="replacedImageCount === 1">
+                image
+              </span>
+              <span v-if="replacedImageCount > 1">
+                images
+              </span>
+              had been uploaded.
+            </div>
+          </div>
+
+          <div class="ui warning icon message"
+               v-if="filesystemImageCount > 0">
+            <i class="exclamation triangle icon"></i>
+            <div class="content">
+              <div class="header">
+                Not Finished!
+              </div>
+              There are still 
+              {{ filesystemImageCount }}
+              filesystem 
+              <span v-if="replacedImageCount === 1">
+                image
+              </span>
+              <span v-if="replacedImageCount > 1">
+                images
+              </span>
+              need to upload.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui labeled icon button"
+         @click='prevStep'
+         v-if="currentStep > 1">
+      <i class="chevron left icon"></i>
+      {{ $t('Prev') }}
+    </div>
+    <div class="ui green right labeled icon button"
+         @click='nextStep'
+         v-if="currentStep > 0 && currentStep < 6">
+      {{ $t('Next') }}
+      <i class="chevron right icon"></i>
+    </div>
+    <div class="ui green right labeled icon button" 
+         @click='replaceImage'
+         v-if="currentStep === 6"
+         v-bind:class="{ disabled: disableReplaceImage }">
+      {{ $t('Next') }}
+      <i class="chevron right icon"></i>
+    </div>
+    <div class="ui button"
+         @click='close'
+         v-if="currentStep === 0 || currentStep === 7">
+      {{ $t('Close') }}
+    </div>
+  </div> <!-- <div class="actions"> -->
 </div>
