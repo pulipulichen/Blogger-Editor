@@ -17,6 +17,7 @@ import SummerNoteConfig from './SummerNoteConfig.js'
 import ImageReplacerSfc from './ImageReplacer/ImageReplacer.vue'
 import IframePromptSfc from './IframePrompt/IframePrompt.vue'
 import FileUploaderSfc from './FileUploader/FileUploader.vue'
+import CodeInserterSfc from './CodeInserter/CodeInserter.vue'
 
 var EditorManager = {
   //name: "main-content",
@@ -43,7 +44,8 @@ var EditorManager = {
       
       ImageReplacer: null,
       IframePrompt: null,
-      FileUploader: null
+      FileUploader: null,
+      CodeInserter: null
     }
   },
   mounted() {
@@ -74,6 +76,12 @@ var EditorManager = {
     if (ConfigHelper.get('debug').disableFileUploader === false) {
       VueHelper.init(FileUploaderSfc, (vue) => {
         this.FileUploader = vue
+      })
+    }
+    
+    if (ConfigHelper.get('debug').disableCodeInserter === false) {
+      VueHelper.init(CodeInserterSfc, (vue) => {
+        this.CodeInserter = vue
       })
     }
     

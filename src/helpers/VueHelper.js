@@ -23,11 +23,27 @@ let VueHelper = {
     }
   },
   mountLocalStorage: function (vue, key, defaultValue) {
-    if (localStorage.getItem(key)) {
+    let lsKey = this.mergeKey(vue, key)
+    if (localStorage.getItem(lsKey)) {
       try {
-        vue[key] = JSON.parse(localStorage.getItem(key))
+        vue[key] = localStorage.getItem(lsKey)
       } catch(e) {
-        localStorage.removeItem(key);
+        console.log(e)
+        localStorage.removeItem(lsKey);
+      }
+    }
+    else if (defaultValue !== undefined) {
+      vue[key] = defaultValue
+    }
+  },
+  mountLocalStorageJSON: function (vue, key, defaultValue) {
+    let lsKey = this.mergeKey(vue, key)
+    if (localStorage.getItem(lsKey)) {
+      try {
+        vue[key] = JSON.parse(localStorage.getItem(lsKey))
+      } catch(e) {
+        console.log(e)
+        localStorage.removeItem(lsKey);
       }
     }
     else if (defaultValue !== undefined) {
@@ -35,23 +51,47 @@ let VueHelper = {
     }
   },
   mountLocalStorageInt: function (vue, key, defaultValue) {
-    if (localStorage.getItem(key)) {
+    let lsKey = this.mergeKey(vue, key)
+    if (localStorage.getItem(lsKey)) {
       try {
-        vue[key] = parseInt(localStorage.getItem(key), 10);
+        vue[key] = parseInt(localStorage.getItem(lsKey), 10);
       } catch(e) {
-        localStorage.removeItem(key);
+        console.log(e)
+        localStorage.removeItem(lsKey);
       }
     }
     else if (defaultValue !== undefined) {
       vue[key] = parseInt(defaultValue, 10)
     }
   },
+  mountLocalStorageBoolean: function (vue, key, defaultValue) {
+    let lsKey = this.mergeKey(vue, key)
+    if (localStorage.getItem(lsKey)) {
+      try {
+        let value = localStorage.getItem(lsKey).toLowerCase()
+        vue[key] = (value === 'true')
+      } catch(e) {
+        console.log(e)
+        localStorage.removeItem(lsKey);
+      }
+    }
+    else if (defaultValue !== undefined) {
+      vue[key] = parseInt(defaultValue, 10)
+    }
+  },
+  mergeKey: function (vue, key) {
+    if (typeof(vue.name) === "string") {
+      key = vue.name + '.' + key
+    }
+    return key
+  },
   persistLocalStorage: function (vue, key) {
+    let lsKey = this.mergeKey(vue, key)
     let value = vue[key]
     if (typeof(value) === 'object') {
       value = JSON.stringify(value)
     }
-    localStorage[key] = value;
+    localStorage[lsKey] = value;
   },
   _vueIdCount: 0,
   _vueContainer: null,
@@ -62,7 +102,8 @@ let VueHelper = {
       let locale = I18nHelper.locale()
       this._i18nConfig = new VueI18n({
         locale: locale,
-        messages: i18nGlobal
+        messages: i18nGlobal,
+        silentTranslationWarn: true
       })
     }
     return this._i18nConfig

@@ -3,29 +3,79 @@
        ref="modal">
     <i class="close icon" @click="close"></i>
     <div class="header">
-      <i class="plus square outline icon"></i>
+      <i class="code icon"></i>
       {{ $t('Title') }}
     </div>
     <!-- ---------------------------------------- -->
     
     <div class="content">
       <div class="description ui form">
+
         <div class="field">
           <label>
-            {{ $t('URL') }}
+            {{ $t('Code') }}
           </label>
-          <input type="url" 
-                 name="iframePromptInput"
-                 v-model="iframePromptInput" />
+          <textarea name="code"
+                    id="CodeInserterTextarea"
+                    v-model="code"></textarea>
         </div>
-        <div class="ui message"
-             v-if="iframePromptInput.trim().startsWith('http://')">
-          {{ $t('We recommend you replace "http://" with "//"') }}
+        
+        <!-- ------------------- -->
+
+        <div class="field">
+          <label>
+            {{ $t('Syntax') }}
+            (<a href="" target="highlight.js">
+              {{ $t('Help') }}
+            </a>)
+          </label>
+          <select class="ui search dropdown"
+                  v-model="syntax"> 
+            <option value="">{{ $t('(Auto)') }}</option>
+            <option value="nohighlight">{{ $t('No Highlight') }}</option>
+            <option value="javascript">{{ $t('JavaScript') }}</option>
+            <option value="html">{{ $t('HTML, XML') }}</option>
+            <option value="css">{{ $t('CSS') }}</option>
+            <option value="bash">{{ $t('Bash') }}</option>
+            <option value="ini">{{ $t('ini') }}</option>
+            <option value="json">{{ $t('JSON') }}</option>
+            <option value="java">{{ $t('Java') }}</option>
+            <option value="php">{{ $t('PHP') }}</option>
+            <option value="perl">{{ $t('Perl') }}</option>
+            <option value="sql">{{ $t('SQL') }}</option>
+            <option value="r">{{ $t('R Script') }}</option>
+            <option value="autoit">{{ $t('AutoIT') }}</option>
+            <option value="csharp">{{ $t('C#') }}</option>
+            <option value="cpp">{{ $t('C++') }}</option>
+            <option value="dos">{{ $t('DOS') }}</option>
+            <option value="excel">{{ $t('Excel') }}</option>
+            <option value="markdown">{{ $t('Markdown') }}</option>
+            <option value="nginx">{{ $t('Nginx') }}</option>
+            <option value="python">{{ $t('Python') }}</option>
+            <option value="ruby">{{ $t('Ruby') }}</option>
+            <option value="swift">{{ $t('Swift') }}</option>
+            <option value="typescript">{{ $t('TypeScript') }}</option>
+            <option value="vbnet">{{ $t('VB.Net') }}</option>
+            <option value="vbscript">{{ $t('VBscript') }}</option>
+            <option value="xpath">{{ $t('XQuery, Xpath') }}</option>
+            <option value="matlab">{{ $t('Matlab') }}</option>
+          </select>
         </div>
-        <div class="ui message"
-             v-if="iframePromptInput.trim().startsWith('https://')">
-          {{ $t('We recommend you replace "https://" with "//"') }}
+        
+        <!-- ------------------- -->
+        
+        <!--
+        <div class="field" @click="toggleNl2br">
+          <div class="ui checkbox">
+            <input type="checkbox"
+                   class="hidden" 
+                   v-model="nl2br"
+                   value="true">
+            <label>{{ $t('Enable new line to &lt;br /&gt;') }}</label>
+          </div>
         </div>
+        -->
+
       </div> <!-- <div class="description"> -->
     </div> <!-- <div class="content"> -->
     <div class="actions">
@@ -34,7 +84,7 @@
         {{ $t('Close') }}
       </div>
       <div class="ui button"
-           :class="{'green': (iframePromptInput.length > 8), 'disabled': (iframePromptInput.length <= 8)}"
+           :class="enableInsert"
            @click='insert'>
         {{ $t('Insert') }}
       </div>

@@ -15,7 +15,7 @@ let ConfigHelper = {
     }
   },
   lang: function () {
-    return VueHelper.getLocalStorage('locale', this.get('locale'))
+    return VueHelper.getLocalStorage('ConfigManager.locale', this.get('locale'))
   }
 }
 

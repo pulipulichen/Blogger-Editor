@@ -11,7 +11,7 @@ let config = {
   },
   mounted: function () {
     //console.log(ConfigHelper.get('FileUploader').links)
-    VueHelper.mountLocalStorage(this, 'links', ConfigHelper.get('FileUploader').links)
+    VueHelper.mountLocalStorageJSON(this, 'links', ConfigHelper.get('FileUploader').links)
     this.resetDownloadURL()
     
     VueHelper.mountLocalStorage(this, 'delimiter')

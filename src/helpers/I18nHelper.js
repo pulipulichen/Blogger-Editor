@@ -1,6 +1,6 @@
 let I18nHelper = {
   locale: function () {
-    let locale = VueHelper.getLocalStorage('locale', ConfigHelper.get('locale'))
+    let locale = VueHelper.getLocalStorage('ConfigManager.locale', ConfigHelper.get('locale'))
     if (locale === 'auto') {
       locale = navigator.language || navigator.userLanguage
     }

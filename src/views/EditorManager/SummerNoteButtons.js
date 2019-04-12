@@ -13,6 +13,9 @@ let SummerNoteButtons = {
       FileUploader: (c) => {
         return this.FileUploader(c)
       },
+      CodeInserter: (c) => {
+        return this.CodeInserter(c)
+      },
       popoverImageSizeOriginal: (c) => {
         return this.popoverImageSizeOriginal(c)
       },
@@ -73,6 +76,14 @@ let SummerNoteButtons = {
     let tooltip = 'Upload file and insert links'
     let click = () => {
       $v.FileUploader.open()
+    }
+    return this.build(contents, tooltip, click)
+  },
+  CodeInserter: function (context) {
+    let contents = this.wrapNIWSF(`<i class="code icon"></i> Insert Code`)
+    let tooltip = 'Insert code'
+    let click = () => {
+      $v.CodeInserter.open()
     }
     return this.build(contents, tooltip, click)
   },

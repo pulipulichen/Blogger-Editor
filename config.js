@@ -16,6 +16,7 @@ const CONFIG = {
     disableTemplateBuilder: false,
     disableIframePrompt: false,
     disableFileUploader: false,
+    disableCodeInserter: false,
   },
   FileUploader: {
     links: [
