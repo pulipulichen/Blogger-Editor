@@ -110,9 +110,14 @@ Message: ${e.message}`
     }
     
     // Throw out './' or '/' and move on to prevent something like '/foo/.//bar'.
-    if (folders[0] === '.' 
+    while (folders[0] === '.' 
             || folders[0] === '') {
-      folders = folders.slice(1);
+      if (folders.length > 1) {
+        folders = folders.slice(1)
+      }
+      else {
+        return FunctionHelper.triggerCallback(callback)
+      }
     }
     
     //console.log(folders[0])

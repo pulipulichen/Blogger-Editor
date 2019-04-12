@@ -20,7 +20,7 @@ let InitHelper = {
       })
     }, 3000)
     */
-    //$v.ThemeManager.open()
+    $v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()
     
@@ -30,7 +30,7 @@ let InitHelper = {
     
     //$v.IframePrompt.open()
     //$v.FileUploader.open()
-    $v.ThemeManager.TemplateBuilder.open()
+    //$v.ThemeManager.TemplateBuilder.open()
     
     //$v.PageLoader.open()
     FunctionHelper.triggerCallback(callback)

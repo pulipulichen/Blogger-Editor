@@ -51,6 +51,8 @@ let config = {
     },
     open: function () {
       this.currentStep = 1
+      this.rawHTML = ''
+      this.parsedTemplate = ''
       this.getUI().modal('show')
     },
     close: function () {
@@ -130,6 +132,9 @@ let config = {
       htmlObject.find('#masthead').remove()
       htmlObject.find('.blog-admin').remove()
       htmlObject.find('.comment-count').remove()
+      htmlObject.find('.firstload-background').remove()
+      htmlObject.find('a[accesskey][href]').remove()
+      
       
       return htmlObject
     },
