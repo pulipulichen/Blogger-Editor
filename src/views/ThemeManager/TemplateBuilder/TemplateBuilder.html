@@ -16,7 +16,7 @@
           {{ $t('Open the article page in Blogger.') }}
         </div>
         <div class="ui image">
-          <img src="static/TemplateBuilder/tmp.png" />
+          <img src="static/TemplateBuilder/open-article-page.png" />
         </div>
        </div>
       
@@ -25,17 +25,30 @@
       <div class="step step-2"
             v-bind:class="{hide: (currentStep !== 2)}">
         <div class="ui message">
-          {{ $t('View page source and copy whole code.') }}
+          {{ $t('View page source.') }}
         </div>
         <div class="ui image">
-          <img src="static/TemplateBuilder/tmp.png" />
+          <img src="static/TemplateBuilder/view-source-code.png" />
         </div>
       </div>
+      
       
       <!-- -------------------------- -->
       
       <div class="step step-3"
             v-bind:class="{hide: (currentStep !== 3)}">
+        <div class="ui message">
+          {{ $t('Copy whole code.') }}
+        </div>
+        <div class="ui image">
+          <img src="static/TemplateBuilder/copy-code.png" />
+        </div>
+      </div>
+      
+      <!-- -------------------------- -->
+      
+      <div class="step step-4"
+            v-bind:class="{hide: (currentStep !== 4)}">
          <div class="ui form">
             <div class="field">
               <label>
@@ -49,8 +62,8 @@
       
       <!-- -------------------------- -->
       
-      <div class="step step-4"
-            v-bind:class="{hide: (currentStep !== 4)}">
+      <div class="step step-5"
+            v-bind:class="{hide: (currentStep !== 5)}">
          <div class="ui form">
             <div class="field">
               <label>
@@ -76,8 +89,8 @@
       
       <!-- -------------------------- -->
       
-      <div class="step step-5"
-           v-bind:class="{hide: (currentStep !== 1)}">
+      <div class="step step-6"
+           v-bind:class="{hide: (currentStep !== 6)}">
         <div class="two fields">
           <div class="field">
             <div class="ui fluid labeled icon massive button"
