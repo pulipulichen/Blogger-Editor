@@ -1,4 +1,4 @@
-var config = {
+let config = {
   data: function () {
     return {
       name: 'Base',

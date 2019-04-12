@@ -3,6 +3,8 @@
     "Title": "File Upload"
   },
   "zh-TW": {
-    "Title": "檔案上傳"
+    "Title": "檔案上傳",
+    "Name": "上傳網站",
+    "Upload URL": "上傳網址"
   }
 }

@@ -25,7 +25,7 @@ let VueHelper = {
   mountLocalStorage: function (vue, key, defaultValue) {
     if (localStorage.getItem(key)) {
       try {
-        vue[key] = localStorage.getItem(key);
+        vue[key] = JSON.parse(localStorage.getItem(key))
       } catch(e) {
         localStorage.removeItem(key);
       }
@@ -47,7 +47,11 @@ let VueHelper = {
     }
   },
   persistLocalStorage: function (vue, key) {
-    localStorage[key] = vue[key];
+    let value = vue[key]
+    if (typeof(value) === 'object') {
+      value = JSON.stringify(value)
+    }
+    localStorage[key] = value;
   },
   _vueIdCount: 0,
   _vueContainer: null,

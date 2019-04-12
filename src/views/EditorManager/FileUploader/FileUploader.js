@@ -1,4 +1,6 @@
-var config = {
+import draggable from 'vuedraggable'
+
+let config = {
   data: function () {
     return {
       name: 'FileUploader',
@@ -7,19 +9,19 @@ var config = {
       links: [
         {
           name: 'GitHub',
-          uploadURL: 'http://blog.pulipuli.info',
-          downloadURL: 'http://blog.pulipuli.info'
+          uploadURL: 'http://upload.blog.pulipuli.info',
+          downloadURL: 'http://download.blog.pulipuli.info'
         },
         {
           name: 'GitHub 2',
-          uploadURL: 'http://blog.pulipuli.info',
-          downloadURL: 'http://blog.pulipuli.info'
+          uploadURL: 'http://upload.blog2.pulipuli.info',
+          downloadURL: 'http://download.blog2.pulipuli.info'
         }
       ]
     }
   },
   mounted: function () {
-    
+    VueHelper.mountLocalStorage(this, 'links')
   },
   computed: {
     enableInsert: function () {
@@ -28,6 +30,9 @@ var config = {
   },
   created: function () {
     $v[this.name] = this
+  },
+  components: {
+    draggable,
   },
   methods: {
     // ---------------------
@@ -50,6 +55,15 @@ var config = {
     insert: function () {
       $v.EditorManager.FieldPostBody.insert('OK')
       this.close()
+    },
+    openTab: function (e) {
+      SemanticUIHelper.openTab(e)
+    },
+    openUploadURL: function (url, name) {
+      WindowHelper.popup(url, name)
+    },
+    onSettingChange: function () {
+      VueHelper.persistLocalStorage(this, 'links')
     }
   }
 }
