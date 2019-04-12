@@ -8,6 +8,7 @@ let config = {
       parsedTemplate: '',
       placeholderFound: [],
       placeholderNotFound: [],
+      onCloseReload: false,
     }
   },
   mounted: function () {
@@ -44,7 +45,15 @@ let config = {
       this.getUI().modal('show')
     },
     close: function () {
-      this.getUI().modal('hide')
+      if (this.onCloseReload === true) {
+        this.onCloseReload = false
+        InitHelper.reload(() => {
+          this.getUI().modal('hide')
+        })
+      }
+      else {
+        this.getUI().modal('hide')
+      }
     },
     prevStep: function () {
       this.currentStep--
@@ -61,7 +70,7 @@ let config = {
       rawHTML = `<div>${rawHTML}</div>`
       
       let htmlObject = $(rawHTML)
-      htmlObject = this.extactBobdy(htmlObject)
+      htmlObject = this.extractBody(htmlObject)
       htmlObject = this.detectPostTitle(htmlObject)
       htmlObject = this.detectPostLabels(htmlObject)
       htmlObject = this.detectPostDate(htmlObject)
@@ -69,7 +78,7 @@ let config = {
       //console.log(rawHTML)
       
       this.parsedTemplate = htmlObject.html()
-      this.next()
+      this.nextStep()
     },
     extractBody: function (htmlObject) {
       return htmlObject
@@ -131,10 +140,14 @@ let config = {
       return htmlObject
     },
     downloadParedResult: function () {
-      console.log('downloadParedResult')
+      let dateFormat = DayjsHelper.nowFormat()
+      let filename = `template-${dateFormat}.html`
+      //console.log('downloadParedResult')
+      FileHelper.save(this.parsedTemplate, filename)
     },
     setAsTemplate: function () {
-      console.log('setAsTemplate')
+      $v.ThemeManager.TemplateManager.set(this.parsedTemplate)
+      this.onCloseReload = true
     }
   }
 }

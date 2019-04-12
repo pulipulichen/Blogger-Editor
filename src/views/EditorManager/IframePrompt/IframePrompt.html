@@ -18,6 +18,14 @@
                  name="iframePromptInput"
                  v-model="iframePromptInput" />
         </div>
+        <div class="ui message"
+             v-if="iframePromptInput.trim().startsWith('http://')">
+          {{ $t('We recommend you replace "http://" with "//"') }}
+        </div>
+        <div class="ui message"
+             v-if="iframePromptInput.trim().startsWith('https://')">
+          {{ $t('We recommend you replace "https://" with "//"') }}
+        </div>
       </div> <!-- <div class="description"> -->
     </div> <!-- <div class="content"> -->
     <div class="actions">

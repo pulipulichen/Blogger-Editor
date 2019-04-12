@@ -89,7 +89,7 @@
           <div class="field">
             <div class="ui fluid labeled icon massive button"
                 @click="setAsTemplate"
-                :class="{'positive': (placeholderFound.length === 4), 'disabled': (placeholderFound.length !== 4)}">
+                :class="{'positive': (placeholderFound.length === 4), 'disabled': (placeholderFound.length !== 4 || onCloseReload === true)}">
              <i class="cog icon"></i>
              {{ $t('Set as template') }}
             </div>
