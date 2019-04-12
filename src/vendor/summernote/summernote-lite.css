@@ -799,7 +799,8 @@ a.note-dropdown-item:hover {
 
 .note-popover {
   position: absolute;
-  z-index: 1060;
+  /*z-index: 1060;*/
+  z-index: 960;
   display: block;
   display: none;
   font-size: 13px;

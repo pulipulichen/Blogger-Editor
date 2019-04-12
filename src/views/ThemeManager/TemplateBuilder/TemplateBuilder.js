@@ -24,6 +24,14 @@ let config = {
       else {
         return true
       }
+    },
+    templateFoundMessage: function () {
+      if (this.placeholderNotFound.length === 0) {
+        return 'positive'
+      }
+      else {
+        return 'yellow'
+      }
     }
   },
   created: function () {
@@ -63,24 +71,39 @@ let config = {
     },
     parseRawHTML: function () {
       let rawHTML = this.rawHTML.trim()
-      if (rawHTML.startsWith('<!DOCTYPE ')) {
-        rawHTML = rawHTML.slice(rawHTML.indexOf('\n') + 1)
-      }
-      
-      rawHTML = `<div>${rawHTML}</div>`
-      
-      let htmlObject = $(rawHTML)
-      htmlObject = this.extractBody(htmlObject)
+      let htmlObject = this.extractBody(rawHTML)
       htmlObject = this.detectPostTitle(htmlObject)
       htmlObject = this.detectPostLabels(htmlObject)
       htmlObject = this.detectPostDate(htmlObject)
       htmlObject = this.detectPostBody(htmlObject)
       //console.log(rawHTML)
       
-      this.parsedTemplate = htmlObject.html()
+      let parsedTemplate = htmlObject.html()
+      
+      while(parsedTemplate.index('\n\n') > -1) {
+        parsedTemplate = parsedTemplate.split('\n\n').join('\n')
+      }
+        
+      this.parsedTemplate = parsedTemplate
+      
       this.nextStep()
     },
-    extractBody: function (htmlObject) {
+    extractBody: function (rawHTML) {
+      let headCode = rawHTML.slice(rawHTML.indexOf('<head'), rawHTML.indexOf('</head>') + 7).trim()
+      headCode = headCode.slice(headCode.indexOf('>') + 1, headCode.lastIndexOf('</head>')).trim()
+      
+      let bodyCode = rawHTML.slice(rawHTML.indexOf('<body'), rawHTML.indexOf('</body>') + 7).trim()
+      bodyCode = bodyCode.replace('<body', '<div')
+      bodyCode = bodyCode.replace('</body>', '</div>')
+      
+      let htmlObject = $(`<div>${bodyCode}</div>`)
+      htmlObject.prepend(headCode)
+      
+      htmlObject.children('title').remove()
+      htmlObject.children('link:not([type="text/css"])').remove()
+      htmlObject.children('meta').remove()
+      htmlObject.find('script:not([src])').remove()
+      
       return htmlObject
     },
     detectPostTitle: function (htmlObject) {
@@ -98,7 +121,7 @@ let config = {
       return htmlObject
     },
     detectPostLabels: function (htmlObject) {
-      let found = false
+      let found = true
       let placeholder = '${PostLabels}'
       
       // process htmlObject

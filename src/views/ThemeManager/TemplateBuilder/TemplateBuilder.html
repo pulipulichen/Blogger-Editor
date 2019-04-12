@@ -8,7 +8,7 @@
   <!-- ---------------------------------------- -->
 
   <div class="content">
-    <div class="description fixed-height">
+    <div class="description fixed-height ui form">
 
       <div class="step step-1"
             v-bind:class="{hide: (currentStep !== 1)}">
@@ -65,6 +65,21 @@
       <div class="step step-5"
             v-bind:class="{hide: (currentStep !== 5)}">
          <div class="ui form">
+            <div class="ui message"
+                 :class="templateFoundMessage">
+              <div v-if="placeholderFound.length > 0">
+                {{ $t('Template detected:') }}
+                {{ placeholderFound.join($t(', ')) }}
+              </div>
+              <div v-if="placeholderNotFound.length > 0">
+                {{ $t('Template not detected:') }}
+                {{ placeholderNotFound.join($t(', ')) }}
+                <p>
+                {{ $t('You have to add them by yourself.') }}
+                </p>
+              </div>
+            </div>
+           
             <div class="field">
               <label>
                 {{ $t('Parsing result') }}
@@ -73,17 +88,6 @@
                         v-model="parsedTemplate" ></textarea>
             </div>
            
-            <div class="ui message">
-              <div v-if="placeholderFound.length > 0">
-                {{ $t('Template detected:') }}
-                {{ placeholderFound.join($t(', ')) }}
-              </div>
-              <div v-if="placeholderNotFound.length > 0">
-                {{ $t('Template not detected:') }}
-                {{ placeholderNotFound.join($t(', ')) }}.
-                {{ $t('You have to add them by yourself.') }}
-              </div>
-            </div>
           </div>
        </div>
       
@@ -126,20 +130,20 @@
       </div>
       <div class="ui green right labeled icon button"
            @click='nextStep'
-           v-if="currentStep > 0 && currentStep < 3">
+           v-if="(currentStep > 0 && currentStep < 4) || currentStep === 5">
         {{ $t('Next') }}
         <i class="chevron right icon"></i>
       </div>
       <div class="ui green right labeled icon button" 
            @click='parseRawHTML'
-           v-if="currentStep === 3"
+           v-if="currentStep === 4"
            v-bind:class="{ disabled: (validateRawHTML === false) }">
         {{ $t('Next') }}
         <i class="chevron right icon"></i>
       </div>
       <div class="ui button"
            @click='close'
-           v-if="currentStep === 7">
+           v-if="currentStep === 6">
         {{ $t('Close') }}
       </div>
     </div> <!-- <div class="actions"> -->

@@ -14,6 +14,9 @@
     ", ": "、",
     "You have to add them by yourself.": "請您手動加入範本中。",
     "Download parsing result": "下載分析結果",
-    "Set as template": "設爲範本"
+    "Set as template": "設爲範本",
+    "Template detected:": "偵測到的樣板：",
+    "Template not detected:": "沒偵測到的樣板：",
+    "You have to add them by yourself.": "請自行手動加入。"
   }
 }
