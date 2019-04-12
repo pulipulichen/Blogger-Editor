@@ -106,6 +106,16 @@ let config = {
     },
     onDelimiterChange: function () {
       VueHelper.persistLocalStorage(this, 'delimiter')
+    },
+    getConfig: function () {
+      let links = JSON.parse(JSON.stringify(this.links))
+      return links.map(link => {
+        delete link.downloadURL
+      })
+    },
+    setConfig: function (links) {
+      this.links = links
+      this.resetDownloadURL()
     }
   }
 }

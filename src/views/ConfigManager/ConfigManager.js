@@ -61,7 +61,6 @@ let config = {
     },
     configDownload: function () {
       
-      let editorConfig = $v.EditorManager.getConfig()
       $v.ThemeManager.getConfig((template, style) => {
         let zip = new JSZip()
         let date = DayjsHelper.nowFormat('YYYY-MMDD')
@@ -69,7 +68,12 @@ let config = {
         let folder = zip.folder(folderName);
 
         
+        let editorConfig = $v.EditorManager.getConfig()
         folder.file('editorConfig.json', JSON.stringify(editorConfig))
+        
+        let FileUploaderConfig = $v.EditorManager.FileUploader.getConfig()
+        folder.file('FileUploaderConfig.json', JSON.stringify(FileUploaderConfig))
+        
         if (template !== undefined) {
           folder.file('template.html', template)
         }
@@ -108,6 +112,10 @@ let config = {
         let content = file.content
         if (path.endsWith('/editorConfig.json')) {
           $v.EditorManager.setConfig(content)
+          FunctionHelper.triggerCallback(callback)
+        }
+        else if (path.endsWith('/FileUploaderConfig.json')) {
+          $v.EditorManager.FileUploader.setConfig(content)
           FunctionHelper.triggerCallback(callback)
         }
         else if (path.endsWith('/template.html')) {
