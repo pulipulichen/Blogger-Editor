@@ -30,6 +30,7 @@ let InitHelper = {
     
     //$v.IframePrompt.open()
     //$v.FileUploader.open()
+    $v.ThemeManager.TemplateBuilder.open()
     
     //$v.PageLoader.open()
     FunctionHelper.triggerCallback(callback)

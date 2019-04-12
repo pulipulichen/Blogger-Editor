@@ -1,8 +1,11 @@
-var config = {
+let config = {
   data: function () {
     return {
       name: 'TemplateBuilder',
       ui: undefined,
+      currentStep: 1,
+      rawHTML: '',
+      parsedTemplate: ''
     }
   },
   mounted: function () {
@@ -19,7 +22,7 @@ var config = {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')
-        this.ui = this.ui = $(`.${this.name}.ui.modal`)
+        this.ui = $(`.${this.name}.ui.modal`)
       }
       return this.ui
     },
@@ -28,6 +31,15 @@ var config = {
     },
     close: function () {
       this.getUI().modal('hide')
+    },
+    prev: function () {
+      this.currentStep--
+    },
+    next: function () {
+      this.currentStep++
+    },
+    parseRawHTML: function () {
+      
     }
   }
 }

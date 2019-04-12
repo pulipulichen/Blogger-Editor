@@ -1,17 +1,42 @@
-<div class="non-invasive-web-style-framework">
-  <div class="ui modal"
-       v-bind:class="name">
-    <i class="close icon" @click="close"></i>
-    <div class="header">
-      <i class="cog icon"></i>
-      Template Builder
-    </div>
-    <!-- ---------------------------------------- -->
-    
-    <div class="content">
-      <div class="description">
-        
-      </div> <!-- <div class="description"> -->
-    </div> <!-- <div class="content"> -->
+<div class="ui modal"
+     v-bind:class="name">
+  <i class="close icon" @click="close"></i>
+  <div class="header">
+    <i class="cog icon"></i>
+    {{ $t('Template Builder') }}
   </div>
+  <!-- ---------------------------------------- -->
+
+  <div class="content">
+    <div class="description">
+
+    </div> <!-- <div class="description"> -->
+  </div> <!-- <div class="content"> -->
+  
+  <div class="actions">
+      <div class="ui labeled icon button"
+           @click='prevStep'
+           v-if="currentStep > 1">
+        <i class="chevron left icon"></i>
+        Prev
+      </div>
+      <div class="ui green right labeled icon button"
+           @click='nextStep'
+           v-if="currentStep > 0 && currentStep < 6">
+        Next
+        <i class="chevron right icon"></i>
+      </div>
+      <div class="ui green right labeled icon button" 
+           @click='parseRawHTML'
+           v-if="currentStep === 6"
+           v-bind:class="{ disabled: disableReplaceImage }">
+        Next
+        <i class="chevron right icon"></i>
+      </div>
+      <div class="ui button"
+           @click='close'
+           v-if="currentStep === 0 || currentStep === 7">
+        {{ $t('Close') }}
+      </div>
+    </div> <!-- <div class="actions"> -->
 </div>
