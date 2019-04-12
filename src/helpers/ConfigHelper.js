@@ -2,7 +2,7 @@ const globalConfig = require('../../config.js')
 const localConfig = require('../../config.local.js')
 
 //console.log(globalConfig.default)
-ConfigHelper = {
+let ConfigHelper = {
   get: function (key, defaultValue) {
     if (typeof(localConfig.default[key]) !== 'undefined') {
       return localConfig.default[key]
@@ -18,3 +18,6 @@ ConfigHelper = {
     return VueHelper.getLocalStorage('locale', this.get('locale'))
   }
 }
+
+window.ConfigHelper = ConfigHelper
+export default ConfigHelper

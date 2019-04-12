@@ -6,22 +6,15 @@ let config = {
       name: 'FileUploader',
       ui: undefined,
       delimiter: ', ',
-      links: [
-        {
-          name: 'GitHub',
-          uploadURL: 'http://upload.blog.pulipuli.info',
-          downloadURL: 'http://download.blog.pulipuli.info'
-        },
-        {
-          name: 'GitHub 2',
-          uploadURL: 'http://upload.blog2.pulipuli.info',
-          downloadURL: 'http://download.blog2.pulipuli.info'
-        }
-      ]
+      links: []
     }
   },
   mounted: function () {
-    VueHelper.mountLocalStorage(this, 'links')
+    //console.log(ConfigHelper.get('FileUploader').links)
+    VueHelper.mountLocalStorage(this, 'links', ConfigHelper.get('FileUploader').links)
+    this.resetDownloadURL()
+    
+    VueHelper.mountLocalStorage(this, 'delimiter')
   },
   computed: {
     enableInsert: function () {
@@ -53,8 +46,26 @@ let config = {
       this.getUI().modal('hide')
     },
     insert: function () {
-      $v.EditorManager.FieldPostBody.insert('OK')
+      let output = []
+      this.links.forEach((link) => {
+        if (this.validateDownloadURL(link.downloadURL)) {
+          let aTag = $(`<a href="${link.downloadURL}" target="_blank">${link.name}</a>`)[0]
+          output.push(aTag)
+        } 
+      })
+      
+      for (let i = 0; i < output.length; i++) {
+        if (i > 0) {
+          $v.EditorManager.FieldPostBody.insert(this.delimiter)
+        }
+        
+        let node = output[i]
+        $v.EditorManager.FieldPostBody.insert(node)
+      }
+      
+      
       this.close()
+      this.resetDownloadURL()
     },
     openTab: function (e) {
       SemanticUIHelper.openTab(e)
@@ -64,6 +75,31 @@ let config = {
     },
     onSettingChange: function () {
       VueHelper.persistLocalStorage(this, 'links')
+    },
+    resetDownloadURL: function () {
+      this.links.forEach(link => {
+        link.downloadURL = ''
+      })
+    },
+    linkNameIcon: function (name) {
+      if (name === undefined) {
+        return
+      }
+      
+      name = name.toLowerCase()
+      name = name.split(' ').join('')
+      if (name === 'github') {
+        return 'github'
+      }
+      else if (name === 'googledrive') {
+        return 'google drive'
+      }
+    },
+    validateDownloadURL: function (url) {
+      return (url.length > 4)
+    },
+    onDelimiterChange: function () {
+      VueHelper.persistLocalStorage(this, 'delimiter')
     }
   }
 }

@@ -72,7 +72,7 @@ let SummerNoteButtons = {
     let contents = this.wrapNIWSF(`<i class="upload icon"></i> Upload File`)
     let tooltip = 'Upload file and insert links'
     let click = () => {
-      $v.IframePrompt.open()
+      $v.FileUploader.open()
     }
     return this.build(contents, tooltip, click)
   },

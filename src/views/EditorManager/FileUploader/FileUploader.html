@@ -15,30 +15,52 @@
           <a class="item active" 
              data-tab="upload"
              @click="openTab">
-            Upload
+            {{ $t('Upload') }}
           </a>
           <a class="item" 
              data-tab="setting"
              @click="openTab">
-            Setting
+            {{ $t('Setting') }}
           </a>
         </div>
         
         <div class="ui bottom attached tab segment active form" 
              data-tab="upload">
           
-          <div v-for="link in links" :key="link.name"
-               class="unstackable fields">
-            <div class="four wide field">
-              <div class="ui fluid button"
-                   :class="{'positive': (link.downloadURL.length > 8)}"
-                   @click="openUploadURL(link.uploadURL, link.name)">
-                {{ link.name }}
+          <div class="download-list">
+          
+            <div v-for="link in links" :key="link.name"
+                 class="unstackable fields">
+              <div class="six wide field">
+                <template v-if="linkNameIcon(link.name) !== undefined">
+                  <div class="ui icon labeled fluid button"
+                       :class="{'positive': validateDownloadURL(link.downloadURL)}"
+                       @click="openUploadURL(link.uploadURL, link.name)">
+                    <i class="icon" :class="linkNameIcon(link.name)"></i>
+                    {{ link.name }}
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="ui fluid button"
+                       :class="{'positive': validateDownloadURL(link.downloadURL)}"
+                       @click="openUploadURL(link.uploadURL, link.name)">
+                    {{ link.name }}
+                  </div>
+                </template>
+              </div>
+              <div class="ten wide field">
+                <input type="url" v-model="link.downloadURL" />
               </div>
             </div>
-            <div class="twelve wide field">
-              <input type="url" v-model="link.downloadURL" />
-            </div>
+            
+          </div> <!-- <div class="download-list"> -->
+          
+          <div class="field">
+            <label>
+              {{ $t('Delimiter') }}
+            </label>
+            <input type="text" v-model="delimiter"
+                   @change="onDelimiterChange"/>
           </div>
           
         </div>
@@ -46,32 +68,32 @@
         <div class="ui bottom attached tab segment form" 
              data-tab="setting">
           
-          <draggable v-model="links" 
-                   group="settings" 
-                   @start="drag=true" 
-                   @end="drag=false"
-                   @change="onSettingChange">
-            <div v-for="link in links" :key="link.name"
-                 class="unstackable fields">
-              <div class="four wide field">
-                <input type="text" 
-                       v-model="link.name"
-                       placeholder="$t('Name')"/>
-              </div>
-              <div class="eleven wide field">
-                <input type="url" 
-                       v-model="link.uploadURL"
-                       placeholder="$t('Upload URL')"/>
-              </div>
-              <div class="one wide field draggable">
-                <div class="ui basic icon button">
-                  <i class="bars icon"></i>
+          <div class="setting-list">
+            <draggable v-model="links" 
+                     group="settings" 
+                     @start="drag=true" 
+                     @end="drag=false"
+                     @change="onSettingChange">
+              <div v-for="link in links" :key="link.name"
+                   class="unstackable fields">
+                <div class="six wide field">
+                  <input type="text" 
+                         v-model="link.name"
+                         placeholder="$t('Name')"
+                         @change="onSettingChange"/>
+                </div>
+                <div class="ten wide field ui icon input">
+                  <input type="url" 
+                         v-model="link.uploadURL"
+                         placeholder="$t('Upload URL')"
+                         @change="onSettingChange"/>
+                  <i class="bars icon draggable"></i>
                 </div>
               </div>
-            </div>
-          </draggable>
-          
+            </draggable>
+          </div>
         </div>
+          
         
         
         
