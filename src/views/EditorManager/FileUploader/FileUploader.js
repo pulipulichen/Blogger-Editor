@@ -111,6 +111,7 @@ let config = {
       let links = JSON.parse(JSON.stringify(this.links))
       return links.map(link => {
         delete link.downloadURL
+        return link
       })
     },
     setConfig: function (links) {

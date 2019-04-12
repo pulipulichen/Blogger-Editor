@@ -29,7 +29,7 @@ let InitHelper = {
     //}, 3000)
     
     //$v.IframePrompt.open()
-    $v.FileUploader.open()
+    //$v.FileUploader.open()
     
     //$v.PageLoader.open()
     FunctionHelper.triggerCallback(callback)
