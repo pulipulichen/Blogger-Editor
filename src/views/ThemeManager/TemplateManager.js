@@ -179,10 +179,10 @@ let TemplateManager = {
     return this
   },
   validate: function (template) {
-    return (template.split('${postTitle}').length === 2
-              && template.split('${postDate}').length === 2
-              && template.split('${postLabels}').length === 2
-              && template.split('${postBody}').length === 2)
+    return (template.split('${PostTitle}').length === 2
+              && template.split('${PostDate}').length === 2
+              && template.split('${PostLabels}').length === 2
+              && template.split('${PostBody}').length === 2)
   },
   set: function (content, callback) {
     if (content === undefined 

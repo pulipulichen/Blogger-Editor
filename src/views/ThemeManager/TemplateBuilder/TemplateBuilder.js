@@ -50,6 +50,7 @@ let config = {
       return this.ui
     },
     open: function () {
+      this.currentStep = 1
       this.getUI().modal('show')
     },
     close: function () {
@@ -108,7 +109,9 @@ let config = {
       htmlObject.children('title').remove()
       htmlObject.children('link:not([type="text/css"])').remove()
       htmlObject.children('meta').remove()
-      htmlObject.find('script:not([src])').remove()
+      
+      //htmlObject.find('script:not([src])').remove()
+      htmlObject.find('script').remove()
       
       htmlObject.find('header').remove()
       htmlObject.find('footer').remove()
@@ -118,7 +121,9 @@ let config = {
       htmlObject.find('#comments').remove()
       htmlObject.find('#disqus_thread').remove()
       htmlObject.find('#blog-pager').remove()
-      htmlObject.find('gcse:search').remove()
+      htmlObject.find('.gcse').remove()
+      htmlObject.find('.post-feeds').remove()
+      htmlObject.find('.entry-meta').remove()
       htmlObject.find('.hidden').remove()
       htmlObject.find('#menu-primary').remove()
       htmlObject.find('noscript').remove()
@@ -138,11 +143,16 @@ let config = {
         let contents = h1.contents()
         for (let i = 0; i < contents.length; i++) {
           let content = contents[i]
-          if (content.nodeType === 3) {
+          if (content.nodeType === 3 
+                  && content.nodeValue.trim() !== "") {
             content.nodeValue = placeholder
             found = true
             break
           }
+        }
+        
+        if (found === false) {
+          h1.prepend(placeholder)
         }
       }
       
@@ -183,11 +193,16 @@ let config = {
         let contents = timestamp.contents()
         for (let i = 0; i < contents.length; i++) {
           let content = contents[i]
-          if (content.nodeType === 3) {
+          if (content.nodeType === 3 
+                  && content.nodeValue.trim() !== "") {
             content.nodeValue = placeholder
             found = true
             break
           }
+        }
+        
+        if (found === false) {
+          timestamp.prepend(placeholder)
         }
       }
       
@@ -204,6 +219,12 @@ let config = {
       let placeholder = '${PostBody}'
       
       // process htmlObject
+      let article = htmlObject.find('article:first')
+      if (article.length > 0) {
+        article.children(':not(h1:first)').remove()
+        article.append(placeholder)
+        found = true
+      }
       
       if (found === true) {
         this.placeholderFound.push(placeholder)
@@ -220,7 +241,8 @@ let config = {
       FileHelper.save(this.parsedTemplate, filename)
     },
     setAsTemplate: function () {
-      $v.ThemeManager.TemplateManager.set(this.parsedTemplate)
+      console.log(this.parsedTemplate)
+      $v.ThemeManager.TemplateManager.setConfig(this.parsedTemplate)
       this.onCloseReload = true
     }
   }

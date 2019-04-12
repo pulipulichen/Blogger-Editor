@@ -103,8 +103,10 @@ Message: ${e.message}`
     let errorHandler = (e) => {
       //console.log(['createDir error'])
       //console.log(folders)
-      console.log(['createDir', e])
-      FunctionHelper.triggerCallback(callback)
+      //console.log(['createDir', e])
+      //FunctionHelper.triggerCallback(callback)
+      console.log(['createDir', folders])
+      this.errorHandler(e)
     }
     
     // Throw out './' or '/' and move on to prevent something like '/foo/.//bar'.
@@ -112,6 +114,7 @@ Message: ${e.message}`
             || folders[0] === '') {
       folders = folders.slice(1);
     }
+    
     //console.log(folders[0])
     rootDirEntry.getDirectory(folders[0], 
       {create: true}, 
@@ -152,6 +155,8 @@ Message: ${e.message}`
     if (filePath.startsWith('/') === false) {
       filePath = '/' + filePath
     }
+    
+    //console.log()
     
     //let errorHandler = this.errorHandler
     let errorHandler = (e) => {
@@ -371,6 +376,10 @@ Message: ${e.message}`
     return url
   },
   isExists: function (filePath, callback) {
+    if (filePath === '/') {
+      return FunctionHelper.triggerCallback(callback, true)
+    }
+    
     let fs = this.fs
     let errorHandler = (e) => {
       
