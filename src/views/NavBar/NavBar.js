@@ -8,6 +8,9 @@ var NavBar = {
     $v.NavBar = this
   },
   methods: {
+    openPublishManager: function () {
+      $v.PublishManager.open()
+    },
     openPostManager: function () {
       $v.PostManager.open()
     },

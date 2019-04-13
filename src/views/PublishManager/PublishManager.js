@@ -1,7 +1,7 @@
 let config = {
   data: function () {
     return {
-      name: 'Base',
+      name: 'PublishManager',
       ui: undefined,
     }
   },
@@ -31,6 +31,9 @@ let config = {
     },
     close: function () {
       this.getUI().modal('hide')
+    },
+    init: function(callback) {
+      FunctionHelper.triggerCallback(callback)
     }
   }
 }

@@ -57,6 +57,9 @@ VueHelper.init(EditorManagerComponent)
 import ConfigManagerSfc from './views/ConfigManager/ConfigManager.vue'
 VueHelper.init(ConfigManagerSfc)
 
+import PublishManagerSfc from './views/PublishManager/PublishManager.vue'
+VueHelper.init(PublishManagerSfc)
+
 import NavBarComponent from './views/NavBar/NavBar.vue'
 VueHelper.init(NavBarComponent)
 

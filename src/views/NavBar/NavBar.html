@@ -1,6 +1,11 @@
 <div class="non-invasive-web-style-framework">
   <div class="ui top fixed inverted menu">
     <a class="item" 
+       @click="openPublishManager">
+      <i class="file icon"></i>
+      {{ $t('Publish') }}
+    </a>
+    <a class="item" 
        @click="openPostManager">
       <i class="file icon"></i>
       {{ $t('Post') }}
