@@ -88,7 +88,9 @@ let PostManager = {
          title TEXT, 
          labels TEXT, 
          abstract TEXT,
-         thumbnail TEXT)`
+         thumbnail TEXT,
+         editURL TEXT,
+         publicURL TEXT)`
       //console.log(sql)
       WebSQLDatabaseHelper.exec(sql)     
     },
@@ -138,12 +140,16 @@ let PostManager = {
       
       let postId
       let unix = DayjsHelper.unix()
-      let title = 'This is a title'
-      let abstract = 'balabala'
-      let labels = 'D'
-      let thumbnail = 'icon.png'
-      let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
-      let data = [unix, unix, title, labels, abstract, thumbnail]
+      let title = ''
+      let abstract = ''
+      let labels = ''
+      let thumbnail = ''
+      let editURL = ''
+      let publicURL = ''
+      let sql = `insert into 
+                  posts(createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publicURL) 
+                  values(?,?,?,?,?,?,?,?)`
+      let data = [unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
       
       if (post !== null 
               && typeof(post) === 'object') {
@@ -162,10 +168,18 @@ let PostManager = {
         if (typeof(post.thumbnail) === 'string') {
           thumbnail = post.thumbnail
         }
+        if (typeof(post.editURL) === 'string') {
+          editURL = post.editURL
+        }
+        if (typeof(post.publicURL) === 'string') {
+          publicURL = post.publicURL
+        }
         
         if (typeof(post.id) === 'number') {
-          sql = 'insert into posts(id, createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?,?)'
-          data = [postId, unix, unix, title, labels, abstract, thumbnail]
+          sql = `insert into 
+                  posts(id, createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publishURL) 
+                  values(?,?,?,?,?,?,?,?,?)`
+          data = [postId, unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
         }
         else {
           data = [unix, unix, title, labels, abstract, thumbnail]
@@ -349,7 +363,7 @@ let PostManager = {
     },
     updateEditingPost: function (field, value, callback) {
       this.getPost((post) => {
-        //console.log([field, post[field], value])
+        console.log([field, post[field], value])
         if (post[field] !== value) {
           post[field] = value
           this.update(post, callback)
@@ -416,6 +430,8 @@ let PostManager = {
       let labels = post.labels
       let abstract = post.abstract
       let thumbnail = post.thumbnail
+      let editURL = post.editURL
+      let publicURL = post.publicURL
       
       //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
       
@@ -424,17 +440,24 @@ let PostManager = {
         title = ?,
         labels = ?,
         abstract = ?,
-        thumbnail =?
+        thumbnail = ?,
+        editURL = ?,
+        publicURL = ?,
         WHERE id = ${id}`
-      //console.log(sql)
+      console.log(sql)
       
-      WebSQLDatabaseHelper.exec(sql, [
+      let data = [
         unix,
         title,
         labels,
         abstract,
-        thumbnail
-      ], () => {
+        thumbnail,
+        editURL,
+        publicURL
+      ]
+      console.log(data)
+      
+      WebSQLDatabaseHelper.exec(sql, data, () => {
         FunctionHelper.triggerCallback(callback, post)
       })
     },

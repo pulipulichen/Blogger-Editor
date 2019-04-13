@@ -3,13 +3,62 @@
        ref="modal">
     <i class="close icon" @click="close"></i>
     <div class="header">
-      <i class="Blogger icon"></i>
+      <i class="blogger icon"></i>
       {{ $t('Title') }}
     </div>
     <!-- ---------------------------------------- -->
     
     <div class="content">
       <div class="description ui form">
+        
+        <div class="field">
+          <label>
+            {{ $t("Blogger Console") }}
+          </label>
+          <div class="ui action input">
+            <input type="url" 
+                   v-model="bloggerConsoleURL"
+                   @change="persist">
+            <button class="ui button"
+                    :class="enableOpenBloggerConsole"
+                    @click="popup('bloggerConsoleURL')">
+              {{ $t("Open") }}
+            </button>
+          </div>
+        </div>
+        
+        
+        <div class="field">
+          <label>
+            {{ $t("Post Draft URL") }}
+          </label>
+          <div class="ui action input">
+            <input type="url" 
+                   v-model="editURL"
+                   @change="persistPost('editURL')">
+            <button class="ui button"
+                    :class="enableOpenEditURL"
+                    @click="popup('editURL')">
+              {{ $t("Open") }}
+            </button>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label>
+            {{ $t("Public URL") }}
+          </label>
+          <div class="ui action input">
+            <input type="url" 
+                   v-model="publicURL"
+                   @change="persistPost('publicURL')">
+            <button class="ui button"
+                    :class="enableOpenPublicURL"
+                    @click="popup('publicURL')">
+              {{ $t("Open") }}
+            </button>
+          </div>
+        </div>
         
       </div> <!-- <div class="description"> -->
     </div> <!-- <div class="content"> -->

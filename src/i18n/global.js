@@ -9,7 +9,8 @@ let i18n = {
     "Close": "關閉",
     "Language": "操作介面語系",
     "URL": "網址",
-    "Inert": "插入"
+    "Inert": "插入",
+    "Open": "開啓"
   }
 }
 export default i18n

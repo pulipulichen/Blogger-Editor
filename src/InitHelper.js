@@ -23,6 +23,7 @@ let InitHelper = {
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()
+    $v.PublishManager.open()
     
     //setTimeout(function () {
     //  $v.EditorManager.open()
@@ -51,13 +52,14 @@ let InitHelper = {
               //$('#summernotePostTitle').summernote(summernotePostTitleConfig);
               //EditorManager.methods.initSummerNote()
               $v.EditorManager.init(() => {
-                $v.PageLoader.close()
-                
-                this.ready = true
+                //$v.PublishManager.init(() => {
 
-                setTimeout(() => {
-                  this.onInit(callback)
-                }, 1000)
+                  setTimeout(() => {
+                    $v.PageLoader.close()
+                    this.ready = true
+                    this.onInit(callback)
+                  }, 1000)
+                //})
               })
             })
           })
@@ -77,8 +79,10 @@ let InitHelper = {
         //EditorManager.methods.initSummerNote()
         $v.EditorManager.reload(() => {
           //setTimeout(() => {
-            $v.PageLoader.close()
-            FunctionHelper.triggerCallback(callback)
+            //$v.PublishManager.init(() => {
+              $v.PageLoader.close()
+              FunctionHelper.triggerCallback(callback)
+            //})
             //console.log('reload finish')
           //}, 1000)
         })
