@@ -15176,7 +15176,7 @@ width: 100% !important;
 .non-invasive-web-style-framework .ui.form:not(.unstackable) .fields:not(.unstackable) > .sixteen.wide.field {
 width: 100% !important;
 }
-.non-invasive-web-style-framework .ui.form .fields {
+.non-invasive-web-style-framework .ui.form .fields:not(.unstackable) {
 margin-bottom: 0em;
 }
 }
