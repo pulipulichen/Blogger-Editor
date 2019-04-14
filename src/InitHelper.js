@@ -23,7 +23,10 @@ let InitHelper = {
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()
-    //$v.PublishManager.open()
+    $v.PublishManager.open()
+    setTimeout(() => {
+      WindowHelper.alert("AAA")
+    }, 0)
     
     //setTimeout(function () {
     //  $v.EditorManager.open()

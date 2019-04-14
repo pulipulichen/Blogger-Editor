@@ -64,6 +64,10 @@ let config = {
       this.getUI().modal('hide')
     },
     init: function(callback) {
+      if (ConfigHelper.get('debug').disablePublishManager !== false) {
+        return FunctionHelper.triggerCallback(callback)
+      }
+      
       let post = $v.PostManager.getPost()
       if (post === undefined) {
         FunctionHelper.triggerCallback(callback)

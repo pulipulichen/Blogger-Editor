@@ -9,6 +9,7 @@ const CONFIG = {
     disableThemeManager: false,
     disableEditorManager: false,
     disableConfigManager: false,
+    disablePublishManager: false,
     
     disableSummerNode: false,
     

@@ -35,7 +35,7 @@ FileSystemHelper = {
   onInitFs: function (fs, callback) {
     this.fs = fs
     //this.statsticQuotaUsage()
-    console.log('FileSystem inited')
+    //console.log('FileSystem inited')
     /*
     console.log('Opened file system: ' + fs.name);
 

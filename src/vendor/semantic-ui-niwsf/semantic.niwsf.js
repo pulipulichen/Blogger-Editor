@@ -9069,6 +9069,7 @@ window = (typeof window != 'undefined' && window.Math == Math)
 ;
 
 window.modalQueue      = [],
+window.modalShowLock      = false,
 
 $.fn.modal = function(parameters) {
   var
@@ -9370,11 +9371,25 @@ $.fn.modal = function(parameters) {
             ? callback
             : function(){}
           ;
+          
+          //console.log(modalShowLock)
+          if (modalShowLock === true) {
+            setTimeout(() => {
+              module.show(callback)
+            }, 1000)
+            return
+          }
+          modalShowLock = true
+          
+          module.showOverlay()
           module.refreshModals();
           module.set.dimmerSettings();
           module.set.dimmerStyles();
 
-          module.showModal(callback);
+          module.showModal(() => {
+            modalShowLock = false
+            callback()
+          });
         },
 
         hide: function(callback) {
@@ -9383,18 +9398,22 @@ $.fn.modal = function(parameters) {
             : function(){}
           ;
           module.refreshModals();
-          module.hideModal(callback);
+          module.hideModal(() => {
+            module.hideOverlay()
+            callback()
+          });
         },
-
-        showModal: function(callback) {
-          $('body').addClass('non-invasive-web-style-framework-scroll-disable')
-          
+        showOverlay: function () {
+          //console.log(modalQueue.length)
           if (modalQueue.length > 0) {
             //modalQueue[(modalQueue.length - 1)].removeClass('move-top')
-            modalQueue.forEach(m => m.addClass('behind'))
+            //modalQueue.forEach((m) => $(m).addClass('behind'))
+            $(".non-invasive-web-style-framework .ui.modal.visible.active").addClass('behind')
             
             let parent = $module.parent()
+            //console.log(['parent className', parent.prop("className")])
             let overlay = parent.children('.niwsf-overlay')
+            //console.log(['overlay length', overlay.length])
             if (overlay.length === 0) {
               overlay = $('<div class="niwsf-overlay"></div>').appendTo(parent)
             }
@@ -9403,6 +9422,31 @@ $.fn.modal = function(parameters) {
             }
           }
           modalQueue.push($module)
+          $module.removeClass('behind')
+        },
+        hideOverlay: function () {
+          
+          // let body enable scroll
+          if ($('.non-invasive-web-style-framework.dimmable.dimmed').length === 0) {
+            $('body').removeClass('non-invasive-web-style-framework-scroll-disable')
+          }
+          
+          modalQueue.pop()
+          if (modalQueue.length < 2) {
+            let parent = $module.parent()
+            let overlay = parent.children('.niwsf-overlay')
+            overlay.hide()
+          }
+          
+          //console.log(modalQueue.length)
+          if (modalQueue.length > 0) {
+            //modalQueue[(modalQueue.length - 1)].addClass('move-top')
+            modalQueue[(modalQueue.length - 1)].removeClass('behind')
+          }
+        },
+        showModal: function(callback) {
+          $('body').addClass('non-invasive-web-style-framework-scroll-disable')
+          
           
           callback = $.isFunction(callback)
             ? callback
@@ -9507,23 +9551,6 @@ $.fn.modal = function(parameters) {
                     settings.onHidden.call(element);
                     module.remove.dimmerStyles();
                     
-                    // let body enable scroll
-                    if ($('.non-invasive-web-style-framework.dimmable.dimmed').length === 0) {
-                      $('body').removeClass('non-invasive-web-style-framework-scroll-disable')
-                    }
-                    
-                    if (modalQueue.length < 2) {
-                      let parent = $module.parent()
-                      let overlay = parent.children('.niwsf-overlay')
-                      overlay.hide()
-                    }
-                    
-                    modalQueue.pop()
-                    //console.log(modalQueue.length)
-                    if (modalQueue.length > 0) {
-                      //modalQueue[(modalQueue.length - 1)].addClass('move-top')
-                      modalQueue[(modalQueue.length - 1)].removeClass('behind')
-                    }
                     
                     module.restore.focus();
                     callback();
