@@ -23,7 +23,7 @@ let InitHelper = {
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()
-    $v.PublishManager.open()
+    //$v.PublishManager.open()
     
     //setTimeout(function () {
     //  $v.EditorManager.open()
@@ -39,9 +39,54 @@ let InitHelper = {
   },
   init: function (callback) {
     $(() => {
-      $v.PageLoader.open()
-      SemanticUIHelper.initDrop()
       //return 
+      
+      let initQueue = [
+        (next) => {
+          $v.PageLoader.open()
+          SemanticUIHelper.initDrop()
+          next()
+        },
+        (next) => {
+          WebSQLDatabaseHelper.init(next)
+        },
+        (next) => {
+          $v.BrowserDetector.init(next)
+        },
+        (next) => {
+          FileSystemHelper.init(next)
+        },
+        (next) => {
+          $v.PostManager.init(next)
+        },
+        (next) => {
+          $v.ThemeManager.init(next)
+        },
+        (next) => {
+          $v.EditorManager.init(next)
+        }
+      ]
+      
+      let loop = (i) => {
+        if (i < initQueue.length) {
+          //console.log(i)
+          let init = initQueue[i]
+          init(() => {
+            i++
+            loop(i)
+          })
+        }
+        else {
+          setTimeout(() => {
+            $v.PageLoader.close()
+            this.ready = true
+            this.onInit(callback)
+          }, 1000)
+        }
+      }
+      loop(0)
+      
+      /*
       $v.BrowserDetector.init(() => {
         FileSystemHelper.init(() => {
           $v.PostManager.init(() => {
@@ -65,6 +110,7 @@ let InitHelper = {
           })
         })
       })
+      */
     })
   },
   reload: function (callback) {

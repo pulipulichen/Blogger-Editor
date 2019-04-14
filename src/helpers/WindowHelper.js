@@ -87,5 +87,11 @@ WindowHelper = {
       FunctionHelper.triggerCallback(callback)
     })
     */
+  },
+  errorHandler: function (e) {
+    let message = `Error code: ${e.code}<br />
+Name: ${e.name}<br />
+Message: ${e.message}`
+    WindowHelper.alert(message)
   }
 }

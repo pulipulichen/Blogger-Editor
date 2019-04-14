@@ -1,4 +1,4 @@
-WebSQLDatabaseHelper = {
+let WebSQLDatabaseHelper = {
   db: null,
   init: function (callback) {
     if (this.db === null) {
@@ -28,14 +28,23 @@ WebSQLDatabaseHelper = {
             //console.log('AAAAAAA')
             //console.log(result)
             FunctionHelper.triggerCallback(callback, result.rows)
+          }, (tx, e) => {
+            this.errorHandler(e)
           })
         }
         else {
-          tx.executeSql(sql)
+          tx.executeSql(sql, dataArray, () => {}, (tx, e) => {
+            this.errorHandler(e)
+          })
         }
       })
     })
   },
+  errorHandler: function (e, sql) {
+    WindowHelper.errorHandler(e)
+    console.trace(`WebSQLDatabaseHelper error: ${sql}`)
+    console.log(e)
+  }
   //createTable: function (callback) {
   //  this.db.transaction(function(tx){
   //    tx.executeSql("Create Table posts(id INTEGER PRIMARY KEY, createUnix INTEGER, updateUnix INTEGER, title TEXT, abstract TEXT)");
@@ -46,4 +55,5 @@ WebSQLDatabaseHelper = {
   
 }
 
-WebSQLDatabaseHelper.init()
+window.WebSQLDatabaseHelper = WebSQLDatabaseHelper
+export default WebSQLDatabaseHelper

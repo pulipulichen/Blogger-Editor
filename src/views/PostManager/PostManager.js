@@ -81,7 +81,7 @@ let PostManager = {
       else {
         this.createTableDone = true
       }
-      let sql = `Create Table posts
+      let sql = `Create Table if not exists posts
         (id INTEGER PRIMARY KEY, 
          createUnix INTEGER, 
          updateUnix INTEGER, 
@@ -363,7 +363,7 @@ let PostManager = {
     },
     updateEditingPost: function (field, value, callback) {
       this.getPost((post) => {
-        console.log([field, post[field], value])
+        //console.log([field, post[field], value])
         if (post[field] !== value) {
           post[field] = value
           this.update(post, callback)
@@ -442,9 +442,9 @@ let PostManager = {
         abstract = ?,
         thumbnail = ?,
         editURL = ?,
-        publicURL = ?,
+        publicURL = ?
         WHERE id = ${id}`
-      console.log(sql)
+      //console.log(sql)
       
       let data = [
         unix,
@@ -455,7 +455,7 @@ let PostManager = {
         editURL,
         publicURL
       ]
-      console.log(data)
+      //console.log(data)
       
       WebSQLDatabaseHelper.exec(sql, data, () => {
         FunctionHelper.triggerCallback(callback, post)
