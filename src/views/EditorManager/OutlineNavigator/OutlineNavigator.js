@@ -3,7 +3,8 @@ let config = {
     return {
       name: 'OutlineNavigator',
       ui: undefined,
-      templateElement: null
+      templateElement: null,
+      opened: false
     }
   },
   mounted: function () {
@@ -29,6 +30,7 @@ let config = {
       return this.ui
     },
     open: function () {
+      this.opened = true
       //this.getUI().modal('show')
       //this.getUI().sidebar('toggle')
       this.getUI().addClass('visible')
@@ -36,11 +38,20 @@ let config = {
       console.log('open')
     },
     close: function () {
+      this.opened = false
       //this.getUI().modal('hide')
       //this.getUI().sidebar('toggle')
       this.getUI().removeClass('visible')
       this.templateElement.removeClass('sidebar')
       console.log('close')
+    },
+    toggle: function () {
+      if (this.opened) {
+        this.close()
+      }
+      else {
+        this.open()
+      }
     }
   }
 }

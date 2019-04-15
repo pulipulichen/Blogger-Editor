@@ -16,6 +16,10 @@ let SummerNoteButtons = {
       CodeInserter: (c) => {
         return this.CodeInserter(c)
       },
+      OutlineNavigator: (c) => {
+        return this.OutlineNavigator(c)
+      },
+      
       popoverImageSizeOriginal: (c) => {
         return this.popoverImageSizeOriginal(c)
       },
@@ -45,6 +49,11 @@ let SummerNoteButtons = {
   wrapNIWSF: function (text) {
     return `<span class="non-invasive-web-style-framework">${text}</span>`
   },
+  
+  // -------------------------
+  // model buttons
+  // -------------------------
+  
   CopyCode: function (context) {
     let contents = this.wrapNIWSF(`<i class="code icon"></i>Copy Code`)
     let tooltip = 'Copy Code'
@@ -87,6 +96,20 @@ let SummerNoteButtons = {
     }
     return this.build(contents, tooltip, click)
   },
+  OutlineNavigator: function (context) {
+    let contents = this.wrapNIWSF(`<i class="sitemap icon"></i> Outline`)
+    let tooltip = 'Outline Navigation'
+    let click = () => {
+      $v.OutlineNavigator.toggle()
+    }
+    return this.build(contents, tooltip, click)
+  },
+  
+  
+  // -------------------------
+  // image buttons
+  // -------------------------
+  
   removeImageTargetSize: function (target) {
     target = $(target)
 
