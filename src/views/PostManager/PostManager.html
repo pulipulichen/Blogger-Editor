@@ -91,7 +91,10 @@
               </a>
               <div class="description" 
                    v-if='post.abstract !== ""'>
-                {{ post.abstract }}
+                <div class="abstract">
+                  {{ post.abstract }}
+                </div>
+                
               </div>
               <div class="extra">
                 <div class="ui right floated">

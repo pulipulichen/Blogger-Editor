@@ -91,7 +91,7 @@ let VueHelper = {
     if (typeof(value) === 'object') {
       value = JSON.stringify(value)
     }
-    localStorage[lsKey] = value;
+    localStorage[lsKey] = value
   },
   _vueIdCount: 0,
   _vueContainer: null,

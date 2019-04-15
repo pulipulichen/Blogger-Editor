@@ -20,6 +20,7 @@ let InitHelper = {
       })
     }, 3000)
     */
+    $v.PostManager.open()
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()

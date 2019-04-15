@@ -393,9 +393,10 @@ let PostManager = {
       }
       let postBodyObject = $(postBody)
       let abstract = postBodyObject.text().trim()
-      if (abstract.length > 100) {
-        abstract = abstract.slice(0, 100).trim() + '...'
-      }
+      //let maxAbstractLength = 500
+      //if (abstract.length > maxAbstractLength) {
+      //  abstract = abstract.slice(0, maxAbstractLength).trim()
+      //}
       
       //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
       let thumbnail = null
