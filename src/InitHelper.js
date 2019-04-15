@@ -34,6 +34,7 @@ let InitHelper = {
     //$v.FileUploader.open()
     //$v.ThemeManager.TemplateBuilder.open()
     //$v.CodeInserter.open()
+    $v.OutlineNavigator.open()
     
     //$v.PageLoader.open()
     FunctionHelper.triggerCallback(callback)
