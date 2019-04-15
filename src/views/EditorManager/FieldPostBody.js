@@ -46,6 +46,14 @@ let FieldPostBody = {
     
     return this.get().summernote('restoreTarget')
   },
+  getSelectText: function () {
+    if (this.debug.disableSummerNode === true) {
+      return
+    }
+    
+    let range = this.get().summernote('createRange')
+    return range.toString() // your selected text
+  },
   getElement: function () {
     if (this.debug.disableSummerNode === true) {
       return this.get()

@@ -10,3 +10,20 @@ body {
 #template {
   margin-top: 3rem !important;
 }
+
+.ui.top.menu {
+  top: -4rem !important;
+}
+
+#template .entry-content {
+  color: #000;
+}
+
+#template .entry-content p {
+  text-indent: 2rem;
+  color: #000;
+}
+
+#template .entry-content hr {
+  border-top: 3px solid #ce8a42;
+}

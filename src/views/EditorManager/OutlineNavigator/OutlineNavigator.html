@@ -1,6 +1,11 @@
 <div class="ui right menu vertical sidebar uncover animating"
      v-bind:class="name"
      ref="modal">
+  <a class="item go-to-top" 
+     :title="$t('Go to Top')"
+     @click="scrollToTop()">
+     {{ $t('Go to Top') }}
+  </a>
   <template v-for="mainHeading in headings">
     <a class="item" 
        :title="mainHeading.text"
@@ -15,4 +20,9 @@
      </a>
     </template>
   </template>
+  <a class="item go-to-footer" 
+     :title="$t('Go to Footer')"
+     @click="scrollToFooter()">
+     {{ $t('Go to Footer') }}
+  </a>
 </div>

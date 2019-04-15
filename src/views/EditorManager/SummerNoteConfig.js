@@ -35,13 +35,13 @@ let SummerNoteConfig = {
     
     let toolbar = [
         ['view', ['codeview', 'OutlineNavigator']],
-        ['style', ['style']],
+        ['style', ['style', 'transSelected']],
         ['font', ['undo', 'bold', 'italic', 'underline', 'clear']],
         //['fontname', ['fontname']],
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['hr', 'link', 'picture', 'video', 'IframePrompt', 'FileUploader', 'CodeInserter', 'insertMore']],
+        //['table', []],
+        ['insert', ['hr', 'link', 'picture', 'video', 'table', 'IframePrompt', 'FileUploader', 'CodeInserter', 'insertMore']],
         ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         ['mybutton', ['ImageReplacer', 'CopyHTML']],
         ['help', [/*'fullscreen',*/ 'help']]

@@ -2,6 +2,10 @@ html {
   font-size: 14pt !important;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 #template {
 
   .navbar.section,
@@ -44,39 +48,56 @@ html {
   .note-editor .note-editable img {
     background: transparent;
     box-shadow: none;
-    border-width: 0;
+    //border-width: 0;
+    border: 1px dotted gray;
   } 
   
   a[name="more"] {
     display: block;
-    border-top: 1px dotted gray;
+    border-top: 3px dotted gray;
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
   
   h1 {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
   
   h2 {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
   h3 {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  h4 {
     font-size: 1.5rem;
     font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  h4 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
   h5 {
     font-size: 1rem;
     font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
   h6 {
     font-size: 1rem;
     font-style: italic;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .entry-content hr {
+    border-top: 3px solid gray;
   }
 }

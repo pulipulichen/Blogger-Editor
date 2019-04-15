@@ -1,6 +1,6 @@
 .ui.sidebar {
-  top: 2.85714286em !important;
-  max-height: calc(100% - 2.85714286em) !important;
+  //top: 2.85714286em !important;
+  //max-height: calc(100% - 2.85714286em) !important;
   visibility: hidden !important;
 }
 
@@ -16,4 +16,10 @@ a.item {
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
+  
+  &.go-to-top,
+  &.go-to-footer {
+    color: gray !important;
+    text-align: center;
+  }
 }

@@ -1,8 +1,10 @@
 {
   "en": {
-    "Title": "Example Title"
+    "Go to Top": "Go to Top",
+    "Go to Footer": "Go to Footer"
   },
   "zh-TW": {
-    "Title": "範例標題"
+    "Go to Top": "移至頁首",
+    "Go to Footer": "移至頁尾"
   }
 }

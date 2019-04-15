@@ -119,7 +119,7 @@ let config = {
           level: headingLevel
         })
       })
-      console.log(headingsOriginal)
+      //console.log(headingsOriginal)
       //console.log(headings.length)
       
       let headings = []
@@ -187,6 +187,18 @@ let config = {
         //console.log(['decrease height', toolbarHeight])
       }
       this.windowElement.scrollTop(top)
+    },
+    scrollToTop: function () {
+      if (this.windowElement === null) {
+        this.windowElement = $(window)
+      }
+      this.windowElement.scrollTop(0)
+    },
+    scrollToFooter: function () {
+      if (this.windowElement === null) {
+        this.windowElement = $(window)
+      }
+      this.windowElement.scrollTop($(document).height() + 500)
     }
   }
 }

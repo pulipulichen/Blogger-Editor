@@ -34,6 +34,9 @@ let SummerNoteButtons = {
       },
       insertMore: (c) => {
         return this.insertMore(c)
+      },
+      transSelected: (c) => {
+        return this.transSelected(c)
       }
     }
   },
@@ -153,7 +156,20 @@ let SummerNoteButtons = {
     let contents = this.wrapNIWSF(`<i class="ellipsis horizontal icon"></i> More`)
     let tooltip = 'Insert More'
     let click = () => {
-      $v.EditorManager.FieldPostBody.insert('<a name="more"></a>')
+      let postBody = $v.EditorManager.FieldPostBody
+      postBody.getElement().find('a[name="more"]').remove()
+      postBody.insert('<a name="more"></a>')
+    }
+    return this.build(contents, tooltip, click)
+  },
+  transSelected: function (context) {
+    let contents = this.wrapNIWSF(`<i class="language icon"></i> Trans`)
+    let tooltip = 'Translate Selected'
+    let click = () => {
+      let text = $v.EditorManager.FieldPostBody.getSelectText()
+      text = encodeURI(text)
+      let url = `https://translate.google.com/#view=home&op=translate&sl=auto&tl=auto&text=${text}`
+      WindowHelper.popup(url)
     }
     return this.build(contents, tooltip, click)
   },
