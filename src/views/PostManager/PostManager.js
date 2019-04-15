@@ -378,6 +378,10 @@ let PostManager = {
         return FunctionHelper.triggerCallback(callback)
       }
       
+      if ($v.EditorManager.OutlineNavigator !== null) {
+        $v.EditorManager.OutlineNavigator.analyseHeadings()
+      }
+      
       if (typeof(postBody) !== 'string') {
         if (typeof(postBody.html) === 'function') {
           postBody = postBody.html()
