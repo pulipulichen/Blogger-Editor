@@ -1216,10 +1216,11 @@ a.note-dropdown-item:hover {
   z-index: 600;
 }
 
+/*
 .note-toolbar.fixed {
   max-height: 80px;
   overflow-y: auto;
-}
+}*/
 
 .note-popover .note-popover-content>.note-btn-group,
 .note-toolbar>.note-btn-group {

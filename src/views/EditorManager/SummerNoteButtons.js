@@ -31,6 +31,9 @@ let SummerNoteButtons = {
       },
       imageSizeDefault: (c) => {
         return this.imageSizeDefault(c)
+      },
+      insertMore: (c) => {
+        return this.insertMore(c)
       }
     }
   },
@@ -143,6 +146,14 @@ let SummerNoteButtons = {
       postBody.find('img').each((i, img) => {
         this.removeImageTargetSize(img)
       })
+    }
+    return this.build(contents, tooltip, click)
+  },
+  insertMore: function (context) {
+    let contents = this.wrapNIWSF(`<i class="ellipsis horizontal icon"></i> More`)
+    let tooltip = 'Insert More'
+    let click = () => {
+      $v.EditorManager.FieldPostBody.insert('<a name="more"></a>')
     }
     return this.build(contents, tooltip, click)
   },

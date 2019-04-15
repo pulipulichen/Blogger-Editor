@@ -96,24 +96,30 @@ let config = {
       if (this.postBody === null) {
         this.postBody = $v.EditorManager.FieldPostBody.getElement()
       }
-      let headingsSelector = 'h1,h2,h3,h4,h5'
+      let headingsSelector = 'h1,h2,h3,h4,h5,h6'
       let headingsOriginal = []
-      let minHeadingLevel = 5
+      let minHeadingLevel = 6
       this.headingsElement = this.postBody.find(headingsSelector)
       this.headingsElement.each((i, headingElement) => {
         let tagName = headingElement.tagName
+        
+        let text = $(headingElement).text().trim()
+        if (text === '') {
+          return
+        }
+        
         let headingLevel = parseInt(tagName.slice(1), 10)
         if (headingLevel < minHeadingLevel) {
           minHeadingLevel = headingLevel
         }
         
-        let text = $(headingElement).text().trim()
         headingsOriginal.push({
           text: text,
           eq: i,
           level: headingLevel
         })
       })
+      console.log(headingsOriginal)
       //console.log(headings.length)
       
       let headings = []

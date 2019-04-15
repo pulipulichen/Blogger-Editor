@@ -36,12 +36,12 @@ let SummerNoteConfig = {
     let toolbar = [
         ['view', ['codeview', 'OutlineNavigator']],
         ['style', ['style']],
-        ['font', ['undo', 'bold', 'underline', 'clear']],
+        ['font', ['undo', 'bold', 'italic', 'underline', 'clear']],
         //['fontname', ['fontname']],
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
         ['table', ['table']],
-        ['insert', ['hr', 'link', 'picture', 'video', 'IframePrompt', 'FileUploader', 'CodeInserter']],
+        ['insert', ['hr', 'link', 'picture', 'video', 'IframePrompt', 'FileUploader', 'CodeInserter', 'insertMore']],
         ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         ['mybutton', ['ImageReplacer', 'CopyHTML']],
         ['help', [/*'fullscreen',*/ 'help']]
@@ -77,12 +77,16 @@ let SummerNoteConfig = {
       return []
     }
     
+    /*
     let styleTags = ['p', 'code', 'h4', 'h5', 'h6', {
         tag: 'sub',
         title: 'ttt',
         style: 'font-weight: bold;',
         className: 'ttt'
     }]
+    */
+  
+    let styleTags = ['p', 'code', 'h2', 'h3', 'h4', 'h5', 'h6']
     //let styleTags = [
     //  this.buildButtonCopyCode()
     //]
