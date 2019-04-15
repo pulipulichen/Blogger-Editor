@@ -6919,6 +6919,7 @@ sel.addRange(range);
                   top: otherBarHeight,
                   width: editorWidth
               });
+              this.$toolbar.addClass('fixed')
           }
           else {
               this.$toolbar.css({
@@ -6926,6 +6927,7 @@ sel.addRange(range);
                   top: 0,
                   width: '100%'
               });
+              this.$toolbar.removeClass('fixed')
           }
       };
       Toolbar.prototype.changeContainer = function (isFullscreen) {

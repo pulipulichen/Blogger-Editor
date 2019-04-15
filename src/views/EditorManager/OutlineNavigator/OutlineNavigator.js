@@ -176,7 +176,7 @@ let config = {
       top = top - toolbarHeight - 10
       
       if (top < toolbarHeight
-              || toolbarPostion === 'static') {
+              || toolbarPostion !== 'fixed') {
         top = top - toolbarHeight
         //console.log(['decrease height', toolbarHeight])
       }
