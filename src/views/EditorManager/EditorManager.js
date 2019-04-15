@@ -18,6 +18,7 @@ import ImageReplacerSfc from './ImageReplacer/ImageReplacer.vue'
 import IframePromptSfc from './IframePrompt/IframePrompt.vue'
 import FileUploaderSfc from './FileUploader/FileUploader.vue'
 import CodeInserterSfc from './CodeInserter/CodeInserter.vue'
+import OutlineNavigatorSfc from './OutlineNavigator/OutlineNavigator.vue'
 
 var EditorManager = {
   //name: "main-content",
@@ -45,7 +46,8 @@ var EditorManager = {
       ImageReplacer: null,
       IframePrompt: null,
       FileUploader: null,
-      CodeInserter: null
+      CodeInserter: null,
+      OutlineNavigator: null,
     }
   },
   mounted() {
@@ -82,6 +84,12 @@ var EditorManager = {
     if (ConfigHelper.get('debug').disableCodeInserter === false) {
       VueHelper.init(CodeInserterSfc, (vue) => {
         this.CodeInserter = vue
+      })
+    }
+    
+    if (ConfigHelper.get('debug').disableOutlineNavigator === false) {
+      VueHelper.init(OutlineNavigatorSfc, (vue) => {
+        this.OutlineNavigator = vue
       })
     }
     
