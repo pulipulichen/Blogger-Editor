@@ -536,6 +536,11 @@ let PostManager = {
       return DayjsHelper.postDate(unix)
     },
     backupPost: function (id, callback) {
+      if (typeof(id) === 'function') {
+        callback = id
+        id = this.editingPostId
+      }
+      
       $v.PageLoader.open()
       let folderName = `blogger-editor-post-${id}`
       this.createBackupZip(id, (zip) => {
@@ -545,13 +550,19 @@ let PostManager = {
       })
     },
     createBackupZip: function (id, callback) {
+      if (typeof(id) === 'function') {
+        callback = id
+        id = this.editingPostId
+      }
+      
       let FieldPostBody = $v.EditorManager.FieldPostBody
       this.getPost(id, (post) => {
         post = JSON.parse(JSON.stringify(post))
         this.getPostBody(id, (postBody) => {
           
           let zip = new JSZip()
-          let folderName = `blogger-editor-post-${id}`
+          let nowFormat = DayjsHelper.nowFormat()
+          let folderName = `blogger-editor-post-${id}-${nowFormat}`
           let folder = zip.folder(folderName);
           
           //let thumb = post.thumbnail

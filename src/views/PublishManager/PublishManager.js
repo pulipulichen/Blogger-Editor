@@ -89,6 +89,12 @@ let config = {
     popup: function (name) {
       let url = this[name]
       WindowHelper.popup(url, name)
+    },
+    openImageReplacer: function () {
+      $v.EditorManager.ImageReplacer.open()
+    },
+    downloadPostBackup: function () {
+      $v.PostManager.backPost()
     }
   }
 }

@@ -2,24 +2,46 @@
   <i class="close icon" @click="close"></i>
   <div class="header">
     <i class="image icon"></i>
-    Image Replace
+    {{ $t('Image Replace') }}
   </div>
   <div class="content">
     <div class="description fixed-height ui form">
       <div class="no-images step step-0"
            v-bind:class="{hide: (currentStep !== 0)}">
         <div class="ui warning message">
-          No filesystem image in post body.
+          {{ $t('No filesystem image in post body.') }}
         </div>
       </div>
+      
+      <!-- -------------------------------->
+      
       <div class="step step-1"
            v-bind:class="{hide: (currentStep !== 1)}">
+        
+        <div class="statistic"
+             :class="{red: (filesystemImageCount > 0)}">
+           <div class="value">
+             {{ filesystemImageCount }}
+           </div>
+           <div class="label">
+             Filesystem 
+             <span v-if="filesystemImageCount === 1">
+               image
+             </span>
+             <span v-if="filesystemImageCount > 1">
+               images
+             </span>
+             Remained
+          </div>
+        </div>
+        
         <div class="ui fluid positive labeled icon massive button"
              @click="downloadImagePackage"
              v-bind:class="{ disabled: isCreatingImagePackage }">
           <i class="file archive icon"></i>
-          Download Image Package
+          {{ $t('Download Image Package') }}
         </div>
+        
         <div class="field">
           <div class="ui checkbox">
             <input type="checkbox" v-model="skipTutorial" />
@@ -28,12 +50,15 @@
         </div>
 
       </div>
+      
+      <!-- ---------------------- -->
+      
       <div class="step step-2"
            v-bind:class="{hide: (currentStep !== 2)}">
         <div class="ui message">
-          Unzip package into a folder.
+          {{ $t('Unzip package into a folder.') }}
           <a href="https://www.wikihow.com/Unzip-a-File">
-            (How to unzip Image Package)
+            {{ $t('(How to unzip Image Package)') }}
           </a>
         </div>
         <div class="ui image">
@@ -43,7 +68,7 @@
       <div class="step step-3"
            v-bind:class="{hide: (currentStep !== 3)}">
         <div class="ui message">
-          Open a Blogger draft in Compose mode and empty content.
+          {{ $t('Open a Blogger draft in Compose mode and empty content.') }}
         </div>
         <div class="ui form">
           <div class="fields">
@@ -51,13 +76,13 @@
                  @click="openBloggerDraft">
               <div class="ui fluid positive button"
                    v-bind:class="{disabled: disableUploadImageDraft}">
-                Open Blogger Draft
+                {{ $t('Open Blogger Draft') }}
               </div>
             </div>
             <div class="five wide field"
                  @click="openBloggerDraftSetting">
               <div class="ui fluid button">
-                Setting
+                {{ $t('Setting') }}
               </div>
             </div>
           </div>
@@ -69,7 +94,7 @@
       <div class="step step-4"
            v-bind:class="{hide: (currentStep !== 4)}">
         <div class="ui message">
-          Drag images into Blogger draft and upload them.
+          {{ $t('Drag images into Blogger draft and upload them.') }}
         </div>
         <div class="ui image">
           <img src="static/ImageReplacer/image-uploaded.png" />
@@ -78,7 +103,7 @@
       <div class="step step-5"
            v-bind:class="{hide: (currentStep !== 5)}">
         <div class="ui message">
-          Switch to HTML mode, copy HTML 
+          {{ $t('Switch to HTML mode, copy HTML.') }}
         </div>
         <div class="ui image">
           <img src="static/ImageReplacer/html-code.png" />
@@ -88,7 +113,9 @@
            v-bind:class="{hide: (currentStep !== 6)}">
         <div class="ui form">
           <div class="field">
-            <label>Paste HTML into following field:</label>
+            <label>
+              {{ $t('Paste HTML into following field:') }}
+            </label>
             <textarea id="imageHTMLtextarea"
                       v-model="imageHTML" 
                       @change="validateImageHTML"
@@ -108,7 +135,7 @@
                 {{ replacedImageCount }}
               </div>
               <div class="label">
-                Replaced
+                {{ $t('Replaced') }}
               </div>
             </div>
 
@@ -135,7 +162,7 @@
             <i class="check circle icon"></i>
             <div class="content">
               <div class="header">
-                Well done.
+                {{ $t('Well done!') }}
               </div>
               All filesystem 
               <span v-if="replacedImageCount === 1">
@@ -153,7 +180,7 @@
             <i class="exclamation triangle icon"></i>
             <div class="content">
               <div class="header">
-                Not Finished!
+                {{ $t('Not Finished!') }}
               </div>
               There are still 
               {{ filesystemImageCount }}
@@ -166,12 +193,30 @@
               </span>
               need to upload.
             </div>
+            
+            <div class="ui fluid positive labeled icon massive button"
+                 @click="downloadImagePackageAndBackPrevStep"
+                 :class="{ 'disabled': isCreatingImagePackage }">
+              <i class="file archive icon"></i>
+              {{ $t('Download image package and upload again') }}
+            </div>
+
+          </div>
+          
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" v-model="skipTutorial" />
+              {{ $t('Skip tutorial') }}
+            </div>
           </div>
 
         </div>
       </div>
     </div>
   </div>
+  
+  <!-- -------------------------- -->
+  
   <div class="actions">
     <div class="ui labeled icon button"
          @click='prevStep'

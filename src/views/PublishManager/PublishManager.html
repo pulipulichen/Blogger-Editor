@@ -12,6 +12,22 @@
       <div class="description ui form">
         
         <div class="field">
+          <div class="ui fluid buttons">
+            
+            <div class="ui button"
+                 @click="openImageReplacer">
+              {{ $t("Upload Image") }}
+            </div>
+            
+            <div class="ui button"
+                 @click="downloadPostBackup">
+              {{ $t("Backup") }}
+            </div>
+            
+          </div>
+        </div>
+        
+        <div class="field">
           <label>
             {{ $t("Blogger Console") }}
           </label>

@@ -149,6 +149,11 @@ var config = {
         FunctionHelper.triggerCallback(callback)
       }
     },
+    downloadImagePackageAndBackPrevStep: function () {
+      this.downloadImagePackage(() => {
+        this.prevStep()
+      })
+    },
     prevStep: function () {
       if (this.skipTutorial === true 
               && this.currentStep === 6) {
