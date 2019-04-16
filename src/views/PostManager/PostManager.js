@@ -182,7 +182,7 @@ let PostManager = {
           data = [postId, unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
         }
         else {
-          data = [unix, unix, title, labels, abstract, thumbnail]
+          data = [unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
         }
       }
       
@@ -536,7 +536,8 @@ let PostManager = {
       return DayjsHelper.postDate(unix)
     },
     backupPost: function (id, callback) {
-      if (typeof(id) === 'function') {
+      if (typeof(id) === 'undefined' 
+              || typeof(id) === 'function') {
         callback = id
         id = this.editingPostId
       }
@@ -550,7 +551,8 @@ let PostManager = {
       })
     },
     createBackupZip: function (id, callback) {
-      if (typeof(id) === 'function') {
+      if (typeof(id) === 'undefined' 
+              || typeof(id) === 'function') {
         callback = id
         id = this.editingPostId
       }

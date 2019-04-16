@@ -5,11 +5,12 @@
     {{ $t('Image Replace') }}
   </div>
   <div class="content">
-    <div class="description fixed-height ui form">
+    <div class="description ui form"
+         :class="{'fixed-height': (currentStep !== 0)}">
       <div class="no-images step step-0"
-           v-bind:class="{hide: (currentStep !== 0)}">
-        <div class="ui warning message">
-          {{ $t('No filesystem image in post body.') }}
+           :class="{hide: (currentStep !== 0)}">
+        <div class="ui green message">
+          {{ $t('No filesystem image in post body') }}
         </div>
       </div>
       

@@ -158,7 +158,7 @@ let SummerNoteButtons = {
     let click = () => {
       let postBody = $v.EditorManager.FieldPostBody
       postBody.getElement().find('a[name="more"]').remove()
-      postBody.insert('<a name="more"><!-- --></a>')
+      postBody.insert('<a name="more"></a><!--more-->')
     }
     return this.build(contents, tooltip, click)
   },

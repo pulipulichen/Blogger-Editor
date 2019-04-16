@@ -94,7 +94,7 @@ let config = {
       $v.EditorManager.ImageReplacer.open()
     },
     downloadPostBackup: function () {
-      $v.PostManager.backPost()
+      $v.PostManager.backupPost()
     }
   }
 }

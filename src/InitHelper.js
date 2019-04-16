@@ -4,7 +4,7 @@ let InitHelper = {
     //$v.EditorManager.FieldPostBody.cleanFileSystem()
     //$v.EditorManager.FieldPostBody.activateCodeView()
     
-    //$v.ImageReplacer.open()
+    //$v.EditorManager.ImageReplacer.open()
 
     //WindowHelper.alert('TEST', () => {
     //  alert('OK')
