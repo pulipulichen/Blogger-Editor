@@ -9,6 +9,7 @@ var config = {
   //name: "main-content",
   data: function () {
     return {
+      name: "ImageReplacer",
       ui: undefined,
       currentStep: 0,
       isCreatingImagePackage: false,
@@ -36,6 +37,7 @@ var config = {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')
         this.ui = this.ui = $('.ImageReplacer.ui.modal')
+        //this.ui.find('.ui.checkbox').checkbox()
       }
       return this.ui
     },
@@ -48,6 +50,7 @@ var config = {
     },
     validateHasFileSystemImage: function () {
       if (FieldPostBody.hasFileSystemImage()) {
+        this.filesystemImageCount = FieldPostBody.countFileSystemImage()
         this.currentStep = 1
         return true
       }

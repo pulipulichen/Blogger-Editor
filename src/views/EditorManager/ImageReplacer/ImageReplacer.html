@@ -1,4 +1,6 @@
-<div class="ui modal ImageReplacer">
+<div class="ui modal"
+     :class="name"
+     ref="modal">
   <i class="close icon" @click="close"></i>
   <div class="header">
     <i class="image icon"></i>
@@ -19,34 +21,40 @@
       <div class="step step-1"
            v-bind:class="{hide: (currentStep !== 1)}">
         
-        <div class="statistic"
-             :class="{red: (filesystemImageCount > 0)}">
-           <div class="value">
-             {{ filesystemImageCount }}
+        <div class="ui statistics first-filesystem-remained">
+          <div class="statistic"
+              :class="{red: (filesystemImageCount > 0)}">
+            <div class="value">
+              {{ filesystemImageCount }}
+            </div>
+            <div class="label">
+              Filesystem 
+              <span v-if="filesystemImageCount === 1">
+                image
+              </span>
+              <span v-if="filesystemImageCount > 1">
+                images
+              </span>
+              Remained
            </div>
-           <div class="label">
-             Filesystem 
-             <span v-if="filesystemImageCount === 1">
-               image
-             </span>
-             <span v-if="filesystemImageCount > 1">
-               images
-             </span>
-             Remained
-          </div>
+         </div>
         </div>
         
-        <div class="ui fluid positive labeled icon massive button"
+        <div class="ui fluid yellow labeled icon button"
              @click="downloadImagePackage"
              v-bind:class="{ disabled: isCreatingImagePackage }">
           <i class="file archive icon"></i>
           {{ $t('Download Image Package') }}
         </div>
         
-        <div class="field">
+        <div class="right aligned field">
           <div class="ui checkbox">
-            <input type="checkbox" v-model="skipTutorial" />
-            {{ $t('Skip tutorial') }}
+            <input type="checkbox" 
+                   v-model="skipTutorial"
+                   @change="persist"/>
+            <label>
+              {{ $t('Skip tutorial') }}
+            </label>
           </div>
         </div>
 
@@ -195,7 +203,7 @@
               need to upload.
             </div>
             
-            <div class="ui fluid positive labeled icon massive button"
+            <div class="ui fluid yellow labeled icon button"
                  @click="downloadImagePackageAndBackPrevStep"
                  :class="{ 'disabled': isCreatingImagePackage }">
               <i class="file archive icon"></i>
@@ -204,11 +212,13 @@
 
           </div>
           
-          <div class="field">
-            <div class="ui checkbox">
-              <input type="checkbox" v-model="skipTutorial" />
+          <div class="ui checkbox">
+            <input type="checkbox" 
+                   v-model="skipTutorial"
+                   @change="persist" />
+            <label>
               {{ $t('Skip tutorial') }}
-            </div>
+            </label>
           </div>
 
         </div>
