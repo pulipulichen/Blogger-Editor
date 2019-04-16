@@ -17,8 +17,12 @@ var config = {
       replacedImageCount: 0,
       filesystemImageCount: 0,
       disableUploadImageDraft: false,
-      FieldPostBody: null
+      FieldPostBody: null,
+      skipTutorial: false,
     }
+  },
+  mounted: function () {
+    VueHelper.mountLocalStorageBoolean(this, 'skipTutorial')
   },
   created: function () {
     $v.ImageReplacer = this
@@ -146,17 +150,32 @@ var config = {
       }
     },
     prevStep: function () {
-      this.currentStep--
+      if (this.skipTutorial === true 
+              && this.currentStep === 6) {
+        this.currentStep = 1
+      }
+      else {
+        this.currentStep-- 
+      }
     },
     nextStep: function () {
-      this.currentStep++
+      if (this.skipTutorial === true 
+              && this.currentStep === 1) {
+        this.currentStep = 6
+      }
+      else {
+        this.currentStep++
+      }
     },
     openBloggerDraft: function () {
       $v.EditorManager.openBloggerDraft()
     },
     openBloggerDraftSetting: function () {
       $v.EditorManager.open('#uploadImageDraft')
-    }
+    },
+    persist() {
+      VueHelper.persistLocalStorage(this, 'skipTutorial')
+    },
   }
 }
 
