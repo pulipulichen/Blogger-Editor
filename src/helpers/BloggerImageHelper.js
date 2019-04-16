@@ -52,7 +52,7 @@ BloggerImageHelper = {
     if (typeof(img.width) !== 'function') {
       img = $(img)
     }
-    return Math.max(img.width(), img.height())
+    return parseInt(Math.max(img.width(), img.height()), 10)
   },
   readyToResize: function (img) {
     let defaultSize = $v.EditorManager.imageSizeDefault
@@ -82,11 +82,11 @@ BloggerImageHelper = {
       // we have to resize them
       if (width > height) {
         height = Math.round(height * (defaultSize / width))
-        width = defaultSize
+        width = Math.round(defaultSize)
       }
       else {
         width = Math.round(width * (defaultSize / height))
-        height = defaultSize
+        height = Math.round(defaultSize)
       }
       return {
         width: width,

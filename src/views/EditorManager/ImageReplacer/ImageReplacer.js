@@ -102,7 +102,8 @@ var config = {
         
         $v.PostManager.getEditingPostId((id) => {
           let zip = new JSZip();
-          let folderName = `post-${id}-images`
+          let nowFormat = DayjsHelper.nowFormat()
+          let folderName = `post-${id}-images-${nowFormat}`
           let folder = zip.folder(folderName);
 
           let loop = (i) => {

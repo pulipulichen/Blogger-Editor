@@ -5,7 +5,7 @@
     Image Replace
   </div>
   <div class="content">
-    <div class="description fixed-height">
+    <div class="description fixed-height ui form">
       <div class="no-images step step-0"
            v-bind:class="{hide: (currentStep !== 0)}">
         <div class="ui warning message">
@@ -19,6 +19,12 @@
              v-bind:class="{ disabled: isCreatingImagePackage }">
           <i class="file archive icon"></i>
           Download Image Package
+        </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" v-model="skipTutorial" />
+            {{ $t('Skip tutorial') }}
+          </div>
         </div>
 
       </div>
