@@ -40,7 +40,24 @@ let SummerNoteButtons = {
       styleP: (c) => {
         return this.styleP(c)
       },
-      
+      styleH1: (c) => {
+        return this.styleH1(c)
+      },
+      styleH2: (c) => {
+        return this.styleH2(c)
+      },
+      styleH3: (c) => {
+        return this.styleH3(c)
+      },
+      styleH4: (c) => {
+        return this.styleH4(c)
+      },
+      styleH5: (c) => {
+        return this.styleH5(c)
+      },
+      styleH6: (c) => {
+        return this.styleH6(c)
+      },
       
       // ---------------
       // Buttons on Popover
@@ -132,13 +149,81 @@ let SummerNoteButtons = {
   // style buttons
   // -------------------------
   
+  styleTagName: function (tagName) {
+    let target = $v.EditorManager.FieldPostBody.getSelectTarget()
+    //console.log($(target).html())
+    let parent = target.sc.parentNode
+    if (parent.tagName.toLowerCase() === tagName.toLocaleLowerCase()) {
+      return
+    }
+
+    parent = $(parent)
+    //console.log(parent.prop('className'))
+    if (parent.hasClass('note-editing-area') === false) {
+      let content = parent.html()
+      parent.replaceWith(`<${tagName}>${content}</${tagName}>`)
+    }
+  },
+  
   styleP: function (context) {
     let contents = this.wrapNIWSF(`&lt;p&gt;`)
     let tooltip = 'Set as &lt;p&gt; tag.'
     let click = () => {
-      //console.log('style P')
-      
-      
+      this.styleTagName('p')
+    }
+    return this.build(contents, tooltip, click)
+  },
+  styleH1: function (context) {
+    let tagName = 'h1'
+    let contents = this.wrapNIWSF(`&lt;${tagName}&gt;`)
+    let tooltip = `Set as &lt;${tagName}&gt; tag.`
+    let click = () => {
+      this.styleTagName(tagName)
+    }
+    return this.build(contents, tooltip, click)
+  },
+  styleH2: function (context) {
+    let tagName = 'h2'
+    let contents = this.wrapNIWSF(`&lt;${tagName}&gt;`)
+    let tooltip = `Set as &lt;${tagName}&gt; tag.`
+    let click = () => {
+      this.styleTagName(tagName)
+    }
+    return this.build(contents, tooltip, click)
+  },
+  styleH3: function (context) {
+    let tagName = 'h3'
+    let contents = this.wrapNIWSF(`&lt;${tagName}&gt;`)
+    let tooltip = `Set as &lt;${tagName}&gt; tag.`
+    let click = () => {
+      this.styleTagName(tagName)
+    }
+    return this.build(contents, tooltip, click)
+  },
+  styleH4: function (context) {
+    let tagName = 'h4'
+    let contents = this.wrapNIWSF(`&lt;${tagName}&gt;`)
+    let tooltip = `Set as &lt;${tagName}&gt; tag.`
+    let click = () => {
+      this.styleTagName(tagName)
+    }
+    return this.build(contents, tooltip, click)
+  },
+  styleH5: function (context) {
+    let tagName = 'h5'
+    let contents = this.wrapNIWSF(`&lt;${tagName}&gt;`)
+    let tooltip = `Set as &lt;${tagName}&gt; tag.`
+    let click = () => {
+      this.styleTagName(tagName)
+    }
+    return this.build(contents, tooltip, click)
+  },
+  styleH6: function (context) {
+    let tagName = 'h6'
+    let contents = this.wrapNIWSF(`&lt;${tagName}&gt;`)
+    let tooltip = `Set as &lt;${tagName}&gt; tag.`
+    let click = () => {
+      this.styleTagName(tagName)
     }
     return this.build(contents, tooltip, click)
   },

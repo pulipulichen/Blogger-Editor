@@ -5141,10 +5141,13 @@
               
               let spans, styleNodesOption = {}
               
-              console.log([options.tagName, parentTagName])
-              console.log([options.className, parentClassName])
-              console.log([options.style, parentStyle])
-              console.log([rng.sc.nodeValue])
+              /**
+               * @Author Pulipuli Chen 20190417
+               */
+              //console.log([options.tagName, parentTagName])
+              //console.log([options.className, parentClassName])
+              //console.log([options.style, parentStyle])
+              //console.log([rng.sc.nodeValue])
               
               let reset = false
               
