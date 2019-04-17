@@ -19,6 +19,7 @@ const CONFIG = {
     disableFileUploader: false,
     disableCodeInserter: false,
     disableOutlineNavigator: false,
+    disableSnippetInserter: false,
   },
   FileUploader: {
     links: [

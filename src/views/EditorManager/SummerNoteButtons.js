@@ -24,6 +24,12 @@ let SummerNoteButtons = {
       OutlineNavigator: (c) => {
         return this.OutlineNavigator(c)
       },
+      SnippetInserter: (c) => {
+        return this.SnippetInserter(c)
+      },
+      
+      // -------
+      
       imageSizeOriginal: (c) => {
         return this.imageSizeOriginal(c)
       },
@@ -144,6 +150,14 @@ let SummerNoteButtons = {
     let tooltip = 'Outline Navigation'
     let click = () => {
       $v.OutlineNavigator.toggle()
+    }
+    return this.build(contents, tooltip, click)
+  },
+  SnippetInserter: function (context) {
+    let contents = this.wrapNIWSF(`<i class="quote left icon"></i> Snippet`)
+    let tooltip = 'Insert snippet'
+    let click = () => {
+      $v.SnippetInserter.open()
     }
     return this.build(contents, tooltip, click)
   },

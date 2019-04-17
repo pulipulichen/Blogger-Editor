@@ -9,9 +9,15 @@ let i18n = {
     "Close": "關閉",
     "Language": "操作介面語系",
     "URL": "網址",
-    "Inert": "插入",
+    "Insert": "插入",
+    "INSERT": "插入",
     "Open": "開啓",
-    "Setting": "設定"
+    "Setting": "設定",
+    "Filter...": "篩選...",
+    "NEW": "新增",
+    "EDIT": "編輯",
+    "DELETE": "刪除",
+    "Cancel": "取消"
   }
 }
 export default i18n

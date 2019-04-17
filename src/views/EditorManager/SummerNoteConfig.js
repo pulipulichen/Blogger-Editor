@@ -7,7 +7,10 @@ let SummerNoteConfig = {
       loadDefault = true
     }
     
-    let config = $v.EditorManager.summerNoteConfigToolbar.trim()
+    let config
+    if (typeof($v.EditorManager.summerNoteConfigToolbar) === 'string') {
+      config = $v.EditorManager.summerNoteConfigToolbar.trim()
+    }
     
     if (config !== undefined 
             && config !== '') {
@@ -41,7 +44,8 @@ let SummerNoteConfig = {
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
         //['table', []],
-        ['insert', ['hr', 'link', 'picture', 'downloadImageTemplate', 'video', 'table', 'IframePrompt', 'FileUploader', 'CodeInserter', 'insertMore']],
+        ['insert', ['hr', 'link', 'picture', 'video', 'table', 'insertMore', 'downloadImageTemplate']],
+        ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
         ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         ['mybutton', ['ImageReplacer', 'CopyHTML']],
         ['help', [/*'fullscreen',*/ 'help']]

@@ -6,7 +6,7 @@ let config = {
     }
   },
   mounted: function () {
-    
+    //VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')
   },
   computed: {
     
@@ -31,7 +31,10 @@ let config = {
     },
     close: function () {
       this.getUI().modal('hide')
-    }
+    },
+    persist() {
+      //VueHelper.persistLocalStorage(this, 'summerNoteConfigStyleTags')
+    },
   }
 }
 

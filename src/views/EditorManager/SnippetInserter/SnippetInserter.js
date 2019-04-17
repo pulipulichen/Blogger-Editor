@@ -3,13 +3,34 @@ let config = {
     return {
       name: 'SnippetInserter',
       ui: undefined,
+      inited: false,
+      snippets: [],
+      filterCondition: '',
+      editingId: null,
+      editingSnippetName: '',
+      editingSnippet: '',
     }
   },
-  mounted: function () {
-    
-  },
   computed: {
-    
+    matchedSnippets: function () {
+      if (Array.isArray(this.snippets) === false) {
+        return []
+      }
+      return this.snippets.filter((snippet) => {
+        return ((this.filterCondition.trim() === "") 
+                || snippet.name.indexOf(this.filterCondition) > -1
+                || snippet.snippet.indexOf(this.filterCondition) > -1)
+      })
+    },
+    isSaveDisabled: function () {
+      if (this.editingId === null 
+              || this.editingSnippet.trim() === "") {
+        return 'disabled'
+      }
+      else {
+        return 'green'
+      }
+    }
   },
   created: function () {
     $v[this.name] = this
@@ -27,10 +48,174 @@ let config = {
       return this.ui
     },
     open: function () {
-      this.getUI().modal('show')
+      this.init(() => {
+        this.getUI().modal('show')
+      })
     },
     close: function () {
       this.getUI().modal('hide')
+    },
+    persist() {
+      //VueHelper.persistLocalStorage(this, 'summerNoteConfigStyleTags')
+    },
+    
+    // ---------------------
+    // data
+    // ---------------------
+    
+    init: function (callback) {
+      if (this.inited === false) {
+        this.inited = true
+        
+        let sqlCreateTable = `Create Table if not exists snippets
+          (id INTEGER PRIMARY KEY, 
+           lastUsedUnix INTEGER, 
+           name TEXT, 
+           snippet TEXT)`
+        WebSQLDatabaseHelper.exec(sqlCreateTable, () => {
+          let sqlSelect = `select * from snippets order by lastUsedUnix desc`
+          WebSQLDatabaseHelper.exec(sqlSelect, (rows) => {
+            console.log('init')
+            console.log(rows)
+            if (rows !== undefined) {
+              this.snippets = this.snippets.concat(rows)
+            }
+            FunctionHelper.triggerCallback(callback)
+          })
+        })
+      }
+      else {
+        FunctionHelper.triggerCallback(callback)
+      }
+    },
+    createSnippet: function () {
+      this.editingId = "?"
+    },
+    editSnippet: function (id) {
+      //console.log('editSnippet', id)
+      let snippet = this.filterSnippet(id)
+      if (snippet !== undefined) {
+        this.editingId = id
+        this.editingSnippetName = snippet.name
+        this.editingSnippet = snippet.snippet
+        this.getUI().find('input[name="snippetName"]').focus()
+      }
+    },
+    insertSnippet: function (id) {
+      //console.log('insertSnippet', id)
+      let snippet = this.filterSnippet(id)
+      if (snippet !== undefined) {
+        let code = snippet.snippet
+        $v.EditorManager.FieldPostBody.insert(code)
+        this.moveSnippetToTop(snippet)
+        this.updateSnippetLastUsedUnix(snippet)
+      }
+      
+      this.close()
+    },
+    deleteSnippet: function (id) {
+      //console.log(id)
+      let message = this.$t('Are you sure to delete snippet')
+      message = message + ` #${id}?`
+      WindowHelper.confirm(message, () => {
+        let sql = `DELETE FROM snippets WHERE id=${id}`
+        WebSQLDatabaseHelper.exec(sql)
+        this.snippets = this.snippets.filter(s => s.id !== id)
+      })
+    },
+    saveSnippet: function () {
+      //console.log('saveSnippet')
+      let unix = DayjsHelper.unix()
+      let sql
+      let data = [unix, this.editingSnippetName, this.editingSnippet]
+      if (typeof(this.editingId) === 'number') {
+        // update
+        sql = `UPDATE snippets SET 
+          lastUsedUnix = ?,
+          name = ?,
+          snippet = ?
+          WHERE id = ${this.editingId}`
+      }
+      else {
+        // create
+        sql = `insert into 
+          snippets(lastUsedUnix, name, snippet) 
+          values(?,?,?)`
+      }
+      console.log('before save')
+      console.log(sql)
+      console.log(data)
+      
+      let callback = (rows) => {
+        let snippet = rows[0]
+        console.log(snippet)
+        
+        this.editingId = null
+        this.moveSnippetToTop(snippet)
+      }
+      
+      WebSQLDatabaseHelper.exec(sql, data, (rows) => {
+        //console.log('saved snippet')
+        if (typeof(rows) === 'number') {
+          rows = [{
+              id: rows,
+              name: this.editingSnippetName, 
+              snippet: this.editingSnippet,
+              lastUsedUnix: unix
+          }]
+        }
+        else {
+          rows = [{
+              id: this.editingId,
+              name: this.editingSnippetName, 
+              snippet: this.editingSnippet,
+              lastUsedUnix: unix
+          }]
+        }
+        callback(rows)
+      })
+    },
+    moveSnippetToTop: function (snippet) {
+      let id = snippet.id
+      let matchedSnippet = this.filterSnippet(id)
+      if (matchedSnippet === undefined) {
+        this.snippets = [snippet].concat(this.snippets)
+      }
+      else {
+        let otherSnippets = this.snippets.filter(s => s.id !== id)
+        this.snippets = [snippet].concat(otherSnippets)
+      }
+    },
+    updateSnippetLastUsedUnix: function (snippet, callback) {
+      let unix = DayjsHelper.unix()
+      let sql = `UPDATE snippets SET 
+          lastUsedUnix = ?
+          WHERE id = ${snippet.id}`
+      let data = [unix]
+      WebSQLDatabaseHelper.exec(sql, data, callback)
+    },
+    cancelEdit: function () {
+      //console.log('saveSnippet')
+      this.editingId = null
+    },
+    filterSnippet: function (id) {
+      if (typeof(id) === 'number') {
+        let output = this.snippets.filter(s => s.id === id)
+        if (output.length > 0) {
+          return output[0]
+        }
+      }
+    },
+    
+    // ----------------------------
+    // config
+    // ----------------------------
+    
+    getConfig: function (callback) {
+      
+    },
+    setConfig: function (callback) {
+      
     }
   }
 }

@@ -106,7 +106,8 @@ let PostManager = {
         this.posts = []
         if (rows.length > 0) {
           for (let i = 0; i < rows.length; i++) {
-            let item = rows.item(i)
+            //let item = rows.item(i)
+            let item = rows[i]
             this.posts.push(item)
           }
           //console.log('PostManager.init()')
@@ -215,7 +216,8 @@ let PostManager = {
       let sql = 'select * from posts order by id desc limit 0, 1'
       WebSQLDatabaseHelper.exec(sql, (rows) => {
         if (rows.length > 0) {
-          rows = rows.item(0)
+          //rows = rows.item(0)
+          rows = rows[0]
         }
         else {
           rows = undefined
@@ -338,7 +340,8 @@ let PostManager = {
     },
     removePost: function (id, callback) {
       //console.log(id)
-      let message = `Are you sure to delete #${id}`
+      let message = this.$t('Are you sure to delete post')
+      message = message + ` #${id}`
       WindowHelper.confirm(message, () => {
         id = parseInt(id, 10)
         

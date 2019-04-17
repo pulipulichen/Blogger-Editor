@@ -22,12 +22,28 @@ let WebSQLDatabaseHelper = {
     this.init(() => {
       //console.log('[EXEC] ' + sql)
       this.db.transaction((tx) => {
-        //console.log('[EXEC] ' + sql)
+        console.log('[EXEC] ' + sql)
+        console.log(dataArray)
         if (typeof(callback) === 'function') {
           tx.executeSql(sql, dataArray, (tx, result) => {
             //console.log('AAAAAAA')
-            //console.log(result)
-            FunctionHelper.triggerCallback(callback, result.rows)
+            console.log(result)
+            let output = result.rows
+            try {
+              if (typeof(result.insertId) === 'number') {
+                output = result.insertId
+              }
+            } catch (e) {}
+            
+            if (typeof(output.length) === 'number') {
+              let tempOutput = []
+              for (let i = 0; i < output.length; i++) {
+                tempOutput.push(output.item(i))
+              }
+              output = tempOutput
+            }
+            
+            FunctionHelper.triggerCallback(callback, output)
           }, (tx, e) => {
             this.errorHandler(e)
           })

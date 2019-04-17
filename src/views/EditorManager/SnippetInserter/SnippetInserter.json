@@ -1,8 +1,12 @@
 {
   "en": {
-    "Title": "Example Title"
+    "Title": "Insert Snippet"
   },
   "zh-TW": {
-    "Title": "範例標題"
+    "Title": "插入片段",
+    "Save": "儲存片段",
+    "Name": "片段名稱",
+    "Snippet": "片段內容",
+    "Are you sure to delete snippet": "您確定要刪除片段"
   }
 }
