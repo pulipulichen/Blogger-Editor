@@ -37,6 +37,10 @@ let SummerNoteButtons = {
         return this.transSelected(c)
       },
       
+      styleP: (c) => {
+        return this.styleP(c)
+      },
+      
       
       // ---------------
       // Buttons on Popover
@@ -124,6 +128,20 @@ let SummerNoteButtons = {
     return this.build(contents, tooltip, click)
   },
   
+  // -------------------------
+  // style buttons
+  // -------------------------
+  
+  styleP: function (context) {
+    let contents = this.wrapNIWSF(`&lt;p&gt;`)
+    let tooltip = 'Set as &lt;p&gt; tag.'
+    let click = () => {
+      //console.log('style P')
+      
+      
+    }
+    return this.build(contents, tooltip, click)
+  },
   
   // -------------------------
   // image buttons

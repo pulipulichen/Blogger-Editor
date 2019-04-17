@@ -35,7 +35,7 @@ let SummerNoteConfig = {
     
     let toolbar = [
         ['view', ['codeview', 'OutlineNavigator']],
-        ['style', ['style', 'transSelected']],
+        ['style', ['style', 'styleP', 'transSelected']],
         ['font', ['undo', 'bold', 'italic', 'underline', 'clear']],
         //['fontname', ['fontname']],
         ['color', ['color']],

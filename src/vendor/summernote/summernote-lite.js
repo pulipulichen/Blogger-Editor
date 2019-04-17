@@ -6920,7 +6920,8 @@ sel.addRange(range);
                   width: editorWidth
               });
               this.$toolbar.addClass('fixed')
-              this.$editor.css("margin-top", this.$toolbar.height() + 'px')
+              //console.log(["margin-top 4", (this.$toolbar.height())])
+              this.$editor.find(".note-editable:first").css("margin-top", (this.$toolbar.height()) + 'px')
           }
           else {
               this.$toolbar.css({
@@ -6929,7 +6930,7 @@ sel.addRange(range);
                   width: '100%'
               });
               this.$toolbar.removeClass('fixed')
-              this.$editor.css("margin-top", 'auto')
+              this.$editor.find(".note-editable:first").css("margin-top", 'auto')
           }
       };
       Toolbar.prototype.changeContainer = function (isFullscreen) {
