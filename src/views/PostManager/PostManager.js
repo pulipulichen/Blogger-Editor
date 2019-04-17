@@ -25,6 +25,8 @@ let PostManager = {
   },
   mounted() {
     VueHelper.mountLocalStorageInt(this, 'editingPostId')
+    //console.log('mount editingPostId')
+    //console.log(this.editingPostId)
   },
   created: function () {
     //return
@@ -241,6 +243,7 @@ let PostManager = {
         FunctionHelper.triggerCallback(callback, this.editingPostId)
       }
       else {
+        //console.trace(this.editingPostId)
         //console.trace(['who reset editing id?', this.editingPostId])
         //throw 'who reset editing id?'
         this.getLastUpdatePost((post) => {
@@ -492,7 +495,8 @@ let PostManager = {
       //this.getEditingPostId((id) => {
       //  localStorage.editingPostId = id
       //})
-      localStorage.editingPostId = this.editingPostId
+      //localStorage.editingPostId = this.editingPostId
+      VueHelper.persistLocalStorage(this, 'editingPostId')
       
       //console.log('now pretend I did more stuff...');
     },

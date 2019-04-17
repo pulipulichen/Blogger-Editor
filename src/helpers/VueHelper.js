@@ -56,7 +56,7 @@ let VueHelper = {
       try {
         vue[key] = parseInt(localStorage.getItem(lsKey), 10);
       } catch(e) {
-        console.log(e)
+        console.trace(e)
         localStorage.removeItem(lsKey);
       }
     }
