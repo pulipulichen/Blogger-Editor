@@ -17,6 +17,10 @@ let FileHelper = {
     console.log(url)
     */
     //return
+    if (typeof(filename) !== 'string') {
+      filename = url.slice(url.lastIndexOf('/') + 1)
+    }
+    
     $.get(url, (data) => {
       //console.log(data)
       let blob = new Blob([data])

@@ -41,7 +41,7 @@ let SummerNoteConfig = {
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
         //['table', []],
-        ['insert', ['hr', 'link', 'picture', 'video', 'table', 'IframePrompt', 'FileUploader', 'CodeInserter', 'insertMore']],
+        ['insert', ['hr', 'link', 'picture', 'downloadImageTemplate', 'video', 'table', 'IframePrompt', 'FileUploader', 'CodeInserter', 'insertMore']],
         ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         ['mybutton', ['ImageReplacer', 'CopyHTML']],
         ['help', [/*'fullscreen',*/ 'help']]

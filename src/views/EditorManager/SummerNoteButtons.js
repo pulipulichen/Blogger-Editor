@@ -36,6 +36,9 @@ let SummerNoteButtons = {
       transSelected: (c) => {
         return this.transSelected(c)
       },
+      downloadImageTemplate: (c) => {
+        return this.downloadImageTamplate(c)
+      },
       
       styleP: (c) => {
         return this.styleP(c)
@@ -294,17 +297,7 @@ let SummerNoteButtons = {
     }
     return this.build(contents, tooltip, click)
   },
-  transSelected: function (context) {
-    let contents = this.wrapNIWSF(`<i class="language icon"></i> Trans`)
-    let tooltip = 'Translate Selected'
-    let click = () => {
-      let text = $v.EditorManager.FieldPostBody.getSelectText()
-      text = encodeURI(text)
-      let url = `https://translate.google.com/#view=home&op=translate&sl=auto&tl=auto&text=${text}`
-      WindowHelper.popup(url)
-    }
-    return this.build(contents, tooltip, click)
-  },
+  
   setImageTargetSize: function (target, size) {
     target = $(target)
 
@@ -340,6 +333,34 @@ let SummerNoteButtons = {
       postBody.find('img').each((i, img) => {
         this.setImageTargetSize(img, defaultSize)
       })
+    }
+    return this.build(contents, tooltip, click)
+  },
+  
+  
+  // -----------------------------
+  // Others
+  // -----------------------------
+  
+  
+  transSelected: function (context) {
+    let contents = this.wrapNIWSF(`<i class="language icon"></i> Trans`)
+    let tooltip = 'Translate Selected'
+    let click = () => {
+      let text = $v.EditorManager.FieldPostBody.getSelectText()
+      text = encodeURI(text)
+      let url = `https://translate.google.com/#view=home&op=translate&sl=auto&tl=auto&text=${text}`
+      WindowHelper.popup(url)
+    }
+    return this.build(contents, tooltip, click)
+  },
+  
+  downloadImageTamplate: function (context) {
+    let contents = this.wrapNIWSF(`<i class="object group outline icon"></i> Image Template`)
+    let tooltip = 'Download image template'
+    let click = () => {
+      let path = './static/image-template.dps'
+      FileHelper.download(path)
     }
     return this.build(contents, tooltip, click)
   },
