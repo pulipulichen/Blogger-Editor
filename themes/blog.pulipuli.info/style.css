@@ -15,15 +15,19 @@ body {
   top: -4rem !important;
 }
 
-#template .entry-content {
+.entry-content {
   color: #000;
 }
 
-#template .entry-content p {
+.summernotePostBody-wrapper p {
   text-indent: 2rem;
   color: #000;
 }
 
-#template .entry-content hr {
+.summernotePostBody-wrapper hr {
   border-top: 3px solid #ce8a42;
+}
+
+.meta1 .timestamp {
+  padding-right: 1rem;
 }
