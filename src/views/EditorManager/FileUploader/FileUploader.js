@@ -83,6 +83,9 @@ let config = {
       VueHelper.persistLocalStorage(this, 'links')
     },
     resetDownloadURL: function () {
+      if (Array.isArray(this.links) === false) {
+        this.links = []
+      }
       this.links.forEach(link => {
         link.downloadURL = ''
       })
@@ -102,7 +105,8 @@ let config = {
       }
     },
     validateDownloadURL: function (url) {
-      return (url.length > 4)
+      return (typeof(url) === 'string' 
+              && url.length > 4)
     },
     onDelimiterChange: function () {
       VueHelper.persistLocalStorage(this, 'delimiter')
@@ -115,6 +119,11 @@ let config = {
       })
     },
     setConfig: function (links) {
+      if (typeof(links) === 'string') {
+        links = JSON.parse(links)
+      }
+      console.log('FileUploader setConfig')
+      console.log(links)
       this.links = links
       this.resetDownloadURL()
     }

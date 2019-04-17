@@ -60,32 +60,59 @@ let config = {
       
     },
     configDownload: function () {
+      let zip = new JSZip()
+      let date = DayjsHelper.nowFormat('YYYY-MMDD')
+      let folderName = `blogger-editor-config-${date}`
+      let folder = zip.folder(folderName)
       
-      $v.ThemeManager.getConfig((template, style) => {
-        let zip = new JSZip()
-        let date = DayjsHelper.nowFormat('YYYY-MMDD')
-        let folderName = `blogger-editor-config-${date}`
-        let folder = zip.folder(folderName);
+      let queue = [
+        (next) => {
+          $v.ThemeManager.getConfig((template, style) => {
+            if (template !== undefined) {
+              folder.file('template.html', template)
+            }
+            if (style !== undefined) {
+              folder.file('style.css', style)
+            }
+            
+            next()
+          })
+        },
+        (next) => {
+          $v.EditorManager.SnippetInserter.getConfig((snippets) => {
+            if (snippets !== undefined) {
+              folder.file('SnippetInserter.json', JSON.stringify(snippets))
+            }
+            
+            next()
+          })
+        },
+        (next) => {
+          let editorConfig = $v.EditorManager.getConfig()
+          folder.file('editorConfig.json', JSON.stringify(editorConfig))
 
-        
-        let editorConfig = $v.EditorManager.getConfig()
-        folder.file('editorConfig.json', JSON.stringify(editorConfig))
-        
-        let FileUploaderConfig = $v.EditorManager.FileUploader.getConfig()
-        folder.file('FileUploaderConfig.json', JSON.stringify(FileUploaderConfig))
-        
-        if (template !== undefined) {
-          folder.file('template.html', template)
-        }
-        if (style !== undefined) {
-          folder.file('style.css', style)
-        }
-        
-        zip.generateAsync({type: "blob"}).then((content) => {
-          // see FileSaver.js
+          let FileUploaderConfig = $v.EditorManager.FileUploader.getConfig()
+          folder.file('FileUploaderConfig.json', JSON.stringify(FileUploaderConfig))
+
+          next()
+        },
+        (next) => {
+          zip.generateAsync({type: "blob"}).then((content) => {
+            // see FileSaver.js
             saveAs(content, `${folderName}.zip`)
         })
-      })
+        }
+      ]
+      
+      let loop = (i) => {
+        if (i < queue.length) {
+          queue[i](() => {
+            i++
+            loop(i)
+          })
+        }
+      }
+      loop(0)
     },
     triggerConfigUpload: function (e) {
       $(e.target).parent().children('input:file:first').click()
@@ -116,6 +143,10 @@ let config = {
         }
         else if (path.endsWith('/FileUploaderConfig.json')) {
           $v.EditorManager.FileUploader.setConfig(content)
+          FunctionHelper.triggerCallback(callback)
+        }
+        else if (path.endsWith('/SnippetInserter.json')) {
+          $v.EditorManager.SnippetInserter.setConfig(content)
           FunctionHelper.triggerCallback(callback)
         }
         else if (path.endsWith('/template.html')) {

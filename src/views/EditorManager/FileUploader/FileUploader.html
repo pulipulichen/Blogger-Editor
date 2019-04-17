@@ -33,7 +33,7 @@
                  class="unstackable fields">
               <div class="six wide field">
                 <template v-if="linkNameIcon(link.name) !== undefined">
-                  <div class="ui icon labeled fluid button"
+                  <div class="ui icon labeled fluid mini button"
                        :class="{'positive': validateDownloadURL(link.downloadURL)}"
                        @click="openUploadURL(link.uploadURL, link.name)">
                     <i class="icon" :class="linkNameIcon(link.name)"></i>
@@ -41,7 +41,7 @@
                   </div>
                 </template>
                 <template v-else>
-                  <div class="ui fluid button"
+                  <div class="ui fluid mini button"
                        :class="{'positive': validateDownloadURL(link.downloadURL)}"
                        @click="openUploadURL(link.uploadURL, link.name)">
                     {{ link.name }}
@@ -49,18 +49,24 @@
                 </template>
               </div>
               <div class="ten wide field">
-                <input type="url" v-model="link.downloadURL" />
+                <div class="ui fluid mini input">
+                  <input type="url" v-model="link.downloadURL" />
+                </div>
               </div>
             </div>
             
           </div> <!-- <div class="download-list"> -->
           
-          <div class="field">
-            <label>
-              {{ $t('Delimiter') }}
-            </label>
-            <input type="text" v-model="delimiter"
-                   @change="onDelimiterChange"/>
+          <div class="inline fields delimiter">
+            <div class="field">
+              <div class="ui input mini">
+                <label>
+                  {{ $t('Delimiter') }}
+                </label>
+                <input type="text" v-model="delimiter"
+                       @change="onDelimiterChange"/>
+              </div>
+            </div>
           </div>
           
         </div>
@@ -77,17 +83,22 @@
               <div v-for="link in links" :key="link.name"
                    class="unstackable fields">
                 <div class="six wide field">
-                  <input type="text" 
-                         v-model="link.name"
-                         placeholder="$t('Name')"
-                         @change="onSettingChange"/>
+                  <div class="ui input mini">
+                    <input type="text" 
+                           v-model="link.name"
+                           placeholder="$t('Name')"
+                           @change="onSettingChange"/>
+                  </div>
                 </div>
-                <div class="ten wide field ui icon input">
-                  <input type="url" 
-                         v-model="link.uploadURL"
-                         placeholder="$t('Upload URL')"
-                         @change="onSettingChange"/>
-                  <i class="bars icon draggable"></i>
+                <div class="ten wide field">
+                  <div class="ui icon input mini">
+                    <input type="url" 
+                           v-model="link.uploadURL"
+                           placeholder="$t('Upload URL')"
+                           @change="onSettingChange"/>
+                    <i class="bars icon draggable"></i>
+                  </div>
+                    
                 </div>
               </div>
             </draggable>

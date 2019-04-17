@@ -73,12 +73,11 @@ let config = {
            name TEXT, 
            snippet TEXT)`
         WebSQLDatabaseHelper.exec(sqlCreateTable, () => {
-          let sqlSelect = `select * from snippets order by lastUsedUnix desc`
-          WebSQLDatabaseHelper.exec(sqlSelect, (rows) => {
-            console.log('init')
-            console.log(rows)
-            if (rows !== undefined) {
-              this.snippets = this.snippets.concat(rows)
+          this.getConfig((snippets) => {
+            //console.log('init')
+            //console.log(rows)
+            if (snippets !== undefined) {
+              this.snippets = this.snippets.concat(snippets)
             }
             FunctionHelper.triggerCallback(callback)
           })
@@ -89,7 +88,9 @@ let config = {
       }
     },
     createSnippet: function () {
-      this.editingId = "?"
+      this.editingSnippetName = ''
+      this.editingSnippet = ''
+      this.editingId = '?'
     },
     editSnippet: function (id) {
       //console.log('editSnippet', id)
@@ -107,11 +108,13 @@ let config = {
       if (snippet !== undefined) {
         let code = snippet.snippet
         $v.EditorManager.FieldPostBody.insert(code)
+        this.close()
         this.moveSnippetToTop(snippet)
         this.updateSnippetLastUsedUnix(snippet)
       }
-      
-      this.close()
+      else {
+        this.close()
+      }
     },
     deleteSnippet: function (id) {
       //console.log(id)
@@ -142,13 +145,13 @@ let config = {
           snippets(lastUsedUnix, name, snippet) 
           values(?,?,?)`
       }
-      console.log('before save')
-      console.log(sql)
-      console.log(data)
+      //console.log('before save')
+      //console.log(sql)
+      //console.log(data)
       
       let callback = (rows) => {
         let snippet = rows[0]
-        console.log(snippet)
+        //console.log(snippet)
         
         this.editingId = null
         this.moveSnippetToTop(snippet)
@@ -212,10 +215,44 @@ let config = {
     // ----------------------------
     
     getConfig: function (callback) {
-      
+      let sqlSelect = `select * from snippets order by lastUsedUnix desc`
+      WebSQLDatabaseHelper.exec(sqlSelect, (snippets) => {
+        FunctionHelper.triggerCallback(callback, snippets)
+      })
     },
-    setConfig: function (callback) {
+    setConfig: function (snippets, callback) {
+      if (typeof(snippets) === 'string') {
+        snippets = JSON.parse(snippets)
+      }
+      console.log('SnippetInsert setConfig')
+      console.log(snippets)
       
+      let sqlDropTable = `delete from snippets`
+      WebSQLDatabaseHelper.exec(sqlDropTable, () => {
+        let loop = (i) => {
+          if (i < snippets) {
+            let snippet = snippets[i]
+            let sql = `insert into 
+              snippets(lastUsedUnix, name, snippet) 
+              values(?,?,?)`
+            let data = [
+              snippet.lastUsedUnix,
+              snippet.name,
+              snippet.snippet
+            ]
+            WebSQLDatabaseHelper.exec(sql, data, () => {
+              i++
+              loop(i)
+            })
+          }
+          else {
+            this.snippets = snippets
+            this.filterCondition = ''
+            FunctionHelper.triggerCallback(callback)
+          }
+        }
+        loop(0)
+      })
     }
   }
 }

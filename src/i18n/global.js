@@ -17,7 +17,9 @@ let i18n = {
     "NEW": "新增",
     "EDIT": "編輯",
     "DELETE": "刪除",
-    "Cancel": "取消"
+    "Cancel": "取消",
+    "Yes": "是",
+    "No": "否"
   }
 }
 export default i18n

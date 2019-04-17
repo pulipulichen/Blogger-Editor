@@ -62,7 +62,8 @@
           </div>
           
           <input type="file" name="uploadPosts"
-              @change="uploadPosts"/>
+                 accept=".zip"
+                 @change="uploadPosts"/>
         </div>
 
         <div class="ui divided unstackable items post-list"

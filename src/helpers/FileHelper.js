@@ -55,7 +55,9 @@ let FileHelper = {
             let type = 'blob'
             if (filename.endsWith('.html')
                     || filename.endsWith('.css')
-                    || filename.endsWith('.htm')) {
+                    || filename.endsWith('.htm')
+                    || filename.endsWith('.json')
+                    || filename.endsWith('.txt')) {
               type = 'string'
             }
             

@@ -22,12 +22,12 @@ let WebSQLDatabaseHelper = {
     this.init(() => {
       //console.log('[EXEC] ' + sql)
       this.db.transaction((tx) => {
-        console.log('[EXEC] ' + sql)
-        console.log(dataArray)
+        //console.log('[EXEC] ' + sql)
+        //console.log(dataArray)
         if (typeof(callback) === 'function') {
           tx.executeSql(sql, dataArray, (tx, result) => {
             //console.log('AAAAAAA')
-            console.log(result)
+            //console.log(result)
             let output = result.rows
             try {
               if (typeof(result.insertId) === 'number') {

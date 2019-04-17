@@ -29,6 +29,7 @@
           <div class="unstackable three fields">
             <div class="field">
               <input type="file" name="uploadTemplate"
+                     accept=".html,.htm,.xhtml"
                      @change="TemplateManager.upload"/>
               <div class="ui positive labeled icon fluid button" 
                    v-if="useCustomTemplate === false"
@@ -83,6 +84,7 @@
           <div class="unstackable two fields">
             <div class="field">
               <input type="file" name="uploadStyle"
+                     accept=".css"
                      @change="StyleManager.upload"/>
               <div class="ui positive labeled icon fluid button" 
                    v-if="useCustomStyle === false"
