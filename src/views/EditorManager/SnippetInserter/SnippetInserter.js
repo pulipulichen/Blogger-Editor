@@ -230,7 +230,7 @@ let config = {
       let sqlDropTable = `delete from snippets`
       WebSQLDatabaseHelper.exec(sqlDropTable, () => {
         let loop = (i) => {
-          if (i < snippets) {
+          if (i < snippets.length) {
             let snippet = snippets[i]
             let sql = `insert into 
               snippets(lastUsedUnix, name, snippet) 
