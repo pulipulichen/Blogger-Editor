@@ -12,7 +12,7 @@
       <div class="no-images step step-0"
            :class="{hide: (currentStep !== 0)}">
         <div class="ui green message">
-          {{ $t('No filesystem image in post body') }}
+          {{ $t('No filesystem image in post body.') }}
         </div>
       </div>
       
@@ -21,24 +21,28 @@
       <div class="step step-1"
            v-bind:class="{hide: (currentStep !== 1)}">
         
-        <div class="ui statistics first-filesystem-remained">
-          <div class="statistic"
-              :class="{red: (filesystemImageCount > 0)}">
-            <div class="value">
-              {{ filesystemImageCount }}
-            </div>
-            <div class="label">
-              Filesystem 
-              <span v-if="filesystemImageCount === 1">
-                image
-              </span>
-              <span v-if="filesystemImageCount > 1">
-                images
-              </span>
-              Remained
-           </div>
-         </div>
+        <div class="two fields">
+          <div class="field">
+            
+          </div>
         </div>
+        
+          <div class="ui statistics first-filesystem-remained">
+            <div class="statistic"
+                :class="{red: (filesystemImageCount > 0)}">
+              <div class="value">
+                {{ filesystemImageCount }}
+              </div>
+              <div class="label">
+                <template v-if="filesystemImageCount === 1">
+                  {{ $t("Filesystem image remained") }}
+                </template>
+                <template v-if="filesystemImageCount > 1">
+                  {{ $t("Filesystem image remained") }}
+                </template>
+             </div>
+           </div>
+          </div>
         
         <div class="ui fluid yellow labeled icon button"
              @click="downloadImagePackage"
@@ -134,94 +138,98 @@
       </div>
       <div class="step step-7"
            v-bind:class="{hide: (currentStep !== 7)}">
-        <div class="ui message"
-             v-bind:class="{positive: (filesystemImageCount === 0), warning: (filesystemImageCount > 0)}">
-
-          <div class="ui statistics">
-            <div class="statistic"
-                 v-bind:class="{green: (replacedImageCount > 0)}">
-              <div class="value">
-                {{ replacedImageCount }}
+        
+        <div class="unstackable two fields">
+          <div class="eight wide field">
+            <div class="ui statistics last-filesystem-remained">
+              <div class="statistic"
+                   v-bind:class="{green: (replacedImageCount > 0)}">
+                <div class="value">
+                  {{ replacedImageCount }}
+                </div>
+                <div class="label">
+                  {{ $t('Replaced') }}
+                </div>
               </div>
-              <div class="label">
-                {{ $t('Replaced') }}
+
+              <div class="statistic"
+                   v-bind:class="{red: (filesystemImageCount > 0)}">
+                <div class="value">
+                  {{ filesystemImageCount }}
+                </div>
+                <div class="label">
+
+                  <template v-if="filesystemImageCount === 1">
+                    {{ $t("Filesystem image remained") }}
+                  </template>
+                  <template v-if="filesystemImageCount > 1">
+                    {{ $t("Filesystem images remained") }}
+                  </template>
+
+                </div>
               </div>
             </div>
-
-            <div class="statistic"
-                 v-bind:class="{red: (filesystemImageCount > 0)}">
-              <div class="value">
-                {{ filesystemImageCount }}
-              </div>
-              <div class="label">
-                Filesystem 
-                <span v-if="filesystemImageCount === 1">
+          </div>
+          <div class="eight wide field">
+            <div class="ui positive icon message"
+               v-if="filesystemImageCount === 0">
+              <i class="check circle icon"></i>
+              <div class="content">
+                <div class="header">
+                  {{ $t("Well done!") }}
+                </div>
+                All filesystem 
+                <span v-if="replacedImageCount === 1">
                   image
                 </span>
-                <span v-if="filesystemImageCount > 1">
+                <span v-if="replacedImageCount > 1">
                   images
                 </span>
-                Remained
+                had been uploaded.
+              </div>
+            </div>
+
+            <div class="ui warning icon message"
+                 v-if="filesystemImageCount > 0">
+              <i class="exclamation triangle icon"></i>
+              <div class="content">
+                <div class="header">
+                  {{ $t('Not Finished!') }}
+                </div>
+                There are still 
+                {{ filesystemImageCount }}
+                filesystem 
+                <span v-if="replacedImageCount === 1">
+                  image
+                </span>
+                <span v-if="replacedImageCount > 1">
+                  images
+                </span>
+                need to upload.
               </div>
             </div>
           </div>
-
-          <div class="ui positive icon message"
-               v-if="filesystemImageCount === 0">
-            <i class="check circle icon"></i>
-            <div class="content">
-              <div class="header">
-                {{ $t('Well done!') }}
-              </div>
-              All filesystem 
-              <span v-if="replacedImageCount === 1">
-                image
-              </span>
-              <span v-if="replacedImageCount > 1">
-                images
-              </span>
-              had been uploaded.
-            </div>
-          </div>
-
-          <div class="ui warning icon message"
-               v-if="filesystemImageCount > 0">
-            <i class="exclamation triangle icon"></i>
-            <div class="content">
-              <div class="header">
-                {{ $t('Not Finished!') }}
-              </div>
-              There are still 
-              {{ filesystemImageCount }}
-              filesystem 
-              <span v-if="replacedImageCount === 1">
-                image
-              </span>
-              <span v-if="replacedImageCount > 1">
-                images
-              </span>
-              need to upload.
-            </div>
-            
+        </div>
+          <div class="field">
             <div class="ui fluid yellow labeled icon button"
-                 @click="downloadImagePackageAndBackPrevStep"
-                 :class="{ 'disabled': isCreatingImagePackage }">
-              <i class="file archive icon"></i>
-              {{ $t('Download image package and upload again') }}
+                @click="downloadImagePackageAndBackPrevStep"
+                :class="{ 'disabled': isCreatingImagePackage }">
+             <i class="file archive icon"></i>
+             {{ $t('Download image package and upload again') }}
             </div>
-
           </div>
           
-          <div class="ui checkbox">
-            <input type="checkbox" 
-                   v-model="skipTutorial"
-                   @change="persist" />
-            <label>
-              {{ $t('Skip tutorial') }}
-            </label>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" 
+                     v-model="skipTutorial"
+                     @change="persist" />
+              <label>
+                {{ $t('Skip tutorial') }}
+              </label>
+            </div>
           </div>
 
-        </div>
       </div>
     </div>
   </div>
