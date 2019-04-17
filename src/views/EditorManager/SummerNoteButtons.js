@@ -1,6 +1,11 @@
 let SummerNoteButtons = {
   config: function () {
     return {
+      
+      // ---------------
+      // Buttons on Toolbar
+      // ---------------
+      
       CopyHTML: (c) => {
         return this.CopyCode(c)
       },
@@ -19,13 +24,6 @@ let SummerNoteButtons = {
       OutlineNavigator: (c) => {
         return this.OutlineNavigator(c)
       },
-      
-      popoverImageSizeOriginal: (c) => {
-        return this.popoverImageSizeOriginal(c)
-      },
-      popoverImageSizeDefault: (c) => {
-        return this.popoverImageSizeDefault(c)
-      },
       imageSizeOriginal: (c) => {
         return this.imageSizeOriginal(c)
       },
@@ -37,7 +35,22 @@ let SummerNoteButtons = {
       },
       transSelected: (c) => {
         return this.transSelected(c)
-      }
+      },
+      
+      
+      // ---------------
+      // Buttons on Popover
+      // ---------------
+      
+      popoverImageSizeOriginal: (c) => {
+        return this.popoverImageSizeOriginal(c)
+      },
+      popoverImageSizeDefault: (c) => {
+        return this.popoverImageSizeDefault(c)
+      },
+      popoverImageSave: (c) => {
+        return this.popoverImageSave(c)
+      },
     }
   },
   build: function (contents, tooltip, click) {
@@ -138,6 +151,22 @@ let SummerNoteButtons = {
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       this.removeImageTargetSize(target)
+    }
+    return this.build(contents, tooltip, click)
+  },
+  popoverImageSave: function (context) {
+    let contents = this.wrapNIWSF(`<i class="save icon"></i> Save`)
+    let tooltip = 'Open image in new tab'
+    let click = () => {
+      let target = $v.EditorManager.FieldPostBody.getSelectTarget()
+      target = $(target)
+      let link = target.attr('src')
+      //console.log(link)
+      let name = link.slice(link.lastIndexOf('/') + 1)
+      //console.log(name)
+      //WindowHelper.popup(link, name)
+      //window.open(link, name)
+      FileHelper.download(link, name)
     }
     return this.build(contents, tooltip, click)
   },
