@@ -373,7 +373,7 @@ let SummerNoteButtons = {
       //console.log(name)
       //WindowHelper.popup(link, name)
       //window.open(link, name)
-      console.log([link, name])
+      //console.log([link, name])
       WindowHelper.popup(link, name)
     }
     return this.build(contents, tooltip, click)
