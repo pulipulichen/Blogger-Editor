@@ -12,10 +12,15 @@ DelayExecHelper = {
       clearTimeout(this.timers[type])
     }
     //console.log(type, delaySec)
+    this.showIndicator()
     this.events[type] = event
     this.timers[type] = setTimeout(() => {
       this.events[type]()
       this.timers[type] = null
+      
+      if (this.isWaiting() === false) {
+        this.hideIndicator()
+      }
     }, delaySec * 1000)
   },
   forceExec: function () {
@@ -47,5 +52,15 @@ DelayExecHelper = {
     else {
       return (this.timers[type] !== null)
     }
-  }
+  },
+  showIndicator: function () {
+    if ($v.EditorManager.SaveIndicator !== null) {
+      $v.EditorManager.SaveIndicator.open()
+    }
+  },
+  hideIndicator: function () {
+    if ($v.EditorManager.SaveIndicator !== null) {
+      $v.EditorManager.SaveIndicator.close()
+    }
+  },
 }

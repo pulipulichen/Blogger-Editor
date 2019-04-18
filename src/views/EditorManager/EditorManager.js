@@ -20,6 +20,7 @@ import FileUploaderSfc from './FileUploader/FileUploader.vue'
 import CodeInserterSfc from './CodeInserter/CodeInserter.vue'
 import OutlineNavigatorSfc from './OutlineNavigator/OutlineNavigator.vue'
 import SnippetInserterSfc from './SnippetInserter/SnippetInserter.vue'
+import SaveIndicatorSfc from './SaveIndicator/SaveIndicator.vue'
 
 var EditorManager = {
   //name: "main-content",
@@ -50,6 +51,7 @@ var EditorManager = {
       CodeInserter: null,
       OutlineNavigator: null,
       SnippetInserter: null,
+      SaveIndicator: null,
     }
   },
   mounted() {
@@ -98,6 +100,12 @@ var EditorManager = {
     if (ConfigHelper.get('debug').disableSnippetInserter === false) {
       VueHelper.init(SnippetInserterSfc, (vue) => {
         this.SnippetInserter = vue
+      })
+    }
+    
+    if (ConfigHelper.get('debug').disableSaveIndicator === false) {
+      VueHelper.init(SaveIndicatorSfc, (vue) => {
+        this.SaveIndicator = vue
       })
     }
     
