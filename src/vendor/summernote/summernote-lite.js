@@ -880,6 +880,7 @@
               edit: 'Edit',
               textToDisplay: 'Text to display',
               url: 'To what URL should this link go?',
+              title: 'Link title (optional)',
               openInNewWindow: 'Open in new window'
           },
           table: {
@@ -4580,8 +4581,22 @@
            * @param {Object} linkInfo
            */
           this.createLink = this.wrapCommand(function (linkInfo) {
-              var linkUrl = linkInfo.url;
+              var linkUrl = linkInfo.url.trim();
+              if (linkUrl.trim() === '' 
+                || !( (linkUrl.startsWith("//") === false && linkUrl.length > 10)
+                  || (linkUrl.startsWith("http://") !== false && linkUrl.length > 20)
+                  || (linkUrl.startsWith("https://") !== false && linkUrl.length > 20)
+                  || (linkUrl.startsWith("#") !== false && linkUrl.length > 1)
+                  || (linkUrl.startsWith("filesystem:") !== false && linkUrl.length > 20)
+                  )
+                ) {
+                console.log([linkUrl, linkUrl.length])
+                this.unlink()
+                return
+              }
+              
               var linkText = linkInfo.text;
+              var linkTitle = linkInfo.title;
               var isNewWindow = linkInfo.isNewWindow;
               var rng = linkInfo.range || _this.createRange();
               var additionalTextLength = linkText.length - rng.toString().length;
@@ -4619,6 +4634,14 @@
               }
               $$1.each(anchors, function (idx, anchor) {
                   $$1(anchor).attr('href', linkUrl);
+                  
+                  if (linkTitle !== undefined && linkTitle.trim() !== '') {
+                    $$1(anchor).attr('title', linkTitle.trim());
+                  }
+                  else {
+                    $$1(anchor).removeAttr('title')
+                  }
+                  
                   if (isNewWindow) {
                       $$1(anchor).attr('target', '_blank');
                   }
@@ -7085,6 +7108,10 @@ sel.addRange(range);
               "<label class=\"note-form-label\">" + this.lang.link.url + "</label>",
               '<input class="note-link-url form-control note-form-control note-input" type="text" value="" />',
               '</div>',
+              '<div class="form-group note-form-group">',
+              "<label class=\"note-form-label\">" + this.lang.link.title + "</label>",
+              '<input class="note-link-title form-control note-form-control note-input" type="text" value="" />',
+              '</div>',
               !this.options.disableLinkTarget
                   ? $$1('<div/>').append(this.ui.checkbox({
                       className: 'sn-checkbox-open-in-new-window',
@@ -7103,7 +7130,14 @@ sel.addRange(range);
               footer: footer
           }).render().appendTo($container);
           
+          let button = this.$dialog.find('input.note-link-btn')
+          
           this.$dialog.find('input.note-link-url').focus(function (event) {
+            if ($(this).hasClass('first-focus') === false) {
+              return
+            }
+            $(this).removeClass('first-focus')
+          
             if (this.value !== undefined && this.value.trim() !== "") {
               return
             }
@@ -7118,6 +7152,9 @@ sel.addRange(range);
                 if (isURL(text)) {
                   this.value = text
                   this.select()
+                  //this.keyup()
+                  button.removeClass('disabled')
+                  button.removeAttr('disabled')
                 }
               })
               .catch(err => {
@@ -7162,6 +7199,7 @@ sel.addRange(range);
           return $$1.Deferred(function (deferred) {
               var $linkText = _this.$dialog.find('.note-link-text');
               var $linkUrl = _this.$dialog.find('.note-link-url');
+              var $linkTitle = _this.$dialog.find('.note-link-title');
               var $linkBtn = _this.$dialog.find('.note-link-btn');
               var $openInNewWindow = _this.$dialog
                   .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
@@ -7206,8 +7244,9 @@ sel.addRange(range);
                       setTimeout(handleLinkUrlUpdate, 0);
                   }).val(linkInfo.url);
                   if (!env.isSupportTouch) {
-                      $linkUrl.trigger('focus');
-                      $linkUrl.trigger('select');
+                    $linkUrl.addClass("first-focus")
+                    $linkUrl.trigger('focus');
+                      //$linkUrl.trigger('select');
                   }
                   _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
                   _this.bindEnterKey($linkUrl, $linkBtn);
@@ -7232,6 +7271,7 @@ sel.addRange(range);
                           range: linkInfo.range,
                           url: $linkUrl.val(),
                           text: $linkText.val(),
+                          title: $linkTitle.val(),
                           isNewWindow: $openInNewWindow.is(':checked')
                       });
                       _this.ui.hideDialog(_this.$dialog);

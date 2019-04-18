@@ -48,6 +48,9 @@ let SummerNoteButtons = {
       CleanCode: (c) => {
         return this.CleanCode(c)
       },
+      toggleMenu: (c) => {
+        return this.toggleMenu(c)
+      },
       
       styleP: (c) => {
         return this.styleP(c)
@@ -476,6 +479,15 @@ let SummerNoteButtons = {
       //$(`<a href="${path}" download="${title}"></a>`).click()
       
       FileHelper.download(path, title)
+    }
+    return this.build(contents, tooltip, click)
+  },
+  
+  toggleMenu: function (context) {
+    let contents = this.wrapNIWSF(`<i class="bars icon"></i>`)
+    let tooltip = 'Toggle Menu'
+    let click = () => {
+      $v.NavBar.toggle()
     }
     return this.build(contents, tooltip, click)
   },

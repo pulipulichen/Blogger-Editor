@@ -50,7 +50,7 @@ let SummerNoteConfig = {
         ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
         ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         ['publish', ['ImageReplacer', 'CleanCode', 'CopyHTML']],
-        ['help', [/*'fullscreen',*/ 'help']]
+        ['help', [/*'fullscreen',*/'toggleMenu', 'help']]
       ]
 
     return toolbar
