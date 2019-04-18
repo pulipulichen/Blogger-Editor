@@ -5646,6 +5646,8 @@ sel.addRange(range);
    * @class Codeview
    */
   var CodeView = /** @class */ (function () {
+      let editorViewScrollTop, codeViewScrollTop, $window = $(window)
+  
       function CodeView(context) {
           this.context = context;
           this.$editor = context.layoutInfo.editor;
@@ -5670,7 +5672,7 @@ sel.addRange(range);
        */
       CodeView.prototype.toggle = function () {
           //console.log()
-          console.log("codeview.toggle 2")
+          //console.log("codeview.toggle 2")
           $(".note-popover").hide()
           //console.log(["a", $(this.$codable).val()])
           if (this.isActivated()) {
@@ -5687,6 +5689,9 @@ sel.addRange(range);
        * activate code view
        */
       CodeView.prototype.activate = function () {
+          editorViewScrollTop = $window.scrollTop()
+          //console.log(['editorViewScrollTop', editorViewScrollTop])
+      
           var _this = this;
           this.$codable.val(dom.html(this.$editable, this.options.prettifyHtml));
           this.$codable.height(this.$editable.height());
@@ -5718,11 +5723,22 @@ sel.addRange(range);
               });
           }
           this.$codable.show();
+          
+          $(() => {
+            if (codeViewScrollTop === undefined) {
+              codeViewScrollTop = this.$codable.parents('.note-editor:first').offset().top
+            }
+            //console.log(['scroll codeViewScrollTop', codeViewScrollTop])
+            $window.scrollTop(codeViewScrollTop)
+          })
       };
       /**
        * deactivate code view
        */
       CodeView.prototype.deactivate = function () {
+          codeViewScrollTop = $window.scrollTop()
+          //console.log(['codeViewScrollTop', codeViewScrollTop])
+      
           //console.log(["c", $(this.$codable).val()])
           // deactivate CodeMirror as codable
           //console.log(env.hasCodeMirror)
@@ -5758,6 +5774,14 @@ sel.addRange(range);
           this.$editable.focus();
           this.context.invoke('toolbar.updateCodeview', false);
           //this.$codable.hide()
+          
+          $(() => {
+            if (editorViewScrollTop === undefined) {
+              editorViewScrollTop = this.$editable.parents('.note-editor:first').offset().top
+            }
+            //console.log(['scroll editorViewScrollTop', editorViewScrollTop])
+            $window.scrollTop(editorViewScrollTop)
+          })
       };
       CodeView.prototype.destroy = function () {
           if (this.isActivated()) {
