@@ -67,6 +67,10 @@ let InitHelper = {
         },
         (next) => {
           $v.EditorManager.init(next)
+        },
+        (next) => {
+          ScrollHelper.load()
+          next()
         }
       ]
       

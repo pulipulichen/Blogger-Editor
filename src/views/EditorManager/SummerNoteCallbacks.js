@@ -18,6 +18,7 @@ let SummerNoteCallbacks = {
         DelayExecHelper.exec('postBody', 5, () => {
           $v.EditorManager.FieldPostDate.set()
           $v.PostManager.updateEditingPostBody(contents)
+          ScrollHelper.save()
           //$v.EditorManager.FieldPostBody.save()
         })
       },
