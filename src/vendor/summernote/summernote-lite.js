@@ -2182,7 +2182,7 @@
   function fromOffsetPath(ancestor, offsets) {
       var current = ancestor;
       for (var i = 0, len = offsets.length; i < len; i++) {
-          if (current.childNodes.length <= offsets[i]) {
+          if (current !== undefined && current.childNodes.length <= offsets[i]) {
               current = current.childNodes[current.childNodes.length - 1];
           }
           else {
@@ -3339,12 +3339,20 @@
        */
       History.prototype.undo = function () {
           // Create snap shot if not yet recorded
+          
+          //console.log(["before", this.$editable.html(), this.stack[this.stackOffset].contents])
           if (this.$editable.html() !== this.stack[this.stackOffset].contents) {
               this.recordUndo();
+              //console.log(["after 1", this.$editable.html(), this.stack[this.stackOffset].contents])
           }
           if (this.stackOffset > 0) {
               this.stackOffset--;
               this.applySnapshot(this.stack[this.stackOffset]);
+          }
+          //console.log(["after 2", this.$editable.html(), this.stack[this.stackOffset].contents])
+          
+          if (this.$editable.html() === '<p><br></p>') {
+            this.redo()
           }
       };
       /**
@@ -4873,6 +4881,22 @@
        * undo
        */
       Editor.prototype.undo = function () {
+          /*
+          //console.log(['before.command', this.$editable.html()])
+          let beforeCommandHTML = this.$editable.html()
+          console.log(['before.command', this.$editable.html()])
+          this.context.triggerEvent('before.command', this.$editable.html());
+          this.history.undo();
+          let changeHTML = this.$editable.html()
+          console.log(['change', this.$editable.html()])
+          if (changeHTML.trim() !== '<p><br></p>') {
+            //console.log(['change', this.$editable.html()])
+            this.context.triggerEvent('change', this.$editable.html());
+          }
+          else {
+            this.$editable.html(beforeCommandHTML)
+          }
+          */
           this.context.triggerEvent('before.command', this.$editable.html());
           this.history.undo();
           this.context.triggerEvent('change', this.$editable.html());
@@ -6990,6 +7014,15 @@ sel.addRange(range);
           this.lang = this.options.langInfo;
           context.memo('help.linkDialog.show', this.options.langInfo.help['linkDialog.show']);
       }
+      
+      let isURL = (url) => {
+        return ( (url.startsWith("http://") && url.length > 15)
+                  || (url.startsWith("https://") && url.length > 15)
+                  || (url.startsWith("//") && url.length > 10)
+                  || (url.startsWith("#") && url.length > 2))
+      }
+      
+      
       LinkDialog.prototype.initialize = function () {
           var $container = this.options.dialogsInBody ? this.$body : this.$editor;
           var body = [
@@ -6999,7 +7032,7 @@ sel.addRange(range);
               '</div>',
               '<div class="form-group note-form-group">',
               "<label class=\"note-form-label\">" + this.lang.link.url + "</label>",
-              '<input class="note-link-url form-control note-form-control note-input" type="text" value="http://" />',
+              '<input class="note-link-url form-control note-form-control note-input" type="text" value="" />',
               '</div>',
               !this.options.disableLinkTarget
                   ? $$1('<div/>').append(this.ui.checkbox({
@@ -7018,6 +7051,34 @@ sel.addRange(range);
               body: body,
               footer: footer
           }).render().appendTo($container);
+          
+          this.$dialog.find('input.note-link-url').focus(function (event) {
+            if (this.value !== undefined && this.value.trim() !== "") {
+              return
+            }
+            //console.log(this.value)
+            //console.log(event.originalEvent.clipboardData.getData('Text'))
+            //console.log(event)
+            navigator.clipboard.readText()
+              .then(text => {
+                text = text.trim()
+                //console.log(text)
+                //console.log('Pasted content: ', text);
+                if (isURL(text)) {
+                  this.value = text
+                }
+              })
+              .catch(err => {
+                //console.error('Failed to read clipboard contents: ', err);
+              });
+          })
+          
+          let checkboxKey = 'summernote.LinkDialog.checkbox'
+          let checkbox = this.$dialog.find('input:checkbox')
+          checkbox.change(function () {
+            let value = this.checked
+            localStorage.setItem(checkboxKey, value)
+          })
       };
       LinkDialog.prototype.destroy = function () {
           this.ui.hideDialog(this.$dialog);
@@ -7045,6 +7106,7 @@ sel.addRange(range);
        */
       LinkDialog.prototype.showLinkDialog = function (linkInfo) {
           var _this = this;
+          
           return $$1.Deferred(function (deferred) {
               var $linkText = _this.$dialog.find('.note-link-text');
               var $linkUrl = _this.$dialog.find('.note-link-url');
@@ -7055,7 +7117,20 @@ sel.addRange(range);
                   _this.context.triggerEvent('dialog.shown');
                   // if no url was given, copy text to url
                   if (!linkInfo.url) {
-                      linkInfo.url = linkInfo.text;
+                    let url = linkInfo.text
+                    if ( isURL(url) ) {
+                      linkInfo.url = url
+                    }
+                    else {
+                      //url = window.clipboardData.getData('Text')
+                      url = ""
+                      if ( isURL(url) ) {
+                        linkInfo.url = url
+                      }
+                      else {
+                        linkInfo.url = ''
+                      }
+                    }
                   }
                   $linkText.val(linkInfo.text);
                   var handleLinkTextUpdate = function () {
@@ -7086,7 +7161,18 @@ sel.addRange(range);
                   _this.bindEnterKey($linkText, $linkBtn);
                   var isNewWindowChecked = linkInfo.isNewWindow !== undefined
                       ? linkInfo.isNewWindow : _this.context.options.linkTargetBlank;
-                  $openInNewWindow.prop('checked', isNewWindowChecked);
+                  //$openInNewWindow.prop('checked', isNewWindowChecked);
+                  
+                  let checkboxKey = 'summernote.LinkDialog.checkbox'
+                  //console.log([typeof(localStorage.getItem(checkboxKey)), localStorage.getItem(checkboxKey)])
+                  if (typeof(localStorage.getItem(checkboxKey)) === "string") {
+                    let checked = (localStorage.getItem(checkboxKey).toLowerCase() === 'true')
+                    $openInNewWindow.prop('checked', checked);
+                    //checkbox[0].checked = checked
+                    //console.log([checked, checkbox[0].checked])
+                    // localStorage.getItem('summernote.LinkDialog.checkbox')
+                  }
+                  
                   $linkBtn.one('click', function (event) {
                       event.preventDefault();
                       deferred.resolve({
@@ -8370,7 +8456,8 @@ sel.addRange(range);
                   'CTRL+NUM5': 'formatH5',
                   'CTRL+NUM6': 'formatH6',
                   'CTRL+ENTER': 'insertHorizontalRule',
-                  'CTRL+K': 'linkDialog.show'
+                  'CTRL+K': 'linkDialog.show',
+                  'CTRL+L': 'linkDialog.show'
               },
               mac: {
                   'ENTER': 'insertParagraph',

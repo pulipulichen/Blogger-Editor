@@ -45,7 +45,8 @@ let FieldPostTitle = {
       return this
     }
     
-    this.get().summernote('code', value);
+    this.get().summernote('code', value)
+    this.get().summernote('editor.commit')
     return this
   },
   save: function (callback) {

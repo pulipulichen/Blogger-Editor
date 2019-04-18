@@ -1594,3 +1594,7 @@ a.note-dropdown-item:hover {
   display: inline-block;
   margin-bottom: 5px
 }
+
+.note-modal input[type] {
+  height: inherit;
+}

@@ -99,7 +99,8 @@ let FieldPostBody = {
     }
     
     //console.log('postBody: ', value)
-    this.get().summernote('code', value);
+    this.get().summernote('code', value)
+    this.get().summernote('editor.commit')
     
     if ($v.EditorManager.OutlineNavigator !== null) {
       $v.EditorManager.OutlineNavigator.analyseHeadings()
