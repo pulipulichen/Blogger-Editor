@@ -5669,6 +5669,9 @@ sel.addRange(range);
        * toggle codeview
        */
       CodeView.prototype.toggle = function () {
+          //console.log()
+          console.log("codeview.toggle 2")
+          $(".note-popover").hide()
           //console.log(["a", $(this.$codable).val()])
           if (this.isActivated()) {
               //console.log(["b", $(this.$codable).val()])
