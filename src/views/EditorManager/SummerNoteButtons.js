@@ -84,6 +84,9 @@ let SummerNoteButtons = {
       popoverImageSave: (c) => {
         return this.popoverImageSave(c)
       },
+      popoverImageOpen: (c) => {
+        return this.popoverImageOpen(c)
+      },
     }
   },
   build: function (contents, tooltip, click) {
@@ -344,7 +347,7 @@ let SummerNoteButtons = {
   },
   popoverImageSave: function (context) {
     let contents = this.wrapNIWSF(`<i class="save icon"></i> Save`)
-    let tooltip = 'Open image in new tab'
+    let tooltip = 'Save image'
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       target = $(target)
@@ -355,6 +358,23 @@ let SummerNoteButtons = {
       //WindowHelper.popup(link, name)
       //window.open(link, name)
       FileHelper.download(link, name)
+    }
+    return this.build(contents, tooltip, click)
+  },
+  popoverImageOpen: function (context) {
+    let contents = this.wrapNIWSF(`<i class="share icon"></i> Open`)
+    let tooltip = 'Open image in new tab'
+    let click = () => {
+      let target = $v.EditorManager.FieldPostBody.getSelectTarget()
+      target = $(target)
+      let link = target.attr('src')
+      //console.log(link)
+      let name = link.slice(link.lastIndexOf('/') + 1)
+      //console.log(name)
+      //WindowHelper.popup(link, name)
+      //window.open(link, name)
+      console.log([link, name])
+      WindowHelper.popup(link, name)
     }
     return this.build(contents, tooltip, click)
   },
@@ -442,7 +462,20 @@ let SummerNoteButtons = {
     let tooltip = 'Download image template'
     let click = () => {
       let path = './static/image-template.dps'
-      FileHelper.download(path)
+      //FileHelper.download(path)
+      //let title = "test.dps"
+      let title = $v.EditorManager.FieldPostTitle.getText().trim()
+      if (title.indexOf('/') > -1) {
+        title = title.slice(0, title.indexOf('/')).trim()
+      }
+      if (title.length > 30) {
+        title = title.slice(0,30)
+      }
+      
+      title = title + '.dps'
+      //$(`<a href="${path}" download="${title}"></a>`).click()
+      
+      FileHelper.download(path, title)
     }
     return this.build(contents, tooltip, click)
   },

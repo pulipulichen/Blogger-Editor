@@ -225,8 +225,19 @@ Message: ${e.message}`
 
     }, errorHandler);
   },
+  isPlainText: function (path) {
+    return (path.endsWith('.txt') 
+            || path.endsWith('.html')
+            || path.endsWith('.htm')
+            || path.endsWith('.xhtml')
+            || path.endsWith('.xml')
+            || path.endsWith('.json')
+            )
+  },
   read: function (filePath, callback) {
     let fs = this.fs
+    filePath = this.resolveFileSystemUrl(filePath)
+    //console.log(['read', filePath])
     //let errorHandler = this.errorHandler
     let errorHandler = (e) => {
       if (e.code === 8) {
@@ -241,12 +252,12 @@ Message: ${e.message}`
         this.errorHandler(e)
       }
     }
-    fs.root.getFile(filePath, {}, function (fileEntry) {
+    fs.root.getFile(filePath, {}, (fileEntry) => {
 
       // Get a File object representing the file,
       // then use FileReader to read its contents.
-      fileEntry.file(function (file) {
-        var reader = new FileReader();
+      fileEntry.file((file) => {
+        let reader = new FileReader();
 
         reader.onloadend = function (e) {
           //var txtArea = document.createElement('textarea');
@@ -258,7 +269,12 @@ Message: ${e.message}`
           }
         };
 
-        reader.readAsText(file);
+        if (this.isPlainText(filePath)) {
+          reader.readAsText(file)
+        }
+        else {
+          reader.readAsDataURL(file)
+        }
       }, errorHandler);
 
     }, errorHandler);
@@ -418,6 +434,13 @@ Message: ${e.message}`
     }
     
     return 'filesystem:' + location.protocol + '//' + location.host + '/' + fsType + path
+  },
+  resolveFileSystemUrl: function (path) {
+    if (path.startsWith('filesystem:')) {
+      let parts = path.split('/')
+      path = '/' + parts.slice(4).join('/')
+    }
+    return path
   },
   readEventFilesText: function (files, callback) {
     //console.log(typeof(files.name))

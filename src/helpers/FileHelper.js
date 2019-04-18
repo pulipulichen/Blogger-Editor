@@ -21,11 +21,29 @@ let FileHelper = {
       filename = url.slice(url.lastIndexOf('/') + 1)
     }
     
+    /*
     $.get(url, (data) => {
       //console.log(data)
       let blob = new Blob([data])
       saveAs(blob, filename)
     })
+    */
+    let link = document.createElement("a");
+    link.download = filename;
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    //delete link;
+    
+    /*
+    link = document.createElement("a");
+    link.target = "aaa";
+    link.href = "filesystem:http://localhost:8383/temporary/2/assets/2019-0415-034405.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+     */
   },
   save: function (content, filename) {
     let blob = new Blob([content])

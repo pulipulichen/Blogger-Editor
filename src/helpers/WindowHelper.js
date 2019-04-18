@@ -17,6 +17,8 @@ WindowHelper = {
       height = 600
     }
     
+    // ------------------
+    
     let maxWidth = window.screen.availWidth - 100
     if (width > maxWidth) {
       width = maxWidth
@@ -54,14 +56,29 @@ WindowHelper = {
         return
       }
       
-      //console.log(newWindow)
-      $.get(url, (content) => {
-        //console.log(content)
-        newWindow.document.write(content)
-        if (window.focus && newWindow !== null) {
-          newWindow.focus()
-        }
-      })
+      if (url.endsWith('.html') 
+              || url.endsWith('.css')
+              || url.endsWith('.json')) {
+        //console.log(newWindow)
+        $.get(url, (content) => {
+          //console.log(content)
+          newWindow.document.write(content)
+          if (window.focus && newWindow !== null) {
+            newWindow.focus()
+          }
+        })
+      }
+      if (url.endsWith('.jpg') 
+              || url.endsWith('.png')
+              || url.endsWith('.jpeg')
+              || url.endsWith('.gif')) {
+        FileSystemHelper.read(url, (dataURI) => {
+          newWindow.document.write(`<img src="${dataURI}" />`)
+          if (window.focus && newWindow !== null) {
+            newWindow.focus()
+          }
+        })
+      }
     }
     return newWindow
   },
