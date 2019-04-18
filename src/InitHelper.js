@@ -69,6 +69,10 @@ let InitHelper = {
           $v.EditorManager.init(next)
         },
         (next) => {
+          DelayExecHelper.init()
+          next()
+        },
+        (next) => {
           ScrollHelper.load()
           next()
         }

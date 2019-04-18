@@ -1,4 +1,4 @@
-DelayExecHelper = {
+let DelayExecHelper = {
   timers: {},
   events: {},
   exec: function (type, delaySec, event) {
@@ -31,6 +31,7 @@ DelayExecHelper = {
         this.timers[type] = null
       }
     }
+    this.hideIndicator()
   },
   clear: function () {
     for (let type in this.timers) {
@@ -63,4 +64,12 @@ DelayExecHelper = {
       $v.EditorManager.SaveIndicator.close()
     }
   },
+  init: function () {
+    window.addEventListener('blur', () => {
+      this.forceExec()
+    })
+  }
 }
+
+window.DelayExecHelper = DelayExecHelper
+export default DelayExecHelper

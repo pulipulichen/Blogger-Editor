@@ -2661,8 +2661,10 @@
       WrappedRange.prototype.nativeRange = function () {
           if (env.isW3CRangeSupport) {
               var w3cRange = document.createRange();
-              w3cRange.setStart(this.sc, this.so);
-              w3cRange.setEnd(this.ec, this.eo);
+              try {
+                w3cRange.setStart(this.sc, this.so);
+                w3cRange.setEnd(this.ec, this.eo);
+              } catch(e) {}
               return w3cRange;
           }
           else {
@@ -7066,6 +7068,7 @@ sel.addRange(range);
                 //console.log('Pasted content: ', text);
                 if (isURL(text)) {
                   this.value = text
+                  this.select()
                 }
               })
               .catch(err => {
@@ -7155,6 +7158,7 @@ sel.addRange(range);
                   }).val(linkInfo.url);
                   if (!env.isSupportTouch) {
                       $linkUrl.trigger('focus');
+                      $linkUrl.trigger('select');
                   }
                   _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
                   _this.bindEnterKey($linkUrl, $linkBtn);
