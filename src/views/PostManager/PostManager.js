@@ -550,7 +550,8 @@ let PostManager = {
       }
       
       $v.PageLoader.open()
-      let folderName = `blogger-editor-post-${id}`
+      let nowFormat = DayjsHelper.nowFormat()
+      let folderName = `blogger-editor-post-${id}-${nowFormat}`
       this.createBackupZip(id, (zip) => {
         saveAs(zip, `${folderName}.zip`)
         $v.PageLoader.close()

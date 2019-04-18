@@ -233,9 +233,16 @@ let SummerNoteButtons = {
     }
 
     parent = $(parent)
+    if (parent.hasClass('note-editing-area') === true 
+            || parent.hasClass('note-editable') === true) {
+      //console.log('has class note-editing-area')
+      return
+    }
+    
     let content = parent.html()
     let grandParent = parent.parent()
-    while (grandParent.hasClass('note-editing-area') === false) {
+    while (grandParent.hasClass('note-editing-area') === false 
+            && grandParent.hasClass('note-editable') === false) {
       parent = grandParent
       grandParent = parent.parent()
     }
