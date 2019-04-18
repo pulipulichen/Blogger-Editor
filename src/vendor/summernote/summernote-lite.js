@@ -2420,7 +2420,11 @@
   function posFromPlaceholder(placeholder) {
       var $placeholder = $$1(placeholder);
       var pos = $placeholder.offset();
+      //console.log($placeholder[0])
+      //console.log([posFromPlaceholder, pos.top])
       var height = $placeholder.outerHeight(true); // include margin
+      //console.log(height)
+      //height = 0
       return {
           left: pos.left,
           top: pos.top + height
@@ -7165,8 +7169,25 @@ sel.addRange(range);
           if (rng.isCollapsed() && rng.isOnAnchor()) {
               var anchor = dom.ancestor(rng.sc, dom.isAnchor);
               var href = $$1(anchor).attr('href');
-              this.$popover.find('a').attr('href', href).html(href);
+              let displayHref = href
+              if (displayHref.length > 100) {
+                let parts = displayHref.split("/")
+                displayHref = [parts[0], parts[1], parts[2], '...', parts[(parts.length - 1)]].join('/')
+                if (displayHref.length > 100) {
+                  let host = parts[2]
+                  if (host.length > 30) {
+                    host = host.slice(0, 10) + '...' + host.slice(-10)
+                  }
+                  let filename = parts[(parts.length - 1)]
+                  if (filename.length > 30) {
+                    filename = filename.slice(0, 10) + '...' + filename.slice(-10)
+                  }
+                  displayHref = [parts[0], parts[1], host, '...', filename].join('/')
+                }
+              }
+              this.$popover.find('a').attr('href', href).html(displayHref);
               var pos = dom.posFromPlaceholder(anchor);
+              //console.log(['LinkPopover update', pos])
               this.$popover.css({
                   display: 'block',
                   left: pos.left,

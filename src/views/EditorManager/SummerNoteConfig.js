@@ -49,7 +49,7 @@ let SummerNoteConfig = {
         ['insertMultimedia', [ 'picture', 'downloadImageTemplate', 'video']],
         ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
         ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
-        ['publish', ['ImageReplacer', 'CopyHTML']],
+        ['publish', ['ImageReplacer', 'CleanCode', 'CopyHTML']],
         ['help', [/*'fullscreen',*/ 'help']]
       ]
 

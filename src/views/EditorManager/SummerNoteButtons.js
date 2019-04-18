@@ -45,6 +45,9 @@ let SummerNoteButtons = {
       downloadImageTemplate: (c) => {
         return this.downloadImageTamplate(c)
       },
+      CleanCode: (c) => {
+        return this.CleanCode(c)
+      },
       
       styleP: (c) => {
         return this.styleP(c)
@@ -113,6 +116,61 @@ let SummerNoteButtons = {
     }
     return this.build(contents, tooltip, click)
   },
+  CleanCode: function (context) {
+    let contents = this.wrapNIWSF(`<i class="eraser icon"></i>Clean`)
+    let tooltip = 'Clean Code'
+    let click = () => {
+      //let code = this.getPostSummerNote().summernote('code');
+      let postBody = $v.EditorManager.FieldPostBody.getElement()
+      let children = postBody.children()
+      
+      // Clean empty ndoes
+      children.each((i, child) => {
+        //console.log(child.innerHTML.trim())
+        let html = child.innerHTML.trim().toLowerCase()
+        if (html === '' || html === '<br>') {
+          $(child).remove()
+          return
+        }
+        
+        let subchild = $(child).children()
+        //console.log([subchild.length, subchild.eq(0)[0], subchild.eq(0).attr('tagName'), subchild.eq(0).prop('tagName')])
+        //return
+        //console.log([subchild.length, subchild.eq(0).prop('tagName').toLowerCase()])
+        let l = 0
+        let firstTagName = subchild.eq(l).prop('tagName')
+        while (firstTagName !== undefined 
+                && firstTagName.toLowerCase() === 'br') {
+          subchild.eq(l).remove()
+          l++
+          if (l === subchild.length) {
+            break
+          }
+          firstTagName = subchild.eq(l).prop('tagName')
+        }
+        
+        l = subchild.length - 1
+        let lastTagName = subchild.eq(l).prop('tagName')
+        while (lastTagName !== undefined 
+                && lastTagName.toLowerCase() === 'br') {
+          subchild.eq(l).remove()
+          l--
+          if (l === 0) {
+            break
+          }
+          lastTagName = subchild.eq(l).prop('tagName')
+        }
+        
+        subchild = $(child).contents()
+        if (subchild.length === 0) {
+          $(child).remove()
+        }
+      })
+    }
+    return this.build(contents, tooltip, click)
+  },
+  
+  
   ImageReplacer: function (context) {
     let contents = this.wrapNIWSF(`<i class="image icon"></i>Upload Images`)
     let tooltip = 'Replace Images with Blogger'
@@ -175,11 +233,14 @@ let SummerNoteButtons = {
     }
 
     parent = $(parent)
-    //console.log(parent.prop('className'))
-    if (parent.hasClass('note-editing-area') === false) {
-      let content = parent.html()
-      parent.replaceWith(`<${tagName}>${content}</${tagName}>`)
+    let content = parent.html()
+    let grandParent = parent.parent()
+    while (grandParent.hasClass('note-editing-area') === false) {
+      parent = grandParent
+      grandParent = parent.parent()
     }
+    
+    parent.replaceWith(`<${tagName}>${content}</${tagName}>`)
   },
   
   styleP: function (context) {
