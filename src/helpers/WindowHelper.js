@@ -71,7 +71,8 @@ WindowHelper = {
       if (url.endsWith('.jpg') 
               || url.endsWith('.png')
               || url.endsWith('.jpeg')
-              || url.endsWith('.gif')) {
+              || url.endsWith('.gif')
+              || url.endsWith('.svg')) {
         FileSystemHelper.read(url, (dataURI) => {
           newWindow.document.write(`<img src="${dataURI}" />`)
           if (window.focus && newWindow !== null) {
