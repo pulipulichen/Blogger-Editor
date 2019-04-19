@@ -2958,7 +2958,9 @@
           }
           // siblings not in paragraph
           var inlineSiblings = dom.listPrev(topAncestor, dom.isParaInline).reverse();
-          inlineSiblings = inlineSiblings.concat(dom.listNext(topAncestor.nextSibling, dom.isParaInline));
+          if (topAncestor !== undefined) {
+            inlineSiblings = inlineSiblings.concat(dom.listNext(topAncestor.nextSibling, dom.isParaInline));
+          }
           // wrap with paragraph
           if (inlineSiblings.length) {
               var para = dom.wrap(lists.head(inlineSiblings), 'p');
