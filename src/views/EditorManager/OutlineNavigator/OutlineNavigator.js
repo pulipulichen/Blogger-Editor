@@ -3,6 +3,7 @@ let config = {
     return {
       name: 'OutlineNavigator',
       ui: undefined,
+      $body: undefined,
       templateElement: null,
       postBody: null,
       opened: false,
@@ -60,6 +61,7 @@ let config = {
         //console.log('find ui')
         this.ui = $(this.$refs.modal)
         this.templateElement = $('#template')
+        this.$body = $('body')
       }
       return this.ui
     },
@@ -70,7 +72,8 @@ let config = {
       this.analyseHeadings()
       this.getUI().addClass('visible')
       this.templateElement.addClass('sidebar')
-      console.log('open')
+      //console.log('open')
+      this.$body.addClass('OutlineNavigator-open')
     },
     close: function () {
       this.opened = false
@@ -78,7 +81,8 @@ let config = {
       //this.getUI().sidebar('toggle')
       this.getUI().removeClass('visible')
       this.templateElement.removeClass('sidebar')
-      console.log('close')
+      //console.log('close')
+      this.$body.removeClass('OutlineNavigator-open')
     },
     toggle: function () {
       if (this.opened) {

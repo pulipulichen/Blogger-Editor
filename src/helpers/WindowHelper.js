@@ -75,7 +75,7 @@ WindowHelper = {
               || url.endsWith('.svg')) {
         FileSystemHelper.read(url, (dataURI) => {
           newWindow.document.write(`<img src="${dataURI}" />`)
-          newWindow.document.title = url.slice(url.lastIndexOf('/') + 1)
+          newWindow.document.title = unescapeComponent(url.slice(url.lastIndexOf('/') + 1))
           //let mime = dataURI.slice(dataURI.indexOf(':') + 1, dataURI.indexOf(';'))
           //$(newWindow.document).find('head').append(`<link rel="icon" type="${mime}" href="${url}" />`)
           $(newWindow.document).find('body').css('margin', 0)
