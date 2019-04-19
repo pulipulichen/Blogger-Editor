@@ -231,7 +231,8 @@ let SummerNoteButtons = {
   // -------------------------
   
   styleTagName: function (tagName) {
-    let target = $v.EditorManager.FieldPostBody.getSelectTarget()
+    let postBody = $v.EditorManager.FieldPostBody
+    let target = postBody.getSelectTarget()
     //console.log($(target).html())
     let parent = target.sc.parentNode
     if (parent.tagName.toLowerCase() === tagName.toLocaleLowerCase()) {
@@ -254,6 +255,7 @@ let SummerNoteButtons = {
     }
     
     parent.replaceWith(`<${tagName}>${content}</${tagName}>`)
+    postBody.change()
   },
   
   styleP: function (context) {

@@ -92,6 +92,9 @@ let FieldPostBody = {
     this.get().summernote(insertType, html);
     return this
   },
+  change: function () {
+    this.insert('')
+  },
   set: function (value) {
     if (this.debug.disableSummerNode === true) {
       this.get().html(value)
