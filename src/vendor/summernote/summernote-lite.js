@@ -1689,7 +1689,8 @@
    * - [workaround] old IE only works with &nbsp;
    * - [workaround] IE11 and other browser works with bogus br
    */
-  var blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '<br>';
+  //var blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '<br>';
+  var blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '';
   /**
    * @method nodeLength
    *
@@ -1880,8 +1881,12 @@
   function wrap(node, wrapperName) {
       var parent = node.parentNode;
       var wrapper = $$1('<' + wrapperName + '>')[0];
-      parent.insertBefore(wrapper, node);
-      wrapper.appendChild(node);
+      if (parent !== null) {
+        parent.insertBefore(wrapper, node);
+      }
+      try {
+        wrapper.appendChild(node);
+      } catch (e) {}
       return wrapper;
   }
   /**
@@ -3410,7 +3415,10 @@
               });
               return result_1;
           }
-          return $obj.css(propertyNames);
+          try {
+            return $obj.css(propertyNames);
+          } catch (e) {
+          }
       };
       /**
        * returns style object from node
@@ -3533,7 +3541,8 @@
   }());
 
   var Bullet = /** @class */ (function () {
-      function Bullet() {
+      function Bullet(context) {
+        this.context = context
       }
       /**
        * toggle ordered list
@@ -3570,6 +3579,14 @@
                           .map(function (para) { return _this.appendToPrevious(para); });
                   }
               }
+              else if (dom.isHeading(head)) {
+                //console.log(head.tagName)
+                let headingLevel = parseInt(head.tagName.slice(1), 10)
+                headingLevel++
+                //document.execCommand('FormatBlock', true, `H${headingLevel}`);
+                //document.execCommand('insertText', true, '');
+                _this.context.invoke('editor.formatBlock', `H${headingLevel}`)
+              }
               else {
                 /*
               
@@ -3596,6 +3613,16 @@
               var head = lists.head(paras);
               if (dom.isLi(head)) {
                   _this.releaseList([paras]);
+              }
+              else if (dom.isHeading(head)) {
+                //console.log(head.tagName)
+                let headingLevel = parseInt(head.tagName.slice(1), 10)
+                headingLevel--
+                let tagName = 'p'
+                if (headingLevel > 0) {
+                  tagName = `H${headingLevel}`
+                }
+                _this.context.invoke('editor.formatBlock', tagName)
               }
               else {
                   $$1.each(paras, function (idx, para) {
@@ -3798,7 +3825,7 @@
   var Typing = /** @class */ (function () {
       function Typing(context) {
           // a Bullet instance to toggle lists off
-          this.bullet = new Bullet();
+          this.bullet = new Bullet(context);
           this.options = context.options;
       }
       /**
@@ -4456,7 +4483,7 @@
           this.style = new Style();
           this.table = new Table();
           this.typing = new Typing(context);
-          this.bullet = new Bullet();
+          this.bullet = new Bullet(context);
           this.history = new History(this.$editable);
           this.context.memo('help.undo', this.lang.help.undo);
           this.context.memo('help.redo', this.lang.help.redo);
@@ -5140,6 +5167,7 @@
           }
           
           tagName = env.isMSIE ? '<' + tagName + '>' : tagName;
+          this.saveRange()
           document.execCommand('FormatBlock', false, tagName);
           // support custom class
           if ($target && $target.length) {
@@ -5150,6 +5178,9 @@
                   $parent.addClass(className);
               }
           }
+          $(() => {
+            this.undo()
+          })
       };
       Editor.prototype.formatPara = function () {
           this.formatBlock('P');
