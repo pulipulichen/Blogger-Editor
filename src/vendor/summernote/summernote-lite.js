@@ -1630,7 +1630,7 @@
           !isData(node);
   }
   function isList(node) {
-      if (node === undefined || typeof(node.nodeName) === "undefined") {
+      if (node === undefined || node === null || typeof(node.nodeName) === "undefined") {
         return false
       }
       return node && /^UL|^OL/.test(node.nodeName.toUpperCase());
@@ -8546,8 +8546,8 @@ sel.addRange(range);
                   'ENTER': 'insertParagraph',
                   'CTRL+Z': 'undo',
                   'CTRL+Y': 'redo',
-                  'TAB': 'tab',
-                  'SHIFT+TAB': 'untab',
+                  //'TAB': 'tab',
+                  //'SHIFT+TAB': 'untab',
                   'CTRL+B': 'bold',
                   'CTRL+I': 'italic',
                   'CTRL+U': 'underline',
@@ -8561,6 +8561,8 @@ sel.addRange(range);
                   'CTRL+SHIFT+NUM8': 'insertOrderedList',
                   'CTRL+LEFTBRACKET': 'outdent',
                   'CTRL+RIGHTBRACKET': 'indent',
+                  'SHIFT+TAB': 'outdent',
+                  'TAB': 'indent',
                   'CTRL+NUM0': 'formatPara',
                   'CTRL+NUM1': 'formatH1',
                   'CTRL+NUM2': 'formatH2',
