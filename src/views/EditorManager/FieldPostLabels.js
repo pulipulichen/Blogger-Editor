@@ -19,7 +19,7 @@ let FieldPostLabels = {
   },
   reload: function (callback) {
     this.ui = null
-    this.get().summernote(SummerNoteConfig.airConfig('labels', 'No Label', callback))
+    this.get().summernote(SummerNoteConfig.labelsAirConfig('labels', 'No Label', callback))
     return this
   },
   get: function () {

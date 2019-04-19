@@ -4752,7 +4752,7 @@
       Editor.prototype.initialize = function () {
           var _this = this;
           // bind custom events
-          this.$editable.on('keydown', function (event) {
+          let keydownEvent = function (event) {
               if (event.keyCode === key.code.ENTER) {
                   _this.context.triggerEvent('enter', event);
               }
@@ -4768,9 +4768,18 @@
               if (_this.isLimited(1, event)) {
                   return false;
               }
-          }).on('keyup', function (event) {
+          }
+          
+          this.$editable.on('keydown', keydownEvent)
+          //.on('compositionstart', keydownEvent)
+          .on('keyup', function (event) {
               _this.context.triggerEvent('keyup', event);
-          }).on('focus', function (event) {
+          })
+          .on('compositionend', function (event) {
+              //console.log('compositionend')
+              _this.context.triggerEvent('keyup', event);
+          })
+          .on('focus', function (event) {
               _this.context.triggerEvent('focus', event);
           }).on('blur', function (event) {
               _this.context.triggerEvent('blur', event);
@@ -7959,6 +7968,7 @@ sel.addRange(range);
           this.hints = $$1.isArray(this.hint) ? this.hint : [this.hint];
           this.events = {
               'summernote.keyup': function (we, e) {
+                //console.log('hint keyup')
                   if (!e.isDefaultPrevented()) {
                       _this.handleKeyup(e);
                   }
@@ -8101,9 +8111,12 @@ sel.addRange(range);
       };
       HintPopover.prototype.handleKeyup = function (e) {
           var _this = this;
+          //console.log(['e.keyCode', e.keyCode])
           if (!lists.contains([key.code.ENTER, key.code.UP, key.code.DOWN], e.keyCode)) {
               var wordRange = this.context.invoke('editor.createRange').getWordRange();
+              
               var keyword_1 = wordRange.toString();
+              //console.log(['keyword_1', keyword_1])
               if (this.hints.length && keyword_1) {
                   this.$content.empty();
                   var bnd = func.rect2bnd(lists.last(wordRange.getClientRects()));
@@ -8111,9 +8124,10 @@ sel.addRange(range);
                       this.$popover.hide();
                       this.lastWordRange = wordRange;
                       this.hints.forEach(function (hint, idx) {
-                          if (hint.match.test(keyword_1)) {
-                              _this.createGroup(idx, keyword_1).appendTo(_this.$content);
-                          }
+                        //console.log(['hint', hint])
+                        if (hint.match.test(keyword_1)) {
+                          _this.createGroup(idx, keyword_1).appendTo(_this.$content);
+                        }
                       });
                       // select first .note-hint-item
                       this.$content.find('.note-hint-item:first').addClass('active');

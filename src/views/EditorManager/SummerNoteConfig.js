@@ -160,7 +160,7 @@ let SummerNoteConfig = {
       },
       buttons: SummerNoteButtons.config(),
       //disableDragAndDrop: false,
-      callbacks: SummerNoteCallbacks.config(callback)
+      callbacks: SummerNoteCallbacks.config(callback),
     }
     return config
   },
@@ -188,6 +188,25 @@ let SummerNoteConfig = {
     }
     return config
   },
+  labelsAriConfig: function (fieldName, placeholder, callback) {
+    let config = this.airConfig(fieldName, placeholder, callback)
+    
+    /*
+    config.hint = {
+      words: ['我真是太厲害了', 'orange'],
+      //match: /\b(\S{1,})$/,
+      match: /([\u4E00-\u9FAF\u3040-\u3096\u30A1-\u30FA\uFF66-\uFF9D\u31F0-\u31FFA-Za-z]{1,})$/,
+      search: function (keyword, callback) {
+        console.log(['search', keyword])
+        callback($.grep(this.words, function (item) {
+          return item.indexOf(keyword) === 0;
+        }));
+      }
+    }
+    */
+    
+    return config
+  }
 }
 
 export default SummerNoteConfig
