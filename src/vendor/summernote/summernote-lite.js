@@ -3571,11 +3571,15 @@
                   }
               }
               else {
+                /*
+              
                   $$1.each(paras, function (idx, para) {
                       $$1(para).css('marginLeft', function (idx, val) {
                           return (parseInt(val, 10) || 0) + 25;
                       });
                   });
+                */
+                 _this.wrapList(paras, 'UL');
               }
           });
           rng.select();
