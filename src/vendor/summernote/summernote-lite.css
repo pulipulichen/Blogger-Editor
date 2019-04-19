@@ -183,6 +183,41 @@
   content: "\f11a"
 }
 
+.note-icon-formatPara:before {
+  content: "<P>"
+}
+
+.note-btn-formatHeading1 {
+  padding: 0 !important;
+}
+
+.note-btn-formatHeading1 h1 {
+  line-height: 15px;
+  padding: 5px 10px;
+}
+
+.note-btn-formatHeading1 h1:before {
+  content: "<H1>";
+  font-size: 14px;
+  font-weight: bold;
+  
+}
+.note-icon-formatHeading2:before {
+  content: "<H2>"
+}
+.note-icon-formatHeading3:before {
+  content: "<H3>"
+}
+.note-icon-formatHeading4:before {
+  content: "<H4>"
+}
+.note-icon-formatHeading5:before {
+  content: "<H5>"
+}
+.note-icon-formatHeading6:before {
+  content: "<H6>"
+}
+
 .note-icon-italic:before {
   content: "\f11b"
 }

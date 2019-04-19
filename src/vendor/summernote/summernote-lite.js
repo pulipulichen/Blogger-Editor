@@ -3585,7 +3585,12 @@
                 headingLevel++
                 //document.execCommand('FormatBlock', true, `H${headingLevel}`);
                 //document.execCommand('insertText', true, '');
+                
+                _this.context.invoke('editor.saveRange')
                 _this.context.invoke('editor.formatBlock', `H${headingLevel}`)
+                $(() => {
+                _this.context.invoke('editor.undo')
+                })
               }
               else {
                 /*
@@ -3622,7 +3627,11 @@
                 if (headingLevel > 0) {
                   tagName = `H${headingLevel}`
                 }
+                _this.context.invoke('editor.saveRange')
                 _this.context.invoke('editor.formatBlock', tagName)
+                $(() => {
+                _this.context.invoke('editor.undo')
+                })
               }
               else {
                   $$1.each(paras, function (idx, para) {
@@ -5167,7 +5176,6 @@
           }
           
           tagName = env.isMSIE ? '<' + tagName + '>' : tagName;
-          this.saveRange()
           document.execCommand('FormatBlock', false, tagName);
           // support custom class
           if ($target && $target.length) {
@@ -5178,9 +5186,6 @@
                   $parent.addClass(className);
               }
           }
-          $(() => {
-            this.undo()
-          })
       };
       Editor.prototype.formatPara = function () {
           this.formatBlock('P');
@@ -6433,6 +6438,13 @@ sel.addRange(range);
           for (var styleIdx = 0, styleLen = this.options.styleTags.length; styleIdx < styleLen; styleIdx++) {
               _loop_1(styleIdx, styleLen);
           }
+          this.context.memo('button.formatHeading1', function () {
+              return _this.button({
+                  className: 'note-btn-formatHeading1',
+                  contents: '<h1></h1>',
+                  click: _this.context.createInvokeHandler('editor.formatBlock', 'H1')
+              }).render();
+          });
           this.context.memo('button.bold', function () {
               return _this.button({
                   className: 'note-btn-bold',
@@ -8473,7 +8485,7 @@ sel.addRange(range);
           otherStaticBar: '',
           // toolbar
           toolbar: [
-              ['style', ['style']],
+              ['style', ['style', 'formatHeading1']],
               ['font', ['bold', 'underline', 'clear']],
               ['fontname', ['fontname']],
               ['fontsize', ['fontsize']],
