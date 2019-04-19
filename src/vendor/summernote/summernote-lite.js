@@ -2405,7 +2405,8 @@
    */
   function html($node, isNewlineOnBlock) {
       var markup = value($node);
-      if (isNewlineOnBlock) {
+      //if (isNewlineOnBlock) {
+      if (true) {
           var regexTag = /<(\/?)(\b(?!!)[^>\s]*)(.*?)(\s*\/?>)/g;
           markup = markup.replace(regexTag, function (match, endSlash, name) {
               name = name.toUpperCase();
@@ -2977,6 +2978,7 @@
       WrappedRange.prototype.insertNode = function (node) {
           var rng = this.wrapBodyInlineWithPara().deleteContents();
           var info = dom.splitPoint(rng.getStartPoint(), dom.isInline(node));
+          //console.log(info.rightNode
           if (info.rightNode) {
               info.rightNode.parentNode.insertBefore(node, info.rightNode);
           }
@@ -4756,7 +4758,8 @@
           // bind custom events
           let keydownEvent = function (event) {
               if (event.keyCode === key.code.ENTER) {
-                  _this.context.triggerEvent('enter', event);
+                //console.log("ENTER")
+                _this.context.triggerEvent('enter', event);
               }
               _this.context.triggerEvent('keydown', event);
               if (!event.isDefaultPrevented()) {
