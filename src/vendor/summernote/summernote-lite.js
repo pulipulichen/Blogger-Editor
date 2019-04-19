@@ -2186,7 +2186,7 @@
           if (current !== undefined && current.childNodes.length <= offsets[i]) {
               current = current.childNodes[current.childNodes.length - 1];
           }
-          else {
+          else if (current !== undefined) {
               current = current.childNodes[offsets[i]];
           }
       }
@@ -4757,10 +4757,7 @@
           var _this = this;
           // bind custom events
           let keydownEvent = function (event) {
-              if (event.keyCode === key.code.ENTER) {
-                //console.log("ENTER")
-                _this.context.triggerEvent('enter', event);
-              }
+              
               _this.context.triggerEvent('keydown', event);
               if (!event.isDefaultPrevented()) {
                   if (_this.options.shortcuts) {
@@ -4779,6 +4776,10 @@
           //.on('compositionstart', keydownEvent)
           .on('keyup', function (event) {
               _this.context.triggerEvent('keyup', event);
+              if (event.keyCode === key.code.ENTER) {
+                //console.log("ENTER")
+                _this.context.triggerEvent('enter', event);
+              }
           })
           .on('compositionend', function (event) {
               //console.log('compositionend')
