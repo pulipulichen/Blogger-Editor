@@ -188,18 +188,27 @@
 }
 
 .note-btn-formatBlock > * {
-  line-height: 9px;
-  padding: 5px 10px;
-  margin: 0;
-  height: 29px;
+  line-height: 9px !important;
+  padding: 5px 10px !important;
+  margin: 0 !important;
+  height: 29px !important;
+  text-indent: 0 !important;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: inherit;
 }
 
 .note-btn-formatBlock > *:before {
   content: "<H1>";
-  font-size: 14px;
+  font-size: 14px !important;
   font-weight: bold;
   line-height: 20px;
   
+}
+
+.note-btn-formatBlock > h1,
+.note-btn-formatBlock > h2 {
+  line-height: 0 !important;
 }
 
 .note-btn-formatBlock > h2:before {
@@ -224,6 +233,7 @@
 .note-btn-formatBlock > code:before {
   content: "<CODE>" !important;
   font-weight: normal;
+  line-height: 29px;
 }
 
 .note-icon-italic:before {
