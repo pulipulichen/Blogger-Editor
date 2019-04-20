@@ -341,7 +341,7 @@
 }
 
 .note-frame * {
-  color: #000;
+  /* color: #000; */
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box
@@ -1023,6 +1023,10 @@ a.note-dropdown-item:hover {
   outline: 0
 }
 
+.note-editor .note-editing-area .note-editable * {
+  /*color: inherit;*/
+}
+
 .note-editor .note-editing-area .note-editable table {
   width: 100%;
   border-collapse: collapse
@@ -1155,9 +1159,12 @@ a.note-dropdown-item:hover {
 .note-editor.note-frame .note-editing-area .note-editable {
   padding: 10px;
   overflow: auto;
-  color: #000;
+  /* color: #000; */
   word-wrap: break-word;
-  background-color: #fff
+  /* background-color: #fff */
+  background-color: transparent;
+  border: 1px solid white;
+  border-width: 0 1px;
 }
 
 .note-editor.note-frame .note-editing-area .note-editable[contenteditable="false"] {
