@@ -256,7 +256,7 @@
   var toolbar = renderer.create('<div class="note-toolbar" role="toolbar"/>');
   var editingArea = renderer.create('<div class="note-editing-area"/>');
   var codable = renderer.create('<textarea class="note-codable" role="textbox" aria-multiline="true"/>');
-  var editable = renderer.create('<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"/>');
+  var editable = renderer.create('<div class="note-editable show-heading-label" contentEditable="true" role="textbox" aria-multiline="true"/>');
   var statusbar = renderer.create([
       '<output class="note-status-output" role="status" aria-live="polite"/>',
       '<div class="note-statusbar" role="resize">',
@@ -4792,6 +4792,10 @@
                   height: ''
               });
           });
+          
+          if (this.options.showHeadingLabel === false) {
+            this.$editable.removeClass('show-heading-label')
+          }
       }
       Editor.prototype.initialize = function () {
           var _this = this;
@@ -8638,6 +8642,7 @@ sel.addRange(range);
           container: 'body',
           maxTextLength: 0,
           clearEnterFormat: true,
+          showHeadingLabel: false,
           blockquoteBreakingLevel: 2,
           styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
           fontNames: [

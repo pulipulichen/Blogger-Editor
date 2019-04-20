@@ -1061,6 +1061,79 @@ a.note-dropdown-item:hover {
   margin: 0
 }
 
+.note-editor .note-editing-area .note-editable.show-heading-label {
+  outline: 0
+}
+
+.note-editor .note-editing-area .note-editable.show-heading-label h1::before,
+.note-editor .note-editing-area .note-editable.show-heading-label h2::before,
+.note-editor .note-editing-area .note-editable.show-heading-label h3::before,
+.note-editor .note-editing-area .note-editable.show-heading-label h4::before,
+.note-editor .note-editing-area .note-editable.show-heading-label h5::before,
+.note-editor .note-editing-area .note-editable.show-heading-label h6::before{
+    content: '<h1>';
+    font-size: 0.5rem;
+    border: 1px dotted gray;
+    background-color: gray;
+    color: white;
+    margin-bottom: 5px;
+    clear: both;
+    display: block;
+    line-height: 0.5rem;
+    width: 1.3rem;
+    text-align: center;
+  }
+  
+.note-editor .note-editing-area .note-editable.show-heading-label h2 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+.note-editor .note-editing-area .note-editable.show-heading-label h2::before, {
+    content: '<h2>';
+  }
+  
+.note-editor .note-editing-area .note-editable.show-heading-label h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+.note-editor .note-editing-area .note-editable.show-heading-label h3::before, {
+    content: '<h3>';
+  }
+  
+.note-editor .note-editing-area .note-editable.show-heading-label h4 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+.note-editor .note-editing-area .note-editable.show-heading-label h4::before, {
+    content: '<h4>';
+  }
+  
+.note-editor .note-editing-area .note-editable.show-heading-label h5 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+.note-editor .note-editing-area .note-editable.show-heading-label h5::before, {
+    content: '<h5>';
+  }
+  
+.note-editor .note-editing-area .note-editable.show-heading-label h6 {
+    font-size: 1rem;
+    font-style: italic;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+.note-editor .note-editing-area .note-editable.show-heading-label h6::before, {
+    content: '<h6>';
+  }
+
 .note-editor.note-frame {
   /* border: 1px solid #a9a9a9; */
   border-width: 0;
