@@ -219,7 +219,10 @@
 }
 .note-btn-formatBlock > p:before {
   content: "<P>" !important;
-  line-height: 19px;
+  font-weight: normal;
+}
+.note-btn-formatBlock > code:before {
+  content: "<CODE>" !important;
   font-weight: normal;
 }
 

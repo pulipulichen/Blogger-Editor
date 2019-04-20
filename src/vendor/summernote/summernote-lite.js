@@ -5149,6 +5149,13 @@
       }
       
       Editor.prototype.onFormatBlock = function (tagName, $target) {
+          if (Array.isArray(tagName)) {
+            tagName.forEach(t => {
+              this.onFormatBlock(t, $target)
+            })
+            return
+          }
+      
           // [workaround] for MSIE, IE need `<`
           
           if (this.inlineTags.indexOf(tagName) > -1) {
@@ -5253,11 +5260,11 @@
           //this.saveRange()
           var rng = this.createRange();
           if (rng) {
-              console.log(rng)
+              //console.log(rng)
               
               
               let parent = $(rng.sc)
-              console.log([rng.sc.nodeType, Node.TEXT_NODE])
+              //console.log([rng.sc.nodeType, Node.TEXT_NODE])
               if (rng.sc.nodeType === Node.TEXT_NODE) {
                 parent = $(rng.sc.parentElement)
               }
@@ -5340,7 +5347,7 @@ sel.addRange(range);
                 }
               
               if (typeof(options.tagName) === 'string') {
-                console.log([parentTagName, this.isInlineTag(parentTagName), rng.sc.nodeValue, parent])
+                //console.log([parentTagName, this.isInlineTag(parentTagName), rng.sc.nodeValue, parent])
                 if (this.isInlineTag(parentTagName) === false) {
                   //if (rng.sc.nodeValue !== '') {
                   if (rng.so !== rng.eo) {
@@ -6448,6 +6455,13 @@ sel.addRange(range);
                   className: 'note-btn-formatBlock note-btn-formatP',
                   contents: '<p></p>',
                   click: _this.context.createInvokeHandler('editor.formatBlock', 'P')
+              }).render();
+          });
+          this.context.memo('button.formatCode', function () {
+              return _this.button({
+                  className: 'note-btn-formatBlock note-btn-formatCode',
+                  contents: '<code></code>',
+                  click: _this.context.createInvokeHandler('editor.formatBlock', ['code', 'pre'])
               }).render();
           });
           this.context.memo('button.formatH1', function () {
@@ -8533,7 +8547,8 @@ sel.addRange(range);
           // toolbar
           toolbar: [
               ['style', ['style']],
-              ['formatBlock', ['formatPara', 'formatH1', 'formatH2', 'formatH3', 'formatH4', 'formatH5', 'formatH6']],
+              ['formatBlockHeading', ['formatH1', 'formatH2', 'formatH3', 'formatH4', 'formatH5', 'formatH6']],
+              ['formatBlock', ['formatPara', 'formatCode']],
               ['font', ['bold', 'underline', 'clear']],
               ['fontname', ['fontname']],
               ['fontsize', ['fontsize']],
