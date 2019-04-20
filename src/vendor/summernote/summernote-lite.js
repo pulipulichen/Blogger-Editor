@@ -1654,6 +1654,37 @@
       return isInline(node) && !ancestor(node, isPara);
   }
   var isBody = makePredByNodeName('BODY');
+  
+  /**
+   * is parents has list
+   *
+   * @author Pulipuli Chen 20190420
+   */
+  function isParentsHasList(node) {
+    if (typeof(node) !== 'object' || typeof(node.parent) !== 'function') {
+      node = $(node)
+    }
+    
+    let tagName = node.prop('tagName')
+    if (tagName !== undefined && tagName.toLowerCase() === 'li') {
+      return true
+    }
+    
+    let parent = node.parent()
+    while (parent.length > 0 && parent.hasClass('note-editable') === false) {
+      tagName = parent.prop('tagName')
+      if (tagName === undefined) {
+        return false
+      }
+      console.log(tagName)
+      if (tagName !== undefined && tagName.toLowerCase() === 'li') {
+        return true
+      }
+      parent = parent.parent()
+    }
+    return false
+  }
+  
   /**
    * returns whether nodeB is closest sibling of nodeA
    *
@@ -2546,7 +2577,8 @@
       posFromPlaceholder: posFromPlaceholder,
       attachEvents: attachEvents,
       detachEvents: detachEvents,
-      isCustomStyleTag: isCustomStyleTag
+      isCustomStyleTag: isCustomStyleTag,
+      isParentsHasList: isParentsHasList
   };
 
   /**
@@ -4980,6 +5012,16 @@
           this.focus();
           return range.create(this.editable);
       };
+      
+      /**
+       * create range
+       * @return {WrappedRange}
+       */
+      Editor.prototype.getRangeElement = function () {
+          let range = this.createRange()
+          return $(range.sc.parentElement)
+      };
+      
       /**
        * saveRange
        *
@@ -5204,7 +5246,6 @@
         return this.inlineTags.indexOf(tagName) > -1
       }
       
-      
       Editor.prototype.onFormatBlock = function (tagName, $target) {
           if (Array.isArray(tagName)) {
             tagName.forEach(t => {
@@ -5212,6 +5253,21 @@
             })
             return
           }
+          
+          // ----------------------------
+          
+          if (dom.isParentsHasList(this.getRangeElement())) {
+            console.log('is list')
+            //this.bullet.toggleList(tagName, true)
+            this.bullet.outdent()
+            this.onFormatBlock(tagName, $target)
+            //$(() => {
+            //  this.onFormatBlock(tagName, $target)
+            //})
+            return
+          }
+          
+          // -------------------
       
           // [workaround] for MSIE, IE need `<`
           
@@ -5255,7 +5311,24 @@
                 $parent.addClass(className);
               }
           }
-          //this.change()
+          
+          // ----------
+          // Remove empty prev element
+          
+          this.removeEmptySibling()
+      };
+      Editor.prototype.removeEmptySibling = function (node) {
+        if (node === undefined) {
+          node = $(this.createRange().sc.parentElement);
+        }
+        let prev = node.prev()
+        if (prev.text().trim() === '') {
+          prev.remove()
+        }
+        let next = node.next()
+        if (next.text().trim() === '') {
+          next.remove()
+        }
       };
       Editor.prototype.formatPara = function () {
           this.formatBlock('P');
