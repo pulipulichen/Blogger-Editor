@@ -196,6 +196,7 @@
   background-color: transparent;
   border-width: 0;
   border-radius: inherit;
+  color: #000;
 }
 
 .note-btn-formatBlock > *:before {
