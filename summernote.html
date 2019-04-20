@@ -32,8 +32,20 @@
       </table>
     </div>
     <script>
+      
       window.s = $('#summernote')
       window.s.summernote()
+      
+      /*
+      s.on('summernote.change', function() {
+        //console.trace('change');
+      });
+      */
+      
+      setTimeout(() => {
+        s.summernote('editor.insertHorizontalRule')
+      }, 500)
+
     </script>
   </body>
 </html>

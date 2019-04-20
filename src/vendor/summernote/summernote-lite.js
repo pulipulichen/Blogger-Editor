@@ -4557,6 +4557,9 @@
            * @param {Node} node
            */
           this.insertNode = this.wrapCommand(function (node) {
+              if (typeof(node) === "string") {
+                node = dom.create(node)
+              }
               if (_this.isLimited($$1(node).text().length)) {
                   return;
               }
@@ -4605,7 +4608,15 @@
            * insert horizontal rule
            */
           this.insertHorizontalRule = this.wrapCommand(function () {
-              var hrNode = _this.createRange().insertNode(dom.create('HR'));
+              let hrNode = _this.createRange().insertNode(dom.create('HR'));
+              let prev = $(hrNode).prev()
+              if (prev.length > 0 && prev.text().trim() === '') {
+                  prev.remove()
+              }
+              let next = $(hrNode).next()
+              if (next.length > 0 && next.text().trim() === '') {
+                  next.remove()
+              }
               if (hrNode.nextSibling) {
                   range.create(hrNode.nextSibling, 0).normalize().select();
               }
@@ -5244,6 +5255,7 @@
                 $parent.addClass(className);
               }
           }
+          //this.change()
       };
       Editor.prototype.formatPara = function () {
           this.formatBlock('P');
@@ -5469,6 +5481,7 @@ sel.addRange(range);
               // https://stackoverflow.com/questions/9975707/use-jquery-select-to-select-contents-of-a-div
               this.selectElement(spans)
           }
+          //this.change()
       };
       
       Editor.prototype.selectElement = function (node) {
@@ -5624,6 +5637,14 @@ sel.addRange(range);
       Editor.prototype.normalizeContent = function () {
           this.$editable[0].normalize();
       };
+      /**
+       * trigger change event
+       */
+      Editor.prototype.change = function () {
+          this.$editable.change();
+      };
+      
+      
       return Editor;
   }());
 
@@ -8601,7 +8622,7 @@ sel.addRange(range);
               ['color', ['color']],
               ['para', ['ul', 'ol', 'paragraph']],
               ['table', ['table']],
-              ['insert', ['link', 'picture', 'video']],
+              ['insert', ['link', 'picture', 'video', 'hr']],
               ['view', ['fullscreen', 'codeview', 'help']]
           ],
           // popover
