@@ -1690,7 +1690,7 @@
    * - [workaround] IE11 and other browser works with bogus br
    */
   //var blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '<br>';
-  var blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '';
+  var blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '<br>';
   /**
    * @method nodeLength
    *
@@ -8641,8 +8641,8 @@ sel.addRange(range);
           tooltip: 'auto',
           container: 'body',
           maxTextLength: 0,
-          clearEnterFormat: true,
-          showHeadingLabel: false,
+          clearEnterFormat: false,
+          showHeadingLabel: true,
           blockquoteBreakingLevel: 2,
           styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
           fontNames: [
