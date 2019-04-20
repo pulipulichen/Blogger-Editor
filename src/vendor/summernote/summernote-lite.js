@@ -4819,6 +4819,9 @@
               if (event.keyCode === key.code.ENTER) {
                 //console.log("ENTER")
                 _this.context.triggerEvent('enter', event);
+                if (_this.options.clearEnterFormat === true) {
+                  _this.clearEnterFormat(event);
+                }
               }
           })
           .on('compositionend', function (event) {
@@ -4916,6 +4919,44 @@
           }
           return false;
       };
+      
+      
+      let blockTagList = ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'caption']
+      let skipTagList = ['td', 'tr', 'th', 'caption', 'code', 'table']
+      
+      /**
+       * @author Pulipuli Chen 20190420
+       */
+      Editor.prototype.clearEnterFormat = function (event) {
+        let target = this.createRange()
+        if (typeof(target.sc) !== 'object' || typeof(target.sc.parentElement) !== 'object') {
+          return
+        }
+        let $parent = $(target.sc.parentElement)
+        let tagName = $parent.prop('tagName').toLowerCase()
+        
+        if (skipTagList.indexOf(tagName) > -1 
+              || $parent.hasClass('note-editable')) {
+          return
+        }
+        
+        while (blockTagList.indexOf(tagName) === -1) {
+          $parent = $parent.parent()
+          tagName = $parent.prop('tagName').toLowerCase()
+          
+          if (skipTagList.indexOf(tagName) > -1 
+              || $parent.hasClass('note-editable')) {
+            return
+          }
+        }
+        
+        let content = $parent.text()
+        let node = `<${tagName}>${content}</${tagName}>`
+        $parent.replaceWith(node)
+        
+        //console.log(event)
+      }
+      
       /**
        * create range
        * @return {WrappedRange}
@@ -5147,6 +5188,7 @@
       Editor.prototype.isInlineTag = function (tagName) {
         return this.inlineTags.indexOf(tagName) > -1
       }
+      
       
       Editor.prototype.onFormatBlock = function (tagName, $target) {
           if (Array.isArray(tagName)) {
@@ -8595,6 +8637,7 @@ sel.addRange(range);
           tooltip: 'auto',
           container: 'body',
           maxTextLength: 0,
+          clearEnterFormat: true,
           blockquoteBreakingLevel: 2,
           styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
           fontNames: [
