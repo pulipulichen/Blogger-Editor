@@ -5181,9 +5181,14 @@
           if ($target && $target.length) {
               var className = $target[0].className || '';
               if (className) {
-                  var currentRange = this.createRange();
-                  var $parent = $$1([currentRange.sc, currentRange.ec]).closest(tagName);
-                  $parent.addClass(className);
+                console.log(className)
+                if (className.indexOf('note-btn') > -1) {
+                  return
+                }
+            
+                var currentRange = this.createRange();
+                var $parent = $$1([currentRange.sc, currentRange.ec]).closest(tagName);
+                $parent.addClass(className);
               }
           }
       };
@@ -6438,11 +6443,53 @@ sel.addRange(range);
           for (var styleIdx = 0, styleLen = this.options.styleTags.length; styleIdx < styleLen; styleIdx++) {
               _loop_1(styleIdx, styleLen);
           }
-          this.context.memo('button.formatHeading1', function () {
+          this.context.memo('button.formatPara', function () {
               return _this.button({
-                  className: 'note-btn-formatHeading1',
+                  className: 'note-btn-formatBlock note-btn-formatP',
+                  contents: '<p></p>',
+                  click: _this.context.createInvokeHandler('editor.formatBlock', 'P')
+              }).render();
+          });
+          this.context.memo('button.formatH1', function () {
+              return _this.button({
+                  className: 'note-btn-formatBlock note-btn-formatH1',
                   contents: '<h1></h1>',
                   click: _this.context.createInvokeHandler('editor.formatBlock', 'H1')
+              }).render();
+          });
+          this.context.memo('button.formatH2', function () {
+              return _this.button({
+                  className: 'note-btn-formatBlock note-btn-formatH2',
+                  contents: '<h2></h2>',
+                  click: _this.context.createInvokeHandler('editor.formatBlock', 'H2')
+              }).render();
+          });
+          this.context.memo('button.formatH3', function () {
+              return _this.button({
+                  className: 'note-btn-formatBlock note-btn-formatH3',
+                  contents: '<h3></h3>',
+                  click: _this.context.createInvokeHandler('editor.formatBlock', 'H3')
+              }).render();
+          });
+          this.context.memo('button.formatH4', function () {
+              return _this.button({
+                  className: 'note-btn-formatBlock note-btn-formatH4',
+                  contents: '<h4></h4>',
+                  click: _this.context.createInvokeHandler('editor.formatBlock', 'H4')
+              }).render();
+          });
+          this.context.memo('button.formatH5', function () {
+              return _this.button({
+                  className: 'note-btn-formatBlock note-btn-formatH5',
+                  contents: '<h5></h5>',
+                  click: _this.context.createInvokeHandler('editor.formatBlock', 'H5')
+              }).render();
+          });
+          this.context.memo('button.formatH6', function () {
+              return _this.button({
+                  className: 'note-btn-formatBlock note-btn-formatH6',
+                  contents: '<h6></h6>',
+                  click: _this.context.createInvokeHandler('editor.formatBlock', 'H6')
               }).render();
           });
           this.context.memo('button.bold', function () {
@@ -8485,7 +8532,8 @@ sel.addRange(range);
           otherStaticBar: '',
           // toolbar
           toolbar: [
-              ['style', ['style', 'formatHeading1']],
+              ['style', ['style']],
+              ['formatBlock', ['formatPara', 'formatH1', 'formatH2', 'formatH3', 'formatH4', 'formatH5', 'formatH6']],
               ['font', ['bold', 'underline', 'clear']],
               ['fontname', ['fontname']],
               ['fontsize', ['fontsize']],

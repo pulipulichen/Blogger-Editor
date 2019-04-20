@@ -183,39 +183,44 @@
   content: "\f11a"
 }
 
-.note-icon-formatPara:before {
-  content: "<P>"
-}
-
-.note-btn-formatHeading1 {
+.note-btn-formatBlock {
   padding: 0 !important;
 }
 
-.note-btn-formatHeading1 h1 {
-  line-height: 15px;
+.note-btn-formatBlock > * {
+  line-height: 9px;
   padding: 5px 10px;
+  margin: 0;
+  height: 29px;
 }
 
-.note-btn-formatHeading1 h1:before {
+.note-btn-formatBlock > *:before {
   content: "<H1>";
   font-size: 14px;
   font-weight: bold;
+  line-height: 20px;
   
 }
-.note-icon-formatHeading2:before {
-  content: "<H2>"
+
+.note-btn-formatBlock > h2:before {
+  content: "<H2>" !important;
 }
-.note-icon-formatHeading3:before {
-  content: "<H3>"
+.note-btn-formatBlock > h3:before {
+  content: "<H3>" !important;
 }
-.note-icon-formatHeading4:before {
-  content: "<H4>"
+.note-btn-formatBlock > h4:before {
+  content: "<H4>" !important;
 }
-.note-icon-formatHeading5:before {
-  content: "<H5>"
+.note-btn-formatBlock > h5:before {
+  content: "<H5>" !important;
 }
-.note-icon-formatHeading6:before {
-  content: "<H6>"
+.note-btn-formatBlock > h6:before {
+  content: "<H6>" !important;
+}
+.note-btn-formatBlock > p:before {
+  content: "<P>" !important;
+  line-height: 19px;
+  font-weight: normal;
 }
 
 .note-icon-italic:before {
