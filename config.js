@@ -3,7 +3,7 @@ const CONFIG = {
   localeOptions: ['auto', 'en-US', 'zh-TW'],
   defaultTheme: 'default',
   uploadImageDraft: '',
-  quotaInMB: 5,
+  quotaInMB: 100,
   debug: {
     //disablePostManager: true,
     disableThemeManager: false,

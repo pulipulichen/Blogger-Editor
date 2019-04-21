@@ -180,7 +180,7 @@ let PostManager = {
         
         if (typeof(post.id) === 'number') {
           sql = `insert into 
-                  posts(id, createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publishURL) 
+                  posts(id, createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publicURL) 
                   values(?,?,?,?,?,?,?,?,?)`
           data = [postId, unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
         }
@@ -804,7 +804,7 @@ let PostManager = {
           }
           else {
             zipEntry.async('blob').then((content) => {
-              let filename = path.slice(path.lastIndexOf('/'))
+              let filename = path.slice(path.lastIndexOf('/') + 1)
               let assetPath = `/${postId}/assets/${filename}`
               FileSystemHelper.write(assetPath, content, next)
             })

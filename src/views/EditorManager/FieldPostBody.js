@@ -262,6 +262,7 @@ let FieldPostBody = {
         if (i < files.length) {
           let file = files[i]
           let filename = file.slice(file.lastIndexOf('/') + 1)
+          filename = encodeURI(filename)
           if (postBodyList.indexOf(filename) === -1) {
             console.log(['auto clean', file])
             FileSystemHelper.remove(file, next)

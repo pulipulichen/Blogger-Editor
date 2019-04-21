@@ -5257,7 +5257,7 @@
           // ----------------------------
           
           if (dom.isParentsHasList(this.getRangeElement())) {
-            console.log('is list')
+            //console.log('is list')
             //this.bullet.toggleList(tagName, true)
             this.bullet.outdent()
             this.onFormatBlock(tagName, $target)

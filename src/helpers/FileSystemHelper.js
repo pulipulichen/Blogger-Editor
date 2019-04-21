@@ -1,5 +1,5 @@
 FileSystemHelper = {
-  type: window.TEMPORARY,
+  type: window.PERSISTENT,
   //type: window.PERSISTENT,
   quota: ConfigHelper.get('quotaInMB') * 1024 * 1024 /*5MB*/,
   fs: null,
@@ -426,7 +426,7 @@ Message: ${e.message}`
   getFileSystemUrl: function (path) {
     let fsType = 'temporary'
     if (this.type !== window.TEMPORARY) {
-      fsType = 'persist'
+      fsType = 'persistent'
     }
     
     if (path.startsWith('/') === false) {
@@ -440,6 +440,7 @@ Message: ${e.message}`
       let parts = path.split('/')
       path = '/' + parts.slice(4).join('/')
     }
+    path = decodeURIComponent(path)
     return path
   },
   readEventFilesText: function (files, callback) {

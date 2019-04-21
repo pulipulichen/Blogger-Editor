@@ -74,11 +74,14 @@ WindowHelper = {
               || url.endsWith('.gif')
               || url.endsWith('.svg')) {
         FileSystemHelper.read(url, (dataURI) => {
-          newWindow.document.write(`<img src="${dataURI}" />`)
-          newWindow.document.title = unescapeComponent(url.slice(url.lastIndexOf('/') + 1))
+          let $doc = $(newWindow.document)
+          if ($doc.find('body img').length === 0) {
+            $doc.find('body').css('margin', 0).append(`<img />`)
+          }
+          $doc.find('body img').attr('src', dataURI)
+          newWindow.document.title = decodeURIComponent(url.slice(url.lastIndexOf('/') + 1))
           //let mime = dataURI.slice(dataURI.indexOf(':') + 1, dataURI.indexOf(';'))
           //$(newWindow.document).find('head').append(`<link rel="icon" type="${mime}" href="${url}" />`)
-          $(newWindow.document).find('body').css('margin', 0)
           if (window.focus && newWindow !== null) {
             newWindow.focus()
           }
