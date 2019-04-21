@@ -385,7 +385,7 @@ let PostManager = {
       }
       
       if ($v.EditorManager.OutlineNavigator !== null) {
-        console.log('$v.EditorManager.OutlineNavigator.analyseHeadings()')
+        //console.log('$v.EditorManager.OutlineNavigator.analyseHeadings()')
         $v.EditorManager.OutlineNavigator.analyseHeadings()
       }
       

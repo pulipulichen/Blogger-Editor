@@ -89,13 +89,7 @@ let FieldPostBody = {
       }
     }
     let s = this.get()
-    //s.find('.note-editable:first').focus()
-    //let range = s.summernote('editor.createRange')
-    //range[insertType](html)
-    //s.summernote(insertType, html);
-    //document.execCommand(insertType, null, html);
-    s.summernote('restoreTarget')
-    s.summernote('editor.insertHorizontalRule')
+    s.summernote(insertType, html);
     return this
   },
   change: function () {
