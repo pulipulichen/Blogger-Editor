@@ -5479,20 +5479,27 @@
         if (typeof(node.prev) !== 'function') {
           node = $(node)
         }
+        
         let prev = node.prev()
-        while (prev.length > 0 && prev.text().trim() === '') {
+        while (this.checkNodeIsRemovable(prev)) {
           let tmp = prev
           prev = tmp.prev()
           tmp.remove()
         }
         let next = node.next()
         //console.log(next.text().trim())
-        if (next.length > 0 && next.text().trim() === '') {
+        if (this.checkNodeIsRemovable(prev)) {
           let tmp = next
           next = tmp.next()
           tmp.remove()
         }
       };
+      Editor.prototype.checkNodeIsRemovable = function (node) {
+        return (node.length > 0 
+            && node.find('img:first,table:first,hr:first').length === 0
+            && node.text().trim() === '')
+      }
+      
       Editor.prototype.formatPara = function () {
           this.formatBlock('P');
       };
