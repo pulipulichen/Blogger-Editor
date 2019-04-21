@@ -13,7 +13,6 @@
   //(factory(global.jQuery));
   factory($)
   //console.log(typeof($))
-  // 看起來是這沒錯
 }(this, (function ($$1) { 'use strict';
 
   $$1 = $$1 && $$1.hasOwnProperty('default') ? $$1['default'] : $$1;
@@ -4528,6 +4527,7 @@
           this.typing = new Typing(context);
           this.bullet = new Bullet(context);
           this.history = new History(this.$editable);
+          this.isFocus = false
           this.context.memo('help.undo', this.lang.help.undo);
           this.context.memo('help.redo', this.lang.help.redo);
           this.context.memo('help.tab', this.lang.help.tab);
@@ -4597,9 +4597,18 @@
               if (_this.isLimited($$1(node).text().length)) {
                   return;
               }
+              
+              if (this.isFocus === false) {
+                this.restoreRange()
+              }
+              
               var rng = _this.createRange();
               rng.insertNode(node);
               range.createFromNodeAfter(node).select();
+              
+              if (this.isFocus === false) {
+                this.saveRange()
+              }
           });
           /**
            * insert text
@@ -4609,9 +4618,18 @@
               if (_this.isLimited(text.length)) {
                   return;
               }
+              
+              if (this.isFocus === false) {
+                this.restoreRange()
+              }
+              
               var rng = _this.createRange();
               var textNode = rng.insertNode(dom.createText(text));
               range.create(textNode, dom.nodeLength(textNode)).select();
+              
+              if (this.isFocus === false) {
+                this.saveRange()
+              }
           });
           /**
            * paste HTML
@@ -4962,8 +4980,12 @@
               _this.context.triggerEvent('keyup', event);
           })
           .on('focus', function (event) {
+              _this.isFocus = true
+              //_this.restoreRange()
               _this.context.triggerEvent('focus', event);
           }).on('blur', function (event) {
+              _this.isFocus = false
+              _this.saveRange()
               _this.context.triggerEvent('blur', event);
           }).on('mousedown', function (event) {
               _this.context.triggerEvent('mousedown', event);
