@@ -4858,19 +4858,27 @@
               if ($target.attr('src') !== undefined) {
                 let src = $target.attr('src')
                 let windowName = '_blank'
-                if (src.startsWith('data:') === false) {
+                if (src.startsWith('data:') === false && src.startsWith('filesystem:') === false ) {
                   windowName = src.slice(src.lastIndexOf('/') + 1)
                   windowName = decodeURIComponent(windowName)
                   window.open(src, windowName)
                 }
                 else {
-                  let a = document.createElement('a')
-                  a.href = src
-                  a.target = '_blank'
-                  document.body.appendChild(a)
-                  //console.log(a)
-                  a.click()
-                  document.body.removeChild(a)
+                  let image = new Image();
+                  image.src = src;
+                
+                  let w = window.open(``, '_blank');
+                  w.document.write(image.outerHTML);
+                  
+                  if (src.startsWith('data:')) {
+                    let MIME = src.slice(src.indexOf('/') + 1, src.indexOf(';'))
+                    w.document.title = `image.${MIME}`
+                  }
+                  else if (src.startsWith('filesystem:')) {
+                    windowName = src.slice(src.lastIndexOf('/') + 1)
+                    windowName = decodeURIComponent(windowName)
+                    w.document.title = windowName
+                  }
                 }
                 _this.context.triggerEvent('media.open', $target, _this.$editable);
               }
@@ -7682,11 +7690,15 @@ sel.addRange(range);
           return !lists.isEmpty(this.options.popover.link);
       };
       LinkPopover.prototype.initialize = function () {
+          let _this = this
           this.$popover = this.ui.popover({
               className: 'note-link-popover',
-              callback: function ($node) {
+              callback: ($node) => {
                   var $content = $node.find('.popover-content,.note-popover-content');
-                  $content.prepend('<span><a target="_blank"></a>&nbsp;</span>');
+                  $content.prepend('<span><a target="_blank" class="note-popover-link"></a>&nbsp;</span>');
+                  $content.find('a.note-popover-link').click(function (event) {
+                    _this.openNotePopoverLink(this, event)
+                  })
               }
           }).render().appendTo(this.options.container);
           var $content = this.$popover.find('.popover-content,.note-popover-content');
@@ -7736,6 +7748,35 @@ sel.addRange(range);
       };
       LinkPopover.prototype.hide = function () {
           this.$popover.hide();
+      };
+      LinkPopover.prototype.openNotePopoverLink = function (aTag, event) {
+        let href = aTag.href
+        //console.log(href)
+        if (href.startsWith('data:image/') 
+          || (href.startsWith('filesystem:') && (href.endsWith('.jpg') || href.endsWith('.jpeg')  || href.endsWith('.gif') || href.endsWith('.png') || href.endsWith('.svg') || href.endsWith('.webp') ) )) {
+          event.preventDefault()
+          event.stopPropagation()
+          
+          let name = '_blank'
+          let title = ''
+          if (href.startsWith('filesystem:')) {
+            name = href.slice(href.lastIndexOf('/') + 1)
+            name = decodeURIComponent(name)
+            title = name
+          }
+          else {
+            let MIME = href.slice(href.indexOf('/') + 1, href.indexOf(';'))
+            title = `image.${MIME}`
+          }
+          
+          let image = new Image()
+          image.src = href
+          
+          let win = window.open('', name)
+          win.document.write(image.outerHTML)
+          
+          win.document.title = title
+        }
       };
       return LinkPopover;
   }());
