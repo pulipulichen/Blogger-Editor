@@ -426,6 +426,7 @@ let SummerNoteButtons = {
       let link = target.attr('src')
       //console.log(link)
       let name = link.slice(link.lastIndexOf('/') + 1)
+      name = decodeURIComponent(name)
       //console.log(name)
       //WindowHelper.popup(link, name)
       //window.open(link, name)
