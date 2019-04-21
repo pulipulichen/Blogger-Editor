@@ -864,6 +864,8 @@
               maximumFileSizeError: 'Maximum file size exceeded.',
               url: 'Image URL',
               remove: 'Remove Image',
+              open: 'Open Image',
+              save: 'Save Image',
               original: 'Original'
           },
           video: {
@@ -4814,6 +4816,82 @@
               _this.context.triggerEvent('media.delete', $target, _this.$editable);
           });
           /**
+           * save media object and Figure Elements if media object is img with Figure.
+           * @author Pulipuli Chen 20190421
+           */
+          this.saveMedia = this.wrapCommand(function () {
+              //console.log('openMedia')
+              
+              var $target = $$1(_this.restoreTarget());
+              //console.log($target.prop("tagName"))
+              if ($target.attr('src') !== undefined) {
+                let src = $target.attr('src')
+                let windowName
+                if (src.startsWith('data:') === false) {
+                  windowName = src.slice(src.lastIndexOf('/') + 1)
+                  if (windowName.indexOf('?') > -1) {
+                    windowName = windowName.slice(0, windowName.indexOf('?'))
+                  }
+                  windowName = decodeURIComponent(windowName)
+                }
+                else {
+                  let mime = src.slice(src.indexOf('/') + 1, src.indexOf(';'))
+                  windowName = `image.${mime}`
+                }
+                //window.open(src, windowName)
+                //console.log(['save media', windowName, src])
+                this.saveFile(src, windowName)
+                
+                _this.context.triggerEvent('media.save', $target, _this.$editable);
+              }
+          });
+          
+          /**
+           * open media object and Figure Elements if media object is img with Figure.
+           * @author Pulipuli Chen 20190421
+           */
+          this.openMedia = this.wrapCommand(function () {
+              //console.log('openMedia')
+              
+              var $target = $$1(_this.restoreTarget());
+              //console.log($target.prop("tagName"))
+              if ($target.attr('src') !== undefined) {
+                let src = $target.attr('src')
+                let windowName = '_blank'
+                if (src.startsWith('data:') === false) {
+                  windowName = src.slice(src.lastIndexOf('/') + 1)
+                  windowName = decodeURIComponent(windowName)
+                  window.open(src, windowName)
+                }
+                else {
+                  let a = document.createElement('a')
+                  a.href = src
+                  a.target = '_blank'
+                  document.body.appendChild(a)
+                  //console.log(a)
+                  a.click()
+                  document.body.removeChild(a)
+                }
+                _this.context.triggerEvent('media.open', $target, _this.$editable);
+              }
+          });
+          
+          this.saveFile = this.wrapCommand(function (url, filename) {
+              let a = document.createElement('a')
+              a.href = url
+              if (filename === undefined && (url.startsWith('data:') === false)) {
+                filename = url.slice(url.lastIndexOf('/')) + 1
+                filename = decodeURIComponent(filename)
+              }
+              a.target = filename
+              a.download = filename
+              document.body.appendChild(a)
+              //console.log(a)
+              a.click()
+              document.body.removeChild(a)
+          });
+          
+          /**
            * float me
            *
            * @param {String} value
@@ -7012,6 +7090,22 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandler('editor.removeMedia')
               }).render();
           });
+          // Open Buttons
+          this.context.memo('button.openMedia', function () {
+              return _this.button({
+                  contents: 'Open',
+                  tooltip: _this.lang.image.open,
+                  click: _this.context.createInvokeHandler('editor.openMedia')
+              }).render();
+          });
+          // Save Buttons
+          this.context.memo('button.saveMedia', function () {
+              return _this.button({
+                  contents: 'Save',
+                  tooltip: _this.lang.image.save,
+                  click: _this.context.createInvokeHandler('editor.saveMedia')
+              }).render();
+          });
       };
       Buttons.prototype.addLinkPopoverButtons = function () {
           var _this = this;
@@ -8704,7 +8798,7 @@ sel.addRange(range);
               image: [
                   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
                   ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                  ['remove', ['removeMedia']]
+                  ['remove', ['openMedia', 'saveMedia', 'removeMedia']]
               ],
               link: [
                   ['link', ['linkDialogShow', 'unlink']]
