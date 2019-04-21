@@ -4522,12 +4522,15 @@
           this.lang = this.options.langInfo;
           this.editable = this.$editable[0];
           this.lastRange = null;
+          this.lastBlurRange = null;
+          this.lastBlurScroll = null;
           this.style = new Style();
           this.table = new Table();
           this.typing = new Typing(context);
           this.bullet = new Bullet(context);
           this.history = new History(this.$editable);
           this.isFocus = false
+          this.isBlurSaveRange = false
           this.context.memo('help.undo', this.lang.help.undo);
           this.context.memo('help.redo', this.lang.help.redo);
           this.context.memo('help.tab', this.lang.help.tab);
@@ -4599,16 +4602,17 @@
               }
               
               if (this.isFocus === false) {
-                this.restoreRange()
+                this.restoreBlurRange()
               }
               
               var rng = _this.createRange();
               rng.insertNode(node);
               range.createFromNodeAfter(node).select();
+              this.removeEmptySibling(node)
               
-              if (this.isFocus === false) {
-                this.saveRange()
-              }
+              $(() => {
+                this.saveBlurRange()
+              })
           });
           /**
            * insert text
@@ -4619,17 +4623,18 @@
                   return;
               }
               
+              //console.log(this.isFocus)
               if (this.isFocus === false) {
-                this.restoreRange()
+                this.restoreBlurRange()
               }
               
               var rng = _this.createRange();
               var textNode = rng.insertNode(dom.createText(text));
               range.create(textNode, dom.nodeLength(textNode)).select();
               
-              if (this.isFocus === false) {
-                this.saveRange()
-              }
+              $(() => {
+                this.saveBlurRange()
+              })
           });
           /**
            * paste HTML
@@ -4796,7 +4801,9 @@
           this.insertTable = this.wrapCommand(function (dim) {
               var dimension = dim.split('x');
               var rng = _this.createRange().deleteContents();
-              rng.insertNode(_this.table.createTable(dimension[0], dimension[1], _this.options));
+              let table = _this.table.createTable(dimension[0], dimension[1], _this.options)
+              rng.insertNode(table);
+              //this.removeEmptySibling(table)
           });
           /**
            * remove media object and Figure Elements if media object is img with Figure.
@@ -4980,16 +4987,20 @@
               _this.context.triggerEvent('keyup', event);
           })
           .on('focus', function (event) {
-              _this.isFocus = true
+              //_this.isFocus = true
               //_this.restoreRange()
+              $(() => {
+                _this.isFocus = true
+              })
               _this.context.triggerEvent('focus', event);
           }).on('blur', function (event) {
               _this.isFocus = false
-              _this.saveRange()
+              //console.log('isFocus false')
               _this.context.triggerEvent('blur', event);
           }).on('mousedown', function (event) {
               _this.context.triggerEvent('mousedown', event);
           }).on('mouseup', function (event) {
+              _this.saveBlurRange()
               _this.context.triggerEvent('mouseup', event);
           }).on('scroll', function (event) {
               _this.context.triggerEvent('scroll', event);
@@ -4999,6 +5010,8 @@
           // init content before set event
           this.$editable.html(dom.html(this.$note) || dom.emptyPara);
           this.$editable.on(env.inputEventName, func.debounce(function () {
+              _this.saveBlurRange()
+              console.log('change event')
               _this.context.triggerEvent('change', _this.$editable.html());
           }, 10));
           this.$editor.on('focusin', function (event) {
@@ -5116,7 +5129,7 @@
        * create range
        * @return {WrappedRange}
        */
-      Editor.prototype.createRange = function () {
+      Editor.prototype.createRange = function (doFocus) {
           this.focus();
           return range.create(this.editable);
       };
@@ -5139,10 +5152,31 @@
        */
       Editor.prototype.saveRange = function (thenCollapse) {
           this.lastRange = this.createRange();
+          //console.log(this.lastRange)
           if (thenCollapse) {
               this.lastRange.collapse().select();
           }
       };
+      
+      /**
+       * saveRange
+       *
+       * save current range
+       *
+       * @param {Boolean} [thenCollapse=false]
+       */
+      Editor.prototype.saveBlurRange = function (thenCollapse) {
+          this.lastBlurRange = this.createRange();
+          this.lastBlurPostion = {
+            top: document.documentElement.scrollTop, 
+            left: document.documentElement.scrollLeft
+          }
+          //console.log(this.lastRange)
+          if (thenCollapse) {
+              this.lastRange.collapse().select();
+          }
+      };
+      
       /**
        * restoreRange
        *
@@ -5154,6 +5188,19 @@
               this.focus();
           }
       };
+      /**
+       * restoreRange
+       *
+       * restore lately range
+       */
+      Editor.prototype.restoreBlurRange = function () {
+          if (this.lastBlurRange) {
+              window.scrollTo(this.lastBlurPostion.left,this.lastBlurPostion.top)
+              this.lastBlurRange.select();
+              this.focus();
+          }
+      };
+      
       Editor.prototype.saveTarget = function (node) {
           this.$editable.data('target', node);
       };
@@ -5429,13 +5476,21 @@
         if (node === undefined) {
           node = $(this.createRange().sc.parentElement);
         }
+        if (typeof(node.prev) !== 'function') {
+          node = $(node)
+        }
         let prev = node.prev()
-        if (prev.text().trim() === '') {
-          prev.remove()
+        while (prev.length > 0 && prev.text().trim() === '') {
+          let tmp = prev
+          prev = tmp.prev()
+          tmp.remove()
         }
         let next = node.next()
-        if (next.text().trim() === '') {
-          next.remove()
+        //console.log(next.text().trim())
+        if (next.length > 0 && next.text().trim() === '') {
+          let tmp = next
+          next = tmp.next()
+          tmp.remove()
         }
       };
       Editor.prototype.formatPara = function () {
