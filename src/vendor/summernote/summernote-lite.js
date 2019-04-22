@@ -1677,7 +1677,7 @@
       if (tagName === undefined) {
         return false
       }
-      console.log(tagName)
+      //console.log(tagName)
       if (tagName !== undefined && tagName.toLowerCase() === 'li') {
         return true
       }
@@ -3597,6 +3597,7 @@
           var rng = range.create(editable).wrapBodyInlineWithPara();
           var paras = rng.nodes(dom.isPara, { includeAncestor: true });
           var clustereds = lists.clusterBy(paras, func.peq2('parentNode'));
+          let mode
           $$1.each(clustereds, function (idx, paras) {
               var head = lists.head(paras);
               if (dom.isLi(head)) {
@@ -3611,6 +3612,7 @@
                           .map(function (para) { return para.parentNode; })
                           .map(function (para) { return _this.appendToPrevious(para); });
                   }
+                  mode = 'list'
               }
               else if (dom.isHeading(head)) {
                 //console.log(head.tagName)
@@ -3618,12 +3620,14 @@
                 headingLevel++
                 //document.execCommand('FormatBlock', true, `H${headingLevel}`);
                 //document.execCommand('insertText', true, '');
-                
+                _this.context.invoke('editor.saveScrollPosition')
                 _this.context.invoke('editor.saveRange')
                 _this.context.invoke('editor.formatBlock', `H${headingLevel}`)
                 $(() => {
-                _this.context.invoke('editor.undo')
+                  _this.context.invoke('editor.undo')
+                  _this.context.invoke('editor.restoreScrollPosition')
                 })
+                mode = 'heading'
               }
               else {
                 /*
@@ -3635,9 +3639,13 @@
                   });
                 */
                  _this.wrapList(paras, 'UL');
+                 mode = 'paragraph'
               }
           });
-          rng.select();
+          
+          if (mode !== 'heading') {
+            rng.select();
+          }
       };
       /**
        * outdent
@@ -3647,10 +3655,12 @@
           var rng = range.create(editable).wrapBodyInlineWithPara();
           var paras = rng.nodes(dom.isPara, { includeAncestor: true });
           var clustereds = lists.clusterBy(paras, func.peq2('parentNode'));
+          let mode
           $$1.each(clustereds, function (idx, paras) {
               var head = lists.head(paras);
               if (dom.isLi(head)) {
                   _this.releaseList([paras]);
+                  mode = 'list'
               }
               else if (dom.isHeading(head)) {
                 //console.log(head.tagName)
@@ -3660,11 +3670,14 @@
                 if (headingLevel > 0) {
                   tagName = `H${headingLevel}`
                 }
-                _this.context.invoke('editor.saveRange')
+                _this.context.invoke('editor.saveScrollPosition')
+                _this.context.invoke('editor.saveBlurRange')
                 _this.context.invoke('editor.formatBlock', tagName)
                 $(() => {
-                _this.context.invoke('editor.undo')
+                  _this.context.invoke('editor.undo')
+                  _this.context.invoke('editor.restoreScrollPosition')
                 })
+                mode = 'heading'
               }
               else {
                   $$1.each(paras, function (idx, para) {
@@ -3673,9 +3686,14 @@
                           return val > 25 ? val - 25 : '';
                       });
                   });
+                  mode = 'paragraph'
               }
           });
-          rng.select();
+          
+          if (mode !== 'heading') {
+            rng.select();
+          }
+            
       };
       /**
        * toggle list
@@ -4524,6 +4542,7 @@
           this.lastRange = null;
           this.lastBlurRange = null;
           this.lastBlurScroll = null;
+          this.lastScrollPostion = null;
           this.style = new Style();
           this.table = new Table();
           this.typing = new Typing(context);
@@ -4994,13 +5013,17 @@
               })
               _this.context.triggerEvent('focus', event);
           }).on('blur', function (event) {
-              _this.isFocus = false
+              $(() => {
+                _this.isFocus = false
+              })
               //console.log('isFocus false')
               _this.context.triggerEvent('blur', event);
           }).on('mousedown', function (event) {
               _this.context.triggerEvent('mousedown', event);
           }).on('mouseup', function (event) {
-              _this.saveBlurRange()
+              $(() => {
+                _this.saveBlurRange()
+              })
               _this.context.triggerEvent('mouseup', event);
           }).on('scroll', function (event) {
               _this.context.triggerEvent('scroll', event);
@@ -5010,8 +5033,9 @@
           // init content before set event
           this.$editable.html(dom.html(this.$note) || dom.emptyPara);
           this.$editable.on(env.inputEventName, func.debounce(function () {
-              _this.saveBlurRange()
-              console.log('change event')
+              $(() => {
+                _this.saveBlurRange()
+              })
               _this.context.triggerEvent('change', _this.$editable.html());
           }, 10));
           this.$editor.on('focusin', function (event) {
@@ -5199,6 +5223,20 @@
               this.lastBlurRange.select();
               this.focus();
           }
+      };
+      
+      Editor.prototype.saveScrollPosition = function () {
+          this.lastScrollPostion = {
+            top: document.documentElement.scrollTop, 
+            left: document.documentElement.scrollLeft
+          }
+          //console.log('saveScrollPosition')
+          //console.log(this.lastScrollPostion)
+      };
+      Editor.prototype.restoreScrollPosition = function () {
+          //console.log('restoreScrollPosition')
+          //console.log(this.lastScrollPostion)
+          window.scrollTo(this.lastScrollPostion.left,this.lastScrollPostion.top)
       };
       
       Editor.prototype.saveTarget = function (node) {
