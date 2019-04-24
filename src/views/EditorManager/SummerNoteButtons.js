@@ -545,6 +545,8 @@ let SummerNoteButtons = {
         title = title.slice(0,30)
       }
       
+      title = $v.PostManager.editingPostId + '-' + title.replace(/[^\x00-\x7F]+/, '_')
+      
       title = title + '.dps'
       //$(`<a href="${path}" download="${title}"></a>`).click()
       
