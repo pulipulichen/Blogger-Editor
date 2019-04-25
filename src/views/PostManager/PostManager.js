@@ -2,7 +2,8 @@ import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
 import {saveAs} from 'file-saver'
 
-import PostZIPManager from './PostZIPManager.js'
+import PostManagerDatabase from './PostManagerDatabase.js'
+import PostManagerFile from './PostManagerFile.js'
 
 let PostManager = {
   data: function () {
@@ -20,7 +21,10 @@ let PostManager = {
       quotaUsed: 0,
       quotaTotal: FileSystemHelper.quota,
       enableRemovePost: true,
-      quotaProgressBar: null
+      quotaProgressBar: null,
+      
+      PostManagerDatabase: PostManagerDatabase,
+      PostManagerFile: PostManagerFile
     }
   },
   mounted() {
@@ -320,7 +324,9 @@ let PostManager = {
         else {
           FileSystemHelper.write(path, content, callback)
         }
-        this.statisticQuota()
+        //this.PostManagerFile.statisticQuota(this)
+        
+        EventManager.trigger(this, 'createPostBodyFile')
       })
     },
     openPost: function (id, callback) {
@@ -428,7 +434,9 @@ let PostManager = {
           let path = `/${id}/postBody.html`
           //console.log(['updateEditingPostBody', path])
           FileSystemHelper.write(path, postBody, () => {
-            this.statisticQuota()
+            //this.PostManagerFile.statisticQuota(this)
+            
+            EventManager.trigger(this, 'updateEditingPostBody')
             FunctionHelper.triggerCallback(callback, post)
           })
         })
@@ -478,7 +486,7 @@ let PostManager = {
       
       if (typeof($v.EditorManager) !== 'undefined') {
         $v.EditorManager.save()
-        this.statisticQuota()
+        //this.PostManagerFile.statisticQuota(this)
       }
       
       //this.getUI().find('.header:first').click()
@@ -488,9 +496,12 @@ let PostManager = {
       //this.init(() => {
        // this.filterPosts()
       //})
+      
+      EventManager.trigger(this, 'open')
     },
     close: function () {
       this.getUI().modal('hide')
+      EventManager.trigger(this, 'close')
     },
     persist() {
       //this.getEditingPostId((id) => {
@@ -702,7 +713,8 @@ let PostManager = {
             })
         }
         else {
-          this.statisticQuota()
+          //this.statisticQuota()
+          EventManager.trigger(this, 'readPostsZip')
           $v.PageLoader.close()
         }
       }
@@ -840,7 +852,9 @@ let PostManager = {
               let postId = post.id
               this.createPostBodyFile(postId, postBody, () => {
                 //console.log('createPostBodyFile')
-                this.statisticQuota()
+                //this.statisticQuota()
+                
+                EventManager.trigger(this, 'clonePost')
                 
                 $v.PageLoader.close(callback)
                 
@@ -851,13 +865,6 @@ let PostManager = {
         })
       })
     },
-    statisticQuota: function (callback) {
-      FileSystemHelper.statsticQuotaUsage((quotaUsed, quotaTotal) => {
-        this.quotaUsed = quotaUsed
-        this.quotaTotal = quotaTotal
-        FunctionHelper.triggerCallback(callback)
-      })
-    }
   }
 }
 
