@@ -1,5 +1,169 @@
 let PostManagerDatabase = {
-    
+  createTableDone: false,
+  createTable: function () {
+    if (this.createTableDone === true) {
+      return
+    } else {
+      this.createTableDone = true
+    }
+    let sql = `Create Table if not exists posts
+        (id INTEGER PRIMARY KEY, 
+         createUnix INTEGER, 
+         updateUnix INTEGER, 
+         title TEXT, 
+         labels TEXT, 
+         abstract TEXT,
+         thumbnail TEXT,
+         editURL TEXT,
+         publicURL TEXT)`
+    //console.log(sql)
+    WebSQLDatabaseHelper.exec(sql)
+  },
+  updatePost: function () {
+    let id = post.id
+
+    let unix = DayjsHelper.unix()
+    let title = post.title
+    let labels = post.labels
+    let abstract = post.abstract
+    let thumbnail = post.thumbnail
+    let editURL = post.editURL
+    let publicURL = post.publicURL
+
+    //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
+
+    let sql = `UPDATE posts SET 
+        updateUnix = ?,
+        title = ?,
+        labels = ?,
+        abstract = ?,
+        thumbnail = ?,
+        editURL = ?,
+        publicURL = ?
+        WHERE id = ${id}`
+    //console.log(sql)
+
+    let data = [
+      unix,
+      title,
+      labels,
+      abstract,
+      thumbnail,
+      editURL,
+      publicURL
+    ]
+    //console.log(data)
+
+    WebSQLDatabaseHelper.exec(sql, data, () => {
+      FunctionHelper.triggerCallback(callback, post)
+    })
+  },
+  checkTableIsEmpty: function (callback) {
+    let sql = 'select count(*) as count from posts'
+    WebSQLDatabaseHelper.exec(sql, (rows) => {
+      //console.log(rows)
+      FunctionHelper.triggerCallback(callback)
+    })
+  },
+  createPost: function (post, callback) {
+    if (typeof (post) === 'function') {
+      callback = post
+      post = null
+    }
+
+    let postId
+    let unix = DayjsHelper.unix()
+    let title = ''
+    let abstract = ''
+    let labels = ''
+    let thumbnail = ''
+    let editURL = ''
+    let publicURL = ''
+    let sql = `insert into 
+                  posts(createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publicURL) 
+                  values(?,?,?,?,?,?,?,?)`
+    let data = [unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
+
+    if (post !== null
+            && typeof (post) === 'object') {
+      if (typeof (post.id) === 'number') {
+        postId = post.id
+      }
+      if (typeof (post.title) === 'string') {
+        title = post.title
+      }
+      if (typeof (post.abstract) === 'string') {
+        abstract = post.abstract
+      }
+      if (typeof (post.labels) === 'string') {
+        labels = post.labels
+      }
+      if (typeof (post.thumbnail) === 'string') {
+        thumbnail = post.thumbnail
+      }
+      if (typeof (post.editURL) === 'string') {
+        editURL = post.editURL
+      }
+      if (typeof (post.publicURL) === 'string') {
+        publicURL = post.publicURL
+      }
+
+      if (typeof (post.id) === 'number') {
+        sql = `insert into 
+                  posts(id, createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publicURL) 
+                  values(?,?,?,?,?,?,?,?,?)`
+        data = [postId, unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
+      } else {
+        data = [unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
+      }
+    }
+
+    //console.log(sql)
+    //console.log(data)
+    WebSQLDatabaseHelper.exec(sql, data, (rows) => {
+      //console.log('after sql')
+      this.getLastUpdatePost((post) => {
+        //console.log('after get last update post')
+        //console.log(post.id)
+        this.posts = [post].concat(this.posts)
+        if (post === null) {
+          this.editingPostId = post.id
+        }
+        this.persist()
+        this.filterPosts()
+
+        this.enableRemovePost = (this.posts.length > 1)
+        FunctionHelper.triggerCallback(callback, post)
+      })
+    })
+  },
+  getLastPostId: function (callback) {
+    let sql = 'select id from posts order by id desc limit 0, 1'
+    WebSQLDatabaseHelper.exec(sql, (rows) => {
+      FunctionHelper.triggerCallback(callback, rows[0].id)
+    })
+  },
+  getLastUpdatePost: function (callback) {
+    let sql = 'select * from posts order by id desc limit 0, 1'
+    WebSQLDatabaseHelper.exec(sql, (rows) => {
+      if (rows.length > 0) {
+        //rows = rows.item(0)
+        rows = rows[0]
+      } else {
+        rows = undefined
+      }
+      FunctionHelper.triggerCallback(callback, rows)
+    })
+  },
+  retrieveAllPost: function (callback) {
+    let sql = 'select * from posts order by updateUnix desc'
+    //console.log(sql)
+    WebSQLDatabaseHelper.exec(sql, callback)
+  },
+  removePost: function (id, callback) {
+    let sql = `DELETE FROM posts WHERE id=${id}`
+    WebSQLDatabaseHelper.exec(sql, callback)
+  }
 }
 
 export default PostManagerDatabase

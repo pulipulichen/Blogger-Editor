@@ -51,6 +51,11 @@ body {
     box-shadow: none;
     //border-width: 0;
     border: 1px dotted gray;
+    
+    &[src^="filesystem:"],
+    &[src^="data:"] {
+      border-color: red;
+    }
   } 
   
   a[name="more"] {

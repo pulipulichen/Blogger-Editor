@@ -3,6 +3,7 @@ import JSZipUtils from 'jszip-utils'
 import {saveAs} from 'file-saver'
 
 import PostManagerDatabase from './PostManagerDatabase.js'
+import PostManagerBackup from './PostManagerBackup.js'
 import PostManagerFile from './PostManagerFile.js'
 
 let PostManager = {
@@ -20,10 +21,11 @@ let PostManager = {
       //disableUploadImageDraft: true,
       quotaUsed: 0,
       quotaTotal: FileSystemHelper.quota,
-      enableRemovePost: true,
+      //enableRemovePost: true,
       quotaProgressBar: null,
       
       PostManagerDatabase: PostManagerDatabase,
+      PostManagerBackup: PostManagerBackup,
       PostManagerFile: PostManagerFile
     }
   },
@@ -69,7 +71,43 @@ let PostManager = {
       let data = this.quotaTotal / 1024 / 1024
       data = Math.round(data * 100) / 100
       return data
-    }
+    },
+    enableRemovePost: function () {
+      return (this.posts.length > 1)
+    },
+    filterPosts: function () {
+      let filteredPosts = []
+      if (typeof(this.filterCondition) !== 'string' 
+              || this.filterCondition.trim() === '') {
+        filteredPosts = this.posts
+        //this.forceRerender()
+        return filteredPosts
+      }
+      
+      let conds = this.filterCondition.trim().split(' ')
+      //filteredPosts = []
+      this.posts.forEach((post) => {
+        let match = false
+        conds.forEach(cond => {
+          if (match === true) {
+            return
+          }
+          
+          if (post.title.indexOf(cond) > -1
+                  || post.abstract.indexOf(cond) > -1
+                  || post.labels.indexOf(cond) > -1) {
+            match = true
+          }
+        })
+        
+        if (match === true) {
+          filteredPosts.push(post)
+        }
+      })  // this.posts.forEach((post) => {
+      
+      //this.forceRerender() 
+      return filteredPosts
+    },
   },
   methods: {
     getUI: function () {
@@ -80,50 +118,20 @@ let PostManager = {
       }
       return this.ui
     },
-    createTable: function () {
-      if (this.createTableDone === true) {
-        return
-      }
-      else {
-        this.createTableDone = true
-      }
-      let sql = `Create Table if not exists posts
-        (id INTEGER PRIMARY KEY, 
-         createUnix INTEGER, 
-         updateUnix INTEGER, 
-         title TEXT, 
-         labels TEXT, 
-         abstract TEXT,
-         thumbnail TEXT,
-         editURL TEXT,
-         publicURL TEXT)`
-      //console.log(sql)
-      WebSQLDatabaseHelper.exec(sql)     
-    },
     init: function (callback) {
-      this.createTable()
+      this.PostManagerFile.init(this)
+      this.PostManagerBackup.init(this)
+      this.PostManagerDatabase.createTable()
       //this.checkTableIsEmpty()
       //return
       
-      let sql = 'select * from posts order by updateUnix desc'
-      //console.log(sql)
-      WebSQLDatabaseHelper.exec(sql, (rows) => {
+      this.PostManagerDatabase.retrieveAllPost((posts) => {
         //console.log(rows.length)
-        this.posts = []
-        if (rows.length > 0) {
-          for (let i = 0; i < rows.length; i++) {
-            //let item = rows.item(i)
-            let item = rows[i]
-            this.posts.push(item)
-          }
-          //console.log('PostManager.init()')
-          //console.log(this.posts)
-          //this.filteredPosts = this.posts
+        this.posts = posts
+        if (posts.length > 0) {
+          //this.enableRemovePost = (this.posts.length > 1)
           
-          //console.log(rows.length)
-          this.enableRemovePost = (this.posts.length > 1)
-          
-          this.filterPosts()
+          //this.filterPosts()
           //console.log(this.filteredPosts)
           FunctionHelper.triggerCallback(callback)
         }
@@ -132,125 +140,18 @@ let PostManager = {
         }
       })
     },
-    checkTableIsEmpty: function (callback) {
-      let sql = 'select count(*) as count from posts'
-      WebSQLDatabaseHelper.exec(sql, (rows) => {
-        //console.log(rows)
-        FunctionHelper.triggerCallback(callback)
-      })
-    },
-    createPost: function (post ,callback) {
-      if (typeof(post) === 'function') {
-        callback = post
-        post = null
-      }
-      
-      let postId
-      let unix = DayjsHelper.unix()
-      let title = ''
-      let abstract = ''
-      let labels = ''
-      let thumbnail = ''
-      let editURL = ''
-      let publicURL = ''
-      let sql = `insert into 
-                  posts(createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publicURL) 
-                  values(?,?,?,?,?,?,?,?)`
-      let data = [unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
-      
-      if (post !== null 
-              && typeof(post) === 'object') {
-        if (typeof(post.id) === 'number') {
-          postId = post.id
-        }
-        if (typeof(post.title) === 'string') {
-          title = post.title
-        }
-        if (typeof(post.abstract) === 'string') {
-          abstract = post.abstract
-        }
-        if (typeof(post.labels) === 'string') {
-          labels = post.labels
-        }
-        if (typeof(post.thumbnail) === 'string') {
-          thumbnail = post.thumbnail
-        }
-        if (typeof(post.editURL) === 'string') {
-          editURL = post.editURL
-        }
-        if (typeof(post.publicURL) === 'string') {
-          publicURL = post.publicURL
-        }
-        
-        if (typeof(post.id) === 'number') {
-          sql = `insert into 
-                  posts(id, createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publicURL) 
-                  values(?,?,?,?,?,?,?,?,?)`
-          data = [postId, unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
-        }
-        else {
-          data = [unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
-        }
-      }
-      
-      //console.log(sql)
-      //console.log(data)
-      WebSQLDatabaseHelper.exec(sql, data, (rows) => {
-        //console.log('after sql')
-        this.getLastUpdatePost((post) => {
-          //console.log('after get last update post')
-          //console.log(post.id)
-          this.posts = [post].concat(this.posts)
-          if (post === null) {
-            this.editingPostId = post.id
-          }
-          this.persist()
-          this.filterPosts()
-          
-          this.enableRemovePost = (this.posts.length > 1)
-          FunctionHelper.triggerCallback(callback, post)
-        })
-      })
-    },
-    getLastPostId: function (callback) {
-      let sql = 'select id from posts order by id desc limit 0, 1'
-      WebSQLDatabaseHelper.exec(sql, (rows) => {
-        FunctionHelper.triggerCallback(callback, rows[0].id)
-      })
-    },
-    getLastUpdatePost: function (callback) {
-      let sql = 'select * from posts order by id desc limit 0, 1'
-      WebSQLDatabaseHelper.exec(sql, (rows) => {
-        if (rows.length > 0) {
-          //rows = rows.item(0)
-          rows = rows[0]
-        }
-        else {
-          rows = undefined
-        }
-        FunctionHelper.triggerCallback(callback, rows)
-      })
+    createPost: function (post, callback) {
+      return this.PostManagerDatabase.createPost(post, callback)
     },
     newPost: function (callback) {
       this.createPost(callback)
     },
     getEditingPostId: function (callback) {
-      //if (this.editingPostId !== PostManager.editingPostId
-      //        && typeof(PostManager.editingPostId) === 'number') {
-      //  this.editingPostId = PostManager.editingPostId
-      //}
-      
-      //console.log([typeof(this.editingPostId), localStorage.getItem('editingPostId')])
-      
       if (typeof(this.editingPostId) === 'number') {
-        //console.log(this.editingPostId)
         FunctionHelper.triggerCallback(callback, this.editingPostId)
       }
       else {
-        //console.trace(this.editingPostId)
-        //console.trace(['who reset editing id?', this.editingPostId])
-        //throw 'who reset editing id?'
-        this.getLastUpdatePost((post) => {
+        this.PostManagerDatabase.getLastUpdatePost((post) => {
           this.editingPostId = post.id
           this.persist()
           FunctionHelper.triggerCallback(callback, this.editingPostId)
@@ -287,28 +188,10 @@ let PostManager = {
         id = undefined
       }
       
-      let retrievePostBody = (id) => {
-        let path = `/${id}/postBody.html`
-        //let fsPath = FileSystemHelper.getFileSystemUrl(path)
-        //FileSystemHelper.read(path, (postBody) => {
-        //console.log(fsPath)
-        //$.get(fsPath, (postBody) => {
-        FileSystemHelper.read(path, (postBody) => {
-          if (postBody === undefined) {
-            postBody = ''
-          }
-          //console.log(['getPostBody', postBody])
-          FunctionHelper.triggerCallback(callback, postBody)
-        })
-      }
-      
       if (id === undefined) {
-        //id = this.editingPostId
-        this.getEditingPostId(retrievePostBody)
+        id = this.editingPostId
       }
-      else {
-        retrievePostBody(id)
-      }
+      this.PostManagerFile.getPostBody(id, callback)
     },
     createPostBodyFile: function (id, content, callback) {
       if (typeof(content) === 'function') {
@@ -316,17 +199,9 @@ let PostManager = {
         content = ''
       }
       
-      let path = `/${id}/postBody.html`
-      FileSystemHelper.isExists(path, (isExists) => {
-        if (isExists === true) {
-          FunctionHelper.triggerCallback(callback)
-        }
-        else {
-          FileSystemHelper.write(path, content, callback)
-        }
-        //this.PostManagerFile.statisticQuota(this)
-        
+      this.PostManagerFile.createPostBodyFile(id, content, () => {
         EventManager.trigger(this, 'createPostBodyFile')
+        FunctionHelper.triggerCallback(callback)
       })
     },
     openPost: function (id, callback) {
@@ -355,22 +230,15 @@ let PostManager = {
         id = parseInt(id, 10)
         
         this.posts = this.posts.filter(post => post.id !== id)
-        this.filterPosts()
+        //this.filterPosts()
         
-        let sql = `DELETE FROM posts WHERE id=${id}`
-        WebSQLDatabaseHelper.exec(sql)
+        this.PostManagerDatabase.removePost(id)
+        this.PostManagerFile.removePost(id)
         
         if (this.editingPostId === id) {
           this.editingPostId = null
           this.persist()
         }
-        
-        // delete files in filesystem
-        let dirPath = `/${id}`
-        FileSystemHelper.removeDir(dirPath, callback)
-        //FunctionHelper.triggerCallback(callback)
-        
-        this.enableRemovePost = (this.posts.length > 1)
       })
     },
     updateEditingPost: function (field, value, callback) {
@@ -431,11 +299,7 @@ let PostManager = {
         
         this.update(post, () => {
           let id = post.id
-          let path = `/${id}/postBody.html`
-          //console.log(['updateEditingPostBody', path])
-          FileSystemHelper.write(path, postBody, () => {
-            //this.PostManagerFile.statisticQuota(this)
-            
+          this.PostManagerFile.writePostBody(id, postBody, () => {
             EventManager.trigger(this, 'updateEditingPostBody')
             FunctionHelper.triggerCallback(callback, post)
           })
@@ -443,43 +307,7 @@ let PostManager = {
       })
     },
     update: function (post, callback) {
-      let id = post.id 
-      
-      let unix = DayjsHelper.unix()
-      let title = post.title
-      let labels = post.labels
-      let abstract = post.abstract
-      let thumbnail = post.thumbnail
-      let editURL = post.editURL
-      let publicURL = post.publicURL
-      
-      //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
-      
-      let sql = `UPDATE posts SET 
-        updateUnix = ?,
-        title = ?,
-        labels = ?,
-        abstract = ?,
-        thumbnail = ?,
-        editURL = ?,
-        publicURL = ?
-        WHERE id = ${id}`
-      //console.log(sql)
-      
-      let data = [
-        unix,
-        title,
-        labels,
-        abstract,
-        thumbnail,
-        editURL,
-        publicURL
-      ]
-      //console.log(data)
-      
-      WebSQLDatabaseHelper.exec(sql, data, () => {
-        FunctionHelper.triggerCallback(callback, post)
-      })
+      return this.PostManagerDatabase.updatePost(post, callback)
     },
     open: function () {
       //console.log(this.data)
@@ -512,37 +340,7 @@ let PostManager = {
       
       //console.log('now pretend I did more stuff...');
     },
-    filterPosts: function () {
-      if (typeof(this.filterCondition) !== 'string' 
-              || this.filterCondition.trim() === '') {
-        this.filteredPosts = this.posts
-        this.forceRerender()
-        return
-      }
-      
-      let conds = this.filterCondition.trim().split(' ')
-      this.filteredPosts = []
-      this.posts.forEach((post) => {
-        let match = false
-        conds.forEach(cond => {
-          if (match === true) {
-            return
-          }
-          
-          if (post.title.indexOf(cond) > -1
-                  || post.abstract.indexOf(cond) > -1
-                  || post.labels.indexOf(cond) > -1) {
-            match = true
-          }
-        })
-        
-        if (match === true) {
-          this.filteredPosts.push(post)
-        }
-      })  // this.posts.forEach((post) => {
-      
-      this.forceRerender() 
-    },
+    /*
     forceRerender: function () {
       if (this.componentRerenderKey === undefined) {
         this.componentRerenderKey = 0
@@ -551,6 +349,7 @@ let PostManager = {
       this.componentRerenderKey += 1;
       //console.log('forceRerender 2: ',  this.componentRerenderKey)
     },
+    */
     displayDate: function (unix) {
       return DayjsHelper.postDate(unix)
     },
@@ -561,14 +360,7 @@ let PostManager = {
         id = this.editingPostId
       }
       
-      $v.PageLoader.open()
-      let nowFormat = DayjsHelper.nowFormat()
-      let folderName = `blogger-editor-post-${id}-${nowFormat}`
-      this.createBackupZip(id, (zip) => {
-        saveAs(zip, `${folderName}.zip`)
-        $v.PageLoader.close()
-        FunctionHelper.triggerCallback(callback)
-      })
+      return this.PostManagerBackup.backupPost(id, callback)
     },
     createBackupZip: function (id, callback) {
       if (typeof(id) === 'undefined' 
@@ -577,266 +369,34 @@ let PostManager = {
         id = this.editingPostId
       }
       
-      let FieldPostBody = $v.EditorManager.FieldPostBody
-      this.getPost(id, (post) => {
-        post = JSON.parse(JSON.stringify(post))
-        this.getPostBody(id, (postBody) => {
-          
-          let zip = new JSZip()
-          let nowFormat = DayjsHelper.nowFormat()
-          let folderName = `blogger-editor-post-${id}-${nowFormat}`
-          let folder = zip.folder(folderName);
-          
-          //let thumb = post.thumbnail
-          //post.thumbnail = thumb.slice(thumb.lastIndexOf('/assets/') + 1)
-          if (post.thumbnail !== null) {
-            post.thumbnail = FileSystemHelper.stripAssetFileSystemPrefix(post.thumbnail)
-          }
-          //console.log(post.thumbnail)
-          //return
-          folder.file('post.json', JSON.stringify(post))
-          
-          if (postBody === undefined) {
-            postBody = ''
-          }
-          
-          this.addFileSystemFiles(folder, postBody, () => {
-            postBody = FieldPostBody.filterImageListToRelative(postBody)
-            folder.file('postBody.html', postBody)
-            zip.generateAsync({type: "blob"}).then((content) => {
-            // see FileSaver.js
-              //saveAs(content, `blogger-editor-posts.zip`)
-              //$v.PageLoader.close()
-              FunctionHelper.triggerCallback(callback, content)
-            })
-            //FunctionHelper.triggerCallback(callback, zip)
-          })
+      this.getPost(id, post => {
+        this.getPostBody(id, postBody => {
+          this.PostManagerBackup.createBackupZip(post, postBody, cabllack)
         })
       })
-      //console.log('backupPost', id)
     },
-    addFileSystemFiles: function (folder, postBody, callback) {
-      let FieldPostBody = $v.EditorManager.FieldPostBody
-      
-      // we need download images
-      let imageList = FieldPostBody.getImageList(postBody)
-      let assetFolder = folder.folder('assets')
-      let loop = (i) => {
-        if (i < imageList.length) {
-          let path = imageList[i]
-          let name = path.slice(path.lastIndexOf('/') + 1)
-          JSZipUtils.getBinaryContent(path, (err, data) => {
-            //console.log(data)
-            assetFolder.file(name, data)
-            i++
-            loop(i)
-          })
-        }
-        else {
-          FunctionHelper.triggerCallback(callback)
-        }
-      }
-      loop(0)
-    },
+    
     backupAllPosts: function (callback) {
-      $v.PageLoader.open()
-      //console.log('backupAllPosts')
-      //FunctionHelper.triggerCallback(callback)
-      let zip = new JSZip()
-      
-      let loop = (i) => {
-        if (i < this.posts.length) {
-          let id = this.posts[i].id
-          let folderName = `blogger-editor-post-${id}`
-          this.createBackupZip(id, (postZip) => {
-            zip.file(`${folderName}.zip`, postZip)
-            
-            i++
-            loop(i)
-          })
-        }
-        else {
-          zip.generateAsync({type: "blob"}).then((content) => {
-          // see FileSaver.js
-            saveAs(content, `blogger-editor-posts.zip`)
-            $v.PageLoader.close()
-            FunctionHelper.triggerCallback(callback)
-          })
-        }
-      }
-      loop(0)
+      this.PostManagerBackup.backupAllPosts(callback)
     },
     triggerUploadPosts: function (e) {
       //FileHelper.triggerInput(e)
       this.getUI().find('input:file[name="uploadPosts"]').click()
     },
     uploadPosts: function (e) {
-      let files = e.target.files
-      //console.log('uploadPost')
-      this.readPostsZip(files)
+      this.PostManagerBackup.uploadPosts(e)
     },
     dropPosts: function (e) {
-      let files = e.dataTransfer.files
-      //console.log('uploadPost')
-      this.readPostsZip(files)
+      this.PostManagerBackup.dropPosts(e)
     },
     readPostsZip: function (files) {
-      $v.PageLoader.open()
-      
-      let i = 0
-      
-      let loop = (i) => {
-        if (i < files.length) {
-          let file = files[i]
-          if (file.type !== 'application/zip') {
-            next()
-            return
-          }
-          
-          JSZip.loadAsync(file) // 1) read the Blob
-            .then((zip) => {
-              for (let path in zip.files) {
-                if (path.endsWith('/')) {
-                  continue
-                }
-                
-                //console.log(['readPostsZip', path])
-                if (path.startsWith('blogger-editor-post-')
-                        && path.endsWith('.zip')) {
-                  this.readAllPostsZip(zip, next)
-                }
-                else {
-                  this.readSinglePostZip(zip, next)
-                }
-                break;
-              }
-            })
-        }
-        else {
-          //this.statisticQuota()
-          EventManager.trigger(this, 'readPostsZip')
-          $v.PageLoader.close()
-        }
-      }
-      
-      let next = () => {
-        i++
-        loop(i)
-      }
-      
-      loop(i)
+      this.PostManagerBackup.readPostsZip(files)
     },
     readAllPostsZip: function (zip, callback) {
-      let pathList = []
-      for (let path in zip.files) {
-        if (path.endsWith('/')) {
-          continue
-        }
-        pathList.push(path)
-      }
-      
-      let i = 0
-      let loop = (i) => {
-        if (i < pathList.length) {
-          let path = pathList[i]
-          //console.log(['readAllPostsZip', path])
-          let zipEntry = zip.files[path]
-          zipEntry.async('blob').then((content) => {
-            JSZip.loadAsync(content) // 1) read the Blob
-              .then((zip) => {
-                //console.log(zip.files)
-                this.readSinglePostZip(zip, next)
-              })
-          })
-        }
-        else {
-          FunctionHelper.triggerCallback(callback)
-        }
-      }
-      
-      let next = () => {
-        i++
-        loop(i)
-      }
-      
-      loop(i)
+      this.PostManagerBackup.readAllPostsZip(zip, callback)
     },
     readSinglePostZip: function (zip, callback) {
-      let FieldPostBody = $v.EditorManager.FieldPostBody
-      
-      let postId
-      let post = {}
-      let postBody
-      
-      // -----------
-      
-      let pathList = []
-      for (let path in zip.files) {
-        if (path.endsWith('/')) {
-          continue
-        }
-        pathList.push(path)
-      }
-      
-      // -----------
-      
-      let i = 0
-      let loop = (i) => {
-        if (i < pathList.length) {
-          let path = pathList[i]
-          //console.log(['readSinglePostZip', path])
-          let zipEntry = zip.files[path]
-          
-          if (path.indexOf('/assets/') === -1) {
-            if (path.endsWith('/post.json')) {
-              zipEntry.async('string').then((content) => {
-                post = JSON.parse(content)
-                post.id = postId
-                //let thumb = post.thumbnail
-                //thumb = thumb.slice(thumb.lastIndexOf('assets/'))
-                //thumb = `/${postId}/${thumb}`
-                post.thumbnail = FileSystemHelper.appendAssetFileSystemPrefix(post.thumbnail, postId)
-                //console.log(['thumb', thumb])
-                next()
-              })
-            }
-            else if (path.endsWith('/postBody.html')) {
-              zipEntry.async('string').then((content) => {
-                //console.log(['readSinglePostZip 1', content])
-                content = FieldPostBody.filterImageListToFileSystem(content, postId)
-                //console.log(['readSinglePostZip 2', content])
-                //let postBodyPath = `/${postId}/postBody.html`
-                //FileSystemHelper.write(postBodyPath, content, next)
-                this.createPostBodyFile(postId, content, next)
-              })
-            }
-            else {
-              next()
-            }
-          }
-          else {
-            zipEntry.async('blob').then((content) => {
-              let filename = path.slice(path.lastIndexOf('/') + 1)
-              let assetPath = `/${postId}/assets/${filename}`
-              FileSystemHelper.write(assetPath, content, next)
-            })
-          }
-        }
-        else {
-          this.createPost(post, callback)
-        }
-      }
-      
-      let next = () => {
-        i++
-        loop(i)
-      }
-      
-      this.getLastPostId((id) => {
-        postId = (id + 1)
-        loop(i)
-      })
-      
+      this.PostManagerBackup.readSinglePostZip(zip, callback)
     },
     clonePost: function (id, callback) {
       $v.PageLoader.open(() => {
