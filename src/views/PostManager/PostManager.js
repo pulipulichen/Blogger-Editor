@@ -5,7 +5,6 @@ import {saveAs} from 'file-saver'
 import PostManagerDatabase from './PostManagerDatabase.js'
 import PostManagerBackup from './PostManagerBackup.js'
 import PostManagerFile from './PostManagerFile.js'
-import PostManagerCache from './PostManagerCache.js'
 
 let PostManager = {
   data: function () {
@@ -27,8 +26,7 @@ let PostManager = {
       
       PostManagerDatabase: PostManagerDatabase,
       PostManagerBackup: PostManagerBackup,
-      PostManagerFile: PostManagerFile,
-      PostManagerCache: PostManagerCache
+      PostManagerFile: PostManagerFile
     }
   },
   mounted() {
@@ -264,7 +262,6 @@ let PostManager = {
         //console.log('$v.EditorManager.OutlineNavigator.analyseHeadings()')
         //$v.EditorManager.OutlineNavigator.analyseHeadings()
       //}
-      this.PostManagerCache.set(postBody)
       let {abstract, thumbnail} = this.PostManagerFile.extractPostBodyFeatures(postBody)
       
       //console.log(['updateEditingPostBody'])

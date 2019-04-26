@@ -1,7 +1,9 @@
 import SummerNoteConfig from './SummerNoteConfig.js'
+import FieldPostBodyCache from './FieldPostBodyCache.js'
 
 let FieldPostBody = {
   ui: null,
+  firstSet: true,
   debug: {
     disableSummerNode: false
   },
@@ -95,19 +97,37 @@ let FieldPostBody = {
   change: function () {
     this.insert('')
   },
-  set: function (value) {
+  set: function (value, doCache) {
     if (this.debug.disableSummerNode === true) {
       this.get().html(value)
       return this
     }
     
+    if (this.firstSet === true) {
+      if (typeof(value) !== 'string' || value.trim() === '') {
+        let cache = FieldPostBodyCache.get()
+        if (cache !== undefined) {
+          value = cache
+        }
+      }
+      this.firstSet = false
+    }
+    
+    
     //console.log('postBody: ', value)
     this.get().summernote('code', value)
     this.get().summernote('editor.commit')
     
+    if (doCache !== false) {
+      FieldPostBodyCache.set(value)
+    }
+    
     if ($v.EditorManager.OutlineNavigator !== null) {
       $v.EditorManager.OutlineNavigator.analyseHeadings()
     }
+    
+    EventManager.trigger(this, 'set')
+    
     return this
   },
   getImageList: function (postBody) {
@@ -211,8 +231,14 @@ let FieldPostBody = {
   },
   save: function (callback) {
     this.deactivateCodeView()
+    
+    let postBody = this.getHTML()
+    if (typeof(postBody) !== 'string' || postBody.trim() === '') {
+      return
+    }
+    
     this.cleanUnusedFileSystem(() => {
-      $v.PostManager.updateEditingPostBody(this.getHTML(), callback)
+      $v.PostManager.updateEditingPostBody(postBody, callback)
     })
   },
   deactivateCodeView: function () {

@@ -1,5 +1,5 @@
-let PostManagerCache = {
-  key: 'PostManagerCache.postBody',
+let FieldPostBodyCache = {
+  key: 'FieldPostBodyCache.postBody',
   set: function (postBody) {
     try {
       localStorage.setItem(this.key, postBody)
@@ -17,4 +17,4 @@ let PostManagerCache = {
   }
 }
 
-export default PostManagerCache
+export default FieldPostBodyCache

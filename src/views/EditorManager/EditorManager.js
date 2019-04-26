@@ -14,6 +14,9 @@ import FieldPostDate from './FieldPostDate.js'
 
 import SummerNoteConfig from './SummerNoteConfig.js'
 
+//import EditorManagerCache from './EditorManagerCache.js'
+import EditorManagerConfig from './EditorManagerConfig.js'
+
 import ImageReplacerSfc from './ImageReplacer/ImageReplacer.vue'
 import IframePromptSfc from './IframePrompt/IframePrompt.vue'
 import FileUploaderSfc from './FileUploader/FileUploader.vue'
@@ -44,6 +47,9 @@ var EditorManager = {
       FieldPostTitle: FieldPostTitle,
       FieldPostDate: FieldPostDate,
       SummerNoteConfig: SummerNoteConfig,
+      
+      //EditorManagerCache: EditorManagerCache,
+      EditorManagerConfig: EditorManagerConfig,
       
       ImageReplacer: null,
       IframePrompt: null,
@@ -176,13 +182,15 @@ var EditorManager = {
         this.OutlineNavigator.init()
       }
       
+      this.EventManagerConfig.init(this)
+      
       EventManager.on($v.PostManager, 'open', () => {
         this.save()
       })
       
       FieldPostTitle.init(() => {
-        FieldPostBody.init(() => {
-          FieldPostLabels.init(() => {
+        FieldPostLabels.init(() => {
+          FieldPostBody.init(() => {
             this.setupPostData(callback)
           })
         })
@@ -256,82 +264,16 @@ var EditorManager = {
       SemanticUIHelper.openTab(e)
     },
     configDownload: function () {
-      //console.log('configDownload')
-      
-      let config = this.getConfig()
-      
-      config = JSON.stringify(config)
-      FileHelper.save(config, 'editorConfig.json')
-    },
-    getConfig: function () {
-      let config = {
-        image: {
-          uploadImageDraft: this.uploadImageDraft,
-          imageSizeDefault: this.imageSizeDefault
-        },
-        toolbar: {
-          toolbar: this.SummerNoteConfig.toolbar(false),
-          styleTags: this.SummerNoteConfig.styleTags(false),
-        }
-      }
-      return config
+      return this.EditorManagerConfig.configDownload()
     },
     triggerConfigUpload: function (e) {
       $(e.target).parent().children('input:file:first').click()
     },
     configUpload: function (e) {
-      let files = e.target.files
-      this.readConfig(files)
+      return this.EditorManagerConfig.configUpload(e)
     },
     configDrop: function (e) {
-      //console.log('configDrop')
-      let files = e.dataTransfer.files
-      this.readConfig(files)
-    },
-    readConfig: function (files) {
-      if (files.length !== 1 
-              || files[0].type !== 'application/json') {
-        return this
-      }
-      //console.log(files[0])
-      
-      FileSystemHelper.readEventFilesText(files[0], (config) => {
-        //console.log(config)
-        config = JSON.parse(config)
-        this.setConfig(config)
-        WindowHelper.alert('Config uploaded')
-      })
-      return this
-    },
-    setConfig: function (config) {
-      if (typeof(config) === 'string') {
-        config = JSON.parse(config)
-      }
-      
-      if (typeof(config.image) === 'object') {
-        let image = config.image
-        if (typeof(image.uploadImageDraft) === 'string') {
-          this.uploadImageDraft = image.uploadImageDraft
-        }
-        if (typeof(image.imageSizeDefault) === 'number') {
-          this.imageSizeDefault = image.imageSizeDefault
-        }
-      }
-      if (typeof(config.toolbar) === 'object') {
-        let toolbar = config.toolbar
-        if (Array.isArray(toolbar.toolbar)) {
-          this.summerNoteConfigToolbar = JSON.stringify(toolbar.toolbar)
-          if (this.summerNoteConfigToolbar === '[]') {
-            this.summerNoteConfigToolbar = ''
-          }
-        }
-        if (Array.isArray(toolbar.styleTags)) {
-          this.summerNoteConfigStyleTags = JSON.stringify(toolbar.styleTags)
-          if (this.summerNoteConfigStyleTags === '[]') {
-            this.summerNoteConfigStyleTags = ''
-          }
-        }
-      }
+      return this.EditorManagerConfig.configDrop(e)
     },
     setChanged: function () {
       this.onCloseReload = true
