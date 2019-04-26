@@ -22,7 +22,7 @@ let PostManagerFile = {
   writePostBody: function (id, postBody, callback) {
     let path = `/${id}/postBody.html`
     FileSystemHelper.write(path, postBody, () => {
-      FunctionHelper.triggerCallback(callback, post)
+      FunctionHelper.triggerCallback(callback)
     })
   },
   getPostBody: function (id, callback) {

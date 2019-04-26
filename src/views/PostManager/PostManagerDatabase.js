@@ -19,7 +19,7 @@ let PostManagerDatabase = {
     //console.log(sql)
     WebSQLDatabaseHelper.exec(sql)
   },
-  updatePost: function () {
+  updatePost: function (post, callback) {
     let id = post.id
 
     let unix = DayjsHelper.unix()

@@ -270,4 +270,4 @@ let PostManagerBackup = {
   },
 }
 
-export default PostManagerFile
+export default PostManagerBackup
