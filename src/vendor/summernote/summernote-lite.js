@@ -3623,10 +3623,10 @@
                 _this.context.invoke('editor.saveScrollPosition')
                 _this.context.invoke('editor.saveRange')
                 _this.context.invoke('editor.formatBlock', `H${headingLevel}`)
-                $(() => {
+                setTimeout(() => {
                   _this.context.invoke('editor.undo')
                   _this.context.invoke('editor.restoreScrollPosition')
-                })
+                }, 0)
                 mode = 'heading'
               }
               else {
@@ -3673,10 +3673,10 @@
                 _this.context.invoke('editor.saveScrollPosition')
                 _this.context.invoke('editor.saveBlurRange')
                 _this.context.invoke('editor.formatBlock', tagName)
-                $(() => {
+                setTimeout(() => {
                   _this.context.invoke('editor.undo')
                   _this.context.invoke('editor.restoreScrollPosition')
-                })
+                }, 0)
                 mode = 'heading'
               }
               else {
@@ -4629,9 +4629,9 @@
               range.createFromNodeAfter(node).select();
               this.removeEmptySibling(node)
               
-              $(() => {
+              setTimeout(() => {
                 this.saveBlurRange()
-              })
+              }, 0)
           });
           /**
            * insert text
@@ -4651,9 +4651,9 @@
               var textNode = rng.insertNode(dom.createText(text));
               range.create(textNode, dom.nodeLength(textNode)).select();
               
-              $(() => {
+              setTimeout(() => {
                 this.saveBlurRange()
-              })
+              }, 0)
           });
           /**
            * paste HTML
@@ -5008,22 +5008,22 @@
           .on('focus', function (event) {
               //_this.isFocus = true
               //_this.restoreRange()
-              $(() => {
+              setTimeout(() => {
                 _this.isFocus = true
-              })
+              }, 0)
               _this.context.triggerEvent('focus', event);
           }).on('blur', function (event) {
-              $(() => {
+              setTimeout(() => {
                 _this.isFocus = false
-              })
+              }, 0)
               //console.log('isFocus false')
               _this.context.triggerEvent('blur', event);
           }).on('mousedown', function (event) {
               _this.context.triggerEvent('mousedown', event);
           }).on('mouseup', function (event) {
-              $(() => {
+              setTimeout(() => {
                 _this.saveBlurRange()
-              })
+              }, 0)
               _this.context.triggerEvent('mouseup', event);
           }).on('scroll', function (event) {
               _this.context.triggerEvent('scroll', event);
@@ -5033,9 +5033,9 @@
           // init content before set event
           this.$editable.html(dom.html(this.$note) || dom.emptyPara);
           this.$editable.on(env.inputEventName, func.debounce(function () {
-              $(() => {
+              setTimeout(() => {
                 _this.saveBlurRange()
-              })
+              }, 0)
               _this.context.triggerEvent('change', _this.$editable.html());
           }, 10));
           this.$editor.on('focusin', function (event) {
@@ -6162,13 +6162,13 @@ sel.addRange(range);
           }
           this.$codable.show();
           
-          $(() => {
+          setTimeout(() => {
             if (codeViewScrollTop === undefined) {
               codeViewScrollTop = this.$codable.parents('.note-editor:first').offset().top
             }
             //console.log(['scroll codeViewScrollTop', codeViewScrollTop])
             $window.scrollTop(codeViewScrollTop)
-          })
+          }, 0)
       };
       /**
        * deactivate code view
@@ -6213,13 +6213,13 @@ sel.addRange(range);
           this.context.invoke('toolbar.updateCodeview', false);
           //this.$codable.hide()
           
-          $(() => {
+          setTimeout(() => {
             if (editorViewScrollTop === undefined) {
               editorViewScrollTop = this.$editable.parents('.note-editor:first').offset().top
             }
             //console.log(['scroll editorViewScrollTop', editorViewScrollTop])
             $window.scrollTop(editorViewScrollTop)
-          })
+          }, 0)
       };
       CodeView.prototype.destroy = function () {
           if (this.isActivated()) {
@@ -7453,6 +7453,7 @@ sel.addRange(range);
           this.$toolbar = context.layoutInfo.toolbar;
           this.options = context.options;
           this.followScroll = this.followScroll.bind(this);
+          this.noteEditable = null
       }
       Toolbar.prototype.shouldInitialize = function () {
           return !this.options.airMode;
@@ -7505,24 +7506,36 @@ sel.addRange(range);
           var editorOffsetBottom = editorOffsetTop + editorHeight;
           var activateOffset = editorOffsetTop - otherBarHeight;
           var deactivateOffsetBottom = editorOffsetBottom - otherBarHeight - toolbarHeight;
+          
+          if (this.noteEditable === null) {
+            this.noteEditable = this.$editor.find(".note-editable:first")
+          }
+          
           if ((currentOffset > activateOffset) && (currentOffset < deactivateOffsetBottom)) {
-              this.$toolbar.css({
-                  position: 'fixed',
-                  top: otherBarHeight,
-                  width: editorWidth
-              });
-              this.$toolbar.addClass('fixed')
+              
               //console.log(["margin-top 4", (this.$toolbar.height())])
-              this.$editor.find(".note-editable:first").css("margin-top", (this.$toolbar.height()) + 'px')
+              setTimeout(() => {
+                this.noteEditable.css("margin-top", (this.$toolbar.height()) + 'px')
+              
+                this.$toolbar.css({
+                    position: 'fixed',
+                    top: otherBarHeight,
+                    width: editorWidth
+                });
+                this.$toolbar.addClass('fixed')
+              }, 0)
           }
           else {
-              this.$toolbar.css({
-                  position: 'relative',
-                  top: 0,
-                  width: '100%'
-              });
-              this.$toolbar.removeClass('fixed')
-              this.$editor.find(".note-editable:first").css("margin-top", 'auto')
+              setTimeout(() => {
+                this.noteEditable.css("margin-top", 'auto')
+              
+                this.$toolbar.css({
+                    position: 'relative',
+                    top: 0,
+                    width: '100%'
+                });
+                this.$toolbar.removeClass('fixed')
+              }, 0)
           }
       };
       Toolbar.prototype.changeContainer = function (isFullscreen) {
