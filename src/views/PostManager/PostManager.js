@@ -5,6 +5,7 @@ import {saveAs} from 'file-saver'
 import PostManagerDatabase from './PostManagerDatabase.js'
 import PostManagerBackup from './PostManagerBackup.js'
 import PostManagerFile from './PostManagerFile.js'
+import PostManagerCache from './PostManagerCache.js'
 
 let PostManager = {
   data: function () {
@@ -26,7 +27,8 @@ let PostManager = {
       
       PostManagerDatabase: PostManagerDatabase,
       PostManagerBackup: PostManagerBackup,
-      PostManagerFile: PostManagerFile
+      PostManagerFile: PostManagerFile,
+      PostManagerCache: PostManagerCache
     }
   },
   mounted() {
@@ -258,37 +260,11 @@ let PostManager = {
         return FunctionHelper.triggerCallback(callback)
       }
       
-      if ($v.EditorManager.OutlineNavigator !== null) {
+      //if ($v.EditorManager.OutlineNavigator !== null) {
         //console.log('$v.EditorManager.OutlineNavigator.analyseHeadings()')
-        $v.EditorManager.OutlineNavigator.analyseHeadings()
-      }
-      
-      if (typeof(postBody) !== 'string') {
-        if (typeof(postBody.html) === 'function') {
-          postBody = postBody.html()
-        }
-        else {
-          postBody = JSON.stringify(postBody)
-        }
-      }
-      
-      postBody = postBody.trim()
-      if (!postBody.startsWith('<') && !postBody.endsWith('>')) {
-        postBody = `<div>${postBody}</div>`
-      }
-      let postBodyObject = $(postBody)
-      let abstract = postBodyObject.text().trim()
-      //let maxAbstractLength = 500
-      //if (abstract.length > maxAbstractLength) {
-      //  abstract = abstract.slice(0, maxAbstractLength).trim()
+        //$v.EditorManager.OutlineNavigator.analyseHeadings()
       //}
-      
-      //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
-      let thumbnail = null
-      let img = postBodyObject.find('img:first')
-      if (img.length > 0) {
-        thumbnail = img.attr('src') 
-      }
+      let {abstract, thumbnail} = this.PostManagerFile.extractPostBodyFeatures(postBody)
       
       //console.log(['updateEditingPostBody'])
       this.getPost((post) => {
@@ -312,13 +288,13 @@ let PostManager = {
     open: function () {
       //console.log(this.data)
       
-      if (typeof($v.EditorManager) !== 'undefined') {
-        $v.EditorManager.save()
+      //if (typeof($v.EditorManager) !== 'undefined') {
+        //$v.EditorManager.save()
         //this.PostManagerFile.statisticQuota(this)
-      }
+      //}
       
       //this.getUI().find('.header:first').click()
-      this.init()
+      //this.init()
       this.getUI().modal('show')
       //this.init()
       //this.init(() => {

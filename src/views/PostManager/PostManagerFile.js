@@ -52,6 +52,39 @@ let PostManagerFile = {
       //EventManager.trigger(this, 'createPostBodyFile')
     })
   },
+  extractPostBodyFeatures: function (postBody) {
+
+    if (typeof (postBody) !== 'string') {
+      if (typeof (postBody.html) === 'function') {
+        postBody = postBody.html()
+      } else {
+        postBody = JSON.stringify(postBody)
+      }
+    }
+
+    postBody = postBody.trim()
+    if (!postBody.startsWith('<') && !postBody.endsWith('>')) {
+      postBody = `<div>${postBody}</div>`
+    }
+    let postBodyObject = $(postBody)
+    let abstract = postBodyObject.text().trim()
+    //let maxAbstractLength = 500
+    //if (abstract.length > maxAbstractLength) {
+    //  abstract = abstract.slice(0, maxAbstractLength).trim()
+    //}
+
+    //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
+    let thumbnail = null
+    let img = postBodyObject.find('img:first')
+    if (img.length > 0) {
+      thumbnail = img.attr('src')
+    }
+
+    return {
+      abstract: abstract,
+      thumbnail: thumbnail
+    }
+  },
 }
 
 export default PostManagerFile

@@ -172,6 +172,14 @@ var EditorManager = {
         return FunctionHelper.triggerCallback(callback)
       }
       
+      if (this.OutlineNavigator !== null) {
+        this.OutlineNavigator.init()
+      }
+      
+      EventManager.on($v.PostManager, 'open', () => {
+        this.save()
+      })
+      
       FieldPostTitle.init(() => {
         FieldPostBody.init(() => {
           FieldPostLabels.init(() => {
@@ -212,7 +220,7 @@ var EditorManager = {
         force = false
       }
       
-      if (force === false && DelayExecHelper.isWaiting()) {
+      if (force === false) {
         DelayExecHelper.forceExec()
         FunctionHelper.triggerCallback(callback)
         return

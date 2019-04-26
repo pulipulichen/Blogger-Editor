@@ -52,6 +52,12 @@ let config = {
     $v[this.name] = this
   },
   methods: {
+    init: function () {
+      EventManager.on($v.PostManager, 'updateEditingPostBody', () => {
+        this.analyseHeadings()
+      })
+    },
+    
     // ---------------------
     // Methods of Modal
     // ---------------------
