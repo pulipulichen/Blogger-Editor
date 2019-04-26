@@ -264,6 +264,7 @@ let PostManager = {
         //console.log('$v.EditorManager.OutlineNavigator.analyseHeadings()')
         //$v.EditorManager.OutlineNavigator.analyseHeadings()
       //}
+      this.PostManagerCache.set(postBody)
       let {abstract, thumbnail} = this.PostManagerFile.extractPostBodyFeatures(postBody)
       
       //console.log(['updateEditingPostBody'])
