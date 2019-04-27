@@ -141,7 +141,17 @@ let PostManager = {
       })
     },
     createPost: function (post, callback) {
-      return this.PostManagerDatabase.createPost(post, callback)
+      return this.PostManagerDatabase.createPost(post, (post) => {
+        this.posts = [post].concat(this.posts)
+        if (post === null) {
+          this.editingPostId = post.id
+        }
+        this.persist()
+        //this.filterPosts()
+
+        //this.enableRemovePost = (this.posts.length > 1)
+        FunctionHelper.triggerCallback(callback, post)
+      })
     },
     newPost: function (callback) {
       this.createPost(callback)
@@ -334,7 +344,17 @@ let PostManager = {
         id = this.editingPostId
       }
       
-      return this.PostManagerBackup.backupPost(id, callback)
+      this.getPostAndPostBody(id, (post, postBody) => {
+        this.PostManagerBackup.backupPost(post, postBody, callback)
+      })
+      return this
+    },
+    getPostAndPostBody: function (id, callback) {
+      this.getPost(id, (post) => {
+        this.getPostBody(id, (postBody) => {
+          FunctionHelper.triggerCallback(callback, post, postBody)
+        })
+      })
     },
     createBackupZip: function (id, callback) {
       if (typeof(id) === 'undefined' 
@@ -364,7 +384,10 @@ let PostManager = {
       this.PostManagerBackup.dropPosts(e)
     },
     readPostsZip: function (files) {
-      this.PostManagerBackup.readPostsZip(files)
+      this.PostManagerDatabase.getLastPostId(id => {
+        id++
+        this.PostManagerBackup.readPostsZip(id, files)
+      })
     },
     readAllPostsZip: function (zip, callback) {
       this.PostManagerBackup.readAllPostsZip(zip, callback)

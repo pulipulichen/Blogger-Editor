@@ -122,19 +122,7 @@ let PostManagerDatabase = {
     //console.log(data)
     WebSQLDatabaseHelper.exec(sql, data, (rows) => {
       //console.log('after sql')
-      this.getLastUpdatePost((post) => {
-        //console.log('after get last update post')
-        //console.log(post.id)
-        this.posts = [post].concat(this.posts)
-        if (post === null) {
-          this.editingPostId = post.id
-        }
-        this.persist()
-        this.filterPosts()
-
-        this.enableRemovePost = (this.posts.length > 1)
-        FunctionHelper.triggerCallback(callback, post)
-      })
+      this.getLastUpdatePost(callback)
     })
   },
   getLastPostId: function (callback) {

@@ -8,19 +8,21 @@ let PostManagerBackup = {
     this.PostManager = PostManager
     FunctionHelper.triggerCallback(callback)
   },
-  backupPost: function (id, callback) {
+  backupPost: function (post, postBody, callback) {
+    let id = post.id
     $v.PageLoader.open()
     let nowFormat = DayjsHelper.nowFormat()
     let folderName = `blogger-editor-post-${id}-${nowFormat}`
-    this.createBackupZip(id, (zip) => {
+    this.createBackupZip(post, postBody, (zip) => {
       saveAs(zip, `${folderName}.zip`)
       $v.PageLoader.close()
       FunctionHelper.triggerCallback(callback)
     })
   },
   createBackupZip: function (post, postBody, callback) {
+    console.log(post)
     let id = post.id
-    let FieldPostBody = $v.EditorManager.FieldPostBod
+    let FieldPostBody = $v.EditorManager.FieldPostBody
     post = JSON.parse(JSON.stringify(post))
     
       let zip = new JSZip()
@@ -64,6 +66,7 @@ let PostManagerBackup = {
       if (i < imageList.length) {
         let path = imageList[i]
         let name = path.slice(path.lastIndexOf('/') + 1)
+        name = decodeURIComponent(name)
         JSZipUtils.getBinaryContent(path, (err, data) => {
           //console.log(data)
           assetFolder.file(name, data)
@@ -195,12 +198,13 @@ let PostManagerBackup = {
     loop(i)
   },
   readSinglePostZip: function (zip, callback) {
-    let PostManager = $v.PostManager
+    let PostManager = this.PostManager
+    let PostManagerDatabase = PostManager.PostManagerDatabase
     let FieldPostBody = $v.EditorManager.FieldPostBody
 
-    let postId
     let post = {}
     let postBody
+    let postId
 
     // -----------
 
@@ -248,6 +252,7 @@ let PostManagerBackup = {
         } else {
           zipEntry.async('blob').then((content) => {
             let filename = path.slice(path.lastIndexOf('/') + 1)
+            filename = decodeURIComponent(filename)
             let assetPath = `/${postId}/assets/${filename}`
             FileSystemHelper.write(assetPath, content, next)
           })
@@ -262,11 +267,10 @@ let PostManagerBackup = {
       loop(i)
     }
 
-    this.getLastPostId((id) => {
-      postId = (id + 1)
+    PostManagerDatabase.getLastPostId(id => {
+      postId = id + 1
       loop(i)
     })
-
   },
 }
 
