@@ -52,6 +52,17 @@ let FieldPostBody = {
     }
     return target
   },
+  getCurrentPosition: function () {
+    let target = this.getSelectTarget()
+    if (target !== undefined) {
+      let node = $(target.sc.parentElement)
+      //console.log(node.prop('className'))
+      if (node.hasClass('note-editable')) {
+        return
+      }
+      return node.offset()
+    }
+  },
   getSelectText: function () {
     if (this.debug.disableSummerNode === true) {
       return
