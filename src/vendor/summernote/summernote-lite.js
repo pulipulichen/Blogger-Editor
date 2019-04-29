@@ -5120,12 +5120,17 @@
        * @author Pulipuli Chen 20190420
        */
       Editor.prototype.clearEnterFormat = function (event) {
+        console.log('clearEnterFormat')
         let target = this.createRange()
-        if (typeof(target.sc) !== 'object' || typeof(target.sc.parentElement) !== 'object') {
+        if (target === undefined 
+            || typeof(target.sc) !== 'object' 
+            || typeof(target.sc.parentElement) !== 'object') {
           return
         }
         let $parent = $(target.sc.parentElement)
         let tagName = $parent.prop('tagName').toLowerCase()
+        
+        console.log(tagName, (blockTagList.indexOf(tagName) === -1))
         
         if (skipTagList.indexOf(tagName) > -1 
               || $parent.hasClass('note-editable')) {
@@ -5144,6 +5149,7 @@
         
         let content = $parent.text()
         let node = `<${tagName}>${content}</${tagName}>`
+        console.log(node)
         $parent.replaceWith(node)
         
         //console.log(event)
@@ -9008,8 +9014,8 @@ sel.addRange(range);
           tooltip: 'auto',
           container: 'body',
           maxTextLength: 0,
-          clearEnterFormat: false,
-          showHeadingLabel: true,
+          clearEnterFormat: true, // 記得要改成false
+          showHeadingLabel: false, // 記得要改成false
           blockquoteBreakingLevel: 2,
           styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
           fontNames: [
