@@ -78,11 +78,14 @@ let FieldPostBody = {
     
     return this.get().next().find('.note-editing-area .note-editable')
   },
+  isNode: function (html) {
+    return ( (html.startsWith('<') && html.endsWith('>')) )
+  },
   insert: function (html) {
     if (this.debug.disableSummerNode === true) {
       if (typeof(html) === 'string') {
         html = html.trim()
-        if (!html.startsWith('<') && !html.endsWith('>')) {
+        if (this.isNode(html) === false) {
           html = `<span>${html}</span>`
         }
         html = $(html)
@@ -94,7 +97,7 @@ let FieldPostBody = {
     let insertType = 'insertNode'
     if (typeof(html) === 'string') {
       html = html.trim()
-      if (!html.startsWith('<') && !html.endsWith('>')) {
+      if (this.isNode(html) === false) {
         insertType = 'insertText'
       }
       else {

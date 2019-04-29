@@ -118,6 +118,9 @@ let SummerNoteButtons = {
     let click = () => {
       //let code = this.getPostSummerNote().summernote('code');
       let code = $v.EditorManager.FieldPostBody.getHTML()
+      
+      code = code.replace(`<a name="more"></a>`, '')
+      
       CopyPasteHelper.copyPlainText(code)
     }
     return this.build(contents, tooltip, click)
@@ -468,7 +471,10 @@ let SummerNoteButtons = {
     let click = () => {
       let postBody = $v.EditorManager.FieldPostBody
       postBody.getElement().find('a[name="more"]').remove()
-      postBody.insert('<a name="more"></a><!--more-->')
+      //postBody.insert('<a name="more"></a><!--more-->')
+      postBody.insert('<!--more-->')
+      postBody.insert('<a name="more"></a>')
+      
     }
     return this.build(contents, tooltip, click)
   },
