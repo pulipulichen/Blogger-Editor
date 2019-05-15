@@ -1052,6 +1052,7 @@ a.note-dropdown-item:hover {
   font-weight: inherit;
   color: #337ab7;
   text-decoration: inherit;
+  /*text-decoration: underline !important;*/
   background-color: inherit
 }
 
@@ -1085,7 +1086,7 @@ a.note-dropdown-item:hover {
     clear: both;
     display: block;
     line-height: 0.5rem;
-    width: 1.3rem;
+    width: 1.5rem;
     text-align: center;
     text-indent: 0;
   }

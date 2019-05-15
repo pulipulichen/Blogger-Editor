@@ -11,7 +11,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = (env, argv) => {
   //console.log(argv.mode)
-  
+
   let webpackConfig = {
     mode: argv.mode,
     //cache: false,
@@ -33,7 +33,7 @@ module.exports = (env, argv) => {
           use: [
             'vue-style-loader', // 這個會後執行 (順序很重要)
             'css-loader?sourceMap', // 這個會先執行
-            //'postcss-loader?sourceMap',
+                    //'postcss-loader?sourceMap',
           ]
         },
         {
@@ -51,8 +51,8 @@ module.exports = (env, argv) => {
             'vue-loader'
           ],
         },
-        { 
-          test: /\.(eot|woff|woff2|svg|png|ttf)([\?]?.*)$/, 
+        {
+          test: /\.(eot|woff|woff2|svg|png|ttf)([\?]?.*)$/,
           use: [
             {
               loader: 'file-loader',
@@ -84,27 +84,27 @@ module.exports = (env, argv) => {
                  */
       ]
     },
-    /*
-     optimization: {
-     minimizer: [
-     new UglifyJsPlugin({
-     cache: true,
-     parallel: true,
-     sourceMap: true // set to true if you want JS source maps
-     })
-     ]
-     },
-     */
-      plugins: [
-        new VueLoaderPlugin()
-      ]
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all'
+          }
+        }
+      }
+    },
+    plugins: [
+      new VueLoaderPlugin()
+    ]
   } // let webpackConfig = {
 
   //console.log(argv.mode)
 
   if (argv.mode === 'production') {
     webpackConfig.devtool = false
-    
+
     webpackConfig.module.rules[0] = {
       test: /\.css$/, // 針對所有.css 的檔案作預處理，這邊是用 regular express 的格式
       use: [
@@ -133,15 +133,19 @@ module.exports = (env, argv) => {
         }
       }
     })
-    webpackConfig.optimization = {
-      minimizer: [
-        new UglifyJsPlugin({
-          cache: true,
-          parallel: true,
-          sourceMap: true // set to true if you want JS source maps
-        })
-      ]
+    
+    
+    if (typeof(webpackConfig.optimization) !== 'object') {
+      webpackConfig.optimization = {}
     }
+    
+    webpackConfig.optimization.minimizer = [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: false // set to true if you want JS source maps
+      })
+    ]
   }
   if (argv.mode === 'development') {
 

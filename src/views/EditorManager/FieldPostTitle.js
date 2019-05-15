@@ -53,6 +53,21 @@ let FieldPostTitle = {
     let postTitle = this.getText()
     $v.PostManager.updateEditingPost('title', postTitle, callback)
     return this
+  },
+  titleLengthLimit: 30,
+  updateDocumentTitle: function (title) {
+    if (typeof(title) !== 'string') {
+      return
+    }
+    if (title.length > this.titleLengthLimit) {
+      if (title.indexOf('/') > -1) {
+        title = title.slice(0, title.indexOf('/')).trim()
+      }
+      if (title.length > this.titleLengthLimit) {
+        title = title.slice(0, this.titleLengthLimit).trim() + '...'
+      }
+    }
+    document.title = title
   }
 }
 

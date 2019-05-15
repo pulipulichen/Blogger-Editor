@@ -3,7 +3,6 @@ An editor for Blogger writer
 
 https://pulipulichen.github.io/Blogger-Editor/
 
-https://github.com/pulipulichen/Blogger-Editor
 https://github.com/pulipulichen/Blogger-Editor/issues
 
 https://summernote.org/getting-started/

@@ -154,7 +154,8 @@ let SummerNoteConfig = {
       placeholder: 'Post Body',
       toolbar: this.toolbar(),
       styleTags: this.styleTags(),
-      clearEnterFormat: true,
+      //clearEnterFormat: true,
+      clearEnterFormat: false,
       showHeadingLabel: true,
       popover: {
         image: this.popoverImage(),
@@ -181,6 +182,9 @@ let SummerNoteConfig = {
         onChange: (contents) => {
           DelayExecHelper.exec(fieldName, 3, () => {
             $v.EditorManager.FieldPostDate.set()
+            if (fieldName === 'title') {
+              $v.EditorManager.FieldPostTitle.updateDocumentTitle(contents)
+            }
             $v.PostManager.updateEditingPost(fieldName, contents)
           })
           //console.log(fieldName + ':', contents)
