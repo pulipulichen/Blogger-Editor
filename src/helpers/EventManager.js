@@ -59,7 +59,7 @@ let EventManager = {
       }
     })
     
-    obj[this.key][eventType] = []
+    //obj[this.key][eventType] = []
     
     return obj
   },

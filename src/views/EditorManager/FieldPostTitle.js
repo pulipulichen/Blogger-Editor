@@ -56,7 +56,8 @@ let FieldPostTitle = {
   },
   titleLengthLimit: 30,
   updateDocumentTitle: function (title) {
-    if (typeof(title) !== 'string') {
+    if (typeof(title) !== 'string' || title.trim() === '') {
+      document.title = 'Blogger Editor'
       return
     }
     if (title.length > this.titleLengthLimit) {
@@ -67,7 +68,7 @@ let FieldPostTitle = {
         title = title.slice(0, this.titleLengthLimit).trim() + '...'
       }
     }
-    document.title = title
+    document.title = title.trim()
   }
 }
 

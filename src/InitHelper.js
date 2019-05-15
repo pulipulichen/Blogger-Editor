@@ -54,6 +54,9 @@ let InitHelper = {
           WebSQLDatabaseHelper.init(next)
         },
         (next) => {
+          $v.NavBar.init(next)
+        },
+        (next) => {
           $v.BrowserDetector.init(next)
         },
         (next) => {

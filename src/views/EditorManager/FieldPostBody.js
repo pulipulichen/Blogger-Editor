@@ -41,6 +41,9 @@ let FieldPostBody = {
     
     return this.get().summernote('code');
   },
+  getText: function () {
+    return $(this.getHTML()).text().trim()
+  },
   getSelectTarget: function () {
     if (this.debug.disableSummerNode === true) {
       return
@@ -243,6 +246,15 @@ let FieldPostBody = {
     let path = `/${id}/assets`
     return FileSystemHelper.removeDir(path)
   },
+  onChange: function (contents) {
+    DelayExecHelper.exec('postBody', 5, () => {
+      $v.EditorManager.FieldPostDate.set()
+      $v.PostManager.updateEditingPostBody(contents)
+      ScrollHelper.save()
+      //$v.EditorManager.FieldPostBody.save()
+      EventManager.trigger(this, 'change')
+    })
+  },
   save: function (callback) {
     this.deactivateCodeView()
     
@@ -253,6 +265,7 @@ let FieldPostBody = {
     
     this.cleanUnusedFileSystem(() => {
       $v.PostManager.updateEditingPostBody(postBody, callback)
+      EventManager.trigger(this, 'save')
     })
   },
   deactivateCodeView: function () {

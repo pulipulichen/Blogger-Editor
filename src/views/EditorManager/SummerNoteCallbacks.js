@@ -21,12 +21,7 @@ let SummerNoteCallbacks = {
         this.onPaste(e)
       },
       onChange: (contents) => {
-        DelayExecHelper.exec('postBody', 5, () => {
-          $v.EditorManager.FieldPostDate.set()
-          $v.PostManager.updateEditingPostBody(contents)
-          ScrollHelper.save()
-          //$v.EditorManager.FieldPostBody.save()
-        })
+        $v.EditorManager.FieldPostBody.onChange(contents)
       },
       onKeyup: (e) => {
         if (this.FieldPostBody === null) {
