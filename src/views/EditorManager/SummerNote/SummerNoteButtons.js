@@ -47,7 +47,7 @@ let SummerNoteButtons = {
         return SummerNoteCode.insertMore(c)
       },
       transSelected: (c) => {
-        return this.transSelected(c)
+        return SummerNoteOpen.transSelected(c)
       },
       downloadImageTemplate: (c) => {
         return SummerNoteImage.downloadImageTamplate(c)
