@@ -2,7 +2,6 @@ import SummerNoteHelper from './SummerNoteHelper.js'
 
 import SummerNoteImage from './SummerNoteImage.js'
 import SummerNoteCode from './SummerNoteCode.js'
-import SummerNoteStyle from './SummerNoteStyle.js'
 import SummerNoteOpen from './SummerNoteOpen.js'
 
 let SummerNoteButtons = {
@@ -57,28 +56,6 @@ let SummerNoteButtons = {
       },
       toggleMenu: (c) => {
         return SummerNoteOpen.toggleMenu(c)
-      },
-      
-      styleP: (c) => {
-        return SummerNoteStyle.styleP(c)
-      },
-      styleH1: (c) => {
-        return SummerNoteStyle.styleH1(c)
-      },
-      styleH2: (c) => {
-        return SummerNoteStyle.styleH2(c)
-      },
-      styleH3: (c) => {
-        return SummerNoteStyle.styleH3(c)
-      },
-      styleH4: (c) => {
-        return SummerNoteStyle.styleH4(c)
-      },
-      styleH5: (c) => {
-        return SummerNoteStyle.styleH5(c)
-      },
-      styleH6: (c) => {
-        return SummerNoteStyle.styleH6(c)
       },
       
       // ---------------
