@@ -47,6 +47,7 @@ var config = {
       this.disableUploadImageDraft = $v.EditorManager.disableUploadImageDraft
       
       this.getUI().modal('show')
+      this.getUI().find('.ui.checkbox').checkbox()
     },
     validateHasFileSystemImage: function () {
       if (FieldPostBody.hasFileSystemImage()) {
