@@ -1,3 +1,4 @@
+'use strict';
 const path = require('path')
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 //const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -7,14 +8,17 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const WebpackShellPlugin = require('webpack-shell-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const CleanTerminalPlugin = require('clean-terminal-webpack-plugin')
+
+let compileCount = 0
 
 module.exports = (env, argv) => {
   //console.log(argv.mode)
 
   let webpackConfig = {
     mode: argv.mode,
-    //cache: false,
+    cache: false,
     devtool: 'source-map',
     //devtool: false,
     entry: {
@@ -96,7 +100,29 @@ module.exports = (env, argv) => {
       }
     },
     plugins: [
-      new VueLoaderPlugin()
+      new VueLoaderPlugin(),
+      new CleanTerminalPlugin(),
+      {
+        apply: (compiler) => {
+          compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
+            console.clear();
+            setTimeout(() => {
+              compileCount++
+              let date = new Date;
+              let seconds = date.getSeconds();
+              let minutes = date.getMinutes();
+              let hour = date.getHours();
+              //console.info('================================================')
+              console.warn(`[${compileCount}] Building completed at ${hour}:${minutes}:${seconds}`)
+              //console.info('================================================')
+              //console.log('\033[2J');
+              //process.stdout.write('\x1Bc'); 
+              //console.clear();
+              //process.stdout.write("\u001b[0J\u001b[1J\u001b[2J\u001b[0;0H\u001b[0;0W");
+            }, 100)
+          });
+        }
+      }
     ]
   } // let webpackConfig = {
 

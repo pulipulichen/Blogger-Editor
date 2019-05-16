@@ -53,7 +53,8 @@ let NavBar = {
         text = text.replace(/[^\x20-\x7E]/gmi, "")
         text = text.split(' ').join('')
         this.wordCount = text.length
-        console.log(this.wordCount)
+        //console.log(this.wordCount)
+        //
       })
       
       FunctionHelper.triggerCallback(callback)

@@ -8,7 +8,6 @@
 require('./vendor/semantic-ui-niwsf/semantic.niwsf.css')
 require('./vendor/semantic-ui-niwsf/semantic.niwsf.js')
 
-
 //require('./vendor/semantic-ui-niwsf/semantic.raw.css')
 //require('./vendor/bootstrap/css/bootstrap.min.css')
 

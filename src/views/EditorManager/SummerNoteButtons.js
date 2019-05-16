@@ -459,6 +459,14 @@ let SummerNoteButtons = {
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       this.removeImageTargetSize(target)
+      
+      let link = target.attr('src')
+      if (BloggerImageHelper.isBloggerImageLink(link)) {
+        if (BloggerImageHelper.isFullSizeLink(link) === false) {
+          target.attr('src', BloggerImageHelper.getFullSize(link))
+          //console.log('change src: ', target.attr('src'))
+        } 
+      }
     }
     return this.build(contents, tooltip, click)
   },
@@ -538,6 +546,9 @@ let SummerNoteButtons = {
       //console.log('change src: ', target.attr('src'))
     }
   },
+  
+  // --------------------
+  
   popoverImageSizeDefault: function (context) {
     let contents = this.wrapNIWSF(`<i class="compress icon"></i> Resize Default`)
     let tooltip = 'Resize to default size'
