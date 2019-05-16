@@ -6154,7 +6154,7 @@ sel.addRange(range);
           this.$codable.height(this.$editable.height());
           this.context.invoke('toolbar.updateCodeview', true);
           this.$editor.addClass('codeview');
-		  console.log('code view')
+		  //console.log('code view')
           this.$codable.focus();
           //this.$codable.show();
           // activate CodeMirror as codable
@@ -6176,6 +6176,12 @@ sel.addRange(range);
               this.$codable.data('cmEditor', cmEditor_1);
           }
           else {
+			  let val = _this.$codable.val()
+			  while (val.indexOf('\n\n') > -1) {
+				  val = val.split('\n\n').join('\n')
+			  }
+			  _this.$codable.val(val)
+			  //console.log(val)
               this.$codable.on('blur', function (event) {
                   _this.context.triggerEvent('blur.codeview', _this.$codable.val(), event);
               });
