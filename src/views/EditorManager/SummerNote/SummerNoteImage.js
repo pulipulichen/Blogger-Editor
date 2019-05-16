@@ -1,6 +1,17 @@
+import SummerNoteHelper from './SummerNoteHelper.js'
+
 let SummerNoteImage = {
+  ImageReplacer: function (context) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i>Upload Images`)
+    let tooltip = 'Replace Images with Blogger'
+    let click = () => {
+      $v.ImageReplacer.open()
+    }
+    return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  
   imageSizeOriginal: function (context) {
-    let contents = this.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
     let tooltip = 'Resize images to original'
     let click = () => {
       let postBody = $v.EditorManager.FieldPostBody.getElement()
@@ -12,8 +23,51 @@ let SummerNoteImage = {
     return SummerNoteHelper.buildButton(contents, tooltip, click)
   },
   
+  imageSizeDefault: function (context) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="compress icon"></i> Resize Default`)
+    let tooltip = 'Resize to default size'
+    let click = () => {
+      let defaultSize = $v.EditorManager.imageSizeDefault
+      let postBody = $v.EditorManager.FieldPostBody.getElement()
+      postBody.find('img').each((i, img) => {
+        this.setImageTargetSize(img, defaultSize)
+        $(img).removeClass('original-size')
+      })
+    }
+    return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  
+  
+  
+  downloadImageTamplate: function (context) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="object group outline icon"></i> Image Template`)
+    let tooltip = 'Download image template'
+    let click = () => {
+      let path = './static/image-template.dps'
+      //FileHelper.download(path)
+      //let title = "test.dps"
+      let title = $v.EditorManager.FieldPostTitle.getText().trim()
+      if (title.indexOf('/') > -1) {
+        title = title.slice(0, title.indexOf('/')).trim()
+      }
+      if (title.length > 30) {
+        title = title.slice(0,30)
+      }
+      
+      title = $v.PostManager.editingPostId + '-' + title.replace(/[^\x00-\x7F]+/, '_')
+      
+      title = title + '.dps'
+      //$(`<a href="${path}" download="${title}"></a>`).click()
+      
+      FileHelper.download(path, title)
+    }
+    return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  
+  // ---------------------------------
+  
   popoverImageSizeOriginal: function (context) {
-    let contents = this.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
     let tooltip = 'Resize to original'
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
@@ -30,8 +84,22 @@ let SummerNoteImage = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click)
   },
+  
+  
+  popoverImageSizeDefault: function (context) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="compress icon"></i> Resize Default`)
+    let tooltip = 'Resize to default size'
+    let click = () => {
+      let target = $v.EditorManager.FieldPostBody.getSelectTarget()
+      let defaultSize = $v.EditorManager.imageSizeDefault
+      this.setImageTargetSize(target, defaultSize)
+      target.removeClass('original-size')
+    }
+    return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  
   popoverImageSave: function (context) {
-    let contents = this.wrapNIWSF(`<i class="save icon"></i> Save`)
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="save icon"></i> Save`)
     let tooltip = 'Save image'
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
@@ -48,7 +116,7 @@ let SummerNoteImage = {
     return SummerNoteHelper.buildButton(contents, tooltip, click)
   },
   popoverImageOpen: function (context) {
-    let contents = this.wrapNIWSF(`<i class="share icon"></i> Open`)
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="share icon"></i> Open`)
     let tooltip = 'Open image in new tab'
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
@@ -66,7 +134,8 @@ let SummerNoteImage = {
   },
   
   // --------------------------
-  
+  // Utils
+  // --------------------------
   
   removeImageTargetSize: function (target) {
     target = $(target)
@@ -83,6 +152,24 @@ let SummerNoteImage = {
       } 
     }
     //console.log('@TODO Resize to original')
+  },
+  
+   
+  setImageTargetSize: function (target, size) {
+    target = $(target)
+
+    let resize = BloggerImageHelper.calcResize(size, target)
+    if (resize !== undefined) {
+      target.attr('width', resize.width)
+        .attr('height', resize.height)
+    }
+
+    let link = target.attr('src')
+    //console.log(link)
+    if (BloggerImageHelper.isBloggerImageLink(link)) {
+      target.attr('src', BloggerImageHelper.getSize(link, size))
+      //console.log('change src: ', target.attr('src'))
+    }
   },
   
 }

@@ -71,7 +71,10 @@ let SemanticUIHelper = {
         //console.log('body dragleave')
       }
     })
-  }
+  },
+  wrapNIWSF: function (text) {
+    return `<span class="non-invasive-web-style-framework">${text}</span>`
+  },
 }
 
 window.SemanticUIHelper = SemanticUIHelper
