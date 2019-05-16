@@ -123,6 +123,15 @@ let SummerNoteCode = {
     
     postBody.find(`[style=""]`).removeAttr('style')
     
+    postBody.find('span').each((i, span) => {
+      let outerHTML = span.outerHTML
+      if (outerHTML.startsWith('<span>')) {
+        //outerHTML = outerHTML.slice('<span>'.length, (outerHTML - '</span>'.length))
+        //span.replaceWith()
+        span.outerHTML = span.innerHTML
+      }
+    })
+    
     return postBody
   },
 }
