@@ -514,6 +514,7 @@ let SummerNoteButtons = {
       let postBody = $v.EditorManager.FieldPostBody
       postBody.getElement().find('a[name="more"]').remove()
       //postBody.insert('<a name="more"></a><!--more-->')
+      postBody.insert('<hr />')
       postBody.insert('<!--more-->')
       postBody.insert('<a name="more"></a>')
       
