@@ -188,6 +188,15 @@ var EditorManager = {
         this.save()
       })
       
+      $(window).bind('beforeunload', (event) => {
+        if (DelayExecHelper.isWaiting()) {
+          DelayExecHelper.forceExec()
+          //event.returnValue = 'OK'
+          //return 'OK'
+          return false
+        }
+      })
+      
       FieldPostTitle.init(() => {
         FieldPostLabels.init(() => {
           FieldPostBody.init(() => {

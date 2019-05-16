@@ -23,7 +23,7 @@ let DelayExecHelper = {
       }
     }, delaySec * 1000)
   },
-  forceExec: function () {
+  forceExec: function (callback) {
     for (let type in this.timers) {
       if (this.timers[type] !== null) {
         this.events[type]()
@@ -32,6 +32,21 @@ let DelayExecHelper = {
       }
     }
     this.hideIndicator()
+    
+    
+    if (typeof(callback) === 'function') {
+      let wait = () => {
+        setTimeout(() => {
+          if (this.isWaiting()) {
+            wait()
+          }
+          else {
+            callback()
+          }
+        }, 1000)
+      }
+      wait()
+    }
   },
   clear: function () {
     for (let type in this.timers) {
