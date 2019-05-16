@@ -1,0 +1,250 @@
+.note-input {
+  display: block;
+  width: 100%;
+  padding: 6px 4px;
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #ededef;
+  outline: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box
+}
+
+.note-input::-webkit-input-placeholder {
+  color: #eee
+}
+
+.note-input:-moz-placeholder {
+  color: #eee
+}
+
+.note-input::-moz-placeholder {
+  color: #eee
+}
+
+.note-input:-ms-input-placeholder {
+  color: #eee
+}
+
+.note-tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  font-size: 13px;
+  -webkit-opacity: 0;
+  -khtml-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+  -ms-filter: alpha(opacity=0);
+  filter: alpha(opacity=0)
+}
+
+.note-tooltip.in {
+  -webkit-opacity: .9;
+  -khtml-opacity: .9;
+  -moz-opacity: .9;
+  opacity: .9;
+  -ms-filter: alpha(opacity=90);
+  filter: alpha(opacity=90)
+}
+
+.note-tooltip.top {
+  padding: 5px 0;
+  margin-top: -3px
+}
+
+.note-tooltip.right {
+  padding: 0 5px;
+  margin-left: 3px
+}
+
+.note-tooltip.bottom {
+  padding: 5px 0;
+  margin-top: 3px
+}
+
+.note-tooltip.left {
+  padding: 0 5px;
+  margin-left: -3px
+}
+
+.note-tooltip.bottom .note-tooltip-arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-bottom-color: #000;
+  border-width: 0 5px 5px
+}
+
+.note-tooltip.top .note-tooltip-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-top-color: #000;
+  border-width: 5px 5px 0
+}
+
+.note-tooltip.right .note-tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-right-color: #000;
+  border-width: 5px 5px 5px 0
+}
+
+.note-tooltip.left .note-tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-left-color: #000;
+  border-width: 5px 0 5px 5px
+}
+
+.note-tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid
+}
+
+.note-tooltip-content {
+  max-width: 200px;
+  padding: 3px 8px;
+  color: #fff;
+  text-align: center;
+  background-color: #000
+}
+
+.note-popover {
+  position: absolute;
+  /*z-index: 1060;*/
+  z-index: 960;
+  display: block;
+  display: none;
+  font-size: 13px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc
+}
+
+.note-popover.in {
+  display: block
+}
+
+.note-popover.top {
+  padding: 5 0;
+  margin-top: -3px
+}
+
+.note-popover.right {
+  padding: 0 5;
+  margin-left: 3px
+}
+
+.note-popover.bottom {
+  padding: 5 0;
+  margin-top: 3px
+}
+
+.note-popover.left {
+  padding: 0 5;
+  margin-left: -3px
+}
+
+.note-popover.bottom .note-popover-arrow {
+  top: -11px;
+  left: 50%;
+  margin-left: -10px;
+  border-bottom-color: #999;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  border-top-width: 0
+}
+
+.note-popover.bottom .note-popover-arrow::after {
+  top: 1px;
+  margin-left: -10px;
+  border-bottom-color: #fff;
+  border-top-width: 0;
+  content: " "
+}
+
+.note-popover.top .note-popover-arrow {
+  bottom: -11px;
+  left: 50%;
+  margin-left: -10px;
+  border-top-color: #999;
+  border-top-color: rgba(0, 0, 0, 0.25);
+  border-bottom-width: 0
+}
+
+.note-popover.top .note-popover-arrow::after {
+  bottom: 1px;
+  margin-left: -10px;
+  border-top-color: #fff;
+  border-bottom-width: 0;
+  content: " "
+}
+
+.note-popover.right .note-popover-arrow {
+  top: 50%;
+  left: -11px;
+  margin-top: -10px;
+  border-right-color: #999;
+  border-right-color: rgba(0, 0, 0, 0.25);
+  border-left-width: 0
+}
+
+.note-popover.right .note-popover-arrow::after {
+  left: 1px;
+  margin-top: -10px;
+  border-right-color: #fff;
+  border-left-width: 0;
+  content: " "
+}
+
+.note-popover.left .note-popover-arrow {
+  top: 50%;
+  right: -11px;
+  margin-top: -10px;
+  border-left-color: #999;
+  border-left-color: rgba(0, 0, 0, 0.25);
+  border-right-width: 0
+}
+
+.note-popover.left .note-popover-arrow::after {
+  right: 1px;
+  margin-top: -10px;
+  border-left-color: #fff;
+  border-right-width: 0;
+  content: " "
+}
+
+.note-popover-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 11px solid transparent
+}
+
+.note-popover-arrow::after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 10px;
+  content: " "
+}
+
+.note-popover-content {
+  min-width: 100px;
+  min-height: 30px;
+  padding: 3px 8px;
+  color: #000;
+  text-align: center;
+  background-color: #fff
+}

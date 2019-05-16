@@ -1,0 +1,122 @@
+.note-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  overflow: hidden;
+  -webkit-opacity: 1;
+  -khtml-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+  -ms-filter: alpha(opacity=100);
+  filter: alpha(opacity=100)
+}
+
+.note-modal.open {
+  display: block
+}
+
+.note-modal-content {
+  position: relative;
+  width: auto;
+  margin: 30px 20px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  outline: 0;
+  background-clip: border-box
+}
+
+.note-modal-header {
+  padding: 30px 20px 20px 20px;
+  border: 1px solid #ededef
+}
+
+.note-modal-header .close {
+  margin-top: -10px
+}
+
+.note-modal-body {
+  position: relative;
+  padding: 20px 30px
+}
+
+.note-modal-footer {
+  height: 40px;
+  padding: 10px;
+  text-align: center
+}
+
+.note-modal-footer a {
+  color: #337ab7;
+  text-decoration: none
+}
+
+.note-modal-footer a:hover,
+.note-modal-footer a:focus {
+  color: #23527c;
+  text-decoration: underline
+}
+
+.note-modal-footer .note-btn {
+  float: right
+}
+
+.note-modal-title {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.4;
+  color: #42515f
+}
+
+.note-modal-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  display: none;
+  background: #000;
+  -webkit-opacity: .5;
+  -khtml-opacity: .5;
+  -moz-opacity: .5;
+  opacity: .5;
+  -ms-filter: alpha(opacity=50);
+  filter: alpha(opacity=50)
+}
+
+.note-modal-backdrop.open {
+  display: block
+}
+
+@media(min-width:768px) {
+  .note-modal-content {
+    width: 600px;
+    margin: 30px auto
+  }
+}
+
+@media(min-width:992px) {
+  .note-modal-content-large {
+    width: 900px
+  }
+}
+
+.note-form-group {
+  padding-bottom: 20px
+}
+
+.note-form-group:last-child {
+  padding-bottom: 0
+}
+
+.note-form-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #42515f
+}
