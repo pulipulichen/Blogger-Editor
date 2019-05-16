@@ -12,7 +12,7 @@ import FieldPostLabels from './FieldPostLabels.js'
 import FieldPostTitle from './FieldPostTitle.js'
 import FieldPostDate from './FieldPostDate.js'
 
-import SummerNoteConfig from './SummerNoteConfig.js'
+import SummerNoteConfig from './SummerNote/SummerNoteConfig.js'
 
 //import EditorManagerCache from './EditorManagerCache.js'
 import EditorManagerConfig from './EditorManagerConfig.js'

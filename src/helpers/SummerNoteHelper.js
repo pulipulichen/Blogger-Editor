@@ -22,4 +22,16 @@ SummerNoteHelper = {
       let styleTags = ['p', 'code', 'h4', 'h5', 'h6']
       return styleTags
     },
+  buildButton: function (contents, tooltip, click) {
+    let ui = $.summernote.ui;
+
+    // create button
+    let button = ui.button({
+      contents: contents,
+      tooltip: tooltip,
+      click: click
+    });
+
+    return button.render(); 
+  },
 }

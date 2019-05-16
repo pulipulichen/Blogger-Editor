@@ -1,4 +1,4 @@
-import SummerNoteConfig from './SummerNoteConfig.js'
+import SummerNoteConfig from './SummerNote/SummerNoteConfig.js'
 import FieldPostBodyCache from './FieldPostBodyCache.js'
 
 let FieldPostBody = {

@@ -1,4 +1,4 @@
-import SummerNoteConfig from './SummerNoteConfig.js'
+import SummerNoteConfig from './SummerNote/SummerNoteConfig.js'
 
 let FieldPostLabels = {
   ui: null,
