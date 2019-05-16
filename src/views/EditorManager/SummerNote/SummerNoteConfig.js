@@ -154,8 +154,8 @@ let SummerNoteConfig = {
       placeholder: 'Post Body',
       toolbar: this.toolbar(),
       styleTags: this.styleTags(),
-      //clearEnterFormat: true,
-      clearEnterFormat: false,
+      clearEnterFormat: true,
+      //clearEnterFormat: false,
       showHeadingLabel: true,
       popover: {
         image: this.popoverImage(),

@@ -5160,7 +5160,7 @@
           }
         }
         
-        let content = $parent.text()
+        let content = $parent.html()
         let node = `<${tagName}>${content}</${tagName}>`
         //console.log(node)
         $parent.replaceWith(node)
