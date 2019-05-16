@@ -10,7 +10,7 @@ BloggerImageHelper = {
   getSize: function (link, size) {
     // https://4.bp.blogspot.com/-dXBwnmgzLOQ/XJ42gDJTqJI/AAAAAAAEE7g/UU6Oxd6JB0EZDPOix5oY6NqwjfTiA17eACK4BGAYYCw/s1600/home-icon.png
     // https://4.bp.blogspot.com/-dXBwnmgzLOQ/XJ42gDJTqJI/AAAAAAAEE7g/UU6Oxd6JB0EZDPOix5oY6NqwjfTiA17eACK4BGAYYCw/s400/home-icon.png
-    console.log([link, size])
+    //console.log([link, size])
     if (size === undefined) {
       size = this.size.normal
     }
@@ -26,7 +26,7 @@ BloggerImageHelper = {
     let baseUrl = this.getBaseUrl(link)
     let name = this.getFilename(link)
     link = baseUrl + '/s' + size + '/' + name
-    console.log(link)
+    //console.log(link)
     return link
   },
   changeProtocol: function (link) {

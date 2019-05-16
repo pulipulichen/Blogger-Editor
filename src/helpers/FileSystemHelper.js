@@ -377,6 +377,8 @@ Message: ${e.message}`
     let fs = this.fs
     //let errorHandler = this.errorHandler
     let errorHandler = (e) => {
+      let link = this.getFileSystemUrl(path)
+      e.message = e.message + `<a href="${link}" target="_blank">${path}</a>`
       this.errorHandler(e)
       FunctionHelper.triggerCallback(callback)
     }

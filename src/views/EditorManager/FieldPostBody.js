@@ -208,7 +208,12 @@ let FieldPostBody = {
       let fullsize = BloggerImageHelper.getFullSize(link)
       postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
         // we need to change the URL size to fit the image
-        imgTag.src = BloggerImageHelper.getSize(link, imgTag)
+        if ($(imgTag).hasClass('original-size') === false) {
+          imgTag.src = BloggerImageHelper.getSize(link, imgTag)
+        }
+        else {
+          imgTag.src = BloggerImageHelper.getFullSize(link)
+        }
 
         if (typeof(imgTag.title) !== 'string') {
           imgTag.title = name

@@ -105,20 +105,19 @@ module.exports = (env, argv) => {
       {
         apply: (compiler) => {
           compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
-            console.clear();
+            let paddingZero = (n) => {
+              if (n < 10) {
+                n = '0' + n
+              }
+              return n
+            }
             setTimeout(() => {
               compileCount++
               let date = new Date;
-              let seconds = date.getSeconds();
-              let minutes = date.getMinutes();
-              let hour = date.getHours();
-              //console.info('================================================')
+              let seconds = paddingZero(date.getSeconds())
+              let minutes = paddingZero(date.getMinutes())
+              let hour = paddingZero(date.getHours())
               console.warn(`[${compileCount}] Building completed at ${hour}:${minutes}:${seconds}`)
-              //console.info('================================================')
-              //console.log('\033[2J');
-              //process.stdout.write('\x1Bc'); 
-              //console.clear();
-              //process.stdout.write("\u001b[0J\u001b[1J\u001b[2J\u001b[0;0H\u001b[0;0W");
             }, 100)
           });
         }

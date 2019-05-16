@@ -72,7 +72,10 @@ let SummerNoteImage = {
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       this.removeImageTargetSize(target)
+      
+      target = $(target)
       target.addClass('original-size')
+      console.log(target.attr('className'))
       
       let link = target.attr('src')
       if (BloggerImageHelper.isBloggerImageLink(link)) {
@@ -93,10 +96,14 @@ let SummerNoteImage = {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       let defaultSize = $v.EditorManager.imageSizeDefault
       this.setImageTargetSize(target, defaultSize)
+      
+      target = $(target)
       target.removeClass('original-size')
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click)
   },
+  
+  // ----------------------
   
   popoverImageSave: function (context) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="save icon"></i> Save`)
