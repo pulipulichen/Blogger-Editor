@@ -6154,6 +6154,7 @@ sel.addRange(range);
           this.$codable.height(this.$editable.height());
           this.context.invoke('toolbar.updateCodeview', true);
           this.$editor.addClass('codeview');
+		  console.log('code view')
           this.$codable.focus();
           //this.$codable.show();
           // activate CodeMirror as codable
