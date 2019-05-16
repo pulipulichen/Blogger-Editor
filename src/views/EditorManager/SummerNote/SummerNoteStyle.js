@@ -72,6 +72,7 @@ let SummerNoteStyle = {
   // -------------------------
   blockList: ['li', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7'],
   styleTagName: function (tagName) {
+    console.log(tagName)
     let postBody = $v.EditorManager.FieldPostBody
     let target = postBody.getSelectTarget()
     //console.log($(target).html())
@@ -147,6 +148,8 @@ let SummerNoteStyle = {
       }
     }
     */
+    console.log(`<${tagName}>${content}</${tagName}>`)
+    return 
     let newParent = $(`<${tagName}>${content}</${tagName}>`)
     targetParent.replaceWith(newParent)
     //$(() => {

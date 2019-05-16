@@ -5537,6 +5537,7 @@
           node = $(node)
         }
         
+		//return
         let prev = node.prev()
         while (this.checkNodeIsRemovable(prev)) {
           let tmp = prev
@@ -5552,7 +5553,9 @@
         }
       };
       Editor.prototype.checkNodeIsRemovable = function (node) {
+		//console.log(node[0].outerHTML)
         return (node.length > 0 
+			&& ['hr', 'img', 'table', 'hr'].indexOf(node.prop('tagName').toLowerCase()) === -1
             && node.find('img:first,table:first,hr:first').length === 0
             && node.text().trim() === '')
       }
