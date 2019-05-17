@@ -50,6 +50,9 @@ FileSystemHelper = {
   errorHandler: function (e) {
     //console.log('Filesystem error')
     //console.trace(e)
+    if (typeof(e.code) === 'undefined') {
+      return
+    }
     
     let message = `Error code: ${e.code}<br />
 Name: ${e.name}<br />
@@ -377,9 +380,10 @@ Message: ${e.message}`
     let fs = this.fs
     //let errorHandler = this.errorHandler
     let errorHandler = (e) => {
-      let link = this.getFileSystemUrl(path)
-      e.message = e.message + `<a href="${link}" target="_blank">${path}</a>`
-      this.errorHandler(e)
+      //let link = this.getFileSystemUrl(path)
+      //e.message = e.message + `<a href="${link}" target="_blank">${path}</a>`
+      //console.trace(JSON.stringify(e))
+      this.errorHandler(e.message)
       FunctionHelper.triggerCallback(callback)
     }
     
@@ -388,9 +392,9 @@ Message: ${e.message}`
       fileEntry.remove(function() {
         //console.log('File removed: ' + path);
         FunctionHelper.triggerCallback(callback)
-      }, errorHandler);
+      }, errorHandler)
 
-    }, errorHandler);
+    }, errorHandler)
   },
   getFileName: function (url) {
     if (url.lastIndexOf('/') > -1) {

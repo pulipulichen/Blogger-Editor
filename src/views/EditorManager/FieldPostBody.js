@@ -206,6 +206,16 @@ let FieldPostBody = {
       let link = imageList[name]
       //console.log([name, link])
       let fullsize = BloggerImageHelper.getFullSize(link)
+      
+      let tmpName = decodeURIComponent(name).split('+').join(' ')
+      while (tmpName !== name) {
+        name = tmpName
+        tmpName = decodeURIComponent(name).split('+').join(' ')
+      }
+      name = encodeURIComponent(tmpName)
+      
+      // '1-Webpack%2B_%25282%2529.png'
+      
       postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
         // we need to change the URL size to fit the image
         if ($(imgTag).hasClass('original-size') === false) {
@@ -322,7 +332,7 @@ let FieldPostBody = {
           let filename = file.slice(file.lastIndexOf('/') + 1)
           filename = encodeURI(filename)
           if (postBodyList.indexOf(filename) === -1) {
-            console.log(['auto clean', file])
+            //console.log(['auto clean', file])
             FileSystemHelper.remove(file, next)
           }
           else {

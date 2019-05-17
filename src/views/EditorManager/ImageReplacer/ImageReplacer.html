@@ -126,7 +126,7 @@
            v-bind:class="{hide: (currentStep !== 6)}">
         <div class="ui form">
           <div class="field">
-            <label>
+            <label @dblclick="setDemoHTML">
               {{ $t('Paste HTML into following field:') }}
             </label>
             <textarea id="imageHTMLtextarea"
@@ -157,9 +157,9 @@
                 <div class="value">
                   {{ filesystemImageCount }}
                 </div>
-                <div class="label">
+                <div class="label oops">
 
-                  <template v-if="filesystemImageCount === 1">
+                  <template v-if="filesystemImageCount <= 1">
                     {{ $t("Filesystem image remained") }}
                   </template>
                   <template v-if="filesystemImageCount > 1">
@@ -178,14 +178,14 @@
                 <div class="header">
                   {{ $t("Well done!") }}
                 </div>
-                All filesystem 
-                <span v-if="replacedImageCount === 1">
-                  image
-                </span>
-                <span v-if="replacedImageCount > 1">
-                  images
-                </span>
-                had been uploaded.
+                
+                <template v-if="replacedImageCount <= 1">
+                  {{ $t("All filesystem image had been uploaded.") }}
+                </template>
+                <template v-if="replacedImageCount > 1">
+                  {{ $t("All filesystem images had been uploaded.") }}
+                </template>
+                
               </div>
             </div>
 
@@ -196,16 +196,13 @@
                 <div class="header">
                   {{ $t('Not Finished!') }}
                 </div>
-                There are still 
-                {{ filesystemImageCount }}
-                filesystem 
-                <span v-if="replacedImageCount === 1">
-                  image
-                </span>
-                <span v-if="replacedImageCount > 1">
-                  images
-                </span>
-                need to upload.
+                
+                <template v-if="replacedImageCount <= 1">
+                  {{ $t('There are still {0} image need to upload.', [filesystemImageCount]) }}
+                </template>
+                <template v-if="replacedImageCount > 1">
+                  {{ $t('There are still {0} images need to upload.', [filesystemImageCount]) }}
+                </template>
               </div>
             </div>
           </div>
@@ -219,7 +216,7 @@
             </div>
           </div>
           
-          <div class="field">
+          <div class="right aligned field">
             <div class="ui checkbox">
               <input type="checkbox" 
                      v-model="skipTutorial"

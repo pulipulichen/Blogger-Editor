@@ -18,6 +18,12 @@
     "Switch to HTML mode, copy HTML.": "Blogger草稿切換到「HTML」模式。複製所有HTML程式碼。",
     "Paste HTML into following field:": "把HTML程式碼貼到下面的欄位：",
     "Well done!": "全部完成了！",
-    "Not Finished!": "尚未完成！"
+    "Not Finished!": "尚未完成！",
+    "Replaced": "圖片已被取代",
+    "All filesystem image had been uploaded.": "所有檔案系統圖片已經被上傳",
+    "All filesystem images had been uploaded.": "所有檔案系統圖片已經被上傳",
+    "There are still {0} image need to upload.": "仍然有{0}張圖片需要上傳",
+    "There are still {0} images need to upload.": "仍然有{0}張圖片需要上傳",
+    "Download image package and upload again": "下載圖片後再次上傳"
   }
 }

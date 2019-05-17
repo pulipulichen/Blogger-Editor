@@ -20,6 +20,7 @@ var config = {
       disableUploadImageDraft: false,
       FieldPostBody: null,
       skipTutorial: false,
+      debugEnableReplace: false
     }
   },
   mounted: function () {
@@ -90,7 +91,12 @@ var config = {
     },
     replaceImage: function () {
       let imageList = this.parseImageHTMLList()
-      this.replacedImageCount = FieldPostBody.setImageList(imageList)
+      if (this.debugEnableReplace === true) {
+        this.replacedImageCount = FieldPostBody.setImageList(imageList)
+      }
+      else {
+        this.replacedImageCount = 0
+      }
       this.filesystemImageCount = FieldPostBody.countFileSystemImage()
       
       //this.close()
@@ -121,6 +127,7 @@ var config = {
               //console.log([name, path])
               JSZipUtils.getBinaryContent(path, (err, data) => {
                 //console.log(data)
+                name = decodeURIComponent(name)
                 folder.file(name, data)
                 i++
                 loop(i)
@@ -185,6 +192,10 @@ var config = {
     persist() {
       VueHelper.persistLocalStorage(this, 'skipTutorial')
     },
+    setDemoHTML() {
+      this.imageHTML = `<a href="http://2.bp.blogspot.com/-B-4VIGgfDOY/XN1rwagJWaI/AAAAAAAEPtA/Nwa532uvs_E0otP908b1SW4XWPrOrfRfACK4BGAYYCw/s1600/1-Webpack%2B_%25282%2529.png" imageanchor="1"><img border="0" height="180" src="https://2.bp.blogspot.com/-B-4VIGgfDOY/XN1rwagJWaI/AAAAAAAEPtA/Nwa532uvs_E0otP908b1SW4XWPrOrfRfACK4BGAYYCw/s320/1-Webpack%2B_%25282%2529.png" width="320" /></a><a href="http://2.bp.blogspot.com/-Ycwe6jm8OyM/XN1rwXpRgRI/AAAAAAAEPs4/NRb5VFc5dfIM6BjlBJ4LnAnOY2NTcfRGwCK4BGAYYCw/s1600/1-Webpack_2.png" imageanchor="1"><img border="0" height="180" src="https://2.bp.blogspot.com/-Ycwe6jm8OyM/XN1rwXpRgRI/AAAAAAAEPs4/NRb5VFc5dfIM6BjlBJ4LnAnOY2NTcfRGwCK4BGAYYCw/s320/1-Webpack_2.png" width="320" /></a>`
+      this.validateImageHTML()
+    }
   }
 }
 
