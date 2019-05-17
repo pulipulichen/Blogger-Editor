@@ -4873,6 +4873,21 @@
               _this.context.triggerEvent('media.delete', $target, _this.$editable);
           });
           /**
+           * remove media object and Figure Elements if media object is img with Figure.
+           */
+          this.removeLink = this.wrapCommand(function () {
+              var rng = this.createRange();
+              if (rng.isOnAnchor()) {
+                  var anchor = dom.ancestor(rng.sc, dom.isAnchor);
+                  rng = range.createFromNode(anchor);
+                  rng.select();
+                  this.beforeCommand();
+                  document.execCommand('delete')
+                  this.afterCommand();
+                  _this.context.triggerEvent('link.delete', $(rng.sc), _this.$editable);
+              }
+          });
+          /**
            * save media object and Figure Elements if media object is img with Figure.
            * @author Pulipuli Chen 20190421
            */
@@ -7249,6 +7264,14 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandler('editor.removeMedia')
               }).render();
           });
+          // Remove Buttons
+          this.context.memo('button.removeLink', function () {
+              return _this.button({
+                  contents: _this.ui.icon(_this.options.icons.trash),
+                  tooltip: _this.lang.image.remove,
+                  click: _this.context.createInvokeHandler('editor.removeLink')
+              }).render();
+          });
           // Open Buttons
           this.context.memo('button.openMedia', function () {
               return _this.button({
@@ -9009,7 +9032,7 @@ sel.addRange(range);
                   ['remove', ['openMedia', 'saveMedia', 'removeMedia']]
               ],
               link: [
-                  ['link', ['linkDialogShow', 'unlink']]
+                  ['link', ['linkDialogShow', 'unlink', 'removeLink']]
               ],
               table: [
                   ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
