@@ -2498,6 +2498,32 @@
   function isCustomStyleTag(node) {
       return node && !isText(node) && lists.contains(node.classList, 'note-styletag');
   }
+  /**
+   * 
+   * @param  {String} text 
+   * @return {[type]}      [description]
+   */
+  function copyPlainText(text) {
+    let id = 'summernoteClipboardInput'
+    var copyTextInput = document.getElementById(id)
+    if (copyTextInput === null) {
+      var copyTextInput = document.createElement("input");
+      copyTextInput.id = id
+      copyTextInput.type = "text"
+      document.body.appendChild(copyTextInput);
+    }
+
+    copyTextInput.value = text
+
+    copyTextInput.style = "display: inline"
+    /* Select the text field */
+    copyTextInput.select();
+
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+
+    copyTextInput.style = "display: none"
+  }
   var dom = {
       /** @property {String} NBSP_CHAR */
       NBSP_CHAR: NBSP_CHAR,
@@ -4873,7 +4899,7 @@
               _this.context.triggerEvent('media.delete', $target, _this.$editable);
           });
           /**
-           * remove media object and Figure Elements if media object is img with Figure.
+           * remove link
            */
           this.removeLink = this.wrapCommand(function () {
               var rng = this.createRange();
@@ -4918,6 +4944,22 @@
               }
           });
           
+          /**
+           * code media link
+           * @author Pulipuli Chen 20190517
+           */
+          this.popoverImageCopyLink = this.wrapCommand(function () {
+              //console.log('openMedia')
+              
+              var $target = $$1(_this.restoreTarget());
+              //console.log($target.prop("tagName"))
+              if ($target.attr('src') !== undefined) {
+                let src = $target.attr('src')
+                copyPlainText(src)
+                _this.context.triggerEvent('media.copy', $target, _this.$editable);
+              }
+          });
+
           /**
            * open media object and Figure Elements if media object is img with Figure.
            * @author Pulipuli Chen 20190421
@@ -7280,6 +7322,14 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandler('editor.openMedia')
               }).render();
           });
+          // Copy Buttons
+          this.context.memo('button.popoverImageCopyLink', function () {
+              return _this.button({
+                  contents: 'Copy',
+                  tooltip: 'Copy',
+                  click: _this.context.createInvokeHandler('editor.popoverImageCopyLink')
+              }).render();
+          });
           // Save Buttons
           this.context.memo('button.saveMedia', function () {
               return _this.button({
@@ -9029,7 +9079,7 @@ sel.addRange(range);
               image: [
                   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
                   ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                  ['remove', ['openMedia', 'saveMedia', 'removeMedia']]
+                  ['remove', ['openMedia', 'saveMedia', 'popoverImageCopyLink', 'removeMedia']]
               ],
               link: [
                   ['link', ['linkDialogShow', 'unlink', 'removeLink']]

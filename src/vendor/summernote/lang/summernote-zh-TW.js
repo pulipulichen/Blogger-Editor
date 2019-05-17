@@ -33,7 +33,8 @@
         maximumFileSizeError: '文件大小超出最大值。',
         url: '圖片網址',
         remove: '移除圖片',
-        original: 'Original'
+        original: '原始尺寸',
+        copy: '複製連結'
       },
       video: {
         video: '影片',
