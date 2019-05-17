@@ -59,7 +59,6 @@
       };
       return Renderer;
   }());
-  
   var renderer = {
       create: function (markup, callback) {
           return function () {

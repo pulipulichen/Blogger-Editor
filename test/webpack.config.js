@@ -9,6 +9,8 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
+let compileCount = 0
+
 module.exports = (env, argv) => {
   //console.log(argv.mode)
   
@@ -89,7 +91,27 @@ module.exports = (env, argv) => {
      },
      */
       plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        {
+          apply: (compiler) => {
+            compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
+              let paddingZero = (n) => {
+                if (n < 10) {
+                  n = '0' + n
+                }
+                return n
+              }
+              setTimeout(() => {
+                compileCount++
+                let date = new Date;
+                let seconds = paddingZero(date.getSeconds())
+                let minutes = paddingZero(date.getMinutes())
+                let hour = paddingZero(date.getHours())
+                console.warn(`[${compileCount}] Building completed at ${hour}:${minutes}:${seconds}`)
+              }, 100)
+            });
+          } // apply: (compiler) => {
+        }
       ]
   } // let webpackConfig = {
 

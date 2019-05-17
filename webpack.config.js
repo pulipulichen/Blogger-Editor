@@ -111,7 +111,6 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new VueLoaderPlugin(),
-      new CleanTerminalPlugin(),
       {
         apply: (compiler) => {
           compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
@@ -130,7 +129,7 @@ module.exports = (env, argv) => {
               console.warn(`[${compileCount}] Building completed at ${hour}:${minutes}:${seconds}`)
             }, 100)
           });
-        }
+        } // apply: (compiler) => {
       }
     ]
   } // let webpackConfig = {

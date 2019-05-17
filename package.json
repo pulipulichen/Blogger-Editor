@@ -14,8 +14,8 @@
     "mocha": "mocha lib-for-link/src/**/*.mocha-test.js",
     "mocha-watch": "mocha --watch lib-for-link/src/**/*.mocha-test.js",
     "selenium-side-runner": "selenium-side-runner lib-for-link/src/**/*.side",
-    "t1-webpack-build-development": "webpack --mode development --config test/webpack.config.js",
-    "t2-webpack-watch-development": "webpack --watch --mode development --config test/webpack.config.js"
+    "t1-webpack-build-development": "webpack --mode development --config test/webpack.config.js --display errors-only",
+    "t2-webpack-watch-development": "webpack --watch --mode development --config test/webpack.config.js --display errors-only"
   },
   "repository": {
     "type": "git",
@@ -49,8 +49,6 @@
     "less-loader": "^4.1.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
-    "raw-loader": "^2.0.0",
-    "script-loader": "^0.7.2",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.2",
     "vue": "^2.6.10",
