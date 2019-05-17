@@ -7942,7 +7942,8 @@ sel.addRange(range);
               'summernote.keyup summernote.mouseup summernote.change summernote.scroll': function () {
                   _this.update();
               },
-              'summernote.disable summernote.dialog.shown': function () {
+              'summernote.disable summernote.dialog.shown summernote.popover.show': function () {
+				  //console.log('link hide')
                   _this.hide();
               }
           };
@@ -7998,12 +7999,25 @@ sel.addRange(range);
                 }
               }
               this.$popover.find('a').attr('href', href).html(displayHref);
+			  
               var pos = dom.posFromPlaceholder(anchor);
               //console.log(['LinkPopover update', pos])
+			  
+			  this.context.triggerEvent('popover.show');
+			  
               this.$popover.css({
                   display: 'block',
                   left: pos.left,
-                  top: pos.top
+                  top: pos.top,
+				  //width: width + 'px'
+              });
+			  
+			  
+			  let width = this.$popover.find('a.note-popover-link').width()
+			  width = width + 40
+			  //console.log(width)
+			  this.$popover.css({
+				  'max-width': width + 'px'
               });
           }
           else {
@@ -8011,6 +8025,7 @@ sel.addRange(range);
           }
       };
       LinkPopover.prototype.hide = function () {
+		  //console.log('LinkPopover.prototype.hide')
           this.$popover.hide();
       };
       LinkPopover.prototype.openNotePopoverLink = function (aTag, event) {
@@ -8098,6 +8113,7 @@ sel.addRange(range);
           });
       };
       ImageDialog.prototype.show = function () {
+		  $$1('.note-link-popover').hide()
           var _this = this;
           this.context.invoke('editor.saveRange');
           this.showImageDialog().then(function (data) {
@@ -8185,7 +8201,8 @@ sel.addRange(range);
           this.editable = context.layoutInfo.editable[0];
           this.options = context.options;
           this.events = {
-              'summernote.disable': function () {
+              'summernote.disable summernote.popover.show': function () {
+				  //console.log('image hide')
                   _this.hide();
               }
           };
@@ -8207,6 +8224,7 @@ sel.addRange(range);
           if (dom.isImg(target)) {
               var pos = dom.posFromPlaceholder(target);
               var posEditor = dom.posFromPlaceholder(this.editable);
+			  this.context.triggerEvent('popover.show');
               this.$popover.css({
                   display: 'block',
                   left: this.options.popatmouse ? event.pageX - 20 : pos.left,
@@ -8218,6 +8236,7 @@ sel.addRange(range);
           }
       };
       ImagePopover.prototype.hide = function () {
+		  //console.log('ImagePopover.prototype.hide')
           this.$popover.hide();
       };
       return ImagePopover;
@@ -8236,7 +8255,7 @@ sel.addRange(range);
               'summernote.keyup summernote.scroll summernote.change': function () {
                   _this.update();
               },
-              'summernote.disable': function () {
+              'summernote.disable summernote.popover.show': function () {
                   _this.hide();
               }
           };

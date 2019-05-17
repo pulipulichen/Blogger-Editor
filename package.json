@@ -6,8 +6,8 @@
   "scripts": {
     "1-webpack-build-development": "webpack --mode development",
     "2-webpack-watch-development": "webpack --watch --mode development --display errors-only",
-    "3 webpack-watch-build": "webpack --watch --mode production --display errors-only",
-    "4 webpack-build": "webpack --mode production",
+    "3 webpack-watch-build-production": "webpack --watch --mode production --display errors-only",
+    "4 webpack-build-production": "webpack --mode production",
     "webpack-help": "webpack --help",
     "webpack-test-build-development": "webpack --mode development --config [tmp/webpack.config.js",
     "install": "node installer.js",
