@@ -5,7 +5,6 @@
 
 require('./InitHelper.js')
 
-
 require('./helpers/ConfigHelper.js')
 require('./helpers/VueHelper.js')
 require('./helpers/I18nHelper.js')

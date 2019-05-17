@@ -83,19 +83,19 @@ module.exports = (env, argv) => {
           type: 'javascript/auto',
           loader: '@kazupon/vue-i18n-loader',
         },
-                /*
-                 {
-                 test: /\.m?js$/,
-                 exclude: /(node_modules|bower_components)/,
-                 use: {
-                 loader: 'babel-loader',
-                 options: {
-                 presets: ['@babel/preset-env'],
-                 plugins: ['@babel/plugin-proposal-object-rest-spread']
-                 }
-                 }
-                 }
-                 */
+        /*
+        {
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread']
+            }
+          }
+        }
+        */
       ]
     },
     optimization: {
