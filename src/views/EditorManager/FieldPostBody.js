@@ -262,7 +262,7 @@ let FieldPostBody = {
     return FileSystemHelper.removeDir(path)
   },
   onChange: function (contents) {
-    DelayExecHelper.exec('postBody', 5, () => {
+    DelayExecHelper.exec('postBody', 5, 30, () => {
       $v.EditorManager.FieldPostDate.set()
       $v.PostManager.updateEditingPostBody(contents)
       ScrollHelper.save()

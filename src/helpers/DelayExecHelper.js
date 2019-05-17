@@ -1,8 +1,14 @@
 let DelayExecHelper = {
   timers: {},
+  limitTimers: {},
   events: {},
-  exec: function (type, delaySec, event) {
+  exec: function (type, delaySec, maxLimitSec, event) {
     //delaySec = 0
+    if (event === undefined && typeof(maxLimitSec) === 'function') {
+      event = maxLimitSec
+      maxLimitSec = undefined
+    }
+    
     if (typeof(event) !== 'function') {
       return
     }
@@ -14,14 +20,29 @@ let DelayExecHelper = {
     //console.log(type, delaySec)
     this.showIndicator()
     this.events[type] = event
+    
     this.timers[type] = setTimeout(() => {
-      this.events[type]()
-      this.timers[type] = null
-      
-      if (this.isWaiting() === false) {
-        this.hideIndicator()
-      }
+      this.doEvent(type)
     }, delaySec * 1000)
+    
+    if (typeof(maxLimitSec) === 'number' && this.limitTimers[type] === null) {
+      this.limitTimers[type] = setTimeout(() => {
+        this.doEvent(type)
+      }, maxLimitSec * 1000)
+    }
+  },
+  doEvent: function (type) {
+    this.events[type]()
+    clearTimeout(this.timers[type])
+    this.timers[type] = null
+    clearTimeout(this.limitTimers[type])
+    this.limitTimers[type] = null
+    
+    //console.log(type)
+
+    if (this.isWaiting() === false) {
+      this.hideIndicator()
+    }
   },
   forceExec: function (callback) {
     for (let type in this.timers) {
