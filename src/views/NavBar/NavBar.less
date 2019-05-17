@@ -10,3 +10,17 @@
   position: fixed;
   z-index: 600;
 }
+
+.ui.top.menu > .item.sidebar-menu-toggle {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .ui.top.menu > ::v-deep .item {
+    display: none;
+  }
+  
+  .ui.top.menu > .item.sidebar-menu-toggle {
+    display: block;
+  }
+}

@@ -1,3 +1,5 @@
+import NavBarMenu from './NavBarMenu/NavBarMenu.vue'
+
 let NavBar = {
   //name: "main-content",
   data: function () {
@@ -6,6 +8,9 @@ let NavBar = {
       ui: undefined,
       wordCount: 0
     }
+  },
+  components: {
+    'navbar-menu': NavBarMenu
   },
   created: function () {
     $v.NavBar = this
@@ -28,20 +33,9 @@ let NavBar = {
       }
       return this.ui
     },
-    openPublishManager: function () {
-      $v.PublishManager.open()
-    },
-    openPostManager: function () {
-      $v.PostManager.open()
-    },
-    openThemeManager: function () {
-      $v.ThemeManager.open()
-    },
-    openEditorManager: function () {
-      $v.EditorManager.open()
-    },
-    openConfigManager: function () {
-      $v.ConfigManager.open()
+    openSidebarMenu: function () {
+      //$v.PublishManager.open()
+      alert('做到一半')
     },
     toggle: function () {
       this.getUI().toggleClass('call-fixed')

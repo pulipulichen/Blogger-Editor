@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import i18nGlobal from './../i18n/global.js'
 
+import { Plugin } from "vue-fragment";
+Vue.use(Plugin);
+
 Vue.use(VueI18n)
 import $ from 'jquery'
 

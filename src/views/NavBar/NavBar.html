@@ -1,34 +1,13 @@
 <div class="ui top inverted menu"
      ref="modal">
-  <a class="item" 
-     @click="openPublishManager">
-    <i class="blogger icon"></i>
-    {{ $t('Publish') }}
+  <a class="item sidebar-menu-toggle" 
+     @click="openSidebarMenu">
+    <i class="bars icon"></i>
   </a>
-  <a class="item" 
-     @click="openPostManager">
-    <i class="file icon"></i>
-    {{ $t('Post') }}
-  </a>
-  <a class="item" 
-     @click="openThemeManager">
-    <i class="columns icon"></i>
-    {{ $t('Theme') }}
-  </a>
-  <a class="item" 
-     @click="openEditorManager">
-    <i class="keyboard outline icon"></i>
-    {{ $t('Editor') }}
-  </a>
-
-  <a class="item" 
-     @click="openConfigManager">
-    <i class="cogs icon"></i>
-    {{ $t('Config') }}
-  </a>
-  
+  <navbar-menu></navbar-menu>
   <div class="right menu">
-    <a class="item">
+    <a class="item word-count">
+      <i class="book icon"></i>
       {{ wordCount }}
       {{ wordCountUnit }}
     </a>
