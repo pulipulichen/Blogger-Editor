@@ -4900,6 +4900,7 @@
           });
           /**
            * remove link
+           * @author Pulipuli Chen 20190517
            */
           this.removeLink = this.wrapCommand(function () {
               var rng = this.createRange();
@@ -4911,6 +4912,20 @@
                   document.execCommand('delete')
                   this.afterCommand();
                   _this.context.triggerEvent('link.delete', $(rng.sc), _this.$editable);
+              }
+          });
+          /**
+           * copy link
+           * @author Pulipuli Chen 20190517
+           */
+          this.copyLink = this.wrapCommand(function () {
+              let rng = this.createRange();
+              if (rng.isOnAnchor()) {
+                  let anchor = dom.ancestor(rng.sc, dom.isAnchor);
+                  rng = range.createFromNode(anchor);
+                  let link = rng.sc.href
+                  console.log(link)
+                  copyPlainText(link)
               }
           });
           /**
@@ -4948,7 +4963,7 @@
            * code media link
            * @author Pulipuli Chen 20190517
            */
-          this.popoverImageCopyLink = this.wrapCommand(function () {
+          this.copyMediaLink = this.wrapCommand(function () {
               //console.log('openMedia')
               
               var $target = $$1(_this.restoreTarget());
@@ -4956,7 +4971,7 @@
               if ($target.attr('src') !== undefined) {
                 let src = $target.attr('src')
                 copyPlainText(src)
-                _this.context.triggerEvent('media.copy', $target, _this.$editable);
+                _this.context.triggerEvent('media.copyLink', $target, _this.$editable);
               }
           });
 
@@ -7306,34 +7321,26 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandler('editor.removeMedia')
               }).render();
           });
-          // Remove Buttons
-          this.context.memo('button.removeLink', function () {
-              return _this.button({
-                  contents: _this.ui.icon(_this.options.icons.trash),
-                  tooltip: _this.lang.image.remove,
-                  click: _this.context.createInvokeHandler('editor.removeLink')
-              }).render();
-          });
           // Open Buttons
           this.context.memo('button.openMedia', function () {
               return _this.button({
-                  contents: 'Open',
+                  contents: _this.ui.icon(_this.options.icons.arrowsCircleUp) + ' ' + _this.lang.image.open,
                   tooltip: _this.lang.image.open,
                   click: _this.context.createInvokeHandler('editor.openMedia')
               }).render();
           });
           // Copy Buttons
-          this.context.memo('button.popoverImageCopyLink', function () {
+          this.context.memo('button.copyMediaLink', function () {
               return _this.button({
-                  contents: 'Copy',
-                  tooltip: 'Copy',
-                  click: _this.context.createInvokeHandler('editor.popoverImageCopyLink')
+                  contents: _this.ui.icon(_this.options.icons.code) + ' ' + _this.lang.image.copy,
+                  tooltip: _this.lang.image.copy,
+                  click: _this.context.createInvokeHandler('editor.copyMediaLink')
               }).render();
           });
           // Save Buttons
           this.context.memo('button.saveMedia', function () {
               return _this.button({
-                  contents: 'Save',
+                  contents: _this.ui.icon(_this.options.icons.arrowsCircleDown) + ' ' + _this.lang.image.save,
                   tooltip: _this.lang.image.save,
                   click: _this.context.createInvokeHandler('editor.saveMedia')
               }).render();
@@ -7353,6 +7360,23 @@ sel.addRange(range);
                   contents: _this.ui.icon(_this.options.icons.unlink),
                   tooltip: _this.lang.link.unlink,
                   click: _this.context.createInvokeHandler('editor.unlink')
+              }).render();
+          });
+          // Remove Buttons
+          this.context.memo('button.removeLink', function () {
+              return _this.button({
+                  contents: _this.ui.icon(_this.options.icons.trash),
+                  tooltip: _this.lang.image.remove,
+                  click: _this.context.createInvokeHandler('editor.removeLink')
+              }).render();
+          });
+          // Remove Buttons
+          this.context.memo('button.copyLink', function () {
+              return _this.button({
+                  //contents: _this.ui.icon(_this.options.icons.copy),  // 
+                  contents: _this.ui.icon(_this.options.icons.code) + ' ' + _this.lang.link.copy,
+                  tooltip: _this.lang.image.copy,
+                  click: _this.context.createInvokeHandler('editor.copyLink')
               }).render();
           });
       };
@@ -9079,10 +9103,10 @@ sel.addRange(range);
               image: [
                   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
                   ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                  ['remove', ['openMedia', 'saveMedia', 'popoverImageCopyLink', 'removeMedia']]
+                  ['remove', ['openMedia', 'saveMedia', 'copyMediaLink', 'removeMedia']]
               ],
               link: [
-                  ['link', ['linkDialogShow', 'unlink', 'removeLink']]
+                  ['link', ['linkDialogShow', 'unlink', 'removeLink', 'copyLink']]
               ],
               table: [
                   ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
@@ -9246,6 +9270,10 @@ sel.addRange(range);
               'indent': 'note-icon-align-indent',
               'outdent': 'note-icon-align-outdent',
               'arrowsAlt': 'note-icon-arrows-alt',
+			  'arrowsCircleDown': 'note-icon-arrow-circle-down',
+			  'arrowsCircleLeft': 'note-icon-arrow-circle-left',
+			  'arrowsCircleRight': 'note-icon-arrow-circle-right',
+              'arrowsCircleUp': 'note-icon-arrow-circle-up',
               'bold': 'note-icon-bold',
               'caret': 'note-icon-caret',
               'circle': 'note-icon-circle',

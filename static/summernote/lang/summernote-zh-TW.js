@@ -33,7 +33,10 @@
         maximumFileSizeError: '文件大小超出最大值。',
         url: '圖片網址',
         remove: '移除圖片',
-        original: 'Original'
+        original: '原始尺寸',
+        copy: '複製連結',
+        open: '開啟圖片',
+        save: '下載圖片'
       },
       video: {
         video: '影片',
@@ -49,7 +52,8 @@
         edit: '編輯連結',
         textToDisplay: '顯示文字',
         url: '連結網址',
-        openInNewWindow: '在新視窗開啟'
+        openInNewWindow: '在新視窗開啟',
+        copy: '複製連結'
       },
       table: {
         table: '表格',
