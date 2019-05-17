@@ -6108,7 +6108,7 @@ sel.addRange(range);
 
   var CodeMirror;
   if (env.hasCodeMirror) {
-      if (env.isSupportAmd) {
+      if (false) { //if (env.isSupportAmd) { // 20190519 disable codemirror
           require(['codemirror'], function (cm) {
               CodeMirror = cm;
           });

@@ -5,6 +5,9 @@
 //window.$ = $
 //window.jQuery = $
 
+import $ from 'jquery'
+window.$ = window.jQuery = $
+
 require('./vendor/semantic-ui-niwsf/semantic.niwsf.less')
 //require('./vendor/semantic-ui-niwsf/styles/bundle-semantic.niwsf.css')
 require('./vendor/semantic-ui-niwsf/semantic.niwsf.js')

@@ -11,14 +11,24 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const CleanTerminalPlugin = require('clean-terminal-webpack-plugin')
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+
 let compileCount = 0
 
 module.exports = (env, argv) => {
   //console.log(argv.mode)
+  //console.log(argv.watch)
+  
+  if (argv.mode === undefined) {
+    argv.mode = 'development'
+  }
+  if (argv.watch === undefined) {
+    argv.watch = false
+  }
 
   let webpackConfig = {
     mode: argv.mode,
-    cache: false,
+    cache: true,
     devtool: 'source-map',
     //devtool: false,
     entry: {
@@ -171,7 +181,15 @@ module.exports = (env, argv) => {
         sourceMap: false // set to true if you want JS source maps
       })
     ]
+    
+    if (argv.watch === false) {
+      if (Array.isArray(webpackConfig.plugins) === false) {
+        webpackConfig.plugins = []
+      }
+      webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+    }
   }
+  
   if (argv.mode === 'development') {
 
   }
