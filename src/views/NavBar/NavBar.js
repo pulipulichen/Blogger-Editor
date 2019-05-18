@@ -6,7 +6,8 @@ let NavBar = {
     return {
       name: 'NavBar',
       ui: undefined,
-      wordCount: 0
+      wordCount: 0,
+      navbarHeight: 55
     }
   },
   components: {
@@ -38,7 +39,15 @@ let NavBar = {
       $v.NavBarSidebar.open()
     },
     toggle: function () {
-      this.getUI().toggleClass('call-fixed')
+      //console.log('aaa')
+      // check scroll height
+      
+      if (document.body.clientWidth < 900) {
+        $v.NavBarSidebar.open()
+      }
+      else {
+        this.getUI().toggleClass('call-fixed')
+      }
     },
     init: function (callback) {
       EventManager.on($v.EditorManager.FieldPostBody, ['set', 'change'], (FieldPostBody) => {

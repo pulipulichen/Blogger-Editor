@@ -38,8 +38,7 @@ let InitHelper = {
     //$v.SnippetInserter.open()
     
     //$v.PageLoader.open()
-    
-    $v.NavBarSidebar.open()
+    //$v.NavBarSidebar.open()
     
     FunctionHelper.triggerCallback(callback)
   },

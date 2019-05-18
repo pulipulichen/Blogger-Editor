@@ -6,7 +6,8 @@ let NavBarMenuSidebar = {
     return {
       name: 'NavBarSidebar',
       ui: undefined,
-      dimmer: undefined
+      dimmer: undefined,
+      body: undefined
     }
   },
   created: function () {
@@ -21,6 +22,7 @@ let NavBarMenuSidebar = {
         //console.log('find ui')
         this.ui = $(this.$refs.modal)
         this.buildDimmer()
+        this.body = $('body')
       }
       return this.ui
     },
@@ -37,11 +39,13 @@ let NavBarMenuSidebar = {
       //this.getUI().sidebar('toggle')
       this.getUI().transition('slide right')
       this.dimmer.transition('fade in')
+      this.body.css('overflow-y', 'hidden')
     },
     close: function () {
       //this.getUI().sidebar('toggle')
       this.getUI().transition('slide right')
       this.dimmer.transition('fade out')
+      this.body.css('overflow-y', '')
     },
   }
 }
