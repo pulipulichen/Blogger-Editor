@@ -35,7 +35,7 @@ let NavBar = {
     },
     openSidebarMenu: function () {
       //$v.PublishManager.open()
-      alert('做到一半')
+      $v.NavBarSidebar.open()
     },
     toggle: function () {
       this.getUI().toggleClass('call-fixed')
