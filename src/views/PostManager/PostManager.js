@@ -156,8 +156,11 @@ let PostManager = {
     newPost: function (callback) {
       this.createPost((post) => {
         let postId = post.id
-        console.log(postId)
-        this.openPost(postId, callback)
+        //console.log(postId)
+        //setTimeout(() => {
+        //  this.openPost(postId, callback)
+        //}, 1000)
+        FunctionHelper.triggerCallback(callback)
       })
     },
     getEditingPostId: function (callback) {
@@ -182,10 +185,14 @@ let PostManager = {
       let post
       if (id === undefined) {
         //id = this.editingPostId
+        //id = this.editingPostId
         //console.log(['getPost', this.editingPostId, PostManager.editingPostId])
         this.getEditingPostId((id) => {
           //console.log(['getPost', id])
           post = this.posts.filter((post) => post.id === id)[0]
+          if (post === undefined) {
+            console.log(`Post ${id} is not found`)
+          }
           FunctionHelper.triggerCallback(callback, post)
         })
       }
