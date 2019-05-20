@@ -27,6 +27,20 @@ var config = {
     },
     open: function () {
       this.getUI().modal('show')
+      
+      // 加入讀取剪貼簿的功能
+      navigator.clipboard.readText()
+        .then(text => {
+          text = text.trim()
+          //console.log(text)
+          //console.log('Pasted content: ', text);
+          if (this.isURL(text)) {
+            this.iframePromptInput = this.stripHTTPHeader(text)
+          }
+        })
+        .catch(err => {
+          //console.error('Failed to read clipboard contents: ', err);
+        });
     },
     close: function () {
       this.getUI().modal('hide')
@@ -39,6 +53,20 @@ var config = {
       $v.EditorManager.FieldPostBody.insert(code)
       this.iframePromptInput = ''
       this.close()
+    },
+    isURL: function (url) {
+      return ((url.startsWith("http://") && url.length > 15)
+              || (url.startsWith("https://") && url.length > 15)
+              || (url.startsWith("//") && url.length > 10)
+              || (url.startsWith("#") && url.length > 2))
+    },
+    stripHTTPHeader: function (url) {
+      if (this.isURL(url)) {
+        if (url.indexOf('//') > 0) {
+          url = url.slice(url.indexOf('//'))
+        }
+      }
+      return url
     }
   }
 }
