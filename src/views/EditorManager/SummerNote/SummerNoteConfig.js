@@ -183,6 +183,9 @@ let SummerNoteConfig = {
         onChange: (contents) => {
           DelayExecHelper.exec(fieldName, 3, () => {
             $v.EditorManager.FieldPostDate.set()
+            if (contents.startsWith('<') && contents.endsWith('>')) {
+              contents = $(contents).text()
+            }
             if (fieldName === 'title') {
               $v.EditorManager.FieldPostTitle.updateDocumentTitle(contents)
             }

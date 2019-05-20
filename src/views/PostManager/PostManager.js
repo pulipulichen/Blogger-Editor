@@ -154,7 +154,11 @@ let PostManager = {
       })
     },
     newPost: function (callback) {
-      this.createPost(callback)
+      this.createPost((post) => {
+        let postId = post.id
+        console.log(postId)
+        this.openPost(postId, callback)
+      })
     },
     getEditingPostId: function (callback) {
       if (typeof(this.editingPostId) === 'number') {
