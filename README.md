@@ -1,9 +1,10 @@
 # Blogger-Editor
 An editor for Blogger writer
 
-https://pulipulichen.github.io/Blogger-Editor/
+- Project: https://pulipulichen.github.io/Blogger-Editor/
+- Issues: https://github.com/pulipulichen/Blogger-Editor/issues
 
-https://github.com/pulipulichen/Blogger-Editor/issues
+----
 
 https://summernote.org/getting-started/
 https://summernote.org/deep-dive/#basic-api
