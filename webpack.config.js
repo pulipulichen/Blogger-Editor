@@ -9,9 +9,8 @@ const WebpackShellPlugin = require('webpack-shell-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const CleanTerminalPlugin = require('clean-terminal-webpack-plugin')
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 let compileCount = 0
 
@@ -185,7 +184,7 @@ module.exports = (env, argv) => {
       if (Array.isArray(webpackConfig.plugins) === false) {
         webpackConfig.plugins = []
       }
-      webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+      //webpackConfig.plugins.push(new BundleAnalyzerPlugin())
     }
   }
   
