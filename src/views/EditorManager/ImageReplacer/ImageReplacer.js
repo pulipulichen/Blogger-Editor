@@ -20,7 +20,7 @@ var config = {
       disableUploadImageDraft: false,
       FieldPostBody: null,
       skipTutorial: false,
-      debugEnableReplace: false
+      debugEnableReplace: true
     }
   },
   mounted: function () {
