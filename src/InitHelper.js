@@ -22,7 +22,7 @@ let InitHelper = {
     */
     //$v.PostManager.open()
     //$v.ThemeManager.open()
-    $v.EditorManager.open()
+    //$v.EditorManager.open()
     //$v.ConfigManager.open()
     //$v.PublishManager.open()
     
@@ -36,6 +36,7 @@ let InitHelper = {
     //$v.CodeInserter.open()
     //$v.OutlineNavigator.open()
     //$v.SnippetInserter.open()
+    //$v.ImageReplacer.open()
     
     //$v.PageLoader.open()
     //$v.NavBarSidebar.open()

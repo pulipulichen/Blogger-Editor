@@ -84,7 +84,7 @@
           {{ $t('Open a Blogger draft in Compose mode and empty content.') }}
         </div>
         <div class="ui form">
-          <div class="fields">
+          <div class="unstackable fields">
             <div class="eleven wide field">
               <div class="ui fluid button"
                    v-bind:class="{disabled: disableUploadImageDraft, positive: (disableUploadImageDraft === false)}"
@@ -255,7 +255,8 @@
       <i class="chevron right icon"></i>
     </div>
     <div class="ui button"
-         @click='close'
+         v-on:click='close'
+         v-bind:class="{ positive: (filesystemImageCount === 0) }"
          v-if="currentStep === 0 || currentStep === 7">
       {{ $t('Close') }}
     </div>
