@@ -66,17 +66,6 @@ let SummerNoteCode = {
       postBody = $v.EditorManager.FieldPostBody.getElement()
     }
     
-    // 先把被放進去的<a name="more"></a>拿出來
-    postBody.find('a[name="more"]:first').each((i, a) => {
-      let p = $(a).parent().parent()
-      if (p.hasClass('note-editable') === false) {
-        let innerHTML = p.prop('innerHTML')
-        if (innerHTML.startsWith('<p')) {
-          p.replaceWith(p.prop('innerHTML'))
-        }
-      }
-    })
-    
     let children = postBody.children()
 
     // Clean empty ndoes
