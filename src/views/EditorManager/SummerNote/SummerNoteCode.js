@@ -13,10 +13,14 @@ let SummerNoteCode = {
     let postBody = $v.EditorManager.FieldPostBody
     postBody.getElement().find('a[name="more"]').remove()
     //postBody.insert('<a name="more"></a><!--more-->')
-    postBody.insert('<hr />')
-    postBody.insert('<!--more-->')
-    postBody.insert('<a name="more"></a>')
-
+    //postBody.insert('<hr />')
+    //postBody.insert('<!--more-->')
+    //postBody.insert('<a name="more"></a>')
+    
+    //postBody.insert('<p><a name="more"></a><!--more--></p>')
+    //postBody.insert('<hr />')
+    //postBody.insert('<h2>[H2 Title]</h2>')
+    postBody.insert('<p><a name="more"></a><!--more--></p><hr /><h2>[H2 Title]</h2>')
   },
   CopyCode: function (context) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>Copy Code`)
@@ -33,11 +37,15 @@ let SummerNoteCode = {
     //let code = this.getPostSummerNote().summernote('code');
     let code = postBody.html()
 
+    console.log(code)
+
+    code = code.replace(`<p><a name="more"></a><!--more--></p>`, '<!--more-->')
     code = code.replace(`<a name="more"></a><!--more--></p>`, '</p><!--more-->')
     code = code.replace(`<p><a name="more"><br></a></p>`, '<!--more-->')
-    code = code.replace(`<p><a name="more"></a><!--more--></p>`, '<!--more-->')
     code = code.replace(`<a name="more"></a>`, '')
     code = code.replace(`<p><!--more--></p>`, '<!--more-->')
+    code = code.replace(`<!--more--><hr></p>`, '</p><!--more--><hr />')
+    
     //code = code.replace(`<br /></p>`, '</p>')
     //code = code.replace(`<br /></`, '</')
 
@@ -51,6 +59,7 @@ let SummerNoteCode = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click)
   },
+  skipTagList: ['hr', 'td', 'tr', 'th', 'caption', 'code', 'table'],
   CleanCodeClick: function (postBody) {
     //let code = this.getPostSummerNote().summernote('code');
     if (postBody === undefined) {
@@ -62,6 +71,11 @@ let SummerNoteCode = {
     children.each((i, child) => {
       //console.log(child.innerHTML.trim())
       let $child = $(child)
+      let tagName = child.tagName.toLowerCase()
+      if (this.skipTagList.indexOf(tagName) > -1) {
+        return
+      }
+      
       let html = child.innerHTML.trim().toLowerCase()
       if (html === '' || html === '<br>') {
         $child.remove()
@@ -160,6 +174,22 @@ let SummerNoteCode = {
         //outerHTML = outerHTML.slice('<span>'.length, (outerHTML - '</span>'.length))
         //span.replaceWith()
         span.outerHTML = span.innerHTML
+      }
+    })
+    
+    postBody.children('p').each((i, p) => {
+      if (p.innerHTML === '') {
+        $(p).remove()
+      }
+      else {
+        $(p).children('p').each((i, p2) => {
+          if (p2.innerHTML.trim() !== '') {
+            $(p2).replaceWith(p2.innerHTML)
+          }
+          else {
+            $(p2).remove()
+          }
+        })
       }
     })
     

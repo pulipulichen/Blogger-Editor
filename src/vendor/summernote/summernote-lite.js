@@ -5616,20 +5616,41 @@
           prev = tmp.prev()
           tmp.remove()
         }
+        
         let next = node.next()
         //console.log(next.text().trim())
-        if (this.checkNodeIsRemovable(prev)) {
+        if (this.checkNodeIsRemovable(next)) {
           let tmp = next
           next = tmp.next()
           tmp.remove()
         }
       };
       Editor.prototype.checkNodeIsRemovable = function (node) {
-		//console.log(node[0].outerHTML)
-        return (node.length > 0 
-			&& ['hr', 'img', 'table', 'hr'].indexOf(node.prop('tagName').toLowerCase()) === -1
-            && node.find('img:first,table:first,hr:first').length === 0
-            && node.text().trim() === '')
+        if (node.length === 0) {
+          return false
+        }
+        
+        console.log(node[0].outerHTML)
+        
+        //return (node.length > 0 
+        //    && ['hr', 'img', 'table', 'hr'].indexOf(node.prop('tagName').toLowerCase()) === -1
+        //    && node.find('img:first,table:first,hr:first').length === 0
+        //    && node.text().trim() === '')
+        let tagName = node.prop('tagName').toLowerCase()
+        //console.log([tagName, skipTagList.indexOf(tagName) > -1])
+        if (skipTagList.indexOf(tagName) > -1) {
+          return false
+        }
+        
+        //console.log([node.find('img:first,table:first,hr:first').length])
+        if (node.find('img:first,table:first,hr:first,a[name="more"]').length > 0) {
+          return false
+        }
+        
+        //console.log([node.text().trim()])
+        if (node.text().trim() === '') {
+          return true
+        }
       }
       
       Editor.prototype.formatPara = function () {

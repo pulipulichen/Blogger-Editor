@@ -104,7 +104,16 @@ let FieldPostBody = {
         insertType = 'insertText'
       }
       else {
-        html = $(html)[0]
+        //let template = document.createElement('template');
+        //template.innerHTML = html;
+        //html = template.content.childNodes;
+        //console.log(html)
+        //html = $(html).prop('innerHTML')
+        //console.log(html)
+        
+        //html = new DOMParser().parseFromString(html, 'text/html');
+        //html = $(html)[0]
+        html = document.createRange().createContextualFragment(html)
       }
     }
     let s = this.get()
