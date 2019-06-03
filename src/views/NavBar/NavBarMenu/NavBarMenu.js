@@ -50,6 +50,9 @@ let NavBarMenu = {
     
     // --------------------------------------
     
+    editorInsertMore: function () {
+      SummerNoteCode.insertMoreClick()
+    },
     editorInsertSnippet: function () {
       $v.SnippetInserter.open()
     },

@@ -5,15 +5,18 @@ let SummerNoteCode = {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="ellipsis horizontal icon"></i> More`)
     let tooltip = 'Insert More'
     let click = () => {
-      let postBody = $v.EditorManager.FieldPostBody
-      postBody.getElement().find('a[name="more"]').remove()
-      //postBody.insert('<a name="more"></a><!--more-->')
-      postBody.insert('<hr />')
-      postBody.insert('<!--more-->')
-      postBody.insert('<a name="more"></a>')
-      
+      this.insertMoreClick()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  insertMoreClick: function () {
+    let postBody = $v.EditorManager.FieldPostBody
+    postBody.getElement().find('a[name="more"]').remove()
+    //postBody.insert('<a name="more"></a><!--more-->')
+    postBody.insert('<hr />')
+    postBody.insert('<!--more-->')
+    postBody.insert('<a name="more"></a>')
+
   },
   CopyCode: function (context) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>Copy Code`)
@@ -30,7 +33,11 @@ let SummerNoteCode = {
     //let code = this.getPostSummerNote().summernote('code');
     let code = postBody.html()
 
+    code = code.replace(`<a name="more"></a><!--more--></p>`, '</p><!--more-->')
+    code = code.replace(`<p><a name="more"><br></a></p>`, '<!--more-->')
+    code = code.replace(`<p><a name="more"></a><!--more--></p>`, '<!--more-->')
     code = code.replace(`<a name="more"></a>`, '')
+    code = code.replace(`<p><!--more--></p>`, '<!--more-->')
     //code = code.replace(`<br /></p>`, '</p>')
     //code = code.replace(`<br /></`, '</')
 
