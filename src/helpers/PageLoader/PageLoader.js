@@ -6,7 +6,8 @@ var config = {
       onShow: null,
       onHide: null,
       isOpening: false,
-      isClosing: false
+      isClosing: false,
+      $body: null
     }
   },
   mounted: function () {
@@ -14,6 +15,7 @@ var config = {
   },
   created: function () {
     $v[this.name] = this
+    this.$body = $('body')
   },
   methods: {
     // ---------------------
@@ -57,6 +59,7 @@ var config = {
         this.onShow = callback
       }
       this.getUI().modal('show')
+      this.$body.addClass('page-loader')
     },
     close: function (callback) {
       if (this.isOpening === true) {
@@ -75,6 +78,7 @@ var config = {
         this.onHide = callback
       }
       this.getUI().modal('hide')
+      this.$body.removeClass('page-loader')
     }
   }
 }

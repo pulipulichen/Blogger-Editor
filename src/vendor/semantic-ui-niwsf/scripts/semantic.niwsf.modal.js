@@ -261,11 +261,12 @@ $.fn.modal = function(parameters) {
           close: function() {
             module.hide();
           },
-          click: function(event) {
+          mousedown: function(event) {
             if(!settings.closable) {
               module.verbose('Dimmer clicked but closable setting is disabled');
               return;
             }
+            
             var
               $target   = $(event.target),
               isInModal = ($target.closest(selector.modal).length > 0),
@@ -443,13 +444,10 @@ $.fn.modal = function(parameters) {
                       }
                       module.save.focus();
                       
-                      
                       //$module.addClass('move-top')
                       //console.log(modalQueue.length)
                       
                       module.set.active();
-                      
-                      
                       
                       if(settings.autofocus) {
                         module.set.autofocus();
@@ -503,7 +501,6 @@ $.fn.modal = function(parameters) {
                     settings.onHidden.call(element);
                     module.remove.dimmerStyles();
                     
-                    
                     module.restore.focus();
                     callback();
                   }
@@ -527,6 +524,7 @@ $.fn.modal = function(parameters) {
         },
 
         hideDimmer: function() {
+          //console.trace('hideDimmer')
           if( $dimmable.dimmer('is animating') || ($dimmable.dimmer('is active')) ) {
             module.unbind.scrollLock();
             $dimmable.dimmer('hide', function() {
@@ -740,7 +738,9 @@ $.fn.modal = function(parameters) {
           },
           clickaway: function() {
             $dimmer
-              .on('click' + elementEventNamespace, module.event.click)
+              //.on('click' + elementEventNamespace, module.event.mousedown)
+              .on('mousedown' + elementEventNamespace, module.event.mousedown)
+            $dimmer.on('touchstart' + elementEventNamespace, module.event.mousedown)
             ;
           },
           dimmerSettings: function() {
