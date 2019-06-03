@@ -31,6 +31,9 @@ var config = {
     $(() => {
       this.validateHasFileSystemImage()
       //this.open()
+      EventManager.on($v.EditorManager, 'disableUploadImageDraftChanged', (EditorManager) => {
+        this.disableUploadImageDraft = EditorManager.disableUploadImageDraft
+      })
     })
   },
   methods: {

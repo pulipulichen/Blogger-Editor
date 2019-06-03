@@ -85,16 +85,17 @@
         </div>
         <div class="ui form">
           <div class="fields">
-            <div class="eleven wide field"
-                 @click="openBloggerDraft">
-              <div class="ui fluid positive button"
-                   v-bind:class="{disabled: disableUploadImageDraft}">
+            <div class="eleven wide field">
+              <div class="ui fluid button"
+                   v-bind:class="{disabled: disableUploadImageDraft, positive: (disableUploadImageDraft === false)}"
+                   v-on:click="openBloggerDraft">
                 {{ $t('Open Blogger Draft') }}
               </div>
             </div>
             <div class="five wide field"
-                 @click="openBloggerDraftSetting">
-              <div class="ui fluid button">
+                 v-on:click="openBloggerDraftSetting">
+              <div class="ui fluid button"
+                   v-bind:class="{positive: (disableUploadImageDraft)}">
                 {{ $t('Setting') }}
               </div>
             </div>

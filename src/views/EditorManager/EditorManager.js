@@ -127,6 +127,13 @@ var EditorManager = {
       return JSON.stringify(config)
     },
   },
+  watch: {
+    uploadImageDraft: function (value) {
+      this.validateUploadImageDrarfUrl()
+      
+      EventManager.trigger(this, 'disableUploadImageDraftChanged')
+    }
+  },
   methods: {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
@@ -159,10 +166,16 @@ var EditorManager = {
       }
       
     },
-    validateUploadImageDrarfUrl: function () {
-      this.disableUploadImageDraft = !this.uploadImageDraft.startsWith('https://www.blogger.com/blogger.g?blogID=')
-      //console.log(this.disableUploadImageDraft)
-      return this.disableUploadImageDraft
+    validateUploadImageDrarfUrl: function (url) {
+      if (typeof(url) === 'string') {
+        url = url.trim()
+        return !url.startsWith('https://www.blogger.com/blogger.g?blogID=')
+      }
+      else {
+        this.disableUploadImageDraft = !this.uploadImageDraft.startsWith('https://www.blogger.com/blogger.g?blogID=')
+        //console.log(this.disableUploadImageDraft)
+        return this.disableUploadImageDraft
+      }
     },
     persist() {
       //localStorage.uploadImageDraft = this.uploadImageDraft;
