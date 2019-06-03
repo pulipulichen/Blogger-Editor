@@ -10,6 +10,7 @@ let NavBarMenu = {
       wordCount: 0
     }
   },
+  props: ['mode'],
   mounted: function () {
     this.init()
   },
@@ -105,11 +106,38 @@ let NavBarMenu = {
       
       FunctionHelper.triggerCallback(callback)
       
-      $(this.$refs.dropdownInsert).dropdown()
-      $(this.$refs.dropdownPublish).dropdown()
+      if (this.mode === 'sidebar') {
+        $(this.$refs.dropdownInsert).click((event) => {
+          this.sidebarToggleSubmenu(event)
+        })
+        $(this.$refs.dropdownPublish).click((event) => {
+          this.sidebarToggleSubmenu(event)
+        })
+      }
+      else if (this.mode === 'topbar') {
+        this.topbarDropdownItem(this.$refs.dropdownInsert)
+        this.topbarDropdownItem(this.$refs.dropdownPublish)
+      }
+      //$(this.$refs.dropdownPublish).dropdown()
       //console.log($(this.$refs.dropdownPublish).length)
+      
+      // <div class="ui simple dropdown item" ref="dropdownPublish">
     },
-  }
+    topbarDropdownItem: function (ele) {
+      ele = $(ele)
+      ele.removeClass('sub-menu-button')
+      ele.addClass('simple').addClass('dropdown')
+      ele.dropdown()
+    },
+    sidebarToggleSubmenu: function (event) {
+      let ele = $(event.target)
+      //let submenu = $(ele).children('.menu')
+      ele.toggleClass('open-submenu')
+      
+      ele.children('.menu').transition('slide down')
+      //$(ele).children('.menu').toggle()
+    },
+  },
 }
 
 export default NavBarMenu

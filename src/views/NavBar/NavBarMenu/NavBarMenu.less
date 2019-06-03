@@ -14,3 +14,19 @@
 .menu.transition.visible {
   z-index: 999;
 }
+
+.sub-menu-button {
+  cursor: pointer;
+}
+
+.sub-menu-button > .menu {
+  display: none;
+}
+
+.sub-menu-button.open-submenu > .menu {
+  //display: block;
+}
+
+.sub-menu-button.open-submenu > i.icon:before {
+  content: "\f0d8";
+}
