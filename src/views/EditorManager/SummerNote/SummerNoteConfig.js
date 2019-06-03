@@ -48,10 +48,10 @@ let SummerNoteConfig = {
         ['para', ['ul', 'ol', 'paragraph']],
         //['table', []],
         ['insert', ['hr', 'link', 'table', 'insertMore']],
-        ['insertMultimedia', [ 'picture', 'downloadImageTemplate', 'video']],
-        ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
-        ['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
-        ['publish', ['ImageReplacer', 'CleanCode', 'CopyHTML']],
+        ['insertMultimedia', [ 'picture', 'video']],
+        // ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
+        //['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
+        //['publish', ['ImageReplacer', 'CleanCode', 'CopyHTML']],
         ['help', [/*'fullscreen',*/'toggleMenu', 'help']]
       ]
 

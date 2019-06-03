@@ -1,6 +1,18 @@
 WindowHelper = {
-  popup: function (url, name, width, height) {
-    console.log([url, name, width, height])
+  popup: function (url, name, width, height, forcePopup) {
+    if (forcePopup === undefined) {
+      if (typeof(height) === 'boolean') {
+        forcePopup = height
+      }
+      else if (typeof(width) === 'boolean') {
+        forcePopup = width
+      }
+    }
+    if (forcePopup === undefined) {
+      forcePopup = false
+    }
+    
+    //console.log([url, name, width, height])
     if (typeof(name) === 'number' && height === undefined) {
       height = width
       width = name
@@ -35,10 +47,10 @@ WindowHelper = {
     let top = Math.ceil((window.screen.availHeight - height) / 2)
 
     let windowSetting = `width=${width},height=${height},top=${top},left=${left},toolbar=0,menubar=0,location=0`
-    if (this.isRunningStandalone()) {
+    if (forcePopup === false && this.isRunningStandalone()) {
       windowSetting = undefined
     }
-    console.log(windowSetting)
+    //console.log(windowSetting)
     
     let newWindow
     
@@ -93,6 +105,9 @@ WindowHelper = {
       }
     }
     return newWindow
+  },
+  forcePopup: function (url, name, width, height) {
+    return this.popup(url, name, width, height, true)
   },
   confirm: function (message, yesCallback, noCallback) {
     $v.WindowConfirm.open(message, yesCallback, noCallback)

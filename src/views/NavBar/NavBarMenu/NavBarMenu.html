@@ -26,6 +26,64 @@
     {{ $t('Config') }}
   </a>
   
+  <div class="ui dropdown item" ref="dropdownInsert">
+    {{ $t('Insert Functions') }}
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" v-on:click="editorInsertCode">
+        <i class="code icon"></i> 
+        {{ $t('Code') }}
+      </a>
+      <a class="item" v-on:click="editorInsertIframe">
+        <i class="plus square outline icon"></i> 
+        {{ $t('Iframe') }}
+      </a>
+      <a class="item" v-on:click="editorInsertFile">
+        <i class="upload icon"></i> 
+        {{ $t('File') }}
+      </a>
+      <a class="item" v-on:click="editorInsertSnippet">
+        <i class="quote left icon"></i> 
+        {{ $t('Snippet') }}
+      </a>
+    </div>
+  </div>
+  
+  <div class="ui dropdown item" ref="dropdownPublish">
+    {{ $t('Format Functions') }}
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" v-on:click="downloadImageTemplate">
+        <i class="image icon"></i> 
+        {{ $t('Download Image Template') }}
+      </a>
+      <a class="item" v-on:click="openImageReaplcer">
+        <i class="image icon"></i> 
+        {{ $t('Upload Image') }}
+      </a>
+      <a class="item" v-on:click="openGooglePhoto">
+        <i class="image icon"></i> 
+        {{ $t('Google Photo') }}
+      </a>
+      <a class="item" v-on:click="editorCopyCode">
+        <i class="code icon"></i> 
+        {{ $t('Copy Code') }}
+      </a>
+      <a class="item" v-on:click="editorCleanCode">
+        <i class="eraser icon"></i> 
+        {{ $t('Clean Code') }}
+      </a>
+      <a class="item" v-on:click="editorImageResizeOriginal">
+        <i class="expand arrows icon"></i> 
+        {{ $t('Resize Original') }}
+      </a>
+      <a class="item" v-on:click="editorImageResizeThumbnail">
+        <i class="compress icon"></i> 
+        {{ $t('Resize Thumbnail') }}
+      </a>
+    </div>
+  </div>
+  
   <div class="right menu">
     <a class="item word-count">
       <i class="book icon"></i>
