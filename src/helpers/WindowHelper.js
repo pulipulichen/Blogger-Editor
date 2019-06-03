@@ -1,5 +1,6 @@
 WindowHelper = {
   popup: function (url, name, width, height) {
+    console.log([url, name, width, height])
     if (typeof(name) === 'number' && height === undefined) {
       height = width
       width = name
@@ -34,7 +35,10 @@ WindowHelper = {
     let top = Math.ceil((window.screen.availHeight - height) / 2)
 
     let windowSetting = `width=${width},height=${height},top=${top},left=${left},toolbar=0,menubar=0,location=0`
-    
+    if (this.isRunningStandalone()) {
+      windowSetting = undefined
+    }
+    console.log(windowSetting)
     
     let newWindow
     
@@ -118,5 +122,8 @@ WindowHelper = {
 Name: ${e.name}<br />
 Message: ${e.message}`
     WindowHelper.alert(message)
+  },
+  isRunningStandalone () {
+    return (window.matchMedia('(display-mode: standalone)').matches);
   }
 }
