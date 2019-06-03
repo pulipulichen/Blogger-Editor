@@ -19,19 +19,22 @@ let SummerNoteCode = {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>Copy Code`)
     let tooltip = 'Copy Code'
     let click = () => {
-      let postBody = $v.EditorManager.FieldPostBody.getElement()
-      postBody = this.CleanCodeClick(postBody)
-      
-      //let code = this.getPostSummerNote().summernote('code');
-      let code = postBody.html()
-      
-      code = code.replace(`<a name="more"></a>`, '')
-      //code = code.replace(`<br /></p>`, '</p>')
-      //code = code.replace(`<br /></`, '</')
-      
-      CopyPasteHelper.copyPlainText(code)
+      this.CopyCodeClick()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  CopyCodeClick: function () {
+    let postBody = $v.EditorManager.FieldPostBody.getElement()
+    postBody = this.CleanCodeClick(postBody)
+
+    //let code = this.getPostSummerNote().summernote('code');
+    let code = postBody.html()
+
+    code = code.replace(`<a name="more"></a>`, '')
+    //code = code.replace(`<br /></p>`, '</p>')
+    //code = code.replace(`<br /></`, '</')
+
+    CopyPasteHelper.copyPlainText(code)
   },
   CleanCode: function (context) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="eraser icon"></i>Clean`)

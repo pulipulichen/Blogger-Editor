@@ -1,3 +1,6 @@
+import SummerNoteImage from './../../EditorManager/SummerNote/SummerNoteImage.js'
+import SummerNoteCode from './../../EditorManager/SummerNote/SummerNoteCode.js'
+
 let NavBarMenu = {
   //name: "main-content",
   data: function () {
@@ -47,21 +50,21 @@ let NavBarMenu = {
     // --------------------------------------
     
     editorInsertSnippet: function () {
-      console.log('editorInsertSnippet 還沒完成')
+      $v.SnippetInserter.open()
     },
     editorInsertIframe: function () {
-      console.log('editorInsertIframe 還沒完成')
+      $v.IframePrompt.open()
     },
     editorInsertFile: function () {
-      console.log('editorInsertFile 還沒完成')
+      $v.FileUploader.open()
     },
     editorInsertCode: function () {
-      console.log('editorInsertCode 還沒完成')
+      $v.CodeInserter.open()
     },
     
     // -------------------------------
     downloadImageTemplate: function () {
-      console.log('downloadImageTemplate 還沒完成')
+      SummerNoteImage.downloadImageTamplateClick()
     },
     openImageReaplcer: function () {
       $v.ImageReplacer.open()
@@ -70,16 +73,18 @@ let NavBarMenu = {
       WindowHelper.forcePopup('https://photos.google.com/?hl=zh-TW', 'googlePhoto')
     },
     editorCleanCode: function () {
-      console.log('editorCleanCode 還沒完成')
+      //console.log('editorCleanCode 還沒完成')
+      SummerNoteCode.CleanCodeClick()
     },
     editorCopyCode: function () {
-      console.log('editorCopyCode 還沒完成')
+      //console.log('editorCopyCode 還沒完成')
+      SummerNoteCode.CopyCodeClick()
     },
     editorImageResizeOriginal: function () {
-      console.log('editorImageResizeOriginal 還沒完成')
+      SummerNoteImage.imageSizeOriginalClick()
     },
     editorImageResizeThumbnail: function () {
-      console.log('editorImageResizeThumbnail 還沒完成')
+      SummerNoteImage.imageSizeThumbnailClick()
     },
     
     // --------------------------------------

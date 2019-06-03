@@ -14,27 +14,35 @@ let SummerNoteImage = {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
     let tooltip = 'Resize images to original'
     let click = () => {
-      let postBody = $v.EditorManager.FieldPostBody.getElement()
-      postBody.find('img').each((i, img) => {
-        this.removeImageTargetSize(img)
-        $(img).addClass('original-size')
-      })
+      this.imageSizeOriginalClick()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  
+  imageSizeOriginalClick: function () {
+    let postBody = $v.EditorManager.FieldPostBody.getElement()
+    postBody.find('img').each((i, img) => {
+      this.removeImageTargetSize(img)
+      $(img).addClass('original-size')
+    })
   },
   
   imageSizeDefault: function (context) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="compress icon"></i> Resize Default`)
     let tooltip = 'Resize to default size'
     let click = () => {
-      let defaultSize = $v.EditorManager.imageSizeDefault
-      let postBody = $v.EditorManager.FieldPostBody.getElement()
-      postBody.find('img').each((i, img) => {
-        this.setImageTargetSize(img, defaultSize)
-        $(img).removeClass('original-size')
-      })
+      this.imageSizeThumbnailClick()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  
+  imageSizeThumbnailClick: function () {
+    let defaultSize = $v.EditorManager.imageSizeDefault
+    let postBody = $v.EditorManager.FieldPostBody.getElement()
+    postBody.find('img').each((i, img) => {
+      this.setImageTargetSize(img, defaultSize)
+      $(img).removeClass('original-size')
+    })
   },
   
   
@@ -43,25 +51,29 @@ let SummerNoteImage = {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="object group outline icon"></i> Image Template`)
     let tooltip = 'Download image template'
     let click = () => {
-      let path = './static/image-template.dps'
-      //FileHelper.download(path)
-      //let title = "test.dps"
-      let title = $v.EditorManager.FieldPostTitle.getText().trim()
-      if (title.indexOf('/') > -1) {
-        title = title.slice(0, title.indexOf('/')).trim()
-      }
-      if (title.length > 30) {
-        title = title.slice(0,30)
-      }
-      
-      title = $v.PostManager.editingPostId + '-' + title.replace(/[^\x00-\x7F]+/, '_')
-      
-      title = title + '.dps'
-      //$(`<a href="${path}" download="${title}"></a>`).click()
-      
-      FileHelper.download(path, title)
+      this.downloadImageTamplateClick()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  
+  downloadImageTamplateClick: function () {
+    let path = './static/image-template.dps'
+    //FileHelper.download(path)
+    //let title = "test.dps"
+    let title = $v.EditorManager.FieldPostTitle.getText().trim()
+    if (title.indexOf('/') > -1) {
+      title = title.slice(0, title.indexOf('/')).trim()
+    }
+    if (title.length > 30) {
+      title = title.slice(0,30)
+    }
+
+    title = $v.PostManager.editingPostId + '-' + title.replace(/[^\x00-\x7F]+/, '_')
+
+    title = title + '.dps'
+    //$(`<a href="${path}" download="${title}"></a>`).click()
+
+    FileHelper.download(path, title)
   },
   
   // ---------------------------------
