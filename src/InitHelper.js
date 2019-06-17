@@ -49,6 +49,10 @@ let InitHelper = {
       
       let initQueue = [
         (next) => {
+          ElectronHelper.init()
+          next()
+        },
+        (next) => {
           $v.PageLoader.open()
           SemanticUIHelper.initDrop()
           next()

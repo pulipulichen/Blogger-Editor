@@ -12,6 +12,7 @@ require('./helpers/I18nHelper.js')
 //require('./vendor/garlic/garlic.min.js')
 //require('./vendor/dayjs/dayjs.min.js')
 
+require('./helpers/ElectronHelper.js')
 require('./helpers/FunctionHelper.js')
 require('./helpers/CopyPasteHelper.js')
 require('./helpers/FileSystemHelper.js')

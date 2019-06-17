@@ -112,5 +112,6 @@
     "main.js",
     "ipc.js",
     "app/*"
-  ]
+  ],
+  "language": "zh-TW"
 }

@@ -3,6 +3,8 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs')
 
+const pjson = require('./package.json');
+
 // -----------
 
 const {
@@ -78,6 +80,9 @@ function createWindow() {
   }))
   
   settings.set('mode', mode);
+  if (typeof(pjson) === 'object' && typeof(pjson.language) === 'string') {
+    settings.set('language', pjson.language)
+  }
   if (mode === 'development') {
     win.webContents.openDevTools()
   }
