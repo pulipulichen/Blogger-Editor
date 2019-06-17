@@ -230,12 +230,16 @@ var EditorManager = {
     },
     setupPostData: function (callback) {
       $v.PostManager.getPost((post) => {
-        FieldPostTitle.set(post.title)
-        FieldPostLabels.set(post.labels)
-        FieldPostDate.set(post.updateUnix)
+        if (post !== undefined) {
+          FieldPostTitle.set(post.title)
+          FieldPostLabels.set(post.labels)
+          FieldPostDate.set(post.updateUnix)
+        }
         
         $v.PostManager.getPostBody((postBody) => {
-          FieldPostBody.set(postBody)
+          if (postBody !== undefined) {
+            FieldPostBody.set(postBody)
+          }
           FunctionHelper.triggerCallback(callback)
         })
       })
