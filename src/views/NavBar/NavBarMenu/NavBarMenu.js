@@ -34,18 +34,23 @@ let NavBarMenu = {
     },
     openPublishManager: function () {
       $v.PublishManager.open()
+      $v.NavBarSidebar.close()
     },
     openPostManager: function () {
       $v.PostManager.open()
+      $v.NavBarSidebar.close()
     },
     openThemeManager: function () {
       $v.ThemeManager.open()
+      $v.NavBarSidebar.close()
     },
     openEditorManager: function () {
       $v.EditorManager.open()
+      $v.NavBarSidebar.close()
     },
     openConfigManager: function () {
       $v.ConfigManager.open()
+      $v.NavBarSidebar.close()
     },
     
     // --------------------------------------

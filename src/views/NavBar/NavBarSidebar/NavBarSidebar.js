@@ -7,7 +7,8 @@ let NavBarMenuSidebar = {
       name: 'NavBarSidebar',
       ui: undefined,
       dimmer: undefined,
-      body: undefined
+      body: undefined,
+      isOpened: false
     }
   },
   created: function () {
@@ -35,15 +36,34 @@ let NavBarMenuSidebar = {
       return this.dimmer
     },
     open: function () {
+      if (this.isOpened === null || this.isOpened === true) {
+        return
+      }
+      this.isOpened = null
       //console.log('aaa')
       //this.getUI().sidebar('toggle')
-      this.getUI().transition('slide right')
+      this.getUI().transition({
+        animation: 'slide right',
+        onComplete: () => {
+          this.isOpened = true
+        }
+      })
       this.dimmer.transition('fade in')
       this.body.css('overflow-y', 'hidden')
     },
     close: function () {
+      if (this.isOpened === null || this.isOpened === false) {
+        return
+      }
+      
       //this.getUI().sidebar('toggle')
-      this.getUI().transition('slide right')
+      this.isOpened = null
+      this.getUI().transition({
+        animation: 'slide right',
+        onComplete: () => {
+          this.isOpened = false
+        }
+      })
       this.dimmer.transition('fade out')
       this.body.css('overflow-y', '')
     },
