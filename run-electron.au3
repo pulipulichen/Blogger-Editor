@@ -1,3 +1,3 @@
 #pragma compile(Icon, 'icon.ico')
 FileChangeDir(@ScriptDir)
-ShellExecute("run.bat", "", "", "", @SW_HIDE)
+ShellExecute("run-electron.bat", "", "", "", @SW_HIDE)
