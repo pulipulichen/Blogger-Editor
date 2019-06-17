@@ -3,16 +3,12 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs')
 
-const pjson = require('./package.json');
-
 // -----------
 
 const {
   app,
   BrowserWindow,
 } = require('electron')
-
-const settings = require('electron-settings');
 
 // ------------
 
@@ -78,11 +74,7 @@ function createWindow() {
     protocol: 'file:',
     slashes: true
   }))
-  
-  settings.set('mode', mode);
-  if (typeof(pjson) === 'object' && typeof(pjson.language) === 'string') {
-    settings.set('language', pjson.language)
-  }
+
   if (mode === 'development') {
     win.webContents.openDevTools()
   }
