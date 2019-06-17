@@ -8,6 +8,8 @@
     "2-webpack-watch-development": "webpack --watch --mode development --display errors-only",
     "3 webpack-watch-build-production": "webpack --watch --mode production --display errors-only",
     "4 webpack-build-production": "webpack --mode production",
+    "e0.run-development": "electron . --mode development",
+    "e1.run-production": "electron . --mode production",
     "webpack-help": "webpack --help",
     "webpack-test-build-development": "webpack --mode development --config [tmp/webpack.config.js",
     "install": "node installer.js",
@@ -22,7 +24,7 @@
     "type": "git",
     "url": "git+https://pulipuli.chen@gmail.com@github.com/pulipulichen/Blogger-Editor.git"
   },
-  "author": "Pulipuli Chen",
+  "author": "Pulipuli Chen <blog@pulipuli.info>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pulipulichen/Blogger-Editor/issues"
@@ -40,6 +42,7 @@
     "cssnano": "^4.1.10",
     "dayjs": "^1.8.12",
     "detect-browser": "^4.4.0",
+    "electron": "^5.0.2",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^3.0.1",
     "file-saver": "^2.0.1",
