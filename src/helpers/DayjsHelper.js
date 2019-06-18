@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 //const dayjs = require('dayjs')
 
-DayjsHelper = {
+let DayjsHelper = {
   nowFormat: function (format) {
     if (format === undefined) {
       format = 'YYYY-MMDD-hhmmss'
@@ -23,4 +23,5 @@ DayjsHelper = {
   }
 }
 
+window.DayjsHelper = DayjsHelper
 export default DayjsHelper
