@@ -1,5 +1,5 @@
-//import dayjs from 'dayjs'
-const dayjs = require('dayjs')
+import dayjs from 'dayjs'
+//const dayjs = require('dayjs')
 
 DayjsHelper = {
   nowFormat: function (format) {
@@ -22,3 +22,5 @@ DayjsHelper = {
     return dayjs(unix).format('MM/DD hh:mm')
   }
 }
+
+export default DayjsHelper
