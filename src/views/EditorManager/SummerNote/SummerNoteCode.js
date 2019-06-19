@@ -34,10 +34,13 @@ let SummerNoteCode = {
     let postBody = $v.EditorManager.FieldPostBody.getElement()
     postBody = this.CleanCodeClick(postBody)
 
+    // 請把有http的部分全部換掉
+    postBody = BloggerImageHelper.filterPostBody(postBody.clone())
+
     //let code = this.getPostSummerNote().summernote('code');
     let code = postBody.html()
 
-    console.log(code)
+    //console.log(code)
 
     code = code.replace(`<p><a name="more"></a><!--more--></p>`, '<!--more-->')
     code = code.replace(`<a name="more"></a><!--more--></p>`, '</p><!--more-->')
@@ -48,7 +51,7 @@ let SummerNoteCode = {
     
     //code = code.replace(`<br /></p>`, '</p>')
     //code = code.replace(`<br /></`, '</')
-
+    
     CopyPasteHelper.copyPlainText(code)
   },
   CleanCode: function (context) {

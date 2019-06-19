@@ -111,4 +111,21 @@ BloggerImageHelper = {
       return false
     }
   },
+  removeProtocol: function (url) {
+    if (typeof(url) === 'string' && url.indexOf('//') > 0) {
+      url = url.slice(url.indexOf('//'))
+    }
+    return url
+  },
+  filterPostBody: function (postBody) {
+    if (ElectronHelper.isElectronEnvironment()) {
+      postBody.find('a[href*=".bp.blogspot.com/"]').each((i, ele) => {
+        ele.href = this.removeProtocol(ele.href)
+      })
+      postBody.find('img[src*=".bp.blogspot.com/"]').each((i, ele) => {
+        ele.src = this.removeProtocol(ele.src)
+      })
+    }
+    return postBody
+  }
 }
