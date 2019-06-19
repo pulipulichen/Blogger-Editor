@@ -9,3 +9,4 @@
 /config.local.js
 /src/vendor/summernote/[[]tmp/
 /[[]document]/
+/package-lock.json
