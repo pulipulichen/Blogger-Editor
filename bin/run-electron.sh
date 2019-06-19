@@ -1,4 +1,4 @@
 #!/bin/bash
 cd "$(dirname "$0")"
-cd ..
-npm run e1.run-production
+npm run e0.run-development
+#npm run e1.run-production
