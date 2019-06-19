@@ -36,9 +36,11 @@ BloggerImageHelper = {
       //  return this.protocol + link.slice(link.indexOf('://'))
       //}
     //}
-    if (link.startsWith('http://')
-            || link.startsWith('https://')) {
-      link = link.slice(link.indexOf('//'))
+    if (ElectronHelper.isElectronEnvironment() === false) {
+      if (typeof(link) === 'string' && (link.startsWith('http://')
+              || link.startsWith('https://')) ) {
+        link = link.slice(link.indexOf('//'))
+      }
     }
     return link
   },
@@ -109,17 +111,4 @@ BloggerImageHelper = {
       return false
     }
   },
-  filterProtocol: function (url) {
-    if (typeof(url) === 'string' && url.startsWith('//')) {
-      if (ElectronHelper.isElectronEnvironment()) {
-        return 'http:' + url
-      }
-      else {
-        return url
-      }
-    }
-    else {
-      return url
-    }
-  }
 }
