@@ -2,7 +2,7 @@ var fp = require("find-free-port")
 var express = require('express');
 var app = express();
 
-app.use(express.static('./'));
+app.use(express.static('./../'));
 let minPort = 9000
 fp(minPort, function(err, freePort){
   var openBrowsers = require('open-browsers');

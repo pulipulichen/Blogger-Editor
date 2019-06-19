@@ -2,7 +2,7 @@
 Name=Blogger Editor
 GenericName=Blogger Editor
 Comment=Blogger Editor
-Exec=/home/user/Desktop/Blogger Editor/run.sh
+Exec=/home/user/Desktop/Blogger Editor/bin/run.sh
 Terminal=false
 Type=Application
 StartupNotify=true
