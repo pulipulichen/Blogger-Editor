@@ -5088,7 +5088,7 @@
           })
           .on('compositionend', function (event) {
               //console.log('compositionend')
-              _this.context.triggerEvent('keyup', event);
+              _this.context.triggerEvent('compositionend', event);
           })
           .on('focus', function (event) {
               //_this.isFocus = true
@@ -9222,6 +9222,7 @@ sel.addRange(range);
               onBlurCodeview: null,
               onEnter: null,
               onKeyup: null,
+              onCompositionend: null,
               onKeydown: null,
               onImageUpload: null,
               onImageUploadError: null,
