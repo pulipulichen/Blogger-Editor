@@ -117,6 +117,7 @@ let SummerNoteCallbacks = {
         let file = files[i];
         let type = file.type
         let name = file.name
+        name = FileSystemHelper.filterSafeFilename(name)
         //console.log(imageFile)
 
         FileSystemHelper.copy(path, file, (url) => {

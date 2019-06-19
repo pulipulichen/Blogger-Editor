@@ -5630,7 +5630,7 @@
           return false
         }
         
-        console.log(node[0].outerHTML)
+        //console.log(node[0].outerHTML)
         
         //return (node.length > 0 
         //    && ['hr', 'img', 'table', 'hr'].indexOf(node.prop('tagName').toLowerCase()) === -1

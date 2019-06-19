@@ -319,11 +319,12 @@ Message: ${e.message}`
           //console.log(file.name)
           let baseFilePath
           if (filename === null) {
-            baseFilePath = dirPath + file.name
+            filename = file.name
           }
-          else {
-            baseFilePath = dirPath + filename
-          }
+          
+          filename = this.filterSafeFilename(filename)
+          
+          baseFilePath = dirPath + filename
 
           let pathPart1 = baseFilePath.slice(0, baseFilePath.lastIndexOf('.'))
           let pathPart2 = baseFilePath.slice(baseFilePath.lastIndexOf('.'))
@@ -400,6 +401,7 @@ Message: ${e.message}`
     if (url.lastIndexOf('/') > -1) {
       url = url.slice(url.lastIndexOf('/') + 1)
     }
+    url = this.filterSafeFilename(url)
     return url
   },
   isExists: function (filePath, callback) {
@@ -573,6 +575,12 @@ Message: ${e.message}`
       }, errorHandler);
     }, errorHandler);
   },
+  filterSafeFilename: function (filename) {
+    if (filename.indexOf('+') > -1) {
+      filename = filename.split('+').join('_')
+    }
+    return filename
+  }
 }
 
 //FileSystemHelper.init()
