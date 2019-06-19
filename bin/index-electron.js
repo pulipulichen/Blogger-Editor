@@ -52,7 +52,8 @@ function createWindow() {
     maximizable: true,
     icon: './icon.png',
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      webviewTag: true,
     }
   }
   
@@ -71,6 +72,7 @@ function createWindow() {
   
   win.loadURL(url.format({
     pathname: path.join(__dirname, '../', 'index.html'),
+    //pathname: path.join(__dirname, '../[document]/20190619-in-search/', 'index.html'),
     protocol: 'file:',
     slashes: true
   }))
