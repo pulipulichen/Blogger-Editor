@@ -8,7 +8,7 @@ let ElectronHelper = {
             && typeof(process.versions['electron']) === 'string')
   },
   filterProtocol: function (url) {
-    if (url.startsWith('//')) {
+    if (typeof(url) === 'string' && url.startsWith('//')) {
       if (this.isElectronEnvironment()) {
         return 'http:' + url
       }
@@ -23,4 +23,3 @@ let ElectronHelper = {
 }
 
 window.ElectronHelper = ElectronHelper
-export default ElectronHelper

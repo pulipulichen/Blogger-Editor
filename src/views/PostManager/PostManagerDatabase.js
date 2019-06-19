@@ -26,7 +26,7 @@ let PostManagerDatabase = {
     let title = post.title
     let labels = post.labels
     let abstract = post.abstract
-    let thumbnail = post.thumbnail
+    let thumbnail = BloggerImageHelper.filterProtocol(post.thumbnail)
     let editURL = post.editURL
     let publicURL = post.publicURL
 
@@ -99,7 +99,7 @@ let PostManagerDatabase = {
         labels = post.labels
       }
       if (typeof (post.thumbnail) === 'string') {
-        thumbnail = post.thumbnail
+        thumbnail = BloggerImageHelper.filterProtocol(post.thumbnail)
       }
       if (typeof (post.editURL) === 'string') {
         editURL = post.editURL

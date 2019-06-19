@@ -108,5 +108,18 @@ BloggerImageHelper = {
     else {
       return false
     }
+  },
+  filterProtocol: function (url) {
+    if (typeof(url) === 'string' && url.startsWith('//')) {
+      if (ElectronHelper.isElectronEnvironment()) {
+        return 'http:' + url
+      }
+      else {
+        return url
+      }
+    }
+    else {
+      return url
+    }
   }
 }
