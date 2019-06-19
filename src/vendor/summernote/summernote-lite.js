@@ -5077,7 +5077,10 @@
           this.$editable.on('keydown', keydownEvent)
           //.on('compositionstart', keydownEvent)
           .on('keyup', function (event) {
+              //console.log('keyup')
+              //console.log(event)
               _this.context.triggerEvent('keyup', event);
+              
               if (event.keyCode === key.code.ENTER) {
                 //console.log("ENTER")
                 _this.context.triggerEvent('enter', event);
@@ -5086,10 +5089,17 @@
                 }
               }
           })
-          .on('compositionend', function (event) {
-              //console.log('compositionend')
-              _this.context.triggerEvent('compositionend', event);
+          .on('input', function (event) {
+              console.log('input')
+              _this.context.triggerEvent('input', event);
           })
+          //.on('compositionstart', function (event) {
+          //    console.log('compositionstart')
+          //})
+          //.on('compositionend', function (event) {
+          //    console.log('compositionend')
+          //    _this.context.triggerEvent('compositionend', event);
+          //})
           .on('focus', function (event) {
               //_this.isFocus = true
               //_this.restoreRange()
@@ -9222,8 +9232,8 @@ sel.addRange(range);
               onBlurCodeview: null,
               onEnter: null,
               onKeyup: null,
-              onCompositionend: null,
               onKeydown: null,
+              onInput: null,
               onImageUpload: null,
               onImageUploadError: null,
               onImageLinkInsert: null

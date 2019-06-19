@@ -61,7 +61,7 @@ let FieldPostBody = {
       let node = $(target.sc.parentElement)
       //console.log(node.prop('className'))
       if (node.hasClass('note-editable')) {
-        return
+        return $(target.sc).offset()
       }
       return node.offset()
     }

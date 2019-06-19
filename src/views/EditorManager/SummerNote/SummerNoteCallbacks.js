@@ -24,12 +24,20 @@ let SummerNoteCallbacks = {
         $v.EditorManager.FieldPostBody.onChange(contents)
       },
       //onKeyup: (e) => {
-      onCompositionend: (e) => {
-        console.log('onCompositionend')
+      onKeyup: (e) => {
+        // 只有少數幾個鍵是允許觸發的
+        //console.log(e.target.selectionStart)
+        //console.log([e.keyCode], this.enableScrollPositionToCenterKeyCodes.indexOf(e.keyCode))
+        if (this.enableScrollPositionToCenterKeyCodes.indexOf(e.keyCode) > -1) {
+          this.scrollPositionToCenter(e)
+        }
+      },
+      onInput: (e) => {
         this.scrollPositionToCenter(e)
       }
     }
   },
+  enableScrollPositionToCenterKeyCodes: [37, 38, 39, 40, 13, 32, 33, 34],
   scrollPositionToCenter: function (e) {
     if (this.FieldPostBody === null) {
       this.FieldPostBody = $v.EditorManager.FieldPostBody
@@ -47,7 +55,7 @@ let SummerNoteCallbacks = {
     // arrow down: 48
     // page down: 34
 
-    let keyCode = e.keyCode
+    //let keyCode = e.keyCode
 
 
     //if (this.moveDown.indexOf(keyCode) > -1
