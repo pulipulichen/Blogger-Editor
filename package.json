@@ -5,11 +5,19 @@
   "scripts": {
     "1-webpack-build-development": "webpack --mode development",
     "2-webpack-watch-development": "webpack --watch --mode development --display errors-only",
+<<<<<<< HEAD
     "3-webpack-watch-build-production": "webpack --watch --mode production --display errors-only",
     "4-webpack-build-production": "webpack --mode production",
     "e0.run-development": "electron index-electron.js --mode development",
     "e1.run-production": "electron index-electron.js --mode production",
     "host": "node host.js",
+=======
+    "3 webpack-watch-build-production": "webpack --watch --mode production --display errors-only",
+    "4 webpack-build-production": "webpack --mode production",
+    "e0.run-development": "electron bin/index-electron.js --mode development",
+    "e1.run-production": "electron bin/index-electron.js --mode production",
+    "host": "node bin/host.js",
+>>>>>>> 770acf72b0bc01d84dbf0235951de1d519239dd9
     "webpack-help": "webpack --help",
     "webpack-test-build-development": "webpack --mode development --config [tmp/webpack.config.js",
     "install": "node installer.js",

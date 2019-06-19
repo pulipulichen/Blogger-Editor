@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Summernote</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="../static/summernote-icon.png">
+    
+    <script src="../src/vendor/jquery/jquery.min.js"></script>
+    <link href="../src/vendor/summernote/summernote-lite.css" rel="stylesheet">
+    <script src="../src/vendor/summernote/summernote-lite.js"></script>
+    <style>
+      body {
+        /* background-color: yellow */
+        /* color: red; */
+      }
+      .fix-area {
+        background-color: yellow;
+        position: fixed;
+        bottom: 10px; 
+        right: 10px; 
+        z-index: 999999;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div class="fix-area">
+      <textarea></textarea>
+      <button type="button" onclick="clickButton()">BUTTON</button>
+    </div>
+    <hr />
+    <div id="summernote">
+      <p style="text-align:center">p p p p p</p>
+      <p><br /></p>
+      <p>p p p p p</p>
+      <p><a href="filesystem:http://localhost:8383/persistent/2/assets/Screenshot%202019-04-19%20at%203.51.45%20PM_1.png"><img src="filesystem:http://localhost:8383/persistent/2/assets/Screenshot%202019-04-19%20at%203.51.45%20PM_1.png" width="320" height="240" /></a></p>
+      <ul>
+        <li>li li li li li</li>
+        <li>li li li li li</li>
+        <li>li li li li li</li>
+      </ul>
+      <p>p p p p p p p</p>
+      <h2>TODO <span style="color:red">write</span> content</h2>
+      <p><img src="http://lh3.googleusercontent.com/-tkBPlsBsFJg/V0M0b-gPKNI/AAAAAAACw9Y/Y-2BGg4z3H4/Image.jpg?imgmax=800" /></p>
+      
+      <pre><code>code <span style="background-color: yellow">code</span> code</code></pre>
+      <table>
+        <caption>capti<span style="background-color: yellow">on</span></caption>
+        <tbody>
+          <tr>
+            <td>td <span style="background-color: yellow">td td</span> td</td>
+            <th>th <span style="background-color: yellow">th th</span> th</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="button" onclick="clickButton()">BUTTON</button>
+    <script>
+      
+      window.s = $('#summernote')
+      window.s.summernote()
+      
+      /*
+      s.on('summernote.change', function() {
+        //console.trace('change');
+      });
+      */
+      
+      setTimeout(() => {
+        //s.summernote('editor.insertHorizontalRule')
+        //s.summernote('editor.formatBlock', 'p')
+        
+        //console.log($('.note-editable:first').html().slice(0, 50))
+      }, 500)
+      setTimeout(() => {
+        window.scrollTo(0, 3000)
+      }, 1000)
+      clickButton = () => {
+        
+        $('.fix-area textarea').focus().val('AAA').select()
+        setTimeout(() => {
+          s.summernote('editor.insertNode', $('<pre><code>AAA</code></pre>')[0])
+        }, 1000)
+      }
+    </script>
+  </body>
+</html>

@@ -23,67 +23,72 @@ let SummerNoteCallbacks = {
       onChange: (contents) => {
         $v.EditorManager.FieldPostBody.onChange(contents)
       },
-      onKeyup: (e) => {
-        if (this.FieldPostBody === null) {
-          this.FieldPostBody = $v.EditorManager.FieldPostBody
-        }
-        
-        if (this.toolbarHeight === null) {
-          this.toolbar = $('.summernotePostBody-wrapper .note-toolbar')
-          this.toolbarHeight = this.toolbar.height()
-          window.addEventListener('resize', () => {
-            this.toolbarHeight = this.toolbar.height()
+      //onKeyup: (e) => {
+      onCompositionend: (e) => {
+        console.log('onCompositionend')
+        this.scrollPositionToCenter(e)
+      }
+    }
+  },
+  scrollPositionToCenter: function (e) {
+    if (this.FieldPostBody === null) {
+      this.FieldPostBody = $v.EditorManager.FieldPostBody
+    }
+
+    if (this.toolbarHeight === null) {
+      this.toolbar = $('.summernotePostBody-wrapper .note-toolbar')
+      this.toolbarHeight = this.toolbar.height()
+      window.addEventListener('resize', () => {
+        this.toolbarHeight = this.toolbar.height()
+      })
+    }
+
+    // enter: 13
+    // arrow down: 48
+    // page down: 34
+
+    let keyCode = e.keyCode
+
+
+    //if (this.moveDown.indexOf(keyCode) > -1
+    //        || this.moveUp.indexOf(keyCode) > -1) {
+    if (true) {
+      let currentPositionTop
+      let currentPosition = this.FieldPostBody.getCurrentPosition()
+      if (currentPosition !== undefined) {
+        currentPositionTop = currentPosition.top
+      }
+      if (currentPositionTop === undefined) {
+        return
+      }
+
+      //console.log(currentPositionTop)
+      if (window.innerHeight < 480) {
+        return
+      }
+
+      let padding = (window.innerHeight - this.toolbarHeight) / 5
+
+      //if (this.moveDown.indexOf(keyCode) > -1) {
+        let bottomLimit = window.scrollY + window.innerHeight - padding
+        //console.log(['bottom', currentPositionTop, bottomLimit, (currentPositionTop > bottomLimit)])
+        if (currentPositionTop > bottomLimit) {
+          //window.scrollTo(null, window.scrollY + padding)
+          window.scrollBy({
+            top: padding,
+            behavior: 'smooth',
           })
         }
-        
-        // enter: 13
-        // arrow down: 48
-        // page down: 34
-        
-        let keyCode = e.keyCode
-        
-        
-        //if (this.moveDown.indexOf(keyCode) > -1
-        //        || this.moveUp.indexOf(keyCode) > -1) {
-        if (true) {
-          let currentPositionTop
-          let currentPosition = this.FieldPostBody.getCurrentPosition()
-          if (currentPosition !== undefined) {
-            currentPositionTop = currentPosition.top
-          }
-          if (currentPositionTop === undefined) {
-            return
-          }
-
-          //console.log(currentPositionTop)
-          if (window.innerHeight < 480) {
-            return
-          }
-          
-          let padding = (window.innerHeight - this.toolbarHeight) / 5
-          
-          //if (this.moveDown.indexOf(keyCode) > -1) {
-            let bottomLimit = window.scrollY + window.innerHeight - padding
-            //console.log(['bottom', currentPositionTop, bottomLimit, (currentPositionTop > bottomLimit)])
-            if (currentPositionTop > bottomLimit) {
-              //window.scrollTo(null, window.scrollY + padding)
-              window.scrollBy({
-                top: padding,
-                behavior: 'smooth',
-              })
-            }
-          //else if (this.moveUp.indexOf(keyCode) > -1) {
-            let topLimit = window.scrollY + this.toolbarHeight + padding 
-            //console.log(['top', currentPositionTop, topLimit, (currentPositionTop < topLimit)])
-            if (currentPositionTop < topLimit) {
-              //window.scrollTo(null, window.scrollY - padding)
-              window.scrollBy({
-                top: -1 * padding,
-                behavior: 'smooth',
-              })
-            }
+      //else if (this.moveUp.indexOf(keyCode) > -1) {
+        let topLimit = window.scrollY + this.toolbarHeight + padding 
+        //console.log(['top', currentPositionTop, topLimit, (currentPositionTop < topLimit)])
+        if (currentPositionTop < topLimit) {
+          //window.scrollTo(null, window.scrollY - padding)
+          window.scrollBy({
+            top: -1 * padding,
+            behavior: 'smooth',
+          })
         }
-      }
     }
   },
   getAssetDirPath: function () {
