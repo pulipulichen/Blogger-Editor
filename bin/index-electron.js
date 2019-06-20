@@ -10,16 +10,6 @@ const {
   BrowserWindow,
 } = require('electron')
 
-const contextMenu = require('electron-context-menu');
-
-contextMenu({
-	prepend: (defaultActions, params, browserWindow) => [{
-		label: 'Rainbow',
-		// Only show it when right-clicking images
-		visible: params.mediaType === 'image'
-	}]
-});
-
 // ------------
 
 app.on('ready', createWindow)
@@ -31,6 +21,34 @@ if (process.argv.indexOf('--mode') - process.argv.indexOf('development') === -1)
 //console.log(mode)
 //mode = "development"
 //mode = 'production'
+
+// --------------------
+
+
+const contextMenu = require('electron-context-menu');
+
+let contextMenuOptions = {
+  // Change the labels of the predefined context menu
+  // e.g Cut, Copy, Paste
+  labels: {
+      cut: 'Cut',
+      copy: 'Copy',
+      paste: 'Paste',
+      //save: 'Save Image',
+      saveImageAs: 'Save Image As...',
+      copyLink: 'Copy Link',
+      copyImageAddress: 'Copy Image Address',
+      //inspect: 'Inspect Element'
+  }
+}
+
+if (mode === "development") {
+  contextMenuOptions['showInspectElement'] = true
+}
+
+contextMenu(contextMenuOptions);
+
+// --------------------
 
 app.on('window-all-closed', () => {
   // darwin = MacOS
