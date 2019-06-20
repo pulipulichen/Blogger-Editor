@@ -98,6 +98,11 @@
       <template v-else>
         <div class="ui button"
              :class="isSaveDisabled"
+             @click='saveAndInsertSnippet'>
+          {{ $t('Save & Insert') }}
+        </div>
+        <div class="ui button"
+             :class="isSaveDisabled"
              @click='saveSnippet'>
           {{ $t('Save') }}
         </div>

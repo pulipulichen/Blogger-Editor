@@ -3,10 +3,11 @@
     "Title": "Insert Snippet"
   },
   "zh-TW": {
-    "Title": "插入片段",
-    "Save": "儲存片段",
-    "Name": "片段名稱",
-    "Snippet": "片段內容",
-    "Are you sure to delete snippet": "您確定要刪除片段"
+    "Title": "插入預設範本",
+    "Save & Insert": "儲存並插入",
+    "Save": "儲存",
+    "Name": "範本名稱",
+    "Snippet": "範本內容",
+    "Are you sure to delete snippet": "您確定要刪除這個預設範本"
   }
 }

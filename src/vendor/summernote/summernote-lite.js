@@ -3051,6 +3051,8 @@
           var rng = this.wrapBodyInlineWithPara().deleteContents();
           var info = dom.splitPoint(rng.getStartPoint(), dom.isInline(node));
           //console.log(info.rightNode
+          
+          console.log(['WrappedRange.prototype.insertNode', info.rightNode])
           if (info.rightNode) {
               info.rightNode.parentNode.insertBefore(node, info.rightNode);
           }

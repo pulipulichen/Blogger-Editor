@@ -126,7 +126,12 @@ let config = {
         this.snippets = this.snippets.filter(s => s.id !== id)
       })
     },
-    saveSnippet: function () {
+    saveAndInsertSnippet: function () {
+      this.saveSnippet((id) => {
+        this.insertSnippet(id)
+      })
+    },
+    saveSnippet: function (callback) {
       //console.log('saveSnippet')
       let unix = DayjsHelper.unix()
       let sql
@@ -149,12 +154,17 @@ let config = {
       //console.log(sql)
       //console.log(data)
       
-      let callback = (rows) => {
+      let webSqlCallback = (rows) => {
         let snippet = rows[0]
         //console.log(snippet)
         
+        if (typeof(callback) === 'function') {
+          callback(this.editingId)
+        }
+        
         this.editingId = null
         this.moveSnippetToTop(snippet)
+        
       }
       
       WebSQLDatabaseHelper.exec(sql, data, (rows) => {
@@ -175,7 +185,7 @@ let config = {
               lastUsedUnix: unix
           }]
         }
-        callback(rows)
+        webSqlCallback(rows)
       })
     },
     moveSnippetToTop: function (snippet) {
