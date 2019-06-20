@@ -102,9 +102,12 @@ let config = {
         this.getUI().find('input[name="snippetName"]').focus()
       }
     },
-    insertSnippet: function (id) {
+    insertSnippet: function (id, snippet) {
       //console.log('insertSnippet', id)
-      let snippet = this.filterSnippet(id)
+      if (snippet === undefined) {
+        snippet = this.filterSnippet(id)
+      }
+      
       if (snippet !== undefined) {
         let code = snippet.snippet
         $v.EditorManager.FieldPostBody.insert(code)
@@ -127,8 +130,8 @@ let config = {
       })
     },
     saveAndInsertSnippet: function () {
-      this.saveSnippet((id) => {
-        this.insertSnippet(id)
+      this.saveSnippet((id, snippet) => {
+        this.insertSnippet(id, snippet)
       })
     },
     saveSnippet: function (callback) {
@@ -159,12 +162,11 @@ let config = {
         //console.log(snippet)
         
         if (typeof(callback) === 'function') {
-          callback(this.editingId)
+          callback(this.editingId, snippet)
         }
-        
+
         this.editingId = null
         this.moveSnippetToTop(snippet)
-        
       }
       
       WebSQLDatabaseHelper.exec(sql, data, (rows) => {
