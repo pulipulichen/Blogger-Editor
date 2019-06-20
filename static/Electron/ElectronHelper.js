@@ -1,8 +1,8 @@
- 
 let ElectronHelper = {
   init: function () {
     if (this.isElectronEnvironment()) {
       this.initElectronInPageSearch()
+      window.ipc = require('electron').ipcRenderer
     }
   },
   isElectronEnvironment: function () {

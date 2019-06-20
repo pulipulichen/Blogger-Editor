@@ -116,3 +116,4 @@ function createWindow() {
 
 }
 
+require('./index-electron-ipc.js')

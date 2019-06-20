@@ -1,5 +1,11 @@
 WindowHelper = {
   popup: function (url, name, width, height, forcePopup) {
+    if (ElectronHelper.isElectronEnvironment()) {
+      ipc.send('open-url-in-browser', url)
+      //console.log(url)
+      return
+    }
+    
     if (forcePopup === undefined) {
       if (typeof(height) === 'boolean') {
         forcePopup = height
