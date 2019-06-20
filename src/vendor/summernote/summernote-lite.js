@@ -2358,6 +2358,7 @@
       };
   }
   function create(nodeName) {
+    console.trace(nodeName)
       return document.createElement(nodeName);
   }
   function createText(text) {
@@ -3048,18 +3049,86 @@
        * @return {Node}
        */
       WrappedRange.prototype.insertNode = function (node) {
+          let isFragment = false
+          if (typeof(node) === 'string') {
+            node = document.createRange().createContextualFragment('<a class="fragment-start"></a>' + node + '<a class="fragment-end"></a>')
+            isFragment = true
+          }
+        
           var rng = this.wrapBodyInlineWithPara().deleteContents();
           var info = dom.splitPoint(rng.getStartPoint(), dom.isInline(node));
           //console.log(info.rightNode
-          
-          console.log(['WrappedRange.prototype.insertNode', info.rightNode])
+          //console.log(node)
+          //console.log(['WrappedRange.prototype.insertNode', info.rightNode])
           if (info.rightNode) {
               info.rightNode.parentNode.insertBefore(node, info.rightNode);
           }
           else {
               info.container.appendChild(node);
           }
+          
+          if (isFragment === true) {
+            // 應該在插入的時候就做這件事情
+            // 先把被放進去的<a name="more"></a>拿出來
+
+              let postBody = $$1(info.container)
+
+              postBody.find('a.fragment-start').each((i, a) => {
+                a = $(a)
+                //console.log(a.prevAll().length)
+
+                let parent = a.parent()
+                if (parent.hasClass('node-editable')) {
+                  return
+                }
+
+                let nextAll = a.nextAll()
+                /*
+                 for (let i = nextAll.length - 1; i > -1; i--) {
+                 let node = nextAll.eq(i)
+                 if (node.hasClass('fragment-end') === false) {
+                 node.insertAfter(parent)
+                 }
+                 else {
+                 node.remove()
+                 break;
+                 }
+                 }
+                 */
+                let nextAllList = []
+                for (let i = 0; i < nextAll.length; i++) {
+                  let node = nextAll.eq(i)
+                  if (node.hasClass('fragment-end') === false) {
+                    nextAllList.push(node)
+                  } else {
+                    node.remove()
+                    break;
+                  }
+                }
+
+                nextAllList.reverse().forEach(node => {
+                  node.insertAfter(parent)
+                })
+
+                if (parent.prop('innerHTML').trim() === '') {
+                  parent.remove()
+                }
+
+                a.remove()
+              })
+          }
+          
           return node;
+      };
+      WrappedRange.prototype.insert = function (node) {
+        let insertType = 'insertNode'
+        if (typeof(node) === 'string') {
+          node = node.trim()
+          if (!( (node.startsWith('<') && node.endsWith('>')) )) {
+            insertType = 'insertText'
+          }
+        }
+        this[insertType](node)
       };
       /**
        * insert html at current cursor
@@ -4654,9 +4723,9 @@
            * @param {Node} node
            */
           this.insertNode = this.wrapCommand(function (node) {
-              if (typeof(node) === "string") {
-                node = dom.create(node)
-              }
+              //if (typeof(node) === "string") {
+              //  node = dom.create(node)
+              //}
               if (_this.isLimited($$1(node).text().length)) {
                   return;
               }
@@ -4666,7 +4735,7 @@
               }
               
               var rng = _this.createRange();
-              rng.insertNode(node);
+              node = rng.insertNode(node);
               range.createFromNodeAfter(node).select();
               this.removeEmptySibling(node)
               
@@ -4674,6 +4743,17 @@
                 this.saveBlurRange()
               }, 0)
           });
+          this.insert = this.wrapCommand(function (node) {
+            let insertType = 'insertNode'
+            if (typeof(node) === 'string') {
+              node = node.trim()
+              if (!( (node.startsWith('<') && node.endsWith('>')) )) {
+                insertType = 'insertText'
+              }
+            }
+            this[insertType](node)
+            return node
+          })
           /**
            * insert text
            * @param {String} text
@@ -5304,6 +5384,10 @@
           }
       };
       
+      //Editor.prototype.insert = function (html) {
+      //  console.log(html)
+      //};
+      
       /**
        * restoreRange
        *
@@ -5373,6 +5457,16 @@
       Editor.prototype.styleFromNode = function ($node) {
           return this.style.fromNode($node);
       };
+      
+      /**
+       * insert
+       * @author Pulipuli Chen 20190621
+       */
+      Editor.prototype.insert = function (node) {
+        console.log(node)
+        return node
+      }
+      
       /**
        * undo
        */

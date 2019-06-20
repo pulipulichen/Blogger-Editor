@@ -1,0 +1,97 @@
+<fragment ref="modal">
+  <a class="item" 
+     @click="openPublishManager">
+    <i class="blogger icon"></i>
+    {{ $t('Publish') }}
+  </a>
+  <a class="item" 
+     @click="openPostManager">
+    <i class="file icon"></i>
+    {{ $t('Post') }}
+  </a>
+  <a class="item" 
+     @click="openThemeManager">
+    <i class="columns icon"></i>
+    {{ $t('Theme') }}
+  </a>
+  <a class="item" 
+     @click="openEditorManager">
+    <i class="keyboard outline icon"></i>
+    {{ $t('Editor') }}
+  </a>
+
+  <a class="item" 
+     @click="openConfigManager">
+    <i class="cogs icon"></i>
+    {{ $t('Config') }}
+  </a>
+  
+  <div class="ui sub-menu-button item" ref="dropdownInsert">
+    {{ $t('Insert Tools') }}
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" v-on:click="editorInsertMore">
+        <i class="ellipsis horizontal icon"></i> 
+        {{ $t('More Spliter') }}
+      </a>
+      <a class="item" v-on:click="editorInsertCode">
+        <i class="code icon"></i> 
+        {{ $t('Code') }}
+      </a>
+      <a class="item" v-on:click="editorInsertIframe">
+        <i class="plus square outline icon"></i> 
+        {{ $t('Iframe') }}
+      </a>
+      <a class="item" v-on:click="editorInsertFile">
+        <i class="upload icon"></i> 
+        {{ $t('File') }}
+      </a>
+      <a class="item" v-on:click="editorInsertSnippet">
+        <i class="quote left icon"></i> 
+        {{ $t('Snippet') }}
+      </a>
+    </div>
+  </div>
+  <div class="ui sub-menu-button item" ref="dropdownPublish">
+    {{ $t('Format Tools') }}
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" v-on:click="downloadImageTemplate">
+        <i class="image icon"></i> 
+        {{ $t('Download Image Template') }}
+      </a>
+      <a class="item" v-on:click="openImageReaplcer">
+        <i class="image icon"></i> 
+        {{ $t('Upload Image') }}
+      </a>
+      <a class="item" v-on:click="openGooglePhoto">
+        <i class="image icon"></i> 
+        {{ $t('Google Photo') }}
+      </a>
+      <a class="item" v-on:click="editorCopyCode">
+        <i class="code icon"></i> 
+        {{ $t('Copy Code') }}
+      </a>
+      <a class="item" v-on:click="editorCleanCode">
+        <i class="eraser icon"></i> 
+        {{ $t('Clean Code') }}
+      </a>
+      <a class="item" v-on:click="editorImageResizeOriginal">
+        <i class="expand arrows icon"></i> 
+        {{ $t('Resize Original') }}
+      </a>
+      <a class="item" v-on:click="editorImageResizeThumbnail">
+        <i class="compress icon"></i> 
+        {{ $t('Resize Thumbnail') }}
+      </a>
+    </div>
+  </div>
+  
+  <div class="right menu">
+    <a class="item word-count">
+      <i class="book icon"></i>
+      {{ wordCount }}
+      {{ wordCountUnit }}
+    </a>
+  </div>
+</fragment>

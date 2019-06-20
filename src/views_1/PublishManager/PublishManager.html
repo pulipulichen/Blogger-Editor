@@ -1,0 +1,88 @@
+<div class="ui modal"
+       v-bind:class="name"
+       ref="modal">
+    <i class="close icon" @click="close"></i>
+    <div class="header">
+      <i class="blogger icon"></i>
+      {{ $t('Title') }}
+    </div>
+    <!-- ---------------------------------------- -->
+    
+    <div class="content">
+      <div class="description ui form">
+        
+        <div class="field">
+          <div class="ui fluid buttons">
+            
+            <div class="ui button"
+                 @click="openImageReplacer">
+              {{ $t("Upload Image") }}
+            </div>
+            
+            <div class="ui button"
+                 @click="downloadPostBackup">
+              {{ $t("Backup") }}
+            </div>
+            
+          </div>
+        </div>
+        
+        <div class="field">
+          <label>
+            {{ $t("Blogger Console") }}
+          </label>
+          <div class="ui action input">
+            <input type="url" 
+                   v-model="bloggerConsoleURL"
+                   @change="persist">
+            <button class="ui button"
+                    :class="enableOpenBloggerConsole"
+                    @click="popup('bloggerConsoleURL')">
+              {{ $t("Open") }}
+            </button>
+          </div>
+        </div>
+        
+        
+        <div class="field">
+          <label>
+            {{ $t("Post Draft URL") }}
+          </label>
+          <div class="ui action input">
+            <input type="url" 
+                   v-model="editURL"
+                   @change="persistPost('editURL')">
+            <button class="ui button"
+                    :class="enableOpenEditURL"
+                    @click="popup('editURL')">
+              {{ $t("Open") }}
+            </button>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label>
+            {{ $t("Public URL") }}
+          </label>
+          <div class="ui action input">
+            <input type="url" 
+                   v-model="publicURL"
+                   @change="persistPost('publicURL')">
+            <button class="ui button"
+                    :class="enableOpenPublicURL"
+                    @click="popup('publicURL')">
+              {{ $t("Open") }}
+            </button>
+          </div>
+        </div>
+        
+      </div> <!-- <div class="description"> -->
+    </div> <!-- <div class="content"> -->
+    
+    <div class="actions">
+      <div class="ui button"
+           @click='close'>
+        {{ $t('Close') }}
+      </div>
+    </div> <!-- actions -->
+  </div>

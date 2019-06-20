@@ -1,0 +1,28 @@
+{
+  "en": {
+    "Config": "Config"
+  },
+  "zh-TW": {
+    "Publish": "發佈",
+    "Post": "文章",
+    "Theme": "主題",
+    "Editor": "編輯器",
+    "Config": "設定",
+    "word": "字",
+    "words": "字",
+    "Insert Tools": "插入工具",
+    "More Spliter": "更多分隔線",
+    "Snippet": "預設範本",
+    "Iframe": "Iframe",
+    "File": "檔案",
+    "Code": "程式碼",
+    "Google Photo": "Google相簿",
+    "Format Tools": "格式化工具",
+    "Download Image Template": "下載圖片範本",
+    "Upload Image": "上傳圖片",
+    "Clean Code": "清理程式碼",
+    "Copy Code": "複製程式碼",
+    "Resize Original": "圖片設為原始尺寸",
+    "Resize Thumbnail": "圖片設為縮圖尺寸"
+  }
+}

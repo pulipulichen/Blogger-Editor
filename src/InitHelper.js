@@ -35,7 +35,7 @@ let InitHelper = {
     //$v.ThemeManager.TemplateBuilder.open()
     //$v.CodeInserter.open()
     //$v.OutlineNavigator.open()
-    //$v.SnippetInserter.open()
+    $v.SnippetInserter.open()
     //$v.ImageReplacer.open()
     
     //$v.PageLoader.open()

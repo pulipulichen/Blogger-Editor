@@ -1,0 +1,14 @@
+{
+  "en": {
+    "Title": "File Upload"
+  },
+  "zh-TW": {
+    "Title": "檔案上傳",
+    "Name": "上傳網站",
+    "Upload URL": "上傳網址",
+    "Delimiter": "分隔符號",
+    "Upload": "上傳",
+    "Setting": "設定",
+    "Insert": "插入"
+  }
+}

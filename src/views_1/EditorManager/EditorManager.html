@@ -1,0 +1,159 @@
+<div class="non-invasive-web-style-framework">
+  <div class="ui modal EditorManager">
+    <i class="close icon" @click="close"></i>
+    <div class="header">
+      <i class="keyboard outline icon"></i>
+      Editor Manager
+    </div>
+    <div class="content">
+      <div class="ui form description">
+          
+          <div class="ui top attached tabular menu">
+            <a class="item active" 
+               data-tab="image"
+               @click="openTab">
+              Image
+            </a>
+            <a class="item" 
+               data-tab="toolbar"
+               @click="openTab">
+              Toolbar
+            </a>
+            <!--
+            <a class="item" 
+               data-tab="config"
+               @click="openTab">
+              Config
+            </a>
+            -->
+          </div>
+          
+          <div class="ui bottom attached tab segment active form" 
+             data-tab="image">
+            
+            <div class="field">
+              <label>Upload Image Draft URL</label>
+              <input type="text" 
+                     name="uploadImageDraft" 
+                     id="uploadImageDraft"
+                     v-model="uploadImageDraft"
+                     @change="validateUploadImageDrarfUrl"
+                     placeholder="https://www.blogger.com/blogger.g?blogID=..." />
+            </div>
+            <div class="unstackable three fields">
+              <div class="field">
+                <div class="mini ui fluid button"
+                   @click="openBloggerConsole">
+                  Blogger console
+                </div>
+              </div>
+              <div class="field">
+                <div v-bind:class="{ disabled: disableUploadImageDraft }"
+                   class="mini ui fluid button"
+                   @click="openBloggerDraft">
+                  Open Draft
+                </div>
+              </div>
+              <div class="field">
+                <div v-bind:class="{ disabled: disableUploadImageDraft }"
+                   class="mini ui fluid button"
+                   @click="openImageReplacer">
+                  Replace Images
+                </div>
+              </div>
+            </div>
+
+            <!-- --------------------------- -->
+
+            <div class="field">
+              <label>Default Image Size</label>
+              <input type="number" 
+                     name="imageSizeDefault" 
+                     id="imageSizeDefault"
+                     v-model="imageSizeDefault" />
+            </div>
+            
+          </div> <!-- data-tab="image" -->
+          
+          <div class="ui bottom attached tab segment form" 
+             data-tab="toolbar">
+            
+            <div class="two fields">
+              <div class="field">
+                <label for="summerNoteConfigToolbar">
+                  Toolbar
+                  (<a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/SummerNoteConfigToolbar.md"
+                      target="summerNoteConfigStyleTagsHelp">
+                    HELP
+                  </a>)
+                </label>
+                <textarea id="summerNoteConfigToolbar"
+                          v-model="summerNoteConfigToolbar"
+                          class="summernote-config-toolbar"
+                          :placeholder="toolbarJSON"
+                          @change="setChanged"></textarea>
+              </div>
+              <div class="field">
+                <label for="summerNoteConfigStyleTags">
+                  Style Tags
+                  (<a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/SummerNoteConfigSrtyleTags.md"
+                      target="summerNoteConfigStyleTagsHelp">
+                    HELP
+                  </a>)
+                </label>
+                <textarea id="summerNoteConfigStyleTags"
+                          v-model="summerNoteConfigStyleTags"
+                          class="summernote-config-toolbar"
+                          :placeholder="styleTagsJSON"
+                          @change="setChanged"></textarea>
+              </div>
+            </div>
+          </div> <!-- data-tab="toolbar" -->
+          
+          <!--
+          <div class="ui bottom attached tab segment form" 
+             data-tab="config">
+            
+            
+            <div class="two fields">
+              <div class="field">
+                <div class="ui labeled icon fluid button"
+                   @click="configDownload">
+                  <i class="download icon"></i>
+                  Download
+                </div>
+              </div>
+              <div class="field">
+                <input type="file" name="uploadStyle"
+                     @change="configUpload"/>
+                <div class="ui labeled icon fluid button"
+                   @click="triggerConfigUpload">
+                  <i class="upload icon"></i>
+                  Upload
+                </div>
+              </div>
+              
+              <div class="dragover-message"
+               @drop="configDrop">
+                Drop file to upload
+              </div>
+            </div>
+            
+          </div> --> <!-- data-tab="config" -->
+
+          
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui button"
+           @click='close'>
+        Cancel
+      </div>
+      <div class="ui positive right labeled icon button" 
+           @click='persist();close()'>
+        OK
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
+</div>

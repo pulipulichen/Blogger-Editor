@@ -1,0 +1,32 @@
+.ui.menu {
+  position: absolute;
+  top: -1rem;
+  left: 0;
+  width: 100vw;
+  border-radius: 0;
+}
+
+.ui.top.menu.call-fixed {
+  position: fixed;
+  z-index: 600;
+}
+
+.menu.transition.visible {
+  z-index: 999;
+}
+
+.sub-menu-button {
+  cursor: pointer;
+}
+
+.sub-menu-button > .menu {
+  display: none;
+}
+
+.sub-menu-button.open-submenu > .menu {
+  //display: block;
+}
+
+.sub-menu-button.open-submenu > i.icon:before {
+  content: "\f0d8";
+}

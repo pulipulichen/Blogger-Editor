@@ -1,0 +1,79 @@
+<div class="ui modal"
+     v-bind:class="name"
+     ref="modal">
+  <i class="close icon" @click="close"></i>
+  <div class="header">
+    <i class="keyboard outline icon"></i>
+    {{ $t('Config Manager') }}
+  </div>
+  <div class="content">
+    <div class="ui form description">
+      
+      <div class="two unstackable fields">
+        <div class="field">
+          <button type="button" 
+                  class="backup ui labeled icon fluid button"
+                  @click="configDownload">
+            <i class="download icon"></i>
+            {{ $t('Backup') }}
+          </button>
+        </div>
+        <div class="field">
+          <input type="file" name="uploadConfig" 
+                 accept=".zip"
+                 @change="configUpload"/>
+          <button type="button"
+                  class="ui labeled icon fluid button"
+                  @click="triggerConfigUpload">
+            <i class="upload icon"></i>
+            {{ $t('Restore') }}
+          </button>
+        </div>
+
+        <div class="dragover-message"
+             @drop="configDrop">
+          {{ $t('Drop file to upload') }}
+        </div>
+      </div>
+      
+      <!-- ------------------------- -->
+      
+      <div class="field">
+        <label>
+          {{ $t('Language') }}
+        </label>
+        <select class="ui search dropdown"
+                v-model="locale"
+                @change="persist">
+          <template v-for="localeOption in localeOptions">
+            <!--
+            <template v-if="localeOption === locale">
+              <option :value="localeOption"
+                      selected="selected">
+                {{ $t(localeOption) }}
+              </option>
+            </template>
+            <template v-else>
+              <option :value="localeOption">
+                {{ $t(localeOption) }}
+              </option>
+            </template>
+            -->
+            <option :value="localeOption">
+              {{ $t(localeOption) }}
+            </option>
+          </template>
+        </select>
+      </div>
+      
+      
+
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui button"
+         @click='close'>
+      {{ $t('Close') }}
+    </div>
+  </div>
+</div>

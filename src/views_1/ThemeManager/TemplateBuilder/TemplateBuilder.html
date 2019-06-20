@@ -1,0 +1,150 @@
+<div class="ui modal"
+     v-bind:class="name">
+  <i class="close icon" @click="close"></i>
+  <div class="header">
+    <i class="cog icon"></i>
+    {{ $t('Template Builder') }}
+  </div>
+  <!-- ---------------------------------------- -->
+
+  <div class="content">
+    <div class="description fixed-height ui form">
+
+      <div class="step step-1"
+            v-bind:class="{hide: (currentStep !== 1)}">
+        <div class="ui message">
+          {{ $t('Open the article page in Blogger.') }}
+        </div>
+        <div class="ui image">
+          <img src="static/TemplateBuilder/open-article-page.png" />
+        </div>
+       </div>
+      
+      <!-- -------------------------- -->
+      
+      <div class="step step-2"
+            v-bind:class="{hide: (currentStep !== 2)}">
+        <div class="ui message">
+          {{ $t('View page source.') }}
+        </div>
+        <div class="ui image">
+          <img src="static/TemplateBuilder/view-source-code.png" />
+        </div>
+      </div>
+      
+      
+      <!-- -------------------------- -->
+      
+      <div class="step step-3"
+            v-bind:class="{hide: (currentStep !== 3)}">
+        <div class="ui message">
+          {{ $t('Copy whole code.') }}
+        </div>
+        <div class="ui image">
+          <img src="static/TemplateBuilder/copy-code.png" />
+        </div>
+      </div>
+      
+      <!-- -------------------------- -->
+      
+      <div class="step step-4"
+            v-bind:class="{hide: (currentStep !== 4)}">
+         <div class="ui form">
+            <div class="field">
+              <label>
+                {{ $t('Paste code into following field:') }}
+              </label>
+              <textarea id="rawHTMLtextarea"
+                        v-model="rawHTML" ></textarea>
+            </div>
+          </div>
+       </div>
+      
+      <!-- -------------------------- -->
+      
+      <div class="step step-5"
+            v-bind:class="{hide: (currentStep !== 5)}">
+         <div class="ui form">
+            <div class="ui message"
+                 :class="templateFoundMessage">
+              <div v-if="placeholderFound.length > 0">
+                {{ $t('Template detected:') }}
+                {{ placeholderFound.join($t(', ')) }}
+              </div>
+              <div v-if="placeholderNotFound.length > 0">
+                {{ $t('Template not detected:') }}
+                {{ placeholderNotFound.join($t(', ')) }}
+                <p>
+                {{ $t('You have to add them by yourself.') }}
+                </p>
+              </div>
+            </div>
+           
+            <div class="field">
+              <label>
+                {{ $t('Parsing result') }}
+              </label>
+              <textarea id="parsedTemplateTextarea"
+                        v-model="parsedTemplate" ></textarea>
+            </div>
+           
+          </div>
+       </div>
+      
+      <!-- -------------------------- -->
+      
+      <div class="step step-6"
+           v-bind:class="{hide: (currentStep !== 6)}">
+        <div class="two fields">
+          <div class="field">
+            <div class="ui fluid labeled icon massive button"
+                @click="downloadParedResult">
+             <i class="download icon"></i>
+             {{ $t('Download parsing result') }}
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui fluid labeled icon massive button"
+                @click="setAsTemplate"
+                :class="{'positive': (placeholderFound.length === 4), 'disabled': (placeholderFound.length !== 4 || onCloseReload === true)}">
+             <i class="cog icon"></i>
+             {{ $t('Set as template') }}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- -------------------------- -->
+      
+      
+    </div> <!-- <div class="description"> -->
+  </div> <!-- <div class="content"> -->
+  
+  <div class="actions">
+      <div class="ui labeled icon button"
+           @click='prevStep'
+           v-if="currentStep > 1">
+        <i class="chevron left icon"></i>
+        {{ $t('Prev') }}
+      </div>
+      <div class="ui green right labeled icon button"
+           @click='nextStep'
+           v-if="(currentStep > 0 && currentStep < 4) || currentStep === 5">
+        {{ $t('Next') }}
+        <i class="chevron right icon"></i>
+      </div>
+      <div class="ui green right labeled icon button" 
+           @click='parseRawHTML'
+           v-if="currentStep === 4"
+           v-bind:class="{ disabled: (validateRawHTML === false) }">
+        {{ $t('Next') }}
+        <i class="chevron right icon"></i>
+      </div>
+      <div class="ui button"
+           @click='close'
+           v-if="currentStep === 6">
+        {{ $t('Close') }}
+      </div>
+    </div> <!-- <div class="actions"> -->
+</div>

@@ -1,0 +1,22 @@
+{
+  "en-US": {
+    "Template Builder": "Template Builder"
+  },
+  "zh-TW": {
+    "Template Builder": "建立樣板",
+    "Prev": "上一步",
+    "Next": "下一步",
+    "Open the article page in Blogger.": "開啓Blogger中的文章頁面。",
+    "View page source.": "檢視原始碼。",
+    "Copy whole code.": "複製所有原始碼。",
+    "Paste code into following field:": "在下面輸入框內貼上：",
+    "Parsing result": "分析結果",
+    ", ": "、",
+    "You have to add them by yourself.": "請您手動加入範本中。",
+    "Download parsing result": "下載分析結果",
+    "Set as template": "設爲範本",
+    "Template detected:": "偵測到的樣板：",
+    "Template not detected:": "沒偵測到的樣板：",
+    "You have to add them by yourself.": "請自行手動加入。"
+  }
+}
