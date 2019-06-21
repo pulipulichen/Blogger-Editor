@@ -144,7 +144,7 @@ let NavBarMenu = {
       
       ele.children('.menu').transition('slide down')
       //$(ele).children('.menu').toggle()
-    },
+    }
   },
 }
 
