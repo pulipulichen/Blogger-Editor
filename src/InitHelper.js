@@ -24,7 +24,7 @@ let InitHelper = {
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()
-    $v.PublishManager.open()
+    //$v.PublishManager.open()
     
     //setTimeout(function () {
     //  $v.EditorManager.open()

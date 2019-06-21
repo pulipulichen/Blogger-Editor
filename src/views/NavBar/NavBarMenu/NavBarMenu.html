@@ -1,27 +1,27 @@
 <fragment ref="modal">
   <a class="item" 
-     @click="openPublishManager">
+     v-on:click="openPublishManager">
     <i class="blogger icon"></i>
     {{ $t('Publish') }}
   </a>
   <a class="item" 
-     @click="openPostManager">
+     v-on:click="openPostManager">
     <i class="file icon"></i>
     {{ $t('Post') }}
   </a>
   <a class="item" 
-     @click="openThemeManager">
+     v-on:click="openThemeManager">
     <i class="columns icon"></i>
     {{ $t('Theme') }}
   </a>
   <a class="item" 
-     @click="openEditorManager">
+     v-on:click="openEditorManager">
     <i class="keyboard outline icon"></i>
     {{ $t('Editor') }}
   </a>
 
   <a class="item" 
-     @click="openConfigManager">
+     v-on:click="openConfigManager">
     <i class="cogs icon"></i>
     {{ $t('Config') }}
   </a>
@@ -66,7 +66,7 @@
       </a>
       <a class="item" v-on:click="openGooglePhoto">
         <i class="image icon"></i> 
-        {{ $t('Google Photo') }}
+        {{ $t('Open Google Photo') }}
       </a>
       <a class="item" v-on:click="editorCopyCode">
         <i class="code icon"></i> 
@@ -88,7 +88,8 @@
   </div>
   
   <div class="right menu">
-    <a class="item word-count">
+    <a class="item word-count"
+       v-bind:class="{active: (mode === 'topbar')}">
       <i class="book icon"></i>
       {{ wordCount }}
       {{ wordCountUnit }}
