@@ -5172,7 +5172,7 @@
               }
           })
           .on('input', function (event) {
-              console.log('input')
+              //console.log('input')
               _this.context.triggerEvent('input', event);
           })
           //.on('compositionstart', function (event) {
@@ -5291,13 +5291,13 @@
       
       
       let blockTagList = ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'caption']
-      let skipTagList = ['td', 'tr', 'th', 'caption', 'code', 'table']
+      let skipTagList = ['td', 'tr', 'th', 'caption', 'code', 'table', 'hr']
       
       /**
        * @author Pulipuli Chen 20190420
        */
       Editor.prototype.clearEnterFormat = function (event) {
-        //console.log('clearEnterFormat')
+        console.log('clearEnterFormat')
         let target = this.createRange()
         if (target === undefined 
             || typeof(target.sc) !== 'object' 

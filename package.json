@@ -30,6 +30,8 @@
   },
   "homepage": "https://github.com/pulipulichen/Blogger-Editor#readme",
   "dependencies": {
+    "browser-do": "^0.2.0",
+    "browser-run": "^6.0.0",
     "dayjs": "^1.8.12",
     "detect-browser": "^4.4.0",
     "electron-context-menu": "^0.12.1",
