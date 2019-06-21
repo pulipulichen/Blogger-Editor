@@ -1,0 +1,20 @@
+{
+  "en-US": {
+    "Title": "iframe Prompt",
+    "URL": "iframe URL"
+  },
+  "zh-TW": {
+    "Editor Manager": "編輯器設定",
+    "Image": "圖片上傳設定",
+    "Toolbar": "編輯器工具列",
+    "Labels": "標籤",
+    "Upload Image Draft URL": "上傳圖片的Blogger草稿網址",
+    "Blogger Console": "Blogger主控臺",
+    "Open Draft": "開啟草稿",
+    "Replace Images": "取代圖片",
+    "Thumbnail Image Size": "縮圖尺寸",
+    "HELP": "說明",
+    "Style Tags": "格式標籤",
+    "Search Label": "搜尋標籤"
+  }
+}

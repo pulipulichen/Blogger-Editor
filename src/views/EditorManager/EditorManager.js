@@ -40,6 +40,7 @@ var EditorManager = {
       imageSizeDefault: 450,
       summerNoteConfigToolbar: '',
       summerNoteConfigStyleTags: '',
+      summerNoteConfigLabels: '',
       onCloseReload: false,
       
       FieldPostBody: FieldPostBody,
@@ -66,7 +67,7 @@ var EditorManager = {
     
     VueHelper.mountLocalStorage(this, 'summerNoteConfigToolbar')
     VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')
-    
+    VueHelper.mountLocalStorage(this, 'summerNoteConfigLabels')
   },
   created: function () {
     $v.EditorManager = this
@@ -185,6 +186,7 @@ var EditorManager = {
       
       VueHelper.persistLocalStorage(this, 'summerNoteConfigToolbar')
       VueHelper.persistLocalStorage(this, 'summerNoteConfigStyleTags')
+      VueHelper.persistLocalStorage(this, 'summerNoteConfigLabels')
     },
     init: function (callback) {
       if (ConfigHelper.get('debug').disableEditorManager === true) {

@@ -22,13 +22,9 @@ let InitHelper = {
     */
     //$v.PostManager.open()
     //$v.ThemeManager.open()
-    //$v.EditorManager.open()
+    $v.EditorManager.open()
     //$v.ConfigManager.open()
     //$v.PublishManager.open()
-    
-    //setTimeout(function () {
-    //  $v.EditorManager.open()
-    //}, 3000)
     
     //$v.IframePrompt.open()
     //$v.FileUploader.open()

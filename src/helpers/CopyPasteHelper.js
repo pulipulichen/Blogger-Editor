@@ -2,15 +2,15 @@ CopyPasteHelper = {
   copyPlainText: function (text) {
     var copyTextInput = document.getElementById("puliClipboardInput")
     if (copyTextInput === null) {
-      var copyTextInput = document.createElement("input");
+      var copyTextInput = document.createElement("textarea");
       copyTextInput.id = "puliClipboardInput"
-      copyTextInput.type = "text"
+      //copyTextInput.type = "text"
       document.body.appendChild(copyTextInput);
     }
 
     copyTextInput.value = text
 
-    copyTextInput.style = "display: inline"
+    copyTextInput.style = "display: block; position: absolute; top: -1000px; left: -1000px;"
     /* Select the text field */
     copyTextInput.select();
 

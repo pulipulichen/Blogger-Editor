@@ -1,9 +1,9 @@
 <div class="non-invasive-web-style-framework">
   <div class="ui modal EditorManager">
-    <i class="close icon" @click="close"></i>
+    <i class="close icon" v-on:click="close"></i>
     <div class="header">
       <i class="keyboard outline icon"></i>
-      Editor Manager
+      {{ $t('Editor Manager') }}
     </div>
     <div class="content">
       <div class="ui form description">
@@ -11,18 +11,23 @@
           <div class="ui top attached tabular menu">
             <a class="item active" 
                data-tab="image"
-               @click="openTab">
-              Image
+               v-on:click="openTab">
+              {{ $t('Image') }}
             </a>
             <a class="item" 
                data-tab="toolbar"
-               @click="openTab">
-              Toolbar
+               v-on:click="openTab">
+              {{ $t('Toolbar') }}
+            </a>
+            <a class="item" 
+               data-tab="labels"
+               v-on:click="openTab">
+              {{ $t('Labels') }}
             </a>
             <!--
             <a class="item" 
                data-tab="config"
-               @click="openTab">
+               v-on:click="openTab">
               Config
             </a>
             -->
@@ -32,33 +37,36 @@
              data-tab="image">
             
             <div class="field">
-              <label>Upload Image Draft URL</label>
+              <label>
+                {{ $t('Upload Image Draft URL') }}
+              </label>
               <input type="text" 
                      name="uploadImageDraft" 
                      id="uploadImageDraft"
                      v-model="uploadImageDraft"
-                     @change="validateUploadImageDrarfUrl"
+                     v-on:change="validateUploadImageDrarfUrl"
                      placeholder="https://www.blogger.com/blogger.g?blogID=..." />
             </div>
             <div class="unstackable three fields">
               <div class="field">
                 <div class="mini ui fluid button"
-                   @click="openBloggerConsole">
-                  Blogger console
+                   v-on:click="openBloggerConsole">
+                  {{ $t('Blogger Console') }}
                 </div>
               </div>
               <div class="field">
                 <div v-bind:class="{ disabled: disableUploadImageDraft }"
                    class="mini ui fluid button"
-                   @click="openBloggerDraft">
-                  Open Draft
+                   v-on:click="openBloggerDraft">
+                  {{ $t('Open Draft') }}
                 </div>
               </div>
               <div class="field">
                 <div v-bind:class="{ disabled: disableUploadImageDraft }"
                    class="mini ui fluid button"
-                   @click="openImageReplacer">
-                  Replace Images
+                   v-on:click="openImageReplacer">
+                  {{ $t('Replace Images') }}
+                  
                 </div>
               </div>
             </div>
@@ -66,7 +74,9 @@
             <!-- --------------------------- -->
 
             <div class="field">
-              <label>Default Image Size</label>
+              <label>
+                {{ $t('Thumbnail Image Size') }}
+              </label>
               <input type="number" 
                      name="imageSizeDefault" 
                      id="imageSizeDefault"
@@ -75,40 +85,73 @@
             
           </div> <!-- data-tab="image" -->
           
+          <!-- -------------------------------------- -->
+          
           <div class="ui bottom attached tab segment form" 
              data-tab="toolbar">
             
             <div class="two fields">
               <div class="field">
                 <label for="summerNoteConfigToolbar">
-                  Toolbar
+                  {{ $t('Toolbar') }}
                   (<a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/SummerNoteConfigToolbar.md"
-                      target="summerNoteConfigStyleTagsHelp">
-                    HELP
+                      target="summerNoteConfigToolbarHelp">
+                    {{ $t('HELP') }}
                   </a>)
                 </label>
                 <textarea id="summerNoteConfigToolbar"
                           v-model="summerNoteConfigToolbar"
                           class="summernote-config-toolbar"
-                          :placeholder="toolbarJSON"
-                          @change="setChanged"></textarea>
+                          v-bind:placeholder="toolbarJSON"
+                          v-on:change="setChanged"></textarea>
               </div>
               <div class="field">
                 <label for="summerNoteConfigStyleTags">
-                  Style Tags
+                  {{ $t('Style Tags') }}
                   (<a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/SummerNoteConfigSrtyleTags.md"
                       target="summerNoteConfigStyleTagsHelp">
-                    HELP
+                    {{ $t('HELP') }}
                   </a>)
                 </label>
                 <textarea id="summerNoteConfigStyleTags"
                           v-model="summerNoteConfigStyleTags"
                           class="summernote-config-toolbar"
-                          :placeholder="styleTagsJSON"
-                          @change="setChanged"></textarea>
+                          v-bindv-bind:placeholder="styleTagsJSON"
+                          v-on:change="setChanged"></textarea>
               </div>
             </div>
           </div> <!-- data-tab="toolbar" -->
+          
+          <!-- -------------------------------------- -->
+          
+          <div class="ui bottom attached tab segment form" 
+             data-tab="labels">
+            
+            <div class="field">
+              <label for="summerNoteConfigLabels">
+                {{ $t('Labels') }}
+                (<a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/SummerNoteConfigLabels.md"
+                    target="summerNoteConfigLabelsHelp">
+                  {{ $t('HELP') }}
+                </a>)
+              </label>
+              <textarea id="summerNoteConfigLabels"
+                        v-model="summerNoteConfigLabels"
+                        class="summernote-config-labels"
+                        v-on:change="setChanged"></textarea>
+            </div>
+            
+            <div class="field">
+              <label for="summerNoteConfigLabelsSearch">
+                {{ $t('Search Label') }}
+              </label>
+              <input type="text"
+                     id="summerNoteConfigLabelsSearch"
+                     class="summernote-config-labels-search" />
+            </div>
+          </div> <!-- data-tab="labels" -->
+          
+          <!-- -------------------------------------- -->
           
           <!--
           <div class="ui bottom attached tab segment form" 
@@ -118,16 +161,16 @@
             <div class="two fields">
               <div class="field">
                 <div class="ui labeled icon fluid button"
-                   @click="configDownload">
+                   v-on:click="configDownload">
                   <i class="download icon"></i>
                   Download
                 </div>
               </div>
               <div class="field">
                 <input type="file" name="uploadStyle"
-                     @change="configUpload"/>
+                     v-on:change="configUpload"/>
                 <div class="ui labeled icon fluid button"
-                   @click="triggerConfigUpload">
+                   v-on:click="triggerConfigUpload">
                   <i class="upload icon"></i>
                   Upload
                 </div>
@@ -146,11 +189,11 @@
     </div>
     <div class="actions">
       <div class="ui button"
-           @click='close'>
+           v-on:click="close">
         Cancel
       </div>
       <div class="ui positive right labeled icon button" 
-           @click='persist();close()'>
+           v-on:click="persist();close()">
         OK
         <i class="checkmark icon"></i>
       </div>
