@@ -5,7 +5,9 @@ let config = {
       ui: undefined,
       bloggerConsoleURL: "https://www.blogger.com",
       editURL: "",
-      publicURL: ""
+      publicURL: "",
+      postTitle: "",
+      postLabels: ""
     }
   },
   mounted: function () {
@@ -57,6 +59,7 @@ let config = {
     },
     open: function () {
       this.init(() => {
+        this.initPostMetadata()
         this.getUI().modal('show')
       })
     },
@@ -95,6 +98,27 @@ let config = {
     },
     downloadPostBackup: function () {
       $v.PostManager.backupPost()
+    },
+    initPostMetadata: function () {
+      let fieldPostTitle = $v.EditorManager.FieldPostTitle
+      this.postTitle = fieldPostTitle.getText()
+      
+      let fieldPostLabels = $v.EditorManager.FieldPostLabels
+      this.postLabels = fieldPostLabels.getText()
+    },
+    changePostMetadata: function () {
+      let fieldPostTitle = $v.EditorManager.FieldPostTitle
+      fieldPostTitle.set(this.postTitle)
+      
+      let fieldPostLabels = $v.EditorManager.FieldPostLabels
+      fieldPostLabels.set(this.postLabels)
+    },
+    copyInput: function (event) {
+      //console.log(event)
+      let button = event.target
+      let text = $(button).parents('.ui.input:first').find('input').val()
+      //console.log(text)
+      CopyPasteHelper.copyPlainText(text)
     }
   }
 }

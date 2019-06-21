@@ -3,6 +3,7 @@
   "attributes": {
     "v-bind:class": {},
     "v-if": {},
-    "v-on:click": {}
+    "v-on:click": {},
+    "v-on:change": {}
   }
 }
