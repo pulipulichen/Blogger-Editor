@@ -124,6 +124,7 @@ let SummerNoteConfig = {
     ]
   },
   popoverAir: function () {
+    /*
     return [
       ['color', ['color']],
       ['font', ['bold', 'underline', 'clear']],
@@ -131,6 +132,8 @@ let SummerNoteConfig = {
       ['table', ['table']],
       ['insert', ['link', 'picture']]
     ]
+    */
+    return []
   },
   loadLocale: function (callback) {
     let locale = I18nHelper.locale()
@@ -147,7 +150,7 @@ let SummerNoteConfig = {
       })
     }
   },
-  fullConfig: function (callback) {
+  postBodyConfig: function (callback) {
     let locale = I18nHelper.locale()
     //console.log(locale)
     let config = {
@@ -172,28 +175,18 @@ let SummerNoteConfig = {
     }
     return config
   },
-  airConfig: function (fieldName, placeholder, callback) {
+  postTitleConfig: function (placeholder, callback) {
     let config = {
       airMode: true,
       placeholder: placeholder,
       shortcuts: false,
       disableDragAndDrop: true,
       popover: {
-        air: []
+        air: this.popoverAir()
       },
       callbacks: {
         onChange: (contents) => {
-          DelayExecHelper.exec(fieldName, 3, () => {
-            $v.EditorManager.FieldPostDate.set()
-            if (contents.startsWith('<') && contents.endsWith('>')) {
-              contents = $(contents).text()
-            }
-            if (fieldName === 'title') {
-              $v.EditorManager.FieldPostTitle.updateDocumentTitle(contents)
-            }
-            $v.PostManager.updateEditingPost(fieldName, contents)
-          })
-          //console.log(fieldName + ':', contents)
+          this.onPostTitleChange(contents)
         },
         onInit: function() {
           FunctionHelper.triggerCallback(callback)
@@ -202,12 +195,42 @@ let SummerNoteConfig = {
     }
     return config
   },
-  labelsAriConfig: function (fieldName, placeholder, callback) {
-    let config = this.airConfig(fieldName, placeholder, callback)
+  postLabelsConfig: function (placeholder, callback) {
+    let config = {
+      airMode: true,
+      placeholder: placeholder,
+      shortcuts: false,
+      disableDragAndDrop: true,
+      popover: {
+        air: this.popoverAir()
+      },
+      callbacks: {
+        onInit: function() {
+          FunctionHelper.triggerCallback(callback)
+        }
+      },
+      hint: this.getLabelsHintConfig()
+    }
+    return config
+  },
+  onPostTitleChange: function (contents) {
+    let fieldName = 'title'
+    DelayExecHelper.exec(fieldName, 3, () => {
+      $v.EditorManager.FieldPostDate.set()
+      if (contents.startsWith('<') && contents.endsWith('>')) {
+        contents = $(contents).text()
+      }
+      $v.EditorManager.FieldPostTitle.updateDocumentTitle(contents)
+      $v.PostManager.updateEditingPost(fieldName, contents)
+    })
+    //console.log(fieldName + ':', contents)
+  },
+  getLabelsHintConfig: function () {
+    //let config = this.airConfig(fieldName, placeholder, callback)
+    let words = $v.EditorManager.labelsList
     
-    /*
-    config.hint = {
-      words: ['我真是太厲害了', 'orange'],
+    let hint = {
+      words: words,
       //match: /\b(\S{1,})$/,
       match: /([\u4E00-\u9FAF\u3040-\u3096\u30A1-\u30FA\uFF66-\uFF9D\u31F0-\u31FFA-Za-z]{1,})$/,
       search: function (keyword, callback) {
@@ -215,11 +238,13 @@ let SummerNoteConfig = {
         callback($.grep(this.words, function (item) {
           return item.indexOf(keyword) === 0;
         }));
+      },
+      content: function (item) {
+        return item + ', ';
       }
     }
-    */
     
-    return config
+    return hint
   }
 }
 

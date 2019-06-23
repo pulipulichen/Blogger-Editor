@@ -116,7 +116,7 @@
                 <textarea id="summerNoteConfigStyleTags"
                           v-model="summerNoteConfigStyleTags"
                           class="summernote-config-toolbar"
-                          v-bindv-bind:placeholder="styleTagsJSON"
+                          v-bind:placeholder="styleTagsJSON"
                           v-on:change="setChanged"></textarea>
               </div>
             </div>
@@ -138,7 +138,7 @@
               <textarea id="summerNoteConfigLabels"
                         v-model="summerNoteConfigLabels"
                         class="summernote-config-labels"
-                        v-on:change="setChanged"></textarea>
+                        v-on:change="setLabelsChanged"></textarea>
             </div>
             
             <div class="field">
@@ -147,7 +147,8 @@
               </label>
               <input type="text"
                      id="summerNoteConfigLabelsSearch"
-                     class="summernote-config-labels-search" />
+                     class="summernote-config-labels-search"
+                     ref="summerNoteConfigLabelsSearch" />
             </div>
           </div> <!-- data-tab="labels" -->
           

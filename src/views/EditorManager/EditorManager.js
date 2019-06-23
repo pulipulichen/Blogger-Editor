@@ -41,6 +41,7 @@ var EditorManager = {
       summerNoteConfigToolbar: '',
       summerNoteConfigStyleTags: '',
       summerNoteConfigLabels: '',
+      $summerNoteConfigLabelsSearch: null,
       onCloseReload: false,
       
       FieldPostBody: FieldPostBody,
@@ -68,6 +69,8 @@ var EditorManager = {
     VueHelper.mountLocalStorage(this, 'summerNoteConfigToolbar')
     VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')
     VueHelper.mountLocalStorage(this, 'summerNoteConfigLabels')
+    
+    this.initLabelsSearch()
   },
   created: function () {
     $v.EditorManager = this
@@ -127,6 +130,16 @@ var EditorManager = {
       let config = SummerNoteConfig.defaultStyleTags()
       return JSON.stringify(config)
     },
+    labelsList: function () {
+      let list = []
+      this.summerNoteConfigLabels.trim().split('\n').forEach((label) => {
+        label = label.trim()
+        if (label !== '') {
+          list.push(label)
+        }
+      })
+      return list
+    }
   },
   watch: {
     uploadImageDraft: function (value) {
@@ -305,6 +318,27 @@ var EditorManager = {
     },
     setChanged: function () {
       this.onCloseReload = true
+    },
+    setLabelsChanged: function () {
+      this.initLabelsSearch()
+      this.setChanged()
+    },
+    initLabelsSearch: function () {
+      let content = []
+      this.labelsList.forEach((label) => {
+        content.push({
+          title: label
+        })
+      })
+      
+      if (this.$summerNoteConfigLabelsSearch === undefined 
+              || this.$summerNoteConfigLabelsSearch === null) {
+        this.$summerNoteConfigLabelsSearch = $(this.$refs.summerNoteConfigLabelsSearch)
+      }
+      //console.log(content)
+      this.$summerNoteConfigLabelsSearch.search({
+        source: content
+      })
     }
   }
 }
