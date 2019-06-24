@@ -5264,6 +5264,9 @@
               }, 0)
               //console.log('isFocus false')
               _this.context.triggerEvent('blur', event);
+              
+              // hide popover
+              $$1('.note-popover').hide()
           }).on('mousedown', function (event) {
               _this.context.triggerEvent('mousedown', event);
           }).on('mouseup', function (event) {
