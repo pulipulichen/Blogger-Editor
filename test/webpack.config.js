@@ -20,7 +20,8 @@ module.exports = (env, argv) => {
     //devtool: false,
     entry: {
       //'test': './[tmp/test.js',
-      'test': './test/src/index.js',
+      //'test': './test/src/index.js',
+      'summernote-lite': './test/src/summernote-lite.js'
     },
     output: {
       path: path.resolve('./test/dist/'),

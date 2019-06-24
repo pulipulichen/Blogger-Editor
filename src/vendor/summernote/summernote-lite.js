@@ -13,10 +13,12 @@
   //(factory(global.jQuery));
   factory($)
   //console.log(typeof($))
-}(this, (function ($$1) { 'use strict';
+  
+}(this, (function ($$1) { 
+  //'use strict';
 
   $$1 = $$1 && $$1.hasOwnProperty('default') ? $$1['default'] : $$1;
-
+  
   var Renderer = /** @class */ (function () {
       function Renderer(markup, children, options, callback) {
           this.markup = markup;
@@ -212,12 +214,12 @@
       };
       return DropdownUI;
   }());
-  $(document).on('click', function (e) {
+  $$1(document).on('click', function (e) {
       if (!$(e.target).closest('.note-btn-group').length) {
           $('.note-btn-group.open').removeClass('open');
       }
   });
-  $(document).on('click.note-dropdown-menu', function (e) {
+  $$1(document).on('click.note-dropdown-menu', function (e) {
       $(e.target).closest('.note-dropdown-menu').parent().removeClass('open');
   });
 
@@ -9618,5 +9620,4 @@ sel.addRange(range);
       }
   });
 
-})));
-//# sourceMappingURL=summernote-lite.js.map
+})))
