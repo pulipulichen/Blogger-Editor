@@ -42,9 +42,6 @@ let FieldPostLabels = {
         //console.log(this.uiNew.summernote('text'))
         if (this.uiNew.summernote('text').trim() !== '') {
           this.uiAdd.show()
-          if (e.keyCode === 13) {
-            this.uiAdd.click()
-          }
         }
         else {
           this.uiAdd.hide()

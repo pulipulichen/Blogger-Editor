@@ -181,6 +181,7 @@ let SummerNoteConfig = {
       placeholder: placeholder,
       shortcuts: false,
       disableDragAndDrop: true,
+      allowEnter: false,
       popover: {
         air: this.popoverAir()
       },
@@ -207,6 +208,7 @@ let SummerNoteConfig = {
       placeholder: placeholder,
       shortcuts: false,
       disableDragAndDrop: true,
+      allowEnter: false,
       popover: {
         air: this.popoverAir()
       },
@@ -219,12 +221,6 @@ let SummerNoteConfig = {
         },
         onKeyup: (e) => {
           FunctionHelper.triggerCallback(keypressCallback, e)
-        },
-        onKeypress: (e) => {
-          if (e.keyCode === 13) {
-            e.preventDefault()
-            e.stopPropagation()
-          }
         }
       },
       hint: this.getLabelsHintConfig()

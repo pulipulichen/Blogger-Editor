@@ -5211,6 +5211,13 @@
                   return false;
               }
               
+              if (_this.options.allowEnter === false) {
+                if (event.keyCode === 13) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+              }
+              
               // hint
               //console.log(event.keyCode)
               /*
@@ -9370,6 +9377,7 @@ sel.addRange(range);
           maxTextLength: 0,
           clearEnterFormat: false, // 記得要改成false
           showHeadingLabel: false, // 記得要改成false
+          allowEnter: true,
           blockquoteBreakingLevel: 2,
           styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
           fontNames: [
