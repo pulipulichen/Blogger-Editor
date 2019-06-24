@@ -2358,11 +2358,11 @@
       };
   }
   function create(nodeName) {
-    console.trace(nodeName)
-      return document.createElement(nodeName);
+    //console.trace(nodeName)
+    return document.createElement(nodeName);
   }
   function createText(text) {
-      return document.createTextNode(text);
+    return document.createTextNode(text);
   }
   /**
    * @method remove
@@ -3120,6 +3120,12 @@
           
           return node;
       };
+      /**
+       * @author Pulipuli Chen 20190624
+       * @param {String} node
+       * @returns {WrappedRange}
+       */
+      /*
       WrappedRange.prototype.insert = function (node) {
         let insertType = 'insertNode'
         if (typeof(node) === 'string') {
@@ -3128,7 +3134,22 @@
             insertType = 'insertText'
           }
         }
-        this[insertType](node)
+        return this[insertType](node)
+      };
+      */
+      
+      /**
+       * @author Pulipuli Chen 20190624
+       * @param {String} insertText
+       * @returns {WrappedRange}
+       */
+      WrappedRange.prototype.text = function (insertText) {
+        if (insertText === undefined) {
+          return "ok"
+        }
+        else {
+          return insertText
+        }
       };
       /**
        * insert html at current cursor
@@ -4743,6 +4764,9 @@
                 this.saveBlurRange()
               }, 0)
           });
+          /**
+           * @author Pulipuli Chen 20190624
+           */
           this.insert = this.wrapCommand(function (node) {
             let insertType = 'insertNode'
             if (typeof(node) === 'string') {
@@ -4754,6 +4778,18 @@
             this[insertType](node)
             return node
           })
+          /**
+           * @author Pulipuli Chen 20190624
+           */
+          this.text = function (codeText) {
+            if (codeText === undefined) {
+              return _this.$editable.text()
+            }
+            else {
+              //return this.insert(insertText)
+              return _this.context.invoke('code', codeText);
+            }
+          }
           /**
            * insert text
            * @param {String} text
@@ -4842,7 +4878,7 @@
                   || (linkUrl.startsWith("filesystem:") !== false && linkUrl.length > 20)
                   )
                 ) {
-                console.log([linkUrl, linkUrl.length])
+                //console.log([linkUrl, linkUrl.length])
                 this.unlink()
                 return
               }
@@ -5006,7 +5042,7 @@
                   let anchor = dom.ancestor(rng.sc, dom.isAnchor);
                   rng = range.createFromNode(anchor);
                   let link = rng.sc.href
-                  console.log(link)
+                  //console.log(link)
                   copyPlainText(link)
               }
           });
@@ -5715,7 +5751,7 @@
           node = $(node)
         }
         
-		//return
+        //return
         let prev = node.prev()
         while (this.checkNodeIsRemovable(prev)) {
           let tmp = prev
@@ -8132,14 +8168,13 @@ sel.addRange(range);
 			  
 			  this.context.triggerEvent('popover.show');
 			  
-              this.$popover.css({
-                  display: 'block',
-                  left: pos.left,
-                  top: pos.top,
-				  //width: width + 'px'
-              });
-			  
-			  
+        this.$popover.css({
+            display: 'block',
+            left: pos.left,
+            top: pos.top,
+            //width: width + 'px'
+        });
+
 			  let width = this.$popover.find('a.note-popover-link').width()
 			  width = width + 40
 			  //console.log(width)
