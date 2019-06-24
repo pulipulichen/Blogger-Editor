@@ -30,7 +30,18 @@ let FieldPostLabels = {
   },
   initSummerNote: function (callback) {
     this.get().summernote(SummerNoteConfig.postLabelsConfig('No Label', () => {
-      this.uiNew.summernote(SummerNoteConfig.postLabelsConfig('Add a new label...', callback))
+      this.uiNew.summernote(SummerNoteConfig.postLabelsConfig('Add a new label...', callback, (e) => {
+        //console.log(this.uiNew.summernote('text'))
+        if (this.uiNew.summernote('text').trim() !== '') {
+          this.uiAdd.show()
+          if (e.keyCode === 13) {
+            this.uiAdd.click()
+          }
+        }
+        else {
+          this.uiAdd.hide()
+        }
+      }))
     }))
   },
   get: function () {
@@ -86,18 +97,13 @@ let FieldPostLabels = {
           labels = label
         }
         
-        this.ui.summernote('text', labels)
         this.uiNew.summernote('text', '')
+        this.ui.summernote('text', labels)
+        this.ui.summernote('focus')
+        this.ui.summernote('moveCursor')
+        
+        $v.EditorManager.addLabel(label)
       }
-      
-      
-      //label = $(label).text().trim()
-      
-      //console.log(this.uiNew.summernote('insert', 'AAA'))
-      //console.log(this.uiNew.summernote('text'))
-      //console.log(this.uiNew.summernote('text', 'QQQ'))
-      //let labels = this.ui.summernote('text')
-      //this.ui.summernote('insertText', ', ' + label)
     })
   }
 }

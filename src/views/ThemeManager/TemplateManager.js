@@ -130,11 +130,12 @@ let TemplateManager = {
       <span id="summernotePostLabels" class="summernotePostLabels"></span>
     </span>
     <span class="summernotePostLabels-wrapper air-mode new">
-      <span id="summernotePostLabelsNew" class="summernotePostLabels">aaa</span>
+      <span id="summernotePostLabelsNew" class="summernotePostLabels"></span>
     </span>
     <span class="non-invasive-web-style-framework">
       <button class="ui mini icon grey button labels"
-              id="summernotePostLabelsAdd">
+              id="summernotePostLabelsAdd"
+              style="display: none;">
         <i class="plus icon"></i>
       </button>
     </span>`

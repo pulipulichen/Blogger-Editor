@@ -4778,6 +4778,7 @@
             this[insertType](node)
             return node
           })
+          
           /**
            * @author Pulipuli Chen 20190624
            */
@@ -4790,6 +4791,7 @@
               return _this.context.invoke('code', codeText);
             }
           }
+          
           /**
            * insert text
            * @param {String} text
@@ -5168,6 +5170,32 @@
                   height: ''
               });
           });
+          
+          /**
+           * @author Pulipuli Chen 20190624
+           * @param {number} position
+           * @returns {Editor}
+           */
+          this.moveCursor = function (position) {
+            //console.log(position)
+            let range = document.createRange();
+            let sel = window.getSelection();
+            //range.setStart(_this.$editable.children(':last')[0], 1);
+            //range.setStart(_this.editable.children(':last')[0], 1);
+            //console.log(_this.editable.childNodes[0].length)
+            let len = _this.editable.childNodes[0].length
+            if (typeof(position) !== 'number') {
+              position = len
+            }
+            else if (position > len) {
+              position = len
+            }
+            range.setStart(_this.editable.childNodes[0], position);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            return this
+          }
           
           if (this.options.showHeadingLabel === false) {
             this.$editable.removeClass('show-heading-label')
