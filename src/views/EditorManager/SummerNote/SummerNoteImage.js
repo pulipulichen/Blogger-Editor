@@ -173,7 +173,6 @@ let SummerNoteImage = {
     //console.log('@TODO Resize to original')
   },
   
-   
   setImageTargetSize: function (target, size) {
     target = $(target)
 

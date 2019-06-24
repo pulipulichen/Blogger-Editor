@@ -6352,11 +6352,12 @@ sel.addRange(range);
           if (this.options.disableDragAndDrop) {
               // prevent default drop event
               this.documentEventHandlers.onDrop = function (e) {
-                  e.preventDefault();
+                e.preventDefault();
               };
               // do not consider outside of dropzone
               this.$eventListener = this.$dropzone;
               this.$eventListener.on('drop', this.documentEventHandlers.onDrop);
+              
           }
           else {
               this.attachDragAndDropEvent();
@@ -6386,9 +6387,11 @@ sel.addRange(range);
                   _this.$editor.removeClass('dragover');
               }
           };
-          this.documentEventHandlers.onDrop = function () {
+          this.documentEventHandlers.onDrop = function (event) {
               collection = $$1();
               _this.$editor.removeClass('dragover');
+
+              _this.insertImage(event)
           };
           // show dropzone on dragenter when dragging a object to document
           // -but only if the editor is visible, i.e. has a positive width and height
@@ -6439,6 +6442,37 @@ sel.addRange(range);
               _this.$eventListener.off(key.substr(2).toLowerCase(), _this.documentEventHandlers[key]);
           });
           this.documentEventHandlers = {};
+      };
+      Dropzone.prototype.insertImage = function (event) {
+        // 這邊要決定是否要插入圖片
+        //console.log(event)
+        //console.log('drop 這邊要決定是否要插入圖片')
+        //console.log(event.originalEvent.dataTransfer.files.length)
+        if (typeof(event) === 'object' 
+                && typeof(event.originalEvent) === 'object' 
+                && typeof(event.originalEvent.dataTransfer) === 'object'
+                && typeof(event.originalEvent.dataTransfer.files) === 'object') {
+          let files = event.originalEvent.dataTransfer.files
+          //this.$editor.insertImagesAsDataURL(files)
+          this.context.invoke('editor.insertImagesAsDataURL', files);
+          /*
+          let loop = (i) => {
+            if (i < files.length) {
+              let file = files[i]
+              
+              let type = file.type
+              if (type.startsWith('image/')) {
+                let name = file.name
+                //console.log([type, name])
+                this.context.invoke('code', dom.emptyPara);
+              }
+              i++
+              loop(i)
+            }
+          }
+          loop(0)
+          */
+        }
       };
       return Dropzone;
   }());
