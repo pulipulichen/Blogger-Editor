@@ -230,6 +230,12 @@
           }, options);
           this.$modal = $node;
           this.$backdrop = $('<div class="note-modal-backdrop" />');
+          this.$modal.click((event) => {
+            //console.log(event.target)
+            if ($$1(event.target).hasClass('note-modal')) {
+              this.hide()
+            }
+          })
       }
       ModalUI.prototype.show = function () {
           if (this.options.target === 'body') {
@@ -615,10 +621,10 @@
   };
   var dialog = renderer.create('<div class="note-modal" aria-hidden="false" tabindex="-1" role="dialog"/>', function ($node, options) {
       if (options.fade) {
-          $node.addClass('fade');
+        $node.addClass('fade');
       }
       $node.attr({
-          'aria-label': options.title
+        'aria-label': options.title
       });
       $node.html([
           '  <div class="note-modal-content">',
@@ -885,7 +891,8 @@
               textToDisplay: 'Text to display',
               url: 'To what URL should this link go?',
               title: 'Link title (optional)',
-              openInNewWindow: 'Open in new window'
+              openInNewWindow: 'Open in new window',
+              remove: 'Remove'
           },
           table: {
               table: 'Table',
@@ -1476,7 +1483,8 @@
       'SLASH': 191,
       'LEFTBRACKET': 219,
       'BACKSLASH': 220,
-      'RIGHTBRACKET': 221
+      'RIGHTBRACKET': 221,
+      'ESC': 27
   };
   /**
    * @class core.key
@@ -5006,6 +5014,11 @@
               var endRange = range.createFromNodeAfter(lists.last(anchors));
               var endPoint = endRange.getEndPoint();
               range.create(startPoint.node, startPoint.offset, endPoint.node, endPoint.offset).select();
+              
+              //console.log($$1(anchor).text())
+              //let sel = window.getSelection();
+              //range.setStart(range.s, 0);
+              //console.log(range)
           });
           /**
            * setting color
@@ -7697,7 +7710,7 @@ sel.addRange(range);
           this.context.memo('button.removeLink', function () {
               return _this.button({
                   contents: _this.ui.icon(_this.options.icons.trash),
-                  tooltip: _this.lang.image.remove,
+                  tooltip: _this.lang.link.remove,
                   click: _this.context.createInvokeHandler('editor.removeLink')
               }).render();
           });
@@ -8090,10 +8103,10 @@ sel.addRange(range);
           let button = this.$dialog.find('input.note-link-btn')
           
           this.$dialog.find('input.note-link-url').focus(function (event) {
-            if ($(this).hasClass('first-focus') === false) {
+            if ($$1(this).hasClass('first-focus') === false) {
               return
             }
-            $(this).removeClass('first-focus')
+            $$1(this).removeClass('first-focus')
           
             if (this.value !== undefined && this.value.trim() !== "") {
               return
@@ -8131,12 +8144,23 @@ sel.addRange(range);
           this.$dialog.remove();
       };
       LinkDialog.prototype.bindEnterKey = function ($input, $btn) {
-          $input.on('keypress', function (event) {
-              if (event.keyCode === key.code.ENTER) {
-                  event.preventDefault();
-                  $btn.trigger('click');
-              }
-          });
+        let _this = this
+        $input.on('keypress', (event) => {
+          if (event.keyCode === key.code.ENTER) {
+            event.stopPropagation()
+            event.preventDefault()
+            $btn.trigger('click');
+            return false
+          }
+        });
+        $input.on('keyup', (event) => {
+          if (event.keyCode === key.code.ESC) {
+            event.stopPropagation()
+            event.preventDefault()
+            _this.ui.hideDialog(_this.$dialog);
+            return false
+          }
+        });
       };
       /**
        * toggle update button
@@ -8223,7 +8247,17 @@ sel.addRange(range);
                   }
                   
                   $linkBtn.one('click', function (event) {
-                      event.preventDefault();
+                      event.preventDefault()
+                      event.stopPropagation()
+                      let enableClearEnterFormat = _this.options.clearEnterFormat
+                      
+                      if (enableClearEnterFormat === true) {
+                        _this.options.clearEnterFormat = false
+                        setTimeout(() => {
+                          _this.options.clearEnterFormat = true
+                        }, 100)
+                      }
+                      //console.log(_this.options.allowEnter)
                       deferred.resolve({
                           range: linkInfo.range,
                           url: $linkUrl.val(),
@@ -8232,6 +8266,28 @@ sel.addRange(range);
                           isNewWindow: $openInNewWindow.is(':checked')
                       });
                       _this.ui.hideDialog(_this.$dialog);
+                      //console.log($linkUrl.val())
+                      //let child = $$1(_this.context.invoke('editor.restoreTarget').sc)[0]
+                      //console.log(_this.context.invoke('editor.restoreTarget'))
+                      //let sel = window.getSelection()
+                      //sel.removeAllRanges();
+                      
+                      //_this.$editor.createRange().collapse()
+                      //_this.context.invoke('editor.restoreRange').collapse()
+                      /*
+                      return
+                      
+                      setTimeout(() => {
+                        let range = document.createRange();
+                        let sel = window.getSelection()
+                        console.log(linkInfo.range)
+                        //console.log(linkInfo.range.sc)
+                        range.setStart(child, 1);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                      }, 1000)
+                      */
                   });
               });
               _this.ui.onDialogHidden(_this.$dialog, function () {
