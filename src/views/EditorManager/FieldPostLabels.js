@@ -99,21 +99,43 @@ let FieldPostLabels = {
       if (label.trim() !== '') {
         let labels = this.ui.summernote('text')
         
-        if (labels.trim() !== '') {
-          labels = labels + ', ' + label
-        }
-        else {
-          labels = label
-        }
+        this.addLabel(label)
         
         this.uiNew.summernote('text', '')
-        this.ui.summernote('text', labels)
-        this.ui.summernote('focus')
-        this.ui.summernote('moveCursor')
-        
         $v.EditorManager.addLabel(label)
       }
     })
+  },
+  addLabel: function (label) {
+    
+    if (label.trim() !== '') {
+      let labels = this.ui.summernote('text')
+
+      let labelsList = labels.trim().split(',')
+      let doAdd = true
+      for (let i = 0; i < labelsList.length; i++) {
+        if (labelsList[i].trim() === label) {
+          doAdd = false
+          break
+        }
+      }
+      
+      if (doAdd === false) {
+        return
+      }
+
+      if (labels.trim() !== '') {
+        labels = labels + ', ' + label + ','
+      }
+      else {
+        labels = label + ','
+      }
+      //console.log(`[${labels}]`)
+      this.ui.summernote('text', labels)
+      this.ui.summernote('focus')
+      this.ui.summernote('moveCursor')
+      this.ui.summernote('insertText', ' ')
+    }
   }
 }
 

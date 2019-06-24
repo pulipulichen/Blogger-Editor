@@ -190,6 +190,12 @@ let SummerNoteConfig = {
         },
         onInit: function() {
           FunctionHelper.triggerCallback(callback)
+        },
+        onKeypress: (e) => {
+          if (e.keyCode === 13) {
+            e.preventDefault()
+            e.stopPropagation()
+          }
         }
       }
     }
@@ -208,8 +214,17 @@ let SummerNoteConfig = {
         onInit: () => {
           FunctionHelper.triggerCallback(initCallback)
         },
+        onChange: (contents) => {
+          this.onPostLabelsChange(contents)
+        },
         onKeyup: (e) => {
           FunctionHelper.triggerCallback(keypressCallback, e)
+        },
+        onKeypress: (e) => {
+          if (e.keyCode === 13) {
+            e.preventDefault()
+            e.stopPropagation()
+          }
         }
       },
       hint: this.getLabelsHintConfig()
@@ -228,9 +243,20 @@ let SummerNoteConfig = {
     })
     //console.log(fieldName + ':', contents)
   },
+  onPostLabelsChange: function (contents) {
+    let fieldName = 'labels'
+    DelayExecHelper.exec(fieldName, 3, () => {
+      $v.EditorManager.FieldPostDate.set()
+      if (contents.startsWith('<') && contents.endsWith('>')) {
+        contents = $(contents).text()
+      }
+      $v.PostManager.updateEditingPost(fieldName, contents)
+    })
+  },
   getLabelsHintConfig: function () {
     //let config = this.airConfig(fieldName, placeholder, callback)
     let words = $v.EditorManager.labelsList
+    let FieldPostLabels = $v.EditorManager.FieldPostLabels
     
     let hint = {
       words: words,
@@ -244,7 +270,13 @@ let SummerNoteConfig = {
       },
       content: function (item) {
         //return '<span>' + item + ', </span>';
-        return item + ', '
+        //return item + ', '
+        //console.log(item)
+        //let labels = fieldPostLabels.summernote('text')
+        //console.log(labels)
+        //if (labels)
+        FieldPostLabels.addLabel(item)
+        //return ''
       }
     }
     

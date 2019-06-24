@@ -2362,9 +2362,9 @@
     return document.createElement(nodeName);
   }
   function createText(text) {
-    console.log('[' + text + ']')
+    //console.trace('[' + text + ']')
     let node = document.createTextNode(text);
-    console.log(`[${node}]`)
+    //console.log(`[${node}]`)
     return node
   }
   /**
@@ -4797,7 +4797,7 @@
                 this.restoreBlurRange()
               }
               
-              console.trace(`[${text}]`)
+              //console.trace(`[${text}]`)
               var rng = _this.createRange();
               var textNode = rng.insertNode(dom.createText(text));
               range.create(textNode, dom.nodeLength(textNode)).select();
@@ -8911,10 +8911,14 @@ sel.addRange(range);
         if ($item.length) {
           var node = this.nodeFromItem($item);
           // XXX: consider to move codes to editor for recording redo/undo.
-          console.log(node + ']')
-          this.lastWordRange.insertNode(node);
-          range.createFromNode(node).collapse().select();
-          this.lastWordRange = null;
+          //console.log(node + ']')
+          if (node !== undefined) {
+            this.lastWordRange.insertNode(node);
+            //this.lastWordRange.insertNode(dom.create('&nbsp;'));
+            range.createFromNode(node).collapse().select();
+            this.lastWordRange = null;
+            this.$editable.append('<span> </span>')
+          }
           this.hide();
           this.context.triggerEvent('change', this.$editable.html(), this.$editable[0]);
           this.context.invoke('editor.focus');
@@ -8924,11 +8928,12 @@ sel.addRange(range);
         var hint = this.hints[$item.data('index')];
         var item = $item.data('item');
         var node = hint.content ? hint.content(item) : item;
-        console.log(node)
+        //console.log(`[${node}]`)
         if (typeof node === 'string') {
-          node = dom.createText(node);
+          //node = dom.createText(node);
+          node = $$1(`<span>${node} </span>`)[0]
         }
-        console.log(node)
+        //console.log(node)
         return node;
       };
       HintPopover.prototype.createItemTemplates = function (hintIdx, items) {
@@ -9111,6 +9116,7 @@ sel.addRange(range);
               return isActivated ? this.layoutInfo.codable.val() : this.layoutInfo.editable.html();
           }
           else {
+            //console.log(`[${html}]`)
               if (isActivated) {
                   this.layoutInfo.codable.val(html);
               }
