@@ -3137,20 +3137,6 @@
         return this[insertType](node)
       };
       */
-      
-      /**
-       * @author Pulipuli Chen 20190624
-       * @param {String} insertText
-       * @returns {WrappedRange}
-       */
-      WrappedRange.prototype.text = function (insertText) {
-        if (insertText === undefined) {
-          return "ok"
-        }
-        else {
-          return insertText
-        }
-      };
       /**
        * insert html at current cursor
        */
@@ -4770,9 +4756,13 @@
           this.insert = this.wrapCommand(function (node) {
             let insertType = 'insertNode'
             if (typeof(node) === 'string') {
+              let text = node
               node = node.trim()
               if (!( (node.startsWith('<') && node.endsWith('>')) )) {
                 insertType = 'insertText'
+              }
+              else {
+                node = text
               }
             }
             this[insertType](node)
@@ -5218,6 +5208,19 @@
               if (_this.isLimited(1, event)) {
                   return false;
               }
+              
+              // hint
+              //console.log(event.keyCode)
+              /*
+              if (event.keyCode === 40) {
+                let item = $('.note-hint-popover .note-children-container .note-hint-group .note-hint-item:visible:first')
+                if (item.length > 0) {
+                  item.focus()
+                  console.log(item.text())
+                }
+              }
+              */
+              // 
           }
           
           this.$editable.on('keydown', keydownEvent)
@@ -6051,17 +6054,17 @@ sel.addRange(range);
       };
       
       Editor.prototype.selectElement = function (node) {
-              if (document.body.createTextRange) {
-                  var range = document.body.createTextRange();
-                  range.moveToElementText(node);
-                  range.select();
-              } else if (window.getSelection) {
-                  var selection = window.getSelection();        
-                  var range = document.createRange();
-                  range.selectNodeContents($$1(node)[0]);
-                  selection.removeAllRanges();
-                  selection.addRange(range);
-              }      
+        if (document.body.createTextRange) {
+          var range = document.body.createTextRange();
+          range.moveToElementText(node);
+          range.select();
+        } else if (window.getSelection) {
+          var selection = window.getSelection();        
+          var range = document.createRange();
+          range.selectNodeContents($$1(node)[0]);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }      
       }
       
       /**
@@ -8899,26 +8902,29 @@ sel.addRange(range);
           }
       };
       HintPopover.prototype.replace = function () {
-          var $item = this.$content.find('.note-hint-item.active');
-          if ($item.length) {
-              var node = this.nodeFromItem($item);
-              // XXX: consider to move codes to editor for recording redo/undo.
-              this.lastWordRange.insertNode(node);
-              range.createFromNode(node).collapse().select();
-              this.lastWordRange = null;
-              this.hide();
-              this.context.triggerEvent('change', this.$editable.html(), this.$editable[0]);
-              this.context.invoke('editor.focus');
-          }
+        var $item = this.$content.find('.note-hint-item.active');
+        if ($item.length) {
+          var node = this.nodeFromItem($item);
+          // XXX: consider to move codes to editor for recording redo/undo.
+          console.log(node + ']')
+          this.lastWordRange.insertNode(node);
+          range.createFromNode(node).collapse().select();
+          this.lastWordRange = null;
+          this.hide();
+          this.context.triggerEvent('change', this.$editable.html(), this.$editable[0]);
+          this.context.invoke('editor.focus');
+        }
       };
       HintPopover.prototype.nodeFromItem = function ($item) {
-          var hint = this.hints[$item.data('index')];
-          var item = $item.data('item');
-          var node = hint.content ? hint.content(item) : item;
-          if (typeof node === 'string') {
-              node = dom.createText(node);
-          }
-          return node;
+        var hint = this.hints[$item.data('index')];
+        var item = $item.data('item');
+        var node = hint.content ? hint.content(item) : item;
+        console.log(node)
+        if (typeof node === 'string') {
+          node = dom.createText(node);
+        }
+        console.log(node)
+        return node;
       };
       HintPopover.prototype.createItemTemplates = function (hintIdx, items) {
           var hint = this.hints[hintIdx];

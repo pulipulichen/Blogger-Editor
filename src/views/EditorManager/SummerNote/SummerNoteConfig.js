@@ -243,7 +243,8 @@ let SummerNoteConfig = {
         }));
       },
       content: function (item) {
-        return item + ', ';
+        //return '<span>' + item + ', </span>';
+        return item + ', '
       }
     }
     

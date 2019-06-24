@@ -29,8 +29,16 @@ let FieldPostLabels = {
     return this
   },
   initSummerNote: function (callback) {
-    this.get().summernote(SummerNoteConfig.postLabelsConfig('No Label', () => {
-      this.uiNew.summernote(SummerNoteConfig.postLabelsConfig('Add a new label...', callback, (e) => {
+    let config = SummerNoteConfig.postLabelsConfig('No Label', () => {
+      this.initSummerNoteNew(callback)
+    })
+    
+    this.get().summernote(config)
+  },
+  initSummerNoteNew: function (callback) {
+    let config = SummerNoteConfig.postLabelsConfig('Add a new label...', 
+      callback, 
+      (e) => {
         //console.log(this.uiNew.summernote('text'))
         if (this.uiNew.summernote('text').trim() !== '') {
           this.uiAdd.show()
@@ -41,8 +49,9 @@ let FieldPostLabels = {
         else {
           this.uiAdd.hide()
         }
-      }))
-    }))
+    })
+            
+    this.uiNew.summernote(config)
   },
   get: function () {
     if (this.ui === null
