@@ -8838,12 +8838,21 @@ sel.addRange(range);
           this.hints = $$1.isArray(this.hint) ? this.hint : [this.hint];
           this.events = {
               'summernote.keyup': function (we, e) {
+                //console.log('summernote.keyup')
                 //console.log('hint keyup')
-                  if (!e.isDefaultPrevented()) {
-                      _this.handleKeyup(e);
-                  }
+                if (!e.isDefaultPrevented()) {
+                  _this.handleKeyup(e);
+                }
+              },
+              'summernote.input': function (we, e) {
+                //console.log('summernote.input')
+                //console.log('hint keyup')
+                if (!e.isDefaultPrevented()) {
+                  _this.handleKeyup(e);
+                }
               },
               'summernote.keydown': function (we, e) {
+                //console.log('summernote.keydown')
                   _this.handleKeydown(e);
               },
               'summernote.disable summernote.dialog.shown': function () {
@@ -8917,7 +8926,6 @@ sel.addRange(range);
             //this.lastWordRange.insertNode(dom.create('&nbsp;'));
             range.createFromNode(node).collapse().select();
             this.lastWordRange = null;
-            this.$editable.append('<span> </span>')
           }
           this.hide();
           this.context.triggerEvent('change', this.$editable.html(), this.$editable[0]);
@@ -8989,7 +8997,7 @@ sel.addRange(range);
       };
       HintPopover.prototype.handleKeyup = function (e) {
           var _this = this;
-          //console.log(['e.keyCode', e.keyCode])
+          //console.trace(['e.keyCode', e.keyCode])
           if (!lists.contains([key.code.ENTER, key.code.UP, key.code.DOWN], e.keyCode)) {
               var wordRange = this.context.invoke('editor.createRange').getWordRange();
               

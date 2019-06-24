@@ -265,7 +265,7 @@ let SummerNoteConfig = {
       search: function (keyword, callback) {
         //console.log(['search', keyword])
         callback($.grep(this.words, function (item) {
-          return item.indexOf(keyword) === 0;
+          return item.indexOf(keyword) > -1;
         }));
       },
       content: function (item) {
@@ -275,8 +275,10 @@ let SummerNoteConfig = {
         //let labels = fieldPostLabels.summernote('text')
         //console.log(labels)
         //if (labels)
-        FieldPostLabels.addLabel(item)
-        //return ''
+        setTimeout(() => {
+          FieldPostLabels.addLabel(item)
+        }, 0)
+        return ''
       }
     }
     

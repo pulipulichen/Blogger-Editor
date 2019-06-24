@@ -125,7 +125,10 @@ let FieldPostLabels = {
       }
 
       if (labels.trim() !== '') {
-        labels = labels + ', ' + label + ','
+        if (!labels.trim().endsWith(',')) {
+          labels = labels + ', '
+        }
+        labels = labels + label + ','
       }
       else {
         labels = label + ','
