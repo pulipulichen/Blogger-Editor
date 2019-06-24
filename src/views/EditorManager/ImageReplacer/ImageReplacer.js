@@ -116,15 +116,23 @@ var config = {
       let list = FieldPostBody.getImageList()
       //console.log(list)
       if (list.length > 0) {
-        
+        let folder
+        let folderCounter = 0
+        let folderFilesLimit = 8
         $v.PostManager.getEditingPostId((id) => {
           let zip = new JSZip();
           let nowFormat = DayjsHelper.nowFormat()
-          let folderName = `post-${id}-images-${nowFormat}`
-          let folder = zip.folder(folderName);
+          //let folderName = `post-${id}-images-${nowFormat}`
+          //folder = zip.folder(folderName);
 
           let loop = (i) => {
             if (i < list.length) {
+              if (i % folderFilesLimit === 0) {
+                folderCounter++
+                let folderName = `post-${id}-images-${nowFormat}-${folderCounter}`
+                folder = zip.folder(folderName);
+              } 
+              
               let path = list[i]
               let name = FileSystemHelper.getFileName(path)
               //console.log([name, path])
