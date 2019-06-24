@@ -2503,17 +2503,17 @@
       return node && !isText(node) && lists.contains(node.classList, 'note-styletag');
   }
   /**
-   * 
+   * Copy text in plain format
    * @param  {String} text 
-   * @return {[type]}      [description]
+   * @return {String} 
    */
   function copyPlainText(text) {
     let id = 'summernoteClipboardInput'
     var copyTextInput = document.getElementById(id)
     if (copyTextInput === null) {
-      var copyTextInput = document.createElement("input");
+      var copyTextInput = document.createElement("textarea");
       copyTextInput.id = id
-      copyTextInput.type = "text"
+      //copyTextInput.type = "text"
       document.body.appendChild(copyTextInput);
     }
 
@@ -2527,7 +2527,37 @@
     document.execCommand("copy");
 
     copyTextInput.style = "display: none"
+    
+    return text
   }
+  
+  /**
+   * Copy text in rich format
+   * @param  {String} text 
+   * @return {String} 
+   */
+  function copyRichFormat(str) {
+    document.addEventListener("copy", (e) => {
+      copyRichFormatListener(e, str)
+    })
+    document.execCommand("copy")
+    document.removeEventListener("copy", (e) => {
+      copyRichFormatListener(e, str)
+    })
+  }
+  
+  /**
+   * Copy text in rich format
+   * @param  {String} text 
+   * @return {String} 
+   */
+  function copyRichFormatListener(e, str) {
+    e.clipboardData.setData("text/html", str);
+    e.clipboardData.setData("text/plain", str);
+    e.preventDefault();
+    return str
+  }
+  
   var dom = {
       /** @property {String} NBSP_CHAR */
       NBSP_CHAR: NBSP_CHAR,
@@ -4682,6 +4712,7 @@
           this.context.memo('help.formatPara', this.lang.help.formatPara);
           this.context.memo('help.insertHorizontalRule', this.lang.help.insertHorizontalRule);
           this.context.memo('help.fontName', this.lang.help.fontName);
+          
           // native commands(with execCommand), generate function for execCommand
           var commands = [
               'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript',
@@ -4769,6 +4800,42 @@
             this[insertType](node)
             return node
           })
+          
+          /**
+           * obj.summernote('editor.copyPlainHTML')
+           * @author Pulipuli Chen 20190624
+           * @returns {summernote-liteL#16.summernote-liteL#16#Editor.Editor}
+           */
+          this.copyPlainHTML = function () {
+            let code = _this.context.invoke('code');
+            //console.log(code)
+            copyPlainText(code)
+            return this
+          }
+          
+          /**
+           * obj.summernote('editor.copyPlainText')
+           * @author Pulipuli Chen 20190624
+           * @returns {summernote-liteL#16.summernote-liteL#16#Editor.Editor}
+           */
+          this.copyPlainText = function () {
+            let code = _this.context.invoke('text');
+            //console.log(code)
+            copyPlainText(code)
+            return this
+          }
+          
+          /**
+           * obj.summernote('editor.copyRichFormatHTML')
+           * @author Pulipuli Chen 20190624
+           * @returns {summernote-liteL#16.summernote-liteL#16#Editor.Editor}
+           */
+          this.copyRichFormatHTML = function () {
+            let code = _this.context.invoke('code');
+            //console.log(code)
+            copyRichFormat(code)
+            return this
+          }
           
           /**
            * @author Pulipuli Chen 20190624

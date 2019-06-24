@@ -38,6 +38,8 @@ let InitHelper = {
     //$v.NavBarSidebar.open()
     //WindowHelper.popup('http://blog.pulipuli.info/')
     
+    //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))
+    
     FunctionHelper.triggerCallback(callback)
   },
   init: function (callback) {

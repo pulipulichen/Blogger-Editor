@@ -19,14 +19,18 @@ CopyPasteHelper = {
 
     copyTextInput.style = "display: none"
   },
+  copyRichFormatListener: function (e, str) {
+    e.clipboardData.setData("text/html", str);
+    e.clipboardData.setData("text/plain", str);
+    e.preventDefault();
+  },
   copyRichFormat: function (str) {
-    function listener(e) {
-      e.clipboardData.setData("text/html", str);
-      e.clipboardData.setData("text/plain", str);
-      e.preventDefault();
-    }
-    document.addEventListener("copy", listener);
+    document.addEventListener("copy", (e) => {
+      this.copyRichFormatListener(e, str)
+    });
     document.execCommand("copy");
-    document.removeEventListener("copy", listener);
+    document.removeEventListener("copy", (e) => {
+      this.copyRichFormatListener(e, str)
+    });
   }
 }
