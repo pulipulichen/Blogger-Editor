@@ -2362,7 +2362,10 @@
     return document.createElement(nodeName);
   }
   function createText(text) {
-    return document.createTextNode(text);
+    console.log('[' + text + ']')
+    let node = document.createTextNode(text);
+    console.log(`[${node}]`)
+    return node
   }
   /**
    * @method remove
@@ -4760,8 +4763,6 @@
               node = node.trim()
               if (!( (node.startsWith('<') && node.endsWith('>')) )) {
                 insertType = 'insertText'
-              }
-              else {
                 node = text
               }
             }
@@ -4796,6 +4797,7 @@
                 this.restoreBlurRange()
               }
               
+              console.trace(`[${text}]`)
               var rng = _this.createRange();
               var textNode = rng.insertNode(dom.createText(text));
               range.create(textNode, dom.nodeLength(textNode)).select();
@@ -5364,7 +5366,7 @@
        * @author Pulipuli Chen 20190420
        */
       Editor.prototype.clearEnterFormat = function (event) {
-        console.log('clearEnterFormat')
+        //console.log('clearEnterFormat')
         let target = this.createRange()
         if (target === undefined 
             || typeof(target.sc) !== 'object' 
