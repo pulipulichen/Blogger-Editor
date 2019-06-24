@@ -867,6 +867,7 @@
               remove: 'Remove Image',
               open: 'Open Image',
               save: 'Save Image',
+              copy: 'Copy URL',
               original: 'Original'
           },
           video: {
@@ -5145,7 +5146,7 @@
            * @author Pulipuli Chen 20190517
            */
           this.copyMediaLink = this.wrapCommand(function () {
-              //console.log('openMedia')
+              //console.log('copyMediaLink')
               
               var $target = $$1(_this.restoreTarget());
               //console.log($target.prop("tagName"))
@@ -5171,6 +5172,7 @@
                 if (src.startsWith('data:') === false && src.startsWith('filesystem:') === false ) {
                   windowName = src.slice(src.lastIndexOf('/') + 1)
                   windowName = decodeURIComponent(windowName)
+                  //console.log(src)
                   window.open(src, windowName)
                 }
                 else {
@@ -5342,7 +5344,10 @@
               _this.context.triggerEvent('blur', event);
               
               // hide popover
-              $$1('.note-popover').hide()
+              setTimeout(() => {
+                //console.log('aaa')
+                $$1('.note-popover').fadeOut()
+              }, 1000)
           }).on('mousedown', function (event) {
               _this.context.triggerEvent('mousedown', event);
           }).on('mouseup', function (event) {
