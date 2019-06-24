@@ -5322,6 +5322,24 @@
               //console.log('input')
               _this.context.triggerEvent('input', event);
           })
+          .on('paste', function (event) {
+              //console.log('paste')
+      
+              // a.originalEvent.clipboardData.files
+              if (_this.options.enablePasteImage === true
+                      && typeof(event) === 'object' 
+                      && typeof(event.originalEvent) === 'object'
+                      && typeof(event.originalEvent.clipboardData) === 'object'
+                      && typeof(event.originalEvent.clipboardData.files) === 'object') {
+                event.stopPropagation()
+                event.preventDefault()
+                let files = event.originalEvent.clipboardData.files
+                _this.insertImagesAsDataURL(files)
+              }
+              else {
+                _this.context.triggerEvent('paste', event);
+              }
+          })
           //.on('compositionstart', function (event) {
           //    console.log('compositionstart')
           //})
@@ -5357,8 +5375,6 @@
               _this.context.triggerEvent('mouseup', event);
           }).on('scroll', function (event) {
               _this.context.triggerEvent('scroll', event);
-          }).on('paste', function (event) {
-              _this.context.triggerEvent('paste', event);
           });
           // init content before set event
           this.$editable.html(dom.html(this.$note) || dom.emptyPara);
@@ -6448,7 +6464,8 @@ sel.addRange(range);
         //console.log(event)
         //console.log('drop 這邊要決定是否要插入圖片')
         //console.log(event.originalEvent.dataTransfer.files.length)
-        if (typeof(event) === 'object' 
+        if (this.options.enableDropImage === true 
+                && typeof(event) === 'object' 
                 && typeof(event.originalEvent) === 'object' 
                 && typeof(event.originalEvent.dataTransfer) === 'object'
                 && typeof(event.originalEvent.dataTransfer.files) === 'object') {
@@ -9485,6 +9502,8 @@ sel.addRange(range);
           maxTextLength: 0,
           clearEnterFormat: false, // 記得要改成false
           showHeadingLabel: false, // 記得要改成false
+          enableDropImage: true,
+          enablePasteImage: true,
           allowEnter: true,
           blockquoteBreakingLevel: 2,
           styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],

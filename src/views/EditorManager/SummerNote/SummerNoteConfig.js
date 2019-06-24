@@ -163,6 +163,8 @@ let SummerNoteConfig = {
       clearEnterFormat: true,
       //clearEnterFormat: false,
       showHeadingLabel: true,
+      enableDropImage: false,
+      enablePasteImage: false,
       popover: {
         image: this.popoverImage(),
         table: this.popoverTable(),
@@ -182,6 +184,8 @@ let SummerNoteConfig = {
       shortcuts: false,
       disableDragAndDrop: true,
       allowEnter: false,
+      enableDropImage: false,
+      enablePasteImage: false,
       popover: {
         air: this.popoverAir()
       },
@@ -209,6 +213,8 @@ let SummerNoteConfig = {
       shortcuts: false,
       disableDragAndDrop: true,
       allowEnter: false,
+      enableDropImage: false,
+      enablePasteImage: false,
       popover: {
         air: this.popoverAir()
       },
