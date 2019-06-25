@@ -10,43 +10,49 @@ let config = {
       publicURL: "",
       postTitle: "",
       postLabels: "",
-      filesystemImageCount: 2
+      filesystemImageCount: 0
     }
   },
   mounted: function () {
     VueHelper.mountLocalStorage(this, 'bloggerConsoleURL')
   },
   computed: {
-    enableOpenBloggerConsole: function () {
+    disableOpenBloggerConsole: function () {
       if (this.bloggerConsoleURL === 'https://www.blogger.com'
             || this.bloggerConsoleURL.startsWith('https://www.blogger.com/blogger.g?blogID=')) {
-        return ''
+        return false
       }
       else {
-        return 'disabled'
+        return true
       }
     },
-    enableOpenEditURL: function () {
+    disableOpenEditURL: function () {
       if (this.editURL.startsWith('https://www.blogger.com/blogger.g?blogID=')
               && this.editURL.indexOf('postID=') > -1) {
-        return ''
+        return false
       }
       else {
-        return 'disabled'
+        return true
       }
     },
-    enableOpenPublicURL: function () {
+    disableOpenPublicURL: function () {
       if (this.publicURL.startsWith('http')
               || this.publicURL.startsWith('//')) {
-        return ''
+        return false
       }
       else {
-        return 'disabled'
+        return true
       }
     }
   },
   created: function () {
     $v[this.name] = this
+      
+    // 監聽ImageReplacer的改變事件
+    EventManager.on($v.ImageReplacer, 'onFilesystemImageCountChange', (ImageReplacer) => {
+      this.filesystemImageCount = ImageReplacer.filesystemImageCount
+      //console.log(this.filesystemImageCount)
+    })
   },
   methods: {
     // ---------------------
@@ -61,15 +67,16 @@ let config = {
       return this.ui
     },
     open: function () {
-      this.init(() => {
-        this.initPostMetadata()
+      this.loadPostData(() => {
+        $v.ImageReplacer.validateHasFileSystemImage()
+        //console.log(this.filesystemImageCount)
         this.getUI().modal('show')
       })
     },
     close: function () {
       this.getUI().modal('hide')
     },
-    init: function(callback) {
+    loadPostData: function(callback) {
       if (ConfigHelper.get('debug').disablePublishManager !== false) {
         return FunctionHelper.triggerCallback(callback)
       }
@@ -79,12 +86,17 @@ let config = {
         FunctionHelper.triggerCallback(callback)
         return
       }
+      
       this.editURL = post.editURL
       this.publicURL = post.publicURL
+      
+      let fieldPostTitle = $v.EditorManager.FieldPostTitle
+      this.postTitle = fieldPostTitle.getText()
+      
+      let fieldPostLabels = $v.EditorManager.FieldPostLabels
+      this.postLabels = fieldPostLabels.getText()
+      
       FunctionHelper.triggerCallback(callback)
-      
-      // 監聽ImageReplacer的改變事件
-      
     },
     persist: function () {
       VueHelper.persistLocalStorage(this, 'bloggerConsoleURL')
@@ -104,13 +116,6 @@ let config = {
     },
     downloadPostBackup: function () {
       $v.PostManager.backupPost()
-    },
-    initPostMetadata: function () {
-      let fieldPostTitle = $v.EditorManager.FieldPostTitle
-      this.postTitle = fieldPostTitle.getText()
-      
-      let fieldPostLabels = $v.EditorManager.FieldPostLabels
-      this.postLabels = fieldPostLabels.getText()
     },
     changePostMetadata: function () {
       let fieldPostTitle = $v.EditorManager.FieldPostTitle

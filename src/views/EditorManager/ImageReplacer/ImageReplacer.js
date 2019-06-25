@@ -53,14 +53,18 @@ var config = {
       this.getUI().modal('show')
       this.getUI().find('.ui.checkbox').checkbox()
     },
-    validateHasFileSystemImage: function () {
+    validateHasFileSystemImage: function (callback) {
       if (FieldPostBody.hasFileSystemImage()) {
         this.filesystemImageCount = FieldPostBody.countFileSystemImage()
+        EventManager.trigger(this, 'onFilesystemImageCountChange')
+        console.log(['ImageReplacer', this.filesystemImageCount])
         this.currentStep = 1
+        FunctionHelper.triggerCallback(callback)
         return true
       }
       else {
         this.currentStep = 0
+        FunctionHelper.triggerCallback(callback)
         return false
       }
     },
@@ -101,6 +105,7 @@ var config = {
         this.replacedImageCount = 0
       }
       this.filesystemImageCount = FieldPostBody.countFileSystemImage()
+      EventManager.trigger(this, 'onFilesystemImageCountChange')
       
       //this.close()
       

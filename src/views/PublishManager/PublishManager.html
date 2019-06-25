@@ -29,7 +29,8 @@
         </div>
         <div class="field">
           <div class="fluid ui labeled icon button"
-               v-on:click="copyHTML">
+               v-on:click="copyHTML"
+               v-bind:class="{green: (filesystemImageCount === 0)}">
             <i class="copy icon"></i>
             {{ $t("Copy HTML") }}
           </div>
@@ -48,6 +49,7 @@
                    v-on:change="changePostMetadata" />
             <button type="button" 
                     class="icon ui button"
+                    v-bind:class="{disabled: (postTitle.trim() === '')}"
                     v-on:click="copyInput">
               <i class="copy icon"></i>
             </button>
@@ -64,6 +66,7 @@
                    v-on:change="changePostMetadata" />
             <button type="button" 
                     class="icon ui button"
+                    v-bind:class="{disabled: (postLabels.trim() === '')}"
                     v-on:click="copyInput">
               <i class="copy icon"></i>
             </button>
@@ -78,9 +81,9 @@
         <div class="ui action input">
           <input type="url" 
                  v-model="bloggerConsoleURL"
-                 @change="persist">
+                 v-on:change="persist">
           <button class="ui button"
-                  :class="enableOpenBloggerConsole"
+                  v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
                   v-on:click="popup('bloggerConsoleURL')">
             {{ $t("Open") }}
           </button>
@@ -95,9 +98,9 @@
         <div class="ui action input">
           <input type="url" 
                  v-model="editURL"
-                 @change="persistPost('editURL')">
+                 v-on:change="persistPost('editURL')">
           <button class="ui button"
-                  :class="enableOpenEditURL"
+                  v-bind:class="{disabled: disableOpenEditURL, green: (disableOpenEditURL === false && disableOpenPublicURL)}"
                   v-on:click="popup('editURL')">
             {{ $t("Open") }}
           </button>
@@ -111,9 +114,9 @@
         <div class="ui action input">
           <input type="url" 
                  v-model="publicURL"
-                 @change="persistPost('publicURL')">
+                 v-on:change="persistPost('publicURL')">
           <button class="ui button"
-                  :class="enableOpenPublicURL"
+                  v-bind:class="{disabled: disableOpenPublicURL, green: disableOpenPublicURL === false}"
                   v-on:click="popup('publicURL')">
             {{ $t("Open") }}
           </button>
