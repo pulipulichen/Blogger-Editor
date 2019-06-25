@@ -73,7 +73,7 @@ let FieldPostLabels = {
     return this.get().next().find('.note-editing-area .note-editable')
   },
   getText: function () {
-    let text = this.getElement().text().trim()
+    let text = this.getElement().text()
     if (text.indexOf(',  ') > -1) {
       text = text.split(',  ').join(', ')
     }
