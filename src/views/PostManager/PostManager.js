@@ -421,6 +421,15 @@ let PostManager = {
         })
       })
     },
+    formatLabels: function (labels) {
+      if (typeof(labels) === 'string') {
+        labels = labels.trim()
+        if (labels.endsWith(',')) {
+          labels = labels.slice(0, -1)
+        }
+      }
+      return labels
+    }
   }
 }
 

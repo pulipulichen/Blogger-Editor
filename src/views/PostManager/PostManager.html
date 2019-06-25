@@ -1,7 +1,7 @@
 <div class="ui modal"
      v-bind:class="name"
      ref="modal">
-    <i class="close icon" @click="close"></i>
+    <i class="close icon" v-on:click="close"></i>
     <div class="header">
       <i class="file icon"></i>
       Post Manager
@@ -11,9 +11,9 @@
     <div class="content">
       <div class="description ui form">
         <div class="ui tiny progress"
-             :data-value="quotaUsed"
-             :data-total="quotaTotal"
-             :class="{'error': (quotaUsage > 90), 'warning': (quotaUsage >= 60 && quotaUsage <= 90)}">
+             v-bind:data-value="quotaUsed"
+             v-bind:data-total="quotaTotal"
+             v-bind:class="{'error': (quotaUsage > 90), 'warning': (quotaUsage >= 60 && quotaUsage <= 90)}">
           <div class="bar"></div>
           <div class="label">Quota Usage: 
             {{ quotaUsedMB }}MB 
@@ -32,7 +32,7 @@
               <input type="text" 
                      placeholder="Filter..."
                      v-model="filterCondition"
-                     @keyup="filterPosts">
+                     v-on:keyup="filterPosts">
               <i class="filter icon"></i>
             </div>
           </div>
@@ -41,17 +41,17 @@
           <div class="six wide field">
             <div class="ui mini fluid buttons">
               <div class="ui mini labeled icon button"
-                @click="newPost">
+                v-on:click="newPost">
                 <i class="file icon"></i>
                 NEW
               </div>
               <div class="ui mini icon button"
-                @click="backupAllPosts">
+                v-on:click="backupAllPosts">
                 <i class="download icon"></i>
                 <!-- BACKUP -->
               </div>
               <div class="ui mini icon button"
-                 @click="triggerUploadPosts">
+                 v-on:click="triggerUploadPosts">
                 <i class="upload icon"></i>
                 <!-- UPLOAD -->
               </div>
@@ -59,13 +59,13 @@
           </div>
           
           <div class="dragover-message"
-               @drop="dropPosts">
+               v-on:drop="dropPosts">
             Drop file to upload
           </div>
           
           <input type="file" name="uploadPosts"
                  accept=".zip"
-                 @change="uploadPosts"/>
+                 v-on:change="uploadPosts"/>
         </div>
 
         <div class="ui divided unstackable items post-list">
@@ -74,13 +74,13 @@
                v-for="post in filterPosts"
                v-bind:class="{ editing: (editingPostId === post.id) }">
             <a class="image" href="#"
-                 @click="openPost(post.id)">
-              <img :src="post.thumbnail" 
+                 v-on:click="openPost(post.id)">
+              <img v-bind:src="post.thumbnail" 
                  v-if="post.thumbnail"  />
             </a>
             <div class="content">
               <a class="header post-title" href="#"
-                 @click="openPost(post.id)">
+                 v-on:click="openPost(post.id)">
                 <span>
                   #{{ post.id }}
                 </span>
@@ -109,7 +109,7 @@
                        v-if='post.labels.split(",").length === 1'></i>
                     <i class="tags icon" 
                        v-if='post.labels.split(",").length > 1'></i>
-                    {{ post.labels }}
+                    {{ formatLabels(post.labels) }}
                   </span>
                   <!--<i class='close icon'></i>-->
                 </div>
@@ -117,30 +117,30 @@
                   <div class="ui mini buttons">
                     <div class='ui mini labeled icon button'
                          v-if="editingPostId !== post.id"
-                         @click='openPost(post.id)'>
+                         v-on:click='openPost(post.id)'>
                         <i class="folder open icon"></i>
                         OPEN
                     </div>
                     <div class='ui mini labeled icon positive button'
                          v-if="editingPostId === post.id"
-                         @click='close'>
+                         v-on:click='close'>
                         <i class="edit icon"></i>
                         EDITING
                     </div>
 
                     <div class='ui mini labeled icon button'
                          v-if="enableRemovePost"
-                         @click='removePost(post.id)'>
+                         v-on:click='removePost(post.id)'>
                       <i class="close icon"></i>
                       REMOVE
                     </div>
                     <div class='ui icon mini button' 
-                         @click='clonePost(post.id)'>
+                         v-on:click='clonePost(post.id)'>
                       <i class="clone icon"></i>
                       <!-- CLONE -->
                     </div>
                     <div class='ui icon mini button' 
-                         @click='backupPost(post.id)'>
+                         v-on:click='backupPost(post.id)'>
                       <!-- BACKUP -->
                       <i class="download icon"></i>
                     </div>
