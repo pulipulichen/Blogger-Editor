@@ -83,6 +83,7 @@ let config = {
       
       let post = $v.PostManager.getPost()
       if (post === undefined) {
+        console.error('post is not found')
         FunctionHelper.triggerCallback(callback)
         return
       }

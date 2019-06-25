@@ -73,7 +73,11 @@ let FieldPostLabels = {
     return this.get().next().find('.note-editing-area .note-editable')
   },
   getText: function () {
-    return this.getElement().text()
+    let text = this.getElement().text().trim()
+    if (text.indexOf(',  ') > -1) {
+      text = text.split(',  ').join(', ')
+    }
+    return text
   },
   set: function (value) {
     if (this.debug.disableSummerNode === true) {
