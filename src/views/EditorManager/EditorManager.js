@@ -115,7 +115,7 @@ var EditorManager = {
     
     if (ConfigHelper.get('debug').disableSaveIndicator === false) {
       VueHelper.init(SaveIndicatorSfc, (vue) => {
-        this.SaveIndicator = vue
+        this.SaveIndicator = vue 
       })
     }
     

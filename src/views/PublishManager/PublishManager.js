@@ -9,7 +9,8 @@ let config = {
       editURL: "",
       publicURL: "",
       postTitle: "",
-      postLabels: ""
+      postLabels: "",
+      filesystemImageCount: 2
     }
   },
   mounted: function () {
@@ -81,6 +82,9 @@ let config = {
       this.editURL = post.editURL
       this.publicURL = post.publicURL
       FunctionHelper.triggerCallback(callback)
+      
+      // 監聽ImageReplacer的改變事件
+      
     },
     persist: function () {
       VueHelper.persistLocalStorage(this, 'bloggerConsoleURL')
