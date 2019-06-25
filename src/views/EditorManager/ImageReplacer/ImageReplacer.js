@@ -122,7 +122,7 @@ var config = {
         $v.PostManager.getEditingPostId((id) => {
           let zip = new JSZip();
           let nowFormat = DayjsHelper.nowFormat()
-          //let folderName = `post-${id}-images-${nowFormat}`
+          let baseFolderName = `post-${id}-images-${nowFormat}`
           //folder = zip.folder(folderName);
 
           let loop = (i) => {
@@ -147,7 +147,7 @@ var config = {
             else {
               zip.generateAsync({type: "blob"}).then((content) => {
                 // see FileSaver.js
-                  saveAs(content, `${folderName}.zip`)
+                  saveAs(content, `${baseFolderName}.zip`)
                   this.isCreatingImagePackage = false
                   FunctionHelper.triggerCallback(callback)
               })

@@ -11,19 +11,26 @@
   <div class="content">
     <div class="description ui form">
 
-      <div class="fields">
-        <div class="eight wide field">
+      <div class="three fields">
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               @click="downloadPostBackup">
+            <i class="download icon"></i>
+            {{ $t("Backup") }}
+          </div>
+        </div>
+        <div class="field">
           <div class="fluid ui labeled icon button"
                @click="openImageReplacer">
             <i class="upload icon"></i>
             {{ $t("Upload Image") }}
           </div>
         </div>
-        <div class="eight wide field">
+        <div class="field">
           <div class="fluid ui labeled icon button"
-               @click="downloadPostBackup">
-            <i class="download icon"></i>
-            {{ $t("Backup") }}
+               @click="copyHTML">
+            <i class="copy icon"></i>
+            {{ $t("Copy HTML") }}
           </div>
         </div>
       </div>

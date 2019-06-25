@@ -1,3 +1,5 @@
+import SummerNoteCode from './../EditorManager/SummerNote/SummerNoteCode.js'
+
 let config = {
   data: function () {
     return {
@@ -119,6 +121,9 @@ let config = {
       let text = $(button).parents('.ui.input:first').find('input').val()
       //console.log(text)
       CopyPasteHelper.copyPlainText(text)
+    },
+    copyHTML: function () {
+      SummerNoteCode.CopyCodeClick()
     }
   }
 }
