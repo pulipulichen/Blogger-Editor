@@ -39,16 +39,24 @@ let NavBarMenuSidebar = {
       if (this.isOpened === null || this.isOpened === true) {
         return
       }
-      this.isOpened = null
-      //console.log('aaa')
-      //this.getUI().sidebar('toggle')
-      this.getUI().transition({
-        animation: 'slide right',
-        onComplete: () => {
-          this.isOpened = true
-        }
-      })
-      this.dimmer.transition('fade in')
+      if ($v.OutlineNavigator.opened === false) {
+        
+        this.isOpened = null
+        //console.log('aaa')
+        //this.getUI().sidebar('toggle')
+        this.getUI().transition({
+          animation: 'slide right',
+          onComplete: () => {
+            this.isOpened = true
+          }
+        })
+        this.dimmer.transition('fade in')
+      }
+      else {
+        this.getUI().show()
+        this.dimmer.show()
+        this.isOpened = true
+      }
       this.body.css('overflow-y', 'hidden')
     },
     close: function () {
@@ -57,14 +65,21 @@ let NavBarMenuSidebar = {
       }
       
       //this.getUI().sidebar('toggle')
-      this.isOpened = null
-      this.getUI().transition({
-        animation: 'slide right',
-        onComplete: () => {
-          this.isOpened = false
-        }
-      })
-      this.dimmer.transition('fade out')
+      if ($v.OutlineNavigator.opened === false) {
+        this.isOpened = null
+        this.getUI().transition({
+          animation: 'slide right',
+          onComplete: () => {
+            this.isOpened = false
+          }
+        })
+        this.dimmer.transition('fade out')
+      }
+      else {
+        this.getUI().hide()
+        this.dimmer.hide()
+        this.isOpened = false
+      }
       this.body.css('overflow-y', '')
     },
   }
