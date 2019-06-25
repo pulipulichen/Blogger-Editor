@@ -57,7 +57,7 @@ var config = {
       if (FieldPostBody.hasFileSystemImage()) {
         this.filesystemImageCount = FieldPostBody.countFileSystemImage()
         EventManager.trigger(this, 'onFilesystemImageCountChange')
-        console.log(['ImageReplacer', this.filesystemImageCount])
+        //console.log(['ImageReplacer', this.filesystemImageCount])
         this.currentStep = 1
         FunctionHelper.triggerCallback(callback)
         return true

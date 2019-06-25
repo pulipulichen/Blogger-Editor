@@ -41,12 +41,16 @@ let NavBar = {
     toggle: function () {
       //console.log('aaa')
       // check scroll height
-      
       if (document.body.clientWidth < 900) {
         $v.NavBarSidebar.open()
       }
       else {
-        this.getUI().toggleClass('call-fixed')
+        if (window.scrollY > this.navbarHeight) {
+          this.getUI().toggleClass('call-fixed')
+        }
+        else {
+          this.getUI().removeClass('call-fixed')
+        }
       }
     },
     init: function (callback) {
