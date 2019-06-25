@@ -33,23 +33,31 @@
     display: none;
   }
   
-  .summernotePostLabels-wrapper > .note-editor {
-    display: inline-block;
+  .summernotePostLabels-wrapper {
+    .note-editor {
+      display: inline-block;
+      line-height: 100%;
+    }
+    
+    &.new .note-editor {
+      min-width: 7.5rem;
+    }
+    
+    .note-editable,
+    .note-placeholder {
+      min-width: 3.2rem;
+      //height: 37px;
+      height: 15px;
+      overflow-y: hidden;
+      padding: 0.5rem;
+      margin-bottom: -0.5rem;
+      
+      p {
+        font-size: inherit;
+        display: inline;
+      }
+    }
   }
-  
-  .summernotePostLabels-wrapper .note-editable {
-    min-width: 3.2rem;
-    height: 37px;
-  }
-  
-  .summernotePostLabels-wrapper .note-editable p {
-    font-size: inherit;
-  }
-  
-  .summernotePostLabels-wrapper.new > .note-editor {
-    min-width: 7rem;
-  }
-  
   .air-mode > .note-editor .note-editing-area .note-editable,
   .air-mode > .note-editor .note-editing-area .note-placeholder {
     padding-left: 0.5rem;

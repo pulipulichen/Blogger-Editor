@@ -37,7 +37,7 @@ let SummerNoteConfig = {
     }
     
     let toolbar = [
-        ['view', ['codeview', 'OutlineNavigator']],
+        ['view', ['codeview']],
         ['style', ['style', 'transSelected']],
         ['formatBlockHeading1', ['formatH1']],
         ['formatBlockHeading2', ['formatH2', 'formatH3']],
@@ -54,7 +54,7 @@ let SummerNoteConfig = {
         // ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
         //['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         //['publish', ['ImageReplacer', 'CleanCode', 'CopyHTML']],
-        ['help', [/*'fullscreen',*/'toggleMenu', 'help']]
+        ['help', [/*'fullscreen',*/'toggleMenu', 'OutlineNavigator', 'help']]
       ]
 
     return toolbar
