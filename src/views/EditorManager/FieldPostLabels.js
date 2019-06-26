@@ -98,7 +98,7 @@ let FieldPostLabels = {
       let label = this.uiNew.summernote('text')
       
       if (label.trim() !== '') {
-        let labels = this.ui.summernote('text')
+        //let labels = this.ui.summernote('text')
         
         this.addLabel(label)
         
