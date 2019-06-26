@@ -191,11 +191,11 @@
     <div class="actions">
       <div class="ui button"
            v-on:click="close">
-        Cancel
+        {{ $t('Cancel') }}
       </div>
       <div class="ui positive right labeled icon button" 
            v-on:click="persist();close()">
-        OK
+        {{ $t('OK') }}
         <i class="checkmark icon"></i>
       </div>
     </div>

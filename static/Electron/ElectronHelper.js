@@ -57,9 +57,9 @@ let ElectronHelper = {
       }
     }, false)
     
-    setTimeout(() => {
-      openSearchWindow()
-    }, 3000)
+    //setTimeout(() => {
+    //  openSearchWindow()
+    //}, 3000)
   }
 }
 
