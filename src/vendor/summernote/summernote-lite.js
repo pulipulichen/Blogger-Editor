@@ -5070,6 +5070,9 @@
               }
               else if ($target.prop('tagName').toLowerCase() === 'a') {
                 $target.remove();
+                _this.context.invoke('insertNode', '<p></p>')
+                //$target.replaceWith('<p></p>')
+                console.log('this.removeMedia')
               }
               else {
                 //$target = $$1(_this.restoreTarget()).detach();
@@ -8438,9 +8441,10 @@ sel.addRange(range);
           image.src = href
           
           let win = window.open('', name)
-          win.document.write(image.outerHTML)
-          
-          win.document.title = title
+          if (win.document !== undefined) {
+            win.document.write(image.outerHTML)
+            win.document.title = title
+          }
         }
       };
       return LinkPopover;
@@ -9525,10 +9529,12 @@ sel.addRange(range);
               image: [
                   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
                   ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                  ['remove', ['openMedia', 'saveMedia', 'copyMediaLink', 'removeMedia']]
+                  ['imagesLink', ['openMedia', 'saveMedia', 'copyMediaLink']],
+                  ['remove', ['removeMedia']]
               ],
               link: [
-                  ['link', ['linkDialogShow', 'unlink', 'removeLink', 'copyLink']]
+                  ['link', ['linkDialogShow', 'unlink', 'copyLink']],
+                  ['remove', ['removeLink']]
               ],
               table: [
                   ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
