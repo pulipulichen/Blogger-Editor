@@ -1,0 +1,65 @@
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: 'Noto Sans CJK TC Light', 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Meiryo", sans-serif;
+  overflow: hidden;
+}
+
+.inpage-search-body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 8px;
+  margin-top: 6px;
+}
+
+.inpage-search-input {
+  flex: auto;
+  -webkit-appearance: textfield;
+  box-sizing: border-box;
+  margin-right: 6px;
+  outline: 0;
+  border: solid #A9A9A9 1px;
+}
+.inpage-search-input:focus {
+  border-color: #83bffc;
+}
+
+.inpage-search-matches {
+  color: #999;
+  font-size: 0.8em;
+}
+
+.inpage-search-back {
+  margin-left: 2px;
+  padding-left: 6px;
+  padding-right: 2px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.inpage-search-forward {
+  padding-left: 2px;
+  padding-right: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.inpage-search-close {
+  margin-left: 4px;
+  padding: 0 2px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.8em;
+}
+
+.inpage-search-back:hover,
+.inpage-search-forward:hover,
+.inpage-search-close:hover {
+  background-color: #e2e0e2;
+  border-radius: 0.2em;
+}

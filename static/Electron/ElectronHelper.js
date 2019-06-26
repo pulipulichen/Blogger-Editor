@@ -1,3 +1,5 @@
+const path = require('path');
+
 let ElectronHelper = {
   init: function () {
     if (this.isElectronEnvironment()) {
@@ -27,23 +29,34 @@ let ElectronHelper = {
 
     // Create an instance with the current window
     let searcher = remote.getCurrentWebContents()
+    console.log(searcher)
     //console.log(typeof(searcher.send))
     //searcher.send = () => {}
-    const inPageSearch = searchInPage(searcher);
+    const inPageSearch = searchInPage(searcher, {
+      preloadSearchWindow: true,
+      customCssPath: path.join(__dirname, 'static/Electron/EletronInPageSearch.css')
+    });
+
+    let openSearchWindow = () => {
+      try {
+        inPageSearch.openSearchWindow();
+      }
+      catch (e) {
+        console.error(e)
+      }
+    }
 
     // Alternatively add the key event listener [CTRL+F]
     window.addEventListener("keydown", (e) => {
       // 這裡是呼叫的地方
       if ((e.ctrlKey || e.metaKey) && e.keyCode === 70) {
-        try {
-          inPageSearch.openSearchWindow();
-        }
-        catch (e) {
-          console.error(e)
-        }
+        openSearchWindow()
       }
-    }, false);
-
+    }, false)
+    
+    setTimeout(() => {
+      openSearchWindow()
+    }, 3000)
   }
 }
 
