@@ -24,7 +24,9 @@ let ElectronHelper = {
     }
   },
   initElectronInPageSearch: function () {
-    const searchInPage = require('electron-in-page-search').default;
+    //const searchInPage = require('electron-in-page-search').default;
+    const searchInPage = require("@pulipuli.chen/electron-in-page-search").default
+    //const searchInPage = require('electron-in-page-search').default
     const remote = require('electron').remote;
 
     // Create an instance with the current window
@@ -55,9 +57,9 @@ let ElectronHelper = {
       }
     }, false)
     
-    //setTimeout(() => {
-    //  openSearchWindow()
-    //}, 3000)
+    setTimeout(() => {
+      openSearchWindow()
+    }, 3000)
   }
 }
 
