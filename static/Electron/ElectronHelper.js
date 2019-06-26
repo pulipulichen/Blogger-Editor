@@ -29,12 +29,13 @@ let ElectronHelper = {
 
     // Create an instance with the current window
     let searcher = remote.getCurrentWebContents()
-    console.log(searcher)
+    //console.log(searcher)
     //console.log(typeof(searcher.send))
     //searcher.send = () => {}
     const inPageSearch = searchInPage(searcher, {
       preloadSearchWindow: true,
-      customCssPath: path.join(__dirname, 'static/Electron/EletronInPageSearch.css')
+      customCssPath: path.join(__dirname, 'static/Electron/EletronInPageSearch.css'),
+      customSearchWindowHtmlPath: path.join(__dirname, 'static/Electron/EletronInPageSearch.html'),
     });
 
     let openSearchWindow = () => {
