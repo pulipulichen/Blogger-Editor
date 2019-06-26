@@ -33,7 +33,7 @@
             -->
           </div>
           
-          <div class="ui bottom attached tab segment form" 
+          <div class="ui bottom attached tab segment active form" 
              data-tab="image">
             
             <div class="field">
@@ -124,8 +124,25 @@
           
           <!-- -------------------------------------- -->
           
-          <div class="ui bottom attached tab segment active form" 
+          <div class="ui bottom attached tab segment form" 
              data-tab="labels">
+            
+            <div class="field">
+              <label for="summerNoteConfigLabelsSearch">
+                {{ $t('Search Label') }}
+              </label>
+              <div class="ui search"
+                   ref="summerNoteConfigLabelsSearch">
+                <div class="ui icon input">
+                  <input type="text"
+                     id="summerNoteConfigLabelsSearch"
+                     class="summernote-config-labels-search prompt"
+                     placeholder="Search labels..." />
+                  <i class="search icon"></i>
+                </div>
+                <div class="results"></div>
+              </div>
+            </div>
             
             <div class="field">
               <label for="summerNoteConfigLabels">
@@ -141,15 +158,6 @@
                         v-on:change="setLabelsChanged"></textarea>
             </div>
             
-            <div class="field">
-              <label for="summerNoteConfigLabelsSearch">
-                {{ $t('Search Label') }}
-              </label>
-              <input type="text"
-                     id="summerNoteConfigLabelsSearch"
-                     class="summernote-config-labels-search"
-                     ref="summerNoteConfigLabelsSearch" />
-            </div>
           </div> <!-- data-tab="labels" -->
           
           <!-- -------------------------------------- -->
