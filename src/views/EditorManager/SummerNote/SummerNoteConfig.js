@@ -37,7 +37,7 @@ let SummerNoteConfig = {
     }
     
     let toolbar = [
-        ['view', ['codeview', 'OutlineNavigator']],
+        ['view', ['codeview']],
         ['style', ['style', 'transSelected']],
         ['formatBlockHeading1', ['formatH1']],
         ['formatBlockHeading2', ['formatH2', 'formatH3']],
@@ -54,7 +54,7 @@ let SummerNoteConfig = {
         // ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
         //['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         //['publish', ['ImageReplacer', 'CleanCode', 'CopyHTML']],
-        ['help', [/*'fullscreen',*/'toggleMenu', 'help']]
+        ['help', [/*'fullscreen',*/'toggleMenu', 'OutlineNavigator', 'help']]
       ]
 
     return toolbar
@@ -120,7 +120,8 @@ let SummerNoteConfig = {
   },
   popoverLink: function () {
     return [
-      ['link', ['linkDialogShow', 'unlink', 'removeLink', 'copyLink']]
+      ['link', ['linkDialogShow', 'unlink', 'copyLink']],
+      ['remove', ['removeLink']]
     ]
   },
   popoverAir: function () {
@@ -160,9 +161,11 @@ let SummerNoteConfig = {
       placeholder: 'Post Body',
       toolbar: this.toolbar(),
       styleTags: this.styleTags(),
+      //clearEnterFormat: true,
       clearEnterFormat: true,
-      //clearEnterFormat: false,
       showHeadingLabel: true,
+      enableDropImage: false,
+      enablePasteImage: false,
       popover: {
         image: this.popoverImage(),
         table: this.popoverTable(),
@@ -181,6 +184,9 @@ let SummerNoteConfig = {
       placeholder: placeholder,
       shortcuts: false,
       disableDragAndDrop: true,
+      allowEnter: false,
+      enableDropImage: false,
+      enablePasteImage: false,
       popover: {
         air: this.popoverAir()
       },
@@ -190,23 +196,38 @@ let SummerNoteConfig = {
         },
         onInit: function() {
           FunctionHelper.triggerCallback(callback)
+        },
+        onKeypress: (e) => {
+          if (e.keyCode === 13) {
+            e.preventDefault()
+            e.stopPropagation()
+          }
         }
       }
     }
     return config
   },
-  postLabelsConfig: function (placeholder, callback) {
+  postLabelsConfig: function (placeholder, initCallback, keypressCallback) {
     let config = {
       airMode: true,
       placeholder: placeholder,
       shortcuts: false,
       disableDragAndDrop: true,
+      allowEnter: false,
+      enableDropImage: false,
+      enablePasteImage: false,
       popover: {
         air: this.popoverAir()
       },
       callbacks: {
-        onInit: function() {
-          FunctionHelper.triggerCallback(callback)
+        onInit: () => {
+          FunctionHelper.triggerCallback(initCallback)
+        },
+        onChange: (contents) => {
+          this.onPostLabelsChange(contents)
+        },
+        onKeyup: (e) => {
+          FunctionHelper.triggerCallback(keypressCallback, e)
         }
       },
       hint: this.getLabelsHintConfig()
@@ -225,22 +246,42 @@ let SummerNoteConfig = {
     })
     //console.log(fieldName + ':', contents)
   },
+  onPostLabelsChange: function (contents) {
+    let fieldName = 'labels'
+    DelayExecHelper.exec(fieldName, 3, () => {
+      $v.EditorManager.FieldPostDate.set()
+      if (contents.startsWith('<') && contents.endsWith('>')) {
+        contents = $(contents).text()
+      }
+      $v.PostManager.updateEditingPost(fieldName, contents)
+    })
+  },
   getLabelsHintConfig: function () {
     //let config = this.airConfig(fieldName, placeholder, callback)
     let words = $v.EditorManager.labelsList
+    let FieldPostLabels = $v.EditorManager.FieldPostLabels
     
     let hint = {
       words: words,
       //match: /\b(\S{1,})$/,
       match: /([\u4E00-\u9FAF\u3040-\u3096\u30A1-\u30FA\uFF66-\uFF9D\u31F0-\u31FFA-Za-z]{1,})$/,
       search: function (keyword, callback) {
-        console.log(['search', keyword])
+        //console.log(['search', keyword])
         callback($.grep(this.words, function (item) {
-          return item.indexOf(keyword) === 0;
+          return item.indexOf(keyword) > -1;
         }));
       },
       content: function (item) {
-        return item + ', ';
+        //return '<span>' + item + ', </span>';
+        //return item + ', '
+        //console.log(item)
+        //let labels = fieldPostLabels.summernote('text')
+        //console.log(labels)
+        //if (labels)
+        setTimeout(() => {
+          FieldPostLabels.addLabel(item)
+        }, 0)
+        return ''
       }
     }
     

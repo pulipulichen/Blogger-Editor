@@ -25,10 +25,10 @@ let config = {
     isSaveDisabled: function () {
       if (this.editingId === null 
               || this.editingSnippet.trim() === "") {
-        return 'disabled'
+        return true
       }
       else {
-        return 'green'
+        return false
       }
     }
   },

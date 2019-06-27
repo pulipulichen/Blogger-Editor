@@ -1,7 +1,7 @@
 <div class="ui modal"
        v-bind:class="name"
        ref="modal">
-    <i class="close icon" @click="close"></i>
+    <i class="close icon" v-on:click="close"></i>
     <div class="header">
       <i class="quote left icon"></i>
       {{ $t('Title') }}
@@ -27,7 +27,7 @@
             <div class="six wide field">
               <div class="ui mini fluid buttons">
                 <div class="ui mini labeled icon button"
-                  @click="createSnippet">
+                  v-on:click="createSnippet">
                   <i class="file icon"></i>
                   {{ $t("NEW") }}
                 </div>
@@ -42,15 +42,15 @@
               <div class="right floated content">
                 <div class="ui mini buttons">
                   <div class="ui button"
-                       @click="deleteSnippet(snippet.id)">
+                       v-on:click="deleteSnippet(snippet.id)">
                     {{ $t("DELETE") }}
                   </div>
                   <div class="ui button"
-                       @click="editSnippet(snippet.id)">
+                       v-on:click="editSnippet(snippet.id)">
                     {{ $t("EDIT") }}
                   </div>
                   <div class="ui button" 
-                       @click="insertSnippet(snippet.id)">
+                       v-on:click="insertSnippet(snippet.id)">
                     {{ $t("INSERT") }}
                   </div>
                 </div>
@@ -91,23 +91,23 @@
       
       <template v-if="editingId === null">
         <div class="ui button"
-             @click='close'>
+             v-on:click='close'>
           {{ $t('Close') }}
         </div>
       </template> <!-- <template v-if="editingId === null"> -->
       <template v-else>
         <div class="ui button"
-             :class="isSaveDisabled"
-             @click='saveAndInsertSnippet'>
+             v-bind:class="{green: (isSaveDisabled === false), disabled: isSaveDisabled}"
+             v-on:click='saveAndInsertSnippet'>
           {{ $t('Save & Insert') }}
         </div>
         <div class="ui button"
-             :class="isSaveDisabled"
-             @click='saveSnippet'>
+             v-bind:class="{disabled: isSaveDisabled}"
+             v-on:click='saveSnippet'>
           {{ $t('Save') }}
         </div>
         <div class="ui button"
-             @click='cancelEdit'>
+             v-on:click='cancelEdit'>
           {{ $t('Cancel') }}
         </div>
       </template>

@@ -22,7 +22,7 @@ let InitHelper = {
     */
     //$v.PostManager.open()
     //$v.ThemeManager.open()
-    $v.EditorManager.open()
+    //$v.EditorManager.open()
     //$v.ConfigManager.open()
     //$v.PublishManager.open()
     
@@ -37,6 +37,8 @@ let InitHelper = {
     //$v.PageLoader.open()
     //$v.NavBarSidebar.open()
     //WindowHelper.popup('http://blog.pulipuli.info/')
+    
+    //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))
     
     FunctionHelper.triggerCallback(callback)
   },

@@ -3,6 +3,11 @@ let DelayExecHelper = {
   limitTimers: {},
   events: {},
   exec: function (type, delaySec, maxLimitSec, event) {
+    // 先確認現在的狀態是否ok
+    if (InitHelper.ready === false) {
+      return
+    }
+    
     //delaySec = 0
     if (event === undefined && typeof(maxLimitSec) === 'function') {
       event = maxLimitSec

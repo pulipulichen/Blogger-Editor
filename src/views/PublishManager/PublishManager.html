@@ -1,7 +1,7 @@
 <div class="ui modal"
      v-bind:class="name"
      ref="modal">
-  <i class="close icon" @click="close"></i>
+  <i class="close icon" v-on:click="close"></i>
   <div class="header">
     <i class="blogger icon"></i>
     {{ $t('Title') }}
@@ -11,19 +11,28 @@
   <div class="content">
     <div class="description ui form">
 
-      <div class="fields">
-        <div class="eight wide field">
+      <div class="three fields">
+        <div class="field">
           <div class="fluid ui labeled icon button"
-               @click="openImageReplacer">
+               v-on:click="downloadPostBackup">
+            <i class="download icon"></i>
+            {{ $t("Backup") }}
+          </div>
+        </div>
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               v-on:click="openImageReplacer"
+               v-bind:class="{green: (filesystemImageCount > 0)}">
             <i class="upload icon"></i>
             {{ $t("Upload Image") }}
           </div>
         </div>
-        <div class="eight wide field">
+        <div class="field">
           <div class="fluid ui labeled icon button"
-               @click="downloadPostBackup">
-            <i class="download icon"></i>
-            {{ $t("Backup") }}
+               v-on:click="copyHTML"
+               v-bind:class="{green: (filesystemImageCount === 0)}">
+            <i class="copy icon"></i>
+            {{ $t("Copy HTML") }}
           </div>
         </div>
       </div>
@@ -40,6 +49,7 @@
                    v-on:change="changePostMetadata" />
             <button type="button" 
                     class="icon ui button"
+                    v-bind:class="{disabled: (postTitle.trim() === '')}"
                     v-on:click="copyInput">
               <i class="copy icon"></i>
             </button>
@@ -56,6 +66,7 @@
                    v-on:change="changePostMetadata" />
             <button type="button" 
                     class="icon ui button"
+                    v-bind:class="{disabled: (postLabels.trim() === '')}"
                     v-on:click="copyInput">
               <i class="copy icon"></i>
             </button>
@@ -70,10 +81,10 @@
         <div class="ui action input">
           <input type="url" 
                  v-model="bloggerConsoleURL"
-                 @change="persist">
+                 v-on:change="persist">
           <button class="ui button"
-                  :class="enableOpenBloggerConsole"
-                  @click="popup('bloggerConsoleURL')">
+                  v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
+                  v-on:click="popup('bloggerConsoleURL')">
             {{ $t("Open") }}
           </button>
         </div>
@@ -87,10 +98,10 @@
         <div class="ui action input">
           <input type="url" 
                  v-model="editURL"
-                 @change="persistPost('editURL')">
+                 v-on:change="persistPost('editURL')">
           <button class="ui button"
-                  :class="enableOpenEditURL"
-                  @click="popup('editURL')">
+                  v-bind:class="{disabled: disableOpenEditURL, green: (disableOpenEditURL === false && disableOpenPublicURL)}"
+                  v-on:click="popup('editURL')">
             {{ $t("Open") }}
           </button>
         </div>
@@ -103,10 +114,10 @@
         <div class="ui action input">
           <input type="url" 
                  v-model="publicURL"
-                 @change="persistPost('publicURL')">
+                 v-on:change="persistPost('publicURL')">
           <button class="ui button"
-                  :class="enableOpenPublicURL"
-                  @click="popup('publicURL')">
+                  v-bind:class="{disabled: disableOpenPublicURL, green: disableOpenPublicURL === false}"
+                  v-on:click="popup('publicURL')">
             {{ $t("Open") }}
           </button>
         </div>

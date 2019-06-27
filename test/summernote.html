@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="../static/summernote-icon.png">
     
-    <script src="../src/vendor/jquery/jquery.min.js"></script>
-    <link href="../src/vendor/summernote/summernote-lite.css" rel="stylesheet">
-    <script src="../src/vendor/summernote/summernote-lite.js"></script>
+    <script src="jquery.min.js"></script>
     <style>
       body {
         /* background-color: yellow */
@@ -30,6 +28,7 @@
       <button type="button" onclick="clickButton()">BUTTON</button>
     </div>
     <hr />
+    <!--
     <div id="summernote">
       <p style="text-align:center">p p p p p</p>
       <p><br /></p>
@@ -55,34 +54,21 @@
         </tbody>
       </table>
     </div>
+    -->
+    <div style="border: 3px solid red;">
+      <div id="summernote">
+        拖曳上傳base 64
+        <img src="icon.png" />
+      </div>
+    </div>
+      
     <button type="button" onclick="clickButton()">BUTTON</button>
+    
+    <script src="dist/summernote-lite.min.js"></script>
     <script>
+      //aaa()
+      console.log($('#summernote').summernote())
       
-      window.s = $('#summernote')
-      window.s.summernote()
-      
-      /*
-      s.on('summernote.change', function() {
-        //console.trace('change');
-      });
-      */
-      
-      setTimeout(() => {
-        //s.summernote('editor.insertHorizontalRule')
-        //s.summernote('editor.formatBlock', 'p')
-        
-        //console.log($('.note-editable:first').html().slice(0, 50))
-      }, 500)
-      setTimeout(() => {
-        window.scrollTo(0, 3000)
-      }, 1000)
-      clickButton = () => {
-        
-        $('.fix-area textarea').focus().val('AAA').select()
-        setTimeout(() => {
-          s.summernote('editor.insertNode', $('<pre><code>AAA</code></pre>')[0])
-        }, 1000)
-      }
     </script>
   </body>
 </html>

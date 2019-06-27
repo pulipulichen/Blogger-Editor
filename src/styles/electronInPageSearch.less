@@ -3,15 +3,27 @@
 * <webview> element for search window.
 */
 .electron-in-page-search-window {
-    position: fixed;
-    top: 0;
-    right: 0;
-    border: solid grey 1px;
-    background-color: white;
-    width: 300px;
-    height: 36px;
+  position: fixed;
+  top: 53px;
+  right: 0;
+  border: solid grey 1px;
+  background-color: #f5f5f5;
+  width: 300px;
+  height: 36px;
+  z-index: 999
 }
 
+body.OutlineNavigator-open .electron-in-page-search-window {
+  right: 260px;
+}
+
+body.topbar-out-of-view .electron-in-page-search-window {
+  top: 0;
+}
+
+body.call-fixed.topbar-out-of-view .electron-in-page-search-window {
+  top: 53px;
+}
 /*
 * .search-inactive is added to search window <webview> when the window
 * is inactive.

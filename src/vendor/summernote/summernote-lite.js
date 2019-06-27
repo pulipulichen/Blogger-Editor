@@ -13,10 +13,12 @@
   //(factory(global.jQuery));
   factory($)
   //console.log(typeof($))
-}(this, (function ($$1) { 'use strict';
+  
+}(this, (function ($$1) { 
+  //'use strict';
 
   $$1 = $$1 && $$1.hasOwnProperty('default') ? $$1['default'] : $$1;
-
+  
   var Renderer = /** @class */ (function () {
       function Renderer(markup, children, options, callback) {
           this.markup = markup;
@@ -212,12 +214,12 @@
       };
       return DropdownUI;
   }());
-  $(document).on('click', function (e) {
+  $$1(document).on('click', function (e) {
       if (!$(e.target).closest('.note-btn-group').length) {
           $('.note-btn-group.open').removeClass('open');
       }
   });
-  $(document).on('click.note-dropdown-menu', function (e) {
+  $$1(document).on('click.note-dropdown-menu', function (e) {
       $(e.target).closest('.note-dropdown-menu').parent().removeClass('open');
   });
 
@@ -228,6 +230,12 @@
           }, options);
           this.$modal = $node;
           this.$backdrop = $('<div class="note-modal-backdrop" />');
+          this.$modal.click((event) => {
+            //console.log(event.target)
+            if ($$1(event.target).hasClass('note-modal')) {
+              this.hide()
+            }
+          })
       }
       ModalUI.prototype.show = function () {
           if (this.options.target === 'body') {
@@ -613,10 +621,10 @@
   };
   var dialog = renderer.create('<div class="note-modal" aria-hidden="false" tabindex="-1" role="dialog"/>', function ($node, options) {
       if (options.fade) {
-          $node.addClass('fade');
+        $node.addClass('fade');
       }
       $node.attr({
-          'aria-label': options.title
+        'aria-label': options.title
       });
       $node.html([
           '  <div class="note-modal-content">',
@@ -865,6 +873,7 @@
               remove: 'Remove Image',
               open: 'Open Image',
               save: 'Save Image',
+              copy: 'Copy URL',
               original: 'Original'
           },
           video: {
@@ -882,7 +891,8 @@
               textToDisplay: 'Text to display',
               url: 'To what URL should this link go?',
               title: 'Link title (optional)',
-              openInNewWindow: 'Open in new window'
+              openInNewWindow: 'Open in new window',
+              remove: 'Remove'
           },
           table: {
               table: 'Table',
@@ -1473,7 +1483,8 @@
       'SLASH': 191,
       'LEFTBRACKET': 219,
       'BACKSLASH': 220,
-      'RIGHTBRACKET': 221
+      'RIGHTBRACKET': 221,
+      'ESC': 27
   };
   /**
    * @class core.key
@@ -2358,11 +2369,14 @@
       };
   }
   function create(nodeName) {
-    console.trace(nodeName)
-      return document.createElement(nodeName);
+    //console.trace(nodeName)
+    return document.createElement(nodeName);
   }
   function createText(text) {
-      return document.createTextNode(text);
+    //console.trace('[' + text + ']')
+    let node = document.createTextNode(text);
+    //console.log(`[${node}]`)
+    return node
   }
   /**
    * @method remove
@@ -2500,17 +2514,17 @@
       return node && !isText(node) && lists.contains(node.classList, 'note-styletag');
   }
   /**
-   * 
+   * Copy text in plain format
    * @param  {String} text 
-   * @return {[type]}      [description]
+   * @return {String} 
    */
   function copyPlainText(text) {
     let id = 'summernoteClipboardInput'
     var copyTextInput = document.getElementById(id)
     if (copyTextInput === null) {
-      var copyTextInput = document.createElement("input");
+      var copyTextInput = document.createElement("textarea");
       copyTextInput.id = id
-      copyTextInput.type = "text"
+      //copyTextInput.type = "text"
       document.body.appendChild(copyTextInput);
     }
 
@@ -2524,7 +2538,37 @@
     document.execCommand("copy");
 
     copyTextInput.style = "display: none"
+    
+    return text
   }
+  
+  /**
+   * Copy text in rich format
+   * @param  {String} text 
+   * @return {String} 
+   */
+  function copyRichFormat(str) {
+    document.addEventListener("copy", (e) => {
+      copyRichFormatListener(e, str)
+    })
+    document.execCommand("copy")
+    document.removeEventListener("copy", (e) => {
+      copyRichFormatListener(e, str)
+    })
+  }
+  
+  /**
+   * Copy text in rich format
+   * @param  {String} text 
+   * @return {String} 
+   */
+  function copyRichFormatListener(e, str) {
+    e.clipboardData.setData("text/html", str);
+    e.clipboardData.setData("text/plain", str);
+    e.preventDefault();
+    return str
+  }
+  
   var dom = {
       /** @property {String} NBSP_CHAR */
       NBSP_CHAR: NBSP_CHAR,
@@ -3120,6 +3164,12 @@
           
           return node;
       };
+      /**
+       * @author Pulipuli Chen 20190624
+       * @param {String} node
+       * @returns {WrappedRange}
+       */
+      /*
       WrappedRange.prototype.insert = function (node) {
         let insertType = 'insertNode'
         if (typeof(node) === 'string') {
@@ -3128,8 +3178,9 @@
             insertType = 'insertText'
           }
         }
-        this[insertType](node)
+        return this[insertType](node)
       };
+      */
       /**
        * insert html at current cursor
        */
@@ -4672,6 +4723,7 @@
           this.context.memo('help.formatPara', this.lang.help.formatPara);
           this.context.memo('help.insertHorizontalRule', this.lang.help.insertHorizontalRule);
           this.context.memo('help.fontName', this.lang.help.fontName);
+          
           // native commands(with execCommand), generate function for execCommand
           var commands = [
               'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript',
@@ -4743,17 +4795,72 @@
                 this.saveBlurRange()
               }, 0)
           });
+          /**
+           * @author Pulipuli Chen 20190624
+           */
           this.insert = this.wrapCommand(function (node) {
             let insertType = 'insertNode'
             if (typeof(node) === 'string') {
+              let text = node
               node = node.trim()
               if (!( (node.startsWith('<') && node.endsWith('>')) )) {
                 insertType = 'insertText'
+                node = text
               }
             }
             this[insertType](node)
             return node
           })
+          
+          /**
+           * obj.summernote('editor.copyPlainHTML')
+           * @author Pulipuli Chen 20190624
+           * @returns {summernote-liteL#16.summernote-liteL#16#Editor.Editor}
+           */
+          this.copyPlainHTML = function () {
+            let code = _this.context.invoke('code');
+            //console.log(code)
+            copyPlainText(code)
+            return this
+          }
+          
+          /**
+           * obj.summernote('editor.copyPlainText')
+           * @author Pulipuli Chen 20190624
+           * @returns {summernote-liteL#16.summernote-liteL#16#Editor.Editor}
+           */
+          this.copyPlainText = function () {
+            let code = _this.context.invoke('text');
+            //console.log(code)
+            copyPlainText(code)
+            return this
+          }
+          
+          /**
+           * obj.summernote('editor.copyRichFormatHTML')
+           * @author Pulipuli Chen 20190624
+           * @returns {summernote-liteL#16.summernote-liteL#16#Editor.Editor}
+           */
+          this.copyRichFormatHTML = function () {
+            let code = _this.context.invoke('code');
+            //console.log(code)
+            copyRichFormat(code)
+            return this
+          }
+          
+          /**
+           * @author Pulipuli Chen 20190624
+           */
+          this.text = function (codeText) {
+            if (codeText === undefined) {
+              return _this.$editable.text()
+            }
+            else {
+              //return this.insert(insertText)
+              return _this.context.invoke('code', codeText);
+            }
+          }
+          
           /**
            * insert text
            * @param {String} text
@@ -4768,6 +4875,7 @@
                 this.restoreBlurRange()
               }
               
+              //console.trace(`[${text}]`)
               var rng = _this.createRange();
               var textNode = rng.insertNode(dom.createText(text));
               range.create(textNode, dom.nodeLength(textNode)).select();
@@ -4842,7 +4950,7 @@
                   || (linkUrl.startsWith("filesystem:") !== false && linkUrl.length > 20)
                   )
                 ) {
-                console.log([linkUrl, linkUrl.length])
+                //console.log([linkUrl, linkUrl.length])
                 this.unlink()
                 return
               }
@@ -4906,6 +5014,11 @@
               var endRange = range.createFromNodeAfter(lists.last(anchors));
               var endPoint = endRange.getEndPoint();
               range.create(startPoint.node, startPoint.offset, endPoint.node, endPoint.offset).select();
+              
+              //console.log($$1(anchor).text())
+              //let sel = window.getSelection();
+              //range.setStart(range.s, 0);
+              //console.log(range)
           });
           /**
            * setting color
@@ -4957,6 +5070,9 @@
               }
               else if ($target.prop('tagName').toLowerCase() === 'a') {
                 $target.remove();
+                _this.context.invoke('insertNode', '<p></p>')
+                //$target.replaceWith('<p></p>')
+                console.log('this.removeMedia')
               }
               else {
                 //$target = $$1(_this.restoreTarget()).detach();
@@ -5006,7 +5122,7 @@
                   let anchor = dom.ancestor(rng.sc, dom.isAnchor);
                   rng = range.createFromNode(anchor);
                   let link = rng.sc.href
-                  console.log(link)
+                  //console.log(link)
                   copyPlainText(link)
               }
           });
@@ -5046,7 +5162,7 @@
            * @author Pulipuli Chen 20190517
            */
           this.copyMediaLink = this.wrapCommand(function () {
-              //console.log('openMedia')
+              //console.log('copyMediaLink')
               
               var $target = $$1(_this.restoreTarget());
               //console.log($target.prop("tagName"))
@@ -5072,6 +5188,7 @@
                 if (src.startsWith('data:') === false && src.startsWith('filesystem:') === false ) {
                   windowName = src.slice(src.lastIndexOf('/') + 1)
                   windowName = decodeURIComponent(windowName)
+                  //console.log(src)
                   window.open(src, windowName)
                 }
                 else {
@@ -5133,6 +5250,32 @@
               });
           });
           
+          /**
+           * @author Pulipuli Chen 20190624
+           * @param {number} position
+           * @returns {Editor}
+           */
+          this.moveCursor = function (position) {
+            //console.log(position)
+            let range = document.createRange();
+            let sel = window.getSelection();
+            //range.setStart(_this.$editable.children(':last')[0], 1);
+            //range.setStart(_this.editable.children(':last')[0], 1);
+            //console.log(_this.editable.childNodes[0].length)
+            let len = _this.editable.childNodes[0].length
+            if (typeof(position) !== 'number') {
+              position = len
+            }
+            else if (position > len) {
+              position = len
+            }
+            range.setStart(_this.editable.childNodes[0], position);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            return this
+          }
+          
           if (this.options.showHeadingLabel === false) {
             this.$editable.removeClass('show-heading-label')
           }
@@ -5154,6 +5297,26 @@
               if (_this.isLimited(1, event)) {
                   return false;
               }
+              
+              if (_this.options.allowEnter === false) {
+                if (event.keyCode === 13) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+              }
+              
+              // hint
+              //console.log(event.keyCode)
+              /*
+              if (event.keyCode === 40) {
+                let item = $('.note-hint-popover .note-children-container .note-hint-group .note-hint-item:visible:first')
+                if (item.length > 0) {
+                  item.focus()
+                  console.log(item.text())
+                }
+              }
+              */
+              // 
           }
           
           this.$editable.on('keydown', keydownEvent)
@@ -5175,6 +5338,24 @@
               //console.log('input')
               _this.context.triggerEvent('input', event);
           })
+          .on('paste', function (event) {
+              //console.log('paste')
+      
+              // a.originalEvent.clipboardData.files
+              if (_this.options.enablePasteImage === true
+                      && typeof(event) === 'object' 
+                      && typeof(event.originalEvent) === 'object'
+                      && typeof(event.originalEvent.clipboardData) === 'object'
+                      && typeof(event.originalEvent.clipboardData.files) === 'object') {
+                event.stopPropagation()
+                event.preventDefault()
+                let files = event.originalEvent.clipboardData.files
+                _this.insertImagesAsDataURL(files)
+              }
+              else {
+                _this.context.triggerEvent('paste', event);
+              }
+          })
           //.on('compositionstart', function (event) {
           //    console.log('compositionstart')
           //})
@@ -5195,6 +5376,12 @@
               }, 0)
               //console.log('isFocus false')
               _this.context.triggerEvent('blur', event);
+              
+              // hide popover
+              setTimeout(() => {
+                //console.log('aaa')
+                $$1('.note-popover').fadeOut()
+              }, 1000)
           }).on('mousedown', function (event) {
               _this.context.triggerEvent('mousedown', event);
           }).on('mouseup', function (event) {
@@ -5204,8 +5391,6 @@
               _this.context.triggerEvent('mouseup', event);
           }).on('scroll', function (event) {
               _this.context.triggerEvent('scroll', event);
-          }).on('paste', function (event) {
-              _this.context.triggerEvent('paste', event);
           });
           // init content before set event
           this.$editable.html(dom.html(this.$note) || dom.emptyPara);
@@ -5297,7 +5482,7 @@
        * @author Pulipuli Chen 20190420
        */
       Editor.prototype.clearEnterFormat = function (event) {
-        console.log('clearEnterFormat')
+        //console.log('clearEnterFormat')
         let target = this.createRange()
         if (target === undefined 
             || typeof(target.sc) !== 'object' 
@@ -5715,7 +5900,7 @@
           node = $(node)
         }
         
-		//return
+        //return
         let prev = node.prev()
         while (this.checkNodeIsRemovable(prev)) {
           let tmp = prev
@@ -5987,17 +6172,17 @@ sel.addRange(range);
       };
       
       Editor.prototype.selectElement = function (node) {
-              if (document.body.createTextRange) {
-                  var range = document.body.createTextRange();
-                  range.moveToElementText(node);
-                  range.select();
-              } else if (window.getSelection) {
-                  var selection = window.getSelection();        
-                  var range = document.createRange();
-                  range.selectNodeContents($$1(node)[0]);
-                  selection.removeAllRanges();
-                  selection.addRange(range);
-              }      
+        if (document.body.createTextRange) {
+          var range = document.body.createTextRange();
+          range.moveToElementText(node);
+          range.select();
+        } else if (window.getSelection) {
+          var selection = window.getSelection();        
+          var range = document.createRange();
+          range.selectNodeContents($$1(node)[0]);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }      
       }
       
       /**
@@ -6199,11 +6384,12 @@ sel.addRange(range);
           if (this.options.disableDragAndDrop) {
               // prevent default drop event
               this.documentEventHandlers.onDrop = function (e) {
-                  e.preventDefault();
+                e.preventDefault();
               };
               // do not consider outside of dropzone
               this.$eventListener = this.$dropzone;
               this.$eventListener.on('drop', this.documentEventHandlers.onDrop);
+              
           }
           else {
               this.attachDragAndDropEvent();
@@ -6233,9 +6419,11 @@ sel.addRange(range);
                   _this.$editor.removeClass('dragover');
               }
           };
-          this.documentEventHandlers.onDrop = function () {
+          this.documentEventHandlers.onDrop = function (event) {
               collection = $$1();
               _this.$editor.removeClass('dragover');
+
+              _this.insertImage(event)
           };
           // show dropzone on dragenter when dragging a object to document
           // -but only if the editor is visible, i.e. has a positive width and height
@@ -6286,6 +6474,38 @@ sel.addRange(range);
               _this.$eventListener.off(key.substr(2).toLowerCase(), _this.documentEventHandlers[key]);
           });
           this.documentEventHandlers = {};
+      };
+      Dropzone.prototype.insertImage = function (event) {
+        // 這邊要決定是否要插入圖片
+        //console.log(event)
+        //console.log('drop 這邊要決定是否要插入圖片')
+        //console.log(event.originalEvent.dataTransfer.files.length)
+        if (this.options.enableDropImage === true 
+                && typeof(event) === 'object' 
+                && typeof(event.originalEvent) === 'object' 
+                && typeof(event.originalEvent.dataTransfer) === 'object'
+                && typeof(event.originalEvent.dataTransfer.files) === 'object') {
+          let files = event.originalEvent.dataTransfer.files
+          //this.$editor.insertImagesAsDataURL(files)
+          this.context.invoke('editor.insertImagesAsDataURL', files);
+          /*
+          let loop = (i) => {
+            if (i < files.length) {
+              let file = files[i]
+              
+              let type = file.type
+              if (type.startsWith('image/')) {
+                let name = file.name
+                //console.log([type, name])
+                this.context.invoke('code', dom.emptyPara);
+              }
+              i++
+              loop(i)
+            }
+          }
+          loop(0)
+          */
+        }
       };
       return Dropzone;
   }());
@@ -7493,7 +7713,7 @@ sel.addRange(range);
           this.context.memo('button.removeLink', function () {
               return _this.button({
                   contents: _this.ui.icon(_this.options.icons.trash),
-                  tooltip: _this.lang.image.remove,
+                  tooltip: _this.lang.link.remove,
                   click: _this.context.createInvokeHandler('editor.removeLink')
               }).render();
           });
@@ -7886,10 +8106,10 @@ sel.addRange(range);
           let button = this.$dialog.find('input.note-link-btn')
           
           this.$dialog.find('input.note-link-url').focus(function (event) {
-            if ($(this).hasClass('first-focus') === false) {
+            if ($$1(this).hasClass('first-focus') === false) {
               return
             }
-            $(this).removeClass('first-focus')
+            $$1(this).removeClass('first-focus')
           
             if (this.value !== undefined && this.value.trim() !== "") {
               return
@@ -7927,12 +8147,23 @@ sel.addRange(range);
           this.$dialog.remove();
       };
       LinkDialog.prototype.bindEnterKey = function ($input, $btn) {
-          $input.on('keypress', function (event) {
-              if (event.keyCode === key.code.ENTER) {
-                  event.preventDefault();
-                  $btn.trigger('click');
-              }
-          });
+        let _this = this
+        $input.on('keypress', (event) => {
+          if (event.keyCode === key.code.ENTER) {
+            event.stopPropagation()
+            event.preventDefault()
+            $btn.trigger('click');
+            return false
+          }
+        });
+        $input.on('keyup', (event) => {
+          if (event.keyCode === key.code.ESC) {
+            event.stopPropagation()
+            event.preventDefault()
+            _this.ui.hideDialog(_this.$dialog);
+            return false
+          }
+        });
       };
       /**
        * toggle update button
@@ -8019,7 +8250,17 @@ sel.addRange(range);
                   }
                   
                   $linkBtn.one('click', function (event) {
-                      event.preventDefault();
+                      event.preventDefault()
+                      event.stopPropagation()
+                      let enableClearEnterFormat = _this.options.clearEnterFormat
+                      
+                      if (enableClearEnterFormat === true) {
+                        _this.options.clearEnterFormat = false
+                        setTimeout(() => {
+                          _this.options.clearEnterFormat = true
+                        }, 100)
+                      }
+                      //console.log(_this.options.allowEnter)
                       deferred.resolve({
                           range: linkInfo.range,
                           url: $linkUrl.val(),
@@ -8028,6 +8269,28 @@ sel.addRange(range);
                           isNewWindow: $openInNewWindow.is(':checked')
                       });
                       _this.ui.hideDialog(_this.$dialog);
+                      //console.log($linkUrl.val())
+                      //let child = $$1(_this.context.invoke('editor.restoreTarget').sc)[0]
+                      //console.log(_this.context.invoke('editor.restoreTarget'))
+                      //let sel = window.getSelection()
+                      //sel.removeAllRanges();
+                      
+                      //_this.$editor.createRange().collapse()
+                      //_this.context.invoke('editor.restoreRange').collapse()
+                      /*
+                      return
+                      
+                      setTimeout(() => {
+                        let range = document.createRange();
+                        let sel = window.getSelection()
+                        console.log(linkInfo.range)
+                        //console.log(linkInfo.range.sc)
+                        range.setStart(child, 1);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                      }, 1000)
+                      */
                   });
               });
               _this.ui.onDialogHidden(_this.$dialog, function () {
@@ -8132,14 +8395,13 @@ sel.addRange(range);
 			  
 			  this.context.triggerEvent('popover.show');
 			  
-              this.$popover.css({
-                  display: 'block',
-                  left: pos.left,
-                  top: pos.top,
-				  //width: width + 'px'
-              });
-			  
-			  
+        this.$popover.css({
+            display: 'block',
+            left: pos.left,
+            top: pos.top,
+            //width: width + 'px'
+        });
+
 			  let width = this.$popover.find('a.note-popover-link').width()
 			  width = width + 40
 			  //console.log(width)
@@ -8179,9 +8441,10 @@ sel.addRange(range);
           image.src = href
           
           let win = window.open('', name)
-          win.document.write(image.outerHTML)
-          
-          win.document.title = title
+          if (win.document !== undefined) {
+            win.document.write(image.outerHTML)
+            win.document.title = title
+          }
         }
       };
       return LinkPopover;
@@ -8767,12 +9030,21 @@ sel.addRange(range);
           this.hints = $$1.isArray(this.hint) ? this.hint : [this.hint];
           this.events = {
               'summernote.keyup': function (we, e) {
+                //console.log('summernote.keyup')
                 //console.log('hint keyup')
-                  if (!e.isDefaultPrevented()) {
-                      _this.handleKeyup(e);
-                  }
+                if (!e.isDefaultPrevented()) {
+                  _this.handleKeyup(e);
+                }
+              },
+              'summernote.input': function (we, e) {
+                //console.log('summernote.input')
+                //console.log('hint keyup')
+                if (!e.isDefaultPrevented()) {
+                  _this.handleKeyup(e);
+                }
               },
               'summernote.keydown': function (we, e) {
+                //console.log('summernote.keydown')
                   _this.handleKeydown(e);
               },
               'summernote.disable summernote.dialog.shown': function () {
@@ -8836,26 +9108,33 @@ sel.addRange(range);
           }
       };
       HintPopover.prototype.replace = function () {
-          var $item = this.$content.find('.note-hint-item.active');
-          if ($item.length) {
-              var node = this.nodeFromItem($item);
-              // XXX: consider to move codes to editor for recording redo/undo.
-              this.lastWordRange.insertNode(node);
-              range.createFromNode(node).collapse().select();
-              this.lastWordRange = null;
-              this.hide();
-              this.context.triggerEvent('change', this.$editable.html(), this.$editable[0]);
-              this.context.invoke('editor.focus');
+        var $item = this.$content.find('.note-hint-item.active');
+        if ($item.length) {
+          var node = this.nodeFromItem($item);
+          // XXX: consider to move codes to editor for recording redo/undo.
+          //console.log(node + ']')
+          if (node !== undefined) {
+            this.lastWordRange.insertNode(node);
+            //this.lastWordRange.insertNode(dom.create('&nbsp;'));
+            range.createFromNode(node).collapse().select();
+            this.lastWordRange = null;
           }
+          this.hide();
+          this.context.triggerEvent('change', this.$editable.html(), this.$editable[0]);
+          this.context.invoke('editor.focus');
+        }
       };
       HintPopover.prototype.nodeFromItem = function ($item) {
-          var hint = this.hints[$item.data('index')];
-          var item = $item.data('item');
-          var node = hint.content ? hint.content(item) : item;
-          if (typeof node === 'string') {
-              node = dom.createText(node);
-          }
-          return node;
+        var hint = this.hints[$item.data('index')];
+        var item = $item.data('item');
+        var node = hint.content ? hint.content(item) : item;
+        //console.log(`[${node}]`)
+        if (typeof node === 'string') {
+          //node = dom.createText(node);
+          node = $$1(`<span>${node} </span>`)[0]
+        }
+        //console.log(node)
+        return node;
       };
       HintPopover.prototype.createItemTemplates = function (hintIdx, items) {
           var hint = this.hints[hintIdx];
@@ -8910,7 +9189,7 @@ sel.addRange(range);
       };
       HintPopover.prototype.handleKeyup = function (e) {
           var _this = this;
-          //console.log(['e.keyCode', e.keyCode])
+          //console.trace(['e.keyCode', e.keyCode])
           if (!lists.contains([key.code.ENTER, key.code.UP, key.code.DOWN], e.keyCode)) {
               var wordRange = this.context.invoke('editor.createRange').getWordRange();
               
@@ -9037,6 +9316,7 @@ sel.addRange(range);
               return isActivated ? this.layoutInfo.codable.val() : this.layoutInfo.editable.html();
           }
           else {
+            //console.log(`[${html}]`)
               if (isActivated) {
                   this.layoutInfo.codable.val(html);
               }
@@ -9249,10 +9529,12 @@ sel.addRange(range);
               image: [
                   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
                   ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                  ['remove', ['openMedia', 'saveMedia', 'copyMediaLink', 'removeMedia']]
+                  ['imagesLink', ['openMedia', 'saveMedia', 'copyMediaLink']],
+                  ['remove', ['removeMedia']]
               ],
               link: [
-                  ['link', ['linkDialogShow', 'unlink', 'removeLink', 'copyLink']]
+                  ['link', ['linkDialogShow', 'unlink', 'copyLink']],
+                  ['remove', ['removeLink']]
               ],
               table: [
                   ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
@@ -9282,6 +9564,9 @@ sel.addRange(range);
           maxTextLength: 0,
           clearEnterFormat: false, // 記得要改成false
           showHeadingLabel: false, // 記得要改成false
+          enableDropImage: true,
+          enablePasteImage: true,
+          allowEnter: true,
           blockquoteBreakingLevel: 2,
           styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
           fontNames: [
@@ -9455,5 +9740,4 @@ sel.addRange(range);
       }
   });
 
-})));
-//# sourceMappingURL=summernote-lite.js.map
+})))

@@ -3,12 +3,22 @@ textarea.summernote-config-toolbar {
   height: calc(100vh - 26rem) !important;
 }
 
+#summerNoteConfigLabels {
+  height: calc(100vh - 27.5rem) !important
+}
+
 input[type='file'] {
   display: none;
 }
 
 @media only screen and (max-width: 767px) {
   textarea.summernote-config-toolbar {
-    height: calc(100vh - 33rem) !important;
+    height: calc(100vh - 32rem) !important;
   }
+}
+
+.ui.search .results {
+  max-height: calc(100vh - 24rem) !important;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

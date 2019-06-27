@@ -1,0 +1,32 @@
+.non-invasive-web-style-framework {
+  .ui[class*="left fixed"].menu {
+    display: none;
+    z-index: 605;
+    max-height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+    & ::v-deep .right.menu {
+      margin-top: 1rem;
+      border-top: 1px solid #666;
+      padding-top: 1rem;
+    }
+  }
+}
+
+.ui.left.vertical.inverted.menu {
+  z-index: 999;
+}
+
+
+.dimmer {
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  background-color: rgba(255, 255, 255, 0.87);
+  cursor: pointer;
+}

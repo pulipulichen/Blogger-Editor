@@ -330,6 +330,20 @@ var EditorManager = {
           title: label
         })
       })
+      /*
+      var content = [
+  { title: 'Andorra' },
+  { title: 'United Arab Emirates' },
+  { title: 'Afghanistan' },
+  { title: 'Antigua' },
+  { title: 'Anguilla' },
+  { title: 'Albania' },
+  { title: 'Armenia' }]
+      $('#summerNoteConfigLabelsSearch')
+  .search({
+    source: content
+  })
+  */
       
       if (this.$summerNoteConfigLabelsSearch === undefined 
               || this.$summerNoteConfigLabelsSearch === null) {
@@ -339,6 +353,21 @@ var EditorManager = {
       this.$summerNoteConfigLabelsSearch.search({
         source: content
       })
+    },
+    addLabel: function (label) {
+      if (typeof(label) !== 'string') {
+        return this
+      }
+      else {
+        label = label.trim()
+      }
+      let labelsList = this.labelsList
+      if (labelsList.indexOf(label) === -1) {
+        labelsList.push(label)
+        labelsList.sort()
+        this.summerNoteConfigLabels = labelsList.join('\n')
+        this.persist()
+      }
     }
   }
 }

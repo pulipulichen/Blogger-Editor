@@ -182,24 +182,12 @@ let PostManager = {
         id = undefined
       }
       
-      let post
       if (id === undefined) {
-        //id = this.editingPostId
-        //id = this.editingPostId
-        //console.log(['getPost', this.editingPostId, PostManager.editingPostId])
-        this.getEditingPostId((id) => {
-          //console.log(['getPost', id])
-          post = this.posts.filter((post) => post.id === id)[0]
-          if (post === undefined) {
-            console.log(`Post ${id} is not found`)
-          }
-          FunctionHelper.triggerCallback(callback, post)
-        })
+        id = this.editingPostId
       }
-      else {
-        post = this.posts.filter((post) => post.id === id)[0]
-        FunctionHelper.triggerCallback(callback, post)
-      }
+      let post = this.posts.filter((post) => post.id === id)[0]
+      FunctionHelper.triggerCallback(callback, post)
+      return post
       
       //return this.posts.filter((post) => post.id === id)[0]
     },
@@ -433,6 +421,15 @@ let PostManager = {
         })
       })
     },
+    formatLabels: function (labels) {
+      if (typeof(labels) === 'string') {
+        labels = labels.trim()
+        if (labels.endsWith(',')) {
+          labels = labels.slice(0, -1)
+        }
+      }
+      return labels
+    }
   }
 }
 

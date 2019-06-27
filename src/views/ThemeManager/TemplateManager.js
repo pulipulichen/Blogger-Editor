@@ -53,7 +53,6 @@ let TemplateManager = {
     $v.ThemeManager.onCloseReload = true
   },
   open: function () {
-    
     FileSystemHelper.isExists(TemplateManager.path, (isExists) => {
       let url = TemplateManager.getDefaultPath()
       if (isExists === true) {
@@ -129,6 +128,16 @@ let TemplateManager = {
 
     let labelEditor = `<span class="summernotePostLabels-wrapper air-mode">
       <span id="summernotePostLabels" class="summernotePostLabels"></span>
+    </span>
+    <span class="summernotePostLabels-wrapper air-mode new">
+      <span id="summernotePostLabelsNew" class="summernotePostLabels"></span>
+    </span>
+    <span class="non-invasive-web-style-framework">
+      <button class="ui mini icon grey button labels"
+              id="summernotePostLabelsAdd"
+              style="display: none;">
+        <i class="plus icon"></i>
+      </button>
     </span>`
     template = template.replace('${PostLabels}', labelEditor)
 

@@ -34,66 +34,76 @@ let NavBarMenu = {
     },
     openPublishManager: function () {
       $v.PublishManager.open()
-      $v.NavBarSidebar.close()
+      this.hideNavBar()
     },
     openPostManager: function () {
       $v.PostManager.open()
-      $v.NavBarSidebar.close()
+      this.hideNavBar()
     },
     openThemeManager: function () {
       $v.ThemeManager.open()
-      $v.NavBarSidebar.close()
+      this.hideNavBar()
     },
     openEditorManager: function () {
       $v.EditorManager.open()
-      $v.NavBarSidebar.close()
+      this.hideNavBar()
     },
     openConfigManager: function () {
       $v.ConfigManager.open()
-      $v.NavBarSidebar.close()
+      this.hideNavBar()
     },
     
     // --------------------------------------
     
     editorInsertMore: function () {
       SummerNoteCode.insertMoreClick()
+      this.hideNavBar()
     },
     editorInsertSnippet: function () {
       $v.SnippetInserter.open()
+      this.hideNavBar()
     },
     editorInsertIframe: function () {
       $v.IframePrompt.open()
+      this.hideNavBar()
     },
     editorInsertFile: function () {
       $v.FileUploader.open()
+      this.hideNavBar()
     },
     editorInsertCode: function () {
       $v.CodeInserter.open()
+      this.hideNavBar()
     },
     
     // -------------------------------
     downloadImageTemplate: function () {
       SummerNoteImage.downloadImageTamplateClick()
+      this.hideNavBar()
     },
     openImageReaplcer: function () {
       $v.ImageReplacer.open()
+      this.hideNavBar()
     },
     openGooglePhoto: function () {
       WindowHelper.forcePopup('https://photos.google.com/?hl=zh-TW', 'googlePhoto')
+      this.hideNavBar()
     },
     editorCleanCode: function () {
-      //console.log('editorCleanCode 還沒完成')
       SummerNoteCode.CleanCodeClick()
+      this.hideNavBar()
     },
     editorCopyCode: function () {
-      //console.log('editorCopyCode 還沒完成')
       SummerNoteCode.CopyCodeClick()
+      this.hideNavBar()
     },
     editorImageResizeOriginal: function () {
       SummerNoteImage.imageSizeOriginalClick()
+      this.hideNavBar()
     },
     editorImageResizeThumbnail: function () {
       SummerNoteImage.imageSizeThumbnailClick()
+      this.hideNavBar()
     },
     
     // --------------------------------------
@@ -144,6 +154,18 @@ let NavBarMenu = {
       
       ele.children('.menu').transition('slide down')
       //$(ele).children('.menu').toggle()
+    },
+    hideNavBar: function () {
+      //let ui = event.target
+      //console.log(ui.parents('.ui.top.inverted.menu.call-fixed').length)
+      //console.log(ui.prop('className'))
+      /*
+      if (ui.parents('.ui.top.inverted.menu.call-fixed').length === 1) {
+        ui.parents('.ui.top.inverted.menu.call-fixed').removeClass('call-fixed')
+      }
+      */
+      $v.NavBar.toggle()
+      $v.NavBarSidebar.close()
     }
   },
 }

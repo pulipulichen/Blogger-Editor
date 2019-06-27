@@ -7,7 +7,9 @@ let NavBar = {
       name: 'NavBar',
       ui: undefined,
       wordCount: 0,
-      navbarHeight: 55
+      navbarHeight: 55,
+      classNameFixed: 'call-fixed',
+      $body: null
     }
   },
   components: {
@@ -15,6 +17,8 @@ let NavBar = {
   },
   created: function () {
     $v.NavBar = this
+    this.$body = $('body')
+    this.initWindowEvent()
   },
   computed: {
     wordCountUnit: function () {
@@ -41,12 +45,18 @@ let NavBar = {
     toggle: function () {
       //console.log('aaa')
       // check scroll height
-      
       if (document.body.clientWidth < 900) {
         $v.NavBarSidebar.open()
       }
       else {
-        this.getUI().toggleClass('call-fixed')
+        if (window.scrollY > this.navbarHeight) {
+          this.getUI().toggleClass(this.classNameFixed)
+          this.$body.toggleClass(this.classNameFixed)
+        }
+        else {
+          this.getUI().removeClass(this.classNameFixed)
+          this.$body.removeClass(this.classNameFixed)
+        }
       }
     },
     init: function (callback) {
@@ -62,6 +72,24 @@ let NavBar = {
       
       FunctionHelper.triggerCallback(callback)
     },
+    initWindowEvent: function () {
+      let setClassName = () => {
+        if (window.scrollY > this.navbarHeight) {
+          this.$body.addClass('topbar-out-of-view')
+        }
+        else {
+          this.$body.removeClass('topbar-out-of-view')
+        }
+      }
+      
+      let $window = $(window)
+      $window.scroll(() => {
+        setClassName()
+      })
+      $window.resize(() => {
+        setClassName()
+      })
+    }
   }
 }
 

@@ -8,9 +8,11 @@
 import $ from 'jquery'
 window.$ = window.jQuery = $
 
-require('./vendor/semantic-ui-niwsf/semantic.niwsf.less')
 //require('./vendor/semantic-ui-niwsf/styles/bundle-semantic.niwsf.css')
+require('./vendor/semantic-ui-niwsf/semantic.niwsf.less')
 require('./vendor/semantic-ui-niwsf/semantic.niwsf.js')
+//require('./vendor/semantic-ui-niwsf/styles/semantic.css') // for test
+//require('./vendor/semantic-ui-niwsf/semantic.js') // for test
 
 //require('./vendor/semantic-ui-niwsf/semantic.raw.css')
 //require('./vendor/bootstrap/css/bootstrap.min.css')

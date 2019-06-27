@@ -30,14 +30,20 @@
   },
   "homepage": "https://github.com/pulipulichen/Blogger-Editor#readme",
   "dependencies": {
+    "@pulipuli.chen/electron-in-page-search": "^1.3.2",
+    "colors-cli": "^1.0.23",
+    "cross-spawn": "^6.0.5",
     "dayjs": "^1.8.12",
     "detect-browser": "^4.4.0",
     "electron-context-menu": "^0.12.1",
+    "electron-dl": "^1.14.0",
     "electron-in-page-search": "^1.3.2",
+    "electron-is-dev": "^1.1.0",
     "file-saver": "^2.0.1",
     "jquery": "^3.4.1",
     "jszip": "^3.2.1",
     "jszip-utils": "^0.0.2",
+    "opn": "^6.0.0",
     "vuedraggable": "^2.20.0"
   },
   "devDependencies": {

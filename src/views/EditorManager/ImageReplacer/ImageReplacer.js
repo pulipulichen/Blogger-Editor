@@ -53,14 +53,18 @@ var config = {
       this.getUI().modal('show')
       this.getUI().find('.ui.checkbox').checkbox()
     },
-    validateHasFileSystemImage: function () {
+    validateHasFileSystemImage: function (callback) {
       if (FieldPostBody.hasFileSystemImage()) {
         this.filesystemImageCount = FieldPostBody.countFileSystemImage()
+        EventManager.trigger(this, 'onFilesystemImageCountChange')
+        //console.log(['ImageReplacer', this.filesystemImageCount])
         this.currentStep = 1
+        FunctionHelper.triggerCallback(callback)
         return true
       }
       else {
         this.currentStep = 0
+        FunctionHelper.triggerCallback(callback)
         return false
       }
     },
@@ -101,6 +105,7 @@ var config = {
         this.replacedImageCount = 0
       }
       this.filesystemImageCount = FieldPostBody.countFileSystemImage()
+      EventManager.trigger(this, 'onFilesystemImageCountChange')
       
       //this.close()
       
@@ -116,15 +121,23 @@ var config = {
       let list = FieldPostBody.getImageList()
       //console.log(list)
       if (list.length > 0) {
-        
+        let folder
+        let folderCounter = 0
+        let folderFilesLimit = 8
         $v.PostManager.getEditingPostId((id) => {
           let zip = new JSZip();
           let nowFormat = DayjsHelper.nowFormat()
-          let folderName = `post-${id}-images-${nowFormat}`
-          let folder = zip.folder(folderName);
+          let baseFolderName = `post-${id}-images-${nowFormat}`
+          //folder = zip.folder(folderName);
 
           let loop = (i) => {
             if (i < list.length) {
+              if (i % folderFilesLimit === 0) {
+                folderCounter++
+                let folderName = `post-${id}-images-${nowFormat}-${folderCounter}`
+                folder = zip.folder(folderName);
+              } 
+              
               let path = list[i]
               let name = FileSystemHelper.getFileName(path)
               //console.log([name, path])
@@ -139,7 +152,7 @@ var config = {
             else {
               zip.generateAsync({type: "blob"}).then((content) => {
                 // see FileSaver.js
-                  saveAs(content, `${folderName}.zip`)
+                  saveAs(content, `${baseFolderName}.zip`)
                   this.isCreatingImagePackage = false
                   FunctionHelper.triggerCallback(callback)
               })
