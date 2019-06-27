@@ -5,6 +5,7 @@
     "v-if": {},
     "v-on:click": {},
     "v-on:change": {},
+    "v-else": {},
     "v-for": {},
     "v-on:keyup": {},
     "v-on:drop": {}

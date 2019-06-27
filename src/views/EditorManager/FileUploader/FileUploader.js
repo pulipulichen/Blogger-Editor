@@ -19,6 +19,7 @@ let config = {
   computed: {
     enableInsert: function () {
       for (let i = 0; i < this.links.length; i++) {
+        //console.log(this.links[i].downloadURL)
         if (this.validateDownloadURL(this.links[i].downloadURL)) {
           return 'green'
         }
@@ -55,11 +56,12 @@ let config = {
       let output = []
       this.links.forEach((link) => {
         if (this.validateDownloadURL(link.downloadURL)) {
-          let aTag = $(`<a href="${link.downloadURL}" target="_blank">${link.name}</a>`)[0]
+          let aTag = `<a href="${link.downloadURL}" target="_blank">${link.name}</a>`
           output.push(aTag)
         } 
       })
       
+      /*
       for (let i = 0; i < output.length; i++) {
         if (i > 0) {
           $v.EditorManager.FieldPostBody.insert(this.delimiter)
@@ -68,6 +70,10 @@ let config = {
         let node = output[i]
         $v.EditorManager.FieldPostBody.insert(node)
       }
+      */
+      console.log(output.join(this.delimiter))
+      //console.log(output)
+      $v.EditorManager.FieldPostBody.insert('<p>' + output.join(this.delimiter) + '</p>')
       
       
       this.close()
@@ -122,8 +128,8 @@ let config = {
       if (typeof(links) === 'string') {
         links = JSON.parse(links)
       }
-      console.log('FileUploader setConfig')
-      console.log(links)
+      //console.log('FileUploader setConfig')
+      //console.log(links)
       this.links = links
       this.resetDownloadURL()
     }

@@ -4799,6 +4799,7 @@
            * @author Pulipuli Chen 20190624
            */
           this.insert = this.wrapCommand(function (node) {
+            this.focus()
             let insertType = 'insertNode'
             if (typeof(node) === 'string') {
               let text = node
@@ -4809,6 +4810,9 @@
               }
             }
             this[insertType](node)
+            //if (insertType === 'insertType') {
+            //  this.clearEnterFormat()
+            //}
             return node
           })
           

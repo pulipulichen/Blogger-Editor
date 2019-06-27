@@ -1,7 +1,7 @@
 <div class="ui modal"
        v-bind:class="name"
        ref="modal">
-    <i class="close icon" @click="close"></i>
+    <i class="close icon" v-on:click="close"></i>
     <div class="header">
       <i class="upload icon"></i>
       {{ $t('Title') }}
@@ -14,12 +14,12 @@
         <div class="ui top attached tabular menu">
           <a class="item active" 
              data-tab="upload"
-             @click="openTab">
+             v-on:click="openTab">
             {{ $t('Upload') }}
           </a>
           <a class="item" 
              data-tab="setting"
-             @click="openTab">
+             v-on:click="openTab">
             {{ $t('Setting') }}
           </a>
         </div>
@@ -29,28 +29,31 @@
           
           <div class="download-list">
           
-            <div v-for="link in links" :key="link.name"
+            <div v-for="link in links" 
+                 v-bind:key="link.name"
                  class="unstackable fields">
               <div class="six wide field">
                 <template v-if="linkNameIcon(link.name) !== undefined">
                   <div class="ui icon labeled fluid mini button"
-                       :class="{'positive': validateDownloadURL(link.downloadURL)}"
-                       @click="openUploadURL(link.uploadURL, link.name)">
-                    <i class="icon" :class="linkNameIcon(link.name)"></i>
+                       v-bind:class="{'positive': validateDownloadURL(link.downloadURL)}"
+                       v-on:click="openUploadURL(link.uploadURL, link.name)">
+                    <i class="icon" 
+                       v-bind:class="linkNameIcon(link.name)"></i>
                     {{ link.name }}
                   </div>
                 </template>
                 <template v-else>
                   <div class="ui fluid mini button"
-                       :class="{'positive': validateDownloadURL(link.downloadURL)}"
-                       @click="openUploadURL(link.uploadURL, link.name)">
+                       v-bind:class="{'positive': validateDownloadURL(link.downloadURL)}"
+                       v-on:click="openUploadURL(link.uploadURL, link.name)">
                     {{ link.name }}
                   </div>
                 </template>
               </div>
               <div class="ten wide field">
                 <div class="ui fluid mini input">
-                  <input type="url" v-model="link.downloadURL" />
+                  <input type="url" 
+                         v-model="link.downloadURL" />
                 </div>
               </div>
             </div>
@@ -64,7 +67,7 @@
                   {{ $t('Delimiter') }}
                 </label>
                 <input type="text" v-model="delimiter"
-                       @change="onDelimiterChange"/>
+                       v-on:change="onDelimiterChange"/>
               </div>
             </div>
           </div>
@@ -79,15 +82,16 @@
                      group="settings" 
                      @start="drag=true" 
                      @end="drag=false"
-                     @change="onSettingChange">
-              <div v-for="link in links" :key="link.name"
+                     v-on:change="onSettingChange">
+              <div v-for="link in links" 
+                   v-bind:key="link.name"
                    class="unstackable fields">
                 <div class="six wide field">
                   <div class="ui input mini">
                     <input type="text" 
                            v-model="link.name"
                            placeholder="$t('Name')"
-                           @change="onSettingChange"/>
+                           v-on:change="onSettingChange"/>
                   </div>
                 </div>
                 <div class="ten wide field">
@@ -95,7 +99,7 @@
                     <input type="url" 
                            v-model="link.uploadURL"
                            placeholder="$t('Upload URL')"
-                           @change="onSettingChange"/>
+                           v-on:change="onSettingChange"/>
                     <i class="bars icon draggable"></i>
                   </div>
                     
@@ -114,12 +118,12 @@
     
     <div class="actions">
       <div class="ui button"
-           @click='close'>
+           v-on:click='close'>
         {{ $t('Close') }}
       </div>
       <div class="ui button"
-           :class="enableInsert"
-           @click='insert'>
+           v-bind:class="enableInsert"
+           v-on:click='insert'>
         {{ $t('Insert') }}
       </div>
     </div>
