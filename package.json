@@ -9,7 +9,7 @@
     "4 webpack-build-production": "webpack --mode production",
     "e0.run-development": "electron bin/electron/index-electron.js --mode development",
     "e1.run-production": "electron bin/electron/index-electron.js --mode production",
-    "host": "node bin/host.js",
+    "host": "node bin/host/host.js",
     "webpack-help": "webpack --help",
     "webpack-test-build-development": "webpack --mode development --config [tmp/webpack.config.js",
     "install": "node installer.js",
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/pulipulichen/Blogger-Editor#readme",
   "dependencies": {
-    "@pulipuli.chen/electron-in-page-search": "^1.3.2",
+    "@pulipuli.chen/electron-in-page-search": "^1.3.3",
     "colors-cli": "^1.0.23",
     "cross-spawn": "^6.0.5",
     "dayjs": "^1.8.12",
