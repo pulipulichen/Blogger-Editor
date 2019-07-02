@@ -9515,9 +9515,9 @@ sel.addRange(range);
           otherStaticBar: '',
           // toolbar
           toolbar: [
-              ['style', ['style']],
               ['formatBlockHeading', ['formatH1', 'formatH2', 'formatH3', 'formatH4', 'formatH5', 'formatH6']],
               ['formatBlock', ['formatPara', 'formatCode']],
+              ['style', ['style']],
               ['font', ['bold', 'underline', 'clear']],
               ['fontname', ['fontname']],
               ['fontsize', ['fontsize']],
