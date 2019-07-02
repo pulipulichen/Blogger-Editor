@@ -1,4 +1,3 @@
-const path = require('path');
 
 let ElectronHelper = {
   init: function () {
@@ -28,6 +27,7 @@ let ElectronHelper = {
     const searchInPage = require("@pulipuli.chen/electron-in-page-search").default
     //const searchInPage = require('electron-in-page-search').default
     const remote = require('electron').remote;
+    const path = require('path');
 
     // Create an instance with the current window
     let searcher = remote.getCurrentWebContents()
