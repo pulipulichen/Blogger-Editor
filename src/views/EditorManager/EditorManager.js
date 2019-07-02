@@ -178,7 +178,6 @@ var EditorManager = {
       else {
         this.getUI().modal('hide')
       }
-      
     },
     validateUploadImageDrarfUrl: function (url) {
       if (typeof(url) === 'string') {

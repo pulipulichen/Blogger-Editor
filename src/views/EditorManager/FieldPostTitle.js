@@ -15,6 +15,7 @@ let FieldPostTitle = {
     
     this.get().summernote(SummerNoteConfig.postTitleConfig('No Title', callback))
     // 'labels', 'Labels'
+    
     return this
   },
   reload: function (callback) {
@@ -47,6 +48,7 @@ let FieldPostTitle = {
     
     this.get().summernote('code', value)
     this.get().summernote('editor.commit')
+    this.updateDocumentTitle()
     return this
   },
   save: function (callback) {
@@ -56,6 +58,10 @@ let FieldPostTitle = {
   },
   titleLengthLimit: 30,
   updateDocumentTitle: function (title) {
+    if (title === undefined) {
+      title = this.getText()
+    }
+    
     if (typeof(title) !== 'string' || title.trim() === '') {
       document.title = 'Blogger Editor'
       return
