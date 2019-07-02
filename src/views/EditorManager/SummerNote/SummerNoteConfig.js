@@ -37,6 +37,7 @@ let SummerNoteConfig = {
     }
     
     let toolbar = [
+        ['color', ['color']],
         //['formatBlockHeading1', ['formatH1']],
         ['formatBlockHeading2', ['formatH2', 'formatH3']],
         ['formatBlockHeading3', ['formatH4', 'formatH5']],
@@ -46,7 +47,6 @@ let SummerNoteConfig = {
         //['styleTags', ['styleP', 'styleH1', 'styleH2', 'styleH3', 'styleH4', 'styleH5', 'styleH6']],
         ['font', ['undo', 'bold', 'underline', 'clear']],
         //['fontname', ['fontname']],
-        ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
         //['table', []],
         ['insert', ['hr', 'link', 'table']],
