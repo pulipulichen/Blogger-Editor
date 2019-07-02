@@ -71,7 +71,7 @@ let config = {
         $v.EditorManager.FieldPostBody.insert(node)
       }
       */
-      console.log(output.join(this.delimiter))
+      //console.log(output.join(this.delimiter))
       //console.log(output)
       $v.EditorManager.FieldPostBody.insert('<p>' + output.join(this.delimiter) + '</p>')
       
