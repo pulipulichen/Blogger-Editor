@@ -189,8 +189,8 @@
           var $dropdown = this.$button.next();
           var offset = $dropdown.offset();
           var width = $dropdown.outerWidth();
-          var windowWidth = $(window).width();
-          var targetMarginRight = parseFloat($(this.options.target).css('margin-right'));
+          var windowWidth = $$1(window).width();
+          var targetMarginRight = parseFloat($$1(this.options.target).css('margin-right'));
           if (offset.left + width > windowWidth - targetMarginRight) {
               $dropdown.css('margin-left', windowWidth - targetMarginRight - (offset.left + width));
           }
@@ -5459,6 +5459,16 @@
               _this.context.triggerEvent('mouseup', event);
           }).on('scroll', function (event) {
               _this.context.triggerEvent('scroll', event);
+          })
+                  
+          $$1(window).on('dragstart', function (event) {
+              //_this.context.triggerEvent('scroll', event);
+              //console.log('drag')
+              if ($$1(event.target).parents('.note-editable:first').length > 0) {
+                event.preventDefault()
+                event.stopPropagation()
+                return false
+              }
           });
           // init content before set event
           this.$editable.html(dom.html(this.$note) || dom.emptyPara);
@@ -7235,7 +7245,7 @@ sel.addRange(range);
                                   $chip.click();
                               });
                           });
-                      },
+                      }, 
                       click: function (event) {
                           //console.log('set color')
                         
