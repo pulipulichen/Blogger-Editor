@@ -230,9 +230,29 @@
           }, options);
           this.$modal = $node;
           this.$backdrop = $('<div class="note-modal-backdrop" />');
+          let contentChildren = this.$modal.find(".note-modal-content > *")
+          let enableClickHide = true
+          contentChildren.mousedown((event) => {
+            //event.stopPropagation()
+            enableClickHide = false
+          })
+          contentChildren.mouseup((event) => {
+            enableClickHide = true
+          })
+          this.$modal.mouseup((event) => {
+            setTimeout(() => {
+              enableClickHide = true
+            }, 10)
+          })
+          
           this.$modal.click((event) => {
+            //event.stopPropagation()
+            //event.preventDefault()
+            
             //console.log(event.target)
-            if ($$1(event.target).hasClass('note-modal')) {
+            //console.log($$1(event.target).prop('className'))
+            //console.log(event)
+            if (enableClickHide && $$1(event.target).hasClass('note-modal')) {
               this.hide()
             }
           })

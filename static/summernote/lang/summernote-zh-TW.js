@@ -52,6 +52,7 @@
         edit: '編輯連結',
         textToDisplay: '顯示文字',
         url: '連結網址',
+        title: '連結標題 (選填)',
         openInNewWindow: '在新視窗開啟',
         copy: '複製連結',
         remove: '刪除'
