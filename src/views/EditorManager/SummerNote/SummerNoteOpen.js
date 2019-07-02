@@ -23,7 +23,7 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton(contents, tooltip, click)
   },
   CodeInserter: function (context) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i> Code`)
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>  Code`)
     let tooltip = 'Insert code'
     let click = () => {
       $v.CodeInserter.open()
