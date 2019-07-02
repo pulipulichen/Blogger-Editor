@@ -4,14 +4,22 @@ var app = express()
 const { exec } = require('child_process');
 //const isPortReachable = require('is-port-reachable');
 
-let minPort = 9000
+let minPort = 49000
 let openBrowser = (freePort) => {
   if (typeof(freePort) !== 'number') {
     freePort = minPort
   }
 
   let url = 'http://localhost:' + freePort + '/index.html'
-  exec(`/opt/google/chrome/google-chrome --app=${url}`)
+  
+  let googleChromePath = '/opt/google/chrome/google-chrome'
+  if (process.platform === 'win32') {
+    googleChromePath = '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"'
+  }
+  
+  let cmd = `${googleChromePath} --app=${url}`
+  console.log(cmd)
+  exec(cmd)
   /*
   if (openBrowsers(url)) {
     console.log(`APP listening on port ${freePort}!`)
@@ -59,7 +67,7 @@ var isPortTaken = function(port, fn) {
 
 isPortTaken(minPort, (error, reachable) => {
   //let reachable = await isPortReachable(minPort, {host: 'localhost'});
-  console.log(["reachable", reachable])
+  //console.log(["reachable", reachable])
   if (reachable === false) {
     app.listen(minPort, openBrowser)
   }
