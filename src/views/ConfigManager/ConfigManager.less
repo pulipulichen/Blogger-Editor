@@ -4,7 +4,9 @@ input[type='file'] {
 }
 
 .ui.modal > .content {
-  min-height: 17rem;
+  /*min-height: 17rem;*/
+  height: calc(100vh - 18rem);
+  min-height: 20rem;
 }
 
 .ui.cards .card {
@@ -13,4 +15,19 @@ input[type='file'] {
 
 .ui.cards .card .extra.content {
   text-align: right;
+}
+
+.ui.tab {
+  max-height: calc(100vh - 19rem);
+  overflow-y: auto;
+}
+
+.ui.tab[data-tab="interface"] {
+  height: calc(100vh - 21rem);
+}
+
+@media (max-width: 846px) {
+  .ui.tab {
+    max-height: calc(100vh - 20rem);
+  }
 }
