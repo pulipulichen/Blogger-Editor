@@ -184,7 +184,10 @@ let config = {
       if (this.enableBackupPageButton) {
         WindowHelper.popup(this.backupPageURL, 'ConfigManager.backupPageURL')
       }
-    }
+    },
+    openTab: function (e) {
+      SemanticUIHelper.openTab(e)
+    },
   }
 }
 

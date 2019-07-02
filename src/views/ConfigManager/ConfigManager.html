@@ -9,91 +9,193 @@
   <div class="content">
     <div class="ui form description">
       
-      <div class="field">
-        <label for="ConfigManager.backupPageURL">
-          {{ $t('Backup URL') }}
-        </label>
-
-        <div class="ui action input">
-          <input type="url" 
-                 name="uploadImageDraft" 
-                 onfocus="this.select()"
-                 id="ConfigManager.backupPageURL"
-                 v-model="backupPageURL"
-                 v-on:change="persist" />
-          <button type="button" 
-                  class="ui button"
-                  v-bind:class="{ disabled: (enableBackupPageButton === false) }"
-                  v-on:click="openBackupPageURL">
-            {{ $t('OPEN') }}
-          </button>
-        </div>
+      <div class="ui top attached tabular menu">
+        <a class="item active" 
+           data-tab="interface"
+           v-on:click="openTab">
+          {{ $t('Interface') }}
+        </a>
+        <a class="item" 
+           data-tab="backup"
+           v-on:click="openTab">
+          {{ $t('Backup Manage') }}
+        </a>
+        <a class="item" 
+           data-tab="about"
+           v-on:click="openTab">
+          {{ $t('About') }}
+        </a>
       </div>
       
-      <div class="two unstackable fields">
+      <!-- ----------------------------------------------------------- -->
+      
+      <div class="ui bottom attached tab segment active form" 
+             data-tab="interface">
+        
         <div class="field">
           <label>
-            {{ $t('Backup Config') }}
+            {{ $t('Language') }}
           </label>
-          
-          <button type="button" 
-                  class="backup ui labeled icon fluid button"
-                  v-on:click="configDownload">
-            <i class="download icon"></i>
-            {{ $t('Backup') }}
-          </button>
-        </div>
-        <div class="field">
-          <label>
-            &nbsp;
-          </label>
-          
-          <input type="file" name="uploadConfig" 
-                 accept=".zip"
-                 v-on:change="configUpload"/>
-          <button type="button"
-                  class="ui labeled icon fluid button"
-                  v-on:click="triggerConfigUpload">
-            <i class="upload icon"></i>
-            {{ $t('Restore') }}
-          </button>
-        </div>
-
-        <div class="dragover-message"
-             v-on:drop="configDrop">
-          {{ $t('Drop file to upload') }}
-        </div>
-      </div>
-      
-      <!-- ------------------------- -->
-      
-      <div class="field">
-        <label>
-          {{ $t('Language') }}
-        </label>
-        <select class="ui search dropdown"
-                v-model="locale"
-                v-on:change="persistLocale">
-          <template v-for="localeOption in localeOptions">
-            <!--
-            <template v-if="localeOption === locale">
-              <option :value="localeOption"
-                      selected="selected">
+          <select class="ui search dropdown"
+                  v-model="locale"
+                  v-on:change="persistLocale">
+            <template v-for="localeOption in localeOptions">
+              <!--
+              <template v-if="localeOption === locale">
+                <option :value="localeOption"
+                        selected="selected">
+                  {{ $t(localeOption) }}
+                </option>
+              </template>
+              <template v-else>
+                <option :value="localeOption">
+                  {{ $t(localeOption) }}
+                </option>
+              </template>
+              -->
+              <option v-bind:value="localeOption">
                 {{ $t(localeOption) }}
               </option>
             </template>
-            <template v-else>
-              <option :value="localeOption">
-                {{ $t(localeOption) }}
-              </option>
-            </template>
-            -->
-            <option v-bind:value="localeOption">
-              {{ $t(localeOption) }}
-            </option>
-          </template>
-        </select>
+          </select>
+        </div>
       </div>
+      
+      <!-- ----------------------------------------------------------- -->
+      
+      <div class="ui bottom attached tab segment form" 
+             data-tab="backup">
+        
+        <div class="field">
+          <label for="ConfigManager.backupPageURL">
+            {{ $t('Backup URL') }}
+          </label>
+
+          <div class="ui action input">
+            <input type="url" 
+                   name="uploadImageDraft" 
+                   onfocus="this.select()"
+                   id="ConfigManager.backupPageURL"
+                   v-model="backupPageURL"
+                   v-on:change="persist" />
+            <button type="button" 
+                    class="ui button"
+                    v-bind:class="{ disabled: (enableBackupPageButton === false) }"
+                    v-on:click="openBackupPageURL">
+              {{ $t('OPEN') }}
+            </button>
+          </div>
+        </div>
+
+        <div class="two unstackable fields">
+          <div class="field">
+            <label>
+              {{ $t('Backup Config') }}
+            </label>
+
+            <button type="button" 
+                    class="backup ui labeled icon fluid button"
+                    v-on:click="configDownload">
+              <i class="download icon"></i>
+              {{ $t('Backup') }}
+            </button>
+          </div>
+          <div class="field">
+            <label>
+              &nbsp;
+            </label>
+
+            <input type="file" name="uploadConfig" 
+                   accept=".zip"
+                   v-on:change="configUpload"/>
+            <button type="button"
+                    class="ui labeled icon fluid button"
+                    v-on:click="triggerConfigUpload">
+              <i class="upload icon"></i>
+              {{ $t('Restore') }}
+            </button>
+          </div>
+
+          <div class="dragover-message"
+               v-on:drop="configDrop">
+            {{ $t('Drop file to upload') }}
+          </div>
+        </div>
+
+        <!-- ------------------------- -->
+
+      </div>
+      
+      <!-- ----------------------------------------------------------- -->
+      
+      <div class="ui bottom attached tab segment form" 
+             data-tab="about">
+        
+        <!--
+        <div class="ui card">
+          <div class="image">
+            <img src="static/blog.pulipuli.info.svg">
+          </div>
+          <div class="content">
+            <a class="header">
+              布丁布丁吃什麼？
+            </a>
+            <div class="meta">
+              <span class="date">Blog作者</span>
+            </div>
+            <div class="description">
+              這個布丁是在無聊的世界中找尋樂趣的一種不能吃的食物，喜愛動漫畫、遊戲、程式，以及跟世間脫節的生活步調。
+            </div>
+          </div>
+          <div class="extra content">
+            <a href="http://blog.pulipuli.inf">
+              <i class="linkify icon"></i>
+              Blog: 布丁布丁吃什麼？
+            </a>
+          </div>
+        </div>
+        -->
+        <div class="ui cards">
+          <div class="card">
+            <div class="content">
+              <img class="right floated mini ui image" src="static/blog.pulipuli.info.svg">
+              <div class="header">
+                布丁布丁吃布丁
+              </div>
+              <div class="meta">
+                <span class="date">
+                  {{ $t('Author') }}
+                </span>
+              </div>
+              <div class="description">
+                這個布丁是在無聊的世界中找尋樂趣的一種不能吃的食物，喜愛動漫畫、遊戲、程式，以及跟世間脫節的生活步調。
+              </div>
+            </div>
+            <div class="extra content">
+              <a href="http://blog.pulipuli.info"
+                 target="blog.pulipuli.info"
+                 class="ui labeled icon basic button">
+                <i class="blogger icon"></i>
+                {{ $t('Blog') }}
+              </a>
+              <a href="http://blog.pulipuli.info/2005/12/blogger_113544406852218769.html#comment-editor"
+                 target="blog.pulipuli.info-contact"
+                 class="ui labeled icon basic button">
+                <i class="paper plane icon"></i>
+                {{ $t('Contact') }}
+              </a>
+              <a href="https://github.com/pulipulichen/Blogger-Editor/issues?q=is%3Aopen+is%3Aissue"
+                 target="github.issues"
+                 class="ui labeled icon basic button">
+                <i class="envelope icon"></i>
+                {{ $t('Issue') }}
+              </a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
       
       
 
