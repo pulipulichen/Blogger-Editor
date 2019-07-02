@@ -70,6 +70,7 @@ let PostManagerDatabase = {
       callback = post
       post = null
     }
+    //console.log(post)
 
     let postId
     let unix = DayjsHelper.unix()
@@ -83,6 +84,9 @@ let PostManagerDatabase = {
                   posts(createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publicURL) 
                   values(?,?,?,?,?,?,?,?)`
     let data = [unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
+    
+    //console.log(sql)
+    //console.log(data)
 
     if (post !== null
             && typeof (post) === 'object') {
@@ -122,7 +126,10 @@ let PostManagerDatabase = {
     //console.log(data)
     WebSQLDatabaseHelper.exec(sql, data, (rows) => {
       //console.log('after sql')
-      this.getLastUpdatePost(callback)
+      this.getLastUpdatePost((post) => {
+        //console.log(callback)
+        FunctionHelper.triggerCallback(callback, post)
+      })
     })
   },
   getLastPostId: function (callback) {
@@ -133,7 +140,11 @@ let PostManagerDatabase = {
   },
   getLastUpdatePost: function (callback) {
     let sql = 'select * from posts order by id desc limit 0, 1'
+    //console.log(sql)
     WebSQLDatabaseHelper.exec(sql, (rows) => {
+      //console.log(rows)
+      //console.log(rows.length)
+      //console.log(rows[0])
       if (rows.length > 0) {
         //rows = rows.item(0)
         rows = rows[0]

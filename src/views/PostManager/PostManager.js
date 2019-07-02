@@ -136,12 +136,21 @@ let PostManager = {
           FunctionHelper.triggerCallback(callback)
         }
         else {
+          //console.log('建立post')
           this.createPost(callback)
         }
       })
     },
     createPost: function (post, callback) {
+      if (typeof(post) === 'function') {
+        callback = post
+        post = undefined
+      }
+      
+      //console.trace("createPost")
       return this.PostManagerDatabase.createPost(post, (post) => {
+        //console.log("建立成功")
+        //console.log(post)
         this.posts = [post].concat(this.posts)
         if (post !== null) {
           this.editingPostId = post.id
@@ -186,6 +195,7 @@ let PostManager = {
         id = this.editingPostId
       }
       let post = this.posts.filter((post) => post.id === id)[0]
+      
       FunctionHelper.triggerCallback(callback, post)
       return post
       
@@ -253,6 +263,7 @@ let PostManager = {
     updateEditingPost: function (field, value, callback) {
       this.getPost((post) => {
         //console.log([field, post[field], value])
+        
         if (post[field] !== value) {
           post[field] = value
           this.update(post, callback)
