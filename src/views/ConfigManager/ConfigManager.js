@@ -20,7 +20,7 @@ let config = {
     VueHelper.mountLocalStorage(this, 'locale', ConfigHelper.get('locale'))
     VueHelper.mountLocalStorage(this, 'backupPageURL', 'https://drive.google.com/drive/u/0/my-drive')
     
-    console.log(this.enableBackupPageButton)
+    //console.log(this.enableBackupPageButton)
   },
   created: function () {
     $v[this.name] = this
@@ -28,8 +28,8 @@ let config = {
   },
   computed: {
     enableBackupPageButton: function () {
-      console.log(this.backupPageURL)
-      console.log(this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
+      //console.log(this.backupPageURL)
+      //console.log(this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
       return (this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
     }
   },
