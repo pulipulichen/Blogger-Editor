@@ -40,6 +40,7 @@ let InitHelper = {
     
     //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))
     
+    console.clear()
     FunctionHelper.triggerCallback(callback)
   },
   init: function (callback) {

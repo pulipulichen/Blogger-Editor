@@ -360,6 +360,7 @@
           else if (options.itemClick) {
               options.itemClick(e, item, value);
           }
+          //console.log('set color')
       });
   });
   var dropdownButtonContents = function (contents, options) {
@@ -604,6 +605,8 @@
                       }
                   },
                   click: function (event) {
+                    //console.log('set color')
+                    
                       var $button = $(event.target);
                       var eventName = $button.data('event');
                       var value = $button.data('value');
@@ -1440,6 +1443,14 @@
       }
       return array[idx - 1];
   }
+  
+  function hasSelectedRange () {
+    //let rng = document.createRange()
+    //return !(rng.so === 0 && rng.eo === 0)
+    //console.log(document.getSelection().type)
+    return (document.getSelection().type === 'Range')
+  }
+  
   /**
    * @class core.list
    *
@@ -4761,9 +4772,17 @@
               this.context.memo('help.' + commands[idx], this.lang.help[commands[idx]]);
           }
           this.fontName = this.wrapCommand(function (value) {
+            if (this.hasSelectedRange() === false) {
+              return false
+            }
+            
               return _this.fontStyling('font-family', "\'" + value + "\'");
           });
           this.fontSize = this.wrapCommand(function (value) {
+            if (this.hasSelectedRange() === false) {
+              return false
+            }
+            
               return _this.fontStyling('font-size', value + 'px');
           });
           for (var idx = 1; idx <= 6; idx++) {
@@ -4955,6 +4974,10 @@
            * @param {String} value
            */
           this.lineHeight = this.wrapCommand(function (value) {
+            if (this.hasSelectedRange() === false) {
+              return false
+            }
+            
               _this.style.stylePara(_this.createRange(), {
                   lineHeight: value
               });
@@ -5053,6 +5076,10 @@
            */
           this.color = this.wrapCommand(function (colorInfo) {
               //console.log(colorInfo)
+              if (this.hasSelectedRange() === false) {
+                return
+              }
+              
               var foreColor = colorInfo.foreColor;
               var backColor = colorInfo.backColor;
               if (foreColor) {
@@ -5068,6 +5095,11 @@
            * @param {String} colorCode foreground color code
            */
           this.foreColor = this.wrapCommand(function (colorInfo) {
+              // 檢查一下是否有選取對象
+              if (this.hasSelectedRange() === false) {
+                return
+              }
+            
               document.execCommand('styleWithCSS', false, true);
               document.execCommand('foreColor', false, colorInfo);
           });
@@ -5258,6 +5290,10 @@
            * @param {String} value
            */
           this.floatMe = this.wrapCommand(function (value) {
+            if (this.hasSelectedRange() === false) {
+              return
+            }
+            
               var $target = $$1(_this.restoreTarget());
               $target.toggleClass('note-float-left', value === 'left');
               $target.toggleClass('note-float-right', value === 'right');
@@ -5299,6 +5335,13 @@
             sel.removeAllRanges();
             sel.addRange(range);
             return this
+          }
+          
+          this.hasSelectedRange = function () {
+            var rng = _this.createRange();
+            //console.log(rng)
+            //console.trace((rng.so === 0 && rng.eo === 0))
+            return !(rng.so === 0 && rng.eo === 0)
           }
           
           if (this.options.showHeadingLabel === false) {
@@ -7194,11 +7237,17 @@ sel.addRange(range);
                           });
                       },
                       click: function (event) {
-                          event.stopPropagation();
+                          //console.log('set color')
+                        
+                          event.stopPropagation()
+                          event.preventDefault()
+                          
                           var $parent = $$1('.' + className);
                           var $button = $$1(event.target);
                           var eventName = $button.data('event');
                           var value = $button.attr('data-value');
+                          //console.log([eventName, value])
+                          //console.log(lists.contains(['backColor', 'foreColor'], eventName))
                           if (eventName === 'openPalette') {
                               var $picker = $parent.find('#' + value);
                               var $palette = $$1($parent.find('#' + $picker.data('event')).find('.note-color-row')[0]);
@@ -7212,14 +7261,48 @@ sel.addRange(range);
                                   .attr('data-original-title', color);
                               $palette.prepend($chip);
                               $picker.click();
+                              event.preventDefault()
+                          }
+                          else if (eventName === 'removeFormat') {
+                            if (hasSelectedRange() === false) {
+                              event.preventDefault()
+                              return
+                            }
+                              
+                            let color = 'inherit'
+                            /*
+                            if (value === 'backColor') {
+                              color = 'transparent'
+                            }
+                            */
+                            //console.log(['editor.' + value, color])
+                            _this.context.invoke('editor.' + value, color);
+                            let $color = $button.closest('.note-color').find('.note-recent-color');
+                            $color.css(value, color);
+                            
+                            let $currentButton = $button.closest('.note-color').find('.note-current-color-button');
+                            $currentButton.attr('data-' + value, color);
                           }
                           else if (lists.contains(['backColor', 'foreColor'], eventName)) {
-                              var key = eventName === 'backColor' ? 'background-color' : 'color';
-                              var $color = $button.closest('.note-color').find('.note-recent-color');
-                              var $currentButton = $button.closest('.note-color').find('.note-current-color-button');
+                              if (hasSelectedRange() === false) {
+                                event.preventDefault()
+                                return
+                              }
+                            
+                              let key = eventName === 'backColor' ? 'background-color' : 'color';
+                              let $color = $button.closest('.note-color').find('.note-recent-color');
+                              let $currentButton = $button.closest('.note-color').find('.note-current-color-button');
                               $color.css(key, value);
                               $currentButton.attr('data-' + eventName, value);
+                              //console.log(['editor.' + eventName, value])
+                              //console.log(_this.context.layoutInfo.editor)
+                              //if (_this.context.invoke('editor.hasSelectedRange')) {
+                              //console.log(hasSelectedRange())
+                              
                               _this.context.invoke('editor.' + eventName, value);
+                          }
+                          else {
+                            //console.log('其他')
                           }
                       }
                   })
@@ -9276,6 +9359,7 @@ sel.addRange(range);
           this.layoutInfo = {};
           this.options = options;
           this.initialize();
+          this.lastScrollPostion = {}
       }
       /**
        * create layout and initialize modules and other resources
