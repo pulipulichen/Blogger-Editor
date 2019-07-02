@@ -27,7 +27,7 @@
         shapeThumbnail: '形狀: 縮略圖',
         shapeNone: '形狀: 無',
         dragImageHere: '將圖片拖曳至此處',
-        dropImage: 'Drop image or Text',
+        dropImage: '將圖片放至此處',
         selectFromFiles: '從本機上傳',
         maximumFileSize: '文件大小最大值',
         maximumFileSizeError: '文件大小超出最大值。',

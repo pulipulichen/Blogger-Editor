@@ -322,7 +322,8 @@ Message: ${e.message}`
             filename = file.name
           }
           
-          filename = this.filterSafeFilename(filename)
+          //filename = this.filterSafeFilename(filename)
+          filename = FileHelper.extractSafeFilename(filename)
           
           baseFilePath = dirPath + filename
 
@@ -401,7 +402,8 @@ Message: ${e.message}`
     if (url.lastIndexOf('/') > -1) {
       url = url.slice(url.lastIndexOf('/') + 1)
     }
-    url = this.filterSafeFilename(url)
+    //url = this.filterSafeFilename(url)
+    url = FileHelper.extractSafeFilename(url)
     return url
   },
   isExists: function (filePath, callback) {
@@ -575,12 +577,14 @@ Message: ${e.message}`
       }, errorHandler);
     }, errorHandler);
   },
+  /*
   filterSafeFilename: function (filename) {
     if (filename.indexOf('+') > -1) {
       filename = filename.split('+').join('_')
     }
     return filename
   }
+  */
 }
 
 //FileSystemHelper.init()
