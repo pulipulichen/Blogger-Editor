@@ -9,7 +9,8 @@ let NavBar = {
       wordCount: 0,
       navbarHeight: 55,
       classNameFixed: 'call-fixed',
-      $body: null
+      $body: null,
+      sidebarWidth: 700
     }
   },
   components: {
@@ -45,7 +46,7 @@ let NavBar = {
     toggle: function () {
       //console.log('aaa')
       // check scroll height
-      if (document.body.clientWidth < 900) {
+      if (document.body.clientWidth < this.sidebarWidth) {
         $v.NavBarSidebar.open()
       }
       else {
