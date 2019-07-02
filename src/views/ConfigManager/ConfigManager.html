@@ -32,6 +32,10 @@
       
       <div class="two unstackable fields">
         <div class="field">
+          <label>
+            {{ $t('Backup Config') }}
+          </label>
+          
           <button type="button" 
                   class="backup ui labeled icon fluid button"
                   v-on:click="configDownload">
@@ -40,6 +44,10 @@
           </button>
         </div>
         <div class="field">
+          <label>
+            &nbsp;
+          </label>
+          
           <input type="file" name="uploadConfig" 
                  accept=".zip"
                  v-on:change="configUpload"/>

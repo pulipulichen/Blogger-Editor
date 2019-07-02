@@ -7,6 +7,7 @@
     "Backup URL": "備份網址",
     "Restore": "載入設定",
     "Backup": "下載設定",
+    "Backup Config": "備份設定",
     "You need reload this page to change language. <br />Do you want to reload?": "重新讀取頁面才能改變語言，你確定要重新讀取嗎？"
   }
 }
