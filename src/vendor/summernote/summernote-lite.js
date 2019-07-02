@@ -5032,6 +5032,7 @@
            * @param {String} sObjColor.backColor background color
            */
           this.color = this.wrapCommand(function (colorInfo) {
+              //console.log(colorInfo)
               var foreColor = colorInfo.foreColor;
               var backColor = colorInfo.backColor;
               if (foreColor) {

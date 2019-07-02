@@ -10,7 +10,8 @@ let NavBar = {
       navbarHeight: 55,
       classNameFixed: 'call-fixed',
       $body: null,
-      sidebarWidth: 700
+      sidebarWidth: 700,
+      lastScrollTop: 0
     }
   },
   components: {
@@ -84,8 +85,23 @@ let NavBar = {
       }
       
       let $window = $(window)
+      let className = 'upscroll'
       $window.scroll(() => {
         setClassName()
+        
+        let ui = this.getUI()
+        
+        var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+        if (st > this.lastScrollTop){
+           // downscroll code
+           //console.log('downscroll code')
+           ui.removeClass(className)
+        } else {
+           // upscroll code
+           //console.log('upscroll code')
+           ui.addClass(className)
+        }
+        this.lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
       })
       $window.resize(() => {
         setClassName()

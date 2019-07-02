@@ -6,7 +6,16 @@
   border-radius: 0;
 }
 
-.ui.top.menu.call-fixed {
+/*
+.ui.top.menu {
+  transition-property: all;
+	transition-duration: .5s;
+	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+*/
+
+.ui.top.menu.call-fixed,
+.ui.top.menu.upscroll {
   position: fixed;
   z-index: 600;
 }
@@ -34,5 +43,9 @@
   
   .ui.top.menu > .item.sidebar-menu-toggle {
     display: block;
+  }
+  
+  .ui.top.menu.upscroll {
+    position: absolute;
   }
 }
