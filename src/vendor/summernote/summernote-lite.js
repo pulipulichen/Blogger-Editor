@@ -9518,7 +9518,7 @@ sel.addRange(range);
               ['formatBlockHeading', ['formatH1', 'formatH2', 'formatH3', 'formatH4', 'formatH5', 'formatH6']],
               ['formatBlock', ['formatPara', 'formatCode']],
               ['style', ['style']],
-              ['font', ['bold', 'underline', 'clear']],
+              ['font', ['bold', 'italic', 'underline', 'clear']],
               ['fontname', ['fontname']],
               ['fontsize', ['fontsize']],
               ['color', ['color']],
