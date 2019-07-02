@@ -11,7 +11,8 @@ let i18n = {
     "URL": "網址",
     "Insert": "插入",
     "INSERT": "插入",
-    "Open": "開啓",
+    "Open": "開啟",
+    "OPEN": "開啟",
     "Setting": "設定",
     "Filter...": "篩選...",
     "NEW": "新增",
@@ -19,7 +20,8 @@ let i18n = {
     "DELETE": "刪除",
     "Cancel": "取消",
     "Yes": "是",
-    "No": "否"
+    "No": "否",
+    "OK": "確認"
   }
 }
 export default i18n

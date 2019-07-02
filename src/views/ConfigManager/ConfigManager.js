@@ -12,15 +12,26 @@ let config = {
       onCloseReload: false,
       onCloseReloadI18n: false,
       locale: ConfigHelper.get('locale'),
-      localeOptions: ConfigHelper.get('localeOptions')
+      localeOptions: ConfigHelper.get('localeOptions'),
+      backupPageURL: ''
     }
   },
   mounted() {
     VueHelper.mountLocalStorage(this, 'locale', ConfigHelper.get('locale'))
+    VueHelper.mountLocalStorage(this, 'backupPageURL', 'https://drive.google.com/drive/u/0/my-drive')
+    
+    console.log(this.enableBackupPageButton)
   },
   created: function () {
     $v[this.name] = this
     //console.log(this.$t('Config Manager'))
+  },
+  computed: {
+    enableBackupPageButton: function () {
+      console.log(this.backupPageURL)
+      console.log(this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
+      return (this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
+    }
   },
   methods: {
     getUI: function () {
@@ -161,9 +172,18 @@ let config = {
       })
       return this
     },
+    persistLocale() {
+      this.onCloseReloadI18n = true
+      this.persist()
+    },
     persist() {
       VueHelper.persistLocalStorage(this, 'locale')
-      this.onCloseReloadI18n = true
+      VueHelper.persistLocalStorage(this, 'backupPageURL')
+    },
+    openBackupPageURL() {
+      if (this.enableBackupPageButton) {
+        WindowHelper.popup(this.backupPageURL, 'ConfigManager.backupPageURL')
+      }
     }
   }
 }

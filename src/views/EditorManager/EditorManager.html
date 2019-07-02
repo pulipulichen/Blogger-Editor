@@ -37,36 +37,39 @@
              data-tab="image">
             
             <div class="field">
-              <label>
+              <label for="uploadImageDraft">
                 {{ $t('Upload Image Draft URL') }}
               </label>
-              <input type="text" 
-                     name="uploadImageDraft" 
-                     id="uploadImageDraft"
-                     v-model="uploadImageDraft"
-                     v-on:change="validateUploadImageDrarfUrl"
-                     placeholder="https://www.blogger.com/blogger.g?blogID=..." />
+              
+              <div class="ui action input">
+                <input type="url" 
+                       name="uploadImageDraft" 
+                       onfocus="this.select()"
+                       id="uploadImageDraft"
+                       v-model="uploadImageDraft"
+                       v-on:change="validateUploadImageDrarfUrl"
+                       placeholder="https://www.blogger.com/blogger.g?blogID=..." />
+                <button type="button" 
+                        class="ui button"
+                        v-bind:class="{ disabled: disableUploadImageDraft }"
+                        v-on:click="openBloggerDraft">
+                  {{ $t('Open Draft') }}
+                </button>
+              </div>
             </div>
-            <div class="unstackable three fields">
+            
+            <div class="unstackable two fields">
               <div class="field">
-                <div class="mini ui fluid button"
+                <div class="ui fluid button"
                    v-on:click="openBloggerConsole">
                   {{ $t('Blogger Console') }}
                 </div>
               </div>
               <div class="field">
                 <div v-bind:class="{ disabled: disableUploadImageDraft }"
-                   class="mini ui fluid button"
-                   v-on:click="openBloggerDraft">
-                  {{ $t('Open Draft') }}
-                </div>
-              </div>
-              <div class="field">
-                <div v-bind:class="{ disabled: disableUploadImageDraft }"
-                   class="mini ui fluid button"
+                   class="ui fluid button"
                    v-on:click="openImageReplacer">
                   {{ $t('Replace Images') }}
-                  
                 </div>
               </div>
             </div>

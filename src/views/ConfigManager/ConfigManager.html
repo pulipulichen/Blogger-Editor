@@ -1,7 +1,7 @@
 <div class="ui modal"
      v-bind:class="name"
      ref="modal">
-  <i class="close icon" @click="close"></i>
+  <i class="close icon" v-on:click="close"></i>
   <div class="header">
     <i class="keyboard outline icon"></i>
     {{ $t('Config Manager') }}
@@ -9,11 +9,32 @@
   <div class="content">
     <div class="ui form description">
       
+      <div class="field">
+        <label for="ConfigManager.backupPageURL">
+          {{ $t('Backup URL') }}
+        </label>
+
+        <div class="ui action input">
+          <input type="url" 
+                 name="uploadImageDraft" 
+                 onfocus="this.select()"
+                 id="ConfigManager.backupPageURL"
+                 v-model="backupPageURL"
+                 v-on:change="persist" />
+          <button type="button" 
+                  class="ui button"
+                  v-bind:class="{ disabled: (enableBackupPageButton === false) }"
+                  v-on:click="openBackupPageURL">
+            {{ $t('OPEN') }}
+          </button>
+        </div>
+      </div>
+      
       <div class="two unstackable fields">
         <div class="field">
           <button type="button" 
                   class="backup ui labeled icon fluid button"
-                  @click="configDownload">
+                  v-on:click="configDownload">
             <i class="download icon"></i>
             {{ $t('Backup') }}
           </button>
@@ -21,17 +42,17 @@
         <div class="field">
           <input type="file" name="uploadConfig" 
                  accept=".zip"
-                 @change="configUpload"/>
+                 v-on:change="configUpload"/>
           <button type="button"
                   class="ui labeled icon fluid button"
-                  @click="triggerConfigUpload">
+                  v-on:click="triggerConfigUpload">
             <i class="upload icon"></i>
             {{ $t('Restore') }}
           </button>
         </div>
 
         <div class="dragover-message"
-             @drop="configDrop">
+             v-on:drop="configDrop">
           {{ $t('Drop file to upload') }}
         </div>
       </div>
@@ -44,7 +65,7 @@
         </label>
         <select class="ui search dropdown"
                 v-model="locale"
-                @change="persist">
+                v-on:change="persistLocale">
           <template v-for="localeOption in localeOptions">
             <!--
             <template v-if="localeOption === locale">
@@ -59,7 +80,7 @@
               </option>
             </template>
             -->
-            <option :value="localeOption">
+            <option v-bind:value="localeOption">
               {{ $t(localeOption) }}
             </option>
           </template>
@@ -72,7 +93,7 @@
   </div>
   <div class="actions">
     <div class="ui button"
-         @click='close'>
+         v-on:click='close'>
       {{ $t('Close') }}
     </div>
   </div>

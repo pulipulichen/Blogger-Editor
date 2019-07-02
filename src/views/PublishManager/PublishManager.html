@@ -11,7 +11,7 @@
   <div class="content">
     <div class="description ui form">
 
-      <div class="three fields">
+      <div class="two unstackable fields">
         <div class="field">
           <div class="fluid ui labeled icon button"
                v-on:click="downloadPostBackup">
@@ -19,6 +19,16 @@
             {{ $t("Backup") }}
           </div>
         </div>
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               v-on:click="openBackupPage">
+            <i class="cloud icon"></i>
+            {{ $t("Upload Backup") }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="two unstackable fields">
         <div class="field">
           <div class="fluid ui labeled icon button"
                v-on:click="openImageReplacer"
@@ -56,12 +66,13 @@
           </div>
         </div>
         <div class="six wide field">
-          <label>
+          <label for="PublishManager.postLabels">
             {{ $t("Post Labels") }}
           </label>
           <div class="ui action input">
             <input type="text" 
                    onfocus="this.select()"
+                   id="PublishManager.postLabels"
                    v-model="postLabels"
                    v-on:change="changePostMetadata" />
             <button type="button" 

@@ -134,6 +134,16 @@ let config = {
     },
     copyHTML: function () {
       SummerNoteCode.CopyCodeClick()
+    },
+    openBackupPage: function () {
+      let config = $v.ConfigManager
+      if (config.enableBackupPageButton === false
+              || config.backupPageURL === 'https://drive.google.com/drive/u/0/my-drive') {
+        config.open()
+      }
+      else {
+        config.openBackupPageURL()
+      }
     }
   }
 }
