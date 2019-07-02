@@ -261,7 +261,7 @@ let FieldPostBody = {
     DelayExecHelper.exec('postBody', 5, 30, () => {
       $v.EditorManager.FieldPostDate.set()
       $v.PostManager.updateEditingPostBody(contents)
-      ScrollHelper.save()
+      //ScrollHelper.save()
       //$v.EditorManager.FieldPostBody.save()
       EventManager.trigger(this, 'change')
     })
