@@ -5115,16 +5115,32 @@
               var title = commentInfo.title
               
               var rng = commentInfo.range || _this.createRange();
-              var additionalTextLength = commentInfo.length - rng.toString().length;
-              if (additionalTextLength > 0 && _this.isLimited(additionalTextLength)) {
-                  return;
-              }
+              //var additionalTextLength = commentInfo.length - rng.toString().length;
+              //if (additionalTextLength > 0 && _this.isLimited(additionalTextLength)) {
+              //    return;
+              //}
               
-              var isTextChanged = false;
+              //var isTextChanged = false;
               // handle spaced urls from input
               if (typeof title === 'string') {
                   title = title.trim();
               }
+              
+              // 這邊我想要改它的範圍
+              let comment = rng.sc
+              if (rng.sc.nodeType === 3) {
+                comment = rng.sc.parentElement
+              }
+              let $comment = $$1(comment)
+              if ($comment.hasClass('note-editor-comment') === false) {
+                $comment = $comment.parents('.note-editor-comment:first')
+              }
+              if ($comment.length > 0) {
+                $comment.attr('title', title)
+                return
+              }
+              
+              // --------------------------------------
               
               var anchors = [];
               anchors = _this.style.styleNodes(rng, {
@@ -6412,9 +6428,22 @@ sel.addRange(range);
           var rng = this.createRange().expand(dom.isAnchor);
           // Get the first anchor on range(for edit).
           var $anchor = $$1(lists.head(rng.nodes(dom.isAnchor)));
+          //console.log($anchor.length)
+          
+          if (rng.ec.nodeType === 3) {
+            //&& $$1(rng.ec).parents('.node-editor-comment:first').length > 0
+            let parent = $$1(rng.sc.parentElement)
+            if (parent.hasClass('note-editor-comment')) {
+              $anchor = parent
+            }
+            else if (parent.parents('.note-editor-comment:first').length > 0) {
+              $anchor = parent.parents('.note-editor-comment:first')
+            }
+          }
+          
           var commentInfo = {
               range: rng,
-              title: $anchor.length ? $anchor.attr('title') : ''
+              commentTitle: $anchor.length ? $anchor.attr('title') : ''
           };
           return commentInfo;
       };
@@ -8315,7 +8344,7 @@ sel.addRange(range);
           ].join('');
           var footer = [
             "<input type=\"button\" href=\"#\" class=\"" + 'btn btn-primary note-btn note-btn-primary note-comment-update-btn' + "\" value=\"" + this.lang.comment.update + "\">",
-            "<input type=\"button\" href=\"#\" class=\"" + 'btn note-btn note-comment-remove-btn' + "\" value=\"" + this.lang.comment.remove + "\">",
+            "<input type=\"button\" href=\"#\" class=\"" + 'btn note-btn note-comment-remove-btn' + "\" value=\"" + this.lang.comment.remove + "\"> ",
           ].join('');
           this.$dialog = this.ui.dialog({
               className: 'comment-dialog',
@@ -8370,6 +8399,8 @@ sel.addRange(range);
       CommentDialog.prototype.showCommentDialog = function (commentInfo) {
           var _this = this;
           
+          console.log(commentInfo)
+          
           return $$1.Deferred(function (deferred) {
               var $commentTitle = _this.$dialog.find('.note-comment-title');
               var $removeBtn = _this.$dialog.find('.note-comment-remove-btn');
@@ -8377,8 +8408,9 @@ sel.addRange(range);
               
               _this.ui.onDialogShown(_this.$dialog, function () {
                   _this.context.triggerEvent('dialog.shown');
-                  if (commentInfo.title) {
-                    $commentTitle.val(commentInfo.title)
+                  
+                  if (commentInfo.commentTitle) {
+                    $commentTitle.val(commentInfo.commentTitle)
                   }
                   else {
                     $commentTitle.val('')
@@ -8440,6 +8472,8 @@ sel.addRange(range);
       };
       return CommentDialog;
   }());
+  
+  // ----------------------------------------------------------------------------------------
 
   var LinkDialog = /** @class */ (function () {
       function LinkDialog(context) {

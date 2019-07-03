@@ -45,6 +45,11 @@
         url: '影片網址',
         providers: '(Youtube, Instagram, DailyMotion, 優酷)'
       },
+      comment: {
+          dialogTitle: '編輯註解',
+          remove: '移除註解',
+          update: '更新註解'
+      },
       link: {
         link: '連結',
         insert: '插入連結',
