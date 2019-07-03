@@ -94,8 +94,8 @@ let config = {
       
       let post = $v.PostManager.getPost()
       post.timeSpentSecond = post.timeSpentSecond + intervalSecond
-      this.timeSpent = post.timeSpentSecond
-      $v.PostManager.updateEditingPost('timeSpentSecond', this.timeSpent)
+      this.timeSpentSecond = post.timeSpentSecond
+      $v.PostManager.updateEditingPost('timeSpentSecond', this.timeSpentSecond)
       
       this.lastEditTimestamp = currentEditTimestamp
     },
