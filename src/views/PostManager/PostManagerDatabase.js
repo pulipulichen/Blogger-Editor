@@ -10,6 +10,7 @@ let PostManagerDatabase = {
         (id INTEGER PRIMARY KEY, 
          createUnix INTEGER, 
          updateUnix INTEGER, 
+         timeSpentSecond INTEGER, 
          title TEXT, 
          labels TEXT, 
          abstract TEXT,
@@ -29,6 +30,7 @@ let PostManagerDatabase = {
     let thumbnail = post.thumbnail
     let editURL = post.editURL
     let publicURL = post.publicURL
+    let timeSpentSecond = post.timeSpentSecond
 
     //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
 
@@ -39,7 +41,8 @@ let PostManagerDatabase = {
         abstract = ?,
         thumbnail = ?,
         editURL = ?,
-        publicURL = ?
+        publicURL = ?,
+        timeSpentSecond = ?
         WHERE id = ${id}`
     //console.log(sql)
 
@@ -50,7 +53,8 @@ let PostManagerDatabase = {
       abstract,
       thumbnail,
       editURL,
-      publicURL
+      publicURL,
+      timeSpentSecond
     ]
     //console.log(data)
 
@@ -80,16 +84,18 @@ let PostManagerDatabase = {
     let thumbnail = ''
     let editURL = ''
     let publicURL = ''
+    let timeSpentSecond = 0
     let sql = `insert into 
-                  posts(createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publicURL) 
-                  values(?,?,?,?,?,?,?,?)`
-    let data = [unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
+                  posts(createUnix, updateUnix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL) 
+                  values(?,?,?,?,?,?,?,?,?)`
+    let data = [unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL]
     
     //console.log(sql)
     //console.log(data)
 
     if (post !== null
             && typeof (post) === 'object') {
+      
       if (typeof (post.id) === 'number') {
         postId = post.id
       }
@@ -111,14 +117,17 @@ let PostManagerDatabase = {
       if (typeof (post.publicURL) === 'string') {
         publicURL = post.publicURL
       }
+      if (typeof (post.timeSpentSecond) === 'number') {
+        timeSpentSecond = post.timeSpentSecond
+      }
 
       if (typeof (post.id) === 'number') {
         sql = `insert into 
-                  posts(id, createUnix, updateUnix, title, labels, abstract, thumbnail, editURL, publicURL) 
-                  values(?,?,?,?,?,?,?,?,?)`
-        data = [postId, unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
+                  posts(id, createUnix, updateUnix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL) 
+                  values(?,?,?,?,?,?,?,?,?,?)`
+        data = [postId, unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL]
       } else {
-        data = [unix, unix, title, labels, abstract, thumbnail, editURL, publicURL]
+        data = [unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL]
       }
     }
 

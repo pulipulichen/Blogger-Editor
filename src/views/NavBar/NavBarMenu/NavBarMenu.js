@@ -9,7 +9,9 @@ let NavBarMenu = {
       ui: undefined,
       wordCount: 0,
       imageCount: 56,
-      timeSpent: 130320
+      //timeSpent: 130320,
+      timeSpent: 0,
+      lastEditTimestamp: 0
       //timeSpent: 61
     }
   },
@@ -136,6 +138,8 @@ let NavBarMenu = {
         //
         
         this.imageCount = FieldPostBody.countImage()
+        
+        this.updateTimeSpent()
       })
       
       FunctionHelper.triggerCallback(callback)
@@ -156,6 +160,22 @@ let NavBarMenu = {
       //console.log($(this.$refs.dropdownPublish).length)
       
       // <div class="ui simple dropdown item" ref="dropdownPublish">
+      this.lastEditTimestamp = (new Date()).getTime()
+    },
+    updateTimeSpent: function () {
+      let currentEditTimestamp = (new Date()).getTime()
+      
+      let intervalSecond = Math.round((currentEditTimestamp - this.lastEditTimestamp) / 1000)
+      if (intervalSecond > 60) {
+        intervalSecond = 60
+      }
+      
+      let post = $v.PostManager.getPost()
+      post.timeSpentSecond = post.timeSpentSecond + intervalSecond
+      this.timeSpent = post.timeSpentSecond
+      $v.PostManager.updateEditingPost('timeSpentSecond', this.timeSpent)
+      
+      this.lastEditTimestamp = currentEditTimestamp
     },
     topbarDropdownItem: function (ele) {
       ele = $(ele)
