@@ -918,6 +918,11 @@
               openInNewWindow: 'Open in new window',
               remove: 'Remove'
           },
+          comment: {
+              dialogTitle: 'Edit Comment',
+              remove: 'Remove',
+              update: 'Update'
+          },
           table: {
               table: 'Table',
               addRowAbove: 'Add row above',
@@ -1010,7 +1015,8 @@
               'formatH5': 'Change current block\'s format as H5',
               'formatH6': 'Change current block\'s format as H6',
               'insertHorizontalRule': 'Insert horizontal rule',
-              'linkDialog.show': 'Show Link Dialog'
+              'linkDialog.show': 'Show Link Dialog',
+              'commentDialog.show': 'Show Comment Dialog',
           },
           history: {
               undo: 'Undo',
@@ -5098,6 +5104,57 @@
               //range.setStart(range.s, 0);
               //console.log(range)
           });
+          
+          /**
+           * updateComment (command)
+           * 
+           * @author Pulipuli Chen 20190703
+           * @param {Object} linkInfo
+           */
+          this.updateComment = this.wrapCommand(function (commentInfo) {
+              var title = commentInfo.title
+              
+              var rng = commentInfo.range || _this.createRange();
+              var additionalTextLength = commentInfo.length - rng.toString().length;
+              if (additionalTextLength > 0 && _this.isLimited(additionalTextLength)) {
+                  return;
+              }
+              
+              var isTextChanged = false;
+              // handle spaced urls from input
+              if (typeof title === 'string') {
+                  title = title.trim();
+              }
+              
+              var anchors = [];
+              anchors = _this.style.styleNodes(rng, {
+                  nodeName: 'span',
+                  expandClosestSibling: true,
+                  onlyPartialContains: true
+              });
+              
+              $$1.each(anchors, function (idx, anchor) {
+                  $$1(anchor).addClass('note-editor-comment');
+                  
+                  if (title !== undefined && title.trim() !== '') {
+                    $$1(anchor).attr('title', title)
+                  }
+                  else {
+                    $$1(anchor).removeAttr('title')
+                  }
+              });
+              
+              var startRange = range.createFromNodeBefore(lists.head(anchors));
+              var startPoint = startRange.getStartPoint();
+              var endRange = range.createFromNodeAfter(lists.last(anchors));
+              var endPoint = endRange.getEndPoint();
+              range.create(startPoint.node, startPoint.offset, endPoint.node, endPoint.offset).select();
+              
+              //console.log($$1(anchor).text())
+              //let sel = window.getSelection();
+              //range.setStart(range.s, 0);
+              //console.log(range)
+          });
           /**
            * setting color
            *
@@ -6341,6 +6398,27 @@ sel.addRange(range);
           }
           return linkInfo;
       };
+      /**
+       * returns comment info
+       *
+       * @author Pulipuli Chen 20190703
+       * @return {Object}
+       * @return {WrappedRange} return.range
+       * @return {String} return.text
+       * @return {Boolean} [return.isNewWindow=true]
+       * @return {String} [return.url=""]
+       */
+      Editor.prototype.getCommentInfo = function () {
+          var rng = this.createRange().expand(dom.isAnchor);
+          // Get the first anchor on range(for edit).
+          var $anchor = $$1(lists.head(rng.nodes(dom.isAnchor)));
+          var commentInfo = {
+              range: rng,
+              title: $anchor.length ? $anchor.attr('title') : ''
+          };
+          return commentInfo;
+      };
+      
       Editor.prototype.addRow = function (position) {
           var rng = this.createRange(this.$editable);
           if (rng.isCollapsed() && rng.isOnCell()) {
@@ -8228,50 +8306,26 @@ sel.addRange(range);
           context.memo('help.commentDialog.show', this.options.langInfo.help['commentDialog.show']);
       }
       
-      let isURL = (url) => {
-        return ( (url.startsWith("http://") && url.length > 15)
-                  || (url.startsWith("https://") && url.length > 15)
-                  || (url.startsWith("//") && url.length > 10)
-                  || (url.startsWith("#") && url.length > 2))
-      }
-      
-      
       CommentDialog.prototype.initialize = function () {
           var $container = this.options.dialogsInBody ? this.$body : this.$editor;
           var body = [
               '<div class="form-group note-form-group">',
-              "<label class=\"note-form-label\">" + this.lang.link.textToDisplay + "</label>",
-              '<input class="note-link-text form-control note-form-control note-input" type="text" />',
-              '</div>',
-              '<div class="form-group note-form-group">',
-              "<label class=\"note-form-label\">" + this.lang.link.url + "</label>",
-              '<input class="note-link-url form-control note-form-control note-input" type="text" value="" />',
-              '</div>',
-              '<div class="form-group note-form-group">',
-              "<label class=\"note-form-label\">" + this.lang.link.title + "</label>",
-              '<input class="note-link-title form-control note-form-control note-input" type="text" value="" />',
-              '</div>',
-              !this.options.disableLinkTarget
-                  ? $$1('<div/>').append(this.ui.checkbox({
-                      className: 'sn-checkbox-open-in-new-window',
-                      text: this.lang.link.openInNewWindow,
-                      checked: true
-                  }).render()).html()
-                  : ''
+              '<textarea class="note-comment-title form-control note-form-control note-input"></textarea>',
+              '</div>'
           ].join('');
-          var buttonClass = 'btn btn-primary note-btn note-btn-primary note-link-btn';
-          var footer = "<input type=\"button\" href=\"#\" class=\"" + buttonClass + "\" value=\"" + this.lang.link.insert + "\" disabled>";
+          var footer = [
+            "<input type=\"button\" href=\"#\" class=\"" + 'btn btn-primary note-btn note-btn-primary note-comment-update-btn' + "\" value=\"" + this.lang.comment.update + "\">",
+            "<input type=\"button\" href=\"#\" class=\"" + 'btn note-btn note-comment-remove-btn' + "\" value=\"" + this.lang.comment.remove + "\">",
+          ].join('');
           this.$dialog = this.ui.dialog({
               className: 'comment-dialog',
-              title: this.lang.link.insert,
+              title: this.lang.comment.dialogTitle,
               fade: this.options.dialogsFade,
               body: body,
               footer: footer
           }).render().appendTo($container);
           
-          let button = this.$dialog.find('input.note-link-btn')
-          
-          this.$dialog.find('input.note-link-url').focus(function (event) {
+          this.$dialog.find('.note-comment-title').focus(function (event) {
             if ($$1(this).hasClass('first-focus') === false) {
               return
             }
@@ -8280,14 +8334,6 @@ sel.addRange(range);
             if (this.value !== undefined && this.value.trim() !== "") {
               return
             }
-            
-          })
-          
-          let checkboxKey = 'summernote.CommentDialog.checkbox'
-          let checkbox = this.$dialog.find('input:checkbox')
-          checkbox.change(function () {
-            let value = this.checked
-            localStorage.setItem(checkboxKey, value)
           })
       };
       CommentDialog.prototype.destroy = function () {
@@ -8296,6 +8342,7 @@ sel.addRange(range);
       };
       CommentDialog.prototype.bindEnterKey = function ($input, $btn) {
         let _this = this
+        /*
         $input.on('keypress', (event) => {
           if (event.keyCode === key.code.ENTER) {
             event.stopPropagation()
@@ -8304,6 +8351,7 @@ sel.addRange(range);
             return false
           }
         });
+        */
         $input.on('keyup', (event) => {
           if (event.keyCode === key.code.ESC) {
             event.stopPropagation()
@@ -8314,90 +8362,38 @@ sel.addRange(range);
         });
       };
       /**
-       * toggle update button
-       */
-      CommentDialog.prototype.toggleLinkBtn = function ($linkBtn, $linkText, $linkUrl) {
-          this.ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
-      };
-      /**
        * Show link dialog and set event handlers on dialog controls.
        *
        * @param {Object} linkInfo
        * @return {Promise}
        */
-      CommentDialog.prototype.showCommentDialog = function (linkInfo) {
+      CommentDialog.prototype.showCommentDialog = function (commentInfo) {
           var _this = this;
           
           return $$1.Deferred(function (deferred) {
-              var $linkText = _this.$dialog.find('.note-link-text');
-              var $linkUrl = _this.$dialog.find('.note-link-url');
-              var $linkTitle = _this.$dialog.find('.note-link-title');
-              var $linkBtn = _this.$dialog.find('.note-link-btn');
-              var $openInNewWindow = _this.$dialog
-                  .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
+              var $commentTitle = _this.$dialog.find('.note-comment-title');
+              var $removeBtn = _this.$dialog.find('.note-comment-remove-btn');
+              var $updateBtn = _this.$dialog.find('.note-comment-update-btn');
+              
               _this.ui.onDialogShown(_this.$dialog, function () {
                   _this.context.triggerEvent('dialog.shown');
-                  // if no url was given, copy text to url
-                  if (!linkInfo.url) {
-                    let url = linkInfo.text
-                    if ( isURL(url) ) {
-                      linkInfo.url = url
-                    }
-                    else {
-                      //url = window.clipboardData.getData('Text')
-                      url = ""
-                      if ( isURL(url) ) {
-                        linkInfo.url = url
-                      }
-                      else {
-                        linkInfo.url = ''
-                      }
-                    }
+                  if (commentInfo.title) {
+                    $commentTitle.val(commentInfo.title)
                   }
-                  $linkText.val(linkInfo.text);
-                  var handleLinkTextUpdate = function () {
-                      _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
-                      // if linktext was modified by keyup,
-                      // stop cloning text from linkUrl
-                      linkInfo.text = $linkText.val();
-                  };
-                  $linkText.on('input', handleLinkTextUpdate).on('paste', function () {
-                      setTimeout(handleLinkTextUpdate, 0);
-                  });
-                  var handleLinkUrlUpdate = function () {
-                      _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
-                      // display same link on `Text to display` input
-                      // when create a new link
-                      if (!linkInfo.text) {
-                          $linkText.val($linkUrl.val());
-                      }
-                  };
-                  $linkUrl.on('input', handleLinkUrlUpdate).on('paste', function () {
-                      setTimeout(handleLinkUrlUpdate, 0);
-                  }).val(linkInfo.url);
-                  if (!env.isSupportTouch) {
-                    $linkUrl.addClass("first-focus")
-                    $linkUrl.trigger('focus');
-                      //$linkUrl.trigger('select');
-                  }
-                  _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
-                  _this.bindEnterKey($linkUrl, $linkBtn);
-                  _this.bindEnterKey($linkText, $linkBtn);
-                  var isNewWindowChecked = linkInfo.isNewWindow !== undefined
-                      ? linkInfo.isNewWindow : _this.context.options.linkTargetBlank;
-                  //$openInNewWindow.prop('checked', isNewWindowChecked);
-                  
-                  let checkboxKey = 'summernote.CommentDialog.checkbox'
-                  //console.log([typeof(localStorage.getItem(checkboxKey)), localStorage.getItem(checkboxKey)])
-                  if (typeof(localStorage.getItem(checkboxKey)) === "string") {
-                    let checked = (localStorage.getItem(checkboxKey).toLowerCase() === 'true')
-                    $openInNewWindow.prop('checked', checked);
-                    //checkbox[0].checked = checked
-                    //console.log([checked, checkbox[0].checked])
-                    // localStorage.getItem('summernote.CommentDialog.checkbox')
+                  else {
+                    $commentTitle.val('')
                   }
                   
-                  $linkBtn.one('click', function (event) {
+                  _this.bindEnterKey($commentTitle, $updateBtn);
+                  
+                  $removeBtn.one('click', function (event) {
+                      event.preventDefault()
+                      event.stopPropagation()
+                      
+                      console.log('#TODO $removeBtn click')
+                  })
+                  
+                  $updateBtn.one('click', function (event) {
                       event.preventDefault()
                       event.stopPropagation()
                       let enableClearEnterFormat = _this.options.clearEnterFormat
@@ -8410,42 +8406,17 @@ sel.addRange(range);
                       }
                       //console.log(_this.options.allowEnter)
                       deferred.resolve({
-                          range: linkInfo.range,
-                          url: $linkUrl.val(),
-                          text: $linkText.val(),
-                          title: $linkTitle.val(),
-                          isNewWindow: $openInNewWindow.is(':checked')
+                          range: commentInfo.range,
+                          title: $commentTitle.val(),
                       });
                       _this.ui.hideDialog(_this.$dialog);
-                      //console.log($linkUrl.val())
-                      //let child = $$1(_this.context.invoke('editor.restoreTarget').sc)[0]
-                      //console.log(_this.context.invoke('editor.restoreTarget'))
-                      //let sel = window.getSelection()
-                      //sel.removeAllRanges();
-                      
-                      //_this.$editor.createRange().collapse()
-                      //_this.context.invoke('editor.restoreRange').collapse()
-                      /*
-                      return
-                      
-                      setTimeout(() => {
-                        let range = document.createRange();
-                        let sel = window.getSelection()
-                        console.log(linkInfo.range)
-                        //console.log(linkInfo.range.sc)
-                        range.setStart(child, 1);
-                        range.collapse(true);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                      }, 1000)
-                      */
                   });
               });
               _this.ui.onDialogHidden(_this.$dialog, function () {
                   // detach events
-                  $linkText.off('input paste keypress');
-                  $linkUrl.off('input paste keypress');
-                  $linkBtn.off('click');
+                  $commentTitle.off('input paste keypress');
+                  $removeBtn.off('click');
+                  $updateBtn.off('click');
                   if (deferred.state() === 'pending') {
                       deferred.reject();
                   }
@@ -8458,11 +8429,11 @@ sel.addRange(range);
        */
       CommentDialog.prototype.show = function () {
           var _this = this;
-          var linkInfo = this.context.invoke('editor.getLinkInfo');
+          var linkInfo = this.context.invoke('editor.getCommentInfo');
           this.context.invoke('editor.saveRange');
-          this.showCommentDialog(linkInfo).then(function (linkInfo) {
+          this.showCommentDialog(linkInfo).then(function (commentInfo) {
               _this.context.invoke('editor.restoreRange');
-              _this.context.invoke('editor.createLink', linkInfo);
+              _this.context.invoke('editor.updateComment', commentInfo);
           }).fail(function () {
               _this.context.invoke('editor.restoreRange');
           });
