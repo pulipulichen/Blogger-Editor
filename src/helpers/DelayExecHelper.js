@@ -3,7 +3,8 @@ let DelayExecHelper = {
   limitTimers: {},
   events: {},
   exec: function (type, delaySec, maxLimitSec, event) {
-    return this.forceExec(type, delaySec, maxLimitSec, event)
+    //console.log('delay')
+    return this.foreExec(type, delaySec, maxLimitSec, event)
   },
   foreExec: function (type, delaySec, maxLimitSec, event) {
     // 先確認現在的狀態是否ok
