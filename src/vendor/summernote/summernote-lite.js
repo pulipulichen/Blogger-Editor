@@ -4783,6 +4783,20 @@
               return false
             }
             
+            // 要看現在指向的對象有沒有note-editor-comment
+            //_this.context.layoutInfo.commentDialog.show()
+            
+            var rng = _this.createRange();
+            var element = rng.ec
+            if (element.nodeType === 3) {
+              element = element.parentElement
+            }
+            if ($$1(element).hasClass('note-editor-comment')) {
+              //console.log(rng)
+              _this.context.invoke('commentDialog.show')
+              return
+            }
+            
             return _this.inlineStyling({
               tagName: 'span',
               className: 'note-editor-comment'
@@ -5146,7 +5160,7 @@
                 $target.remove();
                 _this.context.invoke('insertNode', '<p></p>')
                 //$target.replaceWith('<p></p>')
-                console.log('this.removeMedia')
+                //console.log('this.removeMedia')
               }
               else {
                 //$target = $$1(_this.restoreTarget()).detach();
@@ -8203,6 +8217,259 @@ sel.addRange(range);
       return Toolbar;
   }());
 
+  var CommentDialog = /** @class */ (function () {
+      function CommentDialog(context) {
+          this.context = context;
+          this.ui = $$1.summernote.ui;
+          this.$body = $$1(document.body);
+          this.$editor = context.layoutInfo.editor;
+          this.options = context.options;
+          this.lang = this.options.langInfo;
+          context.memo('help.commentDialog.show', this.options.langInfo.help['commentDialog.show']);
+      }
+      
+      let isURL = (url) => {
+        return ( (url.startsWith("http://") && url.length > 15)
+                  || (url.startsWith("https://") && url.length > 15)
+                  || (url.startsWith("//") && url.length > 10)
+                  || (url.startsWith("#") && url.length > 2))
+      }
+      
+      
+      CommentDialog.prototype.initialize = function () {
+          var $container = this.options.dialogsInBody ? this.$body : this.$editor;
+          var body = [
+              '<div class="form-group note-form-group">',
+              "<label class=\"note-form-label\">" + this.lang.link.textToDisplay + "</label>",
+              '<input class="note-link-text form-control note-form-control note-input" type="text" />',
+              '</div>',
+              '<div class="form-group note-form-group">',
+              "<label class=\"note-form-label\">" + this.lang.link.url + "</label>",
+              '<input class="note-link-url form-control note-form-control note-input" type="text" value="" />',
+              '</div>',
+              '<div class="form-group note-form-group">',
+              "<label class=\"note-form-label\">" + this.lang.link.title + "</label>",
+              '<input class="note-link-title form-control note-form-control note-input" type="text" value="" />',
+              '</div>',
+              !this.options.disableLinkTarget
+                  ? $$1('<div/>').append(this.ui.checkbox({
+                      className: 'sn-checkbox-open-in-new-window',
+                      text: this.lang.link.openInNewWindow,
+                      checked: true
+                  }).render()).html()
+                  : ''
+          ].join('');
+          var buttonClass = 'btn btn-primary note-btn note-btn-primary note-link-btn';
+          var footer = "<input type=\"button\" href=\"#\" class=\"" + buttonClass + "\" value=\"" + this.lang.link.insert + "\" disabled>";
+          this.$dialog = this.ui.dialog({
+              className: 'comment-dialog',
+              title: this.lang.link.insert,
+              fade: this.options.dialogsFade,
+              body: body,
+              footer: footer
+          }).render().appendTo($container);
+          
+          let button = this.$dialog.find('input.note-link-btn')
+          
+          this.$dialog.find('input.note-link-url').focus(function (event) {
+            if ($$1(this).hasClass('first-focus') === false) {
+              return
+            }
+            $$1(this).removeClass('first-focus')
+          
+            if (this.value !== undefined && this.value.trim() !== "") {
+              return
+            }
+            
+          })
+          
+          let checkboxKey = 'summernote.CommentDialog.checkbox'
+          let checkbox = this.$dialog.find('input:checkbox')
+          checkbox.change(function () {
+            let value = this.checked
+            localStorage.setItem(checkboxKey, value)
+          })
+      };
+      CommentDialog.prototype.destroy = function () {
+          this.ui.hideDialog(this.$dialog);
+          this.$dialog.remove();
+      };
+      CommentDialog.prototype.bindEnterKey = function ($input, $btn) {
+        let _this = this
+        $input.on('keypress', (event) => {
+          if (event.keyCode === key.code.ENTER) {
+            event.stopPropagation()
+            event.preventDefault()
+            $btn.trigger('click');
+            return false
+          }
+        });
+        $input.on('keyup', (event) => {
+          if (event.keyCode === key.code.ESC) {
+            event.stopPropagation()
+            event.preventDefault()
+            _this.ui.hideDialog(_this.$dialog);
+            return false
+          }
+        });
+      };
+      /**
+       * toggle update button
+       */
+      CommentDialog.prototype.toggleLinkBtn = function ($linkBtn, $linkText, $linkUrl) {
+          this.ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+      };
+      /**
+       * Show link dialog and set event handlers on dialog controls.
+       *
+       * @param {Object} linkInfo
+       * @return {Promise}
+       */
+      CommentDialog.prototype.showCommentDialog = function (linkInfo) {
+          var _this = this;
+          
+          return $$1.Deferred(function (deferred) {
+              var $linkText = _this.$dialog.find('.note-link-text');
+              var $linkUrl = _this.$dialog.find('.note-link-url');
+              var $linkTitle = _this.$dialog.find('.note-link-title');
+              var $linkBtn = _this.$dialog.find('.note-link-btn');
+              var $openInNewWindow = _this.$dialog
+                  .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
+              _this.ui.onDialogShown(_this.$dialog, function () {
+                  _this.context.triggerEvent('dialog.shown');
+                  // if no url was given, copy text to url
+                  if (!linkInfo.url) {
+                    let url = linkInfo.text
+                    if ( isURL(url) ) {
+                      linkInfo.url = url
+                    }
+                    else {
+                      //url = window.clipboardData.getData('Text')
+                      url = ""
+                      if ( isURL(url) ) {
+                        linkInfo.url = url
+                      }
+                      else {
+                        linkInfo.url = ''
+                      }
+                    }
+                  }
+                  $linkText.val(linkInfo.text);
+                  var handleLinkTextUpdate = function () {
+                      _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
+                      // if linktext was modified by keyup,
+                      // stop cloning text from linkUrl
+                      linkInfo.text = $linkText.val();
+                  };
+                  $linkText.on('input', handleLinkTextUpdate).on('paste', function () {
+                      setTimeout(handleLinkTextUpdate, 0);
+                  });
+                  var handleLinkUrlUpdate = function () {
+                      _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
+                      // display same link on `Text to display` input
+                      // when create a new link
+                      if (!linkInfo.text) {
+                          $linkText.val($linkUrl.val());
+                      }
+                  };
+                  $linkUrl.on('input', handleLinkUrlUpdate).on('paste', function () {
+                      setTimeout(handleLinkUrlUpdate, 0);
+                  }).val(linkInfo.url);
+                  if (!env.isSupportTouch) {
+                    $linkUrl.addClass("first-focus")
+                    $linkUrl.trigger('focus');
+                      //$linkUrl.trigger('select');
+                  }
+                  _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
+                  _this.bindEnterKey($linkUrl, $linkBtn);
+                  _this.bindEnterKey($linkText, $linkBtn);
+                  var isNewWindowChecked = linkInfo.isNewWindow !== undefined
+                      ? linkInfo.isNewWindow : _this.context.options.linkTargetBlank;
+                  //$openInNewWindow.prop('checked', isNewWindowChecked);
+                  
+                  let checkboxKey = 'summernote.CommentDialog.checkbox'
+                  //console.log([typeof(localStorage.getItem(checkboxKey)), localStorage.getItem(checkboxKey)])
+                  if (typeof(localStorage.getItem(checkboxKey)) === "string") {
+                    let checked = (localStorage.getItem(checkboxKey).toLowerCase() === 'true')
+                    $openInNewWindow.prop('checked', checked);
+                    //checkbox[0].checked = checked
+                    //console.log([checked, checkbox[0].checked])
+                    // localStorage.getItem('summernote.CommentDialog.checkbox')
+                  }
+                  
+                  $linkBtn.one('click', function (event) {
+                      event.preventDefault()
+                      event.stopPropagation()
+                      let enableClearEnterFormat = _this.options.clearEnterFormat
+                      
+                      if (enableClearEnterFormat === true) {
+                        _this.options.clearEnterFormat = false
+                        setTimeout(() => {
+                          _this.options.clearEnterFormat = true
+                        }, 100)
+                      }
+                      //console.log(_this.options.allowEnter)
+                      deferred.resolve({
+                          range: linkInfo.range,
+                          url: $linkUrl.val(),
+                          text: $linkText.val(),
+                          title: $linkTitle.val(),
+                          isNewWindow: $openInNewWindow.is(':checked')
+                      });
+                      _this.ui.hideDialog(_this.$dialog);
+                      //console.log($linkUrl.val())
+                      //let child = $$1(_this.context.invoke('editor.restoreTarget').sc)[0]
+                      //console.log(_this.context.invoke('editor.restoreTarget'))
+                      //let sel = window.getSelection()
+                      //sel.removeAllRanges();
+                      
+                      //_this.$editor.createRange().collapse()
+                      //_this.context.invoke('editor.restoreRange').collapse()
+                      /*
+                      return
+                      
+                      setTimeout(() => {
+                        let range = document.createRange();
+                        let sel = window.getSelection()
+                        console.log(linkInfo.range)
+                        //console.log(linkInfo.range.sc)
+                        range.setStart(child, 1);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                      }, 1000)
+                      */
+                  });
+              });
+              _this.ui.onDialogHidden(_this.$dialog, function () {
+                  // detach events
+                  $linkText.off('input paste keypress');
+                  $linkUrl.off('input paste keypress');
+                  $linkBtn.off('click');
+                  if (deferred.state() === 'pending') {
+                      deferred.reject();
+                  }
+              });
+              _this.ui.showDialog(_this.$dialog);
+          }).promise();
+      };
+      /**
+       * @param {Object} layoutInfo
+       */
+      CommentDialog.prototype.show = function () {
+          var _this = this;
+          var linkInfo = this.context.invoke('editor.getLinkInfo');
+          this.context.invoke('editor.saveRange');
+          this.showCommentDialog(linkInfo).then(function (linkInfo) {
+              _this.context.invoke('editor.restoreRange');
+              _this.context.invoke('editor.createLink', linkInfo);
+          }).fail(function () {
+              _this.context.invoke('editor.restoreRange');
+          });
+      };
+      return CommentDialog;
+  }());
+
   var LinkDialog = /** @class */ (function () {
       function LinkDialog(context) {
           this.context = context;
@@ -9649,6 +9916,7 @@ sel.addRange(range);
               'placeholder': Placeholder,
               'buttons': Buttons,
               'toolbar': Toolbar,
+              'commentDialog': CommentDialog,
               'linkDialog': LinkDialog,
               'linkPopover': LinkPopover,
               'imageDialog': ImageDialog,
