@@ -19,10 +19,38 @@ a.item.comment {
   padding-left: 1rem !important;
   font-size: 0.7rem !important;
   background-color: rgba(217,231,120, 0.7) !important;
-  text-align: justify;
       
   .comment-title {
     color: #999 !important;
+  }
+  
+  .abstract {
+    overflow: hidden;
+    position: relative !important;
+    line-height: 0.7rem !important;
+    max-height: 2.1rem !important;
+    text-align: justify;
+    margin-right: -1em;
+    padding-right: 1em !important;
+    max-width: 100%;
+
+    &:before {
+      content: '...';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      color: #999 !important;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: 0;
+      width: 1em;
+      height: 1em;
+      margin-top: 0.2em;
+      //background-color: rgba(217,231,120, 0.7) !important;
+    }
   }
 }
 

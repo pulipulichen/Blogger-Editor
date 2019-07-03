@@ -27,11 +27,15 @@
         <a class="item comment"
            v-bind:title="getCommentTitleAttr(comment)"
            v-on:click="scrollTo(comment.eq)">
-          {{ comment.text }}
-          <span v-if="comment.title.length > 0"
-                class="comment-title">
-            {{ comment.title }}
-          </span>
+          
+          <div class="abstract">
+            {{ comment.text }}
+            <span v-if="comment.title.length > 0"
+                  class="comment-title">
+              {{ comment.title }}
+            </span>
+          </div>
+            
          </a>
       </template>
     
