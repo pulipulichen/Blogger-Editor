@@ -199,16 +199,17 @@ let config = {
       //console.log(this.entryHierarchy)
     },
     scrollTo: function (eq) {
-      if (eq === -1) {
-        this.windowElement.scrollTop(0)
-        return
-      }
       
       //console.log(['scrollTo', eq])
       let top = this.entryCollection.eq(eq).offset().top
       //console.log(['scrollTo', top])
       if (this.windowElement === null) {
         this.windowElement = $(window)
+      }
+      
+      if (eq === -1) {
+        this.windowElement.scrollTop(0)
+        return
       }
       
       if (this.toolbarElement === null) {

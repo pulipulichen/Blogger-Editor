@@ -41,7 +41,7 @@ let SummerNoteConfig = {
         //['formatBlockHeading1', ['formatH1']],
         ['formatBlockHeading2', ['formatH2', 'formatH3']],
         ['formatBlockHeading3', ['formatH4', 'formatH5']],
-        ['formatBlock', ['formatPara', 'CodeInserter']],
+        ['formatBlock', ['formatPara', 'comment', 'CodeInserter']],
         //['formatBlock', ['formatPara', 'formatCode']],
         ['style', ['style', ]],
         //['styleTags', ['styleP', 'styleH1', 'styleH2', 'styleH3', 'styleH4', 'styleH5', 'styleH6']],

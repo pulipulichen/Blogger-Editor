@@ -870,6 +870,7 @@
               height: 'Line Height',
               name: 'Font Family',
               strikethrough: 'Strikethrough',
+              comment: 'Comment',
               subscript: 'Subscript',
               superscript: 'Superscript',
               size: 'Font Size'
@@ -991,6 +992,7 @@
               'italic': 'Set a italic style',
               'underline': 'Set a underline style',
               'strikethrough': 'Set a strikethrough style',
+              'comment': 'Add a comment',
               'removeFormat': 'Clean a style',
               'justifyLeft': 'Set left align',
               'justifyCenter': 'Set center align',
@@ -3731,6 +3733,7 @@
                   'font-subscript': document.queryCommandState('subscript') ? 'subscript' : 'normal',
                   'font-superscript': document.queryCommandState('superscript') ? 'superscript' : 'normal',
                   'font-strikethrough': document.queryCommandState('strikethrough') ? 'strikethrough' : 'normal',
+                  'font-comment': document.queryCommandState('comment') ? 'comment' : 'normal',
                   'font-family': document.queryCommandValue('fontname') || styleInfo['font-family']
               });
           }
@@ -4771,6 +4774,19 @@
               })(commands[idx]);
               this.context.memo('help.' + commands[idx], this.lang.help[commands[idx]]);
           }
+          /**
+           * @author Pulipuli Chen 20190703
+           */
+          this.comment = this.wrapCommand(function () {
+            if (this.hasSelectedRange() === false) {
+              return false
+            }
+            
+            return _this.inlineStyling({
+              tagName: 'span',
+              className: 'note-editor-comment'
+            });
+          }); 
           this.fontName = this.wrapCommand(function (value) {
             if (this.hasSelectedRange() === false) {
               return false
@@ -5954,7 +5970,7 @@
           if ($target && $target.length) {
               var className = $target[0].className || '';
               if (className) {
-                console.log(className)
+                //console.log(className)
                 if (className.indexOf('note-btn') > -1) {
                   return
                 }
@@ -7459,6 +7475,14 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandlerAndUpdateState('editor.strikethrough')
               }).render();
           });
+          this.context.memo('button.comment', function () {
+              return _this.button({
+                  className: 'note-btn-comment',
+                  contents: _this.ui.icon(_this.options.icons.comment),
+                  tooltip: _this.lang.font.comment + _this.representShortcut('comment'),
+                  click: _this.context.createInvokeHandlerAndUpdateState('editor.comment')
+              }).render();
+          });
           this.context.memo('button.superscript', function () {
               return _this.button({
                   className: 'note-btn-superscript',
@@ -7952,6 +7976,9 @@ sel.addRange(range);
               },
               '.note-btn-strikethrough': function () {
                   return styleInfo['font-strikethrough'] === 'strikethrough';
+              },
+              '.note-btn-comment': function () {
+                  return styleInfo['font-comment'] === 'comment';
               }
           });
           if (styleInfo['font-family']) {
@@ -9754,6 +9781,7 @@ sel.addRange(range);
                   'CTRL+I': 'italic',
                   'CTRL+U': 'underline',
                   'CTRL+SHIFT+S': 'strikethrough',
+                  'CTRL+SHIFT+M': 'comment',
                   'CTRL+BACKSLASH': 'removeFormat',
                   'CTRL+SHIFT+L': 'justifyLeft',
                   'CTRL+SHIFT+E': 'justifyCenter',
@@ -9821,9 +9849,9 @@ sel.addRange(range);
               'indent': 'note-icon-align-indent',
               'outdent': 'note-icon-align-outdent',
               'arrowsAlt': 'note-icon-arrows-alt',
-			  'arrowsCircleDown': 'note-icon-arrow-circle-down',
-			  'arrowsCircleLeft': 'note-icon-arrow-circle-left',
-			  'arrowsCircleRight': 'note-icon-arrow-circle-right',
+              'arrowsCircleDown': 'note-icon-arrow-circle-down',
+              'arrowsCircleLeft': 'note-icon-arrow-circle-left',
+              'arrowsCircleRight': 'note-icon-arrow-circle-right',
               'arrowsCircleUp': 'note-icon-arrow-circle-up',
               'bold': 'note-icon-bold',
               'caret': 'note-icon-caret',
@@ -9846,6 +9874,7 @@ sel.addRange(range);
               'redo': 'note-icon-redo',
               'square': 'note-icon-square',
               'strikethrough': 'note-icon-strikethrough',
+              'comment': 'note-icon-pencil',
               'subscript': 'note-icon-subscript',
               'superscript': 'note-icon-superscript',
               'table': 'note-icon-table',

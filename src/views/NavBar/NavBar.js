@@ -52,12 +52,22 @@ let NavBar = {
         $v.NavBarSidebar.open()
       }
       else {
+        let ui = this.getUI()
         if (window.scrollY > this.navbarHeight) {
-          this.getUI().toggleClass(this.classNameFixed)
-          this.$body.toggleClass(this.classNameFixed)
+          if (ui.hasClass(this.classNameFixed) === false) {
+            ui.addClass(this.classNameFixed)
+            ui.slideDown()
+            this.$body.toggleClass(this.classNameFixed)
+          }
+          else {
+            ui.slideUp(() => {
+              ui.removeClass(this.classNameFixed)
+            })
+            this.$body.toggleClass(this.classNameFixed)
+          }
         }
         else {
-          this.getUI().removeClass(this.classNameFixed)
+          ui.removeClass(this.classNameFixed)
           this.$body.removeClass(this.classNameFixed)
         }
       }
