@@ -5171,6 +5171,30 @@
               //range.setStart(range.s, 0);
               //console.log(range)
           });
+          
+          /**
+           * updateComment (command)
+           * 
+           * @author Pulipuli Chen 20190703
+           * @param {Object} linkInfo
+           */
+          this.removeComment = this.wrapCommand(function (commentInfo) {
+              var rng = commentInfo.range || _this.createRange();
+              
+              // 這邊我想要改它的範圍
+              let comment = rng.sc
+              if (rng.sc.nodeType === 3) {
+                comment = rng.sc.parentElement
+              }
+              let $comment = $$1(comment)
+              if ($comment.hasClass('note-editor-comment') === false) {
+                $comment = $comment.parents('.note-editor-comment:first')
+              }
+              if ($comment.length > 0) {
+                $comment.removeClass("note-editor-comment")
+                $comment.removeAttr('title')
+              }
+          });
           /**
            * setting color
            *
@@ -8422,7 +8446,12 @@ sel.addRange(range);
                       event.preventDefault()
                       event.stopPropagation()
                       
-                      console.log('#TODO $removeBtn click')
+                      deferred.resolve({
+                          range: commentInfo.range,
+                          action: 'remove'
+                      });
+                      
+                      _this.ui.hideDialog(_this.$dialog);
                   })
                   
                   $updateBtn.one('click', function (event) {
@@ -8440,6 +8469,7 @@ sel.addRange(range);
                       deferred.resolve({
                           range: commentInfo.range,
                           title: $commentTitle.val(),
+                          action: 'update'
                       });
                       _this.ui.hideDialog(_this.$dialog);
                   });
@@ -8465,7 +8495,12 @@ sel.addRange(range);
           this.context.invoke('editor.saveRange');
           this.showCommentDialog(linkInfo).then(function (commentInfo) {
               _this.context.invoke('editor.restoreRange');
-              _this.context.invoke('editor.updateComment', commentInfo);
+              if (commentInfo.action === 'update') {
+                _this.context.invoke('editor.updateComment', commentInfo);
+              }
+              else {
+                _this.context.invoke('editor.removeComment', commentInfo);
+              }
           }).fail(function () {
               _this.context.invoke('editor.restoreRange');
           });
