@@ -101,7 +101,7 @@ let config = {
         
         let tagName = entry.tagName.toLowerCase()
         let headingLevel = -1
-        let title
+        let title = ""
         
         let type = 'heading'
         if (tagName.startsWith('h') && tagName.length === 2) {
@@ -150,7 +150,7 @@ let config = {
       // ----------------------------------------
       
       let lastHeading = {
-        text: '',
+        text: this.$t('(Header)'),
         eq: -1,
         level: minHeadingLevel,
         type: 'heading',
@@ -196,9 +196,14 @@ let config = {
         //lastType = entry.type
       })
       
-      console.log(this.entryHierarchy)
+      //console.log(this.entryHierarchy)
     },
     scrollTo: function (eq) {
+      if (eq === -1) {
+        this.windowElement.scrollTop(0)
+        return
+      }
+      
       //console.log(['scrollTo', eq])
       let top = this.entryCollection.eq(eq).offset().top
       //console.log(['scrollTo', top])
@@ -233,17 +238,35 @@ let config = {
       }
       this.windowElement.scrollTop($(document).height() + 500)
     },
-    showCommentTitle: function (comment) {
+    getCommentTitle: function (comment) {
       let title = ''
       
       if (typeof(comment.title) === 'string'
               && comment.title.trim() !== '') {
         title = comment.title
+        
+        if (title.length > 30) {
+          title = title.slice(0, 30) + '...'
+        }
       }
+      
+      return title
+    },
+    getCommentTitleAttr: function (comment) {
+      let title = this.getCommentTitle(comment)
       
       if (typeof(comment.text) === 'string'
               && comment.text.trim() !== '') {
-        title = comment.text + ': ' + title
+        if (title !== "") {
+          title = ": " + title
+        }
+        
+        let text = comment.text
+        if (text.length > 30) {
+          text = text.slice(0, 30)
+        }
+        
+        title = text + title
       }
       
       return title

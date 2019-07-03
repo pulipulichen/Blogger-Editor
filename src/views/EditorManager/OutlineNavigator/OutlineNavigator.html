@@ -9,6 +9,7 @@
   <template v-for="mainHeading in entryHierarchy">
     <a class="item" 
        v-bind:title="mainHeading.text"
+       v-bind:class="{'null-header':(mainHeading.eq - 1)}"
        v-on:click="scrollTo(mainHeading.eq)">
       
        <span v-if="mainHeading.comments.length > 0"
@@ -16,15 +17,21 @@
          {{ mainHeading.comments.length }}
        </span>
       
-      {{ mainHeading.text }}
+       <span class="heading-text">
+         {{ mainHeading.text }}
+       </span>
       
     </a>
     
       <template v-for="comment in mainHeading.comments">
         <a class="item comment"
-           v-bind:title="showCommentTitle(comment)"
+           v-bind:title="getCommentTitleAttr(comment)"
            v-on:click="scrollTo(comment.eq)">
           {{ comment.text }}
+          <span v-if="comment.title.length > 0"
+                class="comment-title">
+            {{ comment.title }}
+          </span>
          </a>
       </template>
     
@@ -40,14 +47,22 @@
              class="comments-count">
          {{ subheading.comments.length }}
        </span>
-       {{ subheading.text }}
+        
+        <span class="heading-text">
+          {{ subheading.text }}
+        </span> 
+       
       </a>
       
       <template v-for="comment in subheading.comments">
         <a class="item comment"
-           v-bind:title="showCommentTitle(comment)"
+           v-bind:title="getCommentTitleAttr(comment)"
            v-on:click="scrollTo(comment.eq)">
           {{ comment.text }}
+          <span v-if="comment.title.length > 0"
+                class="comment-title">
+            {{ comment.title }}
+          </span>
          </a>
       </template>
     </template>

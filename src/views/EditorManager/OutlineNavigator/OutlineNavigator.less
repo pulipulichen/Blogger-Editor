@@ -16,18 +16,45 @@ a.item.subheading {
 }
 
 a.item.comment {
-  padding-left: 3rem !important;
+  padding-left: 1rem !important;
   font-size: 0.7rem !important;
+  background-color: rgba(217,231,120, 0.7) !important;
+  text-align: justify;
+      
+  .comment-title {
+    color: #999 !important;
+  }
+}
+
+a.item.null-header {
+  color: #ccc !important;
 }
 
 a.item .comments-count {
   float: right;
+  font-size: 0.7rem;
+  padding-right: 0.1rem;
+  margin-top: 0.1rem;
+  
+  border: 1px dotted #ccc;
+  background-color: #D9E778;
+  color: #8a6d3b;
+  border-radius: 4px;
+  
 }
 
 a.item {
-  white-space: nowrap; 
-  overflow: hidden;
-  text-overflow: ellipsis;
+  
+  padding-right: 0.5rem !important;
+  padding-left: 0 !important;
+  
+  .heading-text {
+    width: 230px;   
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+  }
   
   &.go-to-top,
   &.go-to-footer {
