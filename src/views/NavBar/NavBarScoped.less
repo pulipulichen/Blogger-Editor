@@ -36,7 +36,29 @@
   //}
 }
 
+// --------------------------------
+
 @media (max-width: 700px) {
+  .ui.top.menu > ::v-deep .item.publish,
+  .ui.top.menu > ::v-deep .item.post,
+  .ui.top.menu > ::v-deep .item.editor,
+  .ui.top.menu > ::v-deep .item.theme,
+  .ui.top.menu > ::v-deep .item.config {
+    display: none;
+  }
+  
+  .ui.top.menu > .item.sidebar-menu-toggle {
+    display: block;
+  }
+  
+  .ui.top.menu.upscroll {
+    position: absolute;
+  }
+}
+
+// --------------------------------
+
+@media (max-width: 400px) {
   .ui.top.menu > ::v-deep .item {
     display: none;
   }

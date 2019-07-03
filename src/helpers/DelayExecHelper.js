@@ -3,6 +3,20 @@ let DelayExecHelper = {
   limitTimers: {},
   events: {},
   exec: function (type, delaySec, maxLimitSec, event) {
+    return this.forceExec(type, delaySec, maxLimitSec, event)
+  },
+  foreExec: function (type, delaySec, maxLimitSec, event) {
+    // 先確認現在的狀態是否ok
+    if (InitHelper.ready === false) {
+      return
+    }
+    
+    //console.log(type, delaySec)
+    this.showIndicator()
+    
+    this.backExec(type, delaySec, maxLimitSec, event)
+  },
+  backExec: function (type, delaySec, maxLimitSec, event) {
     // 先確認現在的狀態是否ok
     if (InitHelper.ready === false) {
       return
@@ -22,8 +36,6 @@ let DelayExecHelper = {
             && this.timers[type] !== null) {
       clearTimeout(this.timers[type])
     }
-    //console.log(type, delaySec)
-    this.showIndicator()
     this.events[type] = event
     
     this.timers[type] = setTimeout(() => {

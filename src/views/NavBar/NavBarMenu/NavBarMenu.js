@@ -7,7 +7,9 @@ let NavBarMenu = {
     return {
       name: 'NavBarMenu',
       ui: undefined,
-      wordCount: 0
+      wordCount: 0,
+      imageCount: 56,
+      timeSpent: 130320
     }
   },
   props: ['mode'],
@@ -22,6 +24,17 @@ let NavBarMenu = {
       else {
         return this.$t('word')
       }
+    },
+    imageCountUnit: function () {
+      if (this.wordCount > 1) {
+        return this.$t('pictures')
+      }
+      else {
+        return this.$t('picture')
+      }
+    },
+    timeSpentDisplay: function () {
+      return DayjsHelper.timeSpentDisplay(this.timeSpent)
     }
   },
   methods: {

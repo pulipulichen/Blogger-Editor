@@ -20,6 +20,20 @@ let DayjsHelper = {
     }
     
     return dayjs(unix).format('MM/DD hh:mm')
+  },
+  timeSpentDisplay: function (seconds) {
+    let min = Math.ceil(seconds / 60)
+    let hour = 0
+    if (min >= 60) {
+      hour = Math.ceil(min / 60)
+      min = min % 60
+    }
+    
+    let display = min
+    if (hour > 0) {
+      display = hour + ':' + min
+    }
+    return display
   }
 }
 

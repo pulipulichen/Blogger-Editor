@@ -20,7 +20,7 @@ let ScrollHelper = {
       this.window = $(window)
       
       let save = () => {
-        DelayExecHelper.exec(this.key, 1, 10, () => {
+        DelayExecHelper.backExec(this.key, 1, 10, () => {
           this.save()
         })
       }
