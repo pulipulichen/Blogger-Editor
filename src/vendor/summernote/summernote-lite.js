@@ -1507,6 +1507,7 @@
       'J': 74,
       'K': 75,
       'L': 76,
+      'M': 77,
       'R': 82,
       'S': 83,
       'U': 85,
@@ -5527,6 +5528,12 @@
           if (event.ctrlKey && !event.altKey) {
               keys.push('CTRL');
           }
+          else {
+            if (event.altKey) {
+              keys.push('ALT');
+            }
+          }
+          
           if (event.shiftKey) {
               keys.push('SHIFT');
           }
@@ -9781,7 +9788,8 @@ sel.addRange(range);
                   'CTRL+I': 'italic',
                   'CTRL+U': 'underline',
                   'CTRL+SHIFT+S': 'strikethrough',
-                  'CTRL+SHIFT+M': 'comment',
+                  'CTRL+M': 'comment',
+                  //'CTRL+SHIFT+E': 'comment',
                   'CTRL+BACKSLASH': 'removeFormat',
                   'CTRL+SHIFT+L': 'justifyLeft',
                   'CTRL+SHIFT+E': 'justifyCenter',
@@ -9814,6 +9822,7 @@ sel.addRange(range);
                   'CMD+I': 'italic',
                   'CMD+U': 'underline',
                   'CMD+SHIFT+S': 'strikethrough',
+                  'CMD+M': 'comment',
                   'CMD+BACKSLASH': 'removeFormat',
                   'CMD+SHIFT+L': 'justifyLeft',
                   'CMD+SHIFT+E': 'justifyCenter',
