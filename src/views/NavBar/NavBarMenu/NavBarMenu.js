@@ -10,6 +10,7 @@ let NavBarMenu = {
       wordCount: 0,
       imageCount: 56,
       timeSpent: 130320
+      //timeSpent: 61
     }
   },
   props: ['mode'],
