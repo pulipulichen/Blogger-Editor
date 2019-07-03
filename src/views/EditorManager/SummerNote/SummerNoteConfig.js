@@ -111,7 +111,12 @@ let SummerNoteConfig = {
         tag: 'span',
         title: 'strikethrough',
         style: 'text-decoration: line-through;'
-      }, 
+      },
+      {
+        tag: 'span',
+        title: 'comment',
+        className: 'note-editor-comment'
+      },
       'blockquote', 'h1', 'h6']
     
     //let styleTags = [
