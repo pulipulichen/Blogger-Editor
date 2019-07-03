@@ -10,51 +10,30 @@ let config = {
       headingsElement: null,
       windowElement: null,
       toolbarElement: null,
-      headings: [
-        {
-          text: "h2 heading heading heading heading heading heading",
-          eq: 0,
-          subheading: [
-            {
-              text: 'h3 heading heading heading heading heading heading',
-              eq: 1
-            },
-            {
-              text: 'h3 heading heading heading heading heading heading',
-              eq: 2
-            }
-          ]
-        },
-        {
-          text: "h2 heading",
-          eq: 0,
-          subheading: [
-            {
-              text: 'h3 heading',
-              eq: 1
-            },
-            {
-              text: 'h3 heading',
-              eq: 1
-            }
-          ]
-        }
-      ]
+      entryList: [],
+      entryHierarchy: [],
+      entryCollection: null
     }
   },
+  /*
   mounted: function () {
     
   },
   computed: {
     
   },
+  */
   created: function () {
     $v[this.name] = this
   },
   methods: {
     init: function () {
-      EventManager.on($v.PostManager, 'updateEditingPostBody', () => {
-        this.analyseHeadings()
+      //EventManager.on($v.PostManager, 'updateEditingPostBody', () => {
+      //  this.buildEntryList()
+      //})
+      
+      EventManager.on($v.EditorManager.FieldPostBody, ['set', 'change'], () => {
+        this.buildEntryList()
       })
     },
     
@@ -75,7 +54,8 @@ let config = {
       this.opened = true
       //this.getUI().modal('show')
       //this.getUI().sidebar('toggle')
-      this.analyseHeadings()
+      //this.analyseHeadings()
+      this.buildEntryList()
       this.getUI().addClass('visible')
       this.templateElement.addClass('sidebar')
       //console.log('open')
@@ -98,7 +78,7 @@ let config = {
         this.open()
       }
     },
-    analyseHeadings: function () {
+    buildEntryList: function () {
       if (this.opened === false) {
         return
       }
@@ -106,78 +86,121 @@ let config = {
       if (this.postBody === null) {
         this.postBody = $v.EditorManager.FieldPostBody.getElement()
       }
-      let headingsSelector = 'h1,h2,h3,h4,h5,h6'
-      let headingsOriginal = []
+      let selector = 'h1,h2,h3,h4,h5,h6,.note-editor-comment'
+      this.entryCollection = this.postBody.find(selector)
+      let list = []
+      
+      // ----------------------------------------
+      
       let minHeadingLevel = 6
-      this.headingsElement = this.postBody.find(headingsSelector)
-      this.headingsElement.each((i, headingElement) => {
-        let tagName = headingElement.tagName
-        
-        let text = $(headingElement).text().trim()
+      this.entryCollection.each((i, entry) => {
+        let text = $(entry).text().trim()
         if (text === '') {
           return
         }
         
-        let headingLevel = parseInt(tagName.slice(1), 10)
-        if (headingLevel < minHeadingLevel) {
-          minHeadingLevel = headingLevel
+        let tagName = entry.tagName.toLowerCase()
+        let headingLevel = -1
+        let title
+        
+        let type = 'heading'
+        if (tagName.startsWith('h') && tagName.length === 2) {
+          headingLevel = parseInt(tagName.slice(1), 10)
+          if (headingLevel < minHeadingLevel) {
+            minHeadingLevel = headingLevel
+          }
+        }
+        else {
+          if (typeof(entry.title) === 'string' 
+                  && entry.title.trim() !== '') {
+            title = entry.title.trim()
+          }
+          type = 'comment'
         }
         
-        headingsOriginal.push({
+        list.push({
           text: text,
+          title: title,
           eq: i,
-          level: headingLevel
+          level: headingLevel,
+          type: type
         })
       })
-      //console.log(headingsOriginal)
-      //console.log(headings.length)
       
-      let headings = []
-      let subheading = false
-      let lastLevel = null
-      headingsOriginal.forEach((heading) => {
-        if (heading.level === minHeadingLevel
-                || heading.level === (minHeadingLevel + 1)) {
-          
-          //console.log([heading])
-          
-          if (lastLevel !== null) { 
-            if (heading.level > lastLevel) {
-              subheading = true
-            }
-            else if (heading.level < lastLevel) {
-              subheading = false
-            }
-          }
-          
-          if (lastLevel === null
-                  || subheading === false) {
-            headings.push({
-              text: heading.text,
-              eq: heading.eq,
-              subheading: []
-            })
-            lastLevel = heading.level
-          }
-          else {
-            //console.log(headings)
-            let lastHeading = headings[(headings.length - 1)]
-            //console.log(lastHeading)
-            lastHeading.subheading.push({
-              text: heading.text,
-              eq: heading.eq,
-            })
-            lastLevel = heading.level
-          }
+      // --------------------------
+      // 確定類型，移除多餘標籤
+      
+      list = list.map(item => {
+        let level = item.level
+        if (level === -1) {
+          return item
+        } 
+        if (level === minHeadingLevel) {
+          item.comments = []
+          item.subheadings = []
+          return item
+        }
+        else if (level === (minHeadingLevel + 1)) {
+          item.type = 'subheading'
+          item.comments = []
+          return item
         }
       })
       
-      this.headings = headings
+      // ----------------------------------------
       
+      let lastHeading = {
+        text: '',
+        eq: -1,
+        level: minHeadingLevel,
+        type: 'heading',
+        comments: []
+      }
+      let lastSubheading
+      let lastHeadingType
+      
+      this.entryHierarchy = []
+      list.forEach(entry => {
+        if (lastHeadingType === undefined) {
+          // 第一次
+          if (entry.type === 'heading') {
+            this.entryHierarchy.push(entry)
+            lastHeading = entry
+          }
+          else {
+            this.entryHierarchy.push(lastHeading)
+            lastHeading.comments.push(entry)
+          }
+          lastHeadingType = 'heading'
+        }
+        else {
+          if (entry.type === 'heading') {
+            this.entryHierarchy.push(entry)
+            lastHeading = entry
+            lastHeadingType = 'heading'
+          }
+          else if (entry.type === 'subheading') {
+            lastHeading.subheadings.push(entry)
+            lastSubheading = entry
+            lastHeadingType = entry.type
+          }
+          else {
+            if (lastHeadingType === 'heading') {
+              lastHeading.comments.push(entry)
+            }
+            else {
+              lastSubheading.comments.push(entry)
+            }
+          }
+        }
+        //lastType = entry.type
+      })
+      
+      console.log(this.entryHierarchy)
     },
     scrollTo: function (eq) {
       //console.log(['scrollTo', eq])
-      let top = this.headingsElement.eq(eq).offset().top
+      let top = this.entryCollection.eq(eq).offset().top
       //console.log(['scrollTo', top])
       if (this.windowElement === null) {
         this.windowElement = $(window)
@@ -209,6 +232,21 @@ let config = {
         this.windowElement = $(window)
       }
       this.windowElement.scrollTop($(document).height() + 500)
+    },
+    showCommentTitle: function (comment) {
+      let title = ''
+      
+      if (typeof(comment.title) === 'string'
+              && comment.title.trim() !== '') {
+        title = comment.title
+      }
+      
+      if (typeof(comment.text) === 'string'
+              && comment.text.trim() !== '') {
+        title = comment.text + ': ' + title
+      }
+      
+      return title
     }
   }
 }

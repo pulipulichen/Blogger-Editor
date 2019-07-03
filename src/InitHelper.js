@@ -30,7 +30,7 @@ let InitHelper = {
     //$v.FileUploader.open()
     //$v.ThemeManager.TemplateBuilder.open()
     //$v.CodeInserter.open()
-    //$v.OutlineNavigator.open()
+    $v.OutlineNavigator.open()
     //$v.SnippetInserter.open()
     //$v.ImageReplacer.open()
     
@@ -40,7 +40,8 @@ let InitHelper = {
     
     //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))
     
-    console.clear()
+    //console.clear()
+    
     FunctionHelper.triggerCallback(callback)
   },
   init: function (callback) {

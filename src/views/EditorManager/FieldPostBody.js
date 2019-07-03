@@ -135,9 +135,9 @@ let FieldPostBody = {
       FieldPostBodyCache.set(value)
     }
     
-    if ($v.EditorManager.OutlineNavigator !== null) {
-      $v.EditorManager.OutlineNavigator.analyseHeadings()
-    }
+    //if ($v.EditorManager.OutlineNavigator !== null) {
+    //  $v.EditorManager.OutlineNavigator.analyseHeadings()
+    //}
     
     EventManager.trigger(this, 'set')
     
