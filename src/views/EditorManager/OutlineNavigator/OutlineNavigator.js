@@ -270,6 +270,15 @@ let config = {
       }
       
       return title
+    },
+    toggleComment: function (event) {
+      event.preventDefault()
+      event.stopPropagation()
+      
+      let heading = $(event.target).parents('a.item:first')
+      let comments = heading.next()
+      
+      comments.slideToggle()
     }
   }
 }

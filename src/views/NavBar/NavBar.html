@@ -1,5 +1,7 @@
 <div class="ui top inverted menu"
-     ref="modal">
+     ref="modal"
+     v-on:mouseover="clearScrollTimeout"
+     v-on:click="clearScrollTimeout">
   <a class="item sidebar-menu-toggle" 
      v-on:click="openSidebarMenu">
     <i class="bars icon"></i>

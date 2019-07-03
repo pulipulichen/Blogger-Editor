@@ -11,7 +11,8 @@ let NavBar = {
       classNameFixed: 'call-fixed',
       $body: null,
       sidebarWidth: 700,
-      lastScrollTop: 0
+      lastScrollTop: 0,
+      scrollTimer: null
     }
   },
   components: {
@@ -86,6 +87,24 @@ let NavBar = {
       
       let $window = $(window)
       let className = 'upscroll'
+      //let scrollTimer
+      
+      let scrollDown = (ui) => {
+        ui.addClass(className)
+        ui.slideDown()
+      }
+      
+      let scrollUp = (ui) => {
+        let st = window.pageYOffset || document.documentElement.scrollTop
+        if (st < this.navbarHeight) {
+          return
+        }
+        
+        ui.slideUp(() => {
+          ui.removeClass(className)
+        })
+      }
+      
       $window.scroll(() => {
         setClassName()
         
@@ -95,17 +114,28 @@ let NavBar = {
         if (st > this.lastScrollTop){
            // downscroll code
            //console.log('downscroll code')
-           ui.removeClass(className)
+           scrollUp(ui)
         } else {
            // upscroll code
            //console.log('upscroll code')
-           ui.addClass(className)
+           scrollDown(ui)
+           
+           clearTimeout(this.scrollTimer)
+           this.scrollTimer = setTimeout(() => {
+             scrollUp(ui)
+           }, 3000)
         }
         this.lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
       })
       $window.resize(() => {
         setClassName()
       })
+    },
+    clearScrollTimeout: function () {
+      if (this.scrollTimer !== null) {
+        clearTimeout(this.scrollTimer)
+        this.scrollTimer = null
+      }
     }
   }
 }
