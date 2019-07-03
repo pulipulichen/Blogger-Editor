@@ -247,6 +247,10 @@ let FieldPostBody = {
     let postBody = this.getElement()
     return postBody.find('img[src^="filesystem:"]').length
   },
+  countImage: function () {
+    let postBody = this.getElement()
+    return postBody.find('img[src]').length
+  },
   clearFileSystemAsset: function () {
     if (this.hasFileSystemImage()) {
       console.log('Filesystem Images are still used. You cannot remove them.')

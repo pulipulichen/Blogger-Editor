@@ -133,6 +133,8 @@ let NavBarMenu = {
         this.wordCount = text.length
         //console.log(this.wordCount)
         //
+        
+        this.imageCount = FieldPostBody.countImage()
       })
       
       FunctionHelper.triggerCallback(callback)
