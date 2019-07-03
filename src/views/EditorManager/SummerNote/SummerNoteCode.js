@@ -173,6 +173,8 @@ let SummerNoteCode = {
     
     postBody.find(`[style=""]`).removeAttr('style')
     
+    postBody.find(`.note-editor-comment`).removeAttr('title').removeClass('note-editor-comment')
+    
     postBody.find('span').each((i, span) => {
       let outerHTML = span.outerHTML
       if (outerHTML.startsWith('<span>')) {
