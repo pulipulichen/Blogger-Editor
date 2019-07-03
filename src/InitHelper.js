@@ -64,6 +64,9 @@ let InitHelper = {
           $v.NavBar.init(next)
         },
         (next) => {
+          $v.StatisticIndicator.init(next)
+        },
+        (next) => {
           $v.BrowserDetector.init(next)
         },
         (next) => {

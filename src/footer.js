@@ -61,6 +61,9 @@ VueHelper.init(ConfigManagerSfc)
 import PublishManagerSfc from './views/PublishManager/PublishManager.vue'
 VueHelper.init(PublishManagerSfc)
 
+import StatisticIndicatorComponent from './views/NavBar/StatisticIndicator/StatisticIndicator.vue'
+VueHelper.init(StatisticIndicatorComponent)
+
 import NavBarSidebarComponent from './views/NavBar/NavBarSidebar/NavBarSidebar.vue'
 VueHelper.init(NavBarSidebarComponent)
 
