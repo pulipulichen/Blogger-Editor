@@ -20,11 +20,41 @@ let config = {
       if (Array.isArray(this.snippets) === false) {
         return []
       }
+      
+      let matchedStarred = []
+      let matchedUnstarred = []
+      
+      /*
       return this.snippets.filter((snippet) => {
         return ((this.filterCondition.trim() === "") 
                 || snippet.name.indexOf(this.filterCondition) > -1
                 || snippet.snippet.indexOf(this.filterCondition) > -1)
       })
+      */
+      this.snippets.filter((snippet) => {
+        if (((this.filterCondition.trim() === "") 
+                || snippet.name.indexOf(this.filterCondition) > -1
+                || snippet.snippet.indexOf(this.filterCondition) > -1)) {
+          if (snippet.starred === 1) {
+            matchedStarred.push(snippet)
+          }
+          else {
+            matchedUnstarred.push(snippet)
+          }
+        }
+      })
+      
+      // 排序
+      matchedStarred.sort(function(a, b) {
+          return b.lastUsedUnix - a.lastUsedUnix;
+      });
+      
+      matchedUnstarred.sort(function(a, b) {
+          return b.lastUsedUnix - a.lastUsedUnix;
+      });
+      
+      // 回傳
+      return matchedStarred.concat(matchedUnstarred)
     },
     isSaveDisabled: function () {
       if (this.editingId === null 

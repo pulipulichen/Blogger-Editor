@@ -163,15 +163,16 @@
       </div> <!-- <div class="description"> -->
     </div> <!-- <div class="content"> -->
     
-    <div class="actions">
+    <div class="actions"
+         v-show="editingId === null">
       
-      <div v-show="editingId === null">
         <div class="ui button"
              v-on:click='close'>
           {{ $t('Close') }}
         </div>
-      </div> <!-- <template v-if="editingId === null"> -->
-      <div v-show="editingId !== null">
+    </div>
+    <div class="actions"
+         v-show="editingId !== null">
         <div class="ui button"
              v-bind:class="{green: (isSaveDisabled === false), disabled: isSaveDisabled}"
              v-on:click='saveAndInsertSnippet'>
@@ -186,7 +187,5 @@
              v-on:click='cancelEdit'>
           {{ $t('Cancel') }}
         </div>
-      </div>
-      
     </div> <!-- actions -->
   </div>
