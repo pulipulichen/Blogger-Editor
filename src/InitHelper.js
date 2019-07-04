@@ -40,8 +40,9 @@ let InitHelper = {
     //WindowHelper.popup('http://blog.pulipuli.info/')
     
     //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))
+    // $('#summernotePostBody').summernote('editor.getSelectedNodeAndRemove')
     
-    //console.clear()
+    console.clear()
     
     FunctionHelper.triggerCallback(callback)
   },

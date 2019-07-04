@@ -4970,6 +4970,7 @@
                 this.saveBlurRange()
               }, 0)
           });
+          
           /**
            * paste HTML
            * @param {String} markup
@@ -4981,6 +4982,7 @@
               var contents = _this.createRange().pasteHTML(markup);
               range.createFromNodeAfter(lists.last(contents)).select();
           });
+          
           /**
            * formatBlock
            *
@@ -4995,6 +4997,7 @@
                   _this.onFormatBlock(tagName, $target);
               }
           });
+          
           /**
            * insert horizontal rule
            */
@@ -5012,6 +5015,7 @@
                   range.create(hrNode.nextSibling, 0).normalize().select();
               }
           });
+          
           /**
            * lineHeight
            * @param {String} value
@@ -5025,6 +5029,7 @@
                   lineHeight: value
               });
           });
+          
           /**
            * create link (command)
            *
@@ -5471,11 +5476,34 @@
             return this
           }
           
+          /**
+           * 確認有沒有選取範圍
+           * @author Pulipuli Chen 20190704
+           * @returns {Boolean}
+           */
           this.hasSelectedRange = function () {
-            var rng = _this.createRange();
+            let rng = _this.createRange();
             //console.log(rng)
             //console.trace((rng.so === 0 && rng.eo === 0))
             return !(rng.so === 0 && rng.eo === 0)
+          }
+          
+          this.getSelectedNodeAndRemove = function () {
+            if (this.hasSelectedRange() === false) {
+              return ''
+            }
+            
+            let rng = _this.createRange();
+            
+            let node = rng.sc
+            if (node.nodeType === 3) {
+              node = node.parentElement
+            }
+            
+            let html = node.outerHTML
+            $(node).remove()
+            
+            return html
           }
           
           if (this.options.showHeadingLabel === false) {
