@@ -139,7 +139,6 @@ let config = {
       this.editingSnippetView = 'code'
       this.editingSnippet = ''
       this.editingId = '?'
-      
     },
     editSnippet: function (id) {
       //console.log('editSnippet', id)
@@ -184,34 +183,54 @@ let config = {
         this.insertSnippet(id, snippet)
       })
     },
-    saveSnippet: function (callback) {
-      if (this.scope === 'all') {
-        this.postId = -1
+    saveSnippet: function (snippet, callback) {
+      if (typeof(snippet) === 'function') {
+        callback = snippet
+        snippet = undefined
       }
-      else {
-        this.postId = $v.PostManager.editingPostId
+      if (snippet !== undefined && snippet.type === 'click' ) {
+        snippet = undefined
       }
+      //console.log(snippet)
       
-      //console.log('saveSnippet')
       let unix = DayjsHelper.unix()
       let sql
-      let data = [unix, this.editingSnippetName, this.editingSnippet, this.postId, false]
-      if (typeof(this.editingId) === 'number') {
-        // update
-        sql = `UPDATE snippets SET 
-          lastUsedUnix = ?,
-          name = ?,
-          snippet = ?,
-          postId = ?,
-          starred = ?
-          WHERE id = ${this.editingId}`
+      let data
+      
+      if (snippet === undefined) {
+        if (this.scope === 'all') {
+          this.postId = -1
+        }
+        else {
+          this.postId = $v.PostManager.editingPostId
+        }
+        
+        data = [unix, this.editingSnippetName, this.editingSnippet, this.postId, this.editingSnippetStarred]
+        
+        if (typeof(this.editingId) === 'number') {
+          // update
+          sql = `UPDATE snippets SET 
+            lastUsedUnix = ?,
+            name = ?,
+            snippet = ?,
+            postId = ?,
+            starred = ?
+            WHERE id = ${this.editingId}`
+        }
+        else {
+          // create
+          sql = `insert into 
+            snippets(lastUsedUnix, name, snippet, postId, starred) 
+            values(?,?,?,?,?)`
+        }
       }
       else {
-        // create
+        data = [unix, snippet.name, snippet.snippet, snippet.postId, snippet.starred]
         sql = `insert into 
-          snippets(lastUsedUnix, name, snippet, postId, starred) 
-          values(?,?,?,?,?)`
+            snippets(lastUsedUnix, name, snippet, postId, starred) 
+            values(?,?,?,?,?)`
       }
+      
       //console.log('before save')
       //console.log(sql)
       //console.log(data)
@@ -256,6 +275,16 @@ let config = {
     moveSnippetToTop: function (snippet) {
       let id = snippet.id
       let matchedSnippet = this.filterSnippet(id)
+      if (matchedSnippet !== undefined) {
+        for (let key in matchedSnippet) {
+          matchedSnippet[key] = snippet[key]
+        }
+      }
+      else {
+        this.snippets = this.snippets.concat(snippet)
+      }
+      //this.snippets.concat(snippet)
+      /*
       if (matchedSnippet === undefined) {
         this.snippets = [snippet].concat(this.snippets)
       }
@@ -263,6 +292,7 @@ let config = {
         let otherSnippets = this.snippets.filter(s => s.id !== id)
         this.snippets = [snippet].concat(otherSnippets)
       }
+      */
     },
     updateSnippetLastUsedUnix: function (snippet, callback) {
       let unix = DayjsHelper.unix()
