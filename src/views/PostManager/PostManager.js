@@ -165,6 +165,8 @@ let PostManager = {
         }
         else {
           this.posts[(this.posts.length - 1)] = post
+          console.log(this.posts)
+          this.filterCondition = 'l'
         }
         this.persist()
         //this.filterPosts()
