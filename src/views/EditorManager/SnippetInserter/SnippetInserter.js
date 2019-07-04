@@ -9,6 +9,7 @@ let config = {
       editingId: null,
       editingSnippetName: '',
       editingSnippet: '',
+      postId: null
     }
   },
   computed: {
@@ -49,6 +50,10 @@ let config = {
     },
     open: function () {
       this.init(() => {
+        this.editingId = null
+        if (this.snippets.length === 0) {
+          this.createSnippet()
+        }
         this.getUI().modal('show')
       })
     },
@@ -71,7 +76,8 @@ let config = {
           (id INTEGER PRIMARY KEY, 
            lastUsedUnix INTEGER, 
            name TEXT, 
-           snippet TEXT)`
+           snippet TEXT,
+           postId INTEGER)`
         WebSQLDatabaseHelper.exec(sqlCreateTable, () => {
           this.getConfig((snippets) => {
             //console.log('init')
@@ -144,14 +150,15 @@ let config = {
         sql = `UPDATE snippets SET 
           lastUsedUnix = ?,
           name = ?,
-          snippet = ?
+          snippet = ?,
+          postId = ?
           WHERE id = ${this.editingId}`
       }
       else {
         // create
         sql = `insert into 
-          snippets(lastUsedUnix, name, snippet) 
-          values(?,?,?)`
+          snippets(lastUsedUnix, name, snippet, postId) 
+          values(?,?,?,?)`
       }
       //console.log('before save')
       //console.log(sql)
@@ -176,6 +183,7 @@ let config = {
               id: rows,
               name: this.editingSnippetName, 
               snippet: this.editingSnippet,
+              postId: this.postId,
               lastUsedUnix: unix
           }]
         }
@@ -184,6 +192,7 @@ let config = {
               id: this.editingId,
               name: this.editingSnippetName, 
               snippet: this.editingSnippet,
+              postId: this.postId,
               lastUsedUnix: unix
           }]
         }
@@ -236,8 +245,8 @@ let config = {
       if (typeof(snippets) === 'string') {
         snippets = JSON.parse(snippets)
       }
-      console.log('SnippetInsert setConfig')
-      console.log(snippets)
+      //console.log('SnippetInsert setConfig')
+      //console.log(snippets)
       
       let sqlDropTable = `delete from snippets`
       WebSQLDatabaseHelper.exec(sqlDropTable, () => {
@@ -245,12 +254,13 @@ let config = {
           if (i < snippets.length) {
             let snippet = snippets[i]
             let sql = `insert into 
-              snippets(lastUsedUnix, name, snippet) 
+              snippets(lastUsedUnix, name, snippet, postId) 
               values(?,?,?)`
             let data = [
               snippet.lastUsedUnix,
               snippet.name,
-              snippet.snippet
+              snippet.snippet,
+              snippet.postId
             ]
             WebSQLDatabaseHelper.exec(sql, data, () => {
               i++
