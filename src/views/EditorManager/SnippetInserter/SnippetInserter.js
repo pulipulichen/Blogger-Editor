@@ -83,7 +83,8 @@ let config = {
            lastUsedUnix INTEGER, 
            name TEXT, 
            snippet TEXT,
-           postId INTEGER)`
+           postId INTEGER,
+           starred BOOLEAN)`
         WebSQLDatabaseHelper.exec(sqlCreateTable, () => {
           this.getConfig((snippets) => {
             //console.log('init')
@@ -157,21 +158,22 @@ let config = {
       //console.log('saveSnippet')
       let unix = DayjsHelper.unix()
       let sql
-      let data = [unix, this.editingSnippetName, this.editingSnippet, this.postId]
+      let data = [unix, this.editingSnippetName, this.editingSnippet, this.postId, false]
       if (typeof(this.editingId) === 'number') {
         // update
         sql = `UPDATE snippets SET 
           lastUsedUnix = ?,
           name = ?,
           snippet = ?,
-          postId = ?
+          postId = ?,
+          starred = ?
           WHERE id = ${this.editingId}`
       }
       else {
         // create
         sql = `insert into 
-          snippets(lastUsedUnix, name, snippet, postId) 
-          values(?,?,?,?)`
+          snippets(lastUsedUnix, name, snippet, postId, starred) 
+          values(?,?,?,?,?)`
       }
       //console.log('before save')
       //console.log(sql)
@@ -250,7 +252,8 @@ let config = {
     
     getConfig: function (callback) {
       let editingPostId = $v.PostManager.editingPostId
-      let sqlSelect = `select * from snippets where (postId = -1 || postId = ${editingPostId}) order by lastUsedUnix desc`
+      let sqlSelect = `select * from snippets where (postId = -1 or postId = ${editingPostId}) order by lastUsedUnix desc`
+      console.log(sqlSelect)
       WebSQLDatabaseHelper.exec(sqlSelect, (snippets) => {
         FunctionHelper.triggerCallback(callback, snippets)
       })
@@ -298,7 +301,18 @@ let config = {
         this.editingSnippetView = 'code'
       }
       return this
-    }
+    },
+    textareaSelectAll: function () {
+      this.editingSnippetView = 'code'
+      this.getUI().find('#editingSnippet').select()
+    },
+    textareaCopy: function () {
+      CopyPasteHelper.copyRichFormat(this.editingSnippet)
+    },
+    textareaEmpty: function () {
+      this.editingSnippet = ''
+      this.editingSnippetView = 'code'
+    },
   }
 }
 

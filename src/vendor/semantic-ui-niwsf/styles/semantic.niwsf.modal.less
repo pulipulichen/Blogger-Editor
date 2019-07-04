@@ -527,3 +527,22 @@
     margin: 0em 0em 0em 0em;
   }
 }
+
+@media (max-height: 700px) {
+  .non-invasive-web-style-framework .ui.modals {
+    //padding: 5px;
+  }
+  
+  .non-invasive-web-style-framework .ui.modals .ui.modal {
+    margin: 0;
+    top: 5px;
+  }
+  
+  .non-invasive-web-style-framework .ui.modal > .content {
+    max-height: calc(100vh - 10rem);
+  }
+  
+  .non-invasive-web-style-framework .ui.modal .content > .description {
+    padding: 0;
+  }
+}

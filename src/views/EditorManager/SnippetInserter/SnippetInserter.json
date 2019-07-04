@@ -13,6 +13,9 @@
     "All": "沒有限制",
     "This Post": "僅此文章",
     "Toggle to preview": "切換為預覽",
-    "Toggle to code": "切換為程式碼"
+    "Toggle to code": "切換為程式碼",
+    "SELECT ALL": "全選",
+    "COPY": "複製",
+    "CLEAN": "清空"
   }
 }

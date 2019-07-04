@@ -19,7 +19,7 @@
             <div class="ten wide field">
               <div class="ui icon mini input">
                 <input type="text" 
-                       :placeholder="$t('Filter...')"
+                       v-bind:placeholder="$t('Filter...')"
                        v-model="filterCondition">
                 <i class="filter icon"></i>
               </div>
@@ -42,12 +42,12 @@
               <div class="right floated content">
                 <div class="ui mini buttons">
                   <div class="ui button"
-                       v-on:click="deleteSnippet(snippet.id)">
-                    {{ $t("DELETE") }}
-                  </div>
-                  <div class="ui button"
                        v-on:click="editSnippet(snippet.id)">
                     {{ $t("EDIT") }}
+                  </div>
+                  <div class="ui button"
+                       v-on:click="deleteSnippet(snippet.id)">
+                    {{ $t("DELETE") }}
                   </div>
                   <div class="ui button" 
                        v-on:click="insertSnippet(snippet.id)">
@@ -56,8 +56,11 @@
                 </div>
               </div>
 
-              <div class="name content">
-                {{ snippet.name }}
+              <div class="name content"
+                   v-on:click="editSnippet(snippet.id)">
+                <span>
+                  {{ snippet.name }}
+                </span>
               </div>
 
             </div>
@@ -69,7 +72,7 @@
         </template> <!-- <template v-if="editingId === null"> -->
         <template v-else>
           
-          <div class="two fields">
+          <div class="two unstackable fields">
             <div class="field">
               <label for="snippetName">
                 {{ $t("Name") }}
@@ -112,8 +115,24 @@
               </span>
             </label>
             
+            <div class="ui top attached mini fluid buttons">
+              <div class="ui mini button"
+                v-on:click="textareaSelectAll">
+                {{ $t('SELECT ALL') }}
+              </div>
+              <div class="ui mini button"
+                v-on:click="textareaCopy">
+                {{ $t('COPY') }}
+              </div>
+              <div class="ui mini button"
+                   v-on:click="textareaEmpty">
+                {{ $t('CLEAN') }}
+              </div>
+            </div>
+            
             <textarea name="snippet"
                       id="editingSnippet"
+                      class="ui attached"
                       v-model="editingSnippet"
                       v-if="editingSnippetView === 'code'"></textarea>
             <div class="editing-snippet-preview"

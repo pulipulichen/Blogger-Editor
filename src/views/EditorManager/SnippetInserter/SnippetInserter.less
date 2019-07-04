@@ -1,6 +1,13 @@
 textarea[name="snippet"] {
   min-height: inherit !important;
   height: calc(100vh - 24rem) !important;
+  border-radius: 0 0 0.28571429rem 0.28571429rem;
+}
+
+@media (max-height: 700px) {
+  textarea[name="snippet"] {
+    height: calc(100vh - 23rem) !important;
+  }
 }
 
 .snippets-list .name.content {
@@ -8,7 +15,14 @@ textarea[name="snippet"] {
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 0.4em;
+  //margin-top: 0.4em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.snippets-list .name.content > span {
+  margin-top: 0.4rem;
+  display: inline-block;
 }
 
 .snippets-list .name.content:first-of-type {
@@ -23,4 +37,17 @@ textarea[name="snippet"] {
 
 .radio label {
   cursor: pointer;
+}
+
+.editing-snippet-preview {
+  max-height: calc(100vh - 23rem);
+  overflow-y: auto;
+  border-radius: 0 0 0.28571429rem 0.28571429rem;
+  border: 1px solid #DEDFDE;
+}
+
+@media (max-height: 700px) {
+  .editing-snippet-preview {
+    max-height: calc(100vh - 23rem);
+  }
 }
