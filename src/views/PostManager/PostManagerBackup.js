@@ -108,15 +108,15 @@ let PostManagerBackup = {
     loop(0)
   },
 
-  uploadPosts: function (e, postId) {
+  uploadPosts: function (e, postId, callback) {
     let files = e.target.files
     //console.log('uploadPost')
-    this.readPostsZip(files, postId)
+    this.readPostsZip(files, postId, callback)
   },
-  dropPosts: function (e, postId) {
+  dropPosts: function (e, postId, callback) {
     let files = e.dataTransfer.files
     //console.log('uploadPost')
-    this.readPostsZip(files, postId)
+    this.readPostsZip(files, postId, callback)
   },
 
   readPostsZip: function (files, postId, callback) {
@@ -128,6 +128,7 @@ let PostManagerBackup = {
     }
 
     let i = 0
+    let uploadedPost
 
     let loop = (i) => {
       if (i < files.length) {
@@ -148,7 +149,12 @@ let PostManagerBackup = {
                     && path.endsWith('.zip')) {
               this.readAllPostsZip(zip, next)
             } else {
-              this.readSinglePostZip(zip, postId, next)
+              this.readSinglePostZip(zip, postId, (post) => {
+                if (post !== undefined) {
+                  uploadedPost = post
+                }
+                next()
+              })
             }
             break;
           }
@@ -158,7 +164,7 @@ let PostManagerBackup = {
         //EventManager.trigger(this, 'readPostsZip')
 
         $v.PageLoader.close()
-        FunctionHelper.triggerCallback(callback)
+        FunctionHelper.triggerCallback(callback, uploadedPost)
       }
     }
 

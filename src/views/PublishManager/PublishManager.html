@@ -10,8 +10,17 @@
 
   <div class="content">
     <div class="description ui form">
+      
+      <div class="dragover-message"
+           v-on:drop="dropPosts">
+        {{ $t('Drop file to upload') }}
+      </div>
 
-      <div class="two unstackable fields">
+      <input type="file" name="uploadPosts"
+             accept=".zip"
+             v-on:change="uploadPosts"/>
+      
+      <div class="three unstackable fields">
         <div class="field">
           <div class="fluid ui labeled icon button"
                v-on:click="downloadPostBackup">
@@ -21,9 +30,16 @@
         </div>
         <div class="field">
           <div class="fluid ui labeled icon button"
+               v-on:click="triggerUploadPostBackup">
+            <i class="file icon"></i>
+            {{ $t("Upload Backup") }}
+          </div>
+        </div>
+        <div class="field">
+          <div class="fluid ui labeled icon button"
                v-on:click="openBackupPage">
             <i class="cloud icon"></i>
-            {{ $t("Upload Backup") }}
+            {{ $t("Upload Backup to Web") }}
           </div>
         </div>
       </div>

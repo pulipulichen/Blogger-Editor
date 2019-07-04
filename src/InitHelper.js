@@ -21,7 +21,7 @@ let InitHelper = {
     }, 3000)
     */
     //$v.PublishManager.open()
-    $v.PostManager.open()
+    //$v.PostManager.open()
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()
@@ -41,7 +41,7 @@ let InitHelper = {
     
     //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))
     
-    console.clear()
+    //console.clear()
     
     FunctionHelper.triggerCallback(callback)
   },

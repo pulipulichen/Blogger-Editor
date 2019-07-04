@@ -431,12 +431,19 @@ let PostManager = {
       this.uploadPostId = parseInt(target.attr('data-post-id'), 10)
       //console.log(this.uploadPostId)
       this.getUI().find('input:file[name="uploadPosts"]').click()
+      return this
     },
-    uploadPosts: function (e) {
-      this.PostManagerBackup.uploadPosts(e, this.uploadPostId)
+    uploadPosts: function (e, postId, callback) {
+      if (postId === undefined) {
+        postId = this.uploadPostId
+      }
+      return this.PostManagerBackup.uploadPosts(e, postId, callback)
     },
-    dropPosts: function (e) {
-      this.PostManagerBackup.dropPosts(e)
+    dropPosts: function (e, postId, callback) {
+      if (postId === undefined) {
+        postId = this.uploadPostId
+      }
+      return this.PostManagerBackup.dropPosts(e, postId, callback)
     },
     readPostsZip: function (files) {
       this.PostManagerDatabase.getLastPostId(id => {

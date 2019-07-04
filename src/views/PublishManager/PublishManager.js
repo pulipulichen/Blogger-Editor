@@ -8,9 +8,11 @@ let config = {
       bloggerConsoleURL: "https://www.blogger.com",
       editURL: "",
       publicURL: "",
+      postId: null,
       postTitle: "",
       postLabels: "",
-      filesystemImageCount: 0
+      filesystemImageCount: 0,
+      
     }
   },
   mounted: function () {
@@ -67,6 +69,7 @@ let config = {
       return this.ui
     },
     open: function () {
+      
       this.loadPostData(() => {
         $v.ImageReplacer.validateHasFileSystemImage()
         //console.log(this.filesystemImageCount)
@@ -88,6 +91,7 @@ let config = {
         return
       }
       
+      this.postId = post.id
       this.editURL = post.editURL
       this.publicURL = post.publicURL
       
@@ -144,6 +148,29 @@ let config = {
       else {
         config.openBackupPageURL()
       }
+    },
+    triggerUploadPostBackup: function (e) {
+      this.getUI().find('input:file[name="uploadPosts"]').click()
+      return this
+    },
+    uploadPosts: function (e) {
+      $v.PostManager.uploadPosts(e, this.postId, (post) => {
+        this.afterUploadPost(post)
+      })
+      return this
+    },
+    dropPosts: function (e) {
+      $v.PostManager.dropPosts(e, this.postId, (post) => {
+        this.afterUploadPost(post)
+      })
+      return this
+    },
+    afterUploadPost: function (post) {
+      this.postTitle = post.title
+      this.postLabels = post.labels
+      this.editURL = post.editURL
+      this.publicURL = post.publicURL
+      return this
     }
   }
 }
