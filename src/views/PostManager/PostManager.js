@@ -241,6 +241,14 @@ let PostManager = {
       //FunctionHelper.triggerCallback(callback)
       
       this.editingPostId = id
+      
+      // 幫我把這個item挪到最高去
+      // https://stackoverflow.com/a/23921775/6645399
+      //var first = "role";
+      this.posts.sort( function (x,y) { 
+        return x.id == id ? -1 : y.id == id ? 1 : 0; 
+      })
+      
       //PostManager.editingPostId = parseInt(id, 10)
       //console.log([this.editingPostId, PostManager.editingPostId])
       this.persist()
