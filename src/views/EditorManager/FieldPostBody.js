@@ -86,6 +86,9 @@ let FieldPostBody = {
     
     return this.get().next().find('.note-editing-area .note-editable')
   },
+  getSelectedNodeAndRemove: function () {
+    return this.get().summernote('editor.getSelectedNodeAndRemove')
+  },
   isNode: function (html) {
     return ( (html.startsWith('<') && html.endsWith('>')) )
   },

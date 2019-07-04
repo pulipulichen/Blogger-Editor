@@ -211,7 +211,13 @@ let SummerNoteCode = {
     return SummerNoteHelper.buildButton(contents, tooltip, click)
   },
   SaveSnippetClick: function () {
-    console.log('#TODO SaveSnippetClick')
+    //console.log('#TODO SaveSnippetClick')
+    let nodeText = $v.EditorManager.FieldPostBody.getSelectedNodeAndRemove()
+    //console.log(node)
+    let SnippetInserter = $v.EditorManager.SnippetInserter
+    SnippetInserter.saveSnippet(nodeText, () => {
+      SnippetInserter.loadSnippet()
+    })
   }
 }
 

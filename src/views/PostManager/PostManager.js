@@ -155,6 +155,7 @@ let PostManager = {
         this.posts = [post].concat(this.posts)
         if (post !== null) {
           this.editingPostId = post.id
+          EventManager.trigger(this, 'changeEditingPostId')
         }
         this.openPost(post.id)
         this.persist()
@@ -191,6 +192,7 @@ let PostManager = {
       setTimeout(() => {
         let post = this.posts[0]
         this.editingPostId = post.id
+        EventManager.trigger(this, 'changeEditingPostId')
         this.openPost(post.id)
       }, 500)
     },
@@ -202,6 +204,7 @@ let PostManager = {
       else {
         this.PostManagerDatabase.getLastUpdatePost((post) => {
           this.editingPostId = post.id
+          EventManager.trigger(this, 'changeEditingPostId')
           this.persist()
           FunctionHelper.triggerCallback(callback, this.editingPostId)
         })
@@ -222,6 +225,7 @@ let PostManager = {
       if (post === undefined) {
         post = this.posts[0]
         this.editingPostId = post.id
+        EventManager.trigger(this, 'changeEditingPostId')
         this.persist()
       }
       
@@ -257,6 +261,7 @@ let PostManager = {
       //FunctionHelper.triggerCallback(callback)
       
       this.editingPostId = id
+      EventManager.trigger(this, 'changeEditingPostId')
       
       // 幫我把這個item挪到最高去
       // https://stackoverflow.com/a/23921775/6645399
@@ -293,6 +298,7 @@ let PostManager = {
         
         if (this.editingPostId === id) {
           this.editingPostId = null
+          EventManager.trigger(this, 'changeEditingPostId')
           this.persist()
         }
       })

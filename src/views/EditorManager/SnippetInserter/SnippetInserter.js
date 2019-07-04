@@ -54,7 +54,15 @@ let config = {
       });
       
       // 回傳
-      return matchedStarred.concat(matchedUnstarred)
+      let matched = matchedStarred.concat(matchedUnstarred).map((snippet) => {
+        snippet.plainText = $(`<span>${snippet.snippet}</span>`).text()
+        if (snippet.plainText.length > 100) {
+          snippet.plainText = snippet.plainText.slice(0, 100)
+        }
+        return snippet
+      })
+      
+      return matched
     },
     isSaveDisabled: function () {
       if (this.editingId === null 
@@ -117,14 +125,15 @@ let config = {
            postId INTEGER,
            starred INTEGER)`
         WebSQLDatabaseHelper.exec(sqlCreateTable, () => {
-          this.getConfig((snippets) => {
+          this.loadSnippet((snippets) => {
             //console.log('init')
             //consoeditingSnippetle.log(rows)
             //console.log(snippets.length)
-            if (Array.isArray(snippets) 
-                    && snippets.length > 0) {
-              this.snippets = this.snippets.concat(snippets)
-            }
+            
+            EventManager.on($v.PostManager, 'changeEditingPostId', (PostManager) => {
+              this.loadSnippet()
+            })
+            
             FunctionHelper.triggerCallback(callback)
           })
         })
@@ -190,6 +199,9 @@ let config = {
       }
       if (snippet !== undefined && snippet.type === 'click' ) {
         snippet = undefined
+      }
+      if (typeof(snippet) === 'string') {
+        snippet = this.buildNewSnippetFromText(snippet)
       }
       //console.log(snippet)
       
@@ -272,6 +284,23 @@ let config = {
         webSqlCallback(rows)
       })
     },
+    buildNewSnippetFromText: function (text) {
+      let name = $(`<span>${text}</span>`).text()
+      
+      if (name.length > 30) {
+        name = name.slice(0, 30)
+      }
+      
+      let snippet = {
+        lastUsedUnix: 0,
+        name: name,
+        snippet: text,
+        postId: $v.PostManager.editingPostId,
+        starred: 0
+      }
+      //console.log(snippet)
+      return snippet
+    },
     moveSnippetToTop: function (snippet) {
       let id = snippet.id
       let matchedSnippet = this.filterSnippet(id)
@@ -319,12 +348,17 @@ let config = {
     // config
     // ----------------------------
     
-    getConfig: function (callback) {
+    loadSnippet: function (callback) {
       let editingPostId = $v.PostManager.editingPostId
       let sqlSelect = `select * from snippets where (postId = -1 or postId = ${editingPostId}) order by starred, lastUsedUnix desc`
       //console.log(sqlSelect)
       WebSQLDatabaseHelper.exec(sqlSelect, (snippets) => {
-        //console.log(snippets)
+        this.snippets = []
+        if (Array.isArray(snippets) 
+                && snippets.length > 0) {
+          this.snippets = this.snippets.concat(snippets)
+        }
+        
         FunctionHelper.triggerCallback(callback, snippets)
       })
     },
@@ -398,7 +432,32 @@ let config = {
             WHERE id = ${snippet.id}`
         let data = [snippet.starred]
         WebSQLDatabaseHelper.exec(sql, data)
+      }
+    },
+    toggleScope: function (snippetId) {
+      //console.log(snippetId)
+      if (typeof(snippetId) !== "number") {
+        if (this.postId === -1) {
+          this.postId = $v.PostManager.editingPostId
+        }
+        else {
+          this.postId = -1
+        }
+      }
+      else {
+        let snippet = this.filterSnippet(snippetId)
+        if (snippet.postId === -1) {
+          snippet.postId = $v.PostManager.editingPostId
+        }
+        else {
+          snippet.postId = -1
+        }
         
+        let sql = `UPDATE snippets SET 
+            postId = ?
+            WHERE id = ${snippet.id}`
+        let data = [snippet.postId]
+        WebSQLDatabaseHelper.exec(sql, data)
       }
     }
   }

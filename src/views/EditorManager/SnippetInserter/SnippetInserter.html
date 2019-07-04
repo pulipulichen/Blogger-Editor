@@ -59,13 +59,27 @@
               </div>
 
               <div class="name content">
-                <span v-on:click="toggleStarred(snippet.id)">
-                  <i class="star icon"
-                       v-bind:class="{'outline': (snippet.starred === 0)}"></i>
-                </span>
-                  
-                <span v-on:click="editSnippet(snippet.id)">
-                  {{ snippet.name }}
+                <span class="name-content-wrapper">
+                  <span v-on:click="toggleStarred(snippet.id)" class="snippet-starred">
+                    <i class="star icon"
+                         v-bind:class="{'outline': (snippet.starred === 0)}"></i>
+                  </span>
+                  <span v-on:click="toggleScope(snippet.id)" class="snippet-post-id">
+                    <i class="icon"
+                         v-bind:class="{'unlock': (snippet.postId === -1), 'lock': (snippet.postId !== -1)}"></i>
+                  </span>
+
+
+
+                  <span v-on:click="editSnippet(snippet.id)" class="snippet-content">
+                    <span class="snippet-name">
+                      {{ snippet.name }}
+                    </span>
+                    <span class="snippet-plain-text">
+                      {{ snippet.plainText }}
+                    </span>
+
+                  </span>
                 </span>
               </div>
 
@@ -88,6 +102,21 @@
                      name="snippetName"
                      v-model="editingSnippetName" />
             </div>
+            
+            <div class="two wide field">
+              <label for="editingSnippetStarred">
+                  {{ $t('Pin top') }}
+              </label>
+              
+              <div class="ui basic icon button"
+                       v-on:click="toggleStarred()">
+                <i class="star icon"
+                       v-bind:class="{'outline': (editingSnippetStarred === 0)}"></i>
+              </div>
+                
+            </div>
+            
+            
             <div class="six wide field">
               <label>
                 {{ $t("Scope") }}
@@ -108,18 +137,6 @@
               </div>
             </div>
             
-            <div class="two wide field">
-              <label for="editingSnippetStarred">
-                  {{ $t('Pin top') }}
-              </label>
-              
-              <div class="ui basic icon button"
-                       v-on:click="toggleStarred()">
-                <i class="star icon"
-                       v-bind:class="{'outline': (editingSnippetStarred === 0)}"></i>
-              </div>
-                
-            </div>
           </div>
             
           <div class="field">
