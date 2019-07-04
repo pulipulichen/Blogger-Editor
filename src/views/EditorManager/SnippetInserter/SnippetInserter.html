@@ -54,6 +54,9 @@
                     {{ $t("INSERT") }}
                   </div>
                 </div>
+                <div class="ui rating" 
+                     data-max-rating="1" 
+                     v-bind:data-rating="snippet.starred"></div>
               </div>
 
               <div class="name content"
@@ -100,6 +103,10 @@
                   {{ $t('This Post') }}
                 </label>
               </div>
+            </div>
+            
+            <div class="field">
+              
             </div>
           </div>
             

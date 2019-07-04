@@ -10,6 +10,7 @@ let config = {
       editingSnippetName: '',
       editingSnippet: '',
       postId: -1,
+      editingSnippetStarred: 0,
       scope: 'all',
       editingSnippetView: 'code'
     }
@@ -84,13 +85,14 @@ let config = {
            name TEXT, 
            snippet TEXT,
            postId INTEGER,
-           starred BOOLEAN)`
+           starred INTEGER)`
         WebSQLDatabaseHelper.exec(sqlCreateTable, () => {
           this.getConfig((snippets) => {
             //console.log('init')
             //console.log(rows)
             if (snippets !== undefined) {
               this.snippets = this.snippets.concat(snippets)
+              this.getUI().find('.ui.rating').rating()
             }
             FunctionHelper.triggerCallback(callback)
           })
