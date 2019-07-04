@@ -9,7 +9,9 @@ let config = {
       editingId: null,
       editingSnippetName: '',
       editingSnippet: '',
-      postId: null
+      postId: -1,
+      scope: 'all',
+      editingSnippetView: 'code'
     }
   },
   computed: {
@@ -50,12 +52,16 @@ let config = {
     },
     open: function () {
       this.init(() => {
-        this.editingId = null
+        this.openReset()
         if (this.snippets.length === 0) {
           this.createSnippet()
         }
         this.getUI().modal('show')
       })
+    },
+    openReset: function () {
+      this.editingId = null
+      this.editingSnippetView = 'code'
     },
     close: function () {
       this.getUI().modal('hide')
@@ -141,10 +147,17 @@ let config = {
       })
     },
     saveSnippet: function (callback) {
+      if (this.scope === 'all') {
+        this.postId = -1
+      }
+      else {
+        this.postId = $v.PostManager.editingPostId
+      }
+      
       //console.log('saveSnippet')
       let unix = DayjsHelper.unix()
       let sql
-      let data = [unix, this.editingSnippetName, this.editingSnippet]
+      let data = [unix, this.editingSnippetName, this.editingSnippet, this.postId]
       if (typeof(this.editingId) === 'number') {
         // update
         sql = `UPDATE snippets SET 
@@ -236,7 +249,8 @@ let config = {
     // ----------------------------
     
     getConfig: function (callback) {
-      let sqlSelect = `select * from snippets order by lastUsedUnix desc`
+      let editingPostId = $v.PostManager.editingPostId
+      let sqlSelect = `select * from snippets where (postId = -1 || postId = ${editingPostId}) order by lastUsedUnix desc`
       WebSQLDatabaseHelper.exec(sqlSelect, (snippets) => {
         FunctionHelper.triggerCallback(callback, snippets)
       })
@@ -275,6 +289,15 @@ let config = {
         }
         loop(0)
       })
+    },
+    toggleEditingSnippetView: function () {
+      if (this.editingSnippetView === 'code') {
+        this.editingSnippetView = 'preview'
+      }
+      else {
+        this.editingSnippetView = 'code'
+      }
+      return this
     }
   }
 }

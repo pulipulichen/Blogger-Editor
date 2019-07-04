@@ -8,6 +8,11 @@
     "Save": "儲存",
     "Name": "範本名稱",
     "Snippet": "範本內容",
-    "Are you sure to delete snippet": "您確定要刪除這個預設範本"
+    "Are you sure to delete snippet": "您確定要刪除這個預設範本",
+    "Scope": "可用範圍",
+    "All": "沒有限制",
+    "This Post": "僅此文章",
+    "Toggle to preview": "切換為預覽",
+    "Toggle to code": "切換為程式碼"
   }
 }

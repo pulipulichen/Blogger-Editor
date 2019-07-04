@@ -68,19 +68,57 @@
         
         </template> <!-- <template v-if="editingId === null"> -->
         <template v-else>
-          <div class="field">
-            <label>
-              {{ $t("Name") }}
-            </label>
-            <input type="text" name="snippetName"
-                   v-model="editingSnippetName" />
+          
+          <div class="two fields">
+            <div class="field">
+              <label for="snippetName">
+                {{ $t("Name") }}
+              </label>
+              <input type="text"
+                     id="snippetName"
+                     name="snippetName"
+                     v-model="editingSnippetName" />
+            </div>
+            <div class="field">
+              <label>
+                {{ $t("Scope") }}
+              </label>
+              
+              <div class="ui radio checkbox">
+                <input type="radio" id="scope.all" value="all" v-model="scope">
+                <label for="scope.all">
+                  {{ $t('All') }}
+                </label>
+              </div>
+              
+              <div class="ui radio checkbox">
+                <input type="radio" id="scope.post" value="post" v-model="scope">
+                <label for="scope.post">
+                  {{ $t('This Post') }}
+                </label>
+              </div>
+            </div>
           </div>
+            
           <div class="field">
-            <label>
+            <label v-on:click="toggleEditingSnippetView">
               {{ $t("Snippet") }}
+              
+              <span v-if="editingSnippetView === 'code'">
+                ({{ $t("Toggle to preview") }})
+              </span>
+              <span v-if="editingSnippetView === 'preview'">
+                ({{ $t("Toggle to code") }})
+              </span>
             </label>
+            
             <textarea name="snippet"
-                      v-model="editingSnippet"></textarea>
+                      id="editingSnippet"
+                      v-model="editingSnippet"
+                      v-if="editingSnippetView === 'code'"></textarea>
+            <div class="editing-snippet-preview"
+                 v-if="editingSnippetView === 'preview'"
+                 v-html="editingSnippet"></div>
           </div>
         </template>
         

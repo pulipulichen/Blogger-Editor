@@ -9,6 +9,7 @@
     "v-else": {},
     "v-for": {},
     "v-on:keyup": {},
-    "v-on:drop": {}
+    "v-on:drop": {},
+    "v-model": {}
   }
 }
