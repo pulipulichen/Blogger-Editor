@@ -24,7 +24,7 @@ let PostManagerBackup = {
     let id = post.id
     let FieldPostBody = $v.EditorManager.FieldPostBody
     post = JSON.parse(JSON.stringify(post))
-    
+
       let zip = new JSZip()
       let nowFormat = DayjsHelper.nowFormat()
       let folderName = `blogger-editor-post-${id}-${nowFormat}`
@@ -108,19 +108,24 @@ let PostManagerBackup = {
     loop(0)
   },
 
-  uploadPosts: function (e) {
+  uploadPosts: function (e, postId) {
     let files = e.target.files
     //console.log('uploadPost')
-    this.readPostsZip(files)
+    this.readPostsZip(files, postId)
   },
-  dropPosts: function (e) {
+  dropPosts: function (e, postId) {
     let files = e.dataTransfer.files
     //console.log('uploadPost')
-    this.readPostsZip(files)
+    this.readPostsZip(files, postId)
   },
 
-  readPostsZip: function (files, callback) {
+  readPostsZip: function (files, postId, callback) {
     $v.PageLoader.open()
+
+    if (typeof(postId) === 'function' && callback === undefined) {
+      callback = postId
+      postId = -1
+    }
 
     let i = 0
 
@@ -143,7 +148,7 @@ let PostManagerBackup = {
                     && path.endsWith('.zip')) {
               this.readAllPostsZip(zip, next)
             } else {
-              this.readSinglePostZip(zip, next)
+              this.readSinglePostZip(zip, postId, next)
             }
             break;
           }
@@ -151,7 +156,7 @@ let PostManagerBackup = {
       } else {
         //this.statisticQuota()
         //EventManager.trigger(this, 'readPostsZip')
-        
+
         $v.PageLoader.close()
         FunctionHelper.triggerCallback(callback)
       }
@@ -197,14 +202,21 @@ let PostManagerBackup = {
 
     loop(i)
   },
-  readSinglePostZip: function (zip, callback) {
+  readSinglePostZip: function (zip, postId, callback) {
+    console.log('readSinglePostZip')
+
+    if (typeof(postId) === 'function' && callback === undefined) {
+      callback = postId
+      postId = -1
+    }
+
     let PostManager = this.PostManager
     let PostManagerDatabase = PostManager.PostManagerDatabase
     let FieldPostBody = $v.EditorManager.FieldPostBody
 
     let post = {}
-    let postBody
-    let postId
+    //let postBody
+    //let postId
 
     // -----------
 
@@ -230,6 +242,7 @@ let PostManagerBackup = {
             zipEntry.async('string').then((content) => {
               post = JSON.parse(content)
               post.id = postId
+              console.log(['postId', postId])
               //let thumb = post.thumbnail
               //thumb = thumb.slice(thumb.lastIndexOf('assets/'))
               //thumb = `/${postId}/${thumb}`
@@ -258,6 +271,8 @@ let PostManagerBackup = {
           })
         }
       } else {
+        // 檔案全部讀取完畢之後，才會post
+        console.log(post)
         PostManager.createPost(post, callback)
       }
     }
@@ -267,10 +282,15 @@ let PostManagerBackup = {
       loop(i)
     }
 
-    PostManagerDatabase.getLastPostId(id => {
-      postId = id + 1
+    if (postId === undefined || postId === -1) {
+      PostManagerDatabase.getLastPostId(id => {
+        postId = id + 1
+        loop(i)
+      })
+    }
+    else {
       loop(i)
-    })
+    }
   },
 }
 

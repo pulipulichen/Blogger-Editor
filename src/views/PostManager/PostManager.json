@@ -1,0 +1,13 @@
+{
+  "en-US": {
+    "Title": "iframe Prompt",
+    "URL": "iframe URL"
+  },
+  "zh-TW": {
+    "Post Manager": "文章管理",
+    "Quota Usage": "儲存空間用量",
+    "EDITING": "編輯中",
+    "REMOVE": "移除",
+    "Search...": "搜尋..."
+  }
+}

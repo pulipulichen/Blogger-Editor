@@ -75,6 +75,10 @@ let PostManagerDatabase = {
       post = null
     }
     //console.log(post)
+    
+    if (typeof(post.id) === 'number') {
+      return this.updatePost(post, callback)
+    }
 
     let postId
     let unix = DayjsHelper.unix()

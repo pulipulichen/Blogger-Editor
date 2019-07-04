@@ -4,7 +4,7 @@
     <i class="close icon" v-on:click="close"></i>
     <div class="header">
       <i class="file icon"></i>
-      Post Manager
+      {{ $t('Post Manager') }}
     </div>
     <!-- ---------------------------------------- -->
     
@@ -15,7 +15,7 @@
              v-bind:data-total="quotaTotal"
              v-bind:class="{'error': (quotaUsage > 90), 'warning': (quotaUsage >= 60 && quotaUsage <= 90)}">
           <div class="bar"></div>
-          <div class="label">Quota Usage: 
+          <div class="label">{{ $t('Quota Usage') }}: 
             {{ quotaUsedMB }}MB 
             /
             {{ quotaTotalMB }}MB 
@@ -30,9 +30,8 @@
           <div class="ten wide field">
             <div class="ui icon mini input post-filter">
               <input type="text" 
-                     placeholder="Filter..."
-                     v-model="filterCondition"
-                     v-on:keyup="filterPosts">
+                     v-bind:placeholder="$t('Search...')"
+                     v-model="filterCondition">
               <i class="filter icon"></i>
             </div>
           </div>
@@ -43,7 +42,7 @@
               <div class="ui mini labeled icon button"
                 v-on:click="newPost">
                 <i class="file icon"></i>
-                NEW
+                {{ $t('NEW') }}
               </div>
               <div class="ui mini icon button"
                 v-on:click="backupAllPosts">
@@ -51,7 +50,8 @@
                 <!-- BACKUP -->
               </div>
               <div class="ui mini icon button"
-                 v-on:click="triggerUploadPosts">
+                   data-post-id="-1"
+                   v-on:click="triggerUploadPosts">
                 <i class="upload icon"></i>
                 <!-- UPLOAD -->
               </div>
@@ -60,7 +60,7 @@
           
           <div class="dragover-message"
                v-on:drop="dropPosts">
-            Drop file to upload
+            {{ $t('Drop file to upload') }}
           </div>
           
           <input type="file" name="uploadPosts"
@@ -119,20 +119,20 @@
                          v-if="editingPostId !== post.id"
                          v-on:click='openPost(post.id)'>
                         <i class="folder open icon"></i>
-                        OPEN
+                        {{ $t('OPEN') }}
                     </div>
                     <div class='ui mini labeled icon positive button'
                          v-if="editingPostId === post.id"
                          v-on:click='close'>
                         <i class="edit icon"></i>
-                        EDITING
+                        {{ $t('EDITING') }}
                     </div>
 
                     <div class='ui mini labeled icon button'
                          v-if="enableRemovePost"
                          v-on:click='removePost(post.id)'>
                       <i class="close icon"></i>
-                      REMOVE
+                      {{ $t('REMOVE') }}
                     </div>
                     <div class='ui icon mini button' 
                          v-on:click='clonePost(post.id)'>
@@ -143,6 +143,12 @@
                          v-on:click='backupPost(post.id)'>
                       <!-- BACKUP -->
                       <i class="download icon"></i>
+                    </div>
+                    <div class='ui icon mini button' 
+                         v-bind:data-post-id="post.id"
+                         v-on:click="triggerUploadPosts">
+                      <!-- UPLOAD -->
+                      <i class="upload icon"></i>
                     </div>
                   </div>
                 </div>

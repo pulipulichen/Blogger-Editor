@@ -17,6 +17,7 @@ let PostManager = {
       filteredPosts: [],
       createTableDone: false,
       editingPostId: null,
+      uploadPostId: null,
       //uploadImageDraft: '',
       //disableUploadImageDraft: true,
       quotaUsed: 0,
@@ -147,13 +148,23 @@ let PostManager = {
         post = undefined
       }
       
+      let mode = 'create'
+      if (typeof(post.id) === 'number') {
+        mode = 'update'
+      }
+      
       //console.trace("createPost")
       return this.PostManagerDatabase.createPost(post, (post) => {
         //console.log("建立成功")
         //console.log(post)
-        this.posts = [post].concat(this.posts)
-        if (post !== null) {
-          this.editingPostId = post.id
+        if (mode === 'create') {
+          this.posts = [post].concat(this.posts)
+          if (post !== null) {
+            this.editingPostId = post.id
+          }
+        }
+        else {
+          this.posts[(this.posts.length - 1)] = post
         }
         this.persist()
         //this.filterPosts()
@@ -385,10 +396,18 @@ let PostManager = {
     },
     triggerUploadPosts: function (e) {
       //FileHelper.triggerInput(e)
+      this.uploadPostId = parseInt(e.target['data-post-id'], 10)
+      //console.log($(e.target).parent.attr('data-post-id'))
+      let target = $(e.target)
+      if (target.attr('data-post-id') === undefined) {
+        target = target.parents('[data-post-id]:first')
+      }
+      this.uploadPostId = parseInt(target.attr('data-post-id'), 10)
+      console.log(this.uploadPostId)
       this.getUI().find('input:file[name="uploadPosts"]').click()
     },
     uploadPosts: function (e) {
-      this.PostManagerBackup.uploadPosts(e)
+      this.PostManagerBackup.uploadPosts(e, this.uploadPostId)
     },
     dropPosts: function (e) {
       this.PostManagerBackup.dropPosts(e)

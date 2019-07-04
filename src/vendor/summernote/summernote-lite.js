@@ -1485,6 +1485,12 @@
       unique: unique
   };
 
+  /**
+   * KEY_MAP
+   * 
+   * If you want to map new key, please check if the key code you want in following list.
+   * @type {Object}
+   */
   var KEY_MAP = {
       'BACKSPACE': 8,
       'TAB': 9,

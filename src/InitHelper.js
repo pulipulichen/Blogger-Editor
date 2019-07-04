@@ -20,17 +20,18 @@ let InitHelper = {
       })
     }, 3000)
     */
-    //$v.PostManager.open()
+    //$v.PublishManager.open()
+    $v.PostManager.open()
     //$v.ThemeManager.open()
     //$v.EditorManager.open()
     //$v.ConfigManager.open()
-    //$v.PublishManager.open()
+    
     
     //$v.IframePrompt.open()
     //$v.FileUploader.open()
     //$v.ThemeManager.TemplateBuilder.open()
     //$v.CodeInserter.open()
-    $v.OutlineNavigator.open()
+    //$v.OutlineNavigator.open()
     //$v.SnippetInserter.open()
     //$v.ImageReplacer.open()
     
