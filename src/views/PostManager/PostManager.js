@@ -148,30 +148,40 @@ let PostManager = {
         post = undefined
       }
       
-      let mode = 'create'
-      if (typeof(post.id) === 'number') {
-        mode = 'update'
-      }
-      
       //console.trace("createPost")
       return this.PostManagerDatabase.createPost(post, (post) => {
         //console.log("建立成功")
         //console.log(post)
-        if (mode === 'create') {
-          this.posts = [post].concat(this.posts)
-          if (post !== null) {
-            this.editingPostId = post.id
-          }
+        this.posts = [post].concat(this.posts)
+        if (post !== null) {
+          this.editingPostId = post.id
         }
-        else {
-          this.posts[(this.posts.length - 1)] = post
-          console.log(this.posts)
-          this.filterCondition = 'l'
-        }
+        this.openPost(post.id)
         this.persist()
         //this.filterPosts()
 
         //this.enableRemovePost = (this.posts.length > 1)
+        FunctionHelper.triggerCallback(callback, post)
+      })
+    },
+    updatePost: function (post, callback) {
+      return this.PostManagerDatabase.updatePost(post, (post) => {
+        for (let i = 0; i < this.posts.length; i++) {
+          let existedPost = this.posts[i]
+          if (existedPost.id === post.id) {
+            for (let key in existedPost) {
+              if (key === 'id') {
+                continue
+              }
+              existedPost[key] = post[key]
+            }
+
+            if (post.id === this.editingPostId) {
+              this.openPost(post.id)
+            }
+            break
+          }
+        }
         FunctionHelper.triggerCallback(callback, post)
       })
     },
@@ -208,6 +218,12 @@ let PostManager = {
         id = this.editingPostId
       }
       let post = this.posts.filter((post) => post.id === id)[0]
+      
+      if (post === undefined) {
+        post = this.posts[0]
+        this.editingPostId = post.id
+        this.persist()
+      }
       
       FunctionHelper.triggerCallback(callback, post)
       return post
@@ -413,7 +429,7 @@ let PostManager = {
         target = target.parents('[data-post-id]:first')
       }
       this.uploadPostId = parseInt(target.attr('data-post-id'), 10)
-      console.log(this.uploadPostId)
+      //console.log(this.uploadPostId)
       this.getUI().find('input:file[name="uploadPosts"]').click()
     },
     uploadPosts: function (e) {

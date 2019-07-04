@@ -9,9 +9,11 @@ let config = {
       lastEditTimestamp: 0
     }
   },
+  /*
   computed: {
 
   },
+  */
   mounted: function () {
     this.init()
   },
@@ -93,8 +95,13 @@ let config = {
       }
       
       let post = $v.PostManager.getPost()
-      post.timeSpentSecond = post.timeSpentSecond + intervalSecond
-      this.timeSpentSecond = post.timeSpentSecond
+      if (post !== undefined) {
+        post.timeSpentSecond = post.timeSpentSecond + intervalSecond
+        this.timeSpentSecond = post.timeSpentSecond
+      }
+      else {
+        this.timeSpentSecond = 0
+      }
       $v.PostManager.updateEditingPost('timeSpentSecond', this.timeSpentSecond)
       
       this.lastEditTimestamp = currentEditTimestamp

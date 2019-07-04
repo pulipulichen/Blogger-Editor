@@ -203,8 +203,9 @@ let PostManagerBackup = {
     loop(i)
   },
   readSinglePostZip: function (zip, postId, callback) {
-    console.log('readSinglePostZip')
+    //console.log('readSinglePostZip')
 
+    let mode
     if (typeof(postId) === 'function' && callback === undefined) {
       callback = postId
       postId = -1
@@ -242,7 +243,7 @@ let PostManagerBackup = {
             zipEntry.async('string').then((content) => {
               post = JSON.parse(content)
               post.id = postId
-              console.log(['postId', postId])
+              //console.log(['postId', postId])
               //let thumb = post.thumbnail
               //thumb = thumb.slice(thumb.lastIndexOf('assets/'))
               //thumb = `/${postId}/${thumb}`
@@ -272,8 +273,13 @@ let PostManagerBackup = {
         }
       } else {
         // 檔案全部讀取完畢之後，才會post
-        console.log(post)
-        PostManager.createPost(post, callback)
+        //console.log(post)
+        if (mode === 'create') {
+          PostManager.createPost(post, callback)
+        }
+        else if (mode === 'update') {
+          PostManager.updatePost(post, callback)
+        }
       }
     }
 
@@ -283,12 +289,14 @@ let PostManagerBackup = {
     }
 
     if (postId === undefined || postId === -1) {
+      mode = 'create'
       PostManagerDatabase.getLastPostId(id => {
         postId = id + 1
         loop(i)
       })
     }
     else {
+      mode = 'update'
       loop(i)
     }
   },
