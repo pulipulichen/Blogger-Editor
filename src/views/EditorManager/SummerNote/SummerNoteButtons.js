@@ -54,6 +54,9 @@ let SummerNoteButtons = {
       CleanCode: (c) => {
         return SummerNoteCode.CleanCode(c)
       },
+      SaveSnippet: (c) => {
+        return SummerNoteCode.SaveSnippet(c)
+      },
       toggleMenu: (c) => {
         return SummerNoteOpen.toggleMenu(c)
       },

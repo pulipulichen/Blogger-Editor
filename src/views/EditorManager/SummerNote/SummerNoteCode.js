@@ -202,6 +202,17 @@ let SummerNoteCode = {
     
     return postBody
   },
+  SaveSnippet: function (context) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="cut icon"></i>Snippet`)
+    let tooltip = 'Save Snippet'
+    let click = () => {
+      this.SaveSnippetClick()
+    }
+    return SummerNoteHelper.buildButton(contents, tooltip, click)
+  },
+  SaveSnippetClick: function () {
+    console.log('#TODO SaveSnippetClick')
+  }
 }
 
 export default SummerNoteCode
