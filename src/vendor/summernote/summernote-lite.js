@@ -5181,6 +5181,7 @@
               //let sel = window.getSelection();
               //range.setStart(range.s, 0);
               //console.log(range)
+              _this.context.triggerEvent('change', _this.$editable.html());
           });
           
           /**
@@ -5205,6 +5206,7 @@
                 $comment.removeClass("note-editor-comment")
                 $comment.removeAttr('title')
               }
+              _this.context.triggerEvent('change', _this.$editable.html());
           });
           /**
            * setting color
@@ -5493,17 +5495,40 @@
               return ''
             }
             
-            let rng = _this.createRange();
+            let html = []
+            let node, nextNode
+            let goNext = true
+            let rng = _this.createRange()
             
-            let node = rng.sc
+            let ecNode = rng.ec
+            if (ecNode.nodeType === 3) {
+              ecNode = ecNode.parentElement
+            }
+
+            node = rng.sc
             if (node.nodeType === 3) {
               node = node.parentElement
             }
             
-            let html = node.outerHTML
-            $(node).remove()
+            do {
+              if (node === ecNode) {
+                goNext = false
+              }
+              html.push(node.outerHTML)
+              nextNode = $$1(node).next()[0]
+              $$1(node).remove()
+              if (nextNode === undefined) {
+                break
+              }
+              
+              node = nextNode
+              if (node.nodeType === 3) {
+                node = node.parentElement
+              }
+            } while (goNext)
             
-            return html
+            _this.context.triggerEvent('change', _this.$editable.html());
+            return html.join('\n')
           }
           
           if (this.options.showHeadingLabel === false) {
