@@ -1,7 +1,7 @@
 textarea[name="snippet"] {
   min-height: inherit !important;
   height: calc(100vh - 24rem) !important;
-  border-radius: 0 0 0.28571429rem 0.28571429rem;
+  border-radius: 0 0 0.28571429rem 0.28571429rem !important;
 }
 
 @media (max-height: 700px) {
@@ -42,7 +42,7 @@ textarea[name="snippet"] {
 .editing-snippet-preview {
   max-height: calc(100vh - 23rem);
   overflow-y: auto;
-  border-radius: 0 0 0.28571429rem 0.28571429rem;
+  border-radius: 0 0 0.28571429rem 0.28571429rem !important;
   border: 1px solid #DEDFDE;
 }
 
@@ -50,4 +50,8 @@ textarea[name="snippet"] {
   .editing-snippet-preview {
     max-height: calc(100vh - 23rem);
   }
+}
+
+.star.icon {
+  cursor: pointer;
 }

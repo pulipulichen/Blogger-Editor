@@ -54,14 +54,17 @@
                     {{ $t("INSERT") }}
                   </div>
                 </div>
-                <div class="ui rating" 
-                     data-max-rating="1" 
-                     v-bind:data-rating="snippet.starred"></div>
+                
+                  
               </div>
 
-              <div class="name content"
-                   v-on:click="editSnippet(snippet.id)">
-                <span>
+              <div class="name content">
+                <span v-on:click="toggleStarred(snippet.id)">
+                  <i class="star icon"
+                       v-bind:class="{'outline': (snippet.starred === 0)}"></i>
+                </span>
+                  
+                <span v-on:click="editSnippet(snippet.id)">
                   {{ snippet.name }}
                 </span>
               </div>
@@ -75,8 +78,8 @@
         </template> <!-- <template v-if="editingId === null"> -->
         <template v-else>
           
-          <div class="two unstackable fields">
-            <div class="field">
+          <div class="three unstackable fields">
+            <div class="eight wide field">
               <label for="snippetName">
                 {{ $t("Name") }}
               </label>
@@ -85,7 +88,7 @@
                      name="snippetName"
                      v-model="editingSnippetName" />
             </div>
-            <div class="field">
+            <div class="six wide field">
               <label>
                 {{ $t("Scope") }}
               </label>
@@ -105,8 +108,17 @@
               </div>
             </div>
             
-            <div class="field">
+            <div class="two wide field">
+              <label for="editingSnippetStarred">
+                  {{ $t('Pin top') }}
+              </label>
               
+              <div class="ui basic icon button"
+                       v-on:click="toggleStarred()">
+                <i class="star icon"
+                       v-bind:class="{'outline': (editingSnippetStarred === 0)}"></i>
+              </div>
+                
             </div>
           </div>
             
@@ -153,13 +165,13 @@
     
     <div class="actions">
       
-      <template v-if="editingId === null">
+      <div v-show="editingId === null">
         <div class="ui button"
              v-on:click='close'>
           {{ $t('Close') }}
         </div>
-      </template> <!-- <template v-if="editingId === null"> -->
-      <template v-else>
+      </div> <!-- <template v-if="editingId === null"> -->
+      <div v-show="editingId !== null">
         <div class="ui button"
              v-bind:class="{green: (isSaveDisabled === false), disabled: isSaveDisabled}"
              v-on:click='saveAndInsertSnippet'>
@@ -174,7 +186,7 @@
              v-on:click='cancelEdit'>
           {{ $t('Cancel') }}
         </div>
-      </template>
+      </div>
       
     </div> <!-- actions -->
   </div>

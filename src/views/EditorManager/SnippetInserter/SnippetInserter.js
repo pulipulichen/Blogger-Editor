@@ -89,10 +89,11 @@ let config = {
         WebSQLDatabaseHelper.exec(sqlCreateTable, () => {
           this.getConfig((snippets) => {
             //console.log('init')
-            //console.log(rows)
-            if (snippets !== undefined) {
+            //consoeditingSnippetle.log(rows)
+            //console.log(snippets.length)
+            if (Array.isArray(snippets) 
+                    && snippets.length > 0) {
               this.snippets = this.snippets.concat(snippets)
-              this.getUI().find('.ui.rating').rating()
             }
             FunctionHelper.triggerCallback(callback)
           })
@@ -104,8 +105,11 @@ let config = {
     },
     createSnippet: function () {
       this.editingSnippetName = ''
+      this.editingSnippetStarred = 0
+      this.editingSnippetView = 'code'
       this.editingSnippet = ''
       this.editingId = '?'
+      
     },
     editSnippet: function (id) {
       //console.log('editSnippet', id)
@@ -114,6 +118,7 @@ let config = {
         this.editingId = id
         this.editingSnippetName = snippet.name
         this.editingSnippet = snippet.snippet
+        this.editingSnippetStarred = snippet.starred
         this.getUI().find('input[name="snippetName"]').focus()
       }
     },
@@ -189,8 +194,8 @@ let config = {
           callback(this.editingId, snippet)
         }
 
-        this.editingId = null
         this.moveSnippetToTop(snippet)
+        this.editingId = null
       }
       
       WebSQLDatabaseHelper.exec(sql, data, (rows) => {
@@ -201,6 +206,7 @@ let config = {
               name: this.editingSnippetName, 
               snippet: this.editingSnippet,
               postId: this.postId,
+              starred: this.editingSnippetStarred,
               lastUsedUnix: unix
           }]
         }
@@ -210,6 +216,7 @@ let config = {
               name: this.editingSnippetName, 
               snippet: this.editingSnippet,
               postId: this.postId,
+              starred: this.editingSnippetStarred,
               lastUsedUnix: unix
           }]
         }
@@ -254,9 +261,10 @@ let config = {
     
     getConfig: function (callback) {
       let editingPostId = $v.PostManager.editingPostId
-      let sqlSelect = `select * from snippets where (postId = -1 or postId = ${editingPostId}) order by lastUsedUnix desc`
-      console.log(sqlSelect)
+      let sqlSelect = `select * from snippets where (postId = -1 or postId = ${editingPostId}) order by starred, lastUsedUnix desc`
+      //console.log(sqlSelect)
       WebSQLDatabaseHelper.exec(sqlSelect, (snippets) => {
+        //console.log(snippets)
         FunctionHelper.triggerCallback(callback, snippets)
       })
     },
@@ -273,13 +281,14 @@ let config = {
           if (i < snippets.length) {
             let snippet = snippets[i]
             let sql = `insert into 
-              snippets(lastUsedUnix, name, snippet, postId) 
-              values(?,?,?)`
+              snippets(lastUsedUnix, name, snippet, postId, starred) 
+              values(?,?,?,?,?)`
             let data = [
               snippet.lastUsedUnix,
               snippet.name,
               snippet.snippet,
-              snippet.postId
+              snippet.postId,
+              snippet.starred
             ]
             WebSQLDatabaseHelper.exec(sql, data, () => {
               i++
@@ -315,6 +324,23 @@ let config = {
       this.editingSnippet = ''
       this.editingSnippetView = 'code'
     },
+    toggleStarred: function (snippetId) {
+      //console.log(snippetId)
+      if (typeof(snippetId) !== "number") {
+        this.editingSnippetStarred = (this.editingSnippetStarred + 1) % 2
+      }
+      else {
+        let snippet = this.filterSnippet(snippetId)
+        snippet.starred = (snippet.starred + 1) % 2
+        
+        let sql = `UPDATE snippets SET 
+            starred = ?
+            WHERE id = ${snippet.id}`
+        let data = [snippet.starred]
+        WebSQLDatabaseHelper.exec(sql, data)
+        
+      }
+    }
   }
 }
 

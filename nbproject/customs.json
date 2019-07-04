@@ -10,6 +10,7 @@
     "v-for": {},
     "v-on:keyup": {},
     "v-on:drop": {},
-    "v-model": {}
+    "v-model": {},
+    "v-show": {}
   }
 }
