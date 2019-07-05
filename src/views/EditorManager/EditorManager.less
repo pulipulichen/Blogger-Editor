@@ -11,14 +11,29 @@ input[type='file'] {
   display: none;
 }
 
+/*
 @media only screen and (max-width: 767px) {
   textarea.summernote-config-toolbar {
     height: calc(100vh - 32rem) !important;
   }
 }
+*/
 
 .ui.search .results {
   max-height: calc(100vh - 24rem) !important;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.ui.tab[data-tab="toolbar"] textarea {
+  max-height: inherit !important;
+  height: calc(100vh - 26.5rem) !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.tab[data-tab="toolbar"] textarea {
+    //height: calc(100vh - 37rem) !important;
+    height: calc(100vh - 35rem) !important;
+    min-height: 6rem !important;
+  }
 }

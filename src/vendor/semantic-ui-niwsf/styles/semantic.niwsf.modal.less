@@ -535,7 +535,7 @@
   }
 }
 
-@media (max-height: 700px) {
+@media only screen and (max-height: 700px) {
   .non-invasive-web-style-framework .ui.modals {
     //padding: 5px;
   }
@@ -554,5 +554,19 @@
   
   .non-invasive-web-style-framework .ui.modal .content > .description {
     padding: 0;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .non-invasive-web-style-framework .ui.modal > .content {
+    max-height: calc(100vh - 13rem);
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+@media only screen and (max-height: 700px) and (max-width: 767px) {
+  .non-invasive-web-style-framework .ui.modal > .content {
+    max-height: calc(100vh - 11rem) !important;
   }
 }
