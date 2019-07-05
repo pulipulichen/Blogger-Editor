@@ -105,6 +105,10 @@ let NavBarMenu = {
       WindowHelper.forcePopup('https://photos.google.com/?hl=zh-TW', 'googlePhoto')
       this.hideNavBar()
     },
+    openGoogleDocsLinkBuilder: function () {
+      WindowHelper.forcePopup('https://blog.pulipuli.info/2016/09/google-google-drive-file-download-link.html#postcatagoogle-google-drive-file-download-link.html0_anchor2', 'googleDocsLinkBuilder')
+      this.hideNavBar()
+    },
     editorCleanCode: function () {
       SummerNoteCode.CleanCodeClick()
       this.hideNavBar()
