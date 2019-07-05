@@ -256,6 +256,17 @@ let PostManager = {
         FunctionHelper.triggerCallback(callback)
       })
     },
+    writePostBodyFile: function (id, content, callback) {
+      if (typeof(content) === 'function') {
+        callback = content
+        content = ''
+      }
+      
+      this.PostManagerFile.writePostBodyFile(id, content, () => {
+        EventManager.trigger(this, 'createPostBodyFile')
+        FunctionHelper.triggerCallback(callback)
+      })
+    },
     openPost: function (id, callback) {
       //console.log(this.getPost(id))
       //FunctionHelper.triggerCallback(callback)
@@ -443,7 +454,20 @@ let PostManager = {
       if (postId === undefined) {
         postId = this.uploadPostId
       }
-      return this.PostManagerBackup.uploadPosts(e, postId, callback)
+      return this.PostManagerBackup.uploadPosts(e, postId, (post) => {
+        if (postId === this.editingPostId) {
+          $v.EditorManager.setupPostData(() => {
+            FunctionHelper.triggerCallback(callback, post)
+          })
+        }
+        else {
+          FunctionHelper.triggerCallback(callback, post)
+        }
+        this.resetUploadInput()
+      })
+    },
+    resetUploadInput: function () {
+      this.getUI().find('input:file[name="uploadPosts"]').val('')
     },
     dropPosts: function (e, postId, callback) {
       if (postId === undefined) {

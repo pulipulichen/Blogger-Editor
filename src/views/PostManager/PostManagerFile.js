@@ -40,8 +40,31 @@ let PostManagerFile = {
       FunctionHelper.triggerCallback(callback, postBody)
     })
   },
+  /**
+   * 
+   * @author Pulipuli Chen 20190705 強迫覆蓋
+   * @param {number} id
+   * @param {string} content
+   * @param {function} callback
+   * @returns {PostManagerFile}
+   */
+   writePostBodyFile: function (id, content, callback) {
+    let path = `/${id}/postBody.html`
+    
+    FileSystemHelper.write(path, content, callback)
+    return this
+  },
+  /**
+   * 
+   * @author Pulipuli Chen 20190705 確認沒資料再覆蓋
+   * @param {number} id
+   * @param {string} content
+   * @param {function} callback
+   * @returns {PostManagerFile}
+   */
   createPostBodyFile: function (id, content, callback) {
     let path = `/${id}/postBody.html`
+    
     FileSystemHelper.isExists(path, (isExists) => {
       if (isExists === true) {
         FunctionHelper.triggerCallback(callback)
@@ -51,6 +74,7 @@ let PostManagerFile = {
 
       //EventManager.trigger(this, 'createPostBodyFile')
     })
+    return this
   },
   extractPostBodyFeatures: function (postBody) {
 

@@ -109,7 +109,7 @@ let config = {
     persistPost: function (key) {
       let pm = $v.PostManager
       let value = this[key]
-      console.log([key, value])
+      //console.log([key, value])
       pm.updateEditingPost(key, value)
     },
     popup: function (name) {
@@ -166,12 +166,19 @@ let config = {
       return this
     },
     afterUploadPost: function (post) {
+      //console.log('afterUploadPost')
+      //console.log(post)
       this.postTitle = post.title
       this.postLabels = post.labels
       this.editURL = post.editURL
       this.publicURL = post.publicURL
+      this.resetUploadInput()
+      this.close()
       return this
-    }
+    },
+    resetUploadInput: function () {
+      this.getUI().find('input:file[name="uploadPosts"]').val('')
+    },
   }
 }
 

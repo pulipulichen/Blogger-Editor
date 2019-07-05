@@ -234,9 +234,14 @@ var EditorManager = {
     },
     reload: function (callback) {
       FieldPostDate.reset()
+      //console.log('FieldPostTitle.reload')
       FieldPostTitle.reload(() => {
+        //console.log('FieldPostBody.reload')
         FieldPostBody.reload(() => {
+          //console.log('FieldPostLabels.reload')
           FieldPostLabels.reload(() => {
+            //console.log('EditorManager.reload()')
+            //console.log(callback)
             this.setupPostData(callback)
           })
         })

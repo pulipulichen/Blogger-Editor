@@ -111,6 +111,7 @@ let PostManagerBackup = {
   uploadPosts: function (e, postId, callback) {
     let files = e.target.files
     //console.log('uploadPost')
+    //console.log(callback)
     this.readPostsZip(files, postId, callback)
   },
   dropPosts: function (e, postId, callback) {
@@ -164,6 +165,7 @@ let PostManagerBackup = {
         //EventManager.trigger(this, 'readPostsZip')
 
         $v.PageLoader.close()
+        //console.log(callback)
         FunctionHelper.triggerCallback(callback, uploadedPost)
       }
     }
@@ -264,7 +266,7 @@ let PostManagerBackup = {
               //console.log(['readSinglePostZip 2', content])
               //let postBodyPath = `/${postId}/postBody.html`
               //FileSystemHelper.write(postBodyPath, content, next)
-              PostManager.createPostBodyFile(postId, content, next)
+              PostManager.writePostBodyFile(postId, content, next)
             })
           } else {
             next()
