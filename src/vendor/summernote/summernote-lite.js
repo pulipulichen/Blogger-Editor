@@ -5726,7 +5726,7 @@
               keys.push(keyName);
           }
           var eventName = keyMap[keys.join('+')];
-          //console.log(eventName)
+          //console.log([keys.join('+'), eventName, event.keyCode])
           //console.log(this.context.invoke(eventName))
           if (eventName) {
               //console.log(this.options.buttons)
