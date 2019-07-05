@@ -85,9 +85,16 @@
   line-height: 1.4;
   padding: 1.5rem;
   background: #FFFFFF;
-  max-height: calc(100vh - 13rem);
+  max-height: calc(100vh - 15rem);
   overflow-y: auto;
 }
+
+@media (max-height: 700px) {
+  .non-invasive-web-style-framework .ui.modal > .content {
+    max-height: calc(100vh - 13rem);
+  }
+}
+
 .non-invasive-web-style-framework .ui.modal > .image.content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -540,6 +547,9 @@
   
   .non-invasive-web-style-framework .ui.modal > .content {
     max-height: calc(100vh - 10rem);
+    //max-height: calc(100vh - 9rem);
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
   
   .non-invasive-web-style-framework .ui.modal .content > .description {
