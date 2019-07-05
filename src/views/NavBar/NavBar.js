@@ -72,6 +72,33 @@ let NavBar = {
         }
       }
     },
+    unpin: function () {
+      //console.log('aaa')
+      // check scroll height
+      if (document.body.clientWidth < this.sidebarWidth) {
+        $v.NavBarSidebar.close()
+      }
+      else {
+        let ui = this.getUI()
+        if (window.scrollY > this.navbarHeight) {
+          if (ui.hasClass(this.classNameFixed) === false) {
+            ui.addClass(this.classNameFixed)
+            ui.slideDown()
+            this.$body.toggleClass(this.classNameFixed)
+          }
+          else {
+            ui.slideUp(() => {
+              ui.removeClass(this.classNameFixed)
+            })
+            this.$body.toggleClass(this.classNameFixed)
+          }
+        }
+        else {
+          ui.removeClass(this.classNameFixed)
+          this.$body.removeClass(this.classNameFixed)
+        }
+      }
+    },
     init: function (callback) {
       EventManager.on($v.EditorManager.FieldPostBody, ['set', 'change'], (FieldPostBody) => {
         //console.log('aaa')

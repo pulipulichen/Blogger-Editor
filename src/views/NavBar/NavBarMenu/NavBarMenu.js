@@ -200,8 +200,8 @@ let NavBarMenu = {
         ui.parents('.ui.top.inverted.menu.call-fixed').removeClass('call-fixed')
       }
       */
-      $v.NavBar.toggle()
-      $v.NavBarSidebar.close()
+      //$v.NavBar.toggle()
+      $v.NavBar.unpin()
     }
   },
 }
