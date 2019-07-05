@@ -292,7 +292,7 @@ let SummerNoteConfig = {
       search: function (keyword, callback) {
         //console.log(['search', keyword])
         callback($.grep(this.words, function (item) {
-          return item.indexOf(keyword) > -1;
+          return item.toLowerCase().indexOf(keyword.toLowerCase()) > -1;
         }));
       },
       content: function (item) {
