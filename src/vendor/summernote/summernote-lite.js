@@ -319,6 +319,16 @@
               container: options.container
           }));
       }
+      /*
+      if (typeof(options.keyMap) === 'string' 
+              && typeof(options.click) === 'function') {
+        console.log(options.keyMap)
+        console.log(_this.options.keyMap)
+        console.log(_this.context)
+        //var keyMap = this.options.keyMap[env.isMac ? 'mac' : 'pc'];
+        //keyMap[options.keyMap] = options.click
+      }
+      */
   });
   var dropdown = renderer.create('<div class="note-dropdown-menu" role="list">', function ($node, options) {
       var markup = $.isArray(options.items) ? options.items.map(function (item) {
@@ -1524,6 +1534,7 @@
       'S': 83,
       'U': 85,
       'V': 86,
+      'X': 88,
       'Y': 89,
       'Z': 90,
       'SLASH': 191,
@@ -5487,7 +5498,9 @@
             let rng = _this.createRange();
             //console.log(rng)
             //console.trace((rng.so === 0 && rng.eo === 0))
-            return !(rng.so === 0 && rng.eo === 0)
+            //return !(rng.so === 0 && rng.eo === 0)
+            //return (rng.type === 'Range')
+            return !(rng.sc === rng.ec && rng.so === rng.eo)
           }
           
           this.getSelectedNodeAndRemove = function () {
@@ -5691,6 +5704,7 @@
       };
       Editor.prototype.handleKeyMap = function (event) {
           var keyMap = this.options.keyMap[env.isMac ? 'mac' : 'pc'];
+          //console.log(keyMap)
           var keys = [];
           if (event.metaKey) {
               keys.push('CMD');
@@ -5712,9 +5726,17 @@
               keys.push(keyName);
           }
           var eventName = keyMap[keys.join('+')];
+          //console.log(eventName)
+          //console.log(this.context.invoke(eventName))
           if (eventName) {
+              //console.log(this.options.buttons)
               if (this.context.invoke(eventName) !== false) {
                   event.preventDefault();
+              }
+              else if (typeof(this.options.buttons) === 'object'
+                      && typeof(this.options.buttons[eventName]) === 'function') {
+                let button = this.options.buttons[eventName](this.context)
+                button.click()
               }
           }
           else if (key.isEdit(event.keyCode)) {
@@ -8482,7 +8504,7 @@ sel.addRange(range);
       CommentDialog.prototype.showCommentDialog = function (commentInfo) {
           var _this = this;
           
-          console.log(commentInfo)
+          //console.log(commentInfo)
           
           return $$1.Deferred(function (deferred) {
               var $commentTitle = _this.$dialog.find('.note-comment-title');
@@ -9766,6 +9788,7 @@ sel.addRange(range);
           this.$note = $note;
           this.memos = {};
           this.modules = {};
+          this.buttons = {};
           this.layoutInfo = {};
           this.options = options;
           this.initialize();
@@ -9807,6 +9830,8 @@ sel.addRange(range);
           Object.keys(buttons).forEach(function (key) {
               _this.memo('button.' + key, buttons[key]);
           });
+          this.buttons = buttons
+          
           var modules = $$1.extend({}, this.options.modules, $$1.summernote.plugins || {});
           // add and initialize modules
           Object.keys(modules).forEach(function (key) {
@@ -9940,17 +9965,31 @@ sel.addRange(range);
       };
       Context.prototype.invoke = function () {
           var namespace = lists.head(arguments);
+          if (namespace === undefined) {
+            namespace = ''
+          }
           var args = lists.tail(lists.from(arguments));
           var splits = namespace.split('.');
           var hasSeparator = splits.length > 1;
           var moduleName = hasSeparator && lists.head(splits);
           var methodName = hasSeparator ? lists.last(splits) : lists.head(splits);
+          
+          // 也要讓這邊可以找到buttons裡面的東西
+          
           var module = this.modules[moduleName || 'editor'];
           if (!moduleName && this[methodName]) {
               return this[methodName].apply(this, args);
           }
           else if (module && module[methodName] && module.shouldInitialize()) {
               return module[methodName].apply(module, args);
+          }
+          else {
+            //console.log(['context invoke not found', moduleName, arguments])
+            
+            // try to find buttons event
+            //console.log(this.buttons)
+            //console.log($$1.summernote)
+            return false
           }
       };
       return Context;

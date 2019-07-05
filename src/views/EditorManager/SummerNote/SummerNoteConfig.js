@@ -1,5 +1,6 @@
 import SummerNoteButtons from './SummerNoteButtons.js'
 import SummerNoteCallbacks from './SummerNoteCallbacks.js'
+import SummerNoteKeyMap from './SummerNoteKeyMap.js'
 
 let SummerNoteConfig = {
   toolbar: function (loadDefault) {
@@ -197,6 +198,7 @@ let SummerNoteConfig = {
       buttons: SummerNoteButtons.config(),
       //disableDragAndDrop: false,
       callbacks: SummerNoteCallbacks.config(callback),
+      keyMap: SummerNoteKeyMap
     }
     return config
   },

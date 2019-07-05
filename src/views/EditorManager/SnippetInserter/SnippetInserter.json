@@ -17,6 +17,7 @@
     "SELECT ALL": "全選",
     "COPY": "複製",
     "CLEAN": "清空",
-    "Pin top": "置頂"
+    "Pin top": "置頂",
+    "RELOAD": "重新整理"
   }
 }

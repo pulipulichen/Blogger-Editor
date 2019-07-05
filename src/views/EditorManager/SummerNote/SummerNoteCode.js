@@ -211,8 +211,15 @@ let SummerNoteCode = {
     return SummerNoteHelper.buildButton(contents, tooltip, click)
   },
   SaveSnippetClick: function () {
+    // 先看有沒有選取
+    let FieldPostBody = $v.EditorManager.FieldPostBody
+    if (FieldPostBody.hasSelectedRange() === false) {
+      $v.SnippetInserter.open()
+      return
+    }
+    
     //console.log('#TODO SaveSnippetClick')
-    let nodeText = $v.EditorManager.FieldPostBody.getSelectedNodeAndRemove()
+    let nodeText = FieldPostBody.getSelectedNodeAndRemove()
     //console.log(node)
     let SnippetInserter = $v.EditorManager.SnippetInserter
     SnippetInserter.saveSnippet(nodeText, () => {
