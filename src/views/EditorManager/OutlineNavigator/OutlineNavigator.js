@@ -130,20 +130,25 @@ let config = {
       // --------------------------
       // 確定類型，移除多餘標籤
       
-      list = list.map(item => {
+      list = list.filter(item => {
         let level = item.level
+        //console.log(level)
         if (level === -1) {
-          return item
+          return true
         } 
         if (level === minHeadingLevel) {
           item.comments = []
           item.subheadings = []
-          return item
+          return true
         }
         else if (level === (minHeadingLevel + 1)) {
           item.type = 'subheading'
+          //console.log(item.type)
           item.comments = []
-          return item
+          return true
+        }
+        else {
+          return false
         }
       })
       
@@ -159,8 +164,14 @@ let config = {
       let lastSubheading
       let lastHeadingType
       
+      //console.log(list)
+      
       this.entryHierarchy = []
       list.forEach(entry => {
+        if (entry === undefined) {
+          return
+        }
+        
         if (lastHeadingType === undefined) {
           // 第一次
           if (entry.type === 'heading') {

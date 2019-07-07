@@ -9,7 +9,7 @@
   <template v-for="mainHeading in entryHierarchy">
     <a class="item" 
        v-bind:title="mainHeading.text"
-       v-bind:class="{'null-header':(mainHeading.eq - 1)}"
+       v-bind:class="{'null-header': (mainHeading.eq === -1)}"
        v-on:click="scrollTo(mainHeading.eq)">
       
        <span v-if="mainHeading.comments.length > 0"
@@ -44,14 +44,15 @@
     
     <!-- ------------------------------------------------- -->
     
-    <template v-for="subheading in mainHeading.subheading">
+    <template v-for="subheading in mainHeading.subheadings">
       <a class="item subheading"
          v-bind:title="subheading.text"
          v-on:click="scrollTo(subheading.eq)">
         
         
        <span v-if="subheading.comments.length > 0"
-             class="comments-count">
+             class="comments-count"
+             v-on:click="toggleComment">
          {{ subheading.comments.length }}
        </span>
         
