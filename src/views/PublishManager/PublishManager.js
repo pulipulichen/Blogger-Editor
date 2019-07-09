@@ -121,6 +121,7 @@ let config = {
     },
     downloadPostBackup: function () {
       $v.PostManager.backupPost()
+      this.close()
     },
     changePostMetadata: function () {
       let fieldPostTitle = $v.EditorManager.FieldPostTitle
