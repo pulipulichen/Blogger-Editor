@@ -10,6 +10,7 @@ let SummerNoteKeyMap = {
     'CTRL+U': 'underline',
     'CTRL+SHIFT+S': 'strikethrough',
     'CTRL+M': 'comment',
+    'CTRL+ALT+M': 'uncomment',
     'ALT+X': 'SaveSnippet',
     //'CTRL+SHIFT+E': 'comment',
     'CTRL+BACKSLASH': 'removeFormat',

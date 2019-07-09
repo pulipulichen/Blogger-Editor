@@ -3762,6 +3762,7 @@
                   'font-superscript': document.queryCommandState('superscript') ? 'superscript' : 'normal',
                   'font-strikethrough': document.queryCommandState('strikethrough') ? 'strikethrough' : 'normal',
                   'font-comment': document.queryCommandState('comment') ? 'comment' : 'normal',
+                  'font-uncomment': document.queryCommandState('uncomment') ? 'uncomment' : 'normal',
                   'font-family': document.queryCommandValue('fontname') || styleInfo['font-family']
               });
           }
@@ -4806,10 +4807,6 @@
            * @author Pulipuli Chen 20190703
            */
           this.comment = this.wrapCommand(function () {
-            if (this.hasSelectedRange() === false) {
-              return false
-            }
-            
             // 要看現在指向的對象有沒有note-editor-comment
             //_this.context.layoutInfo.commentDialog.show()
             
@@ -4818,17 +4815,44 @@
             if (element.nodeType === 3) {
               element = element.parentElement
             }
+            //console.log(element)
             if ($$1(element).hasClass('note-editor-comment')) {
               //console.log(rng)
               _this.context.invoke('commentDialog.show')
               return
             }
             
+            if (this.hasSelectedRange() === false) {
+              return false
+            }
+            
             return _this.inlineStyling({
               tagName: 'span',
               className: 'note-editor-comment'
             });
-          }); 
+          });
+          /**
+           * @author Pulipuli Chen 20190709
+           */
+          this.uncomment = this.wrapCommand(function () {
+            // 要看現在指向的對象有沒有note-editor-comment
+            //_this.context.layoutInfo.commentDialog.show()
+            
+            var rng = _this.createRange();
+            var element = rng.ec
+            if (element.nodeType === 3) {
+              element = element.parentElement
+            }
+            //console.log(element)
+            let $element = $$1(element)
+            if ($element.hasClass('note-editor-comment')) {
+              //console.log(rng)
+              $element.removeClass('note-editor-comment')
+              _this.context.triggerEvent('change', _this.$editable.html());
+              return
+            }
+            //
+          });
           this.fontName = this.wrapCommand(function (value) {
             if (this.hasSelectedRange() === false) {
               return false
@@ -5717,6 +5741,9 @@
               keys.push('CTRL');
           }
           else {
+            if (event.ctrlKey) {
+              keys.push('CTRL');
+            }
             if (event.altKey) {
               keys.push('ALT');
             }
@@ -10199,6 +10226,7 @@ sel.addRange(range);
                   'CTRL+U': 'underline',
                   'CTRL+SHIFT+S': 'strikethrough',
                   'CTRL+M': 'comment',
+                  'CTRL+ALT+M': 'uncomment',
                   //'CTRL+SHIFT+E': 'comment',
                   'CTRL+BACKSLASH': 'removeFormat',
                   'CTRL+SHIFT+L': 'justifyLeft',
