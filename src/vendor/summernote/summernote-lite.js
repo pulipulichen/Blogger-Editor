@@ -7231,12 +7231,14 @@ sel.addRange(range);
                   width: imageSize.w,
                   height: imageSize.h
               }).data('target', $image); // save current image element.
+              $image.attr('width', imageSize.w).css('width', '')
+              $image.attr('height', imageSize.h).css('height', '')
+              //console.log($image.attr('style'))
               var origImageObj = new Image();
               origImageObj.src = $image.attr('src');
               var sizingText = imageSize.w + 'x' + imageSize.h + ' (' + this.lang.image.original + ': ' + origImageObj.width + 'x' + origImageObj.height + ')';
               $selection.find('.note-control-selection-info').text(sizingText);
               this.context.invoke('editor.saveTarget', target);
-              console.log(sizingText)
           }
           else {
               this.hide();
