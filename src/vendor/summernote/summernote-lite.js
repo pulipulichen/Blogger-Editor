@@ -8800,8 +8800,8 @@ sel.addRange(range);
                   }).val(linkInfo.url);
                   if (!env.isSupportTouch) {
                     $linkUrl.addClass("first-focus")
-                    $linkUrl.trigger('focus');
-                      //$linkUrl.trigger('select');
+                    //$linkUrl.trigger('focus');
+                    $linkUrl.trigger('select');
                   }
                   _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
                   _this.bindEnterKey($linkUrl, $linkBtn);
