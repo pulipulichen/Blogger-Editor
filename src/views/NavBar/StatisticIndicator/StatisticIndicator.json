@@ -6,6 +6,14 @@
     "word": "字",
     "words": "字",
     "picture": "圖",
-    "pictures": "圖"
+    "pictures": "圖",
+    "Total spent time is {hour} hours and {minute} minutes": "現在總共花費了{hour}小時{minute}分鐘",
+    "Total spent time is {hour} hours and {minute} minute": "現在總共花費了{hour}小時{minute}分鐘",
+    "Total spent time is {hour} hour and {minute} minutes": "現在總共花費了{hour}小時{minute}分鐘",
+    "Total spent time is {hour} hour and {minute} minute": "現在總共花費了{hour}小時{minute}分鐘",
+    "Total spent time is {hour} hours": "現在總共花費了{hour}小時",
+    "Total spent time is {hour} hour": "現在總共花費了{hour}小時",
+    "Total spent time is {minute} minutes": "現在總共花費了{minute}分鐘",
+    "Total spent time is {minute} minute": "現在總共花費了{minute}分鐘"
   }
 }

@@ -34,6 +34,44 @@ let config = {
     },
     timeSpentDisplay: function () {
       return DayjsHelper.timeSpentDisplay(this.timeSpentSecond)
+    },
+    timeSpentTitle: function () {
+      let display = DayjsHelper.timeSpentDisplay(this.timeSpentSecond).split(':')
+      
+      let hour = parseInt(display[0], 10)
+      let minute = parseInt(display[1], 10)
+      let data = {
+        'hour': hour,
+        'minute': minute
+      }
+      let key = 'Total spent time is {hour} hours and {minute} minutes'
+      if (hour === 0) {
+        if (minute > 1) {
+          key = 'Total spent time is {minute} minutes'
+        }
+        else {
+          key = 'Total spent time is {minute} minute'
+        }
+      }
+      else {
+        if (hour > 1) {
+          if (minute > 1) {
+            key = 'Total spent time is {hour} hours and {minute} minutes'
+          }
+          else {
+            key = 'Total spent time is {hour} hours and {minute} minute'
+          }
+        }
+        else {
+          if (minute > 1) {
+            key = 'Total spent time is {hour} hour and {minute} minutes'
+          }
+          else {
+            key = 'Total spent time is {hour} hour and {minute} minute'
+          }
+        }
+      }
+      return this.$t(key, data)
     }
   },
   created: function () {
