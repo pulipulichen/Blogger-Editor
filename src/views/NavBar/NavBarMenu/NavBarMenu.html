@@ -42,6 +42,10 @@
         <i class="ellipsis horizontal icon"></i> 
         {{ $t('More Spliter') }}
       </a>
+      <a class="item" v-on:click="editorInsertSnippet">
+        <i class="quote left icon"></i> 
+        {{ $t('Snippet') }}
+      </a>
       <a class="item" v-on:click="editorInsertCode">
         <i class="code icon"></i> 
         {{ $t('Code') }}
@@ -54,9 +58,9 @@
         <i class="upload icon"></i> 
         {{ $t('File') }}
       </a>
-      <a class="item" v-on:click="editorInsertSnippet">
-        <i class="quote left icon"></i> 
-        {{ $t('Snippet') }}
+      <a class="item" v-on:click="openGoogleDocsLinkBuilder">
+        <i class="linkify icon"></i>
+        {{ $t('Google Docs Link Builder') }}
       </a>
     </div>
   </div>
@@ -78,10 +82,6 @@
       <a class="item" v-on:click="openGooglePhoto">
         <i class="image icon"></i> 
         {{ $t('Open Google Photo') }}
-      </a>
-      <a class="item" v-on:click="openGoogleDocsLinkBuilder">
-        <i class="linkify icon"></i>
-        {{ $t('Open Google Docs Link Builder') }}
       </a>
       <a class="item" v-on:click="editorCopyCode">
         <i class="code icon"></i> 
