@@ -7130,7 +7130,7 @@ sel.addRange(range);
           this.lang = this.options.langInfo;
           this.events = {
               'summernote.mousedown': function (we, e) {
-                  if (_this.update(e.target)) {
+                  if (_this.update(e.target, e)) {
                       e.preventDefault();
                   }
               },
@@ -7173,12 +7173,14 @@ sel.addRange(range);
                           x: event.clientX - posStart_1.left,
                           y: event.clientY - (posStart_1.top - scrollTop_1)
                       }, $target_1, !event.shiftKey);
+                      _this.context.invoke('imagePopover.hide', event.target);
                       _this.update($target_1[0]);
                   };
                   _this.$document
                       .on('mousemove', onMouseMove_1)
                       .one('mouseup', function (e) {
                       e.preventDefault();
+              
                       _this.$document.off('mousemove', onMouseMove_1);
                       _this.context.invoke('editor.afterCommand');
                   });
@@ -7196,13 +7198,20 @@ sel.addRange(range);
       Handle.prototype.destroy = function () {
           this.$handle.remove();
       };
-      Handle.prototype.update = function (target) {
+      Handle.prototype.update = function (target, event) {
           if (this.context.isDisabled()) {
               return false;
           }
+          
           var isImage = dom.isImg(target);
           var $selection = this.$handle.find('.note-control-selection');
-          this.context.invoke('imagePopover.update', target);
+          if (event === undefined) {
+            this.context.invoke('imagePopover.hide', target);
+          }
+          else {
+            this.context.invoke('imagePopover.update', target);
+          }
+          
           if (isImage) {
               var $image = $$1(target);
               var position = $image.position();
@@ -8904,7 +8913,7 @@ sel.addRange(range);
                   _this.update();
               },
               'summernote.disable summernote.dialog.shown summernote.popover.show': function () {
-				  //console.log('link hide')
+                  //console.log('link hide')
                   _this.hide();
               }
           };
@@ -9163,7 +9172,7 @@ sel.addRange(range);
           this.options = context.options;
           this.events = {
               'summernote.disable summernote.popover.show': function () {
-				  //console.log('image hide')
+                  //console.log('image hide')
                   _this.hide();
               }
           };
@@ -9185,11 +9194,29 @@ sel.addRange(range);
           if (dom.isImg(target)) {
               var pos = dom.posFromPlaceholder(target);
               var posEditor = dom.posFromPlaceholder(this.editable);
-			  this.context.triggerEvent('popover.show');
+              this.context.triggerEvent('popover.show');
+              
+              let left = this.options.popatmouse ? event.pageX - 20 : pos.left
+              let top = this.options.popatmouse ? event.pageY : Math.min(pos.top, posEditor.top)
+              
+              // 算出角落的位置
+              //console.log(pos)
+              let $target = $$1(target)
+              //console.log($target.width())
+              //console.log($target.height())
+              //let maxLeft = pos.left + $target.width() - this.$popover.width()
+              let maxTop = $target.offset().top + $target.height() - this.$popover.height()
+              
+              //console.log([pos.top, $target.offset().top, $target.height(), this.$popover.height(), maxTop, top])
+              if (top > maxTop) {
+                top = maxTop - 5
+              }
+              
+              
               this.$popover.css({
                   display: 'block',
-                  left: this.options.popatmouse ? event.pageX - 20 : pos.left,
-                  top: this.options.popatmouse ? event.pageY : Math.min(pos.top, posEditor.top)
+                  left: left,
+                  top: top
               });
           }
           else {
