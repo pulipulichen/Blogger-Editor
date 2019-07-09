@@ -31,7 +31,7 @@ let InitHelper = {
     //$v.FileUploader.open()
     //$v.ThemeManager.TemplateBuilder.open()
     //$v.CodeInserter.open()
-    //$v.OutlineNavigator.open()
+    $v.OutlineNavigator.open()
     //$v.SnippetInserter.open()
     //$v.ImageReplacer.open()
     
@@ -43,7 +43,7 @@ let InitHelper = {
     // $('#summernotePostBody').summernote('editor.getSelectedNodeAndRemove')
     
     //console.clear()
-    
+    EventManager.trigger(this, 'initFinish')
     FunctionHelper.triggerCallback(callback)
   },
   init: function (callback) {

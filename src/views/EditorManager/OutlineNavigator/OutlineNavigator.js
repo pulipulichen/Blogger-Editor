@@ -12,7 +12,8 @@ let config = {
       toolbarElement: null,
       entryList: [],
       entryHierarchy: [],
-      entryCollection: null
+      entryCollection: null,
+      highlightHeadingEq: 0
     }
   },
   /*
@@ -35,6 +36,20 @@ let config = {
       EventManager.on($v.EditorManager.FieldPostBody, ['set', 'change'], () => {
         this.buildEntryList()
       })
+      
+      $(window).scroll((event) => {
+        this.highlightHeading(event)
+      })
+      $(window).resize((event) => {
+        this.highlightHeading(event)
+      })
+      //setTimeout(() => {
+      EventManager.on(InitHelper, 'initFinish', () => {
+        //console.log('initFinish')
+        this.highlightHeading()
+      })
+        
+      //}, 1000)
     },
     
     // ---------------------
@@ -94,10 +109,12 @@ let config = {
       
       let minHeadingLevel = 6
       this.entryCollection.each((i, entry) => {
-        let text = $(entry).text().trim()
+        let $entry = $(entry)
+        let text = $entry.text().trim()
         if (text === '') {
           return
         }
+        let top = $entry.offset().top
         
         let tagName = entry.tagName.toLowerCase()
         let headingLevel = -1
@@ -123,7 +140,9 @@ let config = {
           title: title,
           eq: i,
           level: headingLevel,
-          type: type
+          type: type,
+          //highlight: false,
+          top: top
         })
       })
       
@@ -159,6 +178,8 @@ let config = {
         eq: -1,
         level: minHeadingLevel,
         type: 'heading',
+        //highlight: false,
+        top: 0,
         comments: []
       }
       let lastSubheading
@@ -291,6 +312,80 @@ let config = {
       let comments = heading.next()
       
       comments.slideToggle()
+    },
+    highlightHeading: function (event) {
+      //console.log(event)
+      DelayExecHelper.backExec('OutlineNavigator.highlightHeading', 0.2, () => {
+        //console.log([this.highlightHeadingEq, this.entryHierarchy[0].eq, (this.highlightHeadingEq === this.entryHierarchy[0].eq)])
+        let top = window.scrollY + $(".summernotePostBody-wrapper .note-editor .note-toolbar").height() + 50
+        //console.log(window.scrollY)
+        //this.entryHierarchy[0].highlight = true
+        //let direct = null
+        //let i = parseInt(this.entryHierarchy.length / 2, 10)
+        
+        let mainHeading = null
+        for (let i = 0; i < this.entryHierarchy.length; i++) {
+          if (top < this.entryHierarchy[i].top) {
+            break;
+          }
+          else {
+            mainHeading = this.entryHierarchy[i]
+          }
+        }
+        
+        if (mainHeading !== null && Array.isArray(mainHeading.subheadings)) {
+          let subheading = null
+          for (let i = 0; i < mainHeading.subheadings.length; i++) {
+            if (top < mainHeading.subheadings[i].top) {
+              break;
+            }
+            else {
+              subheading = mainHeading.subheadings[i]
+            }
+          }
+          
+          if (subheading !== null) {
+            mainHeading = subheading
+          }
+        }
+        
+        if (mainHeading === null) {
+          mainHeading = this.entryHierarchy[0]
+        }
+        this.highlightHeadingEq = mainHeading.eq
+        //console.log($('#OutlineNavigatorHeadingEq' + mainHeading.eq + ':visible').length)
+        document.getElementById('OutlineNavigatorHeadingEq' + mainHeading.eq).scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest'
+        })
+        
+        /*
+        let findHeading = (i) => {
+          if (direct === null) {
+            return parseInt(headingList.length / 2, 10)
+          }
+          else if (direct === 'large') {
+            return parseInt((headingList.length - i) / 2, 10)
+          }
+          else {
+            return parseInt(i / 2, 10)
+          }
+        }
+        
+        let loopHeading = (prevI) => {
+          let i = findHeading(prevI)
+          
+          if (i !== prevI) {
+            
+          }
+          else {
+            // 找到了，沒有了
+            this.highlightHeadingEq = headingList.eq
+          }
+        }
+        loopHeading(0)
+        */
+      })
     }
   }
 }

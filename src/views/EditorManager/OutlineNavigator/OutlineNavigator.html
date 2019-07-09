@@ -8,8 +8,9 @@
   </a>
   <template v-for="mainHeading in entryHierarchy">
     <a class="item" 
+      v-bind:id="'OutlineNavigatorHeadingEq' + mainHeading.eq"
        v-bind:title="mainHeading.text"
-       v-bind:class="{'null-header': (mainHeading.eq === -1)}"
+       v-bind:class="{'null-header': (mainHeading.eq === -1), highlight: (mainHeading.eq === highlightHeadingEq)}"
        v-on:click="scrollTo(mainHeading.eq)">
       
        <span v-if="mainHeading.comments.length > 0"
@@ -46,7 +47,9 @@
     
     <template v-for="subheading in mainHeading.subheadings">
       <a class="item subheading"
+         v-bind:id="'OutlineNavigatorHeadingEq' + subheading.eq"
          v-bind:title="subheading.text"
+         v-bind:class="{highlight: (subheading.eq === highlightHeadingEq)}"
          v-on:click="scrollTo(subheading.eq)">
         
         
