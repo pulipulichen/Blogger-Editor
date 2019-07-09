@@ -334,7 +334,11 @@
       var markup = $.isArray(options.items) ? options.items.map(function (item) {
           var value = (typeof item === 'string') ? item : (item.value || '');
           var content = options.template ? options.template(item) : item;
-          var $temp = $('<a class="note-dropdown-item" href="#" data-value="' + value + '" role="listitem" aria-label="' + item + '"></a>');
+          let areaLabel = item
+          if (typeof(areaLabel) === 'object' && typeof(areaLabel.title) === 'string') {
+            areaLabel = areaLabel.title
+          } 
+          var $temp = $('<a class="note-dropdown-item" href="#" data-value="' + value + '" role="listitem" aria-label="' + areaLabel + '"></a>');
           $temp.html(content).data('item', item);
           return $temp;
       }) : options.items;

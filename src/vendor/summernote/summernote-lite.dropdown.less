@@ -19,6 +19,9 @@
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
   background-clip: padding-box;
+  
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .note-btn-group.open .note-dropdown-menu {
@@ -42,4 +45,11 @@ a.note-dropdown-item:hover {
 
 a.note-dropdown-item > * {
   text-indent: inherit !important;
+}
+
+.note-dropdown-item sub,
+.note-dropdown-item sup {
+  font-size: 1rem;
+  line-height: 1rem;
+  top: 0;
 }
