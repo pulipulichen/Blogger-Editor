@@ -318,6 +318,12 @@ let PostManager = {
       this.getPost((post) => {
         //console.log([field, post[field], value])
         
+        /*
+        if (typeof(value) === "string" && value.endsWith('&nbsp;')) {
+          value = value.slice(0, -6)
+        }
+        */
+        
         if (post[field] !== value) {
           post[field] = value
           this.update(post, callback)

@@ -272,57 +272,13 @@ let SummerNoteConfig = {
     return config
   },
   onPostTitleChange: function (contents) {
-    let fieldName = 'title'
-    DelayExecHelper.exec(fieldName, 3, () => {
-      $v.EditorManager.FieldPostDate.set()
-      if (contents.startsWith('<') && contents.endsWith('>')) {
-        contents = $(contents).text()
-      }
-      $v.EditorManager.FieldPostTitle.updateDocumentTitle(contents)
-      $v.PostManager.updateEditingPost(fieldName, contents)
-    })
-    //console.log(fieldName + ':', contents)
+    $v.EditorManager.FieldPostTitle.onPostTitleChange(contents)
   },
   onPostLabelsChange: function (contents) {
-    let fieldName = 'labels'
-    DelayExecHelper.exec(fieldName, 3, () => {
-      $v.EditorManager.FieldPostDate.set()
-      if (contents.startsWith('<') && contents.endsWith('>')) {
-        contents = $(contents).text()
-      }
-      $v.PostManager.updateEditingPost(fieldName, contents)
-    })
+    $v.EditorManager.FieldPostLabels.onPostLabelsChange(contents)
   },
   getLabelsHintConfig: function () {
-    //let config = this.airConfig(fieldName, placeholder, callback)
-    let words = $v.EditorManager.labelsList
-    let FieldPostLabels = $v.EditorManager.FieldPostLabels
-    
-    let hint = {
-      words: words,
-      //match: /\b(\S{1,})$/,
-      match: /([\u4E00-\u9FAF\u3040-\u3096\u30A1-\u30FA\uFF66-\uFF9D\u31F0-\u31FFA-Za-z]{1,})$/,
-      search: function (keyword, callback) {
-        //console.log(['search', keyword])
-        callback($.grep(this.words, function (item) {
-          return item.toLowerCase().indexOf(keyword.toLowerCase()) > -1;
-        }));
-      },
-      content: function (item) {
-        //return '<span>' + item + ', </span>';
-        //return item + ', '
-        //console.log(item)
-        //let labels = fieldPostLabels.summernote('text')
-        //console.log(labels)
-        //if (labels)
-        setTimeout(() => {
-          FieldPostLabels.addLabel(item)
-        }, 0)
-        return ''
-      }
-    }
-    
-    return hint
+    return $v.EditorManager.FieldPostLabels.getLabelsHintConfig()
   }
 }
 

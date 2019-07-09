@@ -38,7 +38,11 @@ let FieldPostTitle = {
     return this.get().next().find('.note-editing-area .note-editable')
   },
   getText: function () {
-    return this.getElement().text()
+    let text = this.getElement().text().trim()
+    while (text.endsWith('&nbsp;')) {
+      text = text.slice(0, -6)
+    }
+    return text
   },
   set: function (value) {
     if (this.debug.disableSummerNode === true) {
@@ -75,7 +79,25 @@ let FieldPostTitle = {
       }
     }
     document.title = title.trim()
-  }
+  },
+  onPostTitleChange: function (contents) {
+    let fieldName = 'title'
+    
+    contents = contents.trim()
+    while (contents.endsWith('&nbsp;')) {
+      contents = contents.slice(0, -6).trim()
+    }
+    
+    DelayExecHelper.exec(fieldName, 3, () => {
+      $v.EditorManager.FieldPostDate.set()
+      if (contents.startsWith('<') && contents.endsWith('>')) {
+        contents = $(contents).text()
+      }
+      this.updateDocumentTitle(contents)
+      $v.PostManager.updateEditingPost(fieldName, contents)
+    })
+    //console.log(fieldName + ':', contents)
+  },
 }
 
 export default FieldPostTitle

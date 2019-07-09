@@ -140,6 +140,53 @@ let FieldPostLabels = {
       this.ui.summernote('moveCursor')
       this.ui.summernote('insertText', ' ')
     }
+  },
+  onPostLabelsChange: function (contents) {
+    let fieldName = 'labels'
+    
+    contents = contents.trim()
+    while (contents.endsWith('&nbsp;')) {
+      contents = contents.slice(0, -6).trim()
+    }
+    
+    DelayExecHelper.exec(fieldName, 3, () => {
+      $v.EditorManager.FieldPostDate.set()
+      if (contents.startsWith('<') && contents.endsWith('>')) {
+        contents = $(contents).text()
+      }
+      $v.PostManager.updateEditingPost(fieldName, contents)
+    })
+  },
+  getLabelsHintConfig: function () {
+    //let config = this.airConfig(fieldName, placeholder, callback)
+    let words = $v.EditorManager.labelsList
+    //let FieldPostLabels = this
+    
+    let hint = {
+      words: words,
+      //match: /\b(\S{1,})$/,
+      match: /([\u4E00-\u9FAF\u3040-\u3096\u30A1-\u30FA\uFF66-\uFF9D\u31F0-\u31FFA-Za-z]{1,})$/,
+      search: function (keyword, callback) {
+        //console.log(['search', keyword])
+        callback($.grep(this.words, function (item) {
+          return item.toLowerCase().indexOf(keyword.toLowerCase()) > -1;
+        }));
+      },
+      content: function (item) {
+        //return '<span>' + item + ', </span>';
+        //return item + ', '
+        //console.log(item)
+        //let labels = fieldPostLabels.summernote('text')
+        //console.log(labels)
+        //if (labels)
+        setTimeout(() => {
+          this.addLabel(item)
+        }, 0)
+        return ''
+      }
+    }
+    
+    return hint
   }
 }
 
