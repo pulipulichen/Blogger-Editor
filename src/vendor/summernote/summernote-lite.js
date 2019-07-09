@@ -7173,7 +7173,7 @@ sel.addRange(range);
                           x: event.clientX - posStart_1.left,
                           y: event.clientY - (posStart_1.top - scrollTop_1)
                       }, $target_1, !event.shiftKey);
-                      _this.context.invoke('imagePopover.hide', event.target);
+                      //_this.context.invoke('imagePopover.hide', event.target);
                       _this.update($target_1[0]);
                   };
                   _this.$document
@@ -7236,6 +7236,7 @@ sel.addRange(range);
               var sizingText = imageSize.w + 'x' + imageSize.h + ' (' + this.lang.image.original + ': ' + origImageObj.width + 'x' + origImageObj.height + ')';
               $selection.find('.note-control-selection-info').text(sizingText);
               this.context.invoke('editor.saveTarget', target);
+              console.log(sizingText)
           }
           else {
               this.hide();
