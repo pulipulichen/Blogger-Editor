@@ -116,7 +116,12 @@ var config = {
         }
         */
         let name = BloggerImageHelper.getFilename(link)
-        output[name] = link
+        if (typeof(output[name]) === 'string') {
+          console.log(['duplicate name', name, link])
+        }
+        else {
+          output[name] = link
+        }
       })
       return output
     },

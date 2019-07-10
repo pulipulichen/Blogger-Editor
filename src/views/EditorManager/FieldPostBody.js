@@ -285,9 +285,11 @@ let FieldPostBody = {
       return
     }
     
-    this.cleanUnusedFileSystem(() => {
-      $v.PostManager.updateEditingPostBody(postBody, callback)
-      EventManager.trigger(this, 'save')
+    DelayExecHelper.backExec('FieldPostBody.cleanUnusedFileSystem', 3, () => {
+      this.cleanUnusedFileSystem(() => {
+        $v.PostManager.updateEditingPostBody(postBody, callback)
+        EventManager.trigger(this, 'save')
+      })
     })
   },
   deactivateCodeView: function () {
@@ -303,6 +305,9 @@ let FieldPostBody = {
     }
   },
   cleanUnusedFileSystem: function (callback) {
+    //console.log('cleanUnusedFileSystem stop')
+    //return FunctionHelper.triggerCallback(callback)
+    
     // list the files in postBody
     let postBodyList = []
     

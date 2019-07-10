@@ -31,9 +31,9 @@ let InitHelper = {
     //$v.FileUploader.open()
     //$v.ThemeManager.TemplateBuilder.open()
     //$v.CodeInserter.open()
-    $v.OutlineNavigator.open()
+    //$v.OutlineNavigator.open()
     //$v.SnippetInserter.open()
-    //$v.ImageReplacer.open()
+    $v.ImageReplacer.open()
     
     //$v.PageLoader.open()
     //$v.NavBarSidebar.open()
@@ -43,7 +43,7 @@ let InitHelper = {
     // $('#summernotePostBody').summernote('editor.getSelectedNodeAndRemove')
     // $('#summernotePostLabels').summernote('hintPopover.addItem', 'aaa')
     
-    //console.clear()
+    console.clear()
     EventManager.trigger(this, 'initFinish')
     FunctionHelper.triggerCallback(callback)
   },
