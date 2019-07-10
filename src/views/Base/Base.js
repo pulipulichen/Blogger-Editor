@@ -7,6 +7,7 @@ let config = {
   },
   mounted: function () {
     //VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')
+    this.init()
   },
   computed: {
     
@@ -18,7 +19,9 @@ let config = {
     // ---------------------
     // Methods of Modal
     // ---------------------
-    
+    init: function () {
+      
+    },
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')

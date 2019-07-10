@@ -2,15 +2,16 @@
   "elements": {},
   "attributes": {
     "v-bind:class": {},
-    "v-bind:value": {},
     "v-if": {},
+    "v-for": {},
+    "v-on:keyup": {},
+    "v-model": {},
+    "v-bind:value": {},
     "v-on:click": {},
     "v-on:change": {},
     "v-else": {},
-    "v-for": {},
-    "v-on:keyup": {},
+    "v-bind:for": {},
     "v-on:drop": {},
-    "v-model": {},
     "v-show": {},
     "v-on:dblclick": {}
   }

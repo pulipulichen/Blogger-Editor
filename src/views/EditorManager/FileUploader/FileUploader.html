@@ -80,8 +80,8 @@
           <div class="setting-list">
             <draggable v-model="links" 
                      group="settings" 
-                     @start="drag=true" 
-                     @end="drag=false"
+                     v-on:start="drag=true" 
+                     v-on:end="drag=false"
                      v-on:change="onSettingChange">
               <div v-for="link in links" 
                    v-bind:key="link.name"
@@ -108,9 +108,6 @@
             </draggable>
           </div>
         </div>
-          
-        
-        
         
       </div> <!-- <div class="description"> -->
     </div> <!-- <div class="content"> -->

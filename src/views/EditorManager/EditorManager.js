@@ -24,6 +24,7 @@ import CodeInserterSfc from './CodeInserter/CodeInserter.vue'
 import OutlineNavigatorSfc from './OutlineNavigator/OutlineNavigator.vue'
 import SnippetInserterSfc from './SnippetInserter/SnippetInserter.vue'
 import SaveIndicatorSfc from './SaveIndicator/SaveIndicator.vue'
+import GoogleDocLinkBuilderSfc from './GoogleDocLinkBuilder/GoogleDocLinkBuilder.vue'
 
 var EditorManager = {
   //name: "main-content",
@@ -60,6 +61,7 @@ var EditorManager = {
       OutlineNavigator: null,
       SnippetInserter: null,
       SaveIndicator: null,
+      GoogleDocLinkBuilder: null,
     }
   },
   mounted() {
@@ -116,6 +118,12 @@ var EditorManager = {
     if (ConfigHelper.get('debug').disableSaveIndicator === false) {
       VueHelper.init(SaveIndicatorSfc, (vue) => {
         this.SaveIndicator = vue
+      })
+    }
+    
+    if (ConfigHelper.get('debug').disableGoogleDocLinkBuilder === false) {
+      VueHelper.init(GoogleDocLinkBuilderSfc, (vue) => {
+        this.GoogleDocLinkBuilder = vue
       })
     }
     

@@ -1,8 +1,10 @@
 {
   "en": {
-    "Title": "Example Title"
+    "Title": "Google Docs Link Builder"
   },
   "zh-TW": {
-    "Title": "範例標題"
+    "Title": "Google文件連結轉換器",
+    "Share Link": "文件共享連結",
+    "How to get share link": "如何取得共享連結"
   }
 }

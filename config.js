@@ -21,6 +21,7 @@ const CONFIG = {
     disableOutlineNavigator: false,
     disableSnippetInserter: false,
     disableSaveIndicator: false,
+    disableGoogleDocLinkBuilder: false,
   },
   FileUploader: {
     links: [

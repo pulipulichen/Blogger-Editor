@@ -37,13 +37,15 @@ let InitHelper = {
     
     //$v.PageLoader.open()
     //$v.NavBarSidebar.open()
+    $v.GoogleDocLinkBuilder.open()
     //WindowHelper.popup('http://blog.pulipuli.info/')
     
     //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))
     // $('#summernotePostBody').summernote('editor.getSelectedNodeAndRemove')
     // $('#summernotePostLabels').summernote('hintPopover.addItem', 'aaa')
     
-    console.clear()
+    //console.clear()
+    
     EventManager.trigger(this, 'initFinish')
     FunctionHelper.triggerCallback(callback)
   },

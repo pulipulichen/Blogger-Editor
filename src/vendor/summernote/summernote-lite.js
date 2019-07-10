@@ -5394,6 +5394,7 @@
                 //_this.context.invoke('insertNode', '<p></p>')
                 //$target.replaceWith($('<p><br /></p>')[0])
                 $target.replaceWith($(`<p>${blankHTML}</p>`)[0])
+                _this.context.triggerEvent('change', _this.$editable.html());
                 //setTimeout(() => {
                 //  _this.context.invoke('editor.restoreScrollPosition')
                 //}, 0)

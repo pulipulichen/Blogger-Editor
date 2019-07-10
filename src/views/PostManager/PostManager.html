@@ -85,7 +85,7 @@
                   #{{ post.id }}
                 </span>
                 <span v-if='post.title === ""'>
-                  (No title)
+                  ({{ $t('No title') }})
                 </span>
                 <span v-if='post.title !== ""'>
                   {{ post.title }}
