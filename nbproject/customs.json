@@ -11,6 +11,7 @@
     "v-on:keyup": {},
     "v-on:drop": {},
     "v-model": {},
-    "v-show": {}
+    "v-show": {},
+    "v-on:dblclick": {}
   }
 }

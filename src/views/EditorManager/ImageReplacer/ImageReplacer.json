@@ -24,6 +24,9 @@
     "All filesystem images had been uploaded.": "所有檔案系統圖片已經被上傳",
     "There are still {0} image need to upload.": "仍然有{0}張圖片需要上傳",
     "There are still {0} images need to upload.": "仍然有{0}張圖片需要上傳",
-    "Download image package and upload again": "下載圖片後再次上傳"
+    "Download image package and upload again": "下載圖片後再次上傳",
+    "Remain {sec} seconds": "剩餘{sec}秒",
+    "Remain {sec} second": "剩餘{sec}秒",
+    "Start countdown {sec} second": "開始倒數{sec}秒"
   }
 }

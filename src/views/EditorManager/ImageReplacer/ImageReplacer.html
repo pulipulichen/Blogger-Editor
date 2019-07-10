@@ -1,16 +1,16 @@
 <div class="ui modal"
-     :class="name"
+     v-bind:class="name"
      ref="modal">
-  <i class="close icon" @click="close"></i>
+  <i class="close icon" v-on:click="close"></i>
   <div class="header">
     <i class="image icon"></i>
     {{ $t('Image Replace') }}
   </div>
   <div class="content">
     <div class="description ui form"
-         :class="{'fixed-height': (currentStep !== 0)}">
+         v-bind:class="{'fixed-height': (currentStep !== 0)}">
       <div class="no-images step step-0"
-           :class="{hide: (currentStep !== 0)}">
+           v-bind:class="{hide: (currentStep !== 0)}">
         <div class="ui green message">
           {{ $t('No filesystem image in post body.') }}
         </div>
@@ -29,7 +29,7 @@
         
           <div class="ui statistics first-filesystem-remained">
             <div class="statistic"
-                :class="{red: (filesystemImageCount > 0)}">
+                v-bind:class="{red: (filesystemImageCount > 0)}">
               <div class="value">
                 {{ filesystemImageCount }}
               </div>
@@ -45,7 +45,7 @@
           </div>
         
         <div class="ui fluid yellow labeled icon button"
-             @click="downloadImagePackage"
+             v-on:click="downloadImagePackage"
              v-bind:class="{ disabled: isCreatingImagePackage }">
           <i class="file archive icon"></i>
           {{ $t('Download Image Package') }}
@@ -55,7 +55,7 @@
           <div class="ui checkbox">
             <input type="checkbox" 
                    v-model="skipTutorial"
-                   @change="persist"/>
+                   v-on:change="persist"/>
             <label>
               {{ $t('Skip tutorial') }}
             </label>
@@ -127,13 +127,21 @@
            v-bind:class="{hide: (currentStep !== 6)}">
         <div class="ui form">
           <div class="field">
-            <label @dblclick="setDemoHTML">
+            <button type="button" 
+                    class="ui fluid button countdown-button"
+                    v-bind:class="{positive: (countdownSecond === 0)}"
+                    v-on:click="startCountdown">
+              {{ countdownButton }}
+            </button>
+          </div>
+          <div class="field">
+            <label v-on:dblclick="setDemoHTML">
               {{ $t('Paste HTML into following field:') }}
             </label>
             <textarea id="imageHTMLtextarea"
                       v-model="imageHTML" 
-                      @change="validateImageHTML"
-                      @keyup="validateImageHTML"></textarea>
+                      v-on:change="validateImageHTML"
+                      v-on:keyup="validateImageHTML"></textarea>
           </div>
         </div>
       </div>
@@ -210,8 +218,8 @@
         </div>
           <div class="field">
             <div class="ui fluid yellow labeled icon button"
-                @click="downloadImagePackageAndBackPrevStep"
-                :class="{ 'disabled': isCreatingImagePackage }">
+                v-on:click="downloadImagePackageAndBackPrevStep"
+                v-bind:class="{ 'disabled': isCreatingImagePackage }">
              <i class="file archive icon"></i>
              {{ $t('Download image package and upload again') }}
             </div>
@@ -221,7 +229,7 @@
             <div class="ui checkbox">
               <input type="checkbox" 
                      v-model="skipTutorial"
-                     @change="persist" />
+                     v-on:change="persist" />
               <label>
                 {{ $t('Skip tutorial') }}
               </label>
@@ -236,19 +244,19 @@
   
   <div class="actions">
     <div class="ui labeled icon button"
-         @click='prevStep'
+         v-on:click='prevStep'
          v-if="currentStep > 1">
       <i class="chevron left icon"></i>
       {{ $t('Prev') }}
     </div>
     <div class="ui green right labeled icon button"
-         @click='nextStep'
+         v-on:click='nextStep'
          v-if="currentStep > 0 && currentStep < 6">
       {{ $t('Next') }}
       <i class="chevron right icon"></i>
     </div>
     <div class="ui green right labeled icon button" 
-         @click='replaceImage'
+         v-on:click='replaceImage'
          v-if="currentStep === 6"
          v-bind:class="{ disabled: disableReplaceImage }">
       {{ $t('Next') }}

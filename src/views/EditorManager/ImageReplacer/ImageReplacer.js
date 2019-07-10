@@ -20,11 +20,35 @@ var config = {
       disableUploadImageDraft: false,
       FieldPostBody: null,
       skipTutorial: false,
-      debugEnableReplace: true
+      debugEnableReplace: true,
+      countdownSecond: 0,
+      countdownMaxSecond: 30,
+      countdownTimer: null,
+      countdownSound: null
     }
   },
   mounted: function () {
     VueHelper.mountLocalStorageBoolean(this, 'skipTutorial')
+  },
+  computed: {
+    countdownButton: function () {
+      if (this.countdownSecond === 0) {
+        return this.$t('Start countdown {sec} second', {
+          sec: this.countdownMaxSecond
+        })
+      }
+      else {
+        let data = {
+          sec: this.countdownSecond
+        }
+        if (this.countdownSecond > 1) {
+          return this.$t('Remain {sec} seconds', data)
+        }
+        else {
+          return this.$t('Remain {sec} second', data)
+        }
+      }
+    }
   },
   created: function () {
     $v.ImageReplacer = this
@@ -211,6 +235,31 @@ var config = {
     setDemoHTML() {
       this.imageHTML = `<a href="http://2.bp.blogspot.com/-B-4VIGgfDOY/XN1rwagJWaI/AAAAAAAEPtA/Nwa532uvs_E0otP908b1SW4XWPrOrfRfACK4BGAYYCw/s1600/1-Webpack%2B_%25282%2529.png" imageanchor="1"><img border="0" height="180" src="https://2.bp.blogspot.com/-B-4VIGgfDOY/XN1rwagJWaI/AAAAAAAEPtA/Nwa532uvs_E0otP908b1SW4XWPrOrfRfACK4BGAYYCw/s320/1-Webpack%2B_%25282%2529.png" width="320" /></a><a href="http://2.bp.blogspot.com/-Ycwe6jm8OyM/XN1rwXpRgRI/AAAAAAAEPs4/NRb5VFc5dfIM6BjlBJ4LnAnOY2NTcfRGwCK4BGAYYCw/s1600/1-Webpack_2.png" imageanchor="1"><img border="0" height="180" src="https://2.bp.blogspot.com/-Ycwe6jm8OyM/XN1rwXpRgRI/AAAAAAAEPs4/NRb5VFc5dfIM6BjlBJ4LnAnOY2NTcfRGwCK4BGAYYCw/s320/1-Webpack_2.png" width="320" /></a>`
       this.validateImageHTML()
+    },
+    startCountdown: function () {
+      if (this.countdownSecond > 0) {
+        clearTimeout(this.countdownTimer)
+        this.countdownSecond = 0
+        return
+      }
+      
+      this.countdownSecond = this.countdownMaxSecond
+      
+      let loop = () => {
+        if (this.countdownSecond > 0) {
+          this.countdownTimer = setTimeout(() => {
+            this.countdownSecond--
+            loop()
+          }, 1000)
+        }
+        else {
+          if (this.countdownSound === null) {
+            this.countdownSound = new Audio('static/freesound/91926__tim-kahn__ding.ogg')
+          }
+          this.countdownSound.play()
+        }
+      }
+      loop()
     }
   }
 }
