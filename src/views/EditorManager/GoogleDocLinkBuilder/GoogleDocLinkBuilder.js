@@ -8,11 +8,12 @@ let config = {
       //shareLink: '',
       shareLink: 'https://docs.google.com/presentation/d/1HYPmm0dWobeKUx1j0EEtsrEtuicFHRh4oMWvZHCafL4/edit?usp=sharing',
       links: [],
-      checked: []
+      checked: [],
+      delimiter: ', ',
     }
   },
   mounted: function () {
-    //VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')
+    VueHelper.mountLocalStorage(this, 'delimiter', ', ')
     this.init()
   },
   components: {
@@ -25,6 +26,16 @@ let config = {
   },
   created: function () {
     $v[this.name] = this
+  },
+  computed: {
+    isReadyInsert: function () {
+      for (let i = 0; i < this.links.length; i++) {
+        if (this.links[i].checked === true) {
+          return true
+        }
+      }
+      return false
+    }
   },
   methods: {
     // ---------------------
@@ -47,8 +58,24 @@ let config = {
     close: function () {
       this.getUI().modal('hide')
     },
+    insert: function () {
+      let output = []
+      this.links.forEach(link => {
+        if (link.checked === false) {
+          return
+        }
+        output.push(`<a href="${link.url}" target="_blank">${link.label}</a>`)
+      })
+      
+      if (output.length > 0) {
+        output = '<p>' + output.join(this.delimiter) + '</p>'
+        $v.EditorManager.FieldPostBody.insert(output)
+      }
+      
+      this.close()
+    },
     persist() {
-      //VueHelper.persistLocalStorage(this, 'summerNoteConfigStyleTags')
+      VueHelper.persistLocalStorage(this, 'delimiter')
     },
     copyLink: function (url) {
       CopyPasteHelper.copyPlainText(url)

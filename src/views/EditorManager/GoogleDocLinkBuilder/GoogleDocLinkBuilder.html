@@ -12,15 +12,28 @@
     <div class="content">
       <div class="description ui form">
         
-        <div class="input field">
-          <label for="GoogleDocLinkBuilder.link">
-            {{ $t('Share Link') }}
-            (<a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/GoogleDocLinkBuilderLink.md" target="GoogleDocLinkBuilder.How-to-get-share-link">{{ $t('How to get share link') }}</a>)
-          </label>
-          <input type="url"
-                 v-model="shareLink"
-                 placeholder="https://docs.google.com/..." />
+        <div class="unstackable fields">
+          <div class="twelve wide input field">
+            <label for="GoogleDocLinkBuilder.link">
+              {{ $t('Share Link') }}
+              (<a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/GoogleDocLinkBuilderLink.md" target="GoogleDocLinkBuilder.How-to-get-share-link">{{ $t('How to get share link') }}</a>)
+            </label>
+            <input type="url"
+                   v-model="shareLink"
+                   id="GoogleDocLinkBuilder.link"
+                   placeholder="https://docs.google.com/..." />
+          </div>
+          <div class="four wide input field">
+            <label for="GoogleDocLinkBuilder.delimiter">
+              {{ $t('Delimiter') }}
+            </label>
+            <input type="text"
+                   v-model="delimiter"
+                   placeholder=","
+                   v-on:change="persist" />
+          </div>
         </div>
+          
         
         <div class="link-list">
           <draggable v-model="links" 
@@ -74,10 +87,12 @@
     
     <div class="actions">
       <div class="ui button"
-           v-on:click='close'>
+           v-on:click="close">
         {{ $t('Close') }}
       </div>
-      <div class="ui button">
+      <div class="ui button"
+           v-bind:class="{'positive': isReadyInsert, 'disabled': (isReadyInsert === false)}"
+           v-on:click="insert">
         {{ $t('Insert') }}
       </div>
     </div> <!-- actions -->

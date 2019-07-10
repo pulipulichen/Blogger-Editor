@@ -106,7 +106,8 @@ let NavBarMenu = {
       this.hideNavBar()
     },
     openGoogleDocsLinkBuilder: function () {
-      WindowHelper.forcePopup('https://blog.pulipuli.info/2016/09/google-google-drive-file-download-link.html#postcatagoogle-google-drive-file-download-link.html0_anchor2', 'googleDocsLinkBuilder')
+      //WindowHelper.forcePopup('https://blog.pulipuli.info/2016/09/google-google-drive-file-download-link.html#postcatagoogle-google-drive-file-download-link.html0_anchor2', 'googleDocsLinkBuilder')
+      $v.GoogleDocLinkBuilder.open()
       this.hideNavBar()
     },
     editorCleanCode: function () {
