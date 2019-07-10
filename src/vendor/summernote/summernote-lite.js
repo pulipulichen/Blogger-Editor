@@ -885,6 +885,8 @@
               name: 'Font Family',
               strikethrough: 'Strikethrough',
               comment: 'Comment',
+              uncomment: 'Uncomment',
+              htmlify: 'Htmlify',
               subscript: 'Subscript',
               superscript: 'Superscript',
               size: 'Font Size'
@@ -1012,6 +1014,8 @@
               'underline': 'Set a underline style',
               'strikethrough': 'Set a strikethrough style',
               'comment': 'Add a comment',
+              'uncomment': 'Remove comments',
+              'htmlify': 'Convert selection to html',
               'removeFormat': 'Clean a style',
               'justifyLeft': 'Set left align',
               'justifyCenter': 'Set center align',
@@ -1529,6 +1533,7 @@
       // Alphabet: a-z
       'B': 66,
       'E': 69,
+      'H': 72,
       'I': 73,
       'J': 74,
       'K': 75,
@@ -3763,6 +3768,7 @@
                   'font-strikethrough': document.queryCommandState('strikethrough') ? 'strikethrough' : 'normal',
                   'font-comment': document.queryCommandState('comment') ? 'comment' : 'normal',
                   'font-uncomment': document.queryCommandState('uncomment') ? 'uncomment' : 'normal',
+                  'font-htmlify': document.queryCommandState('htmlify') ? 'htmlify' : 'normal',
                   'font-family': document.queryCommandValue('fontname') || styleInfo['font-family']
               });
           }
@@ -4886,6 +4892,49 @@
             }
               
           });
+          
+          this.htmlify = function () {
+            //var rng = _this.createRange();
+            //let text = ''
+            //console.log(rng)
+            let sel = window.getSelection();
+            //console.log(sel)
+            if (typeof(sel.focusNode) === 'object') {
+              let html = sel.toString()
+              if (typeof(html) !== 'string') {
+                return
+              }
+              else {
+                html = html.trim()
+              }
+              //html = html.slice(sel.anchorOffset, sel.extentOffset)
+              
+              
+              
+              
+              if (html.startsWith('<') && html.endsWith('>')) {
+                let range = sel.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode($$1(html)[0]);
+                _this.context.triggerEvent('change', _this.$editable.html());
+              }
+            }
+          }
+          
+          this.replaceSelectedText = function (replacementText) {
+              var sel, range;
+              if (window.getSelection) {
+                  sel = window.getSelection();
+                  if (sel.rangeCount) {
+                      range = sel.getRangeAt(0);
+                      range.deleteContents();
+                      range.insertNode(document.createTextNode(replacementText));
+                  }
+              } else if (document.selection && document.selection.createRange) {
+                  range = document.selection.createRange();
+                  range.text = replacementText;
+              }
+          }
           
           this.fontName = this.wrapCommand(function (value) {
             if (this.hasSelectedRange() === false) {
@@ -7793,6 +7842,22 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandlerAndUpdateState('editor.comment')
               }).render();
           });
+          this.context.memo('button.uncomment', function () {
+              return _this.button({
+                  className: 'note-btn-uncomment',
+                  contents: _this.ui.icon(_this.options.icons.uncomment),
+                  tooltip: _this.lang.font.uncomment + _this.representShortcut('uncomment'),
+                  click: _this.context.createInvokeHandlerAndUpdateState('editor.uncomment')
+              }).render();
+          });
+          this.context.memo('button.htmlify', function () {
+              return _this.button({
+                  className: 'note-btn-htmlify',
+                  contents: 'H',
+                  tooltip: _this.lang.font.htmlify + _this.representShortcut('htmlify'),
+                  click: _this.context.createInvokeHandlerAndUpdateState('editor.htmlify')
+              }).render();
+          });
           this.context.memo('button.superscript', function () {
               return _this.button({
                   className: 'note-btn-superscript',
@@ -8289,6 +8354,12 @@ sel.addRange(range);
               },
               '.note-btn-comment': function () {
                   return styleInfo['font-comment'] === 'comment';
+              },
+              '.note-btn-uncomment': function () {
+                  return styleInfo['font-uncomment'] === 'uncomment';
+              },
+              '.note-btn-htmlify': function () {
+                  return styleInfo['font-htmlify'] === 'htmlify';
               }
           });
           if (styleInfo['font-family']) {
@@ -10174,7 +10245,7 @@ sel.addRange(range);
               ['color', ['color']],
               ['para', ['ul', 'ol', 'paragraph']],
               ['table', ['table']],
-              ['insert', ['link', 'picture', 'video', 'hr']],
+              ['insert', ['link', 'picture', 'video', 'hr', 'comment', 'htmlify']],
               ['view', ['fullscreen', 'codeview', 'help']]
           ],
           // popover
@@ -10291,6 +10362,7 @@ sel.addRange(range);
                   'CTRL+SHIFT+S': 'strikethrough',
                   'CTRL+M': 'comment',
                   'CTRL+ALT+M': 'uncomment',
+                  'CTRL+ALT+H': 'htmlify',
                   //'CTRL+SHIFT+E': 'comment',
                   'CTRL+BACKSLASH': 'removeFormat',
                   'CTRL+SHIFT+L': 'justifyLeft',
@@ -10386,6 +10458,8 @@ sel.addRange(range);
               'square': 'note-icon-square',
               'strikethrough': 'note-icon-strikethrough',
               'comment': 'note-icon-pencil',
+              'uncomment': 'note-icon-pencil',
+              'htmlify': 'note-icon-pencil',
               'subscript': 'note-icon-subscript',
               'superscript': 'note-icon-superscript',
               'table': 'note-icon-table',

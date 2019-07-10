@@ -11,6 +11,7 @@ let SummerNoteKeyMap = {
     'CTRL+SHIFT+S': 'strikethrough',
     'CTRL+M': 'comment',
     'CTRL+ALT+M': 'uncomment',
+    'CTRL+ALT+H': 'htmlify',
     'ALT+X': 'SaveSnippet',
     //'CTRL+SHIFT+E': 'comment',
     'CTRL+BACKSLASH': 'removeFormat',
