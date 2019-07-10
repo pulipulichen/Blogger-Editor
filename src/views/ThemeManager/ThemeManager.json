@@ -1,0 +1,19 @@
+{
+  "en": {
+    "Title": "Publish"
+  },
+  "zh-TW": {
+    "Title": "發佈主控臺",
+    "Post Title": "文章標題",
+    "Post Labels": "標籤",
+    "Blogger Console": "Blogger主控臺",
+    "Post Draft URL": "草稿網址",
+    "Public URL": "發佈網址",
+    "Upload Image": "上傳圖片",
+    "Backup": "備份文章",
+    "Upload Backup": "上傳備份",
+    "Upload Backup to Web": "上傳備份到網站",
+    "Copy HTML": "複製HTML程式碼",
+    "Drop file to upload": "拖曳檔案到這裡上傳"
+  }
+}
