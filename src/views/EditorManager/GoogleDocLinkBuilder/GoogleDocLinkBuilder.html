@@ -36,10 +36,17 @@
                 </div>
               </div>
               <div class="six wide inline field">
-                <input type="text"
-                       class="ui fluid text"
-                       v-model="link.label"
-                       v-bind:placeholder="$t('link.placeholder.' + link.type)" />
+                <div class="ui left action input">
+                  <button type="button" 
+                    class="icon ui button">
+                    <i class="icon"
+                       v-bind:class='link.icon'></i>
+                  </button>
+                  <input type="text"
+                         class="ui fluid text label-input"
+                         v-model="link.label"
+                         v-bind:placeholder="$t('type.' + link.type)" />
+                </div>
               </div>
               <div class="six wide inline field">
                 <input type="url"

@@ -6,14 +6,30 @@
 }
 
 .link-item {
-  input[type="text"],
   input[type="url"] {
     cursor: text !important;
     width: 100% !important;
   }
+  
+  .label-input {
+    width: calc(100% - 2rem) !important;
+  }
 
   .draggable.field {
     text-align: right !important;
+  }
+}
+
+.link-list {
+  max-height: calc(100vh - 26rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 1rem;
+}
+
+@media only screen and (max-height: 700px) {
+  .link-list {
+    max-height: calc(100vh - 20rem);
   }
 }
 
