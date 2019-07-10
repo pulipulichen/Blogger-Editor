@@ -349,9 +349,13 @@ let config = {
           }
         }
         
-        if (mainHeading === null) {
+        if (mainHeading === null && this.entryHierarchy.length > 0) {
           mainHeading = this.entryHierarchy[0]
         }
+        if (mainHeading === null) {
+          return
+        }
+        
         this.highlightHeadingEq = mainHeading.eq
         //console.log($('#OutlineNavigatorHeadingEq' + mainHeading.eq + ':visible').length)
         document.getElementById('OutlineNavigatorHeadingEq' + mainHeading.eq).scrollIntoView({

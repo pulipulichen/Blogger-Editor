@@ -137,7 +137,9 @@ let SummerNoteCallbacks = {
             $v.EditorManager.FieldPostBody.insert(node)
           }
           i++
-          loop(i)
+          setTimeout(() => {
+            loop(i)
+          }, 1)
         })
       }
     }
