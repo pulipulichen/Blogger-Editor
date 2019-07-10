@@ -144,7 +144,7 @@ let config = {
       let config = $v.ConfigManager
       if (config.enableBackupPageButton === false
               || config.backupPageURL === 'https://drive.google.com/drive/u/0/my-drive') {
-        config.open()
+        config.open('backup')
       }
       else {
         config.openBackupPageURL()

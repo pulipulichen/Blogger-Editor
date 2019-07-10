@@ -13,7 +13,8 @@ let config = {
       onCloseReloadI18n: false,
       locale: ConfigHelper.get('locale'),
       localeOptions: ConfigHelper.get('localeOptions'),
-      backupPageURL: ''
+      backupPageURL: '',
+      tab: 'interface'
     }
   },
   mounted() {
@@ -41,7 +42,12 @@ let config = {
       }
       return this.ui
     },
-    open: function () {
+    open: function (tab) {
+      if (typeof(tab) === 'string') {
+        //this.tab = tab
+        this.openTab(tab)
+        console.log(tab)
+      }
       //console.log(this.data)
       this.getUI().modal('show')
       //this.getUI().find('.backup.button').focus()
@@ -186,6 +192,15 @@ let config = {
       }
     },
     openTab: function (e) {
+      let tab = e
+      if (typeof(tab) === 'object') {
+        tab = $(e.target).attr('data-tab')
+      }
+      this.tab = tab
+      
+      if (typeof(e) === 'string') {
+        e = $(this.$refs[e])
+      }
       SemanticUIHelper.openTab(e)
     },
   }

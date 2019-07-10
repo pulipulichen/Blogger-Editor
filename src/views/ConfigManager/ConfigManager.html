@@ -10,27 +10,34 @@
     <div class="ui form description">
       
       <div class="ui top attached tabular menu">
-        <a class="item active" 
+        <a class="item" 
+           v-bind:class="{active: (tab === 'interface')}"
            data-tab="interface"
-           v-on:click="openTab">
+           v-on:click="openTab"
+           ref="interface">
           {{ $t('Interface') }}
         </a>
-        <a class="item" 
+        <a class="item"
+           v-bind:class="{active: (tab === 'backup')}"
            data-tab="backup"
-           v-on:click="openTab">
+           v-on:click="openTab"
+           ref="backup">
           {{ $t('Backup Manage') }}
         </a>
         <a class="item" 
+           v-bind:class="{active: (tab === 'about')}"
            data-tab="about"
-           v-on:click="openTab">
+           v-on:click="openTab"
+           ref="about">
           {{ $t('About') }}
         </a>
       </div>
       
       <!-- ----------------------------------------------------------- -->
       
-      <div class="ui bottom attached tab segment active form" 
-             data-tab="interface">
+      <div class="ui bottom attached tab segment form" 
+           v-bind:class="{active: (tab === 'interface')}"
+           data-tab="interface">
         
         <div class="field">
           <label>
@@ -64,7 +71,8 @@
       <!-- ----------------------------------------------------------- -->
       
       <div class="ui bottom attached tab segment form" 
-             data-tab="backup">
+           v-bind:class="{active: (tab === 'backup')}"
+           data-tab="backup">
         
         <div class="field">
           <label for="ConfigManager.backupPageURL">
@@ -129,7 +137,8 @@
       <!-- ----------------------------------------------------------- -->
       
       <div class="ui bottom attached tab segment form" 
-             data-tab="about">
+           v-bind:class="{active: (tab === 'about')}"
+           data-tab="about">
         
         <!--
         <div class="ui card">
