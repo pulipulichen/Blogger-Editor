@@ -186,7 +186,7 @@ let SummerNoteCode = {
     })
     
     postBody.children('p').each((i, p) => {
-      if (p.innerHTML === '') {
+      if (p.innerHTML.trim() === '') {
         $(p).remove()
       }
       else {
@@ -198,6 +198,12 @@ let SummerNoteCode = {
             $(p2).remove()
           }
         })
+      }
+    })
+    
+    postBody.find('a').each((i, a) => {
+      if (a.innerHTML.trim() === '') {
+        $(a).remove()
       }
     })
     
