@@ -40,11 +40,15 @@
                      group="settings" 
                      v-on:start="drag=true" 
                      v-on:end="drag=false"
-                     v-on:change="persist">
+                     v-on:change="onOrderChange">
             <div class="link-item unstackable fields" v-for="link in links">
               <div class="one wide inline field">
                 <div class="ui checkbox">
-                  <input type="checkbox" tabindex="0" class="hidden" v-model="link.checked">
+                  <input type="checkbox" 
+                         tabindex="0" 
+                         class="hidden" 
+                         v-model="link.checked"
+                         v-on:change="onCheckboxChange">
                   <label></label>
                 </div>
               </div>
@@ -58,6 +62,7 @@
                   <input type="text"
                          class="ui fluid text label-input"
                          v-model="link.label"
+                         v-on:change="onLabelChange(link.type, link.label)"
                          v-bind:placeholder="$t('type.' + link.type)" />
                 </div>
               </div>
