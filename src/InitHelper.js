@@ -41,6 +41,7 @@ let InitHelper = {
     
     //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))
     // $('#summernotePostBody').summernote('editor.getSelectedNodeAndRemove')
+    // $('#summernotePostLabels').summernote('hintPopover.addItem', 'aaa')
     
     //console.clear()
     EventManager.trigger(this, 'initFinish')

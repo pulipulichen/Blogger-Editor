@@ -9941,6 +9941,12 @@ sel.addRange(range);
       HintPopover.prototype.hide = function () {
           this.$popover.hide();
       };
+      HintPopover.prototype.addItem = function (item) {
+        if (this.hint.words.indexOf(item) === -1) {
+          this.hint.words.push(item)
+          //console.log(item)
+        }
+      };
       return HintPopover;
   }());
 

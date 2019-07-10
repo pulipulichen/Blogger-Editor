@@ -372,6 +372,8 @@ var EditorManager = {
         this.summerNoteConfigLabels = labelsList.join('\n')
         this.persist()
       }
+      
+      $v.EditorManager.FieldPostLabels.addSummernoteItem(label)
     }
   }
 }

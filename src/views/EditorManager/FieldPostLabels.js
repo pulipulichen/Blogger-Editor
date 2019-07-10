@@ -80,13 +80,13 @@ let FieldPostLabels = {
     return text
   },
   set: function (value) {
+    let ui = this.get()
     if (this.debug.disableSummerNode === true) {
-      this.get().html(value)
+      ui.html(value)
       return this
     }
-    
-    this.get().summernote('code', value)
-    this.get().summernote('editor.commit')
+    ui.summernote('code', value)
+    ui.summernote('editor.commit')
     return this
   },
   save: function (callback) {
@@ -140,6 +140,10 @@ let FieldPostLabels = {
       this.ui.summernote('moveCursor')
       this.ui.summernote('insertText', ' ')
     }
+  },
+  addSummernoteItem: function (item) {
+    this.ui.summernote('hintPopover.addItem', item)
+    this.uiNew.summernote('hintPopover.addItem', item)
   },
   onPostLabelsChange: function (contents) {
     let fieldName = 'labels'
