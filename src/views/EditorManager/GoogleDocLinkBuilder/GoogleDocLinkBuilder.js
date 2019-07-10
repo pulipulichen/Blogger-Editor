@@ -5,8 +5,8 @@ let config = {
     return {
       name: 'GoogleDocLinkBuilder',
       ui: undefined,
-      //shareLink: '',
-      shareLink: 'https://docs.google.com/presentation/d/1HYPmm0dWobeKUx1j0EEtsrEtuicFHRh4oMWvZHCafL4/edit?usp=sharing',
+      shareLink: '',
+      //shareLink: 'https://docs.google.com/presentation/d/1HYPmm0dWobeKUx1j0EEtsrEtuicFHRh4oMWvZHCafL4/edit?usp=sharing',
       links: [],
       checked: {},
       labels: {},
@@ -81,6 +81,7 @@ let config = {
         output = '<p>' + output.join(this.delimiter) + '</p>'
         $v.EditorManager.FieldPostBody.insert(output)
       }
+      this.shareLink = ''
       
       this.close()
     },
@@ -338,6 +339,9 @@ let config = {
       }
       
       return links
+    },
+    popupLink: function (link) {
+      WindowHelper.popup(link)
     }
     
   },

@@ -37,7 +37,7 @@ let InitHelper = {
     
     //$v.PageLoader.open()
     //$v.NavBarSidebar.open()
-    $v.GoogleDocLinkBuilder.open()
+    //$v.GoogleDocLinkBuilder.open()
     //WindowHelper.popup('http://blog.pulipuli.info/')
     
     //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))

@@ -110,6 +110,10 @@ let NavBarMenu = {
       $v.GoogleDocLinkBuilder.open()
       this.hideNavBar()
     },
+    openOneDriveLinkBuilder: function () {
+      WindowHelper.forcePopup('https://blog.pulipuli.info/2019/02/onedrive-onedrive-file-download-link.html#postcataonedrive-onedrive-file-download-link.html0_anchor3', 'OneDriveDownload')
+      this.hideNavBar()
+    },
     editorCleanCode: function () {
       SummerNoteCode.CleanCodeClick()
       this.hideNavBar()

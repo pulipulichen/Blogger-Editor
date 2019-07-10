@@ -18,10 +18,17 @@
               {{ $t('Share Link') }}
               (<a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/GoogleDocLinkBuilderLink.md" target="GoogleDocLinkBuilder.How-to-get-share-link">{{ $t('How to get share link') }}</a>)
             </label>
-            <input type="url"
-                   v-model="shareLink"
-                   id="GoogleDocLinkBuilder.link"
-                   placeholder="https://docs.google.com/..." />
+            <div class="ui action input">
+              <input type="url"
+                     v-model="shareLink"
+                     id="GoogleDocLinkBuilder.link"
+                     placeholder="https://docs.google.com/..." />
+              <button type="button"
+                      class="ui icon button"
+                      v-on:click="popupLink(shareLink)">
+                <i class="open folder icon"></i>
+              </button>
+            </div>
           </div>
           <div class="four wide input field">
             <label for="GoogleDocLinkBuilder.delimiter">
@@ -41,12 +48,15 @@
                      v-on:start="drag=true" 
                      v-on:end="drag=false"
                      v-on:change="onOrderChange">
-            <div class="link-item unstackable fields" v-for="link in links">
+            <div class="link-item unstackable fields" 
+                 v-for="link in links"
+                 v-bind:title="$t('type.' + link.type)">
               <div class="one wide inline field">
                 <div class="ui checkbox">
                   <input type="checkbox" 
                          tabindex="0" 
                          class="hidden" 
+                         v-bind:id="'link.checkbox.' + link.type"
                          v-model="link.checked"
                          v-on:change="onCheckboxChange">
                   <label></label>
@@ -54,31 +64,41 @@
               </div>
               <div class="six wide inline field">
                 <div class="ui left action input">
-                  <button type="button" 
-                    class="icon ui button">
+                  <label v-bind:for="'link.checkbox.' + link.type"
+                    class="icon ui button"
+                    v-bind:class="{green: link.checked}">
                     <i class="icon"
                        v-bind:class='link.icon'></i>
-                  </button>
+                  </label>
                   <input type="text"
                          class="ui fluid text label-input"
                          v-model="link.label"
+                         v-bind:id="'link.label.' + link.type"
                          v-on:change="onLabelChange(link.type, link.label)"
                          v-bind:placeholder="$t('type.' + link.type)" />
                 </div>
               </div>
-              <div class="six wide inline field">
+              <div class="five wide inline field">
                 <input type="url"
                        class="field-url ui fluid text"
                        v-model="link.url"
                        onfocus="this.select()"
                        readonly />
               </div>
-              <div class="two wide inline field">
-                <button type="button"
-                        class="ui icon fluid button"
-                        v-on:click="copyLink(link.url)">
-                  <i class="copy icon"></i>
-                </button>
+              <div class="three wide inline field">
+                <div class="ui fluid buttons">
+                  <button type="button"
+                          class="ui icon button"
+                          v-on:click="copyLink(link.url)">
+                    <i class="copy icon"></i>
+                  </button>
+                  <button type="button"
+                          class="ui icon button"
+                          v-on:click="popupLink(link.url)">
+                    <i class="open folder icon"></i>
+                  </button>
+                </div>
+                  
               </div>
               <div class="one wide inline draggable field">
                 <i class="bars icon draggable"></i>
