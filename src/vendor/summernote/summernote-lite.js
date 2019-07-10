@@ -5389,8 +5389,14 @@
                 $target.parent('figure').remove();
               }
               else if ($target.prop('tagName').toLowerCase() === 'a') {
-                $target.remove();
-                _this.context.invoke('insertNode', '<p></p>')
+                //_this.context.invoke('editor.saveScrollPosition')
+                //$target.remove();
+                //_this.context.invoke('insertNode', '<p></p>')
+                //$target.replaceWith($('<p><br /></p>')[0])
+                $target.replaceWith($(`<p>${blankHTML}</p>`)[0])
+                //setTimeout(() => {
+                //  _this.context.invoke('editor.restoreScrollPosition')
+                //}, 0)
                 //$target.replaceWith('<p></p>')
                 //console.log('this.removeMedia')
               }
