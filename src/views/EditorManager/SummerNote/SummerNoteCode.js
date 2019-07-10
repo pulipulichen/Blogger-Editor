@@ -48,7 +48,7 @@ let SummerNoteCode = {
     code = code.replace(`<a name="more"></a>`, '')
     code = code.replace(`<p><!--more--></p>`, '<!--more-->')
     code = code.replace(`<!--more--><hr></p>`, '</p><!--more--><hr />')
-    code = code.split('</p>').join('</p>\n')
+    code = code.split('</p><').join('</p>\n<')
     
     //code = code.replace(`<br /></p>`, '</p>')
     //code = code.replace(`<br /></`, '</')
