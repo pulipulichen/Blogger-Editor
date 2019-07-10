@@ -4811,6 +4811,7 @@
             //_this.context.layoutInfo.commentDialog.show()
             
             var rng = _this.createRange();
+            
             var element = rng.ec
             if (element.nodeType === 3) {
               element = element.parentElement
@@ -4839,20 +4840,53 @@
             //_this.context.layoutInfo.commentDialog.show()
             
             var rng = _this.createRange();
-            var element = rng.ec
-            if (element.nodeType === 3) {
-              element = element.parentElement
+            let scElement = rng.sc
+            if (scElement.nodeType === 3) {
+              scElement = scElement.parentElement
             }
-            //console.log(element)
-            let $element = $$1(element)
-            if ($element.hasClass('note-editor-comment')) {
-              //console.log(rng)
-              $element.removeClass('note-editor-comment')
-              _this.context.triggerEvent('change', _this.$editable.html());
-              return
+            let ecElement = rng.ec
+            if (ecElement.nodeType === 3) {
+              ecElement = ecElement.parentElement
             }
-            //
+            
+            let elements = [scElement]
+            
+            if (scElement !== ecElement) {
+              elements.push(ecElement)
+            }
+            
+            let doUncomment = false
+            elements.forEach((element) => {
+              //console.log(element)
+              let $element = $$1(element)
+              if ($element.hasClass('note-editor-comment')) {
+                //console.log(rng)
+                $element.removeClass('note-editor-comment')
+                //$element.replaceWith($element.html())
+                _this.context.triggerEvent('change', _this.$editable.html());
+                doUncomment = true
+              }
+              else {
+                let $parent = $element.parents('.note-editor-comment:first')
+                if ($parent.length > 0) {
+                  //$parent.replaceWith($parent.html())
+                  $parent.removeClass('note-editor-comment')
+                  _this.context.triggerEvent('change', _this.$editable.html());
+                  doUncomment = true
+                }
+              }
+                
+            })
+            
+            if (doUncomment === false) {
+              return this.comment()
+            }
+            else {
+              return this
+            }
+              
           });
+          
           this.fontName = this.wrapCommand(function (value) {
             if (this.hasSelectedRange() === false) {
               return false
