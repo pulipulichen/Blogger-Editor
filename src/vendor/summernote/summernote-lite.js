@@ -5182,7 +5182,7 @@
           this.createLink = this.wrapCommand(function (linkInfo) {
               var linkUrl = linkInfo.url.trim();
               if (linkUrl.trim() === '' 
-                || !( (linkUrl.startsWith("//") === false && linkUrl.length > 10)
+                  || !( (linkUrl.startsWith("//") === false && linkUrl.length > 10)
                   || (linkUrl.startsWith("http://") !== false && linkUrl.length > 20)
                   || (linkUrl.startsWith("https://") !== false && linkUrl.length > 20)
                   || (linkUrl.startsWith("#") !== false && linkUrl.length > 1)
@@ -5193,10 +5193,11 @@
                 this.unlink()
                 return
               }
-              
+              //console.log(linkInfo)
               var linkText = linkInfo.text;
               var linkTitle = linkInfo.title;
-              var isNewWindow = linkInfo.isNewWindow;
+              //var isNewWindow = linkInfo.isNewWindow;
+              let openMethod = linkInfo.openMethod;
               var rng = linkInfo.range || _this.createRange();
               var additionalTextLength = linkText.length - rng.toString().length;
               if (additionalTextLength > 0 && _this.isLimited(additionalTextLength)) {
@@ -5232,7 +5233,14 @@
                   });
               }
               $$1.each(anchors, function (idx, anchor) {
-                  $$1(anchor).attr('href', linkUrl);
+                  if (openMethod === 'blank' || openMethod === 'current') {
+                    $$1(anchor).attr('href', linkUrl);
+                  }
+                  else {
+                    let popupScript = `javascript:window.open("${linkUrl}", "_blank", "width=800,height=600,toolbar=0,menubar=0,location=0")`
+                    //console.log(popupScript)
+                    $$1(anchor).attr('href', popupScript);
+                  }
                   
                   if (linkTitle !== undefined && linkTitle.trim() !== '') {
                     $$1(anchor).attr('title', linkTitle.trim());
@@ -5241,10 +5249,10 @@
                     $$1(anchor).removeAttr('title')
                   }
                   
-                  if (isNewWindow) {
+                  if (openMethod === 'blank') {
                       $$1(anchor).attr('target', '_blank');
                   }
-                  else {
+                  else if (openMethod === 'current' || openMethod === 'popup') {
                       $$1(anchor).removeAttr('target');
                   }
               });
@@ -8858,10 +8866,11 @@ sel.addRange(range);
           let openMethodKey = 'summernote.LinkDialog.openMethod'
           let radio = this.$dialog.find('input:radio')
           radio.change(function () {
+            //console.log([this.checked, this.value])
             if (this.checked !== true) {
               return
             }
-            let value = this.checked
+            let value = this.value
             localStorage.setItem(openMethodKey, value)
           })
       };
@@ -8937,12 +8946,15 @@ sel.addRange(range);
               var $linkBtn = _this.$dialog.find('.note-link-btn');
               //var $openInNewWindow = _this.$dialog
               //    .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
-              
+              var openMethod = _this.$dialog
+                  .find(".sn-checkbox-open-in-new-window input:checked").val();
+             
               _this.ui.onDialogShown(_this.$dialog, function () {
                   _this.context.triggerEvent('dialog.shown');
                   // if no url was given, copy text to url
                   if (!linkInfo.url) {
                     let url = linkInfo.text
+                    
                     if ( isURL(url) ) {
                       linkInfo.url = url
                     }
@@ -8957,6 +8969,13 @@ sel.addRange(range);
                       }
                     }
                   }
+                  
+                  //console.log(linkInfo.url)
+                  if (linkInfo.url.startsWith('javascript:window.open(')) {
+                    let needle = 'javascript:window.open('
+                    linkInfo.url = linkInfo.url.slice(needle.length + 1, linkInfo.url.indexOf('"', needle.length + 2))
+                  }
+                  
                   $linkText.val(linkInfo.text);
                   var handleLinkTextUpdate = function () {
                       _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
@@ -8996,8 +9015,8 @@ sel.addRange(range);
                   if (typeof(localStorage.getItem(openMethodKey)) === "string") {
                     //let checked = (localStorage.getItem(checkboxKey).toLowerCase() === 'true')
                     //$openInNewWindow.prop('checked', checked);
-                    let openMethod = localStorage.getItem(openMethodKey)
-                    _this.$dialog.find(`'.sn-checkbox-open-in-new-window input:radio[value='${openMethod}']`).prop('checked', true)
+                    let openMethodSaved = localStorage.getItem(openMethodKey)
+                    _this.$dialog.find(`.sn-checkbox-open-in-new-window input:radio[value='${openMethodSaved}']`).prop('checked', true)
                     //checkbox[0].checked = checked
                     //console.log([checked, checkbox[0].checked])
                     // localStorage.getItem('summernote.LinkDialog.checkbox')
@@ -9021,7 +9040,7 @@ sel.addRange(range);
                           text: $linkText.val(),
                           title: $linkTitle.val(),
                           isNewWindow: false,
-                          openMethod: _this.$dialog.find(`'.sn-checkbox-open-in-new-window input:radio[value='${openMethod}']:checked`).val()
+                          openMethod: openMethod
                           //isNewWindow: $openInNewWindow.is(':checked')
                       });
                       _this.ui.hideDialog(_this.$dialog);
@@ -9126,6 +9145,12 @@ sel.addRange(range);
               var anchor = dom.ancestor(rng.sc, dom.isAnchor);
               var href = $$1(anchor).attr('href');
               let displayHref = href
+              
+              if (displayHref.startsWith('javascript:window.open(')) {
+                let needle = 'javascript:window.open('
+                displayHref = '*' + displayHref.slice(needle.length + 1, displayHref.indexOf('"', needle.length + 2))
+              }
+              
               if (displayHref === undefined) {
                 return
               }
