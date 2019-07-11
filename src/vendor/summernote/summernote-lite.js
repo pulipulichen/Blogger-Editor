@@ -770,6 +770,22 @@
           '</label>'
       ].join(''));
   });
+  var radio = renderer.create('<div class="radio"></div>', function ($node, id, options) {
+      let html = []
+      if (Array.isArray(options)) {
+        html = options.map((option, i) => {
+          return [
+            '<label' + ((id + i) ? ' for="' + (id + i) + '"' : '') + '>',
+            ' <input role="radio" type="radio"' + ((id + i) ? ' value="' + option.value + '" id="' + (id + i) + '"' : ''),
+            (option.checked ? ' checked' : ''),
+            ' aria-checked="' + (option.checked ? 'true' : 'false') + '"/>',
+            (option.text ? option.text : ''),
+            '</label>'
+        ].join('')
+        })
+      }
+      $node.html(html.join(''))
+  });
   var icon = function (iconClassName, tagName) {
       tagName = tagName || 'i';
       return '<' + tagName + ' class="' + iconClassName + '"/>';
@@ -800,6 +816,7 @@
       linkDialog: linkDialog,
       popover: popover,
       checkbox: checkbox,
+      radio: radio,
       icon: icon,
       toggleBtn: function ($btn, isEnable) {
           $btn.toggleClass('disabled', !isEnable);
@@ -934,7 +951,9 @@
               textToDisplay: 'Text to display',
               url: 'To what URL should this link go?',
               title: 'Link title (optional)',
+              openInCurrentWindow: 'Open in current window',
               openInNewWindow: 'Open in new window',
+              openInPopup: 'Open in popup',
               remove: 'Remove'
           },
           comment: {
@@ -8783,7 +8802,8 @@ sel.addRange(range);
               "<label class=\"note-form-label\">" + this.lang.link.title + "</label>",
               '<input class="note-link-title form-control note-form-control note-input" type="text" value="" />',
               '</div>',
-              
+              this.buildOpenInput()
+              /*
               !this.options.disableLinkTarget
                   ? $$1('<div/>').append(this.ui.checkbox({
                       className: 'sn-checkbox-open-in-new-window',
@@ -8791,7 +8811,7 @@ sel.addRange(range);
                       checked: true
                   }).render()).html()
                   : ''
-              
+              */
           ].join('');
           var buttonClass = 'btn btn-primary note-btn note-btn-primary note-link-btn';
           var footer = "<input type=\"button\" href=\"#\" class=\"" + buttonClass + "\" value=\"" + this.lang.link.insert + "\" disabled>";
@@ -8835,13 +8855,43 @@ sel.addRange(range);
               });
           })
           
-          let checkboxKey = 'summernote.LinkDialog.checkbox'
-          let checkbox = this.$dialog.find('input:checkbox')
-          checkbox.change(function () {
+          let openMethodKey = 'summernote.LinkDialog.openMethod'
+          let radio = this.$dialog.find('input:radio')
+          radio.change(function () {
+            if (this.checked !== true) {
+              return
+            }
             let value = this.checked
-            localStorage.setItem(checkboxKey, value)
+            localStorage.setItem(openMethodKey, value)
           })
       };
+      LinkDialog.prototype.buildOpenInput = function () {
+        /*
+          !this.options.disableLinkTarget
+                  ? $$1('<div/>').append(this.ui.checkbox({
+                      className: 'sn-checkbox-open-in-new-window',
+                      text: this.lang.link.openInNewWindow,
+                      checked: true
+                  }).render()).html()
+                  : ''
+        */
+        if (this.options.disableLinkTarget === false) {
+          return ''
+        }
+        /*
+        return $$1('<div/>').append(this.ui.radio({
+                      className: 'sn-checkbox-open-in-new-window',
+                      text: this.lang.link.openInNewWindow,
+                      checked: true
+                  }).render()).html()
+        */
+        return `<div class="checkbox sn-checkbox-open-in-new-window">
+        <label> <input role="radio" type="radio" name="openMethod" value="current" checked="true" aria-checked="true">${this.lang.link.openInCurrentWindow}</label>
+        <label> <input role="radio" type="radio" name="openMethod" value="blank" aria-checked="false">${this.lang.link.openInNewWindow}</label>
+        <label> <input role="radio" type="radio" name="openMethod" value="popup" aria-checked="false">${this.lang.link.openInPopup}</label>
+</div>`
+      };
+      
       LinkDialog.prototype.destroy = function () {
           this.ui.hideDialog(this.$dialog);
           this.$dialog.remove();
@@ -8885,8 +8935,9 @@ sel.addRange(range);
               var $linkUrl = _this.$dialog.find('.note-link-url');
               var $linkTitle = _this.$dialog.find('.note-link-title');
               var $linkBtn = _this.$dialog.find('.note-link-btn');
-              var $openInNewWindow = _this.$dialog
-                  .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
+              //var $openInNewWindow = _this.$dialog
+              //    .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
+              
               _this.ui.onDialogShown(_this.$dialog, function () {
                   _this.context.triggerEvent('dialog.shown');
                   // if no url was given, copy text to url
@@ -8935,15 +8986,18 @@ sel.addRange(range);
                   _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
                   _this.bindEnterKey($linkUrl, $linkBtn);
                   _this.bindEnterKey($linkText, $linkBtn);
-                  var isNewWindowChecked = linkInfo.isNewWindow !== undefined
-                      ? linkInfo.isNewWindow : _this.context.options.linkTargetBlank;
+                  //var isNewWindowChecked = linkInfo.isNewWindow !== undefined
+                  //    ? linkInfo.isNewWindow : _this.context.options.linkTargetBlank;
                   //$openInNewWindow.prop('checked', isNewWindowChecked);
                   
-                  let checkboxKey = 'summernote.LinkDialog.checkbox'
+                  //let checkboxKey = 'summernote.LinkDialog.checkbox'
                   //console.log([typeof(localStorage.getItem(checkboxKey)), localStorage.getItem(checkboxKey)])
-                  if (typeof(localStorage.getItem(checkboxKey)) === "string") {
-                    let checked = (localStorage.getItem(checkboxKey).toLowerCase() === 'true')
-                    $openInNewWindow.prop('checked', checked);
+                  let openMethodKey = 'summernote.LinkDialog.openMethod'
+                  if (typeof(localStorage.getItem(openMethodKey)) === "string") {
+                    //let checked = (localStorage.getItem(checkboxKey).toLowerCase() === 'true')
+                    //$openInNewWindow.prop('checked', checked);
+                    let openMethod = localStorage.getItem(openMethodKey)
+                    _this.$dialog.find(`'.sn-checkbox-open-in-new-window input:radio[value='${openMethod}']`).prop('checked', true)
                     //checkbox[0].checked = checked
                     //console.log([checked, checkbox[0].checked])
                     // localStorage.getItem('summernote.LinkDialog.checkbox')
@@ -8966,7 +9020,9 @@ sel.addRange(range);
                           url: $linkUrl.val(),
                           text: $linkText.val(),
                           title: $linkTitle.val(),
-                          isNewWindow: $openInNewWindow.is(':checked')
+                          isNewWindow: false,
+                          openMethod: _this.$dialog.find(`'.sn-checkbox-open-in-new-window input:radio[value='${openMethod}']:checked`).val()
+                          //isNewWindow: $openInNewWindow.is(':checked')
                       });
                       _this.ui.hideDialog(_this.$dialog);
                       //console.log($linkUrl.val())

@@ -58,7 +58,9 @@
         textToDisplay: '顯示文字',
         url: '連結網址',
         title: '連結標題 (選填)',
+        openInCurrentWindow: '在此視窗開啟',
         openInNewWindow: '在新視窗開啟',
+        openInPopup: '在彈跳視窗開啟',
         copy: '複製連結',
         remove: '刪除'
       },
