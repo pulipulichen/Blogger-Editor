@@ -17,3 +17,4 @@ gedit /usr/local/netbeans-8.2/etc/netbeans.conf
 
 https://medium.freecodecamp.org/how-to-create-a-vue-js-app-using-single-file-components-without-the-cli-7e73e5b8244f
 
+ICON: https://www.flaticon.com/free-icon/notebook_1928191#term=writing&page=3&position=79
