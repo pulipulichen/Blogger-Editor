@@ -731,6 +731,9 @@
           (!opt.disableLinkTarget
               ? '<div class="checkbox">' +
                   '<label>' + '<input type="checkbox" checked> ' + opt.lang.link.openInNewWindow + '</label>' +
+                  // '<label>' + '<input type="radio" name="openMethod" value="current"> ' + opt.lang.link.openInCurrentWindow + '</label>' +
+                  // '<label>' + '<input type="radio" name="openMethod" value="blank" checked> ' + opt.lang.link.openInNewWindow + '</label>' +
+                  // '<label>' + '<input type="radio" name="openMethod" value="popup"> ' + opt.lang.link.openInPopup + '</label>' +
                   '</div>' : '');
       var footer = [
           '<button href="#" type="button" class="note-btn note-btn-primary note-link-btn disabled" disabled>',
@@ -8780,6 +8783,7 @@ sel.addRange(range);
               "<label class=\"note-form-label\">" + this.lang.link.title + "</label>",
               '<input class="note-link-title form-control note-form-control note-input" type="text" value="" />',
               '</div>',
+              
               !this.options.disableLinkTarget
                   ? $$1('<div/>').append(this.ui.checkbox({
                       className: 'sn-checkbox-open-in-new-window',
@@ -8787,6 +8791,7 @@ sel.addRange(range);
                       checked: true
                   }).render()).html()
                   : ''
+              
           ].join('');
           var buttonClass = 'btn btn-primary note-btn note-btn-primary note-link-btn';
           var footer = "<input type=\"button\" href=\"#\" class=\"" + buttonClass + "\" value=\"" + this.lang.link.insert + "\" disabled>";

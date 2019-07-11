@@ -53,6 +53,10 @@ let SummerNoteCode = {
     //code = code.replace(`<br /></p>`, '</p>')
     //code = code.replace(`<br /></`, '</')
     
+    if (code.indexOf('<!--more-->') === -1) {
+      alert('<!--more--> is not found')
+    }
+    
     CopyPasteHelper.copyPlainText(code)
   },
   CleanCode: function (context) {
