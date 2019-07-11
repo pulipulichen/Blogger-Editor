@@ -6666,8 +6666,18 @@ sel.addRange(range);
           // When anchor exists,
           if ($anchor.length) {
               // Set isNewWindow by checking its target.
-              linkInfo.isNewWindow = $anchor.attr('target') === '_blank';
+              //linkInfo.isNewWindow = $anchor.attr('target') === '_blank';
+              if ($anchor.attr('target') === '_blank') {
+                linkInfo.openMethod = 'blank'
+              }
+              else if ($anchor.attr('href').startsWith('javascript:window.open(')) {
+                linkInfo.openMethod = 'popup'
+              }
+              else {
+                linkInfo.openMethod = 'current'
+              }
           }
+          //console.log(linkInfo)
           return linkInfo;
       };
       /**
@@ -8946,8 +8956,7 @@ sel.addRange(range);
               var $linkBtn = _this.$dialog.find('.note-link-btn');
               //var $openInNewWindow = _this.$dialog
               //    .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
-              var openMethod = _this.$dialog
-                  .find(".sn-checkbox-open-in-new-window input:checked").val();
+              
              
               _this.ui.onDialogShown(_this.$dialog, function () {
                   _this.context.triggerEvent('dialog.shown');
@@ -9005,14 +9014,18 @@ sel.addRange(range);
                   _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
                   _this.bindEnterKey($linkUrl, $linkBtn);
                   _this.bindEnterKey($linkText, $linkBtn);
+                  
                   //var isNewWindowChecked = linkInfo.isNewWindow !== undefined
                   //    ? linkInfo.isNewWindow : _this.context.options.linkTargetBlank;
                   //$openInNewWindow.prop('checked', isNewWindowChecked);
+                  if (typeof(linkInfo.openMethod) === 'string') {
+                    _this.$dialog.find(`.sn-checkbox-open-in-new-window input:radio[value="${linkInfo.openMethod}"]`).prop('checked', true)
+                  }
                   
                   //let checkboxKey = 'summernote.LinkDialog.checkbox'
                   //console.log([typeof(localStorage.getItem(checkboxKey)), localStorage.getItem(checkboxKey)])
                   let openMethodKey = 'summernote.LinkDialog.openMethod'
-                  if (typeof(localStorage.getItem(openMethodKey)) === "string") {
+                  if (typeof(linkInfo.openMethod) !== 'string' && typeof(localStorage.getItem(openMethodKey)) === "string") {
                     //let checked = (localStorage.getItem(checkboxKey).toLowerCase() === 'true')
                     //$openInNewWindow.prop('checked', checked);
                     let openMethodSaved = localStorage.getItem(openMethodKey)
@@ -9034,7 +9047,8 @@ sel.addRange(range);
                         }, 100)
                       }
                       //console.log(_this.options.allowEnter)
-                      deferred.resolve({
+                      var openMethod = _this.$dialog.find(".sn-checkbox-open-in-new-window input:checked").val();
+                      let deferredOptions = {
                           range: linkInfo.range,
                           url: $linkUrl.val(),
                           text: $linkText.val(),
@@ -9042,7 +9056,9 @@ sel.addRange(range);
                           isNewWindow: false,
                           openMethod: openMethod
                           //isNewWindow: $openInNewWindow.is(':checked')
-                      });
+                      }
+                      console.log(deferredOptions)
+                      deferred.resolve(deferredOptions);
                       _this.ui.hideDialog(_this.$dialog);
                       //console.log($linkUrl.val())
                       //let child = $$1(_this.context.invoke('editor.restoreTarget').sc)[0]
