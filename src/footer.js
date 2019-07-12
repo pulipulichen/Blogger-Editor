@@ -28,6 +28,7 @@ require('./helpers/FileHelper.js')
 require('./helpers/ScrollHelper.js')
 require('./helpers/EventManager.js')
 require('./helpers/GoogleAnalyticsHelper.js')
+require('./helpers/TesseractHelper.js')
 
 window.$v = {}
 

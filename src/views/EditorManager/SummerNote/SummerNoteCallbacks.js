@@ -109,6 +109,8 @@ let SummerNoteCallbacks = {
   },
   onImageUpload: function (files) {
     let path = this.getAssetDirPath()
+    TesseractHelper.recognize(files)
+    
     FileSystemHelper.copy(path, files, (urlList) => {
       urlList.forEach(imgUrl => {
         let name = FileSystemHelper.getFileName(imgUrl)
@@ -123,6 +125,9 @@ let SummerNoteCallbacks = {
     let loop = (i) => {
       if (i < files.length) {
         let file = files[i];
+        
+        TesseractHelper.recognize(file)
+        
         let type = file.type
         let name = file.name
         name = FileHelper.extractSafeFilename(name)

@@ -27,6 +27,7 @@ require('./vendor/summernote/summernote-lite.js')
 //require('summernote')
 
 require('./vendor/google-analytics/analytics.js')
+require('./vendor/tesseract/tesseract.min.js')
 
 // ----------------------------------
 
