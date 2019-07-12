@@ -164,6 +164,28 @@
         </div>
         
         <div class="field">
+          <label for="ConfigManager.googleAnalyticsRealtimeReportURL">
+            {{ $t('Realtime Report URL') }}
+          </label>
+
+          <div class="ui action input">
+            <input type="url" 
+                   name="googleAnalyticsRealtimeReportURL" 
+                   onfocus="this.select()"
+                   id="ConfigManager.googleAnalyticsRealtimeReportURL"
+                   v-model="googleAnalyticsRealtimeReportURL"
+                   placeholder="https://analytics.google.com/analytics/web/#/realtime/rt-event/"
+                   v-on:change="persist" />
+            <button type="button" 
+                    class="ui button"
+                    v-bind:class="{ disabled: (enableRealtimeReportButton === false) }"
+                    v-on:click="openRealtimeReportURL">
+              {{ $t('OPEN') }}
+            </button>
+          </div>
+        </div>
+        
+        <div class="field">
           <label for="ConfigManager.googleAnalyticsReportURL">
             {{ $t('Report URL') }}
           </label>
@@ -174,6 +196,7 @@
                    onfocus="this.select()"
                    id="ConfigManager.googleAnalyticsReportURL"
                    v-model="googleAnalyticsReportURL"
+                   placeholder="https://analytics.google.com/analytics/web/#/"
                    v-on:change="persist" />
             <button type="button" 
                     class="ui button"

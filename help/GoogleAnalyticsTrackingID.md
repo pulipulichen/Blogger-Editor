@@ -1,6 +1,1 @@
-1. only one root node
-2. Post fields placeholder:
-  * ${postTitle}
-  * ${postLabels}
-  * ${postDate}
-  * ${postBody}
+Please refer to http://blog.pulipuli.info/2016/11/googleid-how-to-send-user-ids-to-google.html

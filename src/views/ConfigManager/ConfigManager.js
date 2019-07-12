@@ -17,6 +17,7 @@ let config = {
       tab: 'interface',
       googleAnalyticsTrackingId: '',
       googleAnalyticsReportURL: '',
+      googleAnalyticsRealtimeReportURL: '',
     }
   },
   mounted() {
@@ -24,6 +25,7 @@ let config = {
     VueHelper.mountLocalStorage(this, 'backupPageURL', 'https://drive.google.com/drive/u/0/my-drive')
     VueHelper.mountLocalStorage(this, 'googleAnalyticsTrackingId')
     VueHelper.mountLocalStorage(this, 'googleAnalyticsReportURL')
+    VueHelper.mountLocalStorage(this, 'googleAnalyticsRealtimeReportURL')
     
     //console.log(this.enableBackupPageButton)
   },
@@ -41,6 +43,11 @@ let config = {
       //console.log(this.backupPageURL)
       //console.log(this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
       return (this.googleAnalyticsReportURL.startsWith('https://analytics.google.com/analytics/web/#/'))
+    },
+    enableRealtimeReportButton: function () {
+      //console.log(this.backupPageURL)
+      //console.log(this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
+      return (this.googleAnalyticsRealtimeReportURL.startsWith('https://analytics.google.com/analytics/web/#/realtime/rt-event/'))
     }
   },
   methods: {
@@ -205,6 +212,11 @@ let config = {
     openReportURL() {
       if (this.enableReportButton) {
         WindowHelper.popup(this.googleAnalyticsReportURL, 'ConfigManager.googleAnalyticsReportURL')
+      }
+    },
+    openRealtimeReportURL() {
+      if (this.enableRealtimeReportButton) {
+        WindowHelper.popup(this.googleAnalyticsRealtimeReportURL, 'ConfigManager.googleAnalyticsRealtimeReportURL')
       }
     },
     openTab: function (e) {
