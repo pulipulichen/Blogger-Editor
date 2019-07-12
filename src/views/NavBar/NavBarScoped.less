@@ -6,6 +6,13 @@
   border-radius: 0;
 }
 
+.ui.top.menu.prepare-fixed {
+  transition-property: top !important;
+  transition-duration: 0.5s !important;
+  z-index: 600;
+  top: calc(-1rem - 55px);
+}
+
 /*
 .ui.top.menu {
   transition-property: all;
@@ -14,10 +21,15 @@
 }
 */
 
-.ui.top.menu.call-fixed,
-.ui.top.menu.upscroll {
+.ui.top.menu.prepare-fixed.call-fixed,
+.ui.top.menu.prepare-fixed.upscroll {
+  top: -1rem !important;
   position: fixed;
-  z-index: 600;
+}
+
+.ui.top.menu.prepare-fixed.call-fixed.hide,
+.ui.top.menu.prepare-fixed.upscroll.hide {
+  top: calc(-1rem - 55px) !important;
 }
 
 .ui.top.menu > .item.sidebar-menu-toggle {

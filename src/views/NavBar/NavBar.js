@@ -9,6 +9,7 @@ let NavBar = {
       wordCount: 0,
       navbarHeight: 55,
       classNameFixed: 'call-fixed',
+      classNamePrepare: 'prepare-fixed',
       $body: null,
       sidebarWidth: 700,
       lastScrollTop: 0,
@@ -55,14 +56,22 @@ let NavBar = {
         let ui = this.getUI()
         if (window.scrollY > this.navbarHeight) {
           if (ui.hasClass(this.classNameFixed) === false) {
-            ui.addClass(this.classNameFixed)
-            ui.slideDown()
+            ui.addClass(this.classNamePrepare)
+            setTimeout(() => {
+              ui.addClass(this.classNameFixed)
+            }, 100)
+            //ui.slideDown()
             this.$body.toggleClass(this.classNameFixed)
           }
           else {
-            ui.slideUp(() => {
-              ui.removeClass(this.classNameFixed)
-            })
+            //ui.slideUp(() => {
+              ui.addClass('hide')
+              setTimeout(() => {
+                ui.removeClass(this.classNamePrepare)
+                ui.removeClass(this.classNameFixed)
+                ui.removeClass('hide')
+              }, 500)
+            //})
             this.$body.toggleClass(this.classNameFixed)
           }
         }
@@ -82,14 +91,23 @@ let NavBar = {
         let ui = this.getUI()
         if (window.scrollY > this.navbarHeight) {
           if (ui.hasClass(this.classNameFixed) === false) {
-            ui.addClass(this.classNameFixed)
-            ui.slideDown()
+            ui.addClass(this.classNamePrepare)
+            setTimeout(() => {
+              ui.addClass(this.classNameFixed)
+            }, 100)
+            
+            //ui.slideDown()
             this.$body.toggleClass(this.classNameFixed)
           }
           else {
-            ui.slideUp(() => {
-              ui.removeClass(this.classNameFixed)
-            })
+            //ui.slideUp(() => {
+              ui.addClass('hide')
+              setTimeout(() => {
+                ui.removeClass(this.classNamePrepare)
+                ui.removeClass(this.classNameFixed)
+                ui.removeClass('hide')
+              }, 500)
+            //})
             this.$body.toggleClass(this.classNameFixed)
           }
         }
@@ -131,19 +149,33 @@ let NavBar = {
       //let scrollTimer
       
       let scrollDown = (ui) => {
-        ui.addClass(className)
-        ui.slideDown()
+        //ui.addClass(className)
+        //ui.slideDown()
+        ui.addClass(this.classNamePrepare)
+        setTimeout(() => {
+          ui.addClass(className)
+        }, 100)
+        this.$body.addClass(this.classNameFixed)
       }
       
       let scrollUp = (ui) => {
+        this.$body.removeClass(this.classNameFixed)
         let st = window.pageYOffset || document.documentElement.scrollTop
         if (st < this.navbarHeight) {
           return
         }
         
+        /*
         ui.slideUp(() => {
           ui.removeClass(className)
         })
+        */
+        ui.addClass('hide')
+        setTimeout(() => {
+          ui.removeClass(this.classNamePrepare)
+          ui.removeClass(className)
+          ui.removeClass('hide')
+        }, 500)
       }
       
       $window.scroll(() => {
