@@ -4986,8 +4986,8 @@
               if (typeof(iframeInfo.enablePopup) === 'boolean') {
                 enablePopup = iframeInfo.enablePopup
               }
-              if (typeof(iframeInfo.title) === 'string') {
-                title = iframeInfo.title
+              if (typeof(iframeInfo.title) === 'string' && iframeInfo.title.trim() !== '') {
+                title = iframeInfo.title.trim()
               }
             }
             
@@ -7986,9 +7986,9 @@ sel.addRange(range);
           this.context.memo('button.iframe', function () {
               return _this.button({
                   className: 'note-btn-iframe',
-                  contents: 'F',
+                  contents: 'iFrame',
                   tooltip: _this.lang.font.iframe + _this.representShortcut('iframe'),
-                  click: _this.context.createInvokeHandlerAndUpdateState('editor.showIframeDialog')
+                  click: _this.context.createInvokeHandlerAndUpdateState('iframeDialog.show')
               }).render();
           });
           this.context.memo('button.superscript', function () {
@@ -9284,6 +9284,8 @@ sel.addRange(range);
       IframeDialog.prototype.buildOpenInput = function () {
         return `<div class="checkbox sn-checkbox-open-in-new-window">
         <label> <input role="checkbox" type="checkbox" name="new" value="current" checked="true" aria-checked="true">${this.lang.iframe.newWindow}</label>
+</div>
+<div class="checkbox sn-checkbox-open-in-new-window">
         <label> <input role="checkbox" type="checkbox" name="popup" value="blank" checked="true" aria-checked="true">${this.lang.iframe.popupWindow}</label>
 </div>`
       };
@@ -9323,7 +9325,7 @@ sel.addRange(range);
        * @param {Object} linkInfo
        * @return {Promise}
        */
-      IframeDialog.prototype.showLinkDialog = function () {
+      IframeDialog.prototype.showIframeDialog = function () {
           var _this = this;
           let iframeInfo = {}
           
@@ -9341,7 +9343,7 @@ sel.addRange(range);
                   // ----------------------
                   
                   var handleIframeTitleUpdate = function () {
-                      _this.toggleLinkBtn($iframeBtn, $iframeUrl);
+                      _this.toggleIframeBtn($iframeBtn, $iframeUrl);
                       // if linktext was modified by keyup,
                       // stop cloning text from linkUrl
                       iframeInfo.title = $iframeTitle.val();
@@ -9407,7 +9409,9 @@ sel.addRange(range);
                           enableNewWindow: enableNewWindow,
                           enablePopup: enablePopup
                       }
-                      console.log(deferredOptions)
+                      //console.log(deferred)
+                      //console.log(deferred.resolve)
+                      //console.log(deferredOptions)
                       deferred.resolve(deferredOptions);
                       _this.ui.hideDialog(_this.$dialog);
                   });
@@ -9430,8 +9434,9 @@ sel.addRange(range);
       IframeDialog.prototype.show = function () {
           var _this = this;
           this.context.invoke('editor.saveRange');
-          this.showLinkDialog().then(function (iframeInfo) {
+          this.showIframeDialog().then(function (iframeInfo) {
               _this.context.invoke('editor.restoreRange');
+              console.log(iframeInfo)
               _this.context.invoke('editor.insertIframe', iframeInfo);
           }).fail(function () {
               _this.context.invoke('editor.restoreRange');
@@ -10667,6 +10672,7 @@ sel.addRange(range);
               'toolbar': Toolbar,
               'commentDialog': CommentDialog,
               'linkDialog': LinkDialog,
+              'iframeDialog': IframeDialog,
               'linkPopover': LinkPopover,
               'imageDialog': ImageDialog,
               'imagePopover': ImagePopover,

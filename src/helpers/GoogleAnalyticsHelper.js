@@ -52,7 +52,7 @@ let GoogleAnalyticsHelper = {
         eventCategory: eventCategory,
         eventAction: eventAction
       }
-      console.log(data)
+      //console.log(data)
       ga('send', 'event', data);
     })
   },
