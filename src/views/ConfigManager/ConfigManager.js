@@ -203,6 +203,7 @@ let config = {
       VueHelper.persistLocalStorage(this, 'backupPageURL')
       VueHelper.persistLocalStorage(this, 'googleAnalyticsTrackingId')
       VueHelper.persistLocalStorage(this, 'googleAnalyticsReportURL')
+      VueHelper.persistLocalStorage(this, 'googleAnalyticsRealtimeReportURL')
     },
     openBackupPageURL() {
       if (this.enableBackupPageButton) {

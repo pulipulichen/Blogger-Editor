@@ -1,6 +1,9 @@
+const uuidv4 = require('uuid/v4');
+
 let GoogleAnalyticsHelper = {
   trackingId: null, // UA-37178375-10
   //trackingId: 'UA-37178375-10',
+  uuid: null,
   init: function (callback) {
     let trackingId = $v.ConfigManager.googleAnalyticsTrackingId.trim()
     if (trackingId !== this.trackingId) {
@@ -19,10 +22,18 @@ let GoogleAnalyticsHelper = {
       //ga('set', 'dimension1', customUserId); // 加入自訂維度customUserId
       ga('send', 'pageview')
       this.trackingId = trackingId
+      
+      this.initUUID()
     }
     if (this.trackingId.startsWith('UA-')) {
       FunctionHelper.triggerCallback(callback)
     }
+  },
+  initUUID: function () {
+    if (this.uuid === null) {
+      this.uuid = uuidv4()
+    }
+    
   },
   /**
    * 
@@ -32,26 +43,16 @@ let GoogleAnalyticsHelper = {
    * @param {type} eventValue
    * @returns {undefined}
    */
-  send: function (eventCategory, eventAction, eventLabel, eventValue) {
+  send: function (eventCategory, eventAction) {
     this.init(() => {
-      if (eventValue === undefined && typeof(eventLabel) !== 'undefined') {
-        eventValue = eventLabel
-        eventLabel = undefined
-      }
       
-      eventValue = this.filterEventValue(eventValue)
+      eventAction = this.filterEventValue(eventAction)
       
       let data = {
         eventCategory: eventCategory,
-        eventAction: eventAction,
-        eventValue: eventValue
+        eventAction: eventAction
       }
-      if (typeof(eventLabel) === 'string') {
-        data['eventLabel'] = eventLabel
-      }
-      
       console.log(data)
-      
       ga('send', 'event', data);
     })
   },
@@ -61,7 +62,11 @@ let GoogleAnalyticsHelper = {
     }
     
     // 加上時間
-    eventValue = DayjsHelper.nowFormat() + '→' + eventValue
+    eventValue = [
+      this.uuid,
+      DayjsHelper.nowFormat(),
+      eventValue
+    ].join('→')
     
     return eventValue
   }

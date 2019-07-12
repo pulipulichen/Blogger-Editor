@@ -63,6 +63,7 @@
     "safer-buffer": "^2.1.2",
     "type-is": "^1.6.18",
     "unpipe": "^1.0.0",
+    "uuid": "^3.3.2",
     "vuedraggable": "^2.20.0"
   },
   "devDependencies": {
