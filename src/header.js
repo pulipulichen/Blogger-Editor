@@ -26,8 +26,13 @@ require('./vendor/summernote/summernote-lite.js')
 //console.log(typeof($.summernote))
 //require('summernote')
 
+require('./vendor/google-analytics/analytics.js')
+
+// ----------------------------------
+
 require('./styles/semantic-ui.less')
 require('./styles/summernote.less')
 require('./styles/custom.less')
 require('./styles/templateReform.less')
 require('./styles/electronInPageSearch.less')
+

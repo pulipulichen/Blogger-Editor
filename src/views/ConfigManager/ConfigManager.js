@@ -14,12 +14,16 @@ let config = {
       locale: ConfigHelper.get('locale'),
       localeOptions: ConfigHelper.get('localeOptions'),
       backupPageURL: '',
-      tab: 'interface'
+      tab: 'interface',
+      googleAnalyticsTrackingId: '',
+      googleAnalyticsReportURL: '',
     }
   },
   mounted() {
     VueHelper.mountLocalStorage(this, 'locale', ConfigHelper.get('locale'))
     VueHelper.mountLocalStorage(this, 'backupPageURL', 'https://drive.google.com/drive/u/0/my-drive')
+    VueHelper.mountLocalStorage(this, 'googleAnalyticsTrackingId')
+    VueHelper.mountLocalStorage(this, 'googleAnalyticsReportURL')
     
     //console.log(this.enableBackupPageButton)
   },
@@ -32,6 +36,11 @@ let config = {
       //console.log(this.backupPageURL)
       //console.log(this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
       return (this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
+    },
+    enableReportButton: function () {
+      //console.log(this.backupPageURL)
+      //console.log(this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
+      return (this.googleAnalyticsReportURL.startsWith('https://analytics.google.com/analytics/web/#/'))
     }
   },
   methods: {
@@ -185,10 +194,17 @@ let config = {
     persist() {
       VueHelper.persistLocalStorage(this, 'locale')
       VueHelper.persistLocalStorage(this, 'backupPageURL')
+      VueHelper.persistLocalStorage(this, 'googleAnalyticsTrackingId')
+      VueHelper.persistLocalStorage(this, 'googleAnalyticsReportURL')
     },
     openBackupPageURL() {
       if (this.enableBackupPageButton) {
         WindowHelper.popup(this.backupPageURL, 'ConfigManager.backupPageURL')
+      }
+    },
+    openReportURL() {
+      if (this.enableReportButton) {
+        WindowHelper.popup(this.googleAnalyticsReportURL, 'ConfigManager.googleAnalyticsReportURL')
       }
     },
     openTab: function (e) {

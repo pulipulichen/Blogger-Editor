@@ -18,6 +18,13 @@
           {{ $t('Interface') }}
         </a>
         <a class="item"
+           v-bind:class="{active: (tab === 'google-analytics')}"
+           data-tab="google-analytics"
+           v-on:click="openTab"
+           ref="google-analytics">
+          {{ $t('Google Analytics') }}
+        </a>
+        <a class="item"
            v-bind:class="{active: (tab === 'backup')}"
            data-tab="backup"
            v-on:click="openTab"
@@ -81,7 +88,7 @@
 
           <div class="ui action input">
             <input type="url" 
-                   name="uploadImageDraft" 
+                   name="backupPageURL" 
                    onfocus="this.select()"
                    id="ConfigManager.backupPageURL"
                    v-model="backupPageURL"
@@ -127,6 +134,53 @@
           <div class="dragover-message"
                v-on:drop="configDrop">
             {{ $t('Drop file to upload') }}
+          </div>
+        </div>
+
+        <!-- ------------------------- -->
+
+      </div>
+      
+      
+      <div class="ui bottom attached tab segment form" 
+           v-bind:class="{active: (tab === 'google-analytics')}"
+           data-tab="google-analytics">
+        
+        <div class="field">
+          <label for="ConfigManager.googleAnalyticsTrackingId">
+            {{ $t('Tracking ID') }}
+            (<a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/GoogleAnalyticsTrackingID.md" target="GoogleAnalyticsTrackingID">{{ $t('How to get Tracking ID?') }}</a>)
+          </label>
+
+          <div class="ui input">
+            <input type="text" 
+                   name="googleAnalyticsTrackingId" 
+                   onfocus="this.select()"
+                   id="ConfigManager.googleAnalyticsTrackingId"
+                   v-model="googleAnalyticsTrackingId"
+                   placeholder="UA-XXXXXX-Y"
+                   v-on:change="persist" />
+          </div>
+        </div>
+        
+        <div class="field">
+          <label for="ConfigManager.googleAnalyticsReportURL">
+            {{ $t('Report URL') }}
+          </label>
+
+          <div class="ui action input">
+            <input type="url" 
+                   name="googleAnalyticsReportURL" 
+                   onfocus="this.select()"
+                   id="ConfigManager.googleAnalyticsReportURL"
+                   v-model="googleAnalyticsReportURL"
+                   v-on:change="persist" />
+            <button type="button" 
+                    class="ui button"
+                    v-bind:class="{ disabled: (enableReportButton === false) }"
+                    v-on:click="openReportURL">
+              {{ $t('OPEN') }}
+            </button>
           </div>
         </div>
 

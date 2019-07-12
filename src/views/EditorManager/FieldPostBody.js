@@ -277,6 +277,7 @@ let FieldPostBody = {
       //ScrollHelper.save()
       //$v.EditorManager.FieldPostBody.save()
       EventManager.trigger(this, 'change')
+      GoogleAnalyticsHelper.send('field.post.body', 'change', contents.length)
     })
   },
   save: function (callback) {

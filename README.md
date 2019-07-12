@@ -1,8 +1,9 @@
 # Blogger-Editor
 An editor for Blogger writer
 
-- Project: https://pulipulichen.github.io/Blogger-Editor/
+- Project: https://github.com/pulipulichen/Blogger-Editor/
 - Issues: https://github.com/pulipulichen/Blogger-Editor/issues
+- Online Demo: https://pulipulichen.github.io/Blogger-Editor/
 
 ----
 
