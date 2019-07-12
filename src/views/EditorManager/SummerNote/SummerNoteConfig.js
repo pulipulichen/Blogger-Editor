@@ -50,7 +50,7 @@ let SummerNoteConfig = {
         //['fontname', ['fontname']],
         ['para', ['ul', 'ol', 'paragraph']],
         //['table', []],
-        ['insert', ['hr', 'link', 'table']],
+        ['insert', ['hr', 'link', 'table', 'iframe']],
         ['insertMultimedia', [ 'picture', 'video']],
         // ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
         //['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],

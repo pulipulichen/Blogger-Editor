@@ -907,6 +907,7 @@
               comment: 'Comment',
               uncomment: 'Uncomment',
               htmlify: 'Htmlify',
+              iframe: 'Iframe',
               subscript: 'Subscript',
               superscript: 'Superscript',
               size: 'Font Size'
@@ -1056,6 +1057,7 @@
               'formatH6': 'Change current block\'s format as H6',
               'insertHorizontalRule': 'Insert horizontal rule',
               'linkDialog.show': 'Show Link Dialog',
+              'iframeDialog.show': 'Show Iframe Dialog',
               'commentDialog.show': 'Show Comment Dialog',
           },
           history: {
@@ -1067,6 +1069,9 @@
               select: 'Select Special characters'
           },
           iframe: {
+            title: "Title",
+            url: "URL",
+            insert: "Insert",
             newWindow: "Open in new window",
             popupWindow: "Open in popup window"
           }
@@ -3795,6 +3800,7 @@
                   'font-comment': document.queryCommandState('comment') ? 'comment' : 'normal',
                   'font-uncomment': document.queryCommandState('uncomment') ? 'uncomment' : 'normal',
                   'font-htmlify': document.queryCommandState('htmlify') ? 'htmlify' : 'normal',
+                  'font-iframe': document.queryCommandState('iframe') ? 'iframe' : 'normal',
                   'font-family': document.queryCommandValue('fontname') || styleInfo['font-family']
               });
           }
@@ -4966,6 +4972,7 @@
             let url
             let enableNewWindow = true
             let enablePopup = true
+            let title
             if (typeof(iframeInfo) === 'string') {
               url = iframeInfo
             }
@@ -4978,6 +4985,9 @@
               }
               if (typeof(iframeInfo.enablePopup) === 'boolean') {
                 enablePopup = iframeInfo.enablePopup
+              }
+              if (typeof(iframeInfo.title) === 'string') {
+                title = iframeInfo.title
               }
             }
             
@@ -4994,10 +5004,20 @@
             
             let links = []
             if (enableNewWindow === true) {
-              links.push(`<li><a href="${url}" target="${name}">${langNewWindow}</a></li>`)
+              if (title === undefined) {
+                links.push(`<li><a href="${url}" target="${name}">${langNewWindow}</a></li>`)
+              }
+              else {
+                links.push(`<li>${langNewWindow}: <a href="${url}" target="${name}">${title}</a></li>`)
+              }
             }
             if (enablePopup === true) {
-              links.push(`<li><a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${langPopupWindow}</a></li>`)
+              if (title === undefined) {
+                links.push(`<li><a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${langPopupWindow}</a></li>`)
+              }
+              else {
+                links.push(`<li>${langPopupWindow}: <a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${title}</a></li>`)
+              }
             }
             
             if (links.length > 0) {
@@ -7963,6 +7983,14 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandlerAndUpdateState('editor.htmlify')
               }).render();
           });
+          this.context.memo('button.iframe', function () {
+              return _this.button({
+                  className: 'note-btn-iframe',
+                  contents: 'F',
+                  tooltip: _this.lang.font.iframe + _this.representShortcut('iframe'),
+                  click: _this.context.createInvokeHandlerAndUpdateState('editor.showIframeDialog')
+              }).render();
+          });
           this.context.memo('button.superscript', function () {
               return _this.button({
                   className: 'note-btn-superscript',
@@ -8873,7 +8901,7 @@ sel.addRange(range);
               '</div>',
               '<div class="form-group note-form-group">',
               "<label class=\"note-form-label\">" + this.lang.link.url + "</label>",
-              '<input class="note-link-url form-control note-form-control note-input" type="text" value="" />',
+              '<input class="note-link-url form-control note-form-control note-input" type="url" value="" />',
               '</div>',
               '<div class="form-group note-form-group">',
               "<label class=\"note-form-label\">" + this.lang.link.title + "</label>",
@@ -9116,7 +9144,7 @@ sel.addRange(range);
                           openMethod: openMethod
                           //isNewWindow: $openInNewWindow.is(':checked')
                       }
-                      console.log(deferredOptions)
+                      //console.log(deferredOptions)
                       deferred.resolve(deferredOptions);
                       _this.ui.hideDialog(_this.$dialog);
                       //console.log($linkUrl.val())
@@ -9196,41 +9224,28 @@ sel.addRange(range);
           var $container = this.options.dialogsInBody ? this.$body : this.$editor;
           var body = [
               '<div class="form-group note-form-group">',
-              "<label class=\"note-form-label\">" + this.lang.link.textToDisplay + "</label>",
-              '<input class="note-link-text form-control note-form-control note-input" type="text" />',
+              "<label class=\"note-form-label\">" + this.lang.iframe.title + "</label>",
+              '<input class="note-iframe-title form-control note-form-control note-input" type="text" value="" />',
               '</div>',
               '<div class="form-group note-form-group">',
-              "<label class=\"note-form-label\">" + this.lang.link.url + "</label>",
-              '<input class="note-link-url form-control note-form-control note-input" type="text" value="" />',
-              '</div>',
-              '<div class="form-group note-form-group">',
-              "<label class=\"note-form-label\">" + this.lang.link.title + "</label>",
-              '<input class="note-link-title form-control note-form-control note-input" type="text" value="" />',
+              "<label class=\"note-form-label\">" + this.lang.iframe.url + "</label>",
+              '<input class="note-iframe-url form-control note-form-control note-input" type="url" value="" />',
               '</div>',
               this.buildOpenInput()
-              /*
-              !this.options.disableLinkTarget
-                  ? $$1('<div/>').append(this.ui.checkbox({
-                      className: 'sn-checkbox-open-in-new-window',
-                      text: this.lang.link.openInNewWindow,
-                      checked: true
-                  }).render()).html()
-                  : ''
-              */
           ].join('');
-          var buttonClass = 'btn btn-primary note-btn note-btn-primary note-link-btn';
-          var footer = "<input type=\"button\" href=\"#\" class=\"" + buttonClass + "\" value=\"" + this.lang.link.insert + "\" disabled>";
+          var buttonClass = 'btn btn-primary note-btn note-btn-primary note-iframe-btn';
+          var footer = "<input type=\"button\" href=\"#\" class=\"" + buttonClass + "\" value=\"" + this.lang.iframe.insert + "\" disabled>";
           this.$dialog = this.ui.dialog({
-              className: 'link-dialog',
-              title: this.lang.link.insert,
+              className: 'iframe-dialog',
+              title: this.lang.iframe.insert,
               fade: this.options.dialogsFade,
               body: body,
               footer: footer
           }).render().appendTo($container);
           
-          let button = this.$dialog.find('input.note-link-btn')
+          let button = this.$dialog.find('input.note-iframe-btn')
           
-          this.$dialog.find('input.note-link-url').focus(function (event) {
+          this.$dialog.find('input.note-iframe-url').focus(function (event) {
             if ($$1(this).hasClass('first-focus') === false) {
               return
             }
@@ -9239,14 +9254,9 @@ sel.addRange(range);
             if (this.value !== undefined && this.value.trim() !== "") {
               return
             }
-            //console.log(this.value)
-            //console.log(event.originalEvent.clipboardData.getData('Text'))
-            //console.log(event)
             navigator.clipboard.readText()
               .then(text => {
                 text = text.trim()
-                //console.log(text)
-                //console.log('Pasted content: ', text);
                 if (isURL(text)) {
                   this.value = text
                   this.select()
@@ -9260,41 +9270,21 @@ sel.addRange(range);
               });
           })
           
-          let openMethodKey = 'summernote.LinkDialog.openMethod'
-          let radio = this.$dialog.find('input:radio')
-          radio.change(function () {
+          let openMethodKey = 'summernote.IframeDialog.openMethod'
+          let checkbox = this.$dialog.find('input:checkbox')
+          checkbox.change(function () {
             //console.log([this.checked, this.value])
             if (this.checked !== true) {
               return
             }
-            let value = this.value
-            localStorage.setItem(openMethodKey, value)
+            let name = this.name
+            localStorage.setItem(openMethodKey + name, this.checked)
           })
       };
       IframeDialog.prototype.buildOpenInput = function () {
-        /*
-          !this.options.disableLinkTarget
-                  ? $$1('<div/>').append(this.ui.checkbox({
-                      className: 'sn-checkbox-open-in-new-window',
-                      text: this.lang.link.openInNewWindow,
-                      checked: true
-                  }).render()).html()
-                  : ''
-        */
-        if (this.options.disableLinkTarget === false) {
-          return ''
-        }
-        /*
-        return $$1('<div/>').append(this.ui.radio({
-                      className: 'sn-checkbox-open-in-new-window',
-                      text: this.lang.link.openInNewWindow,
-                      checked: true
-                  }).render()).html()
-        */
         return `<div class="checkbox sn-checkbox-open-in-new-window">
-        <label> <input role="radio" type="radio" name="openMethod" value="current" checked="true" aria-checked="true">${this.lang.link.openInCurrentWindow}</label>
-        <label> <input role="radio" type="radio" name="openMethod" value="blank" aria-checked="false">${this.lang.link.openInNewWindow}</label>
-        <label> <input role="radio" type="radio" name="openMethod" value="popup" aria-checked="false">${this.lang.link.openInPopup}</label>
+        <label> <input role="checkbox" type="checkbox" name="new" value="current" checked="true" aria-checked="true">${this.lang.iframe.newWindow}</label>
+        <label> <input role="checkbox" type="checkbox" name="popup" value="blank" checked="true" aria-checked="true">${this.lang.iframe.popupWindow}</label>
 </div>`
       };
       
@@ -9324,8 +9314,8 @@ sel.addRange(range);
       /**
        * toggle update button
        */
-      IframeDialog.prototype.toggleLinkBtn = function ($linkBtn, $linkText, $linkUrl) {
-          this.ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+      IframeDialog.prototype.toggleIframeBtn = function ($iframeBtn, $iframeUrl) {
+          this.ui.toggleBtn($iframeBtn, $iframeUrl.val());
       };
       /**
        * Show link dialog and set event handlers on dialog controls.
@@ -9333,96 +9323,71 @@ sel.addRange(range);
        * @param {Object} linkInfo
        * @return {Promise}
        */
-      IframeDialog.prototype.showLinkDialog = function (linkInfo) {
+      IframeDialog.prototype.showLinkDialog = function () {
           var _this = this;
+          let iframeInfo = {}
           
           return $$1.Deferred(function (deferred) {
-              var $linkText = _this.$dialog.find('.note-link-text');
-              var $linkUrl = _this.$dialog.find('.note-link-url');
-              var $linkTitle = _this.$dialog.find('.note-link-title');
-              var $linkBtn = _this.$dialog.find('.note-link-btn');
-              //var $openInNewWindow = _this.$dialog
-              //    .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
+              var $iframeTitle = _this.$dialog.find('.note-iframe-title');
+              var $iframeUrl = _this.$dialog.find('.note-iframe-url');
+              
+              var $iframeBtn = _this.$dialog.find('.note-iframe-btn');
               
              
               _this.ui.onDialogShown(_this.$dialog, function () {
                   _this.context.triggerEvent('dialog.shown');
                   // if no url was given, copy text to url
-                  if (!linkInfo.url) {
-                    let url = linkInfo.text
-                    
-                    if ( isURL(url) ) {
-                      linkInfo.url = url
-                    }
-                    else {
-                      //url = window.clipboardData.getData('Text')
-                      url = ""
-                      if ( isURL(url) ) {
-                        linkInfo.url = url
-                      }
-                      else {
-                        linkInfo.url = ''
-                      }
-                    }
-                  }
                   
-                  //console.log(linkInfo.url)
-                  if (linkInfo.url.startsWith('javascript:window.open(')) {
-                    let needle = 'javascript:window.open('
-                    linkInfo.url = linkInfo.url.slice(needle.length + 1, linkInfo.url.indexOf('"', needle.length + 2))
-                  }
+                  // ----------------------
                   
-                  $linkText.val(linkInfo.text);
-                  var handleLinkTextUpdate = function () {
-                      _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
+                  var handleIframeTitleUpdate = function () {
+                      _this.toggleLinkBtn($iframeBtn, $iframeUrl);
                       // if linktext was modified by keyup,
                       // stop cloning text from linkUrl
-                      linkInfo.text = $linkText.val();
+                      iframeInfo.title = $iframeTitle.val();
                   };
-                  $linkText.on('input', handleLinkTextUpdate).on('paste', function () {
-                      setTimeout(handleLinkTextUpdate, 0);
+                  $iframeTitle.on('input', handleIframeTitleUpdate).on('paste', function () {
+                      setTimeout(handleIframeTitleUpdate, 0);
                   });
-                  var handleLinkUrlUpdate = function () {
-                      _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
-                      // display same link on `Text to display` input
-                      // when create a new link
-                      if (!linkInfo.text) {
-                          $linkText.val($linkUrl.val());
-                      }
-                  };
-                  $linkUrl.on('input', handleLinkUrlUpdate).on('paste', function () {
-                      setTimeout(handleLinkUrlUpdate, 0);
-                  }).val(linkInfo.url);
-                  if (!env.isSupportTouch) {
-                    $linkUrl.addClass("first-focus")
-                    //$linkUrl.trigger('focus');
-                    $linkUrl.trigger('select');
-                  }
-                  _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
-                  _this.bindEnterKey($linkUrl, $linkBtn);
-                  _this.bindEnterKey($linkText, $linkBtn);
                   
-                  //var isNewWindowChecked = linkInfo.isNewWindow !== undefined
-                  //    ? linkInfo.isNewWindow : _this.context.options.linkTargetBlank;
-                  //$openInNewWindow.prop('checked', isNewWindowChecked);
-                  if (typeof(linkInfo.openMethod) === 'string') {
-                    _this.$dialog.find(`.sn-checkbox-open-in-new-window input:radio[value="${linkInfo.openMethod}"]`).prop('checked', true)
+                  // ----------------------
+                  
+                  var handleIframeUrlUpdate = function () {
+                      _this.toggleIframeBtn($iframeBtn, $iframeUrl);
+                  };
+                  $iframeUrl.on('input', handleIframeUrlUpdate).on('paste', function () {
+                      setTimeout(handleIframeUrlUpdate, 0);
+                  });
+                  
+                  // ---------------------------
+                  
+                  if (!env.isSupportTouch) {
+                    $iframeUrl.addClass("first-focus")
+                    //$linkUrl.trigger('focus');
+                    $iframeUrl.trigger('select');
                   }
+                  
+                  // --------------------------
+                  
+                  _this.toggleIframeBtn($iframeBtn, $iframeUrl);
+                  _this.bindEnterKey($iframeUrl, $iframeBtn);
+                  _this.bindEnterKey($iframeUrl, $iframeBtn);
+                  
+                  // ----------------------------------------
                   
                   //let checkboxKey = 'summernote.LinkDialog.checkbox'
                   //console.log([typeof(localStorage.getItem(checkboxKey)), localStorage.getItem(checkboxKey)])
-                  let openMethodKey = 'summernote.LinkDialog.openMethod'
-                  if (typeof(linkInfo.openMethod) !== 'string' && typeof(localStorage.getItem(openMethodKey)) === "string") {
-                    //let checked = (localStorage.getItem(checkboxKey).toLowerCase() === 'true')
-                    //$openInNewWindow.prop('checked', checked);
-                    let openMethodSaved = localStorage.getItem(openMethodKey)
-                    _this.$dialog.find(`.sn-checkbox-open-in-new-window input:radio[value='${openMethodSaved}']`).prop('checked', true)
-                    //checkbox[0].checked = checked
-                    //console.log([checked, checkbox[0].checked])
-                    // localStorage.getItem('summernote.LinkDialog.checkbox')
+                  let openMethodKey = 'summernote.IframeDialog.openMethod'
+                  if (typeof(localStorage.getItem(openMethodKey + 'new')) === "string") {
+                    let checked = (localStorage.getItem(openMethodKey + 'new').toLowerCase() === 'true')
+                    _this.$dialog.find(`.sn-checkbox-open-in-new-window input:checkbox[name='new']`).prop('checked', checked)
+                  }
+                  if (typeof(localStorage.getItem(openMethodKey + 'popup')) === "string") {
+                    let checked = (localStorage.getItem(openMethodKey + 'popup').toLowerCase() === 'true')
+                    _this.$dialog.find(`.sn-checkbox-open-in-new-window input:checkbox[name='popup']`).prop('checked', checked)
                   }
                   
-                  $linkBtn.one('click', function (event) {
+                  $iframeBtn.one('click', function (event) {
                       event.preventDefault()
                       event.stopPropagation()
                       let enableClearEnterFormat = _this.options.clearEnterFormat
@@ -9434,48 +9399,24 @@ sel.addRange(range);
                         }, 100)
                       }
                       //console.log(_this.options.allowEnter)
-                      var openMethod = _this.$dialog.find(".sn-checkbox-open-in-new-window input:checked").val();
+                      var enableNewWindow = _this.$dialog.find(".sn-checkbox-open-in-new-window input:checkbox[name='new']").prop('checked');
+                      var enablePopup = _this.$dialog.find(".sn-checkbox-open-in-new-window input:checkbox[name='popup']").prop('checked');
                       let deferredOptions = {
-                          range: linkInfo.range,
-                          url: $linkUrl.val(),
-                          text: $linkText.val(),
-                          title: $linkTitle.val(),
-                          isNewWindow: false,
-                          openMethod: openMethod
-                          //isNewWindow: $openInNewWindow.is(':checked')
+                          url: $iframeUrl.val(),
+                          title: $iframeTitle.val(),
+                          enableNewWindow: enableNewWindow,
+                          enablePopup: enablePopup
                       }
                       console.log(deferredOptions)
                       deferred.resolve(deferredOptions);
                       _this.ui.hideDialog(_this.$dialog);
-                      //console.log($linkUrl.val())
-                      //let child = $$1(_this.context.invoke('editor.restoreTarget').sc)[0]
-                      //console.log(_this.context.invoke('editor.restoreTarget'))
-                      //let sel = window.getSelection()
-                      //sel.removeAllRanges();
-                      
-                      //_this.$editor.createRange().collapse()
-                      //_this.context.invoke('editor.restoreRange').collapse()
-                      /*
-                      return
-                      
-                      setTimeout(() => {
-                        let range = document.createRange();
-                        let sel = window.getSelection()
-                        console.log(linkInfo.range)
-                        //console.log(linkInfo.range.sc)
-                        range.setStart(child, 1);
-                        range.collapse(true);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                      }, 1000)
-                      */
                   });
               });
               _this.ui.onDialogHidden(_this.$dialog, function () {
                   // detach events
-                  $linkText.off('input paste keypress');
-                  $linkUrl.off('input paste keypress');
-                  $linkBtn.off('click');
+                  $iframeTitle.off('input paste keypress');
+                  $iframeUrl.off('input paste keypress');
+                  $iframeBtn.off('click');
                   if (deferred.state() === 'pending') {
                       deferred.reject();
                   }
@@ -10749,7 +10690,7 @@ sel.addRange(range);
               ['color', ['color']],
               ['para', ['ul', 'ol', 'paragraph']],
               ['table', ['table']],
-              ['insert', ['link', 'picture', 'video', 'hr', 'comment', 'htmlify']],
+              ['insert', ['link', 'picture', 'video', 'hr', 'comment', 'htmlify', 'iframe']],
               ['view', ['fullscreen', 'codeview', 'help']]
           ],
           // popover

@@ -11,7 +11,10 @@
         strikethrough: '刪除線',
         subscript: '下標',
         superscript: '上標',
-        size: '字號'
+        size: '字號',
+        comment: '註解',
+        uncomment: '取消註解',
+        htmlify: '轉換為HTML',
       },
       image: {
         image: '圖片',
@@ -153,7 +156,9 @@
         'formatH5': 'Change current block\'s format as H5',
         'formatH6': 'Change current block\'s format as H6',
         'insertHorizontalRule': 'Insert horizontal rule',
-        'linkDialog.show': 'Show Link Dialog'
+        'linkDialog.show': 'Show Link Dialog',
+        'iframeDialog.show': '顯示Iframe對話視窗',
+        'commentDialog.show': '顯示註解對話視窗',
       },
       history: {
         undo: '復原',
