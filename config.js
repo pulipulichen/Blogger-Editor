@@ -4,6 +4,7 @@ const CONFIG = {
   defaultTheme: 'default',
   uploadImageDraft: '',
   quotaInMB: 100,
+  scrollUpShowMenu: false,
   debug: {
     //disablePostManager: true,
     disableThemeManager: false,

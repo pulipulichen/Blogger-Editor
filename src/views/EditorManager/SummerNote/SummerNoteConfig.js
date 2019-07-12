@@ -38,6 +38,7 @@ let SummerNoteConfig = {
     }
     
     let toolbar = [
+        ['menu', ['toggleMenu']],
         ['style', ['style', 'color']],
         //['formatBlockHeading1', ['formatH1']],
         ['formatBlockHeading2', ['formatH2', 'formatH3']],
@@ -55,7 +56,7 @@ let SummerNoteConfig = {
         //['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         //['publish', ['ImageReplacer', 'CleanCode', 'CopyHTML']],
         ['view', ['codeview']],
-        ['help', [/*'fullscreen',*/ 'transSelected', 'OutlineNavigator', 'help', 'toggleMenu']]
+        ['help', [/*'fullscreen',*/ 'transSelected', 'OutlineNavigator', 'help']]
       ]
 
     return toolbar

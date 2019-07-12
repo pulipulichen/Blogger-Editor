@@ -113,6 +113,10 @@ let NavBar = {
       FunctionHelper.triggerCallback(callback)
     },
     initWindowEvent: function () {
+      if (ConfigHelper.get('scrollUpShowMenu') === false) {
+        return
+      }
+      
       let setClassName = () => {
         if (window.scrollY > this.navbarHeight) {
           this.$body.addClass('topbar-out-of-view')
