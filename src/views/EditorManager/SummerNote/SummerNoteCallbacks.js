@@ -165,8 +165,8 @@ let SummerNoteCallbacks = {
     }
   },
   insertImageNode: function (url, name) {
-    let imgNode = $(`<a href="${url}">
-      <img src="${url}" title="${name}" alt="${name}" onload="BloggerImageHelper.readyToResize(this)" />
+    let imgNode = $(`<a href="${url}" data-filename="${name}">
+      <img src="${url}" title="${name}" alt="${name}" data-filename="${name}" onload="BloggerImageHelper.readyToResize(this)" />
     </a>`)[0]
     //this.getPostSummerNote().summernote('insertNode', imgNode);
     $v.EditorManager.FieldPostBody.insert(imgNode)

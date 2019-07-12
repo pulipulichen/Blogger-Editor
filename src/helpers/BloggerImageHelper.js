@@ -22,11 +22,10 @@ BloggerImageHelper = {
     if (link.indexOf('/s' + size + '/') > 10) {
       return this.changeProtocol(link)
     }
-    
     let baseUrl = this.getBaseUrl(link)
     let name = this.getFilename(link)
     link = baseUrl + '/s' + size + '/' + name
-    //console.log(link)
+    console.log(link)
     return link
   },
   changeProtocol: function (link) {
@@ -54,8 +53,26 @@ BloggerImageHelper = {
     return link.slice(0, slash2)
   },
   getImageElementSize: function (img) {
+    /*
+    console.log(img)
+    console.log(img.width)
+    console.log(img.height)
+    if (typeof(img.width) !== undefined && isNaN(img.width) === false) {
+      let size = parseInt(img.width, 10)
+      console.log(size)
+      if (typeof(img.height) !== undefined && isNaN(img.height) === false) {
+        let height = parseInt(img.height, 10)
+        console.log(height)
+        size = Math.max(size, height)
+      }
+      return size
+    }
+    */
     if (typeof(img.width) !== 'function') {
       img = $(img)
+    }
+    if (typeof(img.attr('width')) !== 'undefined') {
+      return parseInt(Math.max(img.attr('width'), img.attr('height')), 10)
     }
     return parseInt(Math.max(img.width(), img.height()), 10)
   },

@@ -33,9 +33,12 @@ let SummerNoteCode = {
   CopyCodeClick: function () {
     let postBody = $v.EditorManager.FieldPostBody.getElement()
     postBody = this.CleanCodeClick(postBody)
+    postBody = postBody.clone()
 
     // 請把有http的部分全部換掉
-    postBody = BloggerImageHelper.filterPostBody(postBody.clone())
+    postBody = BloggerImageHelper.filterPostBody(postBody)
+    
+    postBody.find('[data-filename]').removeAttr('data-filename')
 
     //let code = this.getPostSummerNote().summernote('code');
     let code = postBody.html()

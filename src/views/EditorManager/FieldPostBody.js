@@ -218,7 +218,8 @@ let FieldPostBody = {
       
       // '1-Webpack%2B_%25282%2529.png'
       
-      postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
+      //postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
+      postBody.find('img[src^="filesystem:"][data-filename="' + name + '"]').each((i, imgTag) => {
         // we need to change the URL size to fit the image
         if ($(imgTag).hasClass('original-size') === false) {
           imgTag.src = BloggerImageHelper.getSize(link, imgTag)
@@ -233,7 +234,8 @@ let FieldPostBody = {
         doSave = true
         count++
       })
-      postBody.find('a[href^="filesystem:"][href$="' + name + '"]').each((i, aTag) => {
+      //postBody.find('a[href^="filesystem:"][href$="' + name + '"]').each((i, aTag) => {
+      postBody.find('a[href^="filesystem:"][data-filename="' + name + '"]').each((i, aTag) => {
         aTag.href = fullsize
         doSave = true
       })
