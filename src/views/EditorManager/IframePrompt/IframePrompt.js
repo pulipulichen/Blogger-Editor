@@ -7,9 +7,11 @@ var config = {
       iframePromptInput: ''
     }
   },
+  /*
   mounted: function () {
     
   },
+  */
   created: function () {
     $v[this.name] = this
   },

@@ -1065,6 +1065,10 @@
           specialChar: {
               specialChar: 'SPECIAL CHARACTERS',
               select: 'Select Special characters'
+          },
+          iframe: {
+            newWindow: "Open in new window",
+            popupWindow: "Open in popup window"
           }
       }
   });
@@ -4958,6 +4962,28 @@
               }
           }
           
+          this.insertIframe = this.wrapCommand(function (url) {
+            let name = url
+            if (name.lastIndexOf('/') > 0) {
+              name = name.slice(name.lastIndexOf('/') + 1)
+            }
+            if (name.lastIndexOf('#') > 0) {
+              name = name.slice(0, name.lastIndexOf('#'))
+            }
+            
+            let langNewWindow = this.lang.iframe.newWindow //'Open in new window'
+            let langPopupWindow = this.lang.iframe.popupWindow // 'Open in popup window'
+            
+            let html = `<div>
+  <iframe src="${url}" width="100%" style="height: 90vh" frameborder="0" class="post-iframe"></iframe>
+</div>
+<ul>
+  <li><a href="${url}" target="${name}">${langNewWindow}</a></li>
+  <li><a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${langPopupWindow}</a></li>
+</ul>`
+            _this.insert(html)
+          })
+          
           this.fontName = this.wrapCommand(function (value) {
             if (this.hasSelectedRange() === false) {
               return false
@@ -6091,10 +6117,12 @@
        * insert
        * @author Pulipuli Chen 20190621
        */
+      /*
       Editor.prototype.insert = function (node) {
         console.log(node)
         return node
       }
+      */
       
       /**
        * undo

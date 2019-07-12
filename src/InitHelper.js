@@ -43,6 +43,7 @@ let InitHelper = {
     //console.log($('#summernotePostBody').summernote('editor.copyRichFormatHTML'))
     // $('#summernotePostBody').summernote('editor.getSelectedNodeAndRemove')
     // $('#summernotePostLabels').summernote('hintPopover.addItem', 'aaa')
+    // $('#summernotePostBody').summernote('editor.insertIframe', 'http://blog.pulipuli.info/')
     
     //console.clear()
     

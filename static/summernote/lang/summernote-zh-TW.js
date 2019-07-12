@@ -162,6 +162,10 @@
       specialChar: {
         specialChar: 'SPECIAL CHARACTERS',
         select: 'Select Special characters'
+      },
+      iframe: {
+        newWindow: "開啟新視窗",
+        popupWindow: "開啟彈跳視窗"
       }
     }
   });
