@@ -66,7 +66,7 @@ var EditorManager = {
     }
   },
   mounted() {
-    VueHelper.mountLocalStorage(this, 'enableOCRImageFilename')
+    VueHelper.mountLocalStorageBoolean(this, 'enableOCRImageFilename')
     VueHelper.mountLocalStorage(this, 'uploadImageDraft')
     VueHelper.mountLocalStorageInt(this, 'imageSizeDefault')
     

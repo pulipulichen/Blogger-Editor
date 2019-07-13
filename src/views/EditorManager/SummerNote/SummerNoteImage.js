@@ -219,7 +219,7 @@ let SummerNoteImage = {
       //console.log('change src: ', target.attr('src'))
     }
   },
-  onImageUpload: function (files) {
+  insertFromButton: function (files) {
     let path = this.getAssetDirPath()
     //TesseractHelper.recognize(files)
     
@@ -291,29 +291,36 @@ let SummerNoteImage = {
     //this.getPostSummerNote().summernote('insertNode', imgNode);
     $v.EditorManager.FieldPostBody.insert(imgNode)
     
-    this.ocrImage(name)
+    setTimeout(() => {
+      this.ocrImage(name)
+    }, 0)
+    
+    //console.log(name)
     return this
   },
   ocrImage: function (name) {
-    if ($v.EditorManager.enableOCRImageFilename) {
-      let postBody = $v.EditorManager.FieldPostBody.getUI()
-      let aNode = postBody.find(`a[href^="filesystem="][data-filename="${name}"]`)
-      let imgNode = aNode.find(`img[src^="filesystem="][data-filename="${name}"]`)
-      
+    console.log($v.EditorManager.enableOCRImageFilename)
+    if ($v.EditorManager.enableOCRImageFilename === true) {
+      let postBody = $v.EditorManager.FieldPostBody.getElement()
+      let aNode = postBody.find(`a[href^="filesystem:"][data-filename="${name}"]`)
+      let imgNode = aNode.find(`img[src^="filesystem:"][data-filename="${name}"]`)
+      console.log([name, aNode.length, imgNode.length])
       if (aNode.length > 0 && imgNode.length > 0) {
         
         // 開始進入OCR的程序
         imgNode.attr('data-ocr', 'true')
+        console.log(name)
         DelayExecHelper.addForceWaiting(name)
         TesseractHelper.recognizeFilename(imgNode, (ocrName) => {
           if (ocrName !== '') {
             // 複製檔案
             let oldPath = imgNode.attr('src')
             let nameExt = oldPath.slice(oldPath.lastIndexOf('.'))
-            let newName = name + nameExt
+            let newName = ocrName + nameExt
             let newPath = oldPath.slice(0, oldPath.lastIndexOf('/') + 1) + newName
+            console.log([oldPath, newName, newPath])
             
-            FileSystemHelper.move(oldPath, newPath, () => {
+            FileSystemHelper.copy(oldPath, newPath, () => {
               aNode.attr('href', newPath)
                    .attr('data-filename', newName)
               imgNode.attr('src', newPath)

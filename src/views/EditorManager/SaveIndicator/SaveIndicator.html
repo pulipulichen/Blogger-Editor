@@ -1,9 +1,10 @@
 <div class="save-indicator"
        v-bind:class="name"
        ref="modal"
-       :title="$t('Saving... (Click to Save)')">
+       v-bind:title="$t('Saving... (Click to Save)')">
   <div class="circular yellow ui icon button"
-          @click="save">
+       v-on:click="save"
+       v-bind:class="{locked: locked}">
     <i class="save icon"></i>
   </div>
 </div>

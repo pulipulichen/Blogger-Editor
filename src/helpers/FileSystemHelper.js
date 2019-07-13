@@ -590,7 +590,9 @@ Message: ${e.message}`
   }
   */
   copy: function (oldPath, newPath, callback) {
+    console.log(oldPath)
     return this.read(oldPath, (fileContent) => {
+      console.log(newPath)
       this.writeFromString(newPath, fileContent, callback)
     })
   },

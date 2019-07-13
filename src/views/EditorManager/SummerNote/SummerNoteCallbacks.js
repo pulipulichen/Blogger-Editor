@@ -13,7 +13,7 @@ let SummerNoteCallbacks = {
         FunctionHelper.triggerCallback(callback)
       },
       onImageUpload: (files) => {
-        SummerNoteImage.onImageUpload(files)
+        SummerNoteImage.insertFromButton(files)
       },
       onDrop: (files) => {
         //console.log('onDrop')

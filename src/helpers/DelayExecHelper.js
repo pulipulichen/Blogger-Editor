@@ -71,7 +71,10 @@ let DelayExecHelper = {
         this.timers[type] = null
       }
     }
-    this.hideIndicator()
+    
+    if (this.forceWaiting.length === 0) { 
+      this.hideIndicator()
+    }
     
     
     if (typeof(callback) === 'function') {
@@ -113,14 +116,20 @@ let DelayExecHelper = {
       return (this.timers[type] !== null)
     }
   },
-  showIndicator: function () {
+  showIndicator: function (lock) {
     if ($v.EditorManager.SaveIndicator !== null) {
       $v.EditorManager.SaveIndicator.open()
+      if (lock === true) {
+        $v.EditorManager.SaveIndicator.lock()
+      }
     }
   },
-  hideIndicator: function () {
+  hideIndicator: function (unlock) {
     if ($v.EditorManager.SaveIndicator !== null) {
       $v.EditorManager.SaveIndicator.close()
+      if (unlock === true) {
+        $v.EditorManager.SaveIndicator.unlock()
+      }
     }
   },
   init: function () {
@@ -133,7 +142,7 @@ let DelayExecHelper = {
       this.forceWaiting.push(id)
     }
     if (this.forceWaiting.length > 0) {
-      this.showIndicator()
+      this.showIndicator(true)
     }
     return this
   },
@@ -142,7 +151,7 @@ let DelayExecHelper = {
       this.forceWaiting = this.forceWaiting.filter((i) => {return (i !== id)})
     }
     if (this.forceWaiting.length === 0) {
-      this.hideIndicator()
+      this.hideIndicator(true)
     }
   }
 }

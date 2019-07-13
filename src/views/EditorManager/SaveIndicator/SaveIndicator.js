@@ -3,6 +3,7 @@ let config = {
     return {
       name: 'SaveIndicator',
       ui: undefined,
+      locked: false
     }
   },
   /*
@@ -41,6 +42,12 @@ let config = {
     persist() {
       //VueHelper.persistLocalStorage(this, 'summerNoteConfigStyleTags')
     },
+    lock: function () {
+      this.locked = true
+    },
+    unlock: function () {
+      this.locked = false
+    }
   }
 }
 
