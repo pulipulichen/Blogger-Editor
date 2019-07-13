@@ -301,7 +301,7 @@ let SummerNoteImage = {
   ocrImage: function (name) {
     //console.log($v.EditorManager.enableOCRImageFilename)
     //console.log(this.isNeedOCRFilename(name))
-    if ($v.EditorManager.enableOCRImageFilename === true && this.isNeedOCRFilename(name) === false) {
+    if ($v.EditorManager.enableOCRImageFilename === true) {
       
       let postBody = $v.EditorManager.FieldPostBody.getElement()
       let aNode = postBody.find(`a[href^="filesystem:"][data-filename="${name}"]`)
@@ -315,9 +315,11 @@ let SummerNoteImage = {
         DelayExecHelper.addForceWaiting(name)
         TesseractHelper.recognize(imgNode, (ocrText) => {
           ocrText = this.filterOCRText(ocrText)
+          imgNode.attr('alt', ocrText)
+          
           let ocrName = this.parseOCRName(ocrText)
           
-          if (ocrName !== '') {
+          if (this.isNeedOCRFilename(name) && ocrName !== '') {
             // 複製檔案
             let oldPath = imgNode.attr('src')
             let oldName = oldPath.slice(oldPath.lastIndexOf('/') + 1, oldPath.lastIndexOf('.'))
@@ -334,7 +336,7 @@ let SummerNoteImage = {
                    .attr('data-filename', newName)
               imgNode.attr('src', newPath)
                      .attr('title', newName)
-                     .attr('alt', ocrText)
+                     //.attr('alt', ocrText)
                      .attr('data-filename', newName)
                      .removeAttr('data-ocr')
               $v.EditorManager.FieldPostBody.save()
@@ -343,6 +345,8 @@ let SummerNoteImage = {
             })
           }
           else {
+            $v.EditorManager.FieldPostBody.save()
+            DelayExecHelper.removeForceWaiting(name)
             imgNode.removeAttr('data-ocr')
           }
         })
@@ -352,7 +356,7 @@ let SummerNoteImage = {
   },
   isNeedOCRFilename: function (name) {
     let terms = name.trim().match(/[A-Za-z]{2,}/g).map(term => {return term})
-    return (terms.join('').length > 5)
+    return (terms.join('').length < 5)
   },
   parseOCRName: function (text) {
     let terms = text.trim().match(/[A-Za-z]{2,}/g).map(term => {return term})
