@@ -38,6 +38,16 @@
           <div class="ui bottom attached tab segment active form" 
              data-tab="image">
             
+            <div class="field">              
+              <div class="ui checkbox">
+                <input type="checkbox" 
+                       name="enableOCRImageFilename"
+                       v-on:change="persist"
+                       v-model="enableOCRImageFilename">
+                <label>{{ $t('Use OCR text as image\'s filename') }}</label>
+              </div>
+            </div>
+            
             <div class="field">
               <label for="uploadImageDraft">
                 {{ $t('Upload Image Draft URL') }}

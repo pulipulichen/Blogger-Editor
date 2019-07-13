@@ -43,6 +43,7 @@ var EditorManager = {
       summerNoteConfigStyleTags: '',
       summerNoteConfigLabels: '',
       $summerNoteConfigLabelsSearch: null,
+      enableOCRImageFilename: true,
       onCloseReload: false,
       
       FieldPostBody: FieldPostBody,
@@ -65,6 +66,7 @@ var EditorManager = {
     }
   },
   mounted() {
+    VueHelper.mountLocalStorage(this, 'enableOCRImageFilename')
     VueHelper.mountLocalStorage(this, 'uploadImageDraft')
     VueHelper.mountLocalStorageInt(this, 'imageSizeDefault')
     
@@ -161,6 +163,7 @@ var EditorManager = {
       if (typeof(this.ui) === 'undefined') {
         //console.log('find ui')
         this.ui = $('.EditorManager.ui.modal')
+        this.ui.find('.ui.checkbox').checkbox()
       }
       return this.ui
     },
@@ -201,6 +204,8 @@ var EditorManager = {
     persist() {
       //localStorage.uploadImageDraft = this.uploadImageDraft;
       //console.log('now pretend I did more stuff...');
+      
+      VueHelper.persistLocalStorage(this, 'enableOCRImageFilename')
       VueHelper.persistLocalStorage(this, 'uploadImageDraft')
       VueHelper.persistLocalStorage(this, 'imageSizeDefault')
       

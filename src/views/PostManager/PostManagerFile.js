@@ -21,7 +21,7 @@ let PostManagerFile = {
   },
   writePostBody: function (id, postBody, callback) {
     let path = `/${id}/postBody.html`
-    FileSystemHelper.write(path, postBody, () => {
+    FileSystemHelper.writeFromString(path, postBody, () => {
       FunctionHelper.triggerCallback(callback)
     })
   },
@@ -69,7 +69,7 @@ let PostManagerFile = {
       if (isExists === true) {
         FunctionHelper.triggerCallback(callback)
       } else {
-        FileSystemHelper.write(path, content, callback)
+        FileSystemHelper.writeFromString(path, content, callback)
       }
 
       //EventManager.trigger(this, 'createPostBodyFile')

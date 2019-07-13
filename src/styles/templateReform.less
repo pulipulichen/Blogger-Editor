@@ -57,7 +57,18 @@ body {
       border-color: red;
       border-width: 3px;
     }
+    
+    &[src^="filesystem:"][data-ocr="true"] {
+      border-color: purple;
+    }
   } 
+  
+  .note-editor .note-editable a[href^="filesystem:"].file {
+    background: transparent;
+    box-shadow: none;
+    //border-width: 0;
+    border: 3px dotted red;
+  }
   
   a[name="more"] {
     display: block;

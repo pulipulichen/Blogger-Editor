@@ -283,7 +283,7 @@ let PostManagerBackup = {
             let filename = path.slice(path.lastIndexOf('/') + 1)
             filename = decodeURIComponent(filename)
             let assetPath = `/${postId}/assets/${filename}`
-            FileSystemHelper.write(assetPath, content, next)
+            FileSystemHelper.writeFromString(assetPath, content, next)
           })
         }
       } else {

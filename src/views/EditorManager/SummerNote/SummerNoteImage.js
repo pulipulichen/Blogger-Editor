@@ -117,7 +117,7 @@ let SummerNoteImage = {
       
       target = $(target)
       target.addClass('original-size')
-      console.log(target.attr('className'))
+      //console.log(target.attr('className'))
       
       let link = target.attr('src')
       if (BloggerImageHelper.isBloggerImageLink(link)) {
@@ -219,7 +219,121 @@ let SummerNoteImage = {
       //console.log('change src: ', target.attr('src'))
     }
   },
-  
+  onImageUpload: function (files) {
+    let path = this.getAssetDirPath()
+    //TesseractHelper.recognize(files)
+    
+    FileSystemHelper.writeFromFile(path, files, (urlList) => {
+      urlList.forEach(imgUrl => {
+        let name = FileSystemHelper.getFileName(imgUrl)
+        this.insertImageNode(imgUrl, name)
+      })
+    })
+  },
+  getAssetDirPath: function () {
+    //$v.PostManager.getEditingPostId((id) => {
+    //  let path = `/${id}/assets/`
+    //  FunctionHelper.triggerCallback(callback, path)
+    //})
+    let id = $v.PostManager.editingPostId
+    return `/${id}/assets/`
+  },
+  /**
+   * @author Pulipuli Chen 20190713 
+   * @param {String} path
+   * @param {Object} imageFile
+   * @returns {SummerNoteImage}
+   */
+  insertImageFromPaste: function (imageFile) {
+    let path = this.getAssetDirPath()
+    let name = DayjsHelper.nowFormat() + '.png'
+    FileSystemHelper.writeFromFile(path, imageFile, name, (url) => {
+      this.insertImageNode(url, name)
+    })
+    return this
+  },
+  insertImageFromDrop: function (file, callback) {
+    //TesseractHelper.recognize(file)
+    let path = this.getAssetDirPath()
+
+    let type = file.type
+    /*
+    if (type.startsWith('image') === false) {
+      FunctionHelper.triggerCallback(callback)
+      return this
+    } 
+    */
+    let name = file.name
+    name = FileHelper.extractSafeFilename(name)
+    //console.log(imageFile)
+
+    FileSystemHelper.writeFromFile(path, file, (url) => {
+      let node
+      if (type.startsWith('image')) {
+        this.insertImageNode(url, name)
+      } else {
+        node = $(`<a href="${url}" class="file">${name}</a>`)[0]
+        $v.EditorManager.FieldPostBody.insert(node)
+      }
+      FunctionHelper.triggerCallback(callback)
+    })
+  },
+  /**
+   * 插入圖片似乎最後都會走到這裡
+   * @param {String} url
+   * @param {String} name
+   * @returns {SummerNoteImage}
+   */
+  insertImageNode: function (url, name) {
+    let imgNode = $(`<a href="${url}" data-filename="${name}">
+      <img src="${url}" title="${name}" alt="${name}" data-filename="${name}" onload="BloggerImageHelper.readyToResize(this)" />
+    </a>`)[0]
+    //this.getPostSummerNote().summernote('insertNode', imgNode);
+    $v.EditorManager.FieldPostBody.insert(imgNode)
+    
+    this.ocrImage(name)
+    return this
+  },
+  ocrImage: function (name) {
+    if ($v.EditorManager.enableOCRImageFilename) {
+      let postBody = $v.EditorManager.FieldPostBody.getUI()
+      let aNode = postBody.find(`a[href^="filesystem="][data-filename="${name}"]`)
+      let imgNode = aNode.find(`img[src^="filesystem="][data-filename="${name}"]`)
+      
+      if (aNode.length > 0 && imgNode.length > 0) {
+        
+        // 開始進入OCR的程序
+        imgNode.attr('data-ocr', 'true')
+        DelayExecHelper.addForceWaiting(name)
+        TesseractHelper.recognizeFilename(imgNode, (ocrName) => {
+          if (ocrName !== '') {
+            // 複製檔案
+            let oldPath = imgNode.attr('src')
+            let nameExt = oldPath.slice(oldPath.lastIndexOf('.'))
+            let newName = name + nameExt
+            let newPath = oldPath.slice(0, oldPath.lastIndexOf('/') + 1) + newName
+            
+            FileSystemHelper.move(oldPath, newPath, () => {
+              aNode.attr('href', newPath)
+                   .attr('data-filename', newName)
+              imgNode.attr('src', newPath)
+                     .attr('title', newName)
+                     .attr('alt', newName)
+                     .attr('data-filename', newName)
+                     .removeAttr('data-ocr')
+             
+              DelayExecHelper.removeForceWaiting(name)
+              // 完工
+            })
+          }
+          else {
+            imgNode.removeAttr('data-ocr')
+          }
+        })
+      }
+    }
+    return this
+  }
 }
 
 export default SummerNoteImage

@@ -32,7 +32,7 @@ let TemplateManager = {
         return
       }
       
-      FileSystemHelper.copy('/', files, 'template.html', () => {
+      FileSystemHelper.writeFromFile('/', files, 'template.html', () => {
         //console.log(`template uploaded.`)
         //console.log(FileSystemHelper.getFileSystemUrl('/template.html'))
         $v.ThemeManager.useCustomTemplate = true
@@ -200,7 +200,7 @@ let TemplateManager = {
       FunctionHelper.triggerCallback(callback)
     }
     else {
-      FileSystemHelper.write(content, this.path, callback)
+      FileSystemHelper.writeFromString(content, this.path, callback)
     }
   },
   getConfig: function (callback) {
@@ -221,7 +221,7 @@ let TemplateManager = {
     }
     
     if (this.validate(content)) {
-      FileSystemHelper.write(this.path, content, callback)
+      FileSystemHelper.writeFromString(this.path, content, callback)
     }
   }
 }

@@ -2,6 +2,7 @@ let DelayExecHelper = {
   timers: {},
   limitTimers: {},
   events: {},
+  forceWaiting: [],
   exec: function (type, delaySec, maxLimitSec, event) {
     //console.log('delay')
     return this.foreExec(type, delaySec, maxLimitSec, event)
@@ -96,6 +97,10 @@ let DelayExecHelper = {
     }
   },
   isWaiting: function (type) {
+    if (this.forceWaiting.length > 0) {
+      return true
+    }
+    
     if (type === undefined) {
       for (type in this.timers) {
         if (this.timers[type] !== null) {
@@ -122,6 +127,23 @@ let DelayExecHelper = {
     window.addEventListener('blur', () => {
       this.forceExec()
     })
+  },
+  addForceWaiting: function (id) {
+    if (this.forceWaiting.indexOf(id) === -1) {
+      this.forceWaiting.push(id)
+    }
+    if (this.forceWaiting.length > 0) {
+      this.showIndicator()
+    }
+    return this
+  },
+  removeForceWaiting: function (id) {
+    if (this.forceWaiting.indexOf(id) > -1) {
+      this.forceWaiting = this.forceWaiting.filter((i) => {return (i !== id)})
+    }
+    if (this.forceWaiting.length === 0) {
+      this.hideIndicator()
+    }
   }
 }
 

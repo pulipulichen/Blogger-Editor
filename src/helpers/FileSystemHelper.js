@@ -152,7 +152,7 @@ Message: ${e.message}`
 
   }, callback);
   },
-  write: function (filePath, content, callback) {
+  writeFromString: function (filePath, content, callback) {
     if (InitHelper.ready === false) {
       console.log('wait init ready')
       return
@@ -178,14 +178,14 @@ Message: ${e.message}`
       this.isExists(dirPath, (dirExists) => {
         if (dirExists === false) {
           this.createDir(fs.root, dirPath.split('/'), () => {
-            this.write(filePath, content, callback)
+            this.writeFromString(filePath, content, callback)
           }); // fs.root is a 
         }
         else {
           this.isExists(filePath, (fileExists) => {
             if (fileExists === true) {
               this.remove(filePath, () => {
-                this.write(filePath, content, callback)
+                this.writeFromString(filePath, content, callback)
               })
             }
             else {
@@ -283,7 +283,7 @@ Message: ${e.message}`
     }, errorHandler);
 
   },
-  copy: function (dirPath, files, filename, callback) {
+  writeFromFile: function (dirPath, files, filename, callback) {
     if (InitHelper.ready === false) {
       console.log('wait init ready')
       return
@@ -297,7 +297,7 @@ Message: ${e.message}`
     //console.log(typeof(files.name))
     if (typeof(files.name) === 'string') {
     //if (files.length > 1) {
-      this.copy(dirPath, [files], filename, (list) => {
+      this.writeFromFile(dirPath, [files], filename, (list) => {
         if (typeof(callback) === 'function') {
           callback(list[0])
         }
@@ -589,6 +589,16 @@ Message: ${e.message}`
     return filename
   }
   */
+  copy: function (oldPath, newPath, callback) {
+    return this.read(oldPath, (fileContent) => {
+      this.writeFromString(newPath, fileContent, callback)
+    })
+  },
+  move: function (oldPath, newPath, callback) {
+    return this.copy(oldPath, newPath, () => {
+      this.remove(oldPath, callback)
+    })
+  }
 }
 
 //FileSystemHelper.init()

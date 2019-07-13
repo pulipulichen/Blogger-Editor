@@ -152,7 +152,7 @@ let StyleManager = {
       FileSystemHelper.remove(this.path, callback)
     }
     else {
-      FileSystemHelper.write(this.path, style, callback)
+      FileSystemHelper.writeFromString(this.path, style, callback)
     }
     return this
   },
@@ -163,7 +163,7 @@ let StyleManager = {
       FunctionHelper.triggerCallback(callback)
     }
     else {
-      FileSystemHelper.write(content, this.path, callback)
+      FileSystemHelper.writeFromString(content, this.path, callback)
     }
   },
   getConfig: function (callback) {
@@ -182,7 +182,7 @@ let StyleManager = {
       FunctionHelper.triggerCallback(callback)
       return
     }
-    FileSystemHelper.write(this.path, content, callback)
+    FileSystemHelper.writeFromString(this.path, content, callback)
   }
 }
 

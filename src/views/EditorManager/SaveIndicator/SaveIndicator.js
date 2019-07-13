@@ -5,12 +5,14 @@ let config = {
       ui: undefined,
     }
   },
+  /*
   mounted: function () {
     //VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')
   },
   computed: {
     
   },
+  */
   created: function () {
     $v[this.name] = this
   },

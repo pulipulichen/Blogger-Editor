@@ -1,3 +1,5 @@
+import SummerNoteImage from './SummerNoteImage.js'
+
 let SummerNoteCallbacks = {
   blockList: ['li', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7'],
   moveDown: [13, 48, 34],
@@ -11,7 +13,7 @@ let SummerNoteCallbacks = {
         FunctionHelper.triggerCallback(callback)
       },
       onImageUpload: (files) => {
-        this.onImageUpload(files)
+        SummerNoteImage.onImageUpload(files)
       },
       onDrop: (files) => {
         //console.log('onDrop')
@@ -75,7 +77,7 @@ let SummerNoteCallbacks = {
         return
       }
 
-      let padding = (window.innerHeight - this.toolbarHeight) / 5
+      let padding = (window.innerHeight - this.toolbarHeight) / 10
 
       //if (this.moveDown.indexOf(keyCode) > -1) {
         let bottomLimit = window.scrollY + window.innerHeight - padding
@@ -99,48 +101,11 @@ let SummerNoteCallbacks = {
         }
     }
   },
-  getAssetDirPath: function () {
-    //$v.PostManager.getEditingPostId((id) => {
-    //  let path = `/${id}/assets/`
-    //  FunctionHelper.triggerCallback(callback, path)
-    //})
-    let id = $v.PostManager.editingPostId
-    return `/${id}/assets/`
-  },
-  onImageUpload: function (files) {
-    let path = this.getAssetDirPath()
-    TesseractHelper.recognize(files)
-    
-    FileSystemHelper.copy(path, files, (urlList) => {
-      urlList.forEach(imgUrl => {
-        let name = FileSystemHelper.getFileName(imgUrl)
-        this.insertImageNode(imgUrl, name)
-      })
-    })
-  },
   onDrop: function (files) {
-    //console.log(['onDrop', files])
-    let path = this.getAssetDirPath()
-    
     let loop = (i) => {
       if (i < files.length) {
         let file = files[i];
-        
-        TesseractHelper.recognize(file)
-        
-        let type = file.type
-        let name = file.name
-        name = FileHelper.extractSafeFilename(name)
-        //console.log(imageFile)
-
-        FileSystemHelper.copy(path, file, (url) => {
-          let node
-          if (type.startsWith('image')) {
-            this.insertImageNode(url, name)
-          } else {
-            node = $(`<a href="${url}">${name}</a>`)[0]
-            $v.EditorManager.FieldPostBody.insert(node)
-          }
+        SummerNoteImage.insertImageFromDrop(file, () => {
           i++
           setTimeout(() => {
             loop(i)
@@ -148,33 +113,21 @@ let SummerNoteCallbacks = {
         })
       }
     }
-
     loop(0)
   },
   onPaste: function (e) {
     var orgEvent = e.originalEvent;
-    let path = this.getAssetDirPath()
     let items = orgEvent.clipboardData.items
 
     for (var i = 0; i < items.length; i++) {
       if (items[i].kind === "file"
               && items[i].type.startsWith('image/')) {
         let imageFile = items[i].getAsFile();
-        let filename = DayjsHelper.nowFormat() + '.png'
-        FileSystemHelper.copy(path, imageFile, filename, (imgUrl) => {
-          this.insertImageNode(imgUrl, filename)
-        })
+        SummerNoteImage.insertImageFromPaste(imageFile)
         e.preventDefault();
         break;
       }
     }
-  },
-  insertImageNode: function (url, name) {
-    let imgNode = $(`<a href="${url}" data-filename="${name}">
-      <img src="${url}" title="${name}" alt="${name}" data-filename="${name}" onload="BloggerImageHelper.readyToResize(this)" />
-    </a>`)[0]
-    //this.getPostSummerNote().summernote('insertNode', imgNode);
-    $v.EditorManager.FieldPostBody.insert(imgNode)
   },
 }
 
