@@ -16,9 +16,9 @@ let TesseractHelper = {
       //console.log('go')
       this.worker.recognize(image)
         .progress(progress => {
-          console.log('progress', progress);
+          //console.log('progress', progress);
         }).then(result => {
-          console.log('result', result);
+          //console.log('result', result);
           FunctionHelper.triggerCallback(callback, result)
         });
     })
@@ -35,6 +35,8 @@ let TesseractHelper = {
   },
   
   recognizeFilename: function (imageFile, callback) {
+    //return FunctionHelper.triggerCallback(callback, "OK-OK-OK")
+    
     /*
     if (typeof(image.src) === 'string' || typeof(image.attr) === 'function') {
       let imageObject = new Image()
@@ -66,7 +68,7 @@ let TesseractHelper = {
         })
       */
       FileSystemHelper.read(imageFile.src, (file) => {
-        console.log(file)
+        //console.log(file)
         this.recognizeFilename(file, callback)
       })
       return
@@ -93,7 +95,7 @@ let TesseractHelper = {
       if (output.length > hardLimit) {
         output = output.slice(0, hardLimit)
       }
-      console.log(output)
+      //console.log(output)
       FunctionHelper.triggerCallback(callback, output)
     })
   }

@@ -589,6 +589,7 @@ Message: ${e.message}`
     return filename
   }
   */
+  /*
   copy: function (oldPath, newPath, callback) {
     console.log(oldPath)
     return this.read(oldPath, (fileContent) => {
@@ -600,6 +601,68 @@ Message: ${e.message}`
     return this.copy(oldPath, newPath, () => {
       this.remove(oldPath, callback)
     })
+  }
+  */
+  copy: function (oldPath, newPath, callback) {
+    let fs = this.fs
+    oldPath = this.resolveFileSystemUrl(oldPath)
+    newPath = this.resolveFileSystemUrl(newPath)
+    let newPathDir = newPath.slice(0, newPath.lastIndexOf('/'))
+    let newName = newPath.slice(newPath.lastIndexOf('/') + 1)
+    //console.log(['read', filePath])
+    //let errorHandler = this.errorHandler
+    let errorHandler = (e) => {
+      if (e.code === 8) {
+        // Error code: 8
+        // Name: NotFoundError
+        // Message: A requested file or directory could not be found at the time an operation was processed.
+        
+        //console.log('File not found: ' + filePath)
+        FunctionHelper.triggerCallback(callback)
+      }
+      else {
+        this.errorHandler(e)
+      }
+    }
+    fs.root.getFile(oldPath, {}, (fileEntry) => {
+      // Get a File object representing the file,
+      // then use FileReader to read its contents.
+      fs.root.getDirectory(newPathDir, {create: true}, (dirEntry) => {
+        fileEntry.copyTo(dirEntry, newName, callback, errorHandler)
+      })
+
+    }, errorHandler);
+  },
+  
+  move: function (oldPath, newPath, callback) {
+    let fs = this.fs
+    oldPath = this.resolveFileSystemUrl(oldPath)
+    newPath = this.resolveFileSystemUrl(newPath)
+    let newPathDir = newPath.slice(0, newPath.lastIndexOf('/'))
+    let newName = newPath.slice(newPath.lastIndexOf('/') + 1)
+    //console.log(['read', filePath])
+    //let errorHandler = this.errorHandler
+    let errorHandler = (e) => {
+      if (e.code === 8) {
+        // Error code: 8
+        // Name: NotFoundError
+        // Message: A requested file or directory could not be found at the time an operation was processed.
+        
+        //console.log('File not found: ' + filePath)
+        FunctionHelper.triggerCallback(callback)
+      }
+      else {
+        this.errorHandler(e)
+      }
+    }
+    fs.root.getFile(oldPath, {}, (fileEntry) => {
+      // Get a File object representing the file,
+      // then use FileReader to read its contents.
+      fs.root.getDirectory(newPathDir, {create: true}, (dirEntry) => {
+        fileEntry.moveTo(dirEntry, newName, callback, errorHandler)
+      })
+
+    }, errorHandler);
   }
 }
 

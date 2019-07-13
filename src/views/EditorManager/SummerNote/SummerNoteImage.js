@@ -300,7 +300,9 @@ let SummerNoteImage = {
   },
   ocrImage: function (name) {
     console.log($v.EditorManager.enableOCRImageFilename)
-    if ($v.EditorManager.enableOCRImageFilename === true) {
+    console.log(this.isNeedOCRFilename(name))
+    if ($v.EditorManager.enableOCRImageFilename === true && this.isNeedOCRFilename(name) === false) {
+      
       let postBody = $v.EditorManager.FieldPostBody.getElement()
       let aNode = postBody.find(`a[href^="filesystem:"][data-filename="${name}"]`)
       let imgNode = aNode.find(`img[src^="filesystem:"][data-filename="${name}"]`)
@@ -309,16 +311,20 @@ let SummerNoteImage = {
         
         // 開始進入OCR的程序
         imgNode.attr('data-ocr', 'true')
-        console.log(name)
+        //console.log(name)
         DelayExecHelper.addForceWaiting(name)
         TesseractHelper.recognizeFilename(imgNode, (ocrName) => {
           if (ocrName !== '') {
             // 複製檔案
             let oldPath = imgNode.attr('src')
+            let oldName = oldPath.slice(oldPath.lastIndexOf('/') + 1, oldPath.lastIndexOf('.'))
+            if (oldName.length > 30) {
+              oldName = oldName.slice(0, 30)
+            }
             let nameExt = oldPath.slice(oldPath.lastIndexOf('.'))
-            let newName = ocrName + nameExt
+            let newName = oldName + '-' + ocrName + nameExt
             let newPath = oldPath.slice(0, oldPath.lastIndexOf('/') + 1) + newName
-            console.log([oldPath, newName, newPath])
+            //console.log([oldPath, newName, newPath])
             
             FileSystemHelper.copy(oldPath, newPath, () => {
               aNode.attr('href', newPath)
@@ -328,7 +334,7 @@ let SummerNoteImage = {
                      .attr('alt', newName)
                      .attr('data-filename', newName)
                      .removeAttr('data-ocr')
-             
+              $v.EditorManager.FieldPostBody.save()
               DelayExecHelper.removeForceWaiting(name)
               // 完工
             })
@@ -340,6 +346,10 @@ let SummerNoteImage = {
       }
     }
     return this
+  },
+  isNeedOCRFilename: function (name) {
+    let terms = name.trim().match(/[A-Za-z]{2,}/g).map(term => {return term})
+    return (terms.join('').length > 5)
   }
 }
 
