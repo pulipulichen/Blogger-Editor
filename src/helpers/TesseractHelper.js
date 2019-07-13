@@ -5,21 +5,44 @@ let TesseractHelper = {
   init: function (callback) {
     if (this.worker === null) {
       this.worker = new Tesseract.TesseractWorker()
+      let langs = $v.EditorManager.OCRImageLang
+      Tesseract.utils.loadLang({ langs: langs, langPath: this.worker.options.langPath })
+        .then(() => {
+          EventManager.on($v.EditorManager, 'OCRImageLangChanged', () => {
+            this.worker = null
+          })
+          FunctionHelper.triggerCallback(callback)
+        })
     }
-
-    FunctionHelper.triggerCallback(callback)
+    else {
+      FunctionHelper.triggerCallback(callback)
+    }
+    return this
   },
   recognize: function (image, callback) {
+    
+    if (typeof(image.attr) === 'function') {
+      image = image[0]
+    }
+    if (image instanceof HTMLElement) {
+      FileSystemHelper.read(image.src, (file) => {
+        //console.log(file)
+        this.recognize(file, callback)
+      })
+      return this
+    }
     
     //console.log(image)
     return this.init(() => {
       //console.log('go')
-      this.worker.recognize(image)
-        .progress(progress => {
-          //console.log('progress', progress);
-        }).then(result => {
+      let langs = $v.EditorManager.OCRImageLang
+      this.worker.recognize(image, langs)
+        //.progress(progress => {
+        //  console.log('progress', progress);
+        //})
+        .then(result => {
           //console.log('result', result);
-          FunctionHelper.triggerCallback(callback, result)
+          FunctionHelper.triggerCallback(callback, result.text)
         });
     })
    /*
@@ -33,46 +56,14 @@ let TesseractHelper = {
       });
       */
   },
-  
+  /**
+   * @deprecated 20190713 Pulipuli Chen 
+   * @param {type} imageFile
+   * @param {type} callback
+   * @returns {TesseractHelper}
+   */
+  /*
   recognizeFilename: function (imageFile, callback) {
-    //return FunctionHelper.triggerCallback(callback, "OK-OK-OK")
-    
-    /*
-    if (typeof(image.src) === 'string' || typeof(image.attr) === 'function') {
-      let imageObject = new Image()
-      let _this = this
-      imageObject.onload = function () {
-        _this.recognizeFilename(this, callback)
-      }
-      if (typeof(image.src) === 'string') {
-        imageObject.src = image.src
-      }
-      if (typeof(image.attr) === 'function') {
-        imageObject.src = image.attr('attr')
-      }
-      
-      return
-    }
-    */
-    if (typeof(imageFile.attr) === 'function') {
-      imageFile = imageFile[0]
-    }
-    if (imageFile instanceof HTMLElement) {
-      /*
-      fetch(imageFile.src)
-        .then(res => res.blob())
-        .then(blob => {
-          const file = new File([blob], 'dot.png', blob)
-          //console.log(file)
-          this.recognizeFilename(file, callback)
-        })
-      */
-      FileSystemHelper.read(imageFile.src, (file) => {
-        //console.log(file)
-        this.recognizeFilename(file, callback)
-      })
-      return
-    }
     
     return this.recognize(imageFile, result => {
       let terms = result.text.trim().match(/[A-Za-z]{2,}/g).map(term => {return term})
@@ -99,6 +90,7 @@ let TesseractHelper = {
       FunctionHelper.triggerCallback(callback, output)
     })
   }
+  */
 }
 
 window.TesseractHelper = TesseractHelper

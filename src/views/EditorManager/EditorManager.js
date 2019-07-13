@@ -44,6 +44,7 @@ var EditorManager = {
       summerNoteConfigLabels: '',
       $summerNoteConfigLabelsSearch: null,
       enableOCRImageFilename: true,
+      OCRImageLang: 'chi_tra+eng',
       onCloseReload: false,
       
       FieldPostBody: FieldPostBody,
@@ -68,6 +69,7 @@ var EditorManager = {
   mounted() {
     VueHelper.mountLocalStorageBoolean(this, 'enableOCRImageFilename')
     VueHelper.mountLocalStorage(this, 'uploadImageDraft')
+    VueHelper.mountLocalStorage(this, 'OCRImageLang')
     VueHelper.mountLocalStorageInt(this, 'imageSizeDefault')
     
     VueHelper.mountLocalStorage(this, 'summerNoteConfigToolbar')
@@ -156,6 +158,9 @@ var EditorManager = {
       this.validateUploadImageDrarfUrl()
       
       EventManager.trigger(this, 'disableUploadImageDraftChanged')
+    },
+    OCRImageLang: function (value) {
+      EventManager.trigger(this, 'OCRImageLangChanged')
     }
   },
   methods: {
@@ -206,6 +211,7 @@ var EditorManager = {
       //console.log('now pretend I did more stuff...');
       
       VueHelper.persistLocalStorage(this, 'enableOCRImageFilename')
+      VueHelper.persistLocalStorage(this, 'OCRImageLang')
       VueHelper.persistLocalStorage(this, 'uploadImageDraft')
       VueHelper.persistLocalStorage(this, 'imageSizeDefault')
       

@@ -118,18 +118,18 @@ let DelayExecHelper = {
   },
   showIndicator: function (lock) {
     if ($v.EditorManager.SaveIndicator !== null) {
-      $v.EditorManager.SaveIndicator.open()
       if (lock === true) {
         $v.EditorManager.SaveIndicator.lock()
       }
+      $v.EditorManager.SaveIndicator.open()
     }
   },
   hideIndicator: function (unlock) {
     if ($v.EditorManager.SaveIndicator !== null) {
-      $v.EditorManager.SaveIndicator.close()
       if (unlock === true) {
         $v.EditorManager.SaveIndicator.unlock()
       }
+      $v.EditorManager.SaveIndicator.close()
     }
   },
   init: function () {

@@ -16,6 +16,7 @@
     "HELP": "說明",
     "Style Tags": "格式標籤",
     "Search Label": "搜尋標籤",
-    "Use OCR text as image's filename": "使用OCR結果作為圖片檔名"
+    "Use OCR text as image's filename": "使用OCR結果作為圖片檔名",
+    "OCR Language": "OCR語言"
   }
 }

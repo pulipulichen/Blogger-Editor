@@ -49,6 +49,22 @@
             </div>
             
             <div class="field">
+              <label for="OCRImageLang">
+                {{ $t('OCR Language') }}
+              </label>
+              
+              <div class="ui input">
+                <input type="url" 
+                       name="OCRImageLang" 
+                       onfocus="this.select()"
+                       id="OCRImageLang"
+                       v-model="OCRImageLang"
+                       v-on:change="persist"
+                       placeholder="chi_tra+eng" />
+              </div>
+            </div>
+            
+            <div class="field">
               <label for="uploadImageDraft">
                 {{ $t('Upload Image Draft URL') }}
               </label>
