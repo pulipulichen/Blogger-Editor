@@ -299,8 +299,8 @@ let SummerNoteImage = {
     return this
   },
   ocrImage: function (name) {
-    console.log($v.EditorManager.enableOCRImageFilename)
-    console.log(this.isNeedOCRFilename(name))
+    //console.log($v.EditorManager.enableOCRImageFilename)
+    //console.log(this.isNeedOCRFilename(name))
     if ($v.EditorManager.enableOCRImageFilename === true && this.isNeedOCRFilename(name) === false) {
       
       let postBody = $v.EditorManager.FieldPostBody.getElement()
