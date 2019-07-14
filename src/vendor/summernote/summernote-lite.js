@@ -45,7 +45,9 @@
           if (this.children) {
               var $container_1 = $node.find('.note-children-container');
               this.children.forEach(function (child) {
+                if (typeof(child.render) === 'function') {
                   child.render($container_1.length ? $container_1 : $node);
+                }
               });
           }
           if (this.callback) {
@@ -8257,6 +8259,22 @@ sel.addRange(range);
               }).render();
           });
       };
+      Buttons.prototype.addToolbarButtonsGroup = function (contents, tooltip, buttonsData) {
+          let _this = this
+          //this.context.memo('button.insertOther', function () {
+              return _this.ui.buttonGroup([
+                  _this.button({
+                      className: 'dropdown-toggle',
+                      contents: contents,
+                      tooltip: tooltip,
+                      data: {
+                        toggle: 'dropdown'
+                      }
+                  }),
+                  _this.ui.dropdown(buttonsData)
+              ]).render();
+          //});
+      }
       /**
        * image : [
        *   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],

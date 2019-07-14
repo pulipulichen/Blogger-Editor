@@ -1,13 +1,13 @@
 import SummerNoteHelper from './SummerNoteHelper.js'
 
 let SummerNoteCode = {
-  insertMore: function (context) {
+  insertMore: function (context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="ellipsis horizontal icon"></i> More`)
     let tooltip = 'Insert More'
     let click = () => {
       this.insertMoreClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   insertMoreClick: function () {
     let postBody = $v.EditorManager.FieldPostBody

@@ -77,9 +77,22 @@ let SummerNoteButtons = {
       popoverImageOpen: (c) => {
         return SummerNoteImage.popoverImageOpen(c)
       },
+      
+      
+      // ---------------
+      // Buttons for Dropdown
+      // ---------------
+      dropdownInsert: (c) => {
+        return this.dropdownInsert(c)
+      },
     }
-  },  
-  
+  },  // config: function () {
+  dropdownInsert: function (c) {
+    return SummerNoteHelper.buildDropdownButtonsGroup(c, 'A', 'B', [
+      SummerNoteCode.insertMore(c, false),
+      SummerNoteOpen.CodeInserter(c, false)
+    ])
+  }
 }
 
 export default SummerNoteButtons
