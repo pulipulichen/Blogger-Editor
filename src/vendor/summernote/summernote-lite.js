@@ -909,6 +909,7 @@
               comment: 'Comment',
               uncomment: 'Uncomment',
               htmlify: 'Htmlify',
+              textify: 'Textify',
               iframe: 'Iframe',
               subscript: 'Subscript',
               superscript: 'Superscript',
@@ -1041,6 +1042,7 @@
               'comment': 'Add a comment',
               'uncomment': 'Remove comments',
               'htmlify': 'Convert selection to html',
+              'textify': 'Convert selection to text',
               'removeFormat': 'Clean a style',
               'justifyLeft': 'Set left align',
               'justifyCenter': 'Set center align',
@@ -3802,6 +3804,7 @@
                   'font-comment': document.queryCommandState('comment') ? 'comment' : 'normal',
                   'font-uncomment': document.queryCommandState('uncomment') ? 'uncomment' : 'normal',
                   'font-htmlify': document.queryCommandState('htmlify') ? 'htmlify' : 'normal',
+                  'font-textify': document.queryCommandState('textify') ? 'textify' : 'normal',
                   'font-iframe': document.queryCommandState('iframe') ? 'iframe' : 'normal',
                   'font-family': document.queryCommandValue('fontname') || styleInfo['font-family']
               });
@@ -4927,6 +4930,10 @@
               
           });
           
+          /**
+           * @author Pulipuli Chen 20190715
+           * @returns {Editor.Editor}
+           */
           this.htmlify = function () {
             //var rng = _this.createRange();
             //let text = ''
@@ -4953,6 +4960,47 @@
                 _this.context.triggerEvent('change', _this.$editable.html());
               }
             }
+            return this
+          }
+          
+          
+          /**
+           * @author Pulipuli Chen 20190715
+           * @returns {Editor.Editor}
+           */
+          this.textify = function () {
+            //var rng = _this.createRange();
+            //let text = ''
+            //console.log(rng)
+            let sel = window.getSelection();
+            console.log(sel)
+            if (typeof(sel.focusNode) === 'object') {
+              let node = sel.focusNode
+              if (node.nodeType === 3) {
+                node = node.parentNode
+              }
+              let html = node.outerHTML
+              console.log(html)
+              if (typeof(html) !== 'string') {
+                return
+              }
+              else {
+                html = html.trim()
+              }
+              //html = html.slice(sel.anchorOffset, sel.extentOffset)
+              
+              
+              
+              
+              if (html !== '') {
+                let range = sel.getRangeAt(0);
+                range.deleteContents();
+                let pTag = $$1('<p></p>').text(html)
+                range.insertNode($$1(pTag)[0]);
+                _this.context.triggerEvent('change', _this.$editable.html());
+              }
+            }
+            return this
           }
           
           this.replaceSelectedText = function (replacementText) {
@@ -7985,6 +8033,14 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandlerAndUpdateState('editor.htmlify')
               }).render();
           });
+          this.context.memo('button.textify', function () {
+              return _this.button({
+                  className: 'note-btn-textify',
+                  contents: 'T',
+                  tooltip: _this.lang.font.textify + _this.representShortcut('textify'),
+                  click: _this.context.createInvokeHandlerAndUpdateState('editor.textify')
+              }).render();
+          });
           this.context.memo('button.iframe', function () {
               return _this.button({
                   className: 'note-btn-iframe',
@@ -8259,22 +8315,6 @@ sel.addRange(range);
               }).render();
           });
       };
-      Buttons.prototype.addToolbarButtonsGroup = function (contents, tooltip, buttonsData) {
-          let _this = this
-          //this.context.memo('button.insertOther', function () {
-              return _this.ui.buttonGroup([
-                  _this.button({
-                      className: 'dropdown-toggle',
-                      contents: contents,
-                      tooltip: tooltip,
-                      data: {
-                        toggle: 'dropdown'
-                      }
-                  }),
-                  _this.ui.dropdown(buttonsData)
-              ]).render();
-          //});
-      }
       /**
        * image : [
        *   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
@@ -8511,6 +8551,9 @@ sel.addRange(range);
               },
               '.note-btn-htmlify': function () {
                   return styleInfo['font-htmlify'] === 'htmlify';
+              },
+              '.note-btn-textify': function () {
+                  return styleInfo['font-textify'] === 'textify';
               }
           });
           if (styleInfo['font-family']) {
@@ -10714,7 +10757,7 @@ sel.addRange(range);
               ['color', ['color']],
               ['para', ['ul', 'ol', 'paragraph']],
               ['table', ['table']],
-              ['insert', ['link', 'picture', 'video', 'hr', 'comment', 'htmlify', 'iframe']],
+              ['insert', ['link', 'picture', 'video', 'hr', 'comment', 'htmlify', 'textify', 'iframe']],
               ['view', ['fullscreen', 'codeview', 'help']]
           ],
           // popover
@@ -10832,6 +10875,7 @@ sel.addRange(range);
                   'CTRL+M': 'comment',
                   'CTRL+ALT+M': 'uncomment',
                   'CTRL+ALT+H': 'htmlify',
+                  'CTRL+ALT+T': 'textify',
                   //'CTRL+SHIFT+E': 'comment',
                   'CTRL+BACKSLASH': 'removeFormat',
                   'CTRL+SHIFT+L': 'justifyLeft',
@@ -10928,7 +10972,8 @@ sel.addRange(range);
               'strikethrough': 'note-icon-strikethrough',
               'comment': 'note-icon-pencil',
               'uncomment': 'note-icon-pencil',
-              'htmlify': 'note-icon-pencil',
+              'htmlify': 'note-icon-pencil',  // 錯誤的圖示
+              'textify': 'note-icon-pencil',  // 錯誤的圖示
               'subscript': 'note-icon-subscript',
               'superscript': 'note-icon-superscript',
               'table': 'note-icon-table',
