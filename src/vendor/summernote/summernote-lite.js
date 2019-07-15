@@ -1073,9 +1073,9 @@
               select: 'Select Special characters'
           },
           iframe: {
-            title: "Title",
+            title: "Title (optional)",
             url: "URL",
-            insert: "Insert",
+            insert: "Insert iframe",
             newWindow: "Open in new window",
             popupWindow: "Open in popup window"
           }

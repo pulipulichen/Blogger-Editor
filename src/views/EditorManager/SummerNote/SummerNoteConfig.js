@@ -50,8 +50,8 @@ let SummerNoteConfig = {
         //['fontname', ['fontname']],
         ['para', ['ul', 'ol', 'paragraph']],
         //['table', []],
-        ['insert', ['hr', 'link', 'table', 'iframe', 'CodeInserter', 'SaveSnippet']],
-        ['insertMultimedia', [ 'picture', 'video', 'dropdownInsert']],
+        ['insert', ['link', 'table', 'CodeInserter', 'SaveSnippet', 'picture']],
+        ['insertOthers', [  'insertGroup']],
         // ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
         //['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         //['publish', ['ImageReplacer', 'CleanCode', 'CopyHTML']],
@@ -230,7 +230,7 @@ let SummerNoteConfig = {
       },
       callbacks: {
         onChange: (contents) => {
-          this.onPostTitleChange(contents)
+          $v.EditorManager.FieldPostTitle.onPostTitleChange(contents)
         },
         onInit: function() {
           FunctionHelper.triggerCallback(callback)
@@ -262,25 +262,31 @@ let SummerNoteConfig = {
           FunctionHelper.triggerCallback(initCallback)
         },
         onChange: (contents) => {
-          this.onPostLabelsChange(contents)
+          $v.EditorManager.FieldPostLabels.onPostLabelsChange(contents)
         },
         onKeyup: (e) => {
           FunctionHelper.triggerCallback(keypressCallback, e)
         }
       },
-      hint: this.getLabelsHintConfig()
+      hint: $v.EditorManager.FieldPostLabels.getLabelsHintConfig()
     }
     return config
   },
+  /*
   onPostTitleChange: function (contents) {
     $v.EditorManager.FieldPostTitle.onPostTitleChange(contents)
   },
+  */
+  /*
   onPostLabelsChange: function (contents) {
     $v.EditorManager.FieldPostLabels.onPostLabelsChange(contents)
   },
+  */
+  /*
   getLabelsHintConfig: function () {
     return $v.EditorManager.FieldPostLabels.getLabelsHintConfig()
   }
+  */
 }
 
 export default SummerNoteConfig

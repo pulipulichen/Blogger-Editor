@@ -34,6 +34,10 @@ let FieldPostBody = {
     }
     return this.ui
   },
+  summernote: function (command, ...args) {
+    args = [command].concat(args)
+    return this.get().summernote.apply(this, args)
+  },
   getHTML: function () {
     if (this.debug.disableSummerNode === true) {
       return this.get().html()

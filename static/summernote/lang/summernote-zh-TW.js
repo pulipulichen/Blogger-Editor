@@ -169,6 +169,9 @@
         select: 'Select Special characters'
       },
       iframe: {
+        title: "標題 (選填)",
+        url: "網址",
+        insert: "插入iframe",
         newWindow: "開啟新視窗",
         popupWindow: "開啟彈跳視窗"
       }

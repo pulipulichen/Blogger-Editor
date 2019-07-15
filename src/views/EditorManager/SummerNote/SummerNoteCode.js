@@ -2,7 +2,7 @@ import SummerNoteHelper from './SummerNoteHelper.js'
 
 let SummerNoteCode = {
   insertMore: function (context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="ellipsis horizontal icon"></i> More`)
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="ellipsis horizontal icon"></i> Read More`)
     let tooltip = 'Insert More'
     let click = () => {
       this.insertMoreClick()

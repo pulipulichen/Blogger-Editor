@@ -82,17 +82,12 @@ let SummerNoteButtons = {
       // ---------------
       // Buttons for Dropdown
       // ---------------
-      dropdownInsert: (c) => {
-        return this.dropdownInsert(c)
+      insertGroup: (c) => {
+        return SummerNoteOpen.insertGroup(c)
       },
     }
   },  // config: function () {
-  dropdownInsert: function (c) {
-    return SummerNoteHelper.buildDropdownButtonsGroup(c, 'A', 'B', [
-      SummerNoteCode.insertMore(c, false),
-      SummerNoteOpen.CodeInserter(c, false)
-    ])
-  }
+  
 }
 
 export default SummerNoteButtons
