@@ -22,13 +22,13 @@ let SummerNoteCode = {
     //postBody.insert('<h2>[H2 Title]</h2>')
     postBody.insert('<p><a name="more"></a><!--more--></p><hr /><h2>[H2 Title]</h2>')
   },
-  CopyCode: function (context) {
+  CopyCode: function (context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>Copy Code`)
     let tooltip = 'Copy Code'
     let click = () => {
       this.CopyCodeClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   CopyCodeClick: function () {
     let postBody = $v.EditorManager.FieldPostBody.getElement()
@@ -62,13 +62,13 @@ let SummerNoteCode = {
     
     CopyPasteHelper.copyPlainText(code)
   },
-  CleanCode: function (context) {
+  CleanCode: function (context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="eraser icon"></i>Clean`)
     let tooltip = 'Clean Code'
     let click = () => {
       this.CleanCodeClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   skipTagList: ['hr', 'td', 'tr', 'th', 'caption', 'code', 'table'],
   CleanCodeClick: function (postBody) {

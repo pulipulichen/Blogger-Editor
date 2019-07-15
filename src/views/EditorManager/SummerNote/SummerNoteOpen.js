@@ -1,5 +1,6 @@
 import SummerNoteHelper from './SummerNoteHelper.js'
 import SummerNoteCode from './SummerNoteCode.js'
+import SummerNoteImage from './SummerNoteImage.js'
 
 let SummerNoteOpen = {
   // -------------------------
@@ -63,6 +64,14 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
+  GooglePhoto: function (context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i> Google Photo`)
+    let tooltip = 'Open Google Photo'
+    let click = () => {
+      WindowHelper.forcePopup('https://photos.google.com/?hl=zh-TW', 'googlePhoto')
+    }
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+  },
   
   insertHR: function (context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-minus icon"></i> Horizontal Rule`)
@@ -120,6 +129,15 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
+  downloadImageTemplate: function (context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i> Image Template`)
+    let tooltip = 'Download Image Template'
+    let click = () => {
+      SummerNoteImage.downloadImageTamplateClick()
+    }
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+  },
+  
   // ------------------------------------
   insertGroup: function (c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, 'Insert', 'Insert Tools', [
@@ -138,7 +156,13 @@ let SummerNoteOpen = {
   
   formatGroup: function (c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, 'Format', 'Format Tools', [
-      
+      SummerNoteImage.downloadImageTamplate(c, false),
+      SummerNoteImage.ImageReplacer(c, false),
+      this.GooglePhoto(c, false),
+      SummerNoteCode.CopyCode(c, false),
+      SummerNoteCode.CleanCode(c, false),
+      SummerNoteImage.imageSizeOriginal(c, false),
+      SummerNoteImage.imageSizeDefault(c, false),
     ])
   }
 }

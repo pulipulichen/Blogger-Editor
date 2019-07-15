@@ -85,6 +85,9 @@ let SummerNoteButtons = {
       insertGroup: (c) => {
         return SummerNoteOpen.insertGroup(c)
       },
+      formatGroup: (c) => {
+        return SummerNoteOpen.formatGroup(c)
+      },
     }
   },  // config: function () {
   

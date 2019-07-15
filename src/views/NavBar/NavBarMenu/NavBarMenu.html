@@ -31,45 +31,7 @@
     <span>{{ $t('Config') }}</span>
   </a>
   
-  <div class="ui sub-menu-button item" 
-       ref="dropdownInsert">
-    <i class="circle plus icon"
-       v-bind:title="$t('Insert Tools')"></i>
-    <span>{{ $t('Insert Tools') }}</span>
-    <i class="dropdown icon"></i>
-    <div class="menu">
-      <a class="item" v-on:click="editorInsertMore">
-        <i class="ellipsis horizontal icon"></i> 
-        {{ $t('More Spliter') }}
-      </a>
-      <a class="item" v-on:click="editorInsertSnippet">
-        <i class="quote left icon"></i> 
-        {{ $t('Snippet') }}
-      </a>
-      <a class="item" v-on:click="editorInsertCode">
-        <i class="code icon"></i> 
-        {{ $t('Code') }}
-      </a>
-      <!--
-      <a class="item" v-on:click="editorInsertIframe">
-        <i class="plus square outline icon"></i> 
-        {{ $t('Iframe') }}
-      </a>
-      -->
-      <a class="item" v-on:click="editorInsertFile">
-        <i class="upload icon"></i> 
-        {{ $t('File') }}
-      </a>
-      <a class="item" v-on:click="openGoogleDocsLinkBuilder">
-        <i class="google icon"></i>
-        {{ $t('Google Docs Links') }}
-      </a>
-      <a class="item" v-on:click="openOneDriveLinkBuilder">
-        <i class="linkify icon"></i>
-        {{ $t('OneDrive Links') }}
-      </a>
-    </div>
-  </div>
+  <!--
   <div class="ui sub-menu-button item" 
        ref="dropdownPublish">
     <i class="paragraph icon"
@@ -107,7 +69,7 @@
       </a>
     </div>
   </div>
-  
+  -->
   <div class="right menu">
     <a class="item word-count"
        v-bind:class="{active: (mode === 'topbar'), topbar: (mode === 'topbar')}">

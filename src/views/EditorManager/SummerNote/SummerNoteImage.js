@@ -1,22 +1,22 @@
 import SummerNoteHelper from './SummerNoteHelper.js'
 
 let SummerNoteImage = {
-  ImageReplacer: function (context) {
+  ImageReplacer: function (context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i>Upload Images`)
     let tooltip = 'Replace Images with Blogger'
     let click = () => {
       $v.ImageReplacer.open()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
-  imageSizeOriginal: function (context) {
+  imageSizeOriginal: function (context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
     let tooltip = 'Resize images to original'
     let click = () => {
       this.imageSizeOriginalClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
   imageSizeOriginalClick: function () {
@@ -27,13 +27,13 @@ let SummerNoteImage = {
     })
   },
   
-  imageSizeDefault: function (context) {
+  imageSizeDefault: function (context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="compress icon"></i> Resize Default`)
     let tooltip = 'Resize to default size'
     let click = () => {
       this.imageSizeThumbnailClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
   imageSizeThumbnailClick: function () {
@@ -47,13 +47,13 @@ let SummerNoteImage = {
   
   
   
-  downloadImageTamplate: function (context) {
+  downloadImageTamplate: function (context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="object group outline icon"></i> Image Template`)
     let tooltip = 'Download image template'
     let click = () => {
       this.downloadImageTamplateClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
   downloadImageTamplateClick: function () {
