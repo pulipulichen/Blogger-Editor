@@ -123,6 +123,7 @@ let SummerNoteOpen = {
   // ------------------------------------
   insertGroup: function (c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, 'Insert', 'Insert Tools', [
+      this.transSelected(c, false),
       this.insertHR(c, false),
       this.insertVideo(c, false),
       SummerNoteCode.insertMore(c, false),
@@ -134,20 +135,12 @@ let SummerNoteOpen = {
       this.OneDriveLinkBuilder(c, false),
     ])
   },
-  /*
+  
   formatGroup: function (c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, 'Format', 'Format Tools', [
-      this.insertHR(c, false),
-      this.insertVideo(c, false),
-      SummerNoteCode.insertMore(c, false),
-      this.SnippetInserter(c, false),
-      //this.CodeInserter(c, false),
-      this.FileUploader(c, false),
-      this.GoogleDocsLinkBuilder(c, false),
-      this.OneDriveLinkBuilder(c, false),
+      
     ])
   }
-  */
 }
 
 export default SummerNoteOpen
