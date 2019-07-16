@@ -75,7 +75,7 @@ let SummerNoteOpen = {
   
   insertHR: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-minus icon"></i>` + $t('Horizontal Rule') )
-    let tooltip = $t('Horizontal Rule') + SummerNoteHelper.representShortcut('insertHorizontalRule') //  (CTRL+ENTER)'
+    let tooltip = $t('Horizontal Rule') + ' (Ctrl+Enter)'
     let click = () => {
       //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
       $v.EditorManager.FieldPostBody.get().summernote('insertHorizontalRule')
@@ -141,6 +141,7 @@ let SummerNoteOpen = {
   // ------------------------------------
   insertGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
+      
       this.transSelected($t, c, false),
       this.insertHR($t, c, false),
       this.insertVideo($t, c, false),

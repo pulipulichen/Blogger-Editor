@@ -7,7 +7,6 @@ import SummerNoteOpen from './SummerNoteOpen.js'
 let SummerNoteButtons = {
   config: function ($t) {
     return {
-      
       // ---------------
       // Buttons on Toolbar
       // ---------------
@@ -85,9 +84,11 @@ let SummerNoteButtons = {
       insertGroup: (c) => {
         return SummerNoteOpen.insertGroup($t, c)
       },
+      /*
       formatGroup: (c) => {
         return SummerNoteOpen.formatGroup($t, c)
       },
+      */
     }
   },  // config: function () {
   

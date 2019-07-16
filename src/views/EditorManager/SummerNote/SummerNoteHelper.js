@@ -34,13 +34,6 @@ let SummerNoteHelper = {
       }),
       ui.dropdown(buttonsData)
     ]).render();
-  },
-  FieldPostBodyUI: null,
-  representShortcut: function (key) {
-    if (this.FieldPostBodyUI === null) {
-      this.FieldPostBodyUI = $v.EditorManager.FieldPostBody.get()
-    }
-    return this.FieldPostBodyUI.summernote("buttons.representShortcut", 'insertHorizontalRule')
   }
 }
 
