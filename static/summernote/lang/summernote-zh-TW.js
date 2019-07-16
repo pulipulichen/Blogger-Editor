@@ -90,7 +90,15 @@
         h3: '標題 3',
         h4: '標題 4',
         h5: '標題 5',
-        h6: '標題 6'
+        h6: '標題 6',
+        formatPara: "格式化為<p>",
+        formatCode: "格式化為<code>",
+        formatH1: "格式化為<h1>",
+        formatH2: "格式化為<h2>",
+        formatH3: "格式化為<h3>",
+        formatH4: "格式化為<h4>",
+        formatH5: "格式化為<h5>",
+        formatH6: "格式化為<h6>",
       },
       lists: {
         unordered: '項目清單',
