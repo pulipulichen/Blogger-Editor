@@ -19,14 +19,14 @@ let FieldPostBody = {
     
     //console.log('FieldPostBody init')
     SummerNoteConfig.loadLocale(() => {
-      this.get().summernote(SummerNoteConfig.postBodyConfig(callback))
+      this.get().summernote(SummerNoteConfig.postBodyConfig($t, callback))
     })
     //console.log(SummerNoteConfig.postBodyConfig())
     return this
   },
   reload: function (callback) {
     this.ui = null
-    this.get().summernote(SummerNoteConfig.postBodyConfig(callback))
+    this.get().summernote(SummerNoteConfig.postBodyConfig(this.$t, callback))
     return this
   },
   get: function () {

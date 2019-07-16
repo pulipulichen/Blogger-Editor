@@ -989,7 +989,15 @@
               h3: 'Header 3',
               h4: 'Header 4',
               h5: 'Header 5',
-              h6: 'Header 6'
+              h6: 'Header 6',
+              formatPara: "Format as <p>",
+              formatCode: "Format as <code>",
+              formatH1: "Format as <h1>",
+              formatH2: "Format as <h2>",
+              formatH3: "Format as <h3>",
+              formatH4: "Format as <h4>",
+              formatH5: "Format as <h5>",
+              formatH6: "Format as <h6>",
           },
           lists: {
               unordered: 'Unordered list',
@@ -7918,6 +7926,7 @@ sel.addRange(range);
               return _this.button({
                   className: 'note-btn-formatBlock note-btn-formatP',
                   contents: '<p></p>',
+                  tooltip: _this.lang.style.formatPara,
                   click: _this.context.createInvokeHandler('editor.formatBlock', 'P')
               }).render();
           });
@@ -7925,6 +7934,7 @@ sel.addRange(range);
               return _this.button({
                   className: 'note-btn-formatBlock note-btn-formatCode',
                   contents: '<code></code>',
+                  tooltip: _this.lang.style.formatCode,
                   click: _this.context.createInvokeHandler('editor.formatBlock', ['code', 'pre'])
               }).render();
           });
@@ -7932,6 +7942,7 @@ sel.addRange(range);
               return _this.button({
                   className: 'note-btn-formatBlock note-btn-formatH1',
                   contents: '<h1></h1>',
+                  tooltip: _this.lang.style.formatH1,
                   click: _this.context.createInvokeHandler('editor.formatBlock', 'H1')
               }).render();
           });
@@ -7939,6 +7950,7 @@ sel.addRange(range);
               return _this.button({
                   className: 'note-btn-formatBlock note-btn-formatH2',
                   contents: '<h2></h2>',
+                  tooltip: _this.lang.style.formatH2,
                   click: _this.context.createInvokeHandler('editor.formatBlock', 'H2')
               }).render();
           });
@@ -7946,6 +7958,7 @@ sel.addRange(range);
               return _this.button({
                   className: 'note-btn-formatBlock note-btn-formatH3',
                   contents: '<h3></h3>',
+                  tooltip: _this.lang.style.formatH3,
                   click: _this.context.createInvokeHandler('editor.formatBlock', 'H3')
               }).render();
           });
@@ -7953,6 +7966,7 @@ sel.addRange(range);
               return _this.button({
                   className: 'note-btn-formatBlock note-btn-formatH4',
                   contents: '<h4></h4>',
+                  tooltip: _this.lang.style.formatH4,
                   click: _this.context.createInvokeHandler('editor.formatBlock', 'H4')
               }).render();
           });
@@ -7960,6 +7974,7 @@ sel.addRange(range);
               return _this.button({
                   className: 'note-btn-formatBlock note-btn-formatH5',
                   contents: '<h5></h5>',
+                  tooltip: _this.lang.style.formatH5,
                   click: _this.context.createInvokeHandler('editor.formatBlock', 'H5')
               }).render();
           });
@@ -7967,6 +7982,7 @@ sel.addRange(range);
               return _this.button({
                   className: 'note-btn-formatBlock note-btn-formatH6',
                   contents: '<h6></h6>',
+                  tooltip: _this.lang.style.formatH6,
                   click: _this.context.createInvokeHandler('editor.formatBlock', 'H6')
               }).render();
           });

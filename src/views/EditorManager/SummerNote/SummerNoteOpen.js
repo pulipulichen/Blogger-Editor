@@ -9,64 +9,64 @@ let SummerNoteOpen = {
   
   
   IframePrompt: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="plus square outline icon"></i> Iframe`)
-    let tooltip = 'Insert iframe'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="plus square outline icon"></i>` + $t('Iframe'))
+    let tooltip = $t('Insert iframe')
     let click = () => {
       $v.IframePrompt.open()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   FileUploader: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="upload icon"></i> Upload File`)
-    let tooltip = 'Upload file and insert links'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="upload icon"></i>` + $t('Upload File') )
+    let tooltip = $t('Upload file and insert links')
     let click = () => {
       $v.FileUploader.open()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   CodeInserter: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>  Code`)
-    let tooltip = 'Insert code'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
+    let tooltip = $t('Insert code')
     let click = () => {
       $v.CodeInserter.open()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   OutlineNavigator: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i> Outline`)
-    let tooltip = 'Outline Navigation'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i>` + $t('Outline') )
+    let tooltip = $t('Outline Navigation')
     let click = () => {
       $v.OutlineNavigator.toggle()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   SnippetInserter: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="quote left icon"></i> Snippet`)
-    let tooltip = 'Insert snippet'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="quote left icon"></i>` + $t('Snippet'))
+    let tooltip = $t('Insert Snippet')
     let click = () => {
       $v.SnippetInserter.open()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   GoogleDocsLinkBuilder: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="google icon"></i> Google Docs Links`)
-    let tooltip = 'Open Google Docs Links Builder'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="google icon"></i>` + $t('Google Docs Links'))
+    let tooltip = $t('Open Google Docs Links Builder')
     let click = () => {
       $v.GoogleDocLinkBuilder.open()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   OneDriveLinkBuilder: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="linkify icon"></i> OneDrive Links`)
-    let tooltip = 'Open OneDrive Link Builder'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="linkify icon"></i>` + $t('OneDrive Links'))
+    let tooltip = $t('Open OneDrive Link Builder')
     let click = () => {
       WindowHelper.forcePopup('https://blog.pulipuli.info/2019/02/onedrive-onedrive-file-download-link.html#postcataonedrive-onedrive-file-download-link.html0_anchor3', 'OneDriveDownload')
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   GooglePhoto: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i> Google Photo`)
-    let tooltip = 'Open Google Photo'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i>` + $t('Google Photo') )
+    let tooltip = $t('Open Google Photo')
     let click = () => {
       WindowHelper.forcePopup('https://photos.google.com/?hl=zh-TW', 'googlePhoto')
     }
@@ -74,8 +74,8 @@ let SummerNoteOpen = {
   },
   
   insertHR: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-minus icon"></i> Horizontal Rule`)
-    let tooltip = '水平線 (CTRL+ENTER)'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-minus icon"></i>` + $t('Horizontal Rule') )
+    let tooltip = $t('Horizontal Rule') + SummerNoteHelper.representShortcut('insertHorizontalRule') //  (CTRL+ENTER)'
     let click = () => {
       //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
       $v.EditorManager.FieldPostBody.get().summernote('insertHorizontalRule')
@@ -85,8 +85,8 @@ let SummerNoteOpen = {
   
   insertVideo: function ($t, context, doRender) {
     //let contents = '<div><i class="note-icon-video"></i> 影片</div>'
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-video icon"></i> Video`)
-    let tooltip = '影片'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-video icon"></i>` + $t('Video'))
+    let tooltip = $t('Video')
     let click = () => {
       //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
       $v.EditorManager.FieldPostBody.get().summernote('video')
@@ -94,8 +94,8 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   insertIframe: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="linkify icon"></i> Iframe`)
-    let tooltip = 'Insert iframe'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="linkify icon"></i>` + $t('Iframe'))
+    let tooltip = $t('Insert iframe')
     let click = () => {
       //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
       $v.EditorManager.FieldPostBody.get().summernote('iframeDialog.show')
@@ -109,8 +109,8 @@ let SummerNoteOpen = {
   
   
   transSelected: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="language icon"></i> Trans`)
-    let tooltip = 'Translate Selected'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="language icon"></i>` + $t('Trans'))
+    let tooltip = $t('Translate Selected')
     let click = () => {
       let text = $v.EditorManager.FieldPostBody.getSelectText()
       text = encodeURI(text)
@@ -122,7 +122,7 @@ let SummerNoteOpen = {
   
   toggleMenu: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="bars icon"></i>`)
-    let tooltip = 'Toggle Menu'
+    let tooltip = $t('Toggle Menu')
     let click = () => {
       $v.NavBar.toggle()
     }
@@ -140,7 +140,7 @@ let SummerNoteOpen = {
   
   // ------------------------------------
   insertGroup: function ($t, c) {
-    return SummerNoteHelper.buildDropdownButtonsGroup(c, 'Insert', 'Insert Tools', [
+    return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
       this.transSelected($t, c, false),
       this.insertHR($t, c, false),
       this.insertVideo($t, c, false),
@@ -155,7 +155,7 @@ let SummerNoteOpen = {
   },
   
   formatGroup: function ($t, c) {
-    return SummerNoteHelper.buildDropdownButtonsGroup(c, 'Format', 'Format Tools', [
+    return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Format'), $t('Format Tools'), [
       SummerNoteImage.downloadImageTamplate($t, c, false),
       SummerNoteImage.ImageReplacer($t, c, false),
       this.GooglePhoto($t, c, false),

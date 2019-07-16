@@ -191,7 +191,7 @@ let SummerNoteConfig = {
       })
     }
   },
-  postBodyConfig: function (callback) {
+  postBodyConfig: function ($t, callback) {
     let locale = I18nHelper.locale()
     //console.log(locale)
     let config = {
@@ -212,7 +212,7 @@ let SummerNoteConfig = {
         link: this.popoverLink(),
         //air: this.popoverAir()
       },
-      buttons: SummerNoteButtons.config(),
+      buttons: SummerNoteButtons.config($t),
       //disableDragAndDrop: false,
       callbacks: SummerNoteCallbacks.config(callback),
       keyMap: SummerNoteKeyMap
