@@ -17,6 +17,18 @@
     "Style Tags": "格式標籤",
     "Search Label": "搜尋標籤",
     "Use OCR text as image's filename": "使用OCR結果作為圖片檔名",
-    "OCR Language": "OCR語言"
+    "OCR Language": "OCR語言",
+    "No Title": "沒有標題",
+    "No Label": "沒有標籤",
+    "Add a new label...": "新增標籤...",
+    "Config uploaded": "設定檔已上傳",
+    "Snippet": "預設模板",
+    "Save Snippet": "儲存預設模板",
+    "Read More": "閱讀更多分隔線",
+    "Insert Read More": "插入閱讀更多分隔線",
+    "Copy Code": "複製程式碼",
+    "<!--more--> is not found": "沒有找到<!--more-->",
+    "Clean": "清理程式碼",
+    "Clean Code": "清理程式碼"
   }
 }

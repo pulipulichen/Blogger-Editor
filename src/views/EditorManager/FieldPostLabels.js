@@ -4,10 +4,12 @@ let FieldPostLabels = {
   ui: null,
   uiNew: null,
   uiAdd: null,
+  $t: null,
   debug: {
     disableSummerNode: false
   },
-  init: function (callback) {
+  init: function ($t, callback) {
+    this.$t = $t
     this.debug.disableSummerNode = ConfigHelper.get('debug').disableSummerNode
     
     if (ConfigHelper.get('debug').disableSummerNode === true) {
@@ -29,14 +31,14 @@ let FieldPostLabels = {
     return this
   },
   initSummerNote: function (callback) {
-    let config = SummerNoteConfig.postLabelsConfig('No Label', () => {
+    let config = SummerNoteConfig.postLabelsConfig(this.$t('No Label'), () => {
       this.initSummerNoteNew(callback)
     })
     
     this.get().summernote(config)
   },
   initSummerNoteNew: function (callback) {
-    let config = SummerNoteConfig.postLabelsConfig('Add a new label...', 
+    let config = SummerNoteConfig.postLabelsConfig(this.$t('Add a new label...'), 
       callback, 
       (e) => {
         //console.log(this.uiNew.summernote('text'))

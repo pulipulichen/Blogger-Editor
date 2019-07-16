@@ -4,10 +4,12 @@ import FieldPostBodyCache from './FieldPostBodyCache.js'
 let FieldPostBody = {
   ui: null,
   firstSet: true,
+  $t: null,
   debug: {
     disableSummerNode: false
   },
-  init: function (callback) {
+  init: function ($t, callback) {
+    this.$t = $t
     this.debug.disableSummerNode = ConfigHelper.get('debug').disableSummerNode
     
     if (this.debug.disableSummerNode === true) {

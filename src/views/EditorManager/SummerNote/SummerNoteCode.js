@@ -1,9 +1,9 @@
 import SummerNoteHelper from './SummerNoteHelper.js'
 
 let SummerNoteCode = {
-  insertMore: function (context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="ellipsis horizontal icon"></i> Read More`)
-    let tooltip = 'Insert More'
+  insertMore: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="ellipsis horizontal icon"></i>` + $t('Read More'))
+    let tooltip = $t('Insert Read More')
     let click = () => {
       this.insertMoreClick()
     }
@@ -22,15 +22,15 @@ let SummerNoteCode = {
     //postBody.insert('<h2>[H2 Title]</h2>')
     postBody.insert('<p><a name="more"></a><!--more--></p><hr /><h2>[H2 Title]</h2>')
   },
-  CopyCode: function (context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>Copy Code`)
-    let tooltip = 'Copy Code'
+  CopyCode: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Copy Code'))
+    let tooltip = $t('Copy Code')
     let click = () => {
-      this.CopyCodeClick()
+      this.CopyCodeClick($t)
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
-  CopyCodeClick: function () {
+  CopyCodeClick: function ($t) {
     let postBody = $v.EditorManager.FieldPostBody.getElement()
     postBody = this.CleanCodeClick(postBody)
     postBody = postBody.clone()
@@ -57,14 +57,14 @@ let SummerNoteCode = {
     //code = code.replace(`<br /></`, '</')
     
     if (code.indexOf('<!--more-->') === -1) {
-      alert('<!--more--> is not found')
+      alert($t('<!--more--> is not found'))
     }
     
     CopyPasteHelper.copyPlainText(code)
   },
-  CleanCode: function (context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="eraser icon"></i>Clean`)
-    let tooltip = 'Clean Code'
+  CleanCode: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="eraser icon"></i>`+$t('Clean'))
+    let tooltip = $t('Clean Code')
     let click = () => {
       this.CleanCodeClick()
     }
@@ -216,13 +216,13 @@ let SummerNoteCode = {
     
     return postBody
   },
-  SaveSnippet: function (context) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="cut icon"></i>Snippet`)
-    let tooltip = 'Save Snippet'
+  SaveSnippet: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="cut icon"></i>` + $t('Snippet'))
+    let tooltip = $t('Save Snippet')
     let click = () => {
       this.SaveSnippetClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   SaveSnippetClick: function () {
     // 先看有沒有選取

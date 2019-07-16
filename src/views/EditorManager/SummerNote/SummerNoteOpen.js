@@ -8,7 +8,7 @@ let SummerNoteOpen = {
   // -------------------------
   
   
-  IframePrompt: function (context, doRender) {
+  IframePrompt: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="plus square outline icon"></i> Iframe`)
     let tooltip = 'Insert iframe'
     let click = () => {
@@ -16,7 +16,7 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
-  FileUploader: function (context, doRender) {
+  FileUploader: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="upload icon"></i> Upload File`)
     let tooltip = 'Upload file and insert links'
     let click = () => {
@@ -24,7 +24,7 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
-  CodeInserter: function (context, doRender) {
+  CodeInserter: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>  Code`)
     let tooltip = 'Insert code'
     let click = () => {
@@ -32,7 +32,7 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
-  OutlineNavigator: function (context, doRender) {
+  OutlineNavigator: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i> Outline`)
     let tooltip = 'Outline Navigation'
     let click = () => {
@@ -40,7 +40,7 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
-  SnippetInserter: function (context, doRender) {
+  SnippetInserter: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="quote left icon"></i> Snippet`)
     let tooltip = 'Insert snippet'
     let click = () => {
@@ -48,7 +48,7 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
-  GoogleDocsLinkBuilder: function (context, doRender) {
+  GoogleDocsLinkBuilder: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="google icon"></i> Google Docs Links`)
     let tooltip = 'Open Google Docs Links Builder'
     let click = () => {
@@ -56,7 +56,7 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
-  OneDriveLinkBuilder: function (context, doRender) {
+  OneDriveLinkBuilder: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="linkify icon"></i> OneDrive Links`)
     let tooltip = 'Open OneDrive Link Builder'
     let click = () => {
@@ -64,7 +64,7 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
-  GooglePhoto: function (context, doRender) {
+  GooglePhoto: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i> Google Photo`)
     let tooltip = 'Open Google Photo'
     let click = () => {
@@ -73,7 +73,7 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
-  insertHR: function (context, doRender) {
+  insertHR: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-minus icon"></i> Horizontal Rule`)
     let tooltip = '水平線 (CTRL+ENTER)'
     let click = () => {
@@ -83,7 +83,7 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
-  insertVideo: function (context, doRender) {
+  insertVideo: function ($t, context, doRender) {
     //let contents = '<div><i class="note-icon-video"></i> 影片</div>'
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-video icon"></i> Video`)
     let tooltip = '影片'
@@ -93,7 +93,7 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
-  insertIframe: function (context, doRender) {
+  insertIframe: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="linkify icon"></i> Iframe`)
     let tooltip = 'Insert iframe'
     let click = () => {
@@ -108,7 +108,7 @@ let SummerNoteOpen = {
   // -----------------------------
   
   
-  transSelected: function (context, doRender) {
+  transSelected: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="language icon"></i> Trans`)
     let tooltip = 'Translate Selected'
     let click = () => {
@@ -120,7 +120,7 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
-  toggleMenu: function (context, doRender) {
+  toggleMenu: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="bars icon"></i>`)
     let tooltip = 'Toggle Menu'
     let click = () => {
@@ -129,7 +129,7 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
-  downloadImageTemplate: function (context, doRender) {
+  downloadImageTemplate: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i> Image Template`)
     let tooltip = 'Download Image Template'
     let click = () => {
@@ -139,30 +139,30 @@ let SummerNoteOpen = {
   },
   
   // ------------------------------------
-  insertGroup: function (c) {
+  insertGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, 'Insert', 'Insert Tools', [
-      this.transSelected(c, false),
-      this.insertHR(c, false),
-      this.insertVideo(c, false),
-      SummerNoteCode.insertMore(c, false),
-      this.SnippetInserter(c, false),
-      this.insertIframe(c, false),
+      this.transSelected($t, c, false),
+      this.insertHR($t, c, false),
+      this.insertVideo($t, c, false),
+      SummerNoteCode.insertMore($t, c, false),
+      this.SnippetInserter($t, c, false),
+      this.insertIframe($t, c, false),
       //this.CodeInserter(c, false),
-      this.FileUploader(c, false),
-      this.GoogleDocsLinkBuilder(c, false),
-      this.OneDriveLinkBuilder(c, false),
+      this.FileUploader($t, c, false),
+      this.GoogleDocsLinkBuilder($t, c, false),
+      this.OneDriveLinkBuilder($t, c, false),
     ])
   },
   
-  formatGroup: function (c) {
+  formatGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, 'Format', 'Format Tools', [
-      SummerNoteImage.downloadImageTamplate(c, false),
-      SummerNoteImage.ImageReplacer(c, false),
-      this.GooglePhoto(c, false),
-      SummerNoteCode.CopyCode(c, false),
-      SummerNoteCode.CleanCode(c, false),
-      SummerNoteImage.imageSizeOriginal(c, false),
-      SummerNoteImage.imageSizeDefault(c, false),
+      SummerNoteImage.downloadImageTamplate($t, c, false),
+      SummerNoteImage.ImageReplacer($t, c, false),
+      this.GooglePhoto($t, c, false),
+      SummerNoteCode.CopyCode($t, c, false),
+      SummerNoteCode.CleanCode($t, c, false),
+      SummerNoteImage.imageSizeOriginal($t, c, false),
+      SummerNoteImage.imageSizeDefault($t, c, false),
     ])
   }
 }

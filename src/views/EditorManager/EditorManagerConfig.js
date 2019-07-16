@@ -16,14 +16,18 @@ let EditorManagerConfig = {
   },
   getConfig: function () {
     let EditorManager = this.EditorManager
+    let t = (key) => {
+      return this.$t(key)
+    }
+    
     let config = {
       image: {
         uploadImageDraft: EditorManager.uploadImageDraft,
         imageSizeDefault: EditorManager.imageSizeDefault
       },
       toolbar: {
-        toolbar: EditorManager.SummerNoteConfig.toolbar(false),
-        styleTags: EditorManager.SummerNoteConfig.styleTags(false),
+        toolbar: EditorManager.SummerNoteConfig.toolbar(t, false),
+        styleTags: EditorManager.SummerNoteConfig.styleTags(t, false),
       }
     }
     return config
@@ -48,7 +52,7 @@ let EditorManagerConfig = {
       //console.log(config)
       config = JSON.parse(config)
       this.setConfig(config)
-      WindowHelper.alert('Config uploaded')
+      WindowHelper.alert(this.$t('Config uploaded'))
     })
     return this
   },

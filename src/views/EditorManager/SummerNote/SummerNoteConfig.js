@@ -3,7 +3,9 @@ import SummerNoteCallbacks from './SummerNoteCallbacks.js'
 import SummerNoteKeyMap from './SummerNoteKeyMap.js'
 
 let SummerNoteConfig = {
-  toolbar: function (loadDefault) {
+  $t: null,
+  toolbar: function ($t, loadDefault) {
+    this.$t = $t
     if (loadDefault === undefined) {
       loadDefault = true
     }
@@ -61,7 +63,8 @@ let SummerNoteConfig = {
 
     return toolbar
   },
-  styleTags: function (loadDefault) {
+  styleTags: function ($t, loadDefault) {
+    this.$t = $t
     if (loadDefault === undefined) {
       loadDefault = true
     }

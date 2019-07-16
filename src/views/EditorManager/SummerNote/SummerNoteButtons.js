@@ -5,7 +5,7 @@ import SummerNoteCode from './SummerNoteCode.js'
 import SummerNoteOpen from './SummerNoteOpen.js'
 
 let SummerNoteButtons = {
-  config: function () {
+  config: function ($t) {
     return {
       
       // ---------------
@@ -13,52 +13,52 @@ let SummerNoteButtons = {
       // ---------------
       
       CopyHTML: (c) => {
-        return SummerNoteCode.CopyCode(c)
+        return SummerNoteCode.CopyCode($t, c)
       },
       ImageReplacer: (c) => {
-        return SummerNoteImage.ImageReplacer(c)
+        return SummerNoteImage.ImageReplacer($t, c)
       },
       IframePrompt: (c) => {
-        return SummerNoteOpen.IframePrompt(c)
+        return SummerNoteOpen.IframePrompt($t, c)
       },
       FileUploader: (c) => {
-        return SummerNoteOpen.FileUploader(c)
+        return SummerNoteOpen.FileUploader($t, c)
       },
       CodeInserter: (c) => {
-        return SummerNoteOpen.CodeInserter(c)
+        return SummerNoteOpen.CodeInserter($t, c)
       },
       OutlineNavigator: (c) => {
-        return SummerNoteOpen.OutlineNavigator(c)
+        return SummerNoteOpen.OutlineNavigator($t, c)
       },
       SnippetInserter: (c) => {
-        return SummerNoteOpen.SnippetInserter(c)
+        return SummerNoteOpen.SnippetInserter($t, c)
       },
       
       // -------
       
       imageSizeOriginal: (c) => {
-        return SummerNoteImage.imageSizeOriginal(c)
+        return SummerNoteImage.imageSizeOriginal($t, c)
       },
       imageSizeDefault: (c) => {
-        return SummerNoteImage.imageSizeDefault(c)
+        return SummerNoteImage.imageSizeDefault($t, c)
       },
       insertMore: (c) => {
-        return SummerNoteCode.insertMore(c)
+        return SummerNoteCode.insertMore($t, c)
       },
       transSelected: (c) => {
-        return SummerNoteOpen.transSelected(c)
+        return SummerNoteOpen.transSelected($t, c)
       },
       downloadImageTemplate: (c) => {
-        return SummerNoteImage.downloadImageTamplate(c)
+        return SummerNoteImage.downloadImageTamplate($t, c)
       },
       CleanCode: (c) => {
-        return SummerNoteCode.CleanCode(c)
+        return SummerNoteCode.CleanCode($t, c)
       },
       SaveSnippet: (c) => {
-        return SummerNoteCode.SaveSnippet(c)
+        return SummerNoteCode.SaveSnippet($t, c)
       },
       toggleMenu: (c) => {
-        return SummerNoteOpen.toggleMenu(c)
+        return SummerNoteOpen.toggleMenu($t, c)
       },
       
       // ---------------
@@ -66,16 +66,16 @@ let SummerNoteButtons = {
       // ---------------
       
       popoverImageSizeOriginal: (c) => {
-        return SummerNoteImage.popoverImageSizeOriginal(c)
+        return SummerNoteImage.popoverImageSizeOriginal($t, c)
       },
       popoverImageSizeDefault: (c) => {
-        return SummerNoteImage.popoverImageSizeDefault(c)
+        return SummerNoteImage.popoverImageSizeDefault($t, c)
       },
       popoverImageSave: (c) => {
-        return SummerNoteImage.popoverImageSave(c)
+        return SummerNoteImage.popoverImageSave($t, c)
       },
       popoverImageOpen: (c) => {
-        return SummerNoteImage.popoverImageOpen(c)
+        return SummerNoteImage.popoverImageOpen($t, c)
       },
       
       
@@ -83,10 +83,10 @@ let SummerNoteButtons = {
       // Buttons for Dropdown
       // ---------------
       insertGroup: (c) => {
-        return SummerNoteOpen.insertGroup(c)
+        return SummerNoteOpen.insertGroup($t, c)
       },
       formatGroup: (c) => {
-        return SummerNoteOpen.formatGroup(c)
+        return SummerNoteOpen.formatGroup($t, c)
       },
     }
   },  // config: function () {

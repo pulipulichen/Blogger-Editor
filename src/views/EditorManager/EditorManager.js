@@ -243,9 +243,13 @@ var EditorManager = {
         }
       })
       
-      FieldPostTitle.init(() => {
-        FieldPostLabels.init(() => {
-          FieldPostBody.init(() => {
+      let t = (key) => {
+        return this.$t(key)
+      }
+      
+      FieldPostTitle.init(t, () => {
+        FieldPostLabels.init(t, () => {
+          FieldPostBody.init(t, () => {
             this.setupPostData(callback)
           })
         })

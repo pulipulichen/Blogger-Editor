@@ -2,10 +2,12 @@ import SummerNoteConfig from './SummerNote/SummerNoteConfig.js'
 
 let FieldPostTitle = {
   ui: null,
+  $t: null,
   debug: {
     disableSummerNode: false
   },
-  init: function (callback) {
+  init: function ($t, callback) {
+    this.$t = $t
     this.debug.disableSummerNode = ConfigHelper.get('debug').disableSummerNode
     
     if (this.debug.disableSummerNode === true) {
@@ -13,7 +15,7 @@ let FieldPostTitle = {
       return this
     }
     
-    this.get().summernote(SummerNoteConfig.postTitleConfig('No Title', callback))
+    this.get().summernote(SummerNoteConfig.postTitleConfig(this.$t('No Title'), callback))
     // 'labels', 'Labels'
     
     return this
