@@ -26,7 +26,7 @@ let SummerNoteOpen = {
   },
   CodeInserter: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
-    let tooltip = $t('Insert code')
+    let tooltip = $t('Insert Code')
     let click = () => {
       $v.CodeInserter.open()
     }
@@ -41,6 +41,7 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   SnippetInserter: function ($t, context, doRender) {
+    //console.trace(doRender)
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="quote left icon"></i>` + $t('Snippet'))
     let tooltip = $t('Insert Snippet')
     let click = () => {
@@ -107,7 +108,6 @@ let SummerNoteOpen = {
   // Others
   // -----------------------------
   
-  
   transSelected: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="language icon"></i>` + $t('Trans'))
     let tooltip = $t('Translate Selected')
@@ -163,7 +163,7 @@ let SummerNoteOpen = {
       SummerNoteCode.CopyCode($t, c, false),
       SummerNoteCode.CleanCode($t, c, false),
       SummerNoteImage.imageSizeOriginal($t, c, false),
-      SummerNoteImage.imageSizeDefault($t, c, false),
+      SummerNoteImage.imageSizeThumbnail($t, c, false),
     ])
   }
 }

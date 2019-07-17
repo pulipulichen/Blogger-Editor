@@ -1,16 +1,16 @@
 let SummerNoteHelper = {
   buildButton: function (contents, tooltip, click, doRender) {
-    let ui = $.summernote.ui;
-
+    let ui = $.summernote.ui
     // create button
     let button = ui.button({
       contents: contents,
-      tooltip: tooltip,
+      tooltip: tooltip, // `<span>${tooltip}</span>`,
       click: click
     });
-
+    
     if (doRender !== false) {
-      return button.render(); 
+      let result = button.render(); 
+      return result
     }
     else {
       return button

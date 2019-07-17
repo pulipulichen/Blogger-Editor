@@ -23,8 +23,7 @@ let SummerNoteConfig = {
         eval(`config = ${config}`)
         if (config.length > 0) {
           return config
-        }
-        else {
+        } else {
           return this.defaultToolbar(loadDefault)
         }
       }

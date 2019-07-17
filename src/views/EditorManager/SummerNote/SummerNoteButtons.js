@@ -30,7 +30,7 @@ let SummerNoteButtons = {
         return SummerNoteOpen.OutlineNavigator($t, c)
       },
       SnippetInserter: (c) => {
-        return SummerNoteOpen.SnippetInserter($t, c)
+        return SummerNoteOpen.SnippetInserter($t, c, true)
       },
       
       // -------
@@ -38,8 +38,8 @@ let SummerNoteButtons = {
       imageSizeOriginal: (c) => {
         return SummerNoteImage.imageSizeOriginal($t, c)
       },
-      imageSizeDefault: (c) => {
-        return SummerNoteImage.imageSizeDefault($t, c)
+      imageSizeThumbnail: (c) => {
+        return SummerNoteImage.imageSizeThumbnail($t, c)
       },
       insertMore: (c) => {
         return SummerNoteCode.insertMore($t, c)
@@ -84,11 +84,9 @@ let SummerNoteButtons = {
       insertGroup: (c) => {
         return SummerNoteOpen.insertGroup($t, c)
       },
-      /*
       formatGroup: (c) => {
         return SummerNoteOpen.formatGroup($t, c)
       },
-      */
     }
   },  // config: function () {
   

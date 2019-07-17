@@ -53,6 +53,18 @@
     "Insert": "插入",
     "Insert Tools": "各種插入工具",
     "Format": "格式",
-    "Format Tools": "各種格式工具"
+    "Format Tools": "各種格式工具",
+    "Resize Thumbnail": "縮圖",
+    "Resize to thumbnail size": "調整圖片為縮圖大小",
+    "Resize Original": "原圖",
+    "Resize to original": "調整圖片為原始大小",
+    "Resize images to original": "調整圖片為原始大小",
+    "Download image template": "下載圖片模板",
+    "Open": "開啟",
+    "Open image in new tab": "開啟新頁籤",
+    "Save": "儲存",
+    "Save image": "儲存圖片",
+    "Upload Images": "上傳圖片",
+    "Replace Images with Blogger": "上傳圖片到Blogger"
   }
 }

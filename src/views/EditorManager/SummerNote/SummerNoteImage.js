@@ -1,18 +1,18 @@
 import SummerNoteHelper from './SummerNoteHelper.js'
 
 let SummerNoteImage = {
-  ImageReplacer: function (context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i>Upload Images`)
-    let tooltip = 'Replace Images with Blogger'
+  ImageReplacer: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i>` + $t(`Upload Images`))
+    let tooltip = $t('Replace Images with Blogger')
     let click = () => {
       $v.ImageReplacer.open()
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
   },
   
-  imageSizeOriginal: function (context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
-    let tooltip = 'Resize images to original'
+  imageSizeOriginal: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="expand arrows icon"></i>` + $t(`Resize Original`))
+    let tooltip = $t('Resize images to original')
     let click = () => {
       this.imageSizeOriginalClick()
     }
@@ -27,9 +27,9 @@ let SummerNoteImage = {
     })
   },
   
-  imageSizeDefault: function (context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="compress icon"></i> Resize Default`)
-    let tooltip = 'Resize to default size'
+  imageSizeThumbnail: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="compress icon"></i>` + $t(`Resize Thumbnail`))
+    let tooltip = $t('Resize to thumbnail size')
     let click = () => {
       this.imageSizeThumbnailClick()
     }
@@ -47,9 +47,9 @@ let SummerNoteImage = {
   
   
   
-  downloadImageTamplate: function (context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="object group outline icon"></i> Image Template`)
-    let tooltip = 'Download image template'
+  downloadImageTamplate: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="object group outline icon"></i>` + $t('Image Template'))
+    let tooltip = $t('Download image template')
     let click = () => {
       this.downloadImageTamplateClick()
     }
@@ -108,9 +108,9 @@ let SummerNoteImage = {
   
   // ---------------------------------
   
-  popoverImageSizeOriginal: function (context) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="expand arrows icon"></i> Resize Original`)
-    let tooltip = 'Resize to original'
+  popoverImageSizeOriginal: function ($t, context) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="expand arrows icon"></i>` + $t(`Resize Original`))
+    let tooltip = $t('Resize to original')
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       this.removeImageTargetSize(target)
@@ -131,9 +131,9 @@ let SummerNoteImage = {
   },
   
   
-  popoverImageSizeDefault: function (context) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="compress icon"></i> Resize Default`)
-    let tooltip = 'Resize to default size'
+  popoverImageSizeDefault: function ($t, context) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="compress icon"></i>` + $t(`Resize Thumbnail`))
+    let tooltip = $t('Resize to thumbnail size')
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       let defaultSize = $v.EditorManager.imageSizeDefault
@@ -147,9 +147,9 @@ let SummerNoteImage = {
   
   // ----------------------
   
-  popoverImageSave: function (context) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="save icon"></i> Save`)
-    let tooltip = 'Save image'
+  popoverImageSave: function ($t, context) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="save icon"></i>` + $t(`Save`))
+    let tooltip = $t('Save image')
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       target = $(target)
@@ -164,9 +164,9 @@ let SummerNoteImage = {
     }
     return SummerNoteHelper.buildButton(contents, tooltip, click)
   },
-  popoverImageOpen: function (context) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="share icon"></i> Open`)
-    let tooltip = 'Open image in new tab'
+  popoverImageOpen: function ($t, context) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="share icon"></i>` + $t(`Open`))
+    let tooltip = $t('Open image in new tab')
     let click = () => {
       let target = $v.EditorManager.FieldPostBody.getSelectTarget()
       target = $(target)

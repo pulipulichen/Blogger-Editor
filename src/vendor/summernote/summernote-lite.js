@@ -304,7 +304,14 @@
   var buttonGroup = renderer.create('<div class="note-btn-group">');
   var button = renderer.create('<button type="button" class="note-btn" role="button" tabindex="-1">', function ($node, options) {
       // set button type
-      if (options && options.tooltip) {
+      
+      if (typeof(options) === 'object' 
+              && typeof(options.tooltip) === 'string') {
+        
+          if (typeof(options.container) === 'undefined') {
+            options.container = 'body'
+          }
+        
           $node.attr({
               'aria-label': options.tooltip
           });
@@ -312,6 +319,7 @@
               title: options.tooltip,
               container: options.container
           }));
+          
       }
       if (options.contents) {
           $node.html(options.contents);
@@ -8331,6 +8339,11 @@ sel.addRange(range);
               }).render();
           });
       };
+      /*
+      Buttons.prototype.createButton = function (options) {
+        return this.button(options).render();
+      }
+      */
       /**
        * image : [
        *   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
