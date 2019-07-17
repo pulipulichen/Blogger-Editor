@@ -1078,7 +1078,7 @@
               'insertHorizontalRule': 'Insert horizontal rule',
               'linkDialog.show': 'Show Link Dialog',
               'iframeDialog.show': 'Show Iframe Dialog',
-              'commentDialog.show': 'Show Comment Dialog',
+              'commentDialog.show': 'Show Comment Dialog'
           },
           history: {
               undo: 'Undo',
