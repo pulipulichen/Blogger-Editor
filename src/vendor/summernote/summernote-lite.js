@@ -6035,6 +6035,7 @@ ${links}`
                       && typeof(this.options.buttons[eventName]) === 'function') {
                 let button = this.options.buttons[eventName](this.context)
                 button.click()
+                event.preventDefault();
               }
           }
           else if (key.isEdit(event.keyCode)) {
@@ -10182,9 +10183,6 @@ sel.addRange(range);
               
               if (description === undefined) {
                 description = command
-                console.log(description)
-                console.log(_this.context)
-                //console.log(_this.options[command])
               }
               $row.append($$1('<label><kbd>' + key + '</kdb></label>').css({
                   'width': 180,

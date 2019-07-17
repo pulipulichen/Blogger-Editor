@@ -5,6 +5,7 @@ let SummerNoteKeyMap = {
     'CTRL+Y': 'redo',
     //'TAB': 'tab',
     //'SHIFT+TAB': 'untab',
+    'CTRL+S': 'DelayForceExec',
     'CTRL+B': 'bold',
     'CTRL+I': 'italic',
     'CTRL+U': 'underline',

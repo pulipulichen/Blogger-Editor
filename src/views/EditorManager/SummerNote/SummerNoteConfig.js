@@ -39,7 +39,7 @@ let SummerNoteConfig = {
     }
     
     let toolbar = [
-        ['menu', ['toggleMenu', 'codeview', 'OutlineNavigator']],
+        ['menu', ['ReloadPage', 'toggleMenu', 'codeview', 'OutlineNavigator']],
         ['clear', ['undo', 'clear']],
         ['style', ['style', 'color']],
         //['formatBlockHeading1', ['formatH1']],

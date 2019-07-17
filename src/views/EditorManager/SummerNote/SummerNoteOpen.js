@@ -167,6 +167,29 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton('insertIframe', contents, tooltip, click, doRender)
   },
   
+  DelayForceExec: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="save icon"></i>` + $t('Save'))
+    let tooltip = $t('Save')
+    let click = (event) => {
+      //console.trace(event)
+      //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
+      $v.EditorManager.SaveIndicator.save()
+      //event.stopPropagation()
+      //event.preventDefault()
+      return false
+    }
+    return SummerNoteHelper.buildButton('DelayForceExec', contents, tooltip, click, doRender)
+  },
+  
+  ReloadPage: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="redo icon"></i>` + $t('Reload'))
+    let tooltip = $t('Reload')
+    let click = () => {
+      location.reload()
+    }
+    return SummerNoteHelper.buildButton('ReloadPage', contents, tooltip, click, doRender)
+  },
+  
   // -----------------------------
   // Others
   // -----------------------------

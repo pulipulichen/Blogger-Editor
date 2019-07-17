@@ -32,6 +32,12 @@ let SummerNoteButtons = {
       SnippetInserter: (c) => {
         return SummerNoteOpen.SnippetInserter($t, c, true)
       },
+      DelayForceExec: (c) => {
+        return SummerNoteOpen.DelayForceExec($t, c, true)
+      },
+      ReloadPage: (c) => {
+        return SummerNoteOpen.ReloadPage($t, c, true)
+      },
       
       // -------
       
