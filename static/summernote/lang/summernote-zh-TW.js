@@ -149,7 +149,6 @@
         'underline': '為選取文字增加底線',
         'strikethrough': '為選取文字增加刪除線',
         'removeFormat': '清除所有格式設定',
-        
         'justifyLeft': '靠左對齊',
         'justifyCenter': '置中',
         'justifyRight': '靠右對齊',
@@ -173,6 +172,7 @@
         'uncomment': '移除註解',
         'htmlify': '將選取文字轉換成HTML元素',
         'textify': '將選取HTML元素轉換成文字',
+        'SaveSnippet': '將選取文字轉換成預設範本',
       },
       history: {
         undo: '復原',

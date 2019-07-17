@@ -1059,6 +1059,7 @@
               'uncomment': 'Remove comments',
               'htmlify': 'Convert selection to html',
               'textify': 'Convert selection to text',
+              'SaveSnippet': 'Cut selected text as a snippet',
               'removeFormat': 'Clean a style',
               'justifyLeft': 'Set left align',
               'justifyCenter': 'Set center align',
@@ -4845,6 +4846,10 @@
           this.context.memo('help.formatPara', this.lang.help.formatPara);
           this.context.memo('help.insertHorizontalRule', this.lang.help.insertHorizontalRule);
           this.context.memo('help.fontName', this.lang.help.fontName);
+          this.context.memo('help.comment', this.lang.help.comment);
+          this.context.memo('help.uncomment', this.lang.help.uncomment);
+          this.context.memo('help.SaveSnippet', this.lang.help.SaveSnippet);
+          this.context.memo('help.htmlify', this.lang.help.htmlify);
           
           // native commands(with execCommand), generate function for execCommand
           var commands = [
@@ -10167,10 +10172,18 @@ sel.addRange(range);
           return Object.keys(keyMap).map(function (key) {
               var command = keyMap[key];
               var $row = $$1('<div><div class="help-list-item"/></div>');
+              let description = _this.context.memo('help.' + command)
+              
+              if (description === undefined) {
+                description = command
+                console.log(description)
+                console.log(_this.context)
+                //console.log(_this.options[command])
+              }
               $row.append($$1('<label><kbd>' + key + '</kdb></label>').css({
                   'width': 180,
                   'margin-right': 10
-              })).append($$1('<span/>').html(_this.context.memo('help.' + command) || command));
+              })).append($$1('<span/>').html(description));
               return $row.html();
           }).join('');
       };
