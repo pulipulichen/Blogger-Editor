@@ -59,6 +59,9 @@ let SummerNoteButtons = {
       toggleMenu: (c) => {
         return SummerNoteOpen.toggleMenu($t, c)
       },
+      insertTable: (c) => {
+        return SummerNoteOpen.insertTable($t, c)
+      },
       
       // ---------------
       // Buttons on Popover

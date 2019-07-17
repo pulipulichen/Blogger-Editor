@@ -39,25 +39,25 @@ let SummerNoteConfig = {
     }
     
     let toolbar = [
-        ['menu', ['toggleMenu']],
+        ['menu', ['toggleMenu', 'codeview', 'OutlineNavigator', 'undo']],
         ['style', ['style', 'color']],
         //['formatBlockHeading1', ['formatH1']],
-        ['formatBlockHeading2', ['formatH2', 'formatH3']],
-        ['formatBlockHeading3', ['formatH4', 'formatH5']],
+        ['formatBlockHeading2', ['formatH2', 'formatH3', 'formatH4']],
+        //['formatBlockHeading3', [, 'formatH5']],
         ['formatBlock', ['formatPara', 'comment', 'htmlify', 'textify']],
         //['formatBlock', ['formatPara', 'formatCode']],
         //['styleTags', ['styleP', 'styleH1', 'styleH2', 'styleH3', 'styleH4', 'styleH5', 'styleH6']],
-        ['font', ['undo', 'bold', 'underline', 'clear']],
+        ['font', ['bold', 'underline', 'clear']],
         //['fontname', ['fontname']],
         ['para', ['ul', 'ol', 'paragraph']],
         //['table', []],
-        ['insert', ['link', 'picture', 'table', 'CodeInserter', 'SaveSnippet']],
+        ['insert', ['link', 'picture', 'table', /*'insertTable',*/  'CodeInserter', 'SaveSnippet']],
         ['insertOthers', [  'insertGroup']],
         // ['insertCode', ['SnippetInserter', 'IframePrompt', 'FileUploader', 'CodeInserter']],
         //['imageResize', ['imageSizeOriginal', 'imageSizeDefault']],
         //['publish', ['ImageReplacer', 'CleanCode', 'CopyHTML']],
-        ['view', ['formatGroup', 'codeview']],
-        ['help', [/*'fullscreen',*/ /*'transSelected',*/ 'OutlineNavigator', 'help']]
+        ['view', ['formatGroup', ]],
+        ['help', [/*'fullscreen',*/ /*'transSelected',*/ 'help']]
       ]
 
     return toolbar
@@ -77,16 +77,16 @@ let SummerNoteConfig = {
           return config
         }
         else {
-          return this.defaultStyleTags(loadDefault)
+          return this.defaultStyleTags($t, loadDefault)
         }
       }
       catch (e) {
-        return this.defaultStyleTags(loadDefault)
+        return this.defaultStyleTags($t, loadDefault)
       } 
     }
-    return this.defaultStyleTags(loadDefault)
+    return this.defaultStyleTags($t, loadDefault)
   },
-  defaultStyleTags: function (loadDefault) {
+  defaultStyleTags: function ($t, loadDefault) {
     if (loadDefault === false) {
       return []
     }
@@ -99,40 +99,49 @@ let SummerNoteConfig = {
         className: 'ttt'
     }]
     */
+   
+    if (typeof($t) !== 'function') {
+      //console.trace('error')
+      return
+    }
   
     //let styleTags = ['p', 'blockquote', 'code', 'h2', 'h3', 'h4', 'h5', 'h6']
     let styleTags = [{
         tag: 'span',
-        title: 'red color & underline',
+        title: $t('red color & underline'),
         style: 'color: red; font-weight: bold; text-decoration: underline;'
       }, 
       { // 'italic', 
         tag: 'i',
-        title: 'italic'
+        title: $t('italic')
       },
       { // 'sup', 
         tag: 'sup',
-        title: 'sup'
+        title: $t('sup')
       },
       { // 'sub', 
         tag: 'sub',
-        title: 'sub'
+        title:  $t('sub')
       },
       { // 'strikethrough', 
         tag: 'span',
-        title: 'strikethrough',
+        title: $t('strikethrough'),
         style: 'text-decoration: line-through;'
       },
       {
         tag: 'span',
-        title: 'comment',
+        title: $t('comment'),
         className: 'note-editor-comment'
       },
       'blockquote', 
       'h1',
       {
+        tag: 'h5',
+        title: $t('Heading 5')
+      },
+      {
         tag: 'h6',
-        title: 'Heading 6'
+        title: $t('Heading 6')
       },
     ]
     
@@ -199,7 +208,7 @@ let SummerNoteConfig = {
       disableResizeEditor: true,
       placeholder: 'Post Body',
       toolbar: this.toolbar(),
-      styleTags: this.styleTags(),
+      styleTags: this.styleTags($t),
       //clearEnterFormat: true,
       clearEnterFormat: true,
       showHeadingLabel: true,

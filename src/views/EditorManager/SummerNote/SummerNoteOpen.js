@@ -25,7 +25,8 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton('FileUploader', contents, tooltip, click, doRender)
   },
   CodeInserter: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
+    //let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>`)
     let tooltip = $t('Insert Code')
     let click = () => {
       $v.CodeInserter.open()
@@ -33,7 +34,8 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton('CodeInserter', contents, tooltip, click, doRender)
   },
   OutlineNavigator: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i>` + $t('Outline') )
+    //let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i>` + $t('Outline') )
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i>` )
     let tooltip = $t('Outline Navigation')
     let click = () => {
       $v.OutlineNavigator.toggle()
@@ -94,6 +96,67 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton('insertVideo', contents, tooltip, click, doRender)
   },
+  
+  insertTable: function ($t, context, doRender) {
+    let ui = $.summernote.ui
+    let options = $.summernote.options
+    
+    let result = ui.buttonGroup([
+        ui.button({
+            className: 'dropdown-toggle',
+            //contents: ui.dropdownButtonContents( '<i class="note-icon-table icon"></i>' +  $t('Table'), options),
+            contents: ui.dropdownButtonContents( '<i class="note-icon-table icon"></i>', options),
+            tooltip: $t('Inser Table'),
+            data: {
+                toggle: 'dropdown'
+            }
+        }),
+        ui.dropdown({
+            title: $t('Table'),
+            className: 'note-table',
+            items: [
+                '<div class="note-dimension-picker">',
+                '  <div class="note-dimension-picker-mousecatcher" data-event="insertTable" data-value="1x1"/>',
+                '  <div class="note-dimension-picker-highlighted"/>',
+                '  <div class="note-dimension-picker-unhighlighted"/>',
+                '</div>',
+                '<div class="note-dimension-display">1 x 1</div>'
+            ].join('')
+        })
+    ], {
+        callback: function ($node) {
+            var $catcher = $node.find('.note-dimension-picker-mousecatcher');
+            let mousecatcher
+            $catcher.css({
+                width: 10 + 'em',
+                height: 10 + 'em'
+            }).mousedown(function () {
+              //let dim = $(this).attr('data-value')
+              //console.log(this)
+              if (mousecatcher === undefined) {
+                mousecatcher = $('.note-dimension-picker-mousecatcher:visible')
+              }
+              
+              let dim = mousecatcher.parent().next().text() //.attr('data-value')
+              //console.log(dim)
+              
+              $v.EditorManager.FieldPostBody.get().summernote('editor.insertTable', dim)
+            })
+              .mousemove(function (event) {
+              $v.EditorManager.FieldPostBody.get().summernote('buttons.tableMoveHandler', event)
+            })
+                //.mousedown(_this.context.createInvokeHandler('editor.insertTable'))
+                //.on('mousemove', $.summernote.module.buttons.tableMoveHandler.bind(_this));
+            //$v.EditorManager.FieldPostBody.get().summernote('buttons.insertTableCallback', $node)
+        }
+    })
+    
+    if (doRender !== true || doRender === undefined) {
+      result.render()
+    }
+    return result
+  },
+  
   insertIframe: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="linkify icon"></i>` + $t('Iframe'))
     let tooltip = $t('Insert iframe')
@@ -142,6 +205,7 @@ let SummerNoteOpen = {
   insertGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
       
+      //this.insertTable($t, c, false),
       this.transSelected($t, c, false),
       this.insertHR($t, c, false),
       this.insertVideo($t, c, false),

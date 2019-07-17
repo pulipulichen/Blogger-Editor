@@ -22,7 +22,7 @@
     "No Label": "沒有標籤",
     "Add a new label...": "新增標籤...",
     "Config uploaded": "設定檔已上傳",
-    "Snippet": "預設模板",
+    "Snippet": "模板",
     "Save Snippet": "儲存預設模板",
     "Read More": "閱讀更多分隔線",
     "Insert Read More": "插入閱讀更多分隔線",
@@ -65,6 +65,16 @@
     "Save": "儲存",
     "Save image": "儲存圖片",
     "Upload Images": "上傳圖片",
-    "Replace Images with Blogger": "上傳圖片到Blogger"
+    "Replace Images with Blogger": "上傳圖片到Blogger",
+    "Table": "表格",
+    "Inser Table": "插入表格",
+    "red color & underline": "紅色與底線",
+    "italic": "斜體",
+    "sup": "上標",
+    "sub": "下標",
+    "strikethrough": "刪除線",
+    "comment": "註解",
+    "Heading 5": "標題5",
+    "Heading 6": "標題6"
   }
 }

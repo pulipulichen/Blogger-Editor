@@ -8340,8 +8340,13 @@ sel.addRange(range);
           });
       };
       /*
-      Buttons.prototype.createButton = function (options) {
-        return this.button(options).render();
+      Buttons.prototype.insertTableCallback = function ($node) {
+        var $catcher = $node.find('.note-dimension-picker-mousecatcher');
+            $catcher.css({
+                width: 10 + 'em',
+                height: 10 + 'em'
+            }).mousedown(this.context.createInvokeHandler('editor.insertTable'))
+                .on('mousemove', this.tableMoveHandler.bind(this));
       }
       */
       /**
