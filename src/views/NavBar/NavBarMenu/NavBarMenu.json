@@ -27,6 +27,7 @@
     "Clean Code": "清理程式碼",
     "Copy Code": "複製程式碼",
     "Resize Original": "圖片設為原始尺寸",
-    "Resize Thumbnail": "圖片設為縮圖尺寸"
+    "Resize Thumbnail": "圖片設為縮圖尺寸",
+    "Reload Page": "重新讀取"
   }
 }

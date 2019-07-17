@@ -130,6 +130,13 @@ let NavBarMenu = {
       SummerNoteImage.imageSizeThumbnailClick()
       this.hideNavBar()
     },
+    reloadPage: function () {
+      //console.log(1)
+      DelayExecHelper.forceExec(() => {
+        //console.log(2)
+        location.reload()
+      })
+    },
     
     // --------------------------------------
     

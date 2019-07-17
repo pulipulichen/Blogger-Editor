@@ -176,7 +176,7 @@ let SummerNoteOpen = {
       $v.EditorManager.SaveIndicator.save()
       //event.stopPropagation()
       //event.preventDefault()
-      return false
+      //return false
     }
     return SummerNoteHelper.buildButton('DelayForceExec', contents, tooltip, click, doRender)
   },
@@ -185,7 +185,9 @@ let SummerNoteOpen = {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="redo icon"></i>` + $t('Reload'))
     let tooltip = $t('Reload')
     let click = () => {
-      location.reload()
+      DelayExecHelper.forceExec(() => {
+        location.reload()
+      })
     }
     return SummerNoteHelper.buildButton('ReloadPage', contents, tooltip, click, doRender)
   },

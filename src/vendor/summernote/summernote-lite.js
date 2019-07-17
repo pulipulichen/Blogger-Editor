@@ -6034,7 +6034,7 @@ ${links}`
               else if (typeof(this.options.buttons) === 'object'
                       && typeof(this.options.buttons[eventName]) === 'function') {
                 let button = this.options.buttons[eventName](this.context)
-                button.click()
+                button.trigger('click', event)
                 event.preventDefault();
               }
           }
