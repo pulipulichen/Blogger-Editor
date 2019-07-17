@@ -1,7 +1,15 @@
+import SummerNoteKeyMap from './SummerNoteKeyMap.js'
+
 let SummerNoteHelper = {
-  buildButton: function (contents, tooltip, click, doRender) {
+  buildButton: function (name, contents, tooltip, click, doRender) {
     let ui = $.summernote.ui
     // create button
+    
+    if (typeof(tooltip) !== 'string') {
+      tooltip = '' + tooltip
+    }
+    tooltip = tooltip + this.getHotkey(name)
+    
     let button = ui.button({
       contents: contents,
       tooltip: tooltip, // `<span>${tooltip}</span>`,
@@ -34,6 +42,23 @@ let SummerNoteHelper = {
       }),
       ui.dropdown(buttonsData)
     ]).render();
+  },
+  getHotkey: function (key) {
+    let output = ''
+    
+    let env = 'pc'
+    let keyMap = SummerNoteKeyMap[env]
+    for (let shortcut in keyMap) {
+      if (keyMap[shortcut] === key) {
+        output = shortcut
+        break
+      }
+    }
+    
+    if (output !== '') {
+      output = ` (${output})`
+    }
+    return output
   }
 }
 

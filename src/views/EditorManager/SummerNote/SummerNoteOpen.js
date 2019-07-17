@@ -14,7 +14,7 @@ let SummerNoteOpen = {
     let click = () => {
       $v.IframePrompt.open()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('IframePrompt', contents, tooltip, click, doRender)
   },
   FileUploader: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="upload icon"></i>` + $t('Upload File') )
@@ -22,7 +22,7 @@ let SummerNoteOpen = {
     let click = () => {
       $v.FileUploader.open()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('FileUploader', contents, tooltip, click, doRender)
   },
   CodeInserter: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
@@ -30,7 +30,7 @@ let SummerNoteOpen = {
     let click = () => {
       $v.CodeInserter.open()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('CodeInserter', contents, tooltip, click, doRender)
   },
   OutlineNavigator: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i>` + $t('Outline') )
@@ -38,7 +38,7 @@ let SummerNoteOpen = {
     let click = () => {
       $v.OutlineNavigator.toggle()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('OutlineNavigator', contents, tooltip, click, doRender)
   },
   SnippetInserter: function ($t, context, doRender) {
     //console.trace(doRender)
@@ -47,7 +47,7 @@ let SummerNoteOpen = {
     let click = () => {
       $v.SnippetInserter.open()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('SnippetInserter', contents, tooltip, click, doRender)
   },
   GoogleDocsLinkBuilder: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="google icon"></i>` + $t('Google Docs Links'))
@@ -55,7 +55,7 @@ let SummerNoteOpen = {
     let click = () => {
       $v.GoogleDocLinkBuilder.open()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('GoogleDocsLinkBuilder', contents, tooltip, click, doRender)
   },
   OneDriveLinkBuilder: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="linkify icon"></i>` + $t('OneDrive Links'))
@@ -71,17 +71,17 @@ let SummerNoteOpen = {
     let click = () => {
       WindowHelper.forcePopup('https://photos.google.com/?hl=zh-TW', 'googlePhoto')
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('GooglePhoto', contents, tooltip, click, doRender)
   },
   
   insertHR: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-minus icon"></i>` + $t('Horizontal Rule') )
-    let tooltip = $t('Horizontal Rule') + ' (Ctrl+Enter)'
+    let tooltip = $t('Horizontal Rule')
     let click = () => {
       //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
       $v.EditorManager.FieldPostBody.get().summernote('insertHorizontalRule')
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('insertHorizontalRule', contents, tooltip, click, doRender)
   },
   
   insertVideo: function ($t, context, doRender) {
@@ -92,7 +92,7 @@ let SummerNoteOpen = {
       //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
       $v.EditorManager.FieldPostBody.get().summernote('video')
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('insertVideo', contents, tooltip, click, doRender)
   },
   insertIframe: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="linkify icon"></i>` + $t('Iframe'))
@@ -101,7 +101,7 @@ let SummerNoteOpen = {
       //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
       $v.EditorManager.FieldPostBody.get().summernote('iframeDialog.show')
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('insertIframe', contents, tooltip, click, doRender)
   },
   
   // -----------------------------
@@ -117,7 +117,7 @@ let SummerNoteOpen = {
       let url = `https://translate.google.com/#view=home&op=translate&sl=auto&tl=auto&text=${text}`
       WindowHelper.popup(url)
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('transSelected', contents, tooltip, click, doRender)
   },
   
   toggleMenu: function ($t, context, doRender) {
@@ -126,7 +126,7 @@ let SummerNoteOpen = {
     let click = () => {
       $v.NavBar.toggle()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('toggleMenu', contents, tooltip, click, doRender)
   },
   
   downloadImageTemplate: function ($t, context, doRender) {
@@ -135,7 +135,7 @@ let SummerNoteOpen = {
     let click = () => {
       SummerNoteImage.downloadImageTamplateClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('downloadImageTemplate', contents, tooltip, click, doRender)
   },
   
   // ------------------------------------

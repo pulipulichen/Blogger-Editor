@@ -15,6 +15,7 @@
         comment: '註解',
         uncomment: '取消註解',
         htmlify: '轉換為HTML',
+        textify: 'HTML轉換為純文字',
       },
       image: {
         image: '圖片',

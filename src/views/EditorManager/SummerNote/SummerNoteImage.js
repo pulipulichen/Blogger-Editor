@@ -7,7 +7,7 @@ let SummerNoteImage = {
     let click = () => {
       $v.ImageReplacer.open()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('ImageReplacer', contents, tooltip, click, doRender)
   },
   
   imageSizeOriginal: function ($t, context, doRender) {
@@ -16,7 +16,7 @@ let SummerNoteImage = {
     let click = () => {
       this.imageSizeOriginalClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('imageSizeOriginal', contents, tooltip, click, doRender)
   },
   
   imageSizeOriginalClick: function () {
@@ -33,7 +33,7 @@ let SummerNoteImage = {
     let click = () => {
       this.imageSizeThumbnailClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('imageSizeThumbnail', contents, tooltip, click, doRender)
   },
   
   imageSizeThumbnailClick: function () {
@@ -45,15 +45,13 @@ let SummerNoteImage = {
     })
   },
   
-  
-  
   downloadImageTamplate: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="object group outline icon"></i>` + $t('Image Template'))
     let tooltip = $t('Download image template')
     let click = () => {
       this.downloadImageTamplateClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('downloadImageTamplate', contents, tooltip, click, doRender)
   },
   
   downloadImageTamplateClick: function () {
@@ -108,7 +106,7 @@ let SummerNoteImage = {
   
   // ---------------------------------
   
-  popoverImageSizeOriginal: function ($t, context) {
+  popoverImageSizeOriginal: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="expand arrows icon"></i>` + $t(`Resize Original`))
     let tooltip = $t('Resize to original')
     let click = () => {
@@ -127,11 +125,11 @@ let SummerNoteImage = {
         } 
       }
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton('popoverImageSizeOriginal', contents, tooltip, click, doRender)
   },
   
   
-  popoverImageSizeDefault: function ($t, context) {
+  popoverImageSizeDefault: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="compress icon"></i>` + $t(`Resize Thumbnail`))
     let tooltip = $t('Resize to thumbnail size')
     let click = () => {
@@ -142,12 +140,12 @@ let SummerNoteImage = {
       target = $(target)
       target.removeClass('original-size')
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton('popoverImageSizeDefault', contents, tooltip, click, doRender)
   },
   
   // ----------------------
   
-  popoverImageSave: function ($t, context) {
+  popoverImageSave: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="save icon"></i>` + $t(`Save`))
     let tooltip = $t('Save image')
     let click = () => {
@@ -162,9 +160,9 @@ let SummerNoteImage = {
       //window.open(link, name)
       FileHelper.download(link, name)
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton('popoverImageSave', contents, tooltip, click, doRender)
   },
-  popoverImageOpen: function ($t, context) {
+  popoverImageOpen: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="share icon"></i>` + $t(`Open`))
     let tooltip = $t('Open image in new tab')
     let click = () => {
@@ -179,7 +177,7 @@ let SummerNoteImage = {
       //console.log([link, name])
       WindowHelper.popup(link, name)
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click)
+    return SummerNoteHelper.buildButton('popoverImageOpen', contents, tooltip, click, doRender)
   },
   
   // --------------------------

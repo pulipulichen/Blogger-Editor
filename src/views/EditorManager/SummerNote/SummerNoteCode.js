@@ -7,7 +7,7 @@ let SummerNoteCode = {
     let click = () => {
       this.insertMoreClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('insertMore', contents, tooltip, click, doRender)
   },
   insertMoreClick: function () {
     let postBody = $v.EditorManager.FieldPostBody
@@ -28,7 +28,7 @@ let SummerNoteCode = {
     let click = () => {
       this.CopyCodeClick($t)
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('CopyCode', contents, tooltip, click, doRender)
   },
   CopyCodeClick: function ($t) {
     let postBody = $v.EditorManager.FieldPostBody.getElement()
@@ -68,7 +68,7 @@ let SummerNoteCode = {
     let click = () => {
       this.CleanCodeClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('CleanCode', contents, tooltip, click, doRender)
   },
   skipTagList: ['hr', 'td', 'tr', 'th', 'caption', 'code', 'table'],
   CleanCodeClick: function (postBody) {
@@ -222,7 +222,7 @@ let SummerNoteCode = {
     let click = () => {
       this.SaveSnippetClick()
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('SaveSnippet', contents, tooltip, click, doRender)
   },
   SaveSnippetClick: function () {
     // 先看有沒有選取
