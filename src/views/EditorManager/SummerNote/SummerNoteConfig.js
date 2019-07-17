@@ -224,7 +224,8 @@ let SummerNoteConfig = {
       buttons: SummerNoteButtons.config($t),
       //disableDragAndDrop: false,
       callbacks: SummerNoteCallbacks.config(callback),
-      keyMap: SummerNoteKeyMap
+      keyMap: SummerNoteKeyMap,
+      helpFooter: ''
     }
     return config
   },

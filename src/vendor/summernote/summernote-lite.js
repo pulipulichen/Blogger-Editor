@@ -10142,13 +10142,19 @@ sel.addRange(range);
       }
       HelpDialog.prototype.initialize = function () {
           var $container = this.options.dialogsInBody ? this.$body : this.$editor;
-          var body = [
+          var body
+          if (typeof(this.options.helpFooter) === 'string') {
+            body = this.options.helpFooter
+          }
+          else {
+            body = [
               '<p class="text-center">',
               '<a href="http://summernote.org/" target="_blank">Summernote 0.8.11</a> · ',
               '<a href="https://github.com/summernote/summernote" target="_blank">Project</a> · ',
               '<a href="https://github.com/summernote/summernote/issues" target="_blank">Issues</a>',
               '</p>'
-          ].join('');
+            ].join('');
+          }
           this.$dialog = this.ui.dialog({
               title: this.lang.options.help,
               fade: this.options.dialogsFade,
@@ -10851,6 +10857,7 @@ sel.addRange(range);
           enableDropImage: true,
           enablePasteImage: true,
           allowEnter: true,
+          helpFooter: null,
           blockquoteBreakingLevel: 2,
           styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
           fontNames: [

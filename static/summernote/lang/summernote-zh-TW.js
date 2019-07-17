@@ -106,7 +106,7 @@
         ordered: '編號清單'
       },
       options: {
-        help: '幫助',
+        help: '快捷鍵',
         fullscreen: '全螢幕',
         codeview: '原始碼'
       },
