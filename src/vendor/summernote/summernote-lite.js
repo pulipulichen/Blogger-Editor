@@ -4789,7 +4789,7 @@
               trs.push('<tr>' + tdHTML + '</tr>');
           }
           trHTML = trs.join('');
-          var $table = $$1('<table>' + trHTML + '</table>');
+          var $table = $$1('<table border="1" cellpadding="0" cellspacing="0">' + trHTML + '</table>');
           if (options && options.tableClassName) {
               $table.addClass(options.tableClassName);
           }
