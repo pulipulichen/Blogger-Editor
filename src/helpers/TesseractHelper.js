@@ -4,7 +4,14 @@ let TesseractHelper = {
   worker: null,
   init: function (callback) {
     if (this.worker === null) {
-      this.worker = new Tesseract.TesseractWorker()
+      this.worker = new Tesseract.TesseractWorker({
+        //workerPath: 'https://unpkg.com/tesseract.js@v2.0.0-alpha.11/dist/worker.min.js',
+        workerPath: './static/tesseract/worker.min.js',
+        
+        //langPath: 'https://tessdata.projectnaptha.com/4.0.0',
+        //corePath: 'https://unpkg.com/tesseract.js-core@v2.0.0-beta.10/tesseract-core.wasm.js',
+        corePath: './static/tesseract/tesseract-core.wasm.js',
+      })
       let langs = $v.EditorManager.OCRImageLang
       Tesseract.utils.loadLang({ langs: langs, langPath: this.worker.options.langPath })
         .then(() => {
@@ -37,9 +44,9 @@ let TesseractHelper = {
       //console.log('go')
       let langs = $v.EditorManager.OCRImageLang
       this.worker.recognize(image, langs)
-        //.progress(progress => {
-        //  console.log('progress', progress);
-        //})
+        .progress(progress => {
+          console.log('progress', progress);
+        })
         .then(result => {
           //console.log('result', result);
           FunctionHelper.triggerCallback(callback, result.text)

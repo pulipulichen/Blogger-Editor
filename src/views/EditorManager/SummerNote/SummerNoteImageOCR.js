@@ -34,6 +34,14 @@ let SummerNoteImageOCR = {
     '©',
     '=',
     '"',
+    ': :',
+    'i&i',
+    '[J',
+    '[8',
+    '\\n',
+    '」',
+    '+',
+    '區曙'
   ],
   ocrImage: function (name) {
     //console.log($v.EditorManager.enableOCRImageFilename)
@@ -130,7 +138,7 @@ let SummerNoteImageOCR = {
     
     text = text.replace(/[\t|\n]/g, ' ')
     while (text.indexOf('  ') > -1) {
-      text = text.replace(/[  ]/g, ' ')
+      text = text.split('  ').join(' ')
     }
     
     return text.trim()
