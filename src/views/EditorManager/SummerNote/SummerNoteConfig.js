@@ -157,7 +157,7 @@ let SummerNoteConfig = {
       //['imagesize', ['copyHTML', 'imageSize100', 'imageSize50', 'imageSize25']],
       //['float', ['floatLeft', 'floatRight', 'floatNone']],
       ['imagesize', ['popoverImageSizeOriginal', 'popoverImageSizeDefault']],
-      ['imagesLink', ['openMedia', 'saveMedia', 'copyMediaLink']],
+      ['imagesLink', ['openMedia', 'saveMedia', 'copyMediaLink', 'popoverImageOCR']],
       ['remove', ['removeMedia']]
     ]
   },

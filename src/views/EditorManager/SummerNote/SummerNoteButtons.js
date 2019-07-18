@@ -85,7 +85,9 @@ let SummerNoteButtons = {
       popoverImageOpen: (c) => {
         return SummerNoteImage.popoverImageOpen($t, c)
       },
-      
+      popoverImageOCR: (c) => {
+        return SummerNoteImage.popoverImageOCR($t, c)
+      },
       
       // ---------------
       // Buttons for Dropdown

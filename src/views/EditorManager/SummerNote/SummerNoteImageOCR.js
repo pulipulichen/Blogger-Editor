@@ -52,6 +52,13 @@ let SummerNoteImageOCR = {
       let postBody = $v.EditorManager.FieldPostBody.getElement()
       let aNode = postBody.find(`a[href^="filesystem:"][data-filename="${name}"]`)
       let imgNode = aNode.find(`img[src^="filesystem:"][data-filename="${name}"]`)
+      
+      // 20190719 測試用
+      //if (imgNode.attr('data-ocr-lock') === undefined) {
+      //  imgNode.attr('data-ocr-lock', 'true')
+      //  return
+      //}
+      
       //console.log([name, aNode.length, imgNode.length])
       if (aNode.length > 0 && imgNode.length > 0) {
         

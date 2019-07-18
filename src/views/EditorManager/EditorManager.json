@@ -76,6 +76,8 @@
     "strikethrough": "刪除線",
     "comment": "註解",
     "Heading 5": "標題5",
-    "Heading 6": "標題6"
+    "Heading 6": "標題6",
+    "OCR": "識別文字",
+    "Recognize text and append on image": "辨識文字並添增到圖片上"
   }
 }

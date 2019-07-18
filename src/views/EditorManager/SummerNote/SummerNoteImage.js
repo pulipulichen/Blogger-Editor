@@ -180,6 +180,20 @@ let SummerNoteImage = {
     }
     return SummerNoteHelper.buildButton('popoverImageOpen', contents, tooltip, click, doRender)
   },
+  popoverImageOCR: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="crosshairs icon"></i>` + $t(`OCR`))
+    let tooltip = $t('Recognize text and append on image')
+    let click = () => {
+      let target = $v.EditorManager.FieldPostBody.getSelectTarget()
+      let src = target.src
+      if (src.startsWith('filesystem:') === false) {
+        return
+      }
+      let name = target.getAttribute('data-filename')
+      SummerNoteImageOCR.ocrImage(name)
+    }
+    return SummerNoteHelper.buildButton('popoverImageOCR', contents, tooltip, click, doRender)
+  },
   
   // --------------------------
   // Utils
