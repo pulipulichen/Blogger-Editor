@@ -247,8 +247,8 @@ let SummerNoteOpen = {
   formatGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Format'), $t('Format Tools'), [
       SummerNoteImage.downloadImageTamplate($t, c, false),
-      SummerNoteImage.ImageReplacer($t, c, false),
       this.GooglePhoto($t, c, false),
+      SummerNoteImage.ImageReplacer($t, c, false),
       SummerNoteCode.CopyCode($t, c, false),
       SummerNoteCode.CleanCode($t, c, false),
       SummerNoteImage.imageSizeOriginal($t, c, false),

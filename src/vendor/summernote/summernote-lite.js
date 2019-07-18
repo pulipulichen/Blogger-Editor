@@ -9598,7 +9598,7 @@ sel.addRange(range);
               var href = $$1(anchor).attr('href');
               let displayHref = href
               
-              if (displayHref.startsWith('javascript:window.open(')) {
+              if (typeof(displayHref) === 'string' && displayHref.startsWith('javascript:window.open(')) {
                 let needle = 'javascript:window.open('
                 displayHref = '*' + displayHref.slice(needle.length + 1, displayHref.indexOf('"', needle.length + 2))
               }
