@@ -4,13 +4,13 @@ import dayjs from 'dayjs'
 let DayjsHelper = {
   nowFormat: function (format) {
     if (format === undefined) {
-      format = 'YYYY-MMDD-hhmmss'
+      format = 'YYYY-MMDD-HHmmss'
     }
     return dayjs(new Date()).format(format)
   },
   nowMMDDFormat: function (format) {
     if (format === undefined) {
-      format = 'MMDD-hhmmss'
+      format = 'MMDD-HHmmss'
     }
     return dayjs(new Date()).format(format)
   },
@@ -25,7 +25,7 @@ let DayjsHelper = {
       unix = unix * 1000
     }
     
-    return dayjs(unix).format('MM/DD hh:mm')
+    return dayjs(unix).format('MM/DD HH:mm')
   },
   timeSpentDisplay: function (seconds) {
     let min = Math.round(seconds / 60)
