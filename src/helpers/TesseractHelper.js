@@ -40,11 +40,25 @@ let TesseractHelper = {
     
     //console.log(image)
     return this.init(() => {
+      let doProgress = false
       let timer
       let startCountdown = () => {
         timer = setTimeout(() => {
-          console.log('OCR is not finish.')
-          FunctionHelper.triggerCallback(callback, '')
+          if (doProgress === false) {
+            delete this.worker
+            this.worker = null
+          }
+          this.retry++
+          if (this.retry < 4) {
+            console.log(`OCR is not finish. Retry ${this.retry} now.`)
+            setTimeout(() => {
+              this.recognize(image, callback)
+            }, 3000)
+          }
+          else {
+            console.log('OCR is not finish.')
+            FunctionHelper.triggerCallback(callback, '')
+          }
         }, 10000)
       }
       let stopCountdown = () => {
@@ -61,8 +75,9 @@ let TesseractHelper = {
         startCountdown()
         this.worker.recognize(image, langs)
           .progress(progress => {
+            doProgress = true
             resetCountdown()
-            console.log('progress', progress);
+            //console.log('progress', progress);
           })
           .then(result => {
             //console.log('result', result);
@@ -92,6 +107,7 @@ let TesseractHelper = {
       */
   },
   list: [],
+  retry: 0,
   push: function (image, callback) {
     this.list.push({
       image: image,
@@ -107,12 +123,15 @@ let TesseractHelper = {
       }
       this.isLoopNow = true
       let job = this.list.shift()
+      this.retry = 0
       this.recognize(job.image, (result) => {
         if (typeof(job.callback) === 'function') {
           job.callback(result)
         }
         this.isLoopNow = false
-        this.loop()
+        setTimeout(() => {
+          this.loop()
+        }, 3000)
       })
     }
     else {
