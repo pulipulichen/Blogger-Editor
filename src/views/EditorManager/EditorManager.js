@@ -224,9 +224,11 @@ var EditorManager = {
         return FunctionHelper.triggerCallback(callback)
       }
       
+      /*
       if (this.OutlineNavigator !== null) {
         this.OutlineNavigator.init()
       }
+      */
       
       this.EditorManagerConfig.init(this)
       

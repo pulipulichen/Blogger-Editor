@@ -16,10 +16,12 @@ let config = {
       highlightHeadingEq: 0
     }
   },
-  /*
+  
   mounted: function () {
-    
+    VueHelper.mountLocalStorageBoolean(this, 'opened')
+    this.init()
   },
+  /*
   computed: {
     
   },
@@ -47,6 +49,9 @@ let config = {
       EventManager.on(InitHelper, 'initFinish', () => {
         //console.log('initFinish')
         this.highlightHeading()
+        if (this.opened === true) {
+          this.open()
+        }
       })
         
       //}, 1000)
@@ -67,6 +72,7 @@ let config = {
     },
     open: function () {
       this.opened = true
+      VueHelper.persistLocalStorage(this, 'opened')
       //this.getUI().modal('show')
       //this.getUI().sidebar('toggle')
       //this.analyseHeadings()
@@ -78,6 +84,7 @@ let config = {
     },
     close: function () {
       this.opened = false
+      VueHelper.persistLocalStorage(this, 'opened')
       //this.getUI().modal('hide')
       //this.getUI().sidebar('toggle')
       this.getUI().removeClass('visible')
