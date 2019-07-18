@@ -19,7 +19,21 @@ let SummerNoteImageOCR = {
     ')',
     '&amp;',
     '﹍',
-    
+    '﹣',
+    '﹩',
+    ' %',
+    '乙逄',
+    'U3',
+    '﹥',
+    '~',
+    '《',
+    '。',
+    '*',
+    ' s ',
+    'O O ',
+    '©',
+    '=',
+    '"',
   ],
   ocrImage: function (name) {
     //console.log($v.EditorManager.enableOCRImageFilename)
