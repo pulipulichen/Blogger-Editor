@@ -27,7 +27,6 @@ let TesseractHelper = {
     return this
   },
   recognize: function (image, callback) {
-    
     if (typeof(image.attr) === 'function') {
       image = image[0]
     }
@@ -41,16 +40,45 @@ let TesseractHelper = {
     
     //console.log(image)
     return this.init(() => {
+      let timer
+      let startCountdown = () => {
+        timer = setTimeout(() => {
+          console.log('OCR is not finish.')
+          FunctionHelper.triggerCallback(callback, '')
+        }, 10000)
+      }
+      let stopCountdown = () => {
+        clearTimeout(timer)
+      }
+      let resetCountdown = () => {
+        stopCountdown()
+        startCountdown()
+      }
       //console.log('go')
       let langs = $v.EditorManager.OCRImageLang
-      this.worker.recognize(image, langs)
-        .progress(progress => {
-          console.log('progress', progress);
-        })
-        .then(result => {
-          //console.log('result', result);
-          FunctionHelper.triggerCallback(callback, result.text)
-        });
+      //console.log(image)
+      try {
+        startCountdown()
+        this.worker.recognize(image, langs)
+          .progress(progress => {
+            resetCountdown()
+            console.log('progress', progress);
+          })
+          .then(result => {
+            //console.log('result', result);
+            stopCountdown()
+            FunctionHelper.triggerCallback(callback, result.text)
+          }).catch(err => {
+            console.log(err)
+            stopCountdown()
+            FunctionHelper.triggerCallback(callback, '')
+          });
+      }
+      catch (e) {
+        console.error(e)
+        stopCountdown()
+        FunctionHelper.triggerCallback(callback, '')
+      }
     })
    /*
     Tesseract.recognize(image)
@@ -63,6 +91,34 @@ let TesseractHelper = {
       });
       */
   },
+  list: [],
+  push: function (image, callback) {
+    this.list.push({
+      image: image,
+      callback: callback
+    })
+    this.loop()
+  },
+  isLoopNow: false,
+  loop: function () {
+    if (this.list.length > 0) {
+      if (this.isLoopNow === true) {
+        return
+      }
+      this.isLoopNow = true
+      let job = this.list.shift()
+      this.recognize(job.image, (result) => {
+        if (typeof(job.callback) === 'function') {
+          job.callback(result)
+        }
+        this.isLoopNow = false
+        this.loop()
+      })
+    }
+    else {
+      this.isLoopNow = false
+    }
+  }
   /**
    * @deprecated 20190713 Pulipuli Chen 
    * @param {type} imageFile

@@ -46,6 +46,7 @@ let SummerNoteImageOCR = {
   ocrImage: function (name) {
     //console.log($v.EditorManager.enableOCRImageFilename)
     //console.log(this.isNeedOCRFilename(name))
+    
     if ($v.EditorManager.enableOCRImageFilename === true) {
       
       let postBody = $v.EditorManager.FieldPostBody.getElement()
@@ -55,12 +56,19 @@ let SummerNoteImageOCR = {
       if (aNode.length > 0 && imgNode.length > 0) {
         
         // 開始進入OCR的程序
-        imgNode.attr('data-ocr', 'true')
+        imgNode.attr('data-ocr', 'waiting')
         //console.log(name)
         DelayExecHelper.addForceWaiting(name)
-        TesseractHelper.recognize(imgNode, (ocrText) => {
+        TesseractHelper.push(imgNode, (ocrText) => {
           ocrText = this.filterOCRText(ocrText)
-          imgNode.attr('alt', ocrText)
+          //console.log([ocrText, name])
+          if (typeof(ocrText) === 'string' && ocrText.trim() !== '') {
+            imgNode.attr('alt', ocrText)
+            imgNode.attr('data-ocr', 'finish')
+          }
+          else {
+            imgNode.removeAttr('data-ocr')
+          }
           
           let ocrName = this.parseOCRName(ocrText)
           
@@ -83,7 +91,6 @@ let SummerNoteImageOCR = {
                      .attr('title', newName)
                      //.attr('alt', ocrText)
                      .attr('data-filename', newName)
-                     .removeAttr('data-ocr')
               $v.EditorManager.FieldPostBody.save()
               DelayExecHelper.removeForceWaiting(name)
               // 完工
@@ -92,7 +99,6 @@ let SummerNoteImageOCR = {
           else {
             $v.EditorManager.FieldPostBody.save()
             DelayExecHelper.removeForceWaiting(name)
-            imgNode.removeAttr('data-ocr')
           }
         })
       }
@@ -104,7 +110,15 @@ let SummerNoteImageOCR = {
     return (terms.join('').length < 5)
   },
   parseOCRName: function (text) {
-    let terms = text.trim().match(/[A-Za-z]{2,}/g).map(term => {return term})
+    if (typeof(text) !== 'string') {
+      return ''
+    }
+    let matched = text.trim().match(/[A-Za-z]{2,}/g)
+    
+    let terms = []
+    if (matched !== null) {
+      terms = matched.map(term => {return term})
+    }
       
     let output = ''
     let softLimit = 30

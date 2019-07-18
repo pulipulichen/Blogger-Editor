@@ -58,8 +58,11 @@ body {
       border-width: 3px;
     }
     
-    &[src^="filesystem:"][data-ocr="true"] {
+    &[src^="filesystem:"][data-ocr="waiting"] {
       border-color: orange;
+    }
+    &[src^="filesystem:"][data-ocr="finish"] {
+      border-color: purple;
     }
   } 
   
