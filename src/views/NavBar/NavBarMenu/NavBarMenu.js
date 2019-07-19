@@ -177,6 +177,10 @@ let NavBarMenu = {
       
       // <div class="ui simple dropdown item" ref="dropdownPublish">
       this.lastEditTimestamp = (new Date()).getTime()
+      
+      if (ConfigHelper.get('showReload') === false) {
+        $(this.$refs.reload).hide()
+      }
     },
     updateTimeSpent: function () {
       let currentEditTimestamp = (new Date()).getTime()

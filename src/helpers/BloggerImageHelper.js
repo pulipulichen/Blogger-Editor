@@ -25,7 +25,7 @@ BloggerImageHelper = {
     let baseUrl = this.getBaseUrl(link)
     let name = this.getFilename(link)
     link = baseUrl + '/s' + size + '/' + name
-    console.log(link)
+    //console.log(link)
     return link
   },
   changeProtocol: function (link) {

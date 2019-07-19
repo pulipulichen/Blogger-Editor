@@ -295,10 +295,10 @@ let FieldPostBody = {
     }
     
     DelayExecHelper.backExec('FieldPostBody.cleanUnusedFileSystem', 3, () => {
-      this.cleanUnusedFileSystem(() => {
+      //this.cleanUnusedFileSystem(() => {
         $v.PostManager.updateEditingPostBody(postBody, callback)
         EventManager.trigger(this, 'save')
-      })
+      //})
     })
   },
   deactivateCodeView: function () {

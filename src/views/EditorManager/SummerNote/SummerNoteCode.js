@@ -215,6 +215,8 @@ let SummerNoteCode = {
       }
     })
     
+    $v.EditorManager.FieldPostBody.cleanUnusedFileSystem()
+    
     return postBody
   },
   SaveSnippet: function ($t, context, doRender) {

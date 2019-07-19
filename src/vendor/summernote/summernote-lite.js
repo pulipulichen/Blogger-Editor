@@ -6093,7 +6093,10 @@ ${links}`
         
         while (blockTagList.indexOf(tagName) === -1) {
           $parent = $parent.parent()
-          tagName = $parent.prop('tagName').toLowerCase()
+          tagName = $parent.prop('tagName')
+          if (typeof(tagName) === 'string') {
+            tagName = tagName.toLowerCase()
+          }
           
           if (skipTagList.indexOf(tagName) > -1 
               || $parent.hasClass('note-editable')) {
