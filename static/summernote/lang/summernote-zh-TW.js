@@ -127,7 +127,7 @@
         transparent: '透明',
         setTransparent: '透明',
         reset: '重設',
-        resetToDefault: '默認',
+        resetToDefault: '預設值',
         cpSelect: "選擇"
       },
       shortcut: {

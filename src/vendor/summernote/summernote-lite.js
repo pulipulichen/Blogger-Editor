@@ -7703,6 +7703,17 @@ sel.addRange(range);
       };
       Buttons.prototype.colorPalette = function (className, tooltip, backColor, foreColor) {
           var _this = this;
+          
+          let initBackColor = '#FFFF00'
+          if (localStorage.getItem('summernote.colorbutton.backColor') !== null) {
+            initBackColor = localStorage.getItem('summernote.colorbutton.backColor')
+          }
+          let initForeColor = '#000000'
+          if (localStorage.getItem('summernote.colorbutton.foreColor') !== null) {
+            initForeColor = localStorage.getItem('summernote.colorbutton.foreColor')
+          }
+          //console.log([initBackColor, initForeColor])
+          
           return this.ui.buttonGroup({
               className: 'note-color ' + className,
               children: [
@@ -7732,8 +7743,8 @@ sel.addRange(range);
                       callback: function ($button) {
                           var $recentColor = $button.find('.note-recent-color');
                           if (backColor) {
-                              $recentColor.css('background-color', '#FFFF00');
-                              $button.attr('data-backColor', '#FFFF00');
+                              $recentColor.css('background-color', initBackColor);
+                              $button.attr('data-backColor', initBackColor);
                           }
                           if (!foreColor) {
                               $recentColor.css('color', 'transparent');
@@ -7762,7 +7773,7 @@ sel.addRange(range);
                           '    <button type="button" class="note-color-select btn btn-light" data-event="openPalette" data-value="backColorPicker">',
                           this.lang.color.cpSelect,
                           '    </button>',
-                          '    <input type="color" id="backColorPicker" class="note-btn note-color-select-btn" value="#FFFF00" data-event="backColorPalette">',
+                          '    <input type="color" id="backColorPicker" class="note-btn note-color-select-btn" value="' + initBackColor + '" data-event="backColorPalette">',
                           '  </div>',
                           '  <div class="note-holder-custom" id="backColorPalette" data-event="backColor"/>',
                           '</div>'
@@ -7780,12 +7791,11 @@ sel.addRange(range);
                               '    <button type="button" class="note-color-select btn btn-light" data-event="openPalette" data-value="foreColorPicker">',
                               this.lang.color.cpSelect,
                               '    </button>',
-                              '    <input type="color" id="foreColorPicker" class="note-btn note-color-select-btn" value="#000000" data-event="foreColorPalette">',
+                              '    <input type="color" id="foreColorPicker" class="note-btn note-color-select-btn" value="' + initForeColor + '" data-event="foreColorPalette">',
                               '  <div class="note-holder-custom" id="foreColorPalette" data-event="foreColor"/>',
                               '</div>'
                           ].join('') : ''),
                       callback: function ($dropdown) {
-                          
                           var event
                           $dropdown.find('.note-holder').each(function (idx, item) {
                               var $holder = $$1(item);
@@ -7800,6 +7810,14 @@ sel.addRange(range);
                           });
                           /* TODO: do we have to record recent custom colors within cookies? */
                           /* yes, we have to do this */
+                          
+                          if (event === 'foreColor' && initForeColor !== '#000000') {
+                            setTimeout(() => {
+                              //console.log(2049)
+                              $dropdown.parents('.note-color-fore:first').find('.note-recent-color:first').css('color', initForeColor)
+                            }, 0)
+                              
+                          }
                           
                           //console.log('summernote.customColors.' + event)
                           var customColors = localStorage.getItem('summernote.customColors.' + event + 'Palette')
@@ -7824,7 +7842,7 @@ sel.addRange(range);
                           });
                           $dropdown.find('input[type="color"]').each(function (idx, item) {
                             //console.log(item)
-                            console.log('2030')
+                            //console.log('2030')
                             //item.addEventListener("change", function() {
                             //    alert(this.value)
                             //}, false); 
@@ -7842,7 +7860,7 @@ sel.addRange(range);
                                   var $palette = $dropdown.find('#' + event)
                                   var $chip = $palette.find('.note-color-btn').first();
                                   var color = this.value.toUpperCase();
-                                  console.log(['color changed', color])
+                                  //console.log(['color changed', color])
                                   $chip.css('background-color', color)
                                       .attr('aria-label', color)
                                       .attr('data-value', color)
@@ -7948,6 +7966,7 @@ sel.addRange(range);
                             let $color = $button.closest('.note-color').find('.note-recent-color');
                             let $currentButton = $button.closest('.note-color').find('.note-current-color-button');
                             $color.css(key, value);
+                            localStorage.setItem('summernote.colorbutton.' + eventName, value)
                             $currentButton.attr('data-' + eventName, value);
                             //console.log(['editor.' + eventName, value])
                             //console.log(_this.context.layoutInfo.editor)
