@@ -10,10 +10,24 @@ let config = {
   mounted: function () {
     //VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')
   },
-  computed: {
-    
-  },
   */
+  computed: {
+    getClassname: function () {
+      let classname = this.name
+      if (this.locked === true) {
+        classname = classname + ' locked'
+      }
+      return classname
+    },
+    getTitle: function () {
+      if (this.locked === false) {
+        return this.$t('Saving... (Click to Save)')
+      }
+      else {
+        return this.$t('Please wait for saving.')
+      }
+    }
+  },
   created: function () {
     $v[this.name] = this
   },

@@ -226,6 +226,7 @@ let FieldPostBody = {
       
       //postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
       postBody.find('img[src^="filesystem:"][data-filename="' + name + '"]').each((i, imgTag) => {
+        //console.log(['found', name])
         // we need to change the URL size to fit the image
         if ($(imgTag).hasClass('original-size') === false) {
           imgTag.src = BloggerImageHelper.getSize(link, imgTag)
