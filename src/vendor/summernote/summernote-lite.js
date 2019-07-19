@@ -7882,23 +7882,6 @@ sel.addRange(range);
                                   //}, 1000)
                               });
                           });
-                          /*
-                          console.log($dropdown.find('input[type="color"]').attr('id'))
-                          $dropdown.find('input[type="color"]').change(function () {
-                            //setTimeout(() => {
-                            console.log(['aaa', 111])
-                            var $chip = $dropdown.find('#' + $$1(this).data('event')).find('.note-color-btn').first();
-                            var color = this.value.toUpperCase();
-                            console.log(['color changed', color])
-                            $chip.css('background-color', color)
-                                .attr('aria-label', color)
-                                .attr('data-value', color)
-                                .attr('data-original-title', color);
-                            $chip.click();
-
-                            //}, 1000)
-                          });
-                          */
                       }, 
                       click: function (event) {
                           //console.log('set color')
