@@ -7780,13 +7780,16 @@ sel.addRange(range);
                               '    <button type="button" class="note-color-select btn btn-light" data-event="openPalette" data-value="foreColorPicker">',
                               this.lang.color.cpSelect,
                               '    </button>',
-                              '    <input type="color" id="foreColorPicker" class="note-btn note-color-select-btn" onkeyup="alert(this.value)" value="#000000" data-event="foreColorPalette">',
+                              '    <input type="color" id="foreColorPicker" class="note-btn note-color-select-btn" value="#000000" data-event="foreColorPalette">',
                               '  <div class="note-holder-custom" id="foreColorPalette" data-event="foreColor"/>',
                               '</div>'
                           ].join('') : ''),
                       callback: function ($dropdown) {
+                          
+                          var event
                           $dropdown.find('.note-holder').each(function (idx, item) {
                               var $holder = $$1(item);
+                              event = $holder.data('event')
                               $holder.append(_this.ui.palette({
                                   colors: _this.options.colors,
                                   colorsName: _this.options.colorsName,
@@ -7797,7 +7800,9 @@ sel.addRange(range);
                           });
                           /* TODO: do we have to record recent custom colors within cookies? */
                           /* yes, we have to do this */
-                          var customColors = localStorage.getItem('summernote.customColors')
+                          
+                          //console.log('summernote.customColors.' + event)
+                          var customColors = localStorage.getItem('summernote.customColors.' + event + 'Palette')
                           if (customColors === null) {
                             customColors = [
                                 ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']
@@ -7806,7 +7811,7 @@ sel.addRange(range);
                           else {
                             customColors = JSON.parse(customColors)
                           }
-                          console.log(customColors)
+                          //console.log(customColors)
                           $dropdown.find('.note-holder-custom').each(function (idx, item) {
                               var $holder = $$1(item);
                               $holder.append(_this.ui.palette({
@@ -7818,14 +7823,23 @@ sel.addRange(range);
                               }).render());
                           });
                           $dropdown.find('input[type="color"]').each(function (idx, item) {
+                            //console.log(item)
+                            console.log('2030')
+                            //item.addEventListener("change", function() {
+                            //    alert(this.value)
+                            //}, false); 
+
                               //console.log(item)
                               //$$1(item).attr('data-ok', 'ok')
                               //$$1(item).attr('onchange', function () {
                               //  alert(this)
                               //})
                               $$1(item).on('input', function () {
+                              //$$1(item).on('change', function () {
+                                  //console.log('input')
                                   //setTimeout(() => {
-                                  let $palette = $dropdown.find('#' + $$1(this).data('event'))
+                                  let event = $$1(this).data('event')
+                                  var $palette = $dropdown.find('#' + event)
                                   var $chip = $palette.find('.note-color-btn').first();
                                   var color = this.value.toUpperCase();
                                   console.log(['color changed', color])
@@ -7841,9 +7855,12 @@ sel.addRange(range);
                                     let color = btn.getAttribute('aria-label')
                                     customColors.push(color)
                                   })
+                                  customColors = [customColors]
+                                  //console.log(customColors)
                                   customColors = JSON.stringify(customColors)
-                                  localStorage.setItem('summernote.customColors', customColors)
                                   
+                                  localStorage.setItem('summernote.customColors.' + event, customColors)
+                                  //localStorage.setItem('summernote.customColors', customColors)
                                   //}, 1000)
                               });
                           });
@@ -7867,7 +7884,8 @@ sel.addRange(range);
                       }, 
                       click: function (event) {
                           //console.log('set color')
-                        
+                          
+                          //event.preventDefault()
                           
                           var $parent = $$1('.' + className);
                           var $button = $$1(event.target);
@@ -7897,8 +7915,8 @@ sel.addRange(range);
                               $palette.prepend($chip);
                               
                               //$picker.click();
-                              //event.preventDefault()
-                              //event.stopPropagation()
+                              event.preventDefault()
+                              event.stopPropagation()
                               //setTimeout(() => {
                                 $picker.click();
                               //}, 0)
@@ -7906,7 +7924,7 @@ sel.addRange(range);
                           }
                           else if (eventName === 'removeFormat') {
                             if (hasSelectedRange() === false) {
-                              event.preventDefault()
+                              //event.preventDefault()
                               return
                             }
                               
@@ -7937,7 +7955,7 @@ sel.addRange(range);
                             //console.log(hasSelectedRange())
 
                             if (hasSelectedRange() === false) {
-                              event.preventDefault()
+                              //event.preventDefault()
                               return
                             }
                             _this.context.invoke('editor.' + eventName, value);
@@ -7947,6 +7965,7 @@ sel.addRange(range);
                             //event.preventDefault()
                             //event.stopPropagation()
                             //console.log('選擇顏色')
+                            event.stopPropagation()
                           }
                           else {
                             //console.log('其他')
