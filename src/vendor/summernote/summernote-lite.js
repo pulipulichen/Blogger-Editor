@@ -10813,7 +10813,7 @@ sel.addRange(range);
               ['font', ['bold', 'italic', 'underline', 'clear']],
               ['fontname', ['fontname']],
               ['fontsize', ['fontsize']],
-              ['color', ['color']],
+              ['color', ['forecolor', 'backcolor']],
               ['para', ['ul', 'ol', 'paragraph']],
               ['table', ['table']],
               ['insert', ['link', 'picture', 'video', 'hr', 'comment', 'htmlify', 'textify', 'iframe']],

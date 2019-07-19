@@ -143,10 +143,10 @@
   margin: 0
 }
 
-.note-popover .note-popover-content .note-color .note-dropdown-menu .note-palette:first-child,
-.note-toolbar .note-color .note-dropdown-menu .note-palette:first-child {
+.note-popover .note-popover-content .note-color .note-dropdown-menu .note-palette:not(:first-child),
+.note-toolbar .note-color .note-dropdown-menu .note-palette:not(:first-child) {
   margin: 0 5px;
-  margin-right: 15px
+  margin-left: 15px
 }
 
 .note-popover .note-popover-content .note-color .note-dropdown-menu .note-palette .note-palette-title,
@@ -261,9 +261,14 @@
 }
 
 .note-toolbar .note-color .note-dropdown-menu {
-  min-width: 350px;
+  min-width: 345px;
   max-height: 270px;
 }
+
+.note-toolbar .note-color.note-color-fore.open .note-dropdown-menu,
+.note-toolbar .note-color.note-color-back.open .note-dropdown-menu {
+  min-width: 165px;
+}  
 
 .note-popover .note-popover-content .note-color-palette div .note-color-btn,
 .note-toolbar .note-color-palette div .note-color-btn {
