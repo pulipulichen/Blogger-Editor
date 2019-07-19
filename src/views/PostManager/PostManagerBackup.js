@@ -18,6 +18,10 @@ let PostManagerBackup = {
       saveAs(zip, `${folderName}.zip`)
       $v.PageLoader.close()
       FunctionHelper.triggerCallback(callback)
+      
+      GoogleAnalyticsHelper.send('PostManagerBackup.backupPost', {
+        'filename': `${folderName}.zip`
+      })
     })
   },
   getPostTitleAbstract: function () {
@@ -206,6 +210,9 @@ let PostManagerBackup = {
           })
         })
       } else {
+        GoogleAnalyticsHelper.send('PostManagerBackup.readAllPostsZip', {
+          'pathListCount': pathList.length
+        })
         FunctionHelper.triggerCallback(callback)
       }
     }
@@ -289,6 +296,9 @@ let PostManagerBackup = {
       } else {
         // 檔案全部讀取完畢之後，才會post
         //console.log(post)
+        GoogleAnalyticsHelper.send('PostManagerBackup.readSinglePostZip', {
+          'postId': postId
+        })
         if (mode === 'create') {
           PostManager.createPost(post, callback)
         }

@@ -327,6 +327,10 @@ let PostManager = {
         if (post[field] !== value) {
           post[field] = value
           this.update(post, callback)
+          GoogleAnalyticsHelper.send('PostManager.updateEditingPost', {
+            field: field,
+            value: value
+          })
         }
         else {
           FunctionHelper.triggerCallback(callback, post)

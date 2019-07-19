@@ -291,8 +291,16 @@ let FieldPostBody = {
       //ScrollHelper.save()
       //$v.EditorManager.FieldPostBody.save()
       EventManager.trigger(this, 'change')
-      GoogleAnalyticsHelper.send('FieldPostBody.onChange', 'word_count:' + contents.length)
+      GoogleAnalyticsHelper.send('FieldPostBody.onChange', {
+        'wordCount': this.getText().length,
+        'imageCount': this.countImage(),
+        'timeSpent': this.getTimeSpend()
+      })
     })
+  },
+  getTimeSpend: function () {
+    let sec = $v.PostManager.getPost().timeSpentSecond
+    return DayjsHelper.timeSpentDisplay(sec)
   },
   save: function (callback) {
     this.deactivateCodeView()

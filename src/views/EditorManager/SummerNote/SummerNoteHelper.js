@@ -10,10 +10,17 @@ let SummerNoteHelper = {
     }
     tooltip = tooltip + this.getHotkey(name)
     
+    let gaClick = (event) => {
+      GoogleAnalyticsHelper.send('SummerNoteHelper.clickButton', {
+        'name': $(contents).text()
+      })
+      click(event)
+    }
+    
     let button = ui.button({
       contents: contents,
       tooltip: tooltip, // `<span>${tooltip}</span>`,
-      click: click
+      click: gaClick
     });
     
     if (doRender !== false) {

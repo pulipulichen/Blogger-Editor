@@ -62,6 +62,10 @@ let SummerNoteCode = {
     }
     
     CopyPasteHelper.copyPlainText(code)
+    
+    GoogleAnalyticsHelper.send('SummerNoteCode.CopyCodeClick', {
+      'codeLength': code.length
+    })
   },
   CleanCode: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="eraser icon"></i>`+$t('Clean'))

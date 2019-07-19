@@ -98,18 +98,30 @@ let SummerNoteImageOCR = {
                      .attr('title', newName)
                      //.attr('alt', ocrText)
                      .attr('data-filename', newName)
-              $v.EditorManager.FieldPostBody.save()
-              DelayExecHelper.removeForceWaiting(name)
+              this.ocrImageComplete(name, newName)
               // 完工
             })
           }
           else {
-            $v.EditorManager.FieldPostBody.save()
-            DelayExecHelper.removeForceWaiting(name)
+            this.ocrImageComplete(name)
           }
         })
       }
     }
+    return this
+  },
+  ocrImageComplete: function (name, newName) {
+    $v.EditorManager.FieldPostBody.save()
+    DelayExecHelper.removeForceWaiting(name)
+    
+    if (newName === undefined) {
+      newName = name
+    }
+    
+    GoogleAnalyticsHelper.send('SummerNoteImageOCR.ocrImageComplete', {
+      'newName': newName
+    })
+    
     return this
   },
   isNeedOCRFilename: function (name) {

@@ -308,6 +308,10 @@ let SummerNoteImage = {
       SummerNoteImageOCR.ocrImage(name)
     }, 0)
     
+    GoogleAnalyticsHelper.send('SummerNoteImage.insertImageNode', {
+      'name': name
+    })
+    
     //console.log(name)
     return this
   },

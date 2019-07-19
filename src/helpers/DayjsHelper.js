@@ -14,6 +14,12 @@ let DayjsHelper = {
     }
     return dayjs(new Date()).format(format)
   },
+  nowHHMMSSFormat: function (format) {
+    if (format === undefined) {
+      format = 'HHmmss'
+    }
+    return dayjs(new Date()).format(format)
+  },
   unix: function () {
     return dayjs(new Date()).unix()
   },

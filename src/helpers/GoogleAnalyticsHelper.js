@@ -4,6 +4,7 @@ let GoogleAnalyticsHelper = {
   trackingId: null, // UA-37178375-10
   //trackingId: 'UA-37178375-10',
   uuid: null,
+  resetUUID: true,
   init: function (callback) {
     let trackingId = $v.ConfigManager.googleAnalyticsTrackingId.trim()
     if (trackingId !== this.trackingId) {
@@ -31,7 +32,16 @@ let GoogleAnalyticsHelper = {
   },
   initUUID: function () {
     if (this.uuid === null) {
-      this.uuid = uuidv4()
+      if (this.resetUUID === false) {
+        this.uuid = localStorage.getItem('GoogleAnalyticsHelper.uuid')
+        if (this.uuid === null) {
+          this.uuid = uuidv4() + '-' + DayjsHelper.nowFormat()
+          localStorage.setItem('GoogleAnalyticsHelper.uuid', this.uuid)
+        }
+      }
+      else {
+        this.uuid = uuidv4() + '-' + DayjsHelper.nowFormat()
+      }
     }
     
   },
@@ -46,25 +56,29 @@ let GoogleAnalyticsHelper = {
   send: function (eventCategory, eventAction) {
     this.init(() => {
       
-      eventAction = this.filterEventValue(eventAction)
+      eventAction = this.filterEventValue(eventCategory, eventAction)
       
       let data = {
-        eventCategory: eventCategory,
+        eventCategory: this.uuid,
         eventAction: eventAction
       }
       //console.log(data)
       ga('send', 'event', data);
     })
   },
-  filterEventValue: function (eventValue) {
-    if (typeof(eventValue) === 'object') {
+  filterEventValue: function (eventCategory, eventValue) {
+    if (eventValue === undefined || eventValue === null) {
+      eventValue = ''
+    }
+    else if (typeof(eventValue) === 'object') {
       eventValue = JSON.stringify(eventValue)
     }
     
     // 加上時間
     eventValue = [
-      this.uuid,
-      DayjsHelper.nowFormat(),
+      //this.uuid,
+      DayjsHelper.nowHHMMSSFormat(),
+      eventCategory,
       eventValue
     ].join('→')
     

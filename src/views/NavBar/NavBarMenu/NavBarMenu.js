@@ -50,22 +50,27 @@ let NavBarMenu = {
     },
     openPublishManager: function () {
       $v.PublishManager.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'openPublishManager')
       this.hideNavBar()
     },
     openPostManager: function () {
       $v.PostManager.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'openPostManager')
       this.hideNavBar()
     },
     openThemeManager: function () {
       $v.ThemeManager.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'openThemeManager')
       this.hideNavBar()
     },
     openEditorManager: function () {
       $v.EditorManager.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'openEditorManager')
       this.hideNavBar()
     },
     openConfigManager: function () {
       $v.ConfigManager.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'openConfigManager')
       this.hideNavBar()
     },
     
@@ -73,65 +78,81 @@ let NavBarMenu = {
     
     editorInsertMore: function () {
       SummerNoteCode.insertMoreClick()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorInsertMore')
       this.hideNavBar()
     },
     editorInsertSnippet: function () {
       $v.SnippetInserter.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorInsertSnippet')
       this.hideNavBar()
     },
     editorInsertIframe: function () {
       $v.IframePrompt.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorInsertIframe')
       this.hideNavBar()
     },
     editorInsertFile: function () {
       $v.FileUploader.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorInsertFile')
       this.hideNavBar()
     },
     editorInsertCode: function () {
       $v.CodeInserter.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorInsertCode')
       this.hideNavBar()
     },
     
     // -------------------------------
     downloadImageTemplate: function () {
       SummerNoteImage.downloadImageTamplateClick()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'downloadImageTemplate')
       this.hideNavBar()
     },
     openImageReaplcer: function () {
       $v.ImageReplacer.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'openImageReaplcer')
       this.hideNavBar()
     },
     openGooglePhoto: function () {
       WindowHelper.forcePopup('https://photos.google.com/?hl=zh-TW', 'googlePhoto')
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'openGooglePhoto')
       this.hideNavBar()
     },
     openGoogleDocsLinkBuilder: function () {
       //WindowHelper.forcePopup('https://blog.pulipuli.info/2016/09/google-google-drive-file-download-link.html#postcatagoogle-google-drive-file-download-link.html0_anchor2', 'googleDocsLinkBuilder')
       $v.GoogleDocLinkBuilder.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'openGoogleDocsLinkBuilder')
       this.hideNavBar()
     },
     openOneDriveLinkBuilder: function () {
       WindowHelper.forcePopup('https://blog.pulipuli.info/2019/02/onedrive-onedrive-file-download-link.html#postcataonedrive-onedrive-file-download-link.html0_anchor3', 'OneDriveDownload')
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'openOneDriveLinkBuilder')
       this.hideNavBar()
+      
     },
     editorCleanCode: function () {
       SummerNoteCode.CleanCodeClick()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorCleanCode')
       this.hideNavBar()
     },
     editorCopyCode: function () {
       SummerNoteCode.CopyCodeClick()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorCopyCode')
       this.hideNavBar()
     },
     editorImageResizeOriginal: function () {
       SummerNoteImage.imageSizeOriginalClick()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorImageResizeOriginal')
       this.hideNavBar()
     },
     editorImageResizeThumbnail: function () {
       SummerNoteImage.imageSizeThumbnailClick()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorImageResizeThumbnail')
       this.hideNavBar()
     },
     reloadPage: function () {
       //console.log(1)
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'reloadPage')
       DelayExecHelper.forceExec(() => {
         //console.log(2)
         location.reload()
