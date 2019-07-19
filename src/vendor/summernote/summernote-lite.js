@@ -6037,6 +6037,12 @@ ${links}`
                 button.trigger('click', event)
                 event.preventDefault();
               }
+              
+              if (this.options.callbacks.onHandleKeyMap) {
+                  //this.context.triggerEvent('image.upload', data);
+                  this.options.callbacks.onHandleKeyMap(event, keys.join('+'), eventName)
+              }
+              //this.context.triggerEvent('handleKeyMap', keys.join('+'), eventName);
           }
           else if (key.isEdit(event.keyCode)) {
               this.afterCommand();

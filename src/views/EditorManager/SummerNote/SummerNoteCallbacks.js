@@ -36,6 +36,12 @@ let SummerNoteCallbacks = {
       },
       onInput: (e) => {
         this.scrollPositionToCenter(e)
+      },
+      onHandleKeyMap: (e, keys, eventName) => {
+        GoogleAnalyticsHelper.send('SummerNoteCallbacks.onHandleKeyMap', {
+          keys: keys,
+          eventName: eventName
+        })
       }
     }
   },
