@@ -7759,7 +7759,7 @@ sel.addRange(range);
                           '  </div>',
                           '  <div class="note-holder" data-event="backColor"/>',
                           '  <div>',
-                          '    <button type="button" class="note-color-select btn" data-event="openPalette" data-value="backColorPicker">',
+                          '    <button type="button" class="note-color-select btn btn-light" data-event="openPalette" data-value="backColorPicker">',
                           this.lang.color.cpSelect,
                           '    </button>',
                           '    <input type="color" id="backColorPicker" class="note-btn note-color-select-btn" value="#FFFF00" data-event="backColorPalette">',
@@ -7780,7 +7780,7 @@ sel.addRange(range);
                               '    <button type="button" class="note-color-select btn btn-light" data-event="openPalette" data-value="foreColorPicker">',
                               this.lang.color.cpSelect,
                               '    </button>',
-                              '    <input type="color" id="foreColorPicker" class="note-btn note-color-select-btn" value="#000000" data-event="foreColorPalette">',
+                              '    <input type="color" id="foreColorPicker" class="note-btn note-color-select-btn" onkeyup="alert(this.value)" value="#000000" data-event="foreColorPalette">',
                               '  <div class="note-holder-custom" id="foreColorPalette" data-event="foreColor"/>',
                               '</div>'
                           ].join('') : ''),
@@ -7797,9 +7797,16 @@ sel.addRange(range);
                           });
                           /* TODO: do we have to record recent custom colors within cookies? */
                           /* yes, we have to do this */
-                          var customColors = [
-                              ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']
-                          ];
+                          var customColors = localStorage.getItem('summernote.customColors')
+                          if (customColors === null) {
+                            customColors = [
+                                ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']
+                            ];
+                          }
+                          else {
+                            customColors = JSON.parse(customColors)
+                          }
+                          console.log(customColors)
                           $dropdown.find('.note-holder-custom').each(function (idx, item) {
                               var $holder = $$1(item);
                               $holder.append(_this.ui.palette({
@@ -7810,36 +7817,74 @@ sel.addRange(range);
                                   tooltip: _this.options.tooltip
                               }).render());
                           });
-                          $dropdown.find('input[type=color]').each(function (idx, item) {
-                              $$1(item).change(function () {
-                                  var $chip = $dropdown.find('#' + $$1(this).data('event')).find('.note-color-btn').first();
+                          $dropdown.find('input[type="color"]').each(function (idx, item) {
+                              //console.log(item)
+                              //$$1(item).attr('data-ok', 'ok')
+                              //$$1(item).attr('onchange', function () {
+                              //  alert(this)
+                              //})
+                              $$1(item).on('input', function () {
+                                  //setTimeout(() => {
+                                  let $palette = $dropdown.find('#' + $$1(this).data('event'))
+                                  var $chip = $palette.find('.note-color-btn').first();
                                   var color = this.value.toUpperCase();
+                                  console.log(['color changed', color])
                                   $chip.css('background-color', color)
                                       .attr('aria-label', color)
                                       .attr('data-value', color)
                                       .attr('data-original-title', color);
                                   $chip.click();
+                                  
+                                  // 現在設定了下面那排的功能，我需要為他們保存在localStorage
+                                  let customColors = []
+                                  $palette.find('.note-color-btn').each((i, btn) => {
+                                    let color = btn.getAttribute('aria-label')
+                                    customColors.push(color)
+                                  })
+                                  customColors = JSON.stringify(customColors)
+                                  localStorage.setItem('summernote.customColors', customColors)
+                                  
+                                  //}, 1000)
                               });
                           });
+                          /*
+                          console.log($dropdown.find('input[type="color"]').attr('id'))
+                          $dropdown.find('input[type="color"]').change(function () {
+                            //setTimeout(() => {
+                            console.log(['aaa', 111])
+                            var $chip = $dropdown.find('#' + $$1(this).data('event')).find('.note-color-btn').first();
+                            var color = this.value.toUpperCase();
+                            console.log(['color changed', color])
+                            $chip.css('background-color', color)
+                                .attr('aria-label', color)
+                                .attr('data-value', color)
+                                .attr('data-original-title', color);
+                            $chip.click();
+
+                            //}, 1000)
+                          });
+                          */
                       }, 
                       click: function (event) {
-                          console.log('set color')
+                          //console.log('set color')
                         
-                          event.stopPropagation()
-                          event.preventDefault()
                           
                           var $parent = $$1('.' + className);
                           var $button = $$1(event.target);
                           var eventName = $button.data('event');
                           var value = $button.attr('data-value');
-                          console.log([eventName, value])
+                          //console.log([eventName, value])
                           //$parent.find('.note-dropdown-menu').addClass('close')
                           //console.log($parent[0])
-                          $parent.find('.dropdown-toggle:first').click()
                           //return
                           //console.log(lists.contains(['backColor', 'foreColor'], eventName))
                           if (eventName === 'openPalette') {
+                              // 這是選取顏色的功能...
+                            
                               var $picker = $parent.find('#' + value);
+                              //$picker.show()
+                              //console.log($picker[0])
+                              
                               var $palette = $$1($parent.find('#' + $picker.data('event')).find('.note-color-row')[0]);
                               // Shift palette chips
                               var $chip = $palette.find('.note-color-btn').last().detach();
@@ -7850,8 +7895,14 @@ sel.addRange(range);
                                   .attr('data-value', color)
                                   .attr('data-original-title', color);
                               $palette.prepend($chip);
-                              $picker.click();
-                              event.preventDefault()
+                              
+                              //$picker.click();
+                              //event.preventDefault()
+                              //event.stopPropagation()
+                              //setTimeout(() => {
+                                $picker.click();
+                              //}, 0)
+                              //console.log('為什麼？')
                           }
                           else if (eventName === 'removeFormat') {
                             if (hasSelectedRange() === false) {
@@ -7874,10 +7925,6 @@ sel.addRange(range);
                             $currentButton.attr('data-' + value, color);
                           }
                           else if (lists.contains(['backColor', 'foreColor'], eventName)) {
-                            if (hasSelectedRange() === false) {
-                              event.preventDefault()
-                              return
-                            }
 
                             let key = eventName === 'backColor' ? 'background-color' : 'color';
                             let $color = $button.closest('.note-color').find('.note-recent-color');
@@ -7889,10 +7936,22 @@ sel.addRange(range);
                             //if (_this.context.invoke('editor.hasSelectedRange')) {
                             //console.log(hasSelectedRange())
 
+                            if (hasSelectedRange() === false) {
+                              event.preventDefault()
+                              return
+                            }
                             _this.context.invoke('editor.' + eventName, value);
+                            $parent.find('.dropdown-toggle:first').click()
+                          }
+                          else if (eventName === 'foreColorPalette' || eventName === 'backColorPalette') {
+                            //event.preventDefault()
+                            //event.stopPropagation()
+                            //console.log('選擇顏色')
                           }
                           else {
                             //console.log('其他')
+                            //event.stopPropagation()
+                            //event.preventDefault()
                           }
                       }
                   })
