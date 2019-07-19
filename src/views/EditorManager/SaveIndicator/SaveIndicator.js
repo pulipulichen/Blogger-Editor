@@ -3,7 +3,8 @@ let config = {
     return {
       name: 'SaveIndicator',
       ui: undefined,
-      locked: false
+      locked: false,
+      opened: false
     }
   },
   /*
@@ -16,6 +17,9 @@ let config = {
       let classname = this.name
       if (this.locked === true) {
         classname = classname + ' locked'
+      }
+      if (this.opened === true) {
+        classname = classname + ' show'
       }
       return classname
     },
@@ -44,10 +48,13 @@ let config = {
       return this.ui
     },
     open: function () {
-      this.getUI().addClass('show')
+      //console.log('open')
+      //this.getUI().addClass('show')
+      this.opened = true
     },
     close: function () {
-      this.getUI().removeClass('show')
+      //this.getUI().removeClass('show')
+      this.opened = false
     },
     save: function () {
       DelayExecHelper.forceExec()

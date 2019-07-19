@@ -116,6 +116,7 @@ let FieldPostBody = {
     
     let s = this.get()
     s.summernote('insert', html)
+    this.onChange()
     
     return this
   },
@@ -278,8 +279,14 @@ let FieldPostBody = {
   },
   onChange: function (contents) {
     EventManager.trigger(this, 'beforechange')
-    DelayExecHelper.exec('postBody', 5, 30, () => {
+    console.log('beforechange')
+    DelayExecHelper.foreExec('postBody', 5, 30, () => {
       $v.EditorManager.FieldPostDate.set()
+        
+      if (typeof(contents) !== 'string') {
+        contents = this.getHTML()
+      }
+      
       $v.PostManager.updateEditingPostBody(contents)
       //ScrollHelper.save()
       //$v.EditorManager.FieldPostBody.save()
