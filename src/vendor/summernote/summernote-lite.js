@@ -115,7 +115,7 @@
           var $node = this.$node;
           var offset = $node.offset();
           var $tooltip = this.$tooltip;
-          var title = this.options.title || $node.attr('title') || $node.data('title');
+          var title = this.options.title || $node.attr('title') || $node.data('title') || $node.attr('aria-label') || $node.attr('data-value');
           var placement = this.options.placement || $node.data('placement');
           $tooltip.addClass(placement);
           $tooltip.addClass('in');
@@ -535,7 +535,7 @@
                   'style="background-color:', color, '" ',
                   'data-event="', eventName, '" ',
                   'data-value="', color, '" ',
-                  'title="', colorName, '" ',
+                  //'title="', colorName, '" ',
                   'aria-label="', colorName, '" ',
                   'data-toggle="button" tabindex="-1"></button>'
               ].join(''));
