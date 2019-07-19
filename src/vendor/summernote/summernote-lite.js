@@ -7823,7 +7823,7 @@ sel.addRange(range);
                           });
                       }, 
                       click: function (event) {
-                          //console.log('set color')
+                          console.log('set color')
                         
                           event.stopPropagation()
                           event.preventDefault()
@@ -7832,7 +7832,11 @@ sel.addRange(range);
                           var $button = $$1(event.target);
                           var eventName = $button.data('event');
                           var value = $button.attr('data-value');
-                          //console.log([eventName, value])
+                          console.log([eventName, value])
+                          //$parent.find('.note-dropdown-menu').addClass('close')
+                          //console.log($parent[0])
+                          $parent.find('.dropdown-toggle:first').click()
+                          //return
                           //console.log(lists.contains(['backColor', 'foreColor'], eventName))
                           if (eventName === 'openPalette') {
                               var $picker = $parent.find('#' + value);
@@ -7870,22 +7874,22 @@ sel.addRange(range);
                             $currentButton.attr('data-' + value, color);
                           }
                           else if (lists.contains(['backColor', 'foreColor'], eventName)) {
-                              if (hasSelectedRange() === false) {
-                                event.preventDefault()
-                                return
-                              }
-                            
-                              let key = eventName === 'backColor' ? 'background-color' : 'color';
-                              let $color = $button.closest('.note-color').find('.note-recent-color');
-                              let $currentButton = $button.closest('.note-color').find('.note-current-color-button');
-                              $color.css(key, value);
-                              $currentButton.attr('data-' + eventName, value);
-                              //console.log(['editor.' + eventName, value])
-                              //console.log(_this.context.layoutInfo.editor)
-                              //if (_this.context.invoke('editor.hasSelectedRange')) {
-                              //console.log(hasSelectedRange())
-                              
-                              _this.context.invoke('editor.' + eventName, value);
+                            if (hasSelectedRange() === false) {
+                              event.preventDefault()
+                              return
+                            }
+
+                            let key = eventName === 'backColor' ? 'background-color' : 'color';
+                            let $color = $button.closest('.note-color').find('.note-recent-color');
+                            let $currentButton = $button.closest('.note-color').find('.note-current-color-button');
+                            $color.css(key, value);
+                            $currentButton.attr('data-' + eventName, value);
+                            //console.log(['editor.' + eventName, value])
+                            //console.log(_this.context.layoutInfo.editor)
+                            //if (_this.context.invoke('editor.hasSelectedRange')) {
+                            //console.log(hasSelectedRange())
+
+                            _this.context.invoke('editor.' + eventName, value);
                           }
                           else {
                             //console.log('其他')
