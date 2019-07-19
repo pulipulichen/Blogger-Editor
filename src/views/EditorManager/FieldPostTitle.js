@@ -44,6 +44,10 @@ let FieldPostTitle = {
     while (text.endsWith('&nbsp;')) {
       text = text.slice(0, -6)
     }
+    
+    if (typeof(text) === 'string' && text.startsWith('<') && text.endsWith('>')) {
+      text = $(text).trim()
+    }
     return text
   },
   set: function (value) {
