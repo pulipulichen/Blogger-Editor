@@ -7777,7 +7777,7 @@ sel.addRange(range);
                               '  </div>',
                               '  <div class="note-holder" data-event="foreColor"/>',
                               '  <div>',
-                              '    <button type="button" class="note-color-select btn" data-event="openPalette" data-value="foreColorPicker">',
+                              '    <button type="button" class="note-color-select btn btn-light" data-event="openPalette" data-value="foreColorPicker">',
                               this.lang.color.cpSelect,
                               '    </button>',
                               '    <input type="color" id="foreColorPicker" class="note-btn note-color-select-btn" value="#000000" data-event="foreColorPalette">',
@@ -7796,6 +7796,7 @@ sel.addRange(range);
                               }).render());
                           });
                           /* TODO: do we have to record recent custom colors within cookies? */
+                          /* yes, we have to do this */
                           var customColors = [
                               ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']
                           ];

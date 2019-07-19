@@ -279,7 +279,7 @@ let FieldPostBody = {
   },
   onChange: function (contents) {
     EventManager.trigger(this, 'beforechange')
-    console.log('beforechange')
+    //console.log('beforechange')
     DelayExecHelper.foreExec('postBody', 5, 30, () => {
       $v.EditorManager.FieldPostDate.set()
         
