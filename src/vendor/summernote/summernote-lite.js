@@ -9963,6 +9963,9 @@ sel.addRange(range);
               className: 'note-image-popover'
           }).render().appendTo(this.options.container);
           var $content = this.$popover.find('.popover-content,.note-popover-content');
+          $content.click(() => {
+            this.hide()
+          })
           this.context.invoke('buttons.build', $content, this.options.popover.image);
       };
       ImagePopover.prototype.destroy = function () {
@@ -10034,6 +10037,9 @@ sel.addRange(range);
               className: 'note-table-popover'
           }).render().appendTo(this.options.container);
           var $content = this.$popover.find('.popover-content,.note-popover-content');
+          $content.click(() => {
+            this.hide()
+          })
           this.context.invoke('buttons.build', $content, this.options.popover.table);
           // [workaround] Disable Firefox's default table editor
           if (env.isFF) {
