@@ -24,7 +24,8 @@ var config = {
       countdownSecond: 0,
       countdownMaxSecond: 30,
       countdownTimer: null,
-      countdownSound: null
+      countdownSound: null,
+      batchLimit: 6
     }
   },
   mounted: function () {
@@ -152,7 +153,7 @@ var config = {
       if (list.length > 0) {
         let folder
         let folderCounter = 0
-        let folderFilesLimit = 8
+        let folderFilesLimit = this.batchLimit
         $v.PostManager.getEditingPostId((id) => {
           let zip = new JSZip();
           let nowFormat = DayjsHelper.nowFormat()

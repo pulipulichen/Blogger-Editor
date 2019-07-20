@@ -27,7 +27,18 @@ let TesseractHelper = {
     }
     return this
   },
+  isAttachedToDOM: function (element) {
+    if ((element instanceof HTMLElement) === false) {
+      element = element[0]
+    }
+    return document == element || Boolean(document.compareDocumentPosition(element) & 16);
+  },
   recognize: function (image, callback) {
+    if (image === undefined || (typeof(image) !== 'string' && this.isAttachedToDOM(image) === false)) {
+      console.log('image is not found')
+      FunctionHelper.triggerCallback(callback, '')
+      return this
+    }
     if (typeof(image.attr) === 'function') {
       image = image[0]
     }
@@ -81,7 +92,7 @@ let TesseractHelper = {
             doProgress = true
             resetCountdown()
             this.getMemoryUsedPercent()
-            //console.log('progress', progress);
+            console.log('progress', progress);
           })
           .then(result => {
             //console.log('result', result);
