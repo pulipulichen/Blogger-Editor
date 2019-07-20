@@ -134,6 +134,7 @@ let config = {
       
       let post = $v.PostManager.getPost()
       if (post !== undefined) {
+        console.log(['開始累加時間', post.timeSpentSecond, intervalSecond, (post.timeSpentSecond + intervalSecond)])
         post.timeSpentSecond = post.timeSpentSecond + intervalSecond
         this.timeSpentSecond = post.timeSpentSecond
       }
