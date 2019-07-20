@@ -1092,9 +1092,10 @@
           iframe: {
             title: "Title (optional)",
             url: "URL",
-            insert: "Insert iframe",
+            insert: "Insert",
             newWindow: "Open in new window",
-            popupWindow: "Open in popup window"
+            popupWindow: "Open in popup window",
+            colon: ":"
           }
       }
   });
@@ -5072,6 +5073,7 @@
             
             let langNewWindow = this.lang.iframe.newWindow //'Open in new window'
             let langPopupWindow = this.lang.iframe.popupWindow // 'Open in popup window'
+            let langColon = this.lang.iframe.colon // 'Open in popup window'
             
             let links = []
             if (enableNewWindow === true) {
@@ -5079,7 +5081,7 @@
                 links.push(`<li><a href="${url}" target="${name}">${langNewWindow}</a></li>`)
               }
               else {
-                links.push(`<li>${langNewWindow}: <a href="${url}" target="${name}">${title}</a></li>`)
+                links.push(`<li>${langNewWindow}{$langColon} <a href="${url}" target="${name}">${title}</a></li>`)
               }
             }
             if (enablePopup === true) {
@@ -5087,7 +5089,7 @@
                 links.push(`<li><a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${langPopupWindow}</a></li>`)
               }
               else {
-                links.push(`<li>${langPopupWindow}: <a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${title}</a></li>`)
+                links.push(`<li>${langPopupWindow}{$langColon} <a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${title}</a></li>`)
               }
             }
             

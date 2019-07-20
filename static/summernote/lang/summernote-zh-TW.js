@@ -186,9 +186,10 @@
       iframe: {
         title: "標題 (選填)",
         url: "網址",
-        insert: "插入iframe",
+        insert: "插入",
         newWindow: "開啟新視窗",
-        popupWindow: "開啟彈跳視窗"
+        popupWindow: "開啟彈跳視窗",
+        colon: "："
       }
     }
   });

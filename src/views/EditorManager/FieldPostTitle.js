@@ -99,6 +99,8 @@ let FieldPostTitle = {
       if (contents.startsWith('<') && contents.endsWith('>')) {
         contents = $(contents).text()
       }
+      
+      contents = contents + ' - ' + this.$t('Blogger Editor')
       this.updateDocumentTitle(contents)
       $v.PostManager.updateEditingPost(fieldName, contents)
     })
