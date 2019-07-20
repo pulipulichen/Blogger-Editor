@@ -12,14 +12,15 @@ let TesseractHelper = {
         //corePath: 'https://unpkg.com/tesseract.js-core@v2.0.0-beta.10/tesseract-core.wasm.js',
         corePath: './static/tesseract/tesseract-core.wasm.js',
       })
-      let langs = $v.EditorManager.OCRImageLang
-      Tesseract.utils.loadLang({ langs: langs, langPath: this.worker.options.langPath })
-        .then(() => {
+      //let langs = $v.EditorManager.OCRImageLang
+      //Tesseract.utils.loadLang({ langs: langs, langPath: this.worker.options.langPath })
+      //  .then(() => {
           EventManager.on($v.EditorManager, 'OCRImageLangChanged', () => {
             this.worker = null
           })
+          this.getMemoryUsedPercent()
           FunctionHelper.triggerCallback(callback)
-        })
+      //  })
     }
     else {
       FunctionHelper.triggerCallback(callback)
@@ -50,12 +51,14 @@ let TesseractHelper = {
           }
           this.retry++
           if (this.retry < 4) {
+            this.getMemoryUsedPercent()
             console.log(`OCR is not finish. Retry ${this.retry} now.`)
             setTimeout(() => {
               this.recognize(image, callback)
             }, 3000)
           }
           else {
+            this.getMemoryUsedPercent()
             console.log('OCR is not finish.')
             FunctionHelper.triggerCallback(callback, '')
           }
@@ -77,6 +80,7 @@ let TesseractHelper = {
           .progress(progress => {
             doProgress = true
             resetCountdown()
+            this.getMemoryUsedPercent()
             //console.log('progress', progress);
           })
           .then(result => {
@@ -116,8 +120,18 @@ let TesseractHelper = {
     this.loop()
   },
   isLoopNow: false,
+  memoryPercentLimit: 0.5,
   loop: function () {
     if (this.list.length > 0) {
+      if (this.getMemoryUsedPercent() > this.memoryPercentLimit) {
+        console.log('memory is occupied, we will do OCR later.')
+        this.worker = null
+        setTimeout(() => {
+          loop()
+        }, 3000)
+        return
+      }
+      
       if (this.isLoopNow === true) {
         return
       }
@@ -126,17 +140,34 @@ let TesseractHelper = {
       this.retry = 0
       this.recognize(job.image, (result) => {
         if (typeof(job.callback) === 'function') {
-          job.callback(result)
+          setTimeout(() => { job.callback(result) }, 10 * 1000)
+          //job.callback(result)
         }
         this.isLoopNow = false
+        
+        /*
+        let nextExecuteTime = 3000
+        if (this.getMemoryUsedPercent() > 0.5) {
+          this.worker = null
+          nextExecuteTime = nextExecuteTime * 10
+        }
+        */
         setTimeout(() => {
           this.loop()
-        }, 3000)
+        }, 1000)
       })
     }
     else {
       this.isLoopNow = false
     }
+  },
+  getMemoryUsedPercent: function () {
+    let memory = window.performance.memory
+    let limit  = memory.jsHeapSizeLimit
+    let used = memory.usedJSHeapSize
+    let percent = used / limit
+    console.log(['memory used', used, limit, percent])
+    return percent
   }
   /**
    * @deprecated 20190713 Pulipuli Chen 

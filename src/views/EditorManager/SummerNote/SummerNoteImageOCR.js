@@ -53,6 +53,12 @@ let SummerNoteImageOCR = {
       let aNode = postBody.find(`a[href^="filesystem:"][data-filename="${name}"]`)
       let imgNode = aNode.find(`img[src^="filesystem:"][data-filename="${name}"]`)
       
+      if (imgNode.hasClass('ocr-lock')) {
+        console.log('this image is already doing OCR.')
+        return
+      }
+      imgNode.addClass('ocr-lock')
+      
       // 20190719 測試用
       //if (imgNode.attr('data-ocr-lock') === undefined) {
       //  imgNode.attr('data-ocr-lock', 'true')
@@ -66,7 +72,16 @@ let SummerNoteImageOCR = {
         imgNode.attr('data-ocr', 'waiting')
         //console.log(name)
         DelayExecHelper.addForceWaiting(name)
+        
+        // --------------------
+        // 以下會等很久
+        // --------------------
         TesseractHelper.push(imgNode, (ocrText) => {
+          if (postBody.find(`a[href^="filesystem:"][data-filename="${name}"]`).length === 0) {
+            console.log('image is deleted. stop ocr')
+            return
+          }
+          
           ocrText = this.filterOCRText(ocrText)
           //console.log([ocrText, name])
           if (typeof(ocrText) === 'string' && ocrText.trim() !== '') {
@@ -98,11 +113,13 @@ let SummerNoteImageOCR = {
                      .attr('title', newName)
                      //.attr('alt', ocrText)
                      .attr('data-filename', newName)
+                     .removeClass('ocr-lock')
               this.ocrImageComplete(name, newName)
               // 完工
             })
           }
           else {
+            imgNode.removeClass('ocr-lock')
             this.ocrImageComplete(name)
           }
         })
