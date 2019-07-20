@@ -26,9 +26,61 @@ let GoogleAnalyticsHelper = {
       
       this.initUUID()
     }
-    if (this.trackingId.startsWith('UA-')) {
-      FunctionHelper.triggerCallback(callback)
+    
+    this.databaseCreateTable(() => {
+      if (this.trackingId.startsWith('UA-')) {
+        FunctionHelper.triggerCallback(callback)
+      }
+    })
+  },
+  databaseCreateTable: function (callback) {
+    let sqlCreateTable = `Create Table if not exists eventTrack
+          (id INTEGER PRIMARY KEY, 
+           unix INTEGER, 
+           uuid TEXT, 
+           category TEXT,
+           action TEXT)`
+    WebSQLDatabaseHelper.exec(sqlCreateTable,callback)
+    return this
+  },
+  databaseReset: function (callback) {
+    let sql = `DELETE FROM eventTrack`
+    WebSQLDatabaseHelper.exec(sql,callback)
+    return this
+  },
+  databaseInset: function (category, action, callback) {
+    let sql = `insert into 
+            eventTrack(unix, uuid, category, action) 
+            values(?,?,?,?)`
+    
+    let unix = DayjsHelper.unix()
+    let data = [
+      unix,
+      this.uuid,
+      category,
+      action
+    ]
+    WebSQLDatabaseHelper.exec(sql, data,callback)
+    return this
+  },
+  databaseSelect: function (dayLimit, callback) {
+    if (typeof(dayLimit) === 'function') {
+      callback = dayLimit
+      delete dayLimit
     }
+    
+    if (typeof(callback) !== 'function') {
+      return
+    }
+    
+    let sql = `select uuid, unix, category, action from eventTrack`
+    if (typeof(dayLimit) === 'number') {
+      let unix = DayjsHelper.unix()
+      let unixLimit = unix - (dayLimit * 1000 * 60 * 24)
+      sql = sql + ` where unix > ${unixLimit}`
+    }
+    WebSQLDatabaseHelper.exec(sql, callback)
+    return this
   },
   initUUID: function () {
     if (this.uuid === null) {
@@ -55,7 +107,7 @@ let GoogleAnalyticsHelper = {
    */
   send: function (eventCategory, eventAction) {
     this.init(() => {
-      
+      this.databaseInsert(eventCategory, eventAction)
       eventAction = this.filterEventValue(eventCategory, eventAction)
       
       let data = {
