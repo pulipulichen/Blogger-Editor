@@ -946,7 +946,12 @@
               open: 'Open Image',
               save: 'Save Image',
               copy: 'Copy URL',
-              original: 'Original'
+              original: 'Original',
+              title: 'Title',
+              alt: 'Alt text',
+              update: 'Update',
+              imageInfo: 'Image Infomation',
+              edit: 'Edit'
           },
           video: {
               video: 'Video',
@@ -1079,7 +1084,8 @@
               'insertHorizontalRule': 'Insert horizontal rule',
               'linkDialog.show': 'Show Link Dialog',
               'iframeDialog.show': 'Show Iframe Dialog',
-              'commentDialog.show': 'Show Comment Dialog'
+              'commentDialog.show': 'Show Comment Dialog',
+              'imageEditDialog.show': 'Show Image Dialog',
           },
           history: {
               undo: 'Undo',
@@ -5437,6 +5443,21 @@ ${links}`
           });
           
           /**
+           * create link (command)
+           *
+           * @param {Object} linkInfo
+           */
+          this.updateImage = this.wrapCommand(function ($anchor, imgInfo) {
+              
+              //console.log(linkInfo)
+              var titleText = imgInfo.title;
+              var altText = imgInfo.alt;
+              //var $anchor = $$1(_this.restoreTarget());
+              $anchor.attr('title', titleText).attr('alt', altText)
+              //console.log($anchor[0])
+          });
+          
+          /**
            * updateComment (command)
            * 
            * @author Pulipuli Chen 20190703
@@ -6894,6 +6915,27 @@ sel.addRange(range);
           return commentInfo;
       };
       
+      /**
+       * returns image info
+       *
+       * @return {Object}
+       * @return {WrappedRange} return.range
+       * @return {String} return.text
+       * @return {Boolean} [return.isNewWindow=true]
+       * @return {String} [return.url=""]
+       */
+      Editor.prototype.getImageInfo = function () {
+          //var rng = this.createRange().expand(dom.isAnchor);
+          // Get the first anchor on range(for edit).
+          //var $anchor = $$1(lists.head(rng.nodes(dom.isAnchor)));
+          var $anchor = $$1(this.restoreTarget());
+          var imgInfo = {
+              title: $anchor.length ? $anchor.attr('title') : '',
+              alt: $anchor.length ? $anchor.attr('alt') : ''
+          };
+          //console.log(imgInfo)
+          return imgInfo;
+      };
       Editor.prototype.addRow = function (position) {
           var rng = this.createRange(this.$editable);
           if (rng.isCollapsed() && rng.isOnCell()) {
@@ -8400,6 +8442,13 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandler('linkDialog.show')
               }).render();
           });
+          this.context.memo('button.imgEdit', function () {
+              return _this.button({
+                  contents: _this.ui.icon(_this.options.icons.picture) + ' ' + _this.lang.image.edit,
+                  tooltip: _this.lang.image.update + _this.representShortcut('imageEditDialog.show'),
+                  click: _this.context.createInvokeHandler('imageEditDialog.show')
+              }).render();
+          });
           this.context.memo('button.picture', function () {
               return _this.button({
                   contents: _this.ui.icon(_this.options.icons.picture),
@@ -9665,6 +9714,150 @@ sel.addRange(range);
       return IframeDialog;
   }());
 
+  
+  var ImageEditDialog = /** @class */ (function () {
+      function ImageEditDialog(context) {
+          this.context = context;
+          this.ui = $$1.summernote.ui;
+          this.$body = $$1(document.body);
+          this.$editor = context.layoutInfo.editor;
+          this.options = context.options;
+          this.lang = this.options.langInfo;
+          context.memo('help.imageEditDialog.show', this.options.langInfo.help['imageEditDialog.show']);
+      }
+      
+      let isURL = (url) => {
+        return ( (url.startsWith("http://") && url.length > 15)
+                  || (url.startsWith("https://") && url.length > 15)
+                  || (url.startsWith("//") && url.length > 10)
+                  || (url.startsWith("#") && url.length > 2))
+      }
+      
+      
+      ImageEditDialog.prototype.initialize = function () {
+          var $container = this.options.dialogsInBody ? this.$body : this.$editor;
+          var body = [
+              '<div class="form-group note-form-group">',
+              "<label class=\"note-form-label\">" + this.lang.image.title + "</label>",
+              '<input class="note-title-text form-control note-form-control note-input" type="text" />',
+              '</div>',
+              '<div class="form-group note-form-group">',
+              "<label class=\"note-form-label\">" + this.lang.image.alt + "</label>",
+              '<textarea class="note-alt-text form-control note-form-control note-input"></textarea>',
+              '</div>'
+          ].join('');
+          var buttonClass = 'btn btn-primary note-btn note-btn-primary note-image-edit-btn';
+          var footer = "<input type=\"button\" href=\"#\" class=\"" + buttonClass + "\" value=\"" + this.lang.image.update + "\">";
+          this.$dialog = this.ui.dialog({
+              className: 'image-edit-dialog',
+              title: this.lang.image.imageInfo,
+              fade: this.options.dialogsFade,
+              body: body,
+              footer: footer
+          }).render().appendTo($container);
+          
+          let button = this.$dialog.find('input.note-image-edit-btn')
+      };
+      
+      ImageEditDialog.prototype.destroy = function () {
+          this.ui.hideDialog(this.$dialog);
+          this.$dialog.remove();
+      };
+      ImageEditDialog.prototype.bindEnterKey = function ($input, $btn) {
+        let _this = this
+        $input.on('keypress', (event) => {
+          if (event.keyCode === key.code.ENTER) {
+            event.stopPropagation()
+            event.preventDefault()
+            $btn.trigger('click');
+            return false
+          }
+        });
+        $input.on('keyup', (event) => {
+          if (event.keyCode === key.code.ESC) {
+            event.stopPropagation()
+            event.preventDefault()
+            _this.ui.hideDialog(_this.$dialog);
+            return false
+          }
+        });
+      };
+      /**
+       * Show link dialog and set event handlers on dialog controls.
+       *
+       * @param {Object} linkInfo
+       * @return {Promise}
+       */
+      ImageEditDialog.prototype.showImageEditDialog = function (imgInfo) {
+          var _this = this;
+          
+          return $$1.Deferred(function (deferred) {
+              var $titleText = _this.$dialog.find('.note-title-text');
+              var $altText = _this.$dialog.find('.note-alt-text');
+              var $updateBtn = _this.$dialog.find('.note-image-edit-btn');
+              
+              _this.ui.onDialogShown(_this.$dialog, function () {
+                  _this.context.triggerEvent('dialog.shown');
+                  
+                  $titleText.val(imgInfo.title);
+                  $altText.val(imgInfo.alt);
+                  
+                  if (!env.isSupportTouch) {
+                    $titleText.trigger('select');
+                  }
+                  _this.bindEnterKey($titleText, $updateBtn);
+                  _this.bindEnterKey($titleText, $updateBtn);
+                  
+                  $updateBtn.one('click', function (event) {
+                      event.preventDefault()
+                      event.stopPropagation()
+                      let enableClearEnterFormat = _this.options.clearEnterFormat
+                      
+                      if (enableClearEnterFormat === true) {
+                        _this.options.clearEnterFormat = false
+                        setTimeout(() => {
+                          _this.options.clearEnterFormat = true
+                        }, 100)
+                      }
+                      let deferredOptions = {
+                          range: imgInfo.range,
+                          title: $titleText.val(),
+                          alt: $altText.val()
+                      }
+                      deferred.resolve(deferredOptions);
+                      _this.ui.hideDialog(_this.$dialog);
+                  });
+              });
+              _this.ui.onDialogHidden(_this.$dialog, function () {
+                  // detach events
+                  $titleText.off('input paste keypress');
+                  $altText.off('input paste keypress');
+                  $updateBtn.off('click');
+                  if (deferred.state() === 'pending') {
+                      deferred.reject();
+                  }
+              });
+              _this.ui.showDialog(_this.$dialog);
+          }).promise();
+      };
+      /**
+       * @param {Object} layoutInfo
+       */
+      ImageEditDialog.prototype.show = function () {
+          var _this = this;
+          var imgInfo = this.context.invoke('editor.getImageInfo');
+          var $anchor = $$1(this.context.invoke('editor.restoreTarget'));
+          this.context.invoke('editor.saveRange');
+          this.showImageEditDialog(imgInfo).then(function (imgInfo) {
+              _this.context.invoke('editor.restoreRange');
+              _this.context.invoke('editor.updateImage', $anchor, imgInfo);
+          }).fail(function () {
+              _this.context.invoke('editor.restoreRange');
+          });
+      };
+      return ImageEditDialog;
+  }());
+
   // LinkDialog
   // ----------------------------------------------------------------------------------------
   
@@ -9806,6 +9999,11 @@ sel.addRange(range);
       };
       return LinkPopover;
   }());
+  
+  // LinkDialog
+  // ----------------------------------------------------------------------------------------
+  
+  // ------------------------------------------
 
   var ImageDialog = /** @class */ (function () {
       function ImageDialog(context) {
@@ -10914,6 +11112,7 @@ sel.addRange(range);
               'toolbar': Toolbar,
               'commentDialog': CommentDialog,
               'linkDialog': LinkDialog,
+              'imageEditDialog': ImageEditDialog,
               'iframeDialog': IframeDialog,
               'linkPopover': LinkPopover,
               'imageDialog': ImageDialog,
@@ -10947,7 +11146,7 @@ sel.addRange(range);
               image: [
                   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
                   ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                  ['imagesLink', ['openMedia', 'saveMedia', 'copyMediaLink']],
+                  ['imagesLink', ['openMedia', 'saveMedia', 'copyMediaLink', 'imgEdit']],
                   ['remove', ['removeMedia']]
               ],
               link: [

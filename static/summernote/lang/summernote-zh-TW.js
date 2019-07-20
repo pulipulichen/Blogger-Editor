@@ -40,7 +40,12 @@
         original: '原始尺寸',
         copy: '複製連結',
         open: '開啟圖片',
-        save: '下載圖片'
+        save: '下載圖片',
+        title: '標題屬性(title)',
+        alt: '替代文字屬性(alt)',
+        update: '更新',
+        imageInfo: '圖片訊息',
+        edit: '編輯'
       },
       video: {
         video: '影片',
