@@ -5075,13 +5075,15 @@
             let langPopupWindow = this.lang.iframe.popupWindow // 'Open in popup window'
             let langColon = this.lang.iframe.colon // 'Open in popup window'
             
+            let iframeCode = this.buildIframeFromURL(url)
+            
             let links = []
             if (enableNewWindow === true) {
               if (title === undefined) {
                 links.push(`<li><a href="${url}" target="${name}">${langNewWindow}</a></li>`)
               }
               else {
-                links.push(`<li>${langNewWindow}{$langColon} <a href="${url}" target="${name}">${title}</a></li>`)
+                links.push(`<li>${langNewWindow}${langColon} <a href="${url}" target="${name}">${title}</a></li>`)
               }
             }
             if (enablePopup === true) {
@@ -5089,7 +5091,7 @@
                 links.push(`<li><a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${langPopupWindow}</a></li>`)
               }
               else {
-                links.push(`<li>${langPopupWindow}{$langColon} <a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${title}</a></li>`)
+                links.push(`<li>${langPopupWindow}${langColon} <a href="javascript:window.open('${url}', '${name}', 'width=800,height=600,toolbar=0,menubar=0,location=0')">${title}</a></li>`)
               }
             }
             
@@ -5101,11 +5103,28 @@
             }
             
             let html = `<div>
-  <iframe src="${url}" width="100%" style="height: 90vh" frameborder="0" class="post-iframe"></iframe>
+  ${iframeCode}
 </div>
 ${links}`
             _this.insert(html)
           })
+          
+          this.buildIframeFromURL = function (url) {
+            if (this.extractYouTubeID(url) !== false) {
+              let id = this.extractYouTubeID(url)
+              return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+            }
+            else {
+              return `<iframe src="${url}" width="100%" style="height: 90vh" frameborder="0" class="post-iframe"></iframe>`
+            }
+          }
+          
+          // https://gist.github.com/rodrigoborgesdeoliveira/987683cfbfcc8d800192da1e73adc486
+          this.extractYouTubeID = function (url) {
+            var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            return (match && match[7].length===11) ? match[7] : false;
+          }
           
           this.fontName = this.wrapCommand(function (value) {
             if (this.hasSelectedRange() === false) {
