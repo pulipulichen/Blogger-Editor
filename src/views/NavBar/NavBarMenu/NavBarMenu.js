@@ -10,9 +10,9 @@ let NavBarMenu = {
       wordCount: 0,
       imageCount: 56,
       //timeSpent: 130320,
-      timeSpent: 0,
-      lastEditTimestamp: 0
-      //timeSpent: 61
+      timeSpentSecond: 0,
+      lastEditTimestamp: 0,
+      //timeSpent: 61,
     }
   },
   props: ['mode'],
@@ -37,7 +37,7 @@ let NavBarMenu = {
       }
     },
     timeSpentDisplay: function () {
-      return DayjsHelper.timeSpentDisplay(this.timeSpent)
+      return DayjsHelper.timeSpentDisplay(this.timeSpentSecond)
     }
   },
   methods: {
@@ -203,20 +203,17 @@ let NavBarMenu = {
         $(this.$refs.reload).hide()
       }
     },
+    /**
+     * 只有顯示，沒有實質更新
+     * @author Pulipuli Chen 20190721
+     */
     updateTimeSpent: function () {
-      let currentEditTimestamp = (new Date()).getTime()
-      
-      let intervalSecond = Math.round((currentEditTimestamp - this.lastEditTimestamp) / 1000)
-      if (intervalSecond > 60) {
-        intervalSecond = 60
-      }
-      
-      let post = $v.PostManager.getPost()
-      post.timeSpentSecond = post.timeSpentSecond + intervalSecond
-      this.timeSpent = post.timeSpentSecond
-      $v.PostManager.updateEditingPost('timeSpentSecond', this.timeSpent)
-      
-      this.lastEditTimestamp = currentEditTimestamp
+      setTimeout(() => {
+        let post = $v.PostManager.getPost()
+        this.timeSpentSecond = post.timeSpentSecond
+        return this
+      }, 0)
+      return this
     },
     topbarDropdownItem: function (ele) {
       ele = $(ele)

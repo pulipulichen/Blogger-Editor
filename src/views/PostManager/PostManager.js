@@ -316,6 +316,9 @@ let PostManager = {
     },
     updateEditingPost: function (field, value, callback) {
       this.getPost((post) => {
+        //if (field === "timeSpentSecond") {
+        //  console.trace([field, post[field], value])
+        //}
         //console.log([field, post[field], value])
         
         /*
