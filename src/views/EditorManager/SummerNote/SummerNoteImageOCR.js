@@ -79,6 +79,7 @@ let SummerNoteImageOCR = {
         TesseractHelper.push(imgNode, (ocrText) => {
           if (postBody.find(`a[href^="filesystem:"][data-filename="${name}"]`).length === 0) {
             console.log('image is deleted. stop ocr')
+            this.ocrImageComplete(name)
             return
           }
           

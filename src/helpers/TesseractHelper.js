@@ -155,8 +155,8 @@ let TesseractHelper = {
       this.retry = 0
       this.recognize(job.image, (result) => {
         if (typeof(job.callback) === 'function') {
-          setTimeout(() => { job.callback(result) }, 10 * 1000)
-          //job.callback(result)
+          //setTimeout(() => { job.callback(result) }, 10 * 1000)
+          job.callback(result)
         }
         this.isLoopNow = false
         
