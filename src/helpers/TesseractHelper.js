@@ -1,5 +1,8 @@
 //import { TesseractWorker } from 'tesseract.js';
-
+/**
+ * https://github.com/naptha/tesseract.js/blob/master/docs/api.md
+ * @type type
+ */
 let TesseractHelper = {
   worker: null,
   init: function (callback) {
@@ -102,7 +105,8 @@ let TesseractHelper = {
             console.log(err)
             stopCountdown()
             FunctionHelper.triggerCallback(callback, '')
-          });
+          })
+          // .finally(job1.finally(resultOrError => console.log(resultOrError));
       }
       catch (e) {
         console.error(e)
