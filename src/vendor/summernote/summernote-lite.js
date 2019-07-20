@@ -652,13 +652,13 @@
                           $color.css(key, value);
                           $currentButton.attr('data-' + eventName, value);
                           if (type === 'fore') {
-                              opt.itemClick('foreColor', value);
+                            opt.itemClick('foreColor', value);
                           }
                           else if (type === 'back') {
-                              opt.itemClick('backColor', value);
+                            opt.itemClick('backColor', value);
                           }
                           else {
-                              opt.itemClick(eventName, value);
+                            opt.itemClick(eventName, value);
                           }
                       }
                   }
@@ -7749,6 +7749,7 @@ sel.addRange(range);
                       contents: this.ui.icon(this.options.icons.font + ' note-recent-color'),
                       tooltip: tooltip,
                       click: function (e) {
+                          //console.log('note-btn note-color-btn')
                           var $button = $$1(e.currentTarget);
                           if (backColor && foreColor) {
                               _this.context.invoke('editor.color', {
@@ -7776,6 +7777,12 @@ sel.addRange(range);
                           if (!foreColor) {
                               $recentColor.css('color', 'transparent');
                           }
+                          
+                          setTimeout(() => {
+                            if (backColor === false && initForeColor !== '#000000') {
+                              $button.css('color', initForeColor).attr('data-foreColor', initForeColor);
+                            }
+                          }, 0)
                       }
                   }),
                   this.button({
@@ -7837,14 +7844,6 @@ sel.addRange(range);
                           });
                           /* TODO: do we have to record recent custom colors within cookies? */
                           /* yes, we have to do this */
-                          
-                          if (event === 'foreColor' && initForeColor !== '#000000') {
-                            setTimeout(() => {
-                              //console.log(2049)
-                              $dropdown.parents('.note-color-fore:first').find('.note-recent-color:first').css('color', initForeColor)
-                            }, 0)
-                              
-                          }
                           
                           //console.log('summernote.customColors.' + event)
                           var customColors = localStorage.getItem('summernote.customColors.' + event + 'Palette')
@@ -7919,7 +7918,7 @@ sel.addRange(range);
                           var $button = $$1(event.target);
                           var eventName = $button.data('event');
                           var value = $button.attr('data-value');
-                          //console.log([eventName, value])
+                          console.log([eventName, value])
                           //$parent.find('.note-dropdown-menu').addClass('close')
                           //console.log($parent[0])
                           //return
@@ -7978,7 +7977,7 @@ sel.addRange(range);
                             $color.css(key, value);
                             localStorage.setItem('summernote.colorbutton.' + eventName, value)
                             $currentButton.attr('data-' + eventName, value);
-                            //console.log(['editor.' + eventName, value])
+                            console.log(['editor.' + eventName, value])
                             //console.log(_this.context.layoutInfo.editor)
                             //if (_this.context.invoke('editor.hasSelectedRange')) {
                             //console.log(hasSelectedRange())
