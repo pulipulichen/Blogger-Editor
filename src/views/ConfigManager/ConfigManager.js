@@ -18,6 +18,7 @@ let config = {
       googleAnalyticsTrackingId: '',
       googleAnalyticsReportURL: '',
       googleAnalyticsRealtimeReportURL: '',
+      eventTrackDayLimit: 3
     }
   },
   mounted() {
@@ -26,6 +27,7 @@ let config = {
     VueHelper.mountLocalStorage(this, 'googleAnalyticsTrackingId')
     VueHelper.mountLocalStorage(this, 'googleAnalyticsReportURL')
     VueHelper.mountLocalStorage(this, 'googleAnalyticsRealtimeReportURL')
+    VueHelper.mountLocalStorageInt(this, 'eventTrackDayLimit')
     
     //console.log(this.enableBackupPageButton)
   },
@@ -204,6 +206,7 @@ let config = {
       VueHelper.persistLocalStorage(this, 'googleAnalyticsTrackingId')
       VueHelper.persistLocalStorage(this, 'googleAnalyticsReportURL')
       VueHelper.persistLocalStorage(this, 'googleAnalyticsRealtimeReportURL')
+      VueHelper.persistLocalStorage(this, 'eventTrackDayLimit')
     },
     openBackupPageURL() {
       if (this.enableBackupPageButton) {
@@ -232,6 +235,32 @@ let config = {
       }
       SemanticUIHelper.openTab(e)
     },
+    downloadEventTrackData: function (e) {
+      let dayLimit = this.eventTrackDayLimit
+      if (dayLimit <= 0) {
+        dayLimit = undefined
+      }
+      GoogleAnalyticsHelper.databaseSelect(this.eventTrackDayLimit, (data) => {
+        let unix = DayjsHelper.unix()
+        let endYYYYMMDD = DayjsHelper.format('YYYYMMDD')
+        
+        let filename = ['event_record']
+        if (dayLimit !== undefined) {
+          let unixLimit = unix - (dayLimit * 1000 * 60 * 24)
+          let startYYYYMMDD = DayjsHelper.format(unixLimit, 'YYYYMMDD')
+          filename.push(startYYYYMMDD)
+        }
+        filename.push(endYYYYMMDD)
+        filename = filename.join('-')
+        
+        FileHelper.saveCSV(data, filename)
+      })
+      return this
+    },
+    clearEventTrackData: function (e) {
+      GoogleAnalyticsHelper.databaseReset()
+      return this
+    }
   }
 }
 

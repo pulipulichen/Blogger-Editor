@@ -48,10 +48,17 @@ let GoogleAnalyticsHelper = {
     WebSQLDatabaseHelper.exec(sql,callback)
     return this
   },
-  databaseInset: function (category, action, callback) {
+  databaseInsert: function (category, action, callback) {
     let sql = `insert into 
             eventTrack(unix, uuid, category, action) 
             values(?,?,?,?)`
+    
+    if (typeof(category) !== 'string') {
+      category = JSON.stringify(category)
+    }
+    if (typeof(action) !== 'string') {
+      action = JSON.stringify(action)
+    }
     
     let unix = DayjsHelper.unix()
     let data = [
@@ -66,7 +73,7 @@ let GoogleAnalyticsHelper = {
   databaseSelect: function (dayLimit, callback) {
     if (typeof(dayLimit) === 'function') {
       callback = dayLimit
-      delete dayLimit
+      dayLimit = undefined
     }
     
     if (typeof(callback) !== 'function') {

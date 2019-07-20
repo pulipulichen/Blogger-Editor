@@ -33,6 +33,13 @@ let DayjsHelper = {
     
     return dayjs(unix).format('MM/DD HH:mm')
   },
+  format: function (unix, format) {
+    if (typeof(unix) === 'string') {
+      format = unix
+      unix = this.unix()
+    }
+    return dayjs(unix).format(format)
+  },
   timeSpentDisplay: function (seconds) {
     let min = Math.round(seconds / 60)
     let hour = 0

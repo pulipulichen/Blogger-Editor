@@ -48,6 +48,7 @@ let FileHelper = {
   save: function (content, filename) {
     let blob = new Blob([content])
     saveAs(blob, filename)
+    return this
   },
   triggerInput: function (e) {
     $(e.target).parent().children('input:file:first').click()
@@ -118,6 +119,42 @@ let FileHelper = {
     }
     
     return output
+  },
+  saveCSV: function (content, filename) {
+    if (Array.isArray(content) === false || content.length === 0) {
+      return
+    }
+    
+    let fieldNameList = []
+    let firstRowObject = content[0]
+    for (let fieldName in firstRowObject) {
+      if (fieldName.indexOf('"')) {
+        fieldName = fieldName.split('"').join('\\"')
+      }
+      fieldNameList.push(`"${fieldName}"`)
+    }
+    
+    let rows = [fieldNameList.join(',')]
+    content.forEach(rowObject => {
+      let row = []
+      for (let fieldName in rowObject) {
+        let value = rowObject[fieldName]
+        if (typeof(value) !== 'string') {
+          value = JSON.stringify(value)
+        }
+        if (value.indexOf('"')) {
+          value = value.split('"').join('\\"')
+        }
+        row.push(`"${value}"`)
+      }
+      rows.push(row.join(','))
+    })
+    
+    if (filename.endsWith('.csv') === false) {
+      filename = filename + '.csv'
+    }
+    
+    return this.save(rows.join('\n'), filename)
   }
 }
 
