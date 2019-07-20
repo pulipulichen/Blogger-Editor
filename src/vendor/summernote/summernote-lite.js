@@ -9285,7 +9285,12 @@ sel.addRange(range);
                   //console.log(linkInfo.url)
                   if (linkInfo.url.startsWith('javascript:window.open(')) {
                     let needle = 'javascript:window.open('
-                    linkInfo.url = linkInfo.url.slice(needle.length + 1, linkInfo.url.indexOf('"', needle.length + 2))
+                    let quoteType = '"'
+                    if (linkInfo.url.indexOf(quoteType) === -1) {
+                      quoteType = "'"
+                    }
+                    //console.log(quoteType)
+                    linkInfo.url = linkInfo.url.slice(needle.length + 1, linkInfo.url.indexOf(quoteType, needle.length + 2))
                   }
                   
                   $linkText.val(linkInfo.text);
@@ -9715,7 +9720,12 @@ sel.addRange(range);
               
               if (typeof(displayHref) === 'string' && displayHref.startsWith('javascript:window.open(')) {
                 let needle = 'javascript:window.open('
-                displayHref = '*' + displayHref.slice(needle.length + 1, displayHref.indexOf('"', needle.length + 2))
+                let quoteType = '"'
+                if (displayHref.indexOf(quoteType) === -1) {
+                  quoteType = "'"
+                }
+                //console.log(quoteType)
+                displayHref = '*' + displayHref.slice(needle.length + 1, displayHref.indexOf(quoteType, needle.length + 2))
               }
               
               if (displayHref === undefined) {
