@@ -5372,8 +5372,14 @@ ${links}`
               var linkText = linkInfo.text;
               var linkTitle = linkInfo.title;
               var linkTarget = linkInfo.target;
+              
               //var isNewWindow = linkInfo.isNewWindow;
               let openMethod = linkInfo.openMethod;
+              
+              if (linkTarget === '') {
+                openMethod = 'current'
+              }
+              
               var rng = linkInfo.range || _this.createRange();
               var additionalTextLength = linkText.length - rng.toString().length;
               if (additionalTextLength > 0 && _this.isLimited(additionalTextLength)) {
@@ -5409,7 +5415,7 @@ ${links}`
                   });
               }
               $$1.each(anchors, function (idx, anchor) {
-                  if (openMethod === 'blank' || openMethod === 'current') {
+                  if (openMethod === 'blank' || openMethod === 'current' || openMethod === 'target') {
                     $$1(anchor).attr('href', linkUrl);
                   }
                   else {
@@ -6881,6 +6887,9 @@ sel.addRange(range);
               else if ($anchor.attr('href').startsWith('javascript:window.open(')) {
                 linkInfo.openMethod = 'popup'
                 linkInfo.target = ''
+              }
+              else if ($anchor.attr('target') !== undefined) {
+                linkInfo.openMethod = 'target'
               }
               else {
                 linkInfo.openMethod = 'current'
@@ -9267,8 +9276,8 @@ sel.addRange(range);
         return `<div class="checkbox sn-checkbox-open-in-new-window">
         <label> <input role="radio" type="radio" name="openMethod" value="current" checked="true" aria-checked="true">${this.lang.link.openInCurrentWindow}</label>
         <label> <input role="radio" type="radio" name="openMethod" value="blank" aria-checked="false">${this.lang.link.openInNewWindow}</label>
-        <label> <input role="radio" type="radio" name="openMethod" value="target" aria-checked="false">${this.lang.link.openInTargetWindow}</label>
-        <input class="note-link-target form-control note-form-control note-input" type="text" />
+        <label> <input role="radio" type="radio" name="openMethod" value="target" aria-checked="false">${this.lang.link.openInTargetWindow}
+        <input class="note-link-target form-control note-form-control note-input" type="text" /></label>
         <label> <input role="radio" type="radio" name="openMethod" value="popup" aria-checked="false">${this.lang.link.openInPopup}</label>
 </div>`
       };
@@ -9316,6 +9325,7 @@ sel.addRange(range);
               var $linkUrl = _this.$dialog.find('.note-link-url');
               var $linkTitle = _this.$dialog.find('.note-link-title');
               var $linkTarget = _this.$dialog.find('.note-link-target');
+              var $radiokTarget = _this.$dialog.find('[name="openMethod"][value="target"]:radio');
               var $linkBtn = _this.$dialog.find('.note-link-btn');
               //var $openInNewWindow = _this.$dialog
               //    .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
@@ -9380,6 +9390,9 @@ sel.addRange(range);
                     $linkUrl.trigger('select');
                   }
                   $linkTarget.val(linkInfo.target);
+                  $linkTarget.change(() => {
+                    $radiokTarget.click()
+                  })
                   _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
                   _this.bindEnterKey($linkUrl, $linkBtn);
                   _this.bindEnterKey($linkText, $linkBtn);
