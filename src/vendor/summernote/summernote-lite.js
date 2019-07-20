@@ -970,6 +970,7 @@
               title: 'Link title (optional)',
               openInCurrentWindow: 'Open in current window',
               openInNewWindow: 'Open in new window',
+              openInTargetWindow: 'Open in window with a target',
               openInPopup: 'Open in popup',
               remove: 'Remove'
           },
@@ -5370,6 +5371,7 @@ ${links}`
               //console.log(linkInfo)
               var linkText = linkInfo.text;
               var linkTitle = linkInfo.title;
+              var linkTarget = linkInfo.target;
               //var isNewWindow = linkInfo.isNewWindow;
               let openMethod = linkInfo.openMethod;
               var rng = linkInfo.range || _this.createRange();
@@ -5428,6 +5430,9 @@ ${links}`
                   }
                   else if (openMethod === 'current' || openMethod === 'popup') {
                       $$1(anchor).removeAttr('target');
+                  }
+                  else if (openMethod === 'target') {
+                    $$1(anchor).attr('target', linkTarget);
                   }
               });
               var startRange = range.createFromNodeBefore(lists.head(anchors));
@@ -6862,7 +6867,8 @@ sel.addRange(range);
           var linkInfo = {
               range: rng,
               text: rng.toString(),
-              url: $anchor.length ? $anchor.attr('href') : ''
+              url: $anchor.length ? $anchor.attr('href') : '',
+              target: $anchor.length ? $anchor.attr('target') : '',
           };
           // When anchor exists,
           if ($anchor.length) {
@@ -6870,12 +6876,15 @@ sel.addRange(range);
               //linkInfo.isNewWindow = $anchor.attr('target') === '_blank';
               if ($anchor.attr('target') === '_blank') {
                 linkInfo.openMethod = 'blank'
+                linkInfo.target = ''
               }
               else if ($anchor.attr('href').startsWith('javascript:window.open(')) {
                 linkInfo.openMethod = 'popup'
+                linkInfo.target = ''
               }
               else {
                 linkInfo.openMethod = 'current'
+                linkInfo.target = ''
               }
           }
           //console.log(linkInfo)
@@ -9258,6 +9267,8 @@ sel.addRange(range);
         return `<div class="checkbox sn-checkbox-open-in-new-window">
         <label> <input role="radio" type="radio" name="openMethod" value="current" checked="true" aria-checked="true">${this.lang.link.openInCurrentWindow}</label>
         <label> <input role="radio" type="radio" name="openMethod" value="blank" aria-checked="false">${this.lang.link.openInNewWindow}</label>
+        <label> <input role="radio" type="radio" name="openMethod" value="target" aria-checked="false">${this.lang.link.openInTargetWindow}</label>
+        <input class="note-link-target form-control note-form-control note-input" type="text" />
         <label> <input role="radio" type="radio" name="openMethod" value="popup" aria-checked="false">${this.lang.link.openInPopup}</label>
 </div>`
       };
@@ -9304,6 +9315,7 @@ sel.addRange(range);
               var $linkText = _this.$dialog.find('.note-link-text');
               var $linkUrl = _this.$dialog.find('.note-link-url');
               var $linkTitle = _this.$dialog.find('.note-link-title');
+              var $linkTarget = _this.$dialog.find('.note-link-target');
               var $linkBtn = _this.$dialog.find('.note-link-btn');
               //var $openInNewWindow = _this.$dialog
               //    .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
@@ -9367,9 +9379,11 @@ sel.addRange(range);
                     //$linkUrl.trigger('focus');
                     $linkUrl.trigger('select');
                   }
+                  $linkTarget.val(linkInfo.target);
                   _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
                   _this.bindEnterKey($linkUrl, $linkBtn);
                   _this.bindEnterKey($linkText, $linkBtn);
+                  _this.bindEnterKey($linkTarget, $linkBtn);
                   
                   //var isNewWindowChecked = linkInfo.isNewWindow !== undefined
                   //    ? linkInfo.isNewWindow : _this.context.options.linkTargetBlank;
@@ -9409,6 +9423,7 @@ sel.addRange(range);
                           url: $linkUrl.val(),
                           text: $linkText.val(),
                           title: $linkTitle.val(),
+                          target: $linkTarget.val(),
                           isNewWindow: false,
                           openMethod: openMethod
                           //isNewWindow: $openInNewWindow.is(':checked')
@@ -9444,6 +9459,8 @@ sel.addRange(range);
                   // detach events
                   $linkText.off('input paste keypress');
                   $linkUrl.off('input paste keypress');
+                  $linkTitle.off('input paste keypress');
+                  $linkTarget.off('input paste keypress');
                   $linkBtn.off('click');
                   if (deferred.state() === 'pending') {
                       deferred.reject();

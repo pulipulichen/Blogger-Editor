@@ -69,6 +69,7 @@
         title: '連結標題 (選填)',
         openInCurrentWindow: '在此視窗開啟',
         openInNewWindow: '在新視窗開啟',
+        openInTargetWindow: '在指定名字視窗開啟',
         openInPopup: '在彈跳視窗開啟',
         copy: '複製連結',
         remove: '刪除'
