@@ -6,7 +6,8 @@ let config = {
       wordCount: 0,
       imageCount: 0,
       timeSpentSecond: 0,
-      lastEditTimestamp: 0
+      lastEditTimestamp: 0,
+      updateTimeSpentLock: false,
     }
   },
   /*
@@ -125,6 +126,11 @@ let config = {
       this.imageCount = FieldPostBody.countImage()
     },
     updateTimeSpent: function () {
+      if (this.updateTimeSpentLock === true) {
+        return this
+      }
+      this.updateTimeSpentLock = true
+      
       let currentEditTimestamp = (new Date()).getTime()
       
       let intervalSecond = Math.round((currentEditTimestamp - this.lastEditTimestamp) / 1000)
@@ -134,16 +140,19 @@ let config = {
       
       let post = $v.PostManager.getPost()
       if (post !== undefined) {
-        console.log(['開始累加時間', post.timeSpentSecond, intervalSecond, (post.timeSpentSecond + intervalSecond)])
-        post.timeSpentSecond = post.timeSpentSecond + intervalSecond
+        if (InitHelper.ready === true) {
+          console.log(['開始累加時間', post.id, post.timeSpentSecond, intervalSecond, (post.timeSpentSecond + intervalSecond)])
+          post.timeSpentSecond = post.timeSpentSecond + intervalSecond
+        }
         this.timeSpentSecond = post.timeSpentSecond
       }
       else {
         this.timeSpentSecond = 0
       }
-      $v.PostManager.updateEditingPost('timeSpentSecond', this.timeSpentSecond)
-      
-      this.lastEditTimestamp = currentEditTimestamp
+      $v.PostManager.updateEditingPost('timeSpentSecond', this.timeSpentSecond, () => {
+        this.updateTimeSpentLock = false
+        this.lastEditTimestamp = currentEditTimestamp
+      })
     },
   }
 }
