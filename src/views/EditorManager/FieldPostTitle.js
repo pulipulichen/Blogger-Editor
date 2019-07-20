@@ -45,8 +45,8 @@ let FieldPostTitle = {
       text = text.slice(0, -6)
     }
     
-    if (typeof(text) === 'string' && text.startsWith('<') && text.endsWith('>')) {
-      text = $(text).trim()
+    if (typeof(text) === 'string') {
+      text = $(`<span>${text}</span>`).text().trim()
     }
     return text
   },
@@ -89,7 +89,7 @@ let FieldPostTitle = {
   onPostTitleChange: function (contents) {
     let fieldName = 'title'
     
-    contents = contents.trim()
+    contents = this.getText()
     while (contents.endsWith('&nbsp;')) {
       contents = contents.slice(0, -6).trim()
     }
