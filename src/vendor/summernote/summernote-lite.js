@@ -1099,6 +1099,7 @@
           iframe: {
             title: "Title (optional)",
             url: "URL",
+            urlOrIframeCode: "URL or iframe code <iframe></iframe>",
             insert: "Insert",
             newWindow: "Open in new window",
             popupWindow: "Open in popup window",
@@ -5053,11 +5054,11 @@
             let enablePopup = true
             let title
             if (typeof(iframeInfo) === 'string') {
-              url = iframeInfo
+              url = iframeInfo.trim()
             }
             else if (typeof(iframeInfo) === 'object') {
               if (typeof(iframeInfo.url) === 'string') {
-                url = iframeInfo.url
+                url = iframeInfo.url.trim()
               }
               if (typeof(iframeInfo.enableNewWindow) === 'boolean') {
                 enableNewWindow = iframeInfo.enableNewWindow
@@ -5070,19 +5071,25 @@
               }
             }
             
-            let name = url
-            if (name.lastIndexOf('/') > 0) {
-              name = name.slice(name.lastIndexOf('/') + 1)
-            }
-            if (name.lastIndexOf('#') > 0) {
-              name = name.slice(0, name.lastIndexOf('#'))
-            }
-            
+            let iframeCode
             let langNewWindow = this.lang.iframe.newWindow //'Open in new window'
             let langPopupWindow = this.lang.iframe.popupWindow // 'Open in popup window'
             let langColon = this.lang.iframe.colon // 'Open in popup window'
-            
-            let iframeCode = this.buildIframeFromURL(url)
+
+            if (url.startsWith('<iframe') && url.endsWith('</iframe>')) {
+              iframeCode = url
+              url = url.slice(url.indexOf(' src=') + 6)
+              if (url.indexOf('"') > -1) {
+                url = url.slice(0, url.indexOf('"'))
+              }
+              else {
+                url = url.slice(0, url.indexOf("'"))
+              }
+            }
+            else {
+              iframeCode = this.buildIframeFromURL(url)
+            }
+            let name = this.extractNameFromURL(url)
             
             let links = []
             if (enableNewWindow === true) {
@@ -5124,6 +5131,21 @@ ${links}`
             else {
               return `<iframe src="${url}" width="100%" style="height: 90vh" frameborder="0" class="post-iframe"></iframe>`
             }
+          }
+          
+          this.extractNameFromURL = function (url) {
+            let name = url
+            if (name.endsWith('/')) {
+              name = name.slice(0, -1)
+            }
+            if (name.lastIndexOf('/') > 0) {
+              name = name.slice(name.lastIndexOf('/') + 1)
+            }
+
+            if (name.lastIndexOf('#') > 0) {
+              name = name.slice(0, name.lastIndexOf('#'))
+            }
+            return name
           }
           
           // https://gist.github.com/rodrigoborgesdeoliveira/987683cfbfcc8d800192da1e73adc486
@@ -9527,8 +9549,8 @@ sel.addRange(range);
               '<input class="note-iframe-title form-control note-form-control note-input" type="text" value="" />',
               '</div>',
               '<div class="form-group note-form-group">',
-              "<label class=\"note-form-label\">" + this.lang.iframe.url + "</label>",
-              '<input class="note-iframe-url form-control note-form-control note-input" type="url" value="" />',
+              "<label class=\"note-form-label\">" + this.lang.iframe.urlOrIframeCode + "</label>",
+              '<input class="note-iframe-url form-control note-form-control note-input" type="text" value="" />',
               '</div>',
               this.buildOpenInput()
           ].join('');
