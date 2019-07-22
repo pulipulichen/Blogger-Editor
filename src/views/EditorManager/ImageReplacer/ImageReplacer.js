@@ -22,7 +22,7 @@ var config = {
       skipTutorial: false,
       debugEnableReplace: true,
       countdownSecond: 0,
-      countdownMaxSecond: 30,
+      countdownMaxSecond: 25,
       countdownTimer: null,
       countdownSound: null,
       batchLimit: 6

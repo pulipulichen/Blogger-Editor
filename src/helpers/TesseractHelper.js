@@ -142,7 +142,7 @@ let TesseractHelper = {
         console.log('memory is occupied, we will do OCR later.')
         this.worker = null
         setTimeout(() => {
-          loop()
+          this.loop()
         }, 3000)
         return
       }

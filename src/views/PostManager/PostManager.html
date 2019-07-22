@@ -87,16 +87,17 @@
                 <span v-if='post.title === ""'>
                   ({{ $t('No title') }})
                 </span>
-                <span v-if='post.title !== ""'>
+                <span v-if='post.title !== ""'
+                      v-bind:title="post.title">
                   {{ post.title }}
                 </span>
               </a>
               <div class="description" 
                    v-if='post.abstract !== ""'>
-                <div class="abstract">
+                <div class="abstract"
+                     v-bind:title="post.abstract">
                   {{ post.abstract }}
                 </div>
-                
               </div>
               <div class="extra">
                 <div class="ui right floated">

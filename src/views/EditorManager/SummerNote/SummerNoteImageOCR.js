@@ -43,7 +43,13 @@ let SummerNoteImageOCR = {
     '+',
     '區曙',
     '，',
-    '—'
+    '—',
+    '【',
+    ' 一u 一',
+    '£',
+    '//',
+    '¥',
+    '!'
   ],
   nameQueue: [],
   ocrImage: function (name) {
@@ -158,6 +164,7 @@ let SummerNoteImageOCR = {
     name = name.replace(/image/g, '')
     name = name.replace(/screenshot/g, '')
     name = name.replace(/Screenshot/g, '')
+    name = name.split(' - Copy').join('')
     
     let terms = name.trim().match(/[A-Za-z]{2,}/g).map(term => {return term})
     return (terms.join('').length < 5)
