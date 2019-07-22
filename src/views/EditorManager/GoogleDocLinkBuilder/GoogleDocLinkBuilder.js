@@ -68,7 +68,7 @@ let config = {
             text = text.trim()
             //console.log(text)
             //console.log('Pasted content: ', text);
-            if (URLHelper.isURL(text)) {
+            if (URLHelper.isURL(text) && text.startsWith('https://docs.google.com/')) {
               this.shareLink = text
             }
           })
