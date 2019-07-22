@@ -145,6 +145,9 @@ let FileHelper = {
         if (value.indexOf('"')) {
           value = value.split('"').join('\\"')
         }
+        if (value.indexOf(',')) {
+          value = value.split(',').join('\\,')
+        }
         row.push(`"${value}"`)
       }
       rows.push(row.join(','))

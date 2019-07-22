@@ -81,11 +81,21 @@ let GoogleAnalyticsHelper = {
     }
     
     let sql = `select uuid, unix, category, action from eventTrack`
+    if (typeof(dayLimit) === 'string') {
+      if (dayLimit.indexOf('.') > -1) {
+        eval(`dayLimit = ${dayLimit}`)
+      }
+      else {
+        dayLimit = parseInt(dayLimit, 10)
+      }
+    }
+    
     if (typeof(dayLimit) === 'number') {
       let unix = DayjsHelper.unix()
       let unixLimit = unix - (dayLimit * 1000 * 60 * 24)
       sql = sql + ` where unix > ${unixLimit}`
     }
+    //console.log(sql)
     WebSQLDatabaseHelper.exec(sql, callback)
     return this
   },

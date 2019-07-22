@@ -241,21 +241,51 @@ let config = {
         dayLimit = undefined
       }
       GoogleAnalyticsHelper.databaseSelect(this.eventTrackDayLimit, (data) => {
-        let unix = DayjsHelper.unix()
-        let endYYYYMMDD = DayjsHelper.format('YYYYMMDD')
-        
-        let filename = ['event_record']
-        if (dayLimit !== undefined) {
-          let unixLimit = unix - (dayLimit * 1000 * 60 * 24)
-          let startYYYYMMDD = DayjsHelper.format(unixLimit, 'YYYYMMDD')
-          filename.push(startYYYYMMDD)
+        for (let i = 0; i < data.length; i++) {
+          data[i].action = this.filterAction(data[i].action)
+          data[i].timestamp = DayjsHelper.format(data[i].unix, 'YYYY/MM/DD HH:mm:ss')
         }
-        filename.push(endYYYYMMDD)
-        filename = filename.join('-')
+        
+        let filename = this.buildEventTrackDownloadFilename(dayLimit)
         
         FileHelper.saveCSV(data, filename)
       })
       return this
+    },
+    buildEventTrackDownloadFilename: function (dayLimit) {
+      let unix = DayjsHelper.unix()
+        let endYYYYMMDD = DayjsHelper.format('YYYYMMDD')
+      
+      let filename = ['event_record']
+      if (dayLimit !== undefined) {
+        let unixLimit = unix - (dayLimit * 1000 * 60 * 24)
+        let startYYYYMMDD = DayjsHelper.format(unixLimit, 'YYYYMMDD')
+        filename.push(startYYYYMMDD)
+      }
+      filename.push(endYYYYMMDD)
+      filename = filename.join('-')
+      return filename
+    },
+    filterAction: function (action) {
+      if (typeof(action) === 'string' && 
+              ( (action.startsWith('{') && action.endsWith('}')) || (action.startsWith('[') && action.endsWith(']')) )
+              ) {
+        action = JSON.parse(action)
+      }
+      
+      if (Array.isArray(action)) {
+        action = action.join(';')
+      }
+      else if (typeof(action) === 'object') {
+        let output = []
+        for (let key in action) {
+          let value = action[key]
+          output.push(`${key}: ${value}`)
+        }
+        action = output.join(';')
+        console.log(action)
+      }
+      return action
     },
     clearEventTrackData: function (e) {
       GoogleAnalyticsHelper.databaseReset()
