@@ -38,15 +38,27 @@
           <div class="ui bottom attached tab segment active form" 
              data-tab="image">
             
-            <div class="field">              
-              <div class="ui checkbox">
-                <input type="checkbox" 
-                       name="enableOCRImageFilename"
-                       v-on:change="persist"
-                       v-model="enableOCRImageFilename">
-                <label>{{ $t('Use OCR text as image\'s filename') }}</label>
+            <div class="unstackable fields">
+              <div class="field">              
+                <div class="ui checkbox">
+                  <input type="checkbox" 
+                         name="enableOCRImageFilename"
+                         v-on:change="persist"
+                         v-model="enableOCRImageFilename">
+                  <label>{{ $t('Use OCR text as image\'s filename') }}</label>
+                </div>
+              </div>
+              <div class="field">              
+                <div class="ui checkbox">
+                  <input type="checkbox" 
+                         name="enableOCRImageAlt"
+                         v-on:change="persist"
+                         v-model="enableOCRImageAlt">
+                  <label>{{ $t('Use OCR text as image\'s alt text') }}</label>
+                </div>
               </div>
             </div>
+              
             
             <div class="field">
               <label for="OCRImageLang">

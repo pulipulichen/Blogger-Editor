@@ -96,7 +96,9 @@ let SummerNoteImageOCR = {
           ocrText = this.filterOCRText(ocrText)
           //console.log([ocrText, name])
           if (typeof(ocrText) === 'string' && ocrText.trim() !== '') {
-            imgNode.attr('alt', ocrText)
+            if ($v.EditorManager.enableOCRImageAlt === true) {
+              imgNode.attr('alt', ocrText)
+            }
             imgNode.attr('data-ocr', 'finish')
           }
           else {
@@ -125,6 +127,9 @@ let SummerNoteImageOCR = {
                      //.attr('alt', ocrText)
                      .attr('data-filename', newName)
                      //.removeClass('ocr-lock')
+              if ($v.EditorManager.enableOCRImageAlt === false) {
+                imgNode.attr('alt', newName)
+              }
               this.ocrImageComplete(name, newName)
               // 完工
             })
