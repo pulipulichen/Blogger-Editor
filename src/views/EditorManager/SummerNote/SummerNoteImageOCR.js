@@ -44,6 +44,7 @@ let SummerNoteImageOCR = {
     '區曙',
     '，'
   ],
+  nameQueue: [],
   ocrImage: function (name) {
     //console.log($v.EditorManager.enableOCRImageFilename)
     //console.log(this.isNeedOCRFilename(name))
@@ -54,11 +55,12 @@ let SummerNoteImageOCR = {
       let aNode = postBody.find(`a[href^="filesystem:"][data-filename="${name}"]`)
       let imgNode = aNode.find(`img[src^="filesystem:"][data-filename="${name}"]`)
       
-      if (imgNode.hasClass('ocr-lock')) {
+      if (this.nameQueue.indexOf(name) > -1) {
         console.log('this image is already doing OCR.')
         return
       }
-      imgNode.addClass('ocr-lock')
+      this.nameQueue.push(name)
+      //imgNode.addClass('ocr-lock')
       
       // 20190719 測試用
       //if (imgNode.attr('data-ocr-lock') === undefined) {
@@ -115,7 +117,7 @@ let SummerNoteImageOCR = {
                      .attr('title', newName)
                      //.attr('alt', ocrText)
                      .attr('data-filename', newName)
-                     .removeClass('ocr-lock')
+                     //.removeClass('ocr-lock')
               this.ocrImageComplete(name, newName)
               // 完工
             })
@@ -140,6 +142,13 @@ let SummerNoteImageOCR = {
     GoogleAnalyticsHelper.send('SummerNoteImageOCR.ocrImageComplete', {
       'newName': newName
     })
+    
+    for (let i = this.nameQueue.length - 1; i >= 0; i--) {
+      if (this.nameQueue[i] === name) {
+        this.nameQueue.splice(i, 1);
+        // break;       //<-- Uncomment  if only the first term has to be removed
+      }
+    }
     
     return this
   },
