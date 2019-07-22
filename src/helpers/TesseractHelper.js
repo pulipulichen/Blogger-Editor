@@ -135,7 +135,7 @@ let TesseractHelper = {
     this.loop()
   },
   isLoopNow: false,
-  memoryPercentLimit: 0.06,
+  memoryPercentLimit: 0.05,
   loop: function () {
     if (this.list.length > 0) {
       if (this.getMemoryUsedPercent() > this.memoryPercentLimit) {
