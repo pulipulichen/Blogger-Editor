@@ -41,7 +41,8 @@ let SummerNoteImageOCR = {
     '\\n',
     '」',
     '+',
-    '區曙'
+    '區曙',
+    '，'
   ],
   ocrImage: function (name) {
     //console.log($v.EditorManager.enableOCRImageFilename)
@@ -143,6 +144,11 @@ let SummerNoteImageOCR = {
     return this
   },
   isNeedOCRFilename: function (name) {
+    // 移除掉一些特殊字元
+    name = name.replace(/image/g, '')
+    name = name.replace(/screenshot/g, '')
+    name = name.replace(/Screenshot/g, '')
+    
     let terms = name.trim().match(/[A-Za-z]{2,}/g).map(term => {return term})
     return (terms.join('').length < 5)
   },

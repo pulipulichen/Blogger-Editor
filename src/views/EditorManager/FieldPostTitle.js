@@ -83,8 +83,10 @@ let FieldPostTitle = {
       if (title.length > this.titleLengthLimit) {
         title = title.slice(0, this.titleLengthLimit).trim() + '...'
       }
+      title = title.trim() + ' - ' + this.$t('Blogger Editor')
+      //console.log(title)
     }
-    document.title = title.trim()
+    document.title = title
   },
   onPostTitleChange: function (contents) {
     let fieldName = 'title'
@@ -100,7 +102,6 @@ let FieldPostTitle = {
         contents = $(contents).text()
       }
       
-      contents = contents + ' - ' + this.$t('Blogger Editor')
       this.updateDocumentTitle(contents)
       $v.PostManager.updateEditingPost(fieldName, contents)
     })

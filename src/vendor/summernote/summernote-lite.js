@@ -5394,11 +5394,10 @@ ${links}`
               var linkText = linkInfo.text;
               var linkTitle = linkInfo.title;
               var linkTarget = linkInfo.target;
-              
               //var isNewWindow = linkInfo.isNewWindow;
               let openMethod = linkInfo.openMethod;
               
-              if (linkTarget === '') {
+              if (linkTarget === '' && openMethod !== 'blank') {
                 openMethod = 'current'
               }
               
@@ -5437,6 +5436,7 @@ ${links}`
                   });
               }
               $$1.each(anchors, function (idx, anchor) {
+                  //console.log(idx)
                   if (openMethod === 'blank' || openMethod === 'current' || openMethod === 'target') {
                     $$1(anchor).attr('href', linkUrl);
                   }
@@ -5453,7 +5453,9 @@ ${links}`
                     $$1(anchor).removeAttr('title')
                   }
                   
+                  //console.log(openMethod)
                   if (openMethod === 'blank') {
+                    //console.log(openMethod)
                       $$1(anchor).attr('target', '_blank');
                   }
                   else if (openMethod === 'current' || openMethod === 'popup') {
