@@ -116,10 +116,7 @@ let config = {
     },
     updateWordImageCount: function (FieldPostBody) {
       //console.log('aaa')
-      let text = FieldPostBody.getText()
-      text = text.replace(/[^\x20-\x7E]/gmi, "")
-      text = text.split(' ').join('')
-      this.wordCount = text.length
+      this.wordCount = FieldPostBody.getTextCount()
       //console.log(this.wordCount)
       //
 

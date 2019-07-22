@@ -261,8 +261,12 @@ let config = {
         for (let i = 0; i < data.length; i++) {
           let timestamp = DayjsHelper.format(data[i].unix, 'YYYY/MM/DD HH:mm:ss')
           let action = JSON.parse(data[i].action)
+          let timeSpent = action.timeSpent.split(':')
+          let min = (parseInt(timeSpent[0], 10)*60) + parseInt(timeSpent[1], 10)
           data[i] = {
             timestamp: timestamp,
+            minSpent: min,
+            charCount: action.charCount,
             wordCount: action.wordCount,
             imageCount: action.imageCount
           }

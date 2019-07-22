@@ -50,6 +50,12 @@ let FieldPostBody = {
   getText: function () {
     return $(this.getHTML()).text().trim()
   },
+  getTextCount: function () {
+    let text = this.getText()
+    text = text.replace(/[^\x20-\x7E]/gmi, "")
+    text = text.split(' ').join('')
+    return text.length
+  },
   getSelectTarget: function () {
     if (this.debug.disableSummerNode === true) {
       return
@@ -292,7 +298,8 @@ let FieldPostBody = {
       //$v.EditorManager.FieldPostBody.save()
       EventManager.trigger(this, 'change')
       GoogleAnalyticsHelper.send('FieldPostBody.onChange', {
-        'wordCount': this.getText().length,
+        'charCount': this.getHTML().length,
+        'wordCount': this.getTextCount(),
         'imageCount': this.countImage(),
         'timeSpent': this.getTimeSpend()
       })
