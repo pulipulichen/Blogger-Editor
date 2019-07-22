@@ -42,7 +42,8 @@ let SummerNoteImageOCR = {
     '」',
     '+',
     '區曙',
-    '，'
+    '，',
+    '—'
   ],
   nameQueue: [],
   ocrImage: function (name) {
