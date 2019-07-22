@@ -159,17 +159,25 @@
               {{ $t('days event record.') }}
             </label>
           </div>
-          <div class="four wide inline field">
-            <button type="button" class="ui button" 
-                    v-on:click="downloadEventTrackData">
-                      {{ $t('Download') }}
-            </button>
-          </div>
-          <div class="four wide inline field">
-            <button type="button" class="ui button" 
-                    v-on:click="clearEventTrackData">
-                      {{ $t('Clear') }}
-            </button>
+          <div class="eight wide inline field">
+            <div class="fluid buttons">
+              <button type="button" class="ui button" 
+                      v-on:click="downloadEventTrackData">
+                        {{ $t('Download') }}
+              </button>
+              <button type="button" class="ui button" 
+                      v-on:click="downloadEventTrackProductionData">
+                        {{ $t('Production') }}
+              </button>
+              <button type="button" class="ui button" 
+                      v-on:click="downloadEventTrackStrengthData">
+                        {{ $t('Strength') }}
+              </button>
+              <button type="button" class="ui button" 
+                      v-on:click="clearEventTrackData">
+                        {{ $t('Clear') }}
+              </button>
+            </div>
           </div>
         </div>
         

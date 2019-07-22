@@ -246,21 +246,66 @@ let config = {
           data[i].timestamp = DayjsHelper.format(data[i].unix, 'YYYY/MM/DD HH:mm:ss')
         }
         
-        let filename = this.buildEventTrackDownloadFilename(dayLimit)
+        let filename = this.buildEventTrackDownloadFilename('events', dayLimit)
         
         FileHelper.saveCSV(data, filename)
       })
       return this
     },
-    buildEventTrackDownloadFilename: function (dayLimit) {
+    downloadEventTrackProductionData: function (e) {
+      let dayLimit = this.eventTrackDayLimit
+      if (dayLimit <= 0) {
+        dayLimit = undefined
+      }
+      GoogleAnalyticsHelper.databaseSelectProduction(this.eventTrackDayLimit, (data) => {
+        for (let i = 0; i < data.length; i++) {
+          let timestamp = DayjsHelper.format(data[i].unix, 'YYYY/MM/DD HH:mm:ss')
+          let action = JSON.parse(data[i].action)
+          data[i] = {
+            timestamp: timestamp,
+            wordCount: action.wordCount,
+            imageCount: action.imageCount
+          }
+        }
+        
+        let filename = this.buildEventTrackDownloadFilename('production', dayLimit)
+        
+        FileHelper.saveCSV(data, filename)
+      })
+      return this
+    },
+    
+    downloadEventTrackStrengthData: function (e) {
+      let dayLimit = this.eventTrackDayLimit
+      if (dayLimit <= 0) {
+        dayLimit = undefined
+      }
+      GoogleAnalyticsHelper.databaseSelectStrength(this.eventTrackDayLimit, (data) => {
+        for (let i = 0; i < data.length; i++) {
+          let timestamp = DayjsHelper.format(data[i].unix, 'YYYY/MM/DD HH:mm:ss')
+          data[i] = {
+            timestamp: timestamp,
+            strength: 1
+          }
+        }
+        
+        let filename = this.buildEventTrackDownloadFilename('strength', dayLimit)
+        
+        FileHelper.saveCSV(data, filename)
+      })
+      return this
+    },
+    buildEventTrackDownloadFilename: function (basename, dayLimit) {
       let unix = DayjsHelper.unix()
         let endYYYYMMDD = DayjsHelper.format('YYYYMMDD')
       
-      let filename = ['event_record']
+      let filename = [basename]
       if (dayLimit !== undefined) {
-        let unixLimit = unix - (dayLimit * 1000 * 60 * 24)
+        let unixLimit = unix - (dayLimit * 60 * 24)
         let startYYYYMMDD = DayjsHelper.format(unixLimit, 'YYYYMMDD')
-        filename.push(startYYYYMMDD)
+        if (startYYYYMMDD !== endYYYYMMDD) {
+          filename.push(startYYYYMMDD)
+        }
       }
       filename.push(endYYYYMMDD)
       filename = filename.join('-')
@@ -280,10 +325,10 @@ let config = {
         let output = []
         for (let key in action) {
           let value = action[key]
-          output.push(`${key}: ${value}`)
+          output.push(`${key}:${value}`)
         }
         action = output.join(';')
-        console.log(action)
+        //console.log(action)
       }
       return action
     },

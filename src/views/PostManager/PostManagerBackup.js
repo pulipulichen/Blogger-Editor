@@ -12,7 +12,7 @@ let PostManagerBackup = {
     let id = post.id
     $v.PageLoader.open()
     let nowFormat = DayjsHelper.nowMMDDFormat()
-    let title = this.getPostTitleAbstract()
+    let title = this.getPostTitleAbstract(post.title)
     let folderName = `blogger-editor-post-${id}-${title}-${nowFormat}`
     this.createBackupZip(post, postBody, (zip) => {
       saveAs(zip, `${folderName}.zip`)
@@ -24,14 +24,16 @@ let PostManagerBackup = {
       })
     })
   },
-  getPostTitleAbstract: function () {
-    let title = this.PostManager.getPost().title
+  getPostTitleAbstract: function (title) {
+    if (title === undefined) {
+      title = this.PostManager.getPost().title
+    }
     //console.log(title)
     
     return FileHelper.extractSafeFilename(title, 15, 30)
   },
   createBackupZip: function (post, postBody, callback) {
-    console.log(post)
+    //console.log(post)
     let id = post.id
     let FieldPostBody = $v.EditorManager.FieldPostBody
     post = JSON.parse(JSON.stringify(post))

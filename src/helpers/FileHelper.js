@@ -101,7 +101,14 @@ let FileHelper = {
     return this
   },
   extractSafeFilename: function (filename, safeMaxLength, maxLength) {
-    let list = filename.trim().match(/[\w\-\.]+/g).map((m) => {return m})
+    //console.log(filename)
+    let list = filename.trim().match(/[\w\-\.]+/g)
+    if (list !== null) {
+      list = list.map((m) => {return m})
+    }
+    else {
+      list = []
+    }
     let output = ''
     for (let i = 0; i < list.length; i++) {
       if (output !== '') {

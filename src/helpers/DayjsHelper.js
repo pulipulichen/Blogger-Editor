@@ -36,7 +36,10 @@ let DayjsHelper = {
   format: function (unix, format) {
     if (typeof(unix) === 'string') {
       format = unix
-      unix = this.unix()
+      unix = new Date()
+    }
+    else {
+      unix = unix * 1000
     }
     return dayjs(unix).format(format)
   },

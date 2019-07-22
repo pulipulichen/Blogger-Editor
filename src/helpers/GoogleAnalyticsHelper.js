@@ -38,20 +38,22 @@ let GoogleAnalyticsHelper = {
           (id INTEGER PRIMARY KEY, 
            unix INTEGER, 
            uuid TEXT, 
+           postID INTEGER, 
            category TEXT,
            action TEXT)`
     WebSQLDatabaseHelper.exec(sqlCreateTable,callback)
     return this
   },
   databaseReset: function (callback) {
-    let sql = `DELETE FROM eventTrack`
+    //let sql = `DELETE FROM eventTrack`
+    let sql = `DROP TABLE eventTrack`
     WebSQLDatabaseHelper.exec(sql,callback)
     return this
   },
   databaseInsert: function (category, action, callback) {
     let sql = `insert into 
-            eventTrack(unix, uuid, category, action) 
-            values(?,?,?,?)`
+            eventTrack(unix, uuid, postId, category, action) 
+            values(?,?,?,?,?)`
     
     if (typeof(category) !== 'string') {
       category = JSON.stringify(category)
@@ -64,11 +66,27 @@ let GoogleAnalyticsHelper = {
     let data = [
       unix,
       this.uuid,
+      $v.PostManager.editingPostId,
       category,
       action
     ]
     WebSQLDatabaseHelper.exec(sql, data,callback)
     return this
+  },
+  getDayLimitWhere: function (dayLimit) {
+    if (typeof(dayLimit) === 'string') {
+      if (dayLimit.indexOf('.') > -1) {
+        eval(`dayLimit = ${dayLimit}`)
+      }
+      else {
+        dayLimit = parseInt(dayLimit, 10)
+      }
+    }
+    if (typeof(dayLimit) === 'number') {
+      let unix = DayjsHelper.unix()
+      let unixLimit = unix - (dayLimit * 1000 * 60 * 24)
+      return `unix > ${unixLimit}`
+    }
   },
   databaseSelect: function (dayLimit, callback) {
     if (typeof(dayLimit) === 'function') {
@@ -80,21 +98,58 @@ let GoogleAnalyticsHelper = {
       return
     }
     
-    let sql = `select uuid, unix, category, action from eventTrack`
-    if (typeof(dayLimit) === 'string') {
-      if (dayLimit.indexOf('.') > -1) {
-        eval(`dayLimit = ${dayLimit}`)
-      }
-      else {
-        dayLimit = parseInt(dayLimit, 10)
-      }
+    let sql = `select uuid, unix, postId, category, action from eventTrack`
+    let unixLimitWhere = this.getDayLimitWhere(dayLimit)
+    
+    if (unixLimitWhere !== undefined) {
+      sql = sql + ` where ${unixLimitWhere}`
     }
     
-    if (typeof(dayLimit) === 'number') {
-      let unix = DayjsHelper.unix()
-      let unixLimit = unix - (dayLimit * 1000 * 60 * 24)
-      sql = sql + ` where unix > ${unixLimit}`
+    //console.log(sql)
+    WebSQLDatabaseHelper.exec(sql, callback)
+    return this
+  },
+  databaseSelectProduction: function (dayLimit, callback) {
+    if (typeof(dayLimit) === 'function') {
+      callback = dayLimit
+      dayLimit = undefined
     }
+    
+    if (typeof(callback) !== 'function') {
+      return
+    }
+    
+    let sql = `select uuid, unix, postId, category, action from eventTrack`
+    let unixLimitWhere = this.getDayLimitWhere(dayLimit)
+    
+    if (unixLimitWhere !== undefined) {
+      sql = sql + ` where ${unixLimitWhere} and category = 'FieldPostBody.onChange'`
+    }
+    else {
+      sql = sql + ` where category = 'FieldPostBody.onChange'`
+    }
+    
+    //console.log(sql)
+    WebSQLDatabaseHelper.exec(sql, callback)
+    return this
+  },
+  databaseSelectStrength: function (dayLimit, callback) {
+    if (typeof(dayLimit) === 'function') {
+      callback = dayLimit
+      dayLimit = undefined
+    }
+    
+    if (typeof(callback) !== 'function') {
+      return
+    }
+    
+    let sql = `select DISTINCT unix, postId from eventTrack`
+    let unixLimitWhere = this.getDayLimitWhere(dayLimit)
+    
+    if (unixLimitWhere !== undefined) {
+      sql = sql + ` where ${unixLimitWhere}`
+    }
+    
     //console.log(sql)
     WebSQLDatabaseHelper.exec(sql, callback)
     return this
