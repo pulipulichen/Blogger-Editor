@@ -38,6 +38,8 @@
     "Share Link": "文件共享連結",
     "How to get share link": "如何取得共享連結",
     "Delimiter": "分隔符號",
+    "GoogleDocTitle": "文件標題",
+    ": ": "：",
     "type.document.share": "Google文件",
     "type.document.preview": "預覽",
     "type.document.copy": "建立副本",

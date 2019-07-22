@@ -13,6 +13,7 @@ let config = {
       order: {},
       delimiter: ', ',
       currentType: null,
+      title: ""
     }
   },
   mounted: function () {
@@ -59,6 +60,23 @@ let config = {
       this.buildLinks(this.shareLink)
     },
     open: function () {
+      if (this.shareLink === '') {
+        // 偵測連結
+        // 加入讀取剪貼簿的功能
+        navigator.clipboard.readText()
+          .then(text => {
+            text = text.trim()
+            //console.log(text)
+            //console.log('Pasted content: ', text);
+            if (URLHelper.isURL(text)) {
+              this.shareLink = text
+            }
+          })
+          .catch(err => {
+            //console.error('Failed to read clipboard contents: ', err);
+          });
+      }
+      
       this.getUI().modal('show')
     },
     close: function () {
@@ -78,10 +96,17 @@ let config = {
       })
       
       if (output.length > 0) {
-        output = '<p>' + output.join(this.delimiter) + '</p>'
+        let title = this.title.trim()
+        if (title === '') {
+          output = '<ul><li>' + output.join(this.delimiter) + '</li></ul>'
+        }
+        else {
+          output = '<ul><li>' + title + this.$t(': ') + output.join(this.delimiter) + '</li></ul>'
+        }
         $v.EditorManager.FieldPostBody.insert(output)
       }
       this.shareLink = ''
+      this.title = ''
       
       this.close()
     },
