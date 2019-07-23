@@ -35,6 +35,11 @@ let SummerNoteCode = {
     postBody = this.CleanCodeClick(postBody)
     postBody = postBody.clone()
 
+    // 檢查第一個圖片有沒有height
+    if (postBody.find('img:first').hasAttr('width')) {
+      alert('First image has width!')
+    }
+
     // 請把有http的部分全部換掉
     postBody = BloggerImageHelper.filterPostBody(postBody)
     
