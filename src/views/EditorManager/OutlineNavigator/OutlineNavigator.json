@@ -6,6 +6,10 @@
   "zh-TW": {
     "Go to Top": "移至頁首",
     "Go to Footer": "移至頁尾",
-    "(Header)": "(頁首)"
+    "(Header)": "(頁首)",
+    "comment": "註解",
+    "comments": "註解",
+    "image is wating for OCR": "張圖片正在等待OCR",
+    "images is wating for OCR": "張圖片正在等待OCR"
   }
 }

@@ -13,9 +13,15 @@
        v-bind:class="{'null-header': (mainHeading.eq === -1), highlight: (mainHeading.eq === highlightHeadingEq)}"
        v-on:click="scrollTo(mainHeading.eq)">
       
+       <span v-if="mainHeading.ocrWaitingCount > 0"
+             class="ocr-waiting-count count"
+             v-bind:title="mainHeading.ocrWaitingCount + getOCRWaitingUnit(mainHeading.ocrWaitingCount)">
+         {{ mainHeading.ocrWaitingCount }}
+       </span>
        <span v-if="mainHeading.comments.length > 0"
-             class="comments-count"
-             v-on:click="toggleComment">
+             class="comments-count count"
+             v-on:click="toggleComment"
+             v-bind:title="mainHeading.comments.length + getCommentUnit(mainHeading.comments.length)">
          {{ mainHeading.comments.length }}
        </span>
       
@@ -52,10 +58,16 @@
          v-bind:class="{highlight: (subheading.eq === highlightHeadingEq)}"
          v-on:click="scrollTo(subheading.eq)">
         
-        
+      
+       <span v-if="subheading.ocrWaitingCount > 0"
+             class="ocr-waiting-count count"
+             v-bind:title="subheading.ocrWaitingCount + getOCRWaitingUnit(subheading.ocrWaitingCount)">
+         {{ subheading.ocrWaitingCount }}
+       </span>
        <span v-if="subheading.comments.length > 0"
-             class="comments-count"
-             v-on:click="toggleComment">
+             class="comments-count count"
+             v-on:click="toggleComment"
+             v-bind:title="subheading.comments.length + getCommentUnit(subheading.comments.length)">
          {{ subheading.comments.length }}
        </span>
         

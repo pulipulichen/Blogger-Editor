@@ -108,7 +108,7 @@ let config = {
       if (this.postBody === null) {
         this.postBody = $v.EditorManager.FieldPostBody.getElement()
       }
-      let selector = 'h1,h2,h3,h4,h5,h6,.note-editor-comment'
+      let selector = 'h1,h2,h3,h4,h5,h6,.note-editor-comment,img[data-ocr="waiting"]'
       this.entryCollection = this.postBody.find(selector)
       let list = []
       
@@ -117,10 +117,7 @@ let config = {
       let minHeadingLevel = 6
       this.entryCollection.each((i, entry) => {
         let $entry = $(entry)
-        let text = $entry.text().trim()
-        if (text === '') {
-          return
-        }
+        let text
         let top = $entry.offset().top
         
         let tagName = entry.tagName.toLowerCase()
@@ -133,13 +130,24 @@ let config = {
           if (headingLevel < minHeadingLevel) {
             minHeadingLevel = headingLevel
           }
+          text = $entry.text().trim()
+          if (text === '') {
+            return
+          }
         }
-        else {
+        else if (entry.className.indexOf('note-editor-comment') > -1) {
           if (typeof(entry.title) === 'string' 
                   && entry.title.trim() !== '') {
             title = entry.title.trim()
           }
           type = 'comment'
+          text = $entry.text().trim()
+          if (text === '') {
+            return
+          }
+        }
+        else if (entry.getAttribute('data-ocr') === 'waiting') {
+          type = 'ocr'
         }
         
         list.push({
@@ -149,12 +157,13 @@ let config = {
           level: headingLevel,
           type: type,
           //highlight: false,
-          top: top
+          top: top,
+          ocrWaitingCount: 0
         })
       })
       
       // --------------------------
-      // 確定類型，移除多餘標籤
+      // 確定標題的層次，移除多餘的標題標籤
       
       list = list.filter(item => {
         let level = item.level
@@ -187,7 +196,8 @@ let config = {
         type: 'heading',
         //highlight: false,
         top: 0,
-        comments: []
+        comments: [],
+        ocrWaitingCount: 0
       }
       let lastSubheading
       let lastHeadingType
@@ -202,13 +212,18 @@ let config = {
         
         if (lastHeadingType === undefined) {
           // 第一次
+          console.log(entry)
           if (entry.type === 'heading') {
             this.entryHierarchy.push(entry)
             lastHeading = entry
           }
-          else {
+          else if (entry.type === 'comment') {
             this.entryHierarchy.push(lastHeading)
             lastHeading.comments.push(entry)
+          }
+          else if (entry.type === 'ocr') {
+            this.entryHierarchy.push(lastHeading)
+            lastHeading.ocrWaitingCount++
           }
           lastHeadingType = 'heading'
         }
@@ -223,12 +238,20 @@ let config = {
             lastSubheading = entry
             lastHeadingType = entry.type
           }
-          else {
+          else if (entry.type === 'comment') {
             if (lastHeadingType === 'heading') {
               lastHeading.comments.push(entry)
             }
             else {
               lastSubheading.comments.push(entry)
+            }
+          }
+          else if (entry.type === 'ocr') {
+            if (lastHeadingType === 'heading') {
+              lastHeading.ocrWaitingCount++
+            }
+            else {
+              lastSubheading.ocrWaitingCount++
             }
           }
         }
@@ -397,6 +420,22 @@ let config = {
         loopHeading(0)
         */
       })
+    },
+    getCommentUnit: function (count) {
+      if (count > 1) {
+        return this.$t('comments')
+      }
+      else {
+        return this.$t('comment')
+      }
+    },
+    getOCRWaitingUnit: function (count) {
+      if (count > 1) {
+        return this.$t('images is wating for OCR')
+      }
+      else {
+        return this.$t('image is wating for OCR')
+      }
     }
   }
 }

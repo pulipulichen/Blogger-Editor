@@ -144,9 +144,9 @@ let SummerNoteImageOCR = {
     return this
   },
   ocrImageComplete: function (name, newName) {
-    $v.EditorManager.FieldPostBody.save()
     DelayExecHelper.removeForceWaiting(name)
     
+    $v.EditorManager.FieldPostBody.onChange()
     if (newName === undefined) {
       newName = name
     }

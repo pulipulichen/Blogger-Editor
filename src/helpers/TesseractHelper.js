@@ -155,6 +155,7 @@ let TesseractHelper = {
       this.retry = 0
       this.recognize(job.image, (result) => {
         if (typeof(job.callback) === 'function') {
+          //console.log('Lock OCR result')
           //setTimeout(() => { job.callback(result) }, 10 * 1000)
           job.callback(result)
         }
