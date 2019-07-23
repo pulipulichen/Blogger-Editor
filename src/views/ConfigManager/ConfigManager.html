@@ -146,8 +146,7 @@
            v-bind:class="{active: (tab === 'google-analytics')}"
            data-tab="google-analytics">
         
-        <div class="fields">
-          <div class="eight wide inline field">
+        <div class="inline field">
             <label for="eventTrackDayLimit">
               {{ $t('Download in') }}
             </label>
@@ -158,9 +157,10 @@
             <label for="eventTrackDayLimit">
               {{ $t('days event record.') }}
             </label>
-          </div>
-          <div class="eight wide inline field">
-            <div class="fluid buttons">
+        </div>
+          
+          <div class="inline field">
+            <div class="ui fluid buttons">
               <button type="button" class="ui button" 
                       v-on:click="downloadEventTrackData">
                         {{ $t('Download') }}
@@ -179,7 +179,6 @@
               </button>
             </div>
           </div>
-        </div>
         
         <div class="field">
           <label for="ConfigManager.googleAnalyticsTrackingId">

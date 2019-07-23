@@ -98,11 +98,14 @@ let GoogleAnalyticsHelper = {
       return
     }
     
-    let sql = `select uuid, unix, postId, category, action from eventTrack`
+    let sql = `select uuid, unix, category, action from eventTrack`
     let unixLimitWhere = this.getDayLimitWhere(dayLimit)
     
     if (unixLimitWhere !== undefined) {
-      sql = sql + ` where ${unixLimitWhere}`
+      sql = sql + ` where ${unixLimitWhere} and postId = ${$v.PostManager.editingPostId}`
+    }
+    else {
+      sql = sql + ` where postId = ${$v.PostManager.editingPostId}`
     }
     
     //console.log(sql)
@@ -123,10 +126,10 @@ let GoogleAnalyticsHelper = {
     let unixLimitWhere = this.getDayLimitWhere(dayLimit)
     
     if (unixLimitWhere !== undefined) {
-      sql = sql + ` where ${unixLimitWhere} and category = 'FieldPostBody.onChange'`
+      sql = sql + ` where ${unixLimitWhere} and category = 'FieldPostBody.onChange' and postId = ${$v.PostManager.editingPostId}`
     }
     else {
-      sql = sql + ` where category = 'FieldPostBody.onChange'`
+      sql = sql + ` where category = 'FieldPostBody.onChange' and postId = ${$v.PostManager.editingPostId}`
     }
     
     //console.log(sql)
@@ -143,11 +146,14 @@ let GoogleAnalyticsHelper = {
       return
     }
     
-    let sql = `select DISTINCT unix, postId from eventTrack`
+    let sql = `select DISTINCT unix from eventTrack`
     let unixLimitWhere = this.getDayLimitWhere(dayLimit)
     
     if (unixLimitWhere !== undefined) {
-      sql = sql + ` where ${unixLimitWhere}`
+      sql = sql + ` where ${unixLimitWhere} and postId = ${$v.PostManager.editingPostId}`
+    }
+    else {
+      sql = sql + ` where postId = ${$v.PostManager.editingPostId}`
     }
     
     //console.log(sql)

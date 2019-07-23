@@ -149,6 +149,9 @@ let FileHelper = {
         if (typeof(value) !== 'string') {
           value = JSON.stringify(value)
         }
+        if (typeof(value) !== 'string') {
+          value = ''
+        }
         if (value.indexOf('"')) {
           value = value.split('"').join('\\"')
         }

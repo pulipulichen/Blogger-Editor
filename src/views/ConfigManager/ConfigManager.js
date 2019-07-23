@@ -285,25 +285,44 @@ let config = {
         dayLimit = undefined
       }
       GoogleAnalyticsHelper.databaseSelectStrength(this.eventTrackDayLimit, (data) => {
+        let aggrData = []
+        let lastTimestamp
+        let lastData
         for (let i = 0; i < data.length; i++) {
-          let timestamp = DayjsHelper.format(data[i].unix, 'YYYY/MM/DD HH:mm:ss')
-          data[i] = {
-            timestamp: timestamp,
-            strength: 1
+          let timestamp = DayjsHelper.format(data[i].unix, 'YYYY/MM/DD HH:')
+          let mm = DayjsHelper.format(data[i].unix, 'mm')
+          mm = Math.floor(parseInt(mm, 10) / 10) * 10
+          if (mm < 10) {
+            mm = '0' + mm
+          }
+          timestamp = timestamp + mm
+          if (lastTimestamp !== timestamp) {
+            if (lastData !== undefined) {
+              aggrData.push(lastData)
+            }
+            
+            lastData = {
+              timestamp: timestamp,
+              strength: 1
+            }
+            lastTimestamp = timestamp
+          }
+          else {
+            lastData.strength++
           }
         }
         
         let filename = this.buildEventTrackDownloadFilename('strength', dayLimit)
-        
-        FileHelper.saveCSV(data, filename)
+        //console.log(aggrData)
+        FileHelper.saveCSV(aggrData, filename)
       })
       return this
     },
     buildEventTrackDownloadFilename: function (basename, dayLimit) {
       let unix = DayjsHelper.unix()
-        let endYYYYMMDD = DayjsHelper.format('YYYYMMDD')
+      let endYYYYMMDD = DayjsHelper.format('YYYYMMDD')
       
-      let filename = [basename]
+      let filename = [basename, $v.PostManager.editingPostId]
       if (dayLimit !== undefined) {
         let unixLimit = unix - (dayLimit * 60 * 24)
         let startYYYYMMDD = DayjsHelper.format(unixLimit, 'YYYYMMDD')
