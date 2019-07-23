@@ -20,7 +20,19 @@ a.item.highlight {
 }
 
 a.item.subheading {
-  padding-left: 0.5rem !important;
+  //padding-left: 0.5rem !important;
+}
+
+a.item.subheading .heading-text:before {
+  content:"\A";
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display:inline-block;
+  margin-bottom: 0.25rem;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 a.item.comment {
