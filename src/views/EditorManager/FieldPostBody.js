@@ -52,8 +52,10 @@ let FieldPostBody = {
   },
   getTextCount: function () {
     let text = this.getText()
-    text = text.replace(/[^\x20-\x7E]/gmi, "")
-    text = text.split(' ').join('')
+    //text = text.replace(/[^\x20-\x7E]/gmi, "")
+    while (text.indexOf('  ') > -1) {
+      text = text.split(' ').join('')
+    }
     return text.length
   },
   getSelectTarget: function () {
