@@ -972,7 +972,8 @@
               openInNewWindow: 'Open in new window',
               openInTargetWindow: 'Open in window with a target',
               openInPopup: 'Open in popup',
-              remove: 'Remove'
+              remove: 'Remove',
+              copy: 'Copy'
           },
           comment: {
               dialogTitle: 'Edit Comment',
