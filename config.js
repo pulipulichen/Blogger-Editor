@@ -4,6 +4,7 @@ const CONFIG = {
   defaultTheme: 'default',
   uploadImageDraft: '',
   quotaInMB: 100,
+  enableOCRMemoryThresholdMB: 40,
   scrollUpShowMenu: false,
   showReload: false,
   debug: {

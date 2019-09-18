@@ -43,7 +43,7 @@ var EditorManager = {
       summerNoteConfigStyleTags: '',
       summerNoteConfigLabels: '',
       $summerNoteConfigLabelsSearch: null,
-      enableOCRImageFilename: false,
+      enableOCRImageFilename: true,
       enableOCRImageAlt: false,
       OCRImageLang: 'chi_tra+eng',
       onCloseReload: false,
@@ -79,6 +79,7 @@ var EditorManager = {
     VueHelper.mountLocalStorage(this, 'summerNoteConfigLabels')
     
     this.initLabelsSearch()
+    this.checkOCRThreshold()
   },
   created: function () {
     $v.EditorManager = this
@@ -402,6 +403,19 @@ var EditorManager = {
       }
       
       $v.EditorManager.FieldPostLabels.addSummernoteItem(label)
+    },
+    checkOCRThreshold: function () {
+      //console.log('checkOCRThreshold')
+      
+      let thresholdMB = ConfigHelper.get('enableOCRMemoryThresholdMB')
+      let threshold = thresholdMB * 1024 * 1024
+      if (window.performance.memory.totalJSHeapSize < threshold) {
+        this.enableOCRImageFilename = false
+        this.enableOCRImageAlt = false
+        console.log('disable OCR')
+      }
+      
+      return this
     }
   }
 }
