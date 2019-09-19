@@ -1,3 +1,5 @@
+/* global FunctionHelper, EventManager */
+
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
 import {saveAs} from 'file-saver'
@@ -468,6 +470,7 @@ let PostManager = {
         postId = this.uploadPostId
       }
       return this.PostManagerBackup.uploadPosts(e, postId, (post) => {
+        //console.log(post)
         if (postId === this.editingPostId) {
           $v.EditorManager.setupPostData(() => {
             FunctionHelper.triggerCallback(callback, post)

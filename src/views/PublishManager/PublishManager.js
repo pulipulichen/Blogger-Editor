@@ -12,7 +12,6 @@ let config = {
       postTitle: "",
       postLabels: "",
       filesystemImageCount: 0,
-      
     }
   },
   mounted: function () {
@@ -118,10 +117,12 @@ let config = {
     },
     openImageReplacer: function () {
       $v.EditorManager.ImageReplacer.open()
+      return this
     },
     downloadPostBackup: function () {
       $v.PostManager.backupPost()
-      this.close()
+      //this.close()
+      return this
     },
     changePostMetadata: function () {
       let fieldPostTitle = $v.EditorManager.FieldPostTitle
@@ -169,6 +170,7 @@ let config = {
     afterUploadPost: function (post) {
       //console.log('afterUploadPost')
       //console.log(post)
+      
       this.postTitle = post.title
       this.postLabels = post.labels
       this.editURL = post.editURL

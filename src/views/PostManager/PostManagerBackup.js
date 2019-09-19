@@ -1,3 +1,5 @@
+/* global FunctionHelper */
+
 import JSZip from 'jszip';
 import JSZipUtils from 'jszip-utils';
 import {saveAs} from 'file-saver';
@@ -125,6 +127,7 @@ let PostManagerBackup = {
     let files = e.target.files
     //console.log('uploadPost')
     //console.log(callback)
+    //console.log(files)
     this.readPostsZip(files, postId, callback)
   },
   dropPosts: function (e, postId, callback) {
@@ -144,14 +147,18 @@ let PostManagerBackup = {
     let i = 0
     let uploadedPost
 
+    //console.log(['readPostsZip', files.length])
     let loop = (i) => {
       if (i < files.length) {
         let file = files[i]
-        if (file.type !== 'application/zip') {
+        //console.log(file.type)
+        if (['application/x-zip-compressed', 'application/zip'].indexOf(file.type) === -1) {
+          console.error('File type unknown: ' + file.type)
           next()
-          return
+          return false
         }
 
+        //console.log(['readPostsZip', file])
         JSZip.loadAsync(file).then((zip) => {
           for (let path in zip.files) {
             if (path.endsWith('/')) {

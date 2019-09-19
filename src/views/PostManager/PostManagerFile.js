@@ -1,3 +1,5 @@
+/* global FileSystemHelper, FunctionHelper, EventManager */
+
 let PostManagerFile = {
   PostManager: null,
   init: function (PostManager, callback) {
@@ -51,7 +53,7 @@ let PostManagerFile = {
    writePostBodyFile: function (id, content, callback) {
     let path = `/${id}/postBody.html`
     
-    FileSystemHelper.write(path, content, callback)
+    FileSystemHelper.writeFromString(path, content, callback)
     return this
   },
   /**

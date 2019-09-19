@@ -31,7 +31,7 @@
         <div class="field">
           <div class="fluid ui labeled icon button"
                v-on:click="triggerUploadPostBackup">
-            <i class="file icon"></i>
+            <i class="file upload icon"></i>
             {{ $t("Upload Backup") }}
           </div>
         </div>
@@ -49,7 +49,7 @@
           <div class="fluid ui labeled icon button"
                v-on:click="openImageReplacer"
                v-bind:class="{green: (filesystemImageCount > 0)}">
-            <i class="upload icon"></i>
+            <i class="image icon"></i>
             {{ $t("Upload Image") }}
           </div>
         </div>
