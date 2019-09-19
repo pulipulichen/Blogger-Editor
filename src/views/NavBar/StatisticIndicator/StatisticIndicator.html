@@ -1,22 +1,23 @@
 <div v-bind:class="name"
      ref="modal">
   
-  <span class="word-count">
+  <span class="word-count"
+        v-bind:title="titleWordCount">
+      <!-- {{ wordCountUnit }} -->
+      <i class="language icon"></i>
     {{ wordCount }}
-    <sub>
-      {{ wordCountUnit }}
-    </sub>
   </span>
 
-  <span class="image-count">
+  <span class="image-count"
+        v-bind:title="titleImageCount">
+      <!-- {{ imageCountUnit }} -->
+      <i class="image icon"></i>
     {{ imageCount }}
-    <sub>
-      {{ imageCountUnit }}
-    </sub>
   </span>
 
   <span class="time-spent-display"
         v-bind:title="timeSpentTitle">
+    <i class="hourglass icon"></i>
     {{ timeSpentDisplay }}
   </span>
 </div>

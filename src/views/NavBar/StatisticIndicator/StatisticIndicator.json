@@ -1,6 +1,14 @@
 {
   "en": {
-    "Title": "Example Title"
+    "Title": "Example Title",
+    "Total spent time is {hour} hours and {minute} minutes": "Total spent time is {hour} hours and {minute} minutes",
+    "Total spent time is {hour} hours and {minute} minute": "Total spent time is {hour} hours and {minute} minute",
+    "Total spent time is {hour} hour and {minute} minutes": "Total spent time is {hour} hour and {minute} minutes",
+    "Total spent time is {hour} hour and {minute} minute": "Total spent time is {hour} hour and {minute} minute",
+    "Total spent time is {hour} hours": "Total spent time is {hour} hours",
+    "Total spent time is {hour} hour": "Total spent time is {hour} hour",
+    "Total spent time is {minute} minutes": "Total spent time is {minute} minutes",
+    "Total spent time is {minute} minute": "Total spent time is {minute} minute"
   },
   "zh-TW": {
     "word": "字",

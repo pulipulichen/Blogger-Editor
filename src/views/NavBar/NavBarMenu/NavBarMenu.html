@@ -74,21 +74,22 @@
     <a class="item word-count"
        v-bind:class="{active: (mode === 'topbar'), topbar: (mode === 'topbar')}">
       
-      <span class="word-count">
+      <span class="word-count"
+            v-bind:title="titleWordCount">
+        <!-- {{ wordCountUnit }} -->
+        <i class="language icon"></i>
         {{ wordCount }}
-        <sub>
-          {{ wordCountUnit }}
-        </sub>
       </span>
       
-      <span class="image-count">
+      <span class="image-count"
+            v-bind:title="titleImageCount">
+        <!-- {{ imageCountUnit }} -->
+        <i class="image icon"></i>
         {{ imageCount }}
-        <sub>
-          {{ imageCountUnit }}
-        </sub>
       </span>
       
       <span class="time-spent-display">
+        <i class="hourglass icon"></i>
         {{ timeSpentDisplay }}
       </span>
       

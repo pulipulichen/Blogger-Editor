@@ -26,12 +26,18 @@ let config = {
         return this.$t('word')
       }
     },
+    titleWordCount: function () {
+      return this.wordCount + ' ' + this.wordCountUnit
+    },
     imageCountUnit: function () {
       if (this.wordCount > 1) {
         return this.$t('pictures')
       } else {
         return this.$t('picture')
       }
+    },
+    titleImageCount: function () {
+      return this.imageCount + ' ' + this.imageCountUnit
     },
     timeSpentDisplay: function () {
       return DayjsHelper.timeSpentDisplay(this.timeSpentSecond)
@@ -45,6 +51,7 @@ let config = {
         'hour': hour,
         'minute': minute
       }
+      let totalMinutes = hour * 60 + minute
       let key = 'Total spent time is {hour} hours and {minute} minutes'
       if (hour === 0) {
         if (minute > 1) {
@@ -72,7 +79,7 @@ let config = {
           }
         }
       }
-      return this.$t(key, data)
+      return this.$tc(key, totalMinutes, data)
     }
   },
   created: function () {

@@ -38,7 +38,13 @@ let NavBarMenu = {
     },
     timeSpentDisplay: function () {
       return DayjsHelper.timeSpentDisplay(this.timeSpentSecond)
-    }
+    },
+    titleWordCount: function () {
+      return this.wordCount + ' ' + this.wordCountUnit
+    },
+    titleImageCount: function () {
+      return this.imageCount + ' ' + this.imageCountUnit
+    },
   },
   methods: {
     getUI: function () {
