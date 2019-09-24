@@ -36,7 +36,8 @@ let SummerNoteCode = {
     postBody = postBody.clone()
 
     // 檢查第一個圖片有沒有height
-    if (postBody.find('img:first').hasAttr('width')) {
+    if (postBody.find('img:first').length > 0 
+            && postBody.find('img:first').attr('width') !== undefined) {
       alert('First image has width!')
     }
 

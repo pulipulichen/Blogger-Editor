@@ -1,5 +1,10 @@
 {
   "en-US": {
+    "There are still {0} image need to upload.": "There are still {0} image need to upload.",
+    "There are still {0} images need to upload.": "There are still {0} images need to upload.",
+    "Remain {sec} seconds": "Remain {sec} seconds",
+    "Remain {sec} second": "Remain {sec} second",
+    "Start countdown {sec} second": "Start countdown {sec} second"
   },
   "zh-TW": {
     "Image Replace": "Blogger圖片上傳",

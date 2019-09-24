@@ -212,7 +212,7 @@ let config = {
         
         if (lastHeadingType === undefined) {
           // 第一次
-          console.log(entry)
+          //console.log(entry)
           if (entry.type === 'heading') {
             this.entryHierarchy.push(entry)
             lastHeading = entry
