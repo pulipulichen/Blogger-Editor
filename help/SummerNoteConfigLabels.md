@@ -1,5 +1,7 @@
 # How to get labels from my Blogger?
 
+TODO
+
 ## For blog.pulipuli.info
 
 1. https://blog.pulipuli.info/p/labels.html
