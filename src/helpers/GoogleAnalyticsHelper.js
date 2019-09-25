@@ -28,9 +28,10 @@ let GoogleAnalyticsHelper = {
     }
     
     this.databaseCreateTable(() => {
-      if (this.trackingId.startsWith('UA-')) {
-        FunctionHelper.triggerCallback(callback)
-      }
+      //if (this.trackingId.startsWith('UA-')) {
+      //  FunctionHelper.triggerCallback(callback)
+      //}
+      FunctionHelper.triggerCallback(callback)
     })
   },
   databaseCreateTable: function (callback) {
@@ -95,7 +96,7 @@ let GoogleAnalyticsHelper = {
     }
     
     if (typeof(callback) !== 'function') {
-      return
+      return this
     }
     
     let sql = `select uuid, unix, category, action from eventTrack`
@@ -119,7 +120,7 @@ let GoogleAnalyticsHelper = {
     }
     
     if (typeof(callback) !== 'function') {
-      return
+      return this
     }
     
     let sql = `select uuid, unix, postId, category, action from eventTrack`
@@ -143,7 +144,7 @@ let GoogleAnalyticsHelper = {
     }
     
     if (typeof(callback) !== 'function') {
-      return
+      return this
     }
     
     let sql = `select DISTINCT unix from eventTrack`
@@ -187,6 +188,11 @@ let GoogleAnalyticsHelper = {
     this.init(() => {
       this.databaseInsert(eventCategory, eventAction)
       eventAction = this.filterEventValue(eventCategory, eventAction)
+      
+      if (typeof(this.trackingId) !== 'string' 
+              || this.trackingId.startsWith('UA-') === false) {
+        return false
+      }
       
       let data = {
         eventCategory: this.uuid,

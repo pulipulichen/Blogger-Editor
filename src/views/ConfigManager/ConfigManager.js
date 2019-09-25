@@ -80,7 +80,7 @@ let config = {
           // no just close
           this.close()
         })
-        return
+        return this
       }
       
       if (this.onCloseReload === true) {

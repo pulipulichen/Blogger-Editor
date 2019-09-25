@@ -16,7 +16,7 @@ let EventManager = {
       eventType.forEach(et => {
         this.on(obj, et, event)
       })
-      return
+      return this
     }
     
     this.init(obj)
@@ -40,7 +40,7 @@ let EventManager = {
       eventType.forEach(et => {
         this.trigger(obj, et)
       })
-      return
+      return this
     }
     
     this.init(obj)
