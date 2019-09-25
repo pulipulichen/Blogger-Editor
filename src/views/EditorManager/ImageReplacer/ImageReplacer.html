@@ -84,21 +84,16 @@
           {{ $t('Open a Blogger draft in Compose mode and empty content.') }}
         </div>
         <div class="ui form">
-          <div class="unstackable fields">
-            <div class="eleven wide field">
+            <div class="ui fluid positive button"
+                  v-if="!disableUploadImageDraft"
+                  v-on:click="openBloggerDraft">
+               {{ $t('Open Draft') }}  
+             </div>
               <div class="ui fluid button"
-                   v-bind:class="{disabled: disableUploadImageDraft, positive: (disableUploadImageDraft === false)}"
-                   v-on:click="openBloggerDraft">
-                {{ $t('Open Blogger Draft') }}
-              </div>
-            </div>
-            <div class="five wide field"
-                 v-on:click="openBloggerDraftSetting">
-              <div class="ui fluid button"
-                   v-bind:class="{positive: (disableUploadImageDraft)}">
+                   v-on:click="openBloggerDraftSetting"
+                   v-if="disableUploadImageDraft">
                 {{ $t('Setting') }}
-              </div>
-            </div>
+              </div> 
           </div>
         </div>
         <div class="ui image">
@@ -127,12 +122,31 @@
            v-bind:class="{hide: (currentStep !== 6)}">
         <div class="ui form">
           <div class="field">
-            <button type="button" 
-                    class="ui fluid button countdown-button"
-                    v-bind:class="{positive: (countdownSecond === 0)}"
-                    v-on:click="startCountdown">
-              {{ countdownButton }}
-            </button>
+            <div class="unstackable two fields">
+              <div class="field">
+                <button type="button" 
+                        class="ui fluid button"
+                        v-if="!disableUploadImageDraft"
+                        v-on:click="openBloggerDraft">
+                  {{ $t('Open Draft') }}
+                </button>
+                <button type="button" 
+                        class="ui red fluid button"
+                        v-if="disableUploadImageDraft"
+                        v-on:click="openBloggerDraftSetting">
+                  {{ $t('Open Setting') }}
+                </button>
+              </div>
+              <div class="field">
+                <button type="button" 
+                        class="ui fluid button countdown-button"
+                        v-bind:class="{positive: (countdownSecond === 0)}"
+                        v-on:click="startCountdown">
+                  {{ countdownButton }}
+                </button>
+              </div>
+            </div>
+                
           </div>
           <div class="field">
             <label v-on:dblclick="setDemoHTML">
@@ -255,10 +269,10 @@
       {{ $t('Next') }}
       <i class="chevron right icon"></i>
     </div>
-    <div class="ui green right labeled icon button" 
+    <div class="ui right labeled icon button" 
          v-on:click='replaceImage'
          v-if="currentStep === 6"
-         v-bind:class="{ disabled: disableReplaceImage }">
+         v-bind:class="{ disabled: disableReplaceImage, green: (disableReplaceImage === false) }">
       {{ $t('Next') }}
       <i class="chevron right icon"></i>
     </div>

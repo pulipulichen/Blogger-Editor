@@ -1,3 +1,5 @@
+/* global VueHelper */
+
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
 import {saveAs} from 'file-saver'
@@ -73,7 +75,8 @@ var config = {
     open: function () {
       // check post img
       this.validateHasFileSystemImage()
-      this.disableUploadImageDraft = $v.EditorManager.disableUploadImageDraft
+      //this.disableUploadImageDraft = $v.EditorManager.disableUploadImageDraft
+      this.disableUploadImageDraft = $v.PublishManager.disableOpenEditURL
       
       this.getUI().modal('show')
       this.getUI().find('.ui.checkbox').checkbox()
@@ -230,13 +233,21 @@ var config = {
       }
     },
     openBloggerDraft: function () {
-      $v.EditorManager.openBloggerDraft()
+      //$v.EditorManager.openBloggerDraft()
+      $v.PublishManager.popup('editURL')
+      return this
     },
     openBloggerDraftSetting: function () {
-      $v.EditorManager.open('#uploadImageDraft')
+      //$v.EditorManager.open('#uploadImageDraft')
+      this.close(() => {
+        $v.PublishManager.open()
+      })
+      
+      return this
     },
     persist() {
       VueHelper.persistLocalStorage(this, 'skipTutorial')
+      return this
     },
     setDemoHTML() {
       this.imageHTML = `<a href="http://2.bp.blogspot.com/-B-4VIGgfDOY/XN1rwagJWaI/AAAAAAAEPtA/Nwa532uvs_E0otP908b1SW4XWPrOrfRfACK4BGAYYCw/s1600/1-Webpack%2B_%25282%2529.png" imageanchor="1"><img border="0" height="180" src="https://2.bp.blogspot.com/-B-4VIGgfDOY/XN1rwagJWaI/AAAAAAAEPtA/Nwa532uvs_E0otP908b1SW4XWPrOrfRfACK4BGAYYCw/s320/1-Webpack%2B_%25282%2529.png" width="320" /></a><a href="http://2.bp.blogspot.com/-Ycwe6jm8OyM/XN1rwXpRgRI/AAAAAAAEPs4/NRb5VFc5dfIM6BjlBJ4LnAnOY2NTcfRGwCK4BGAYYCw/s1600/1-Webpack_2.png" imageanchor="1"><img border="0" height="180" src="https://2.bp.blogspot.com/-Ycwe6jm8OyM/XN1rwXpRgRI/AAAAAAAEPs4/NRb5VFc5dfIM6BjlBJ4LnAnOY2NTcfRGwCK4BGAYYCw/s320/1-Webpack_2.png" width="320" /></a>`

@@ -44,6 +44,9 @@ let config = {
       else {
         return true
       }
+    },
+    enableImageUpload: function () {
+      return (this.filesystemImageCount > 0 && this.disableOpenEditURL === false)
     }
   },
   created: function () {

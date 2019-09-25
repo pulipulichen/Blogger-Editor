@@ -44,25 +44,6 @@
         </div>
       </div>
       
-      <div class="two unstackable fields">
-        <div class="field">
-          <div class="fluid ui labeled icon button"
-               v-on:click="openImageReplacer"
-               v-bind:class="{green: (filesystemImageCount > 0)}">
-            <i class="image icon"></i>
-            {{ $t("Upload Image") }}
-          </div>
-        </div>
-        <div class="field">
-          <div class="fluid ui labeled icon button"
-               v-on:click="copyHTML"
-               v-bind:class="{green: (filesystemImageCount === 0)}">
-            <i class="copy icon"></i>
-            {{ $t("Copy HTML") }}
-          </div>
-        </div>
-      </div>
-
       <div class="fields">
         <div class="ten wide field">
           <label>
@@ -131,6 +112,26 @@
                   v-on:click="popup('editURL')">
             {{ $t("Open") }}
           </button>
+        </div>
+      </div>
+      
+      
+      <div class="two unstackable fields">
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               v-on:click="openImageReplacer"
+               v-bind:class="{green: enableImageUpload, disabled: !enableImageUpload}">
+            <i class="image icon"></i>
+            {{ $t("Upload Image") }}
+          </div>
+        </div>
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               v-on:click="copyHTML"
+               v-bind:class="{green: (filesystemImageCount === 0)}">
+            <i class="copy icon"></i>
+            {{ $t("Copy HTML") }}
+          </div>
         </div>
       </div>
 
