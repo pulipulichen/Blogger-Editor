@@ -76,44 +76,6 @@
               </div>
             </div>
             
-            <div class="field">
-              <label for="uploadImageDraft">
-                {{ $t('Upload Image Draft URL') }}
-              </label>
-              
-              <div class="ui action input">
-                <input type="url" 
-                       name="uploadImageDraft" 
-                       onfocus="this.select()"
-                       id="uploadImageDraft"
-                       v-model="uploadImageDraft"
-                       v-on:change="validateUploadImageDrarfUrl"
-                       placeholder="https://www.blogger.com/blogger.g?blogID=..." />
-                <button type="button" 
-                        class="ui button"
-                        v-bind:class="{ disabled: disableUploadImageDraft }"
-                        v-on:click="openBloggerDraft">
-                  {{ $t('Open Draft') }}
-                </button>
-              </div>
-            </div>
-            
-            <div class="unstackable two fields">
-              <div class="field">
-                <div class="ui fluid button"
-                   v-on:click="openBloggerConsole">
-                  {{ $t('Blogger Console') }}
-                </div>
-              </div>
-              <div class="field">
-                <div v-bind:class="{ disabled: disableUploadImageDraft }"
-                   class="ui fluid button"
-                   v-on:click="openImageReplacer">
-                  {{ $t('Replace Images') }}
-                </div>
-              </div>
-            </div>
-
             <!-- --------------------------- -->
 
             <div class="field">
@@ -203,7 +165,7 @@
             
           </div> <!-- data-tab="labels" -->
           
-          <!-- -------------------------------------- -->
+          <!-- ===================================== -->
           
           <!--
           <div class="ui bottom attached tab segment form" 

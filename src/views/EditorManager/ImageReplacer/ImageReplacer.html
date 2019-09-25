@@ -16,7 +16,7 @@
         </div>
       </div>
       
-      <!-- -------------------------------->
+      <!-- ======================================== -->
       
       <div class="step step-1"
            v-bind:class="{hide: (currentStep !== 1)}">
@@ -64,7 +64,7 @@
 
       </div>
       
-      <!-- ---------------------- -->
+      <!-- ======================================== -->
       
       <div class="step step-2"
            v-bind:class="{hide: (currentStep !== 2)}">
@@ -84,22 +84,29 @@
           {{ $t('Open a Blogger draft in Compose mode and empty content.') }}
         </div>
         <div class="ui form">
+          <div class="field">
             <div class="ui fluid positive button"
-                  v-if="!disableUploadImageDraft"
-                  v-on:click="openBloggerDraft">
-               {{ $t('Open Draft') }}  
-             </div>
-              <div class="ui fluid button"
-                   v-on:click="openBloggerDraftSetting"
-                   v-if="disableUploadImageDraft">
-                {{ $t('Setting') }}
-              </div> 
+                 v-if="!disableUploadImageDraft"
+                 v-on:click="openBloggerDraft">
+              {{ $t('Open Draft') }}  
+            </div>
+            <div class="ui fluid button"
+                 v-on:click="openBloggerDraftSetting"
+                 v-if="disableUploadImageDraft">
+              {{ $t('Setting') }}
+            </div>
           </div>
+          <div class="field">
+            <div class="ui image">
+              <img src="static/ImageReplacer/open-draft.png" />
+            </div>
+          </div>  
         </div>
-        <div class="ui image">
-          <img src="static/ImageReplacer/open-draft.png" />
-        </div>
+          
       </div>
+    
+      <!-- ============================================ -->
+    
       <div class="step step-4"
            v-bind:class="{hide: (currentStep !== 4)}">
         <div class="ui message">
@@ -109,6 +116,9 @@
           <img src="static/ImageReplacer/image-uploaded.png" />
         </div>
       </div>
+    
+      <!-- ============================================ -->
+    
       <div class="step step-5"
            v-bind:class="{hide: (currentStep !== 5)}">
         <div class="ui message">
@@ -118,6 +128,9 @@
           <img src="static/ImageReplacer/html-code.png" />
         </div>
       </div>
+      
+      <!-- ============================================ -->
+      
       <div class="step step-6"
            v-bind:class="{hide: (currentStep !== 6)}">
         <div class="ui form">
@@ -131,7 +144,7 @@
                   {{ $t('Open Draft') }}
                 </button>
                 <button type="button" 
-                        class="ui red fluid button"
+                        class="ui fluid button"
                         v-if="disableUploadImageDraft"
                         v-on:click="openBloggerDraftSetting">
                   {{ $t('Open Setting') }}
@@ -159,6 +172,9 @@
           </div>
         </div>
       </div>
+    
+      <!-- ============================================ -->
+    
       <div class="step step-7"
            v-bind:class="{hide: (currentStep !== 7)}">
         
@@ -252,9 +268,9 @@
 
       </div>
     </div>
-  </div>
+  </div> <!-- <div class="content"> -->
   
-  <!-- -------------------------- -->
+  <!-- ======================================== -->
   
   <div class="actions">
     <div class="ui labeled icon button"
