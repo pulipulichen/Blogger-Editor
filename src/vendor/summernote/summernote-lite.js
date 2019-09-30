@@ -1100,7 +1100,7 @@
           iframe: {
             title: "Title (optional)",
             url: "URL",
-            urlOrIframeCode: "URL or iframe code <iframe></iframe>",
+            urlOrIframeCode: "URL or iframe code &lt;iframe&gt;&lt;/iframe&gt;",
             insert: "Insert",
             newWindow: "Open in new window",
             popupWindow: "Open in popup window",
