@@ -2,17 +2,33 @@
      ref="modal">
   
   <span class="word-count"
+        v-if="wordCount > 0"
         v-bind:title="titleWordCount">
       <!-- {{ wordCountUnit }} -->
       <i class="language icon"></i>
     {{ wordCount }}
   </span>
-
+  
   <span class="image-count"
+        v-if="imageCount > 0"
         v-bind:title="titleImageCount">
       <!-- {{ imageCountUnit }} -->
       <i class="image icon"></i>
     {{ imageCount }}
+  </span>
+
+  <span class="table-count"
+        v-if="tableCount > 0"
+        v-bind:title="titleTableCount">
+      <i class="table icon"></i>
+    {{ tableCount }}
+  </span>
+  
+  <span class="iframe-count"
+        v-if="iframeCount > 0"
+        v-bind:title="titleIframeCount">
+      <i class="paperclip icon"></i>
+    {{ iframeCount }}
   </span>
 
   <span class="time-spent-display"

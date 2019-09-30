@@ -1,6 +1,5 @@
 {
   "en": {
-    "Title": "Example Title",
     "Total spent time is {hour} hours and {minute} minutes": "Total spent time is {hour} hours and {minute} minutes",
     "Total spent time is {hour} hours and {minute} minute": "Total spent time is {hour} hours and {minute} minute",
     "Total spent time is {hour} hour and {minute} minutes": "Total spent time is {hour} hour and {minute} minutes",
@@ -15,6 +14,10 @@
     "words": "字",
     "picture": "圖",
     "pictures": "圖",
+    "table": "表格",
+    "tables": "表格",
+    "iframe": "內嵌網頁",
+    "iframes": "內嵌網頁",
     "Total spent time is {hour} hours and {minute} minutes": "現在總共花費了{hour}小時{minute}分鐘",
     "Total spent time is {hour} hours and {minute} minute": "現在總共花費了{hour}小時{minute}分鐘",
     "Total spent time is {hour} hour and {minute} minutes": "現在總共花費了{hour}小時{minute}分鐘",

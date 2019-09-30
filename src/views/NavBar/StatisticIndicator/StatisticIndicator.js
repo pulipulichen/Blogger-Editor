@@ -1,3 +1,5 @@
+/* global DayjsHelper, EventManager, FunctionHelper */
+
 let config = {
   data: function () {
     return {
@@ -5,6 +7,8 @@ let config = {
       ui: undefined,
       wordCount: 0,
       imageCount: 0,
+      tableCount: 0,
+      iframeCount: 0,
       timeSpentSecond: 0,
       lastEditTimestamp: 0,
       updateTimeSpentLock: false,
@@ -30,14 +34,34 @@ let config = {
       return this.wordCount + ' ' + this.wordCountUnit
     },
     imageCountUnit: function () {
-      if (this.wordCount > 1) {
+      if (this.imageCount > 1) {
         return this.$t('pictures')
       } else {
         return this.$t('picture')
       }
     },
+    tableCountUnit: function () {
+      if (this.tableCount > 1) {
+        return this.$t('tables')
+      } else {
+        return this.$t('table')
+      }
+    },
+    iframeCountUnit: function () {
+      if (this.iframeCount > 1) {
+        return this.$t('iframes')
+      } else {
+        return this.$t('iframe')
+      }
+    },
     titleImageCount: function () {
       return this.imageCount + ' ' + this.imageCountUnit
+    },
+    titleTableCount: function () {
+      return this.tableCount + ' ' + this.tableCountUnit
+    },
+    titleIframeCount: function () {
+      return this.iframeCount + ' ' + this.iframeCountUnit
     },
     timeSpentDisplay: function () {
       return DayjsHelper.timeSpentDisplay(this.timeSpentSecond)
@@ -124,10 +148,9 @@ let config = {
     updateWordImageCount: function (FieldPostBody) {
       //console.log('aaa')
       this.wordCount = FieldPostBody.getTextCount()
-      //console.log(this.wordCount)
-      //
-
       this.imageCount = FieldPostBody.countImage()
+      this.tableCount = FieldPostBody.countTable()
+      this.iframeCount = FieldPostBody.countIframe()
     },
     updateTimeSpent: function () {
       if (InitHelper.ready === false) {

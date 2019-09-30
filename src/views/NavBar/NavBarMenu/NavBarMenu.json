@@ -1,6 +1,14 @@
 {
   "en": {
-    "Config": "Config"
+    "Config": "Config",
+    "Total spent time is {hour} hours and {minute} minutes": "Total spent time is {hour} hours and {minute} minutes",
+    "Total spent time is {hour} hours and {minute} minute": "Total spent time is {hour} hours and {minute} minute",
+    "Total spent time is {hour} hour and {minute} minutes": "Total spent time is {hour} hour and {minute} minutes",
+    "Total spent time is {hour} hour and {minute} minute": "Total spent time is {hour} hour and {minute} minute",
+    "Total spent time is {hour} hours": "Total spent time is {hour} hours",
+    "Total spent time is {hour} hour": "Total spent time is {hour} hour",
+    "Total spent time is {minute} minutes": "Total spent time is {minute} minutes",
+    "Total spent time is {minute} minute": "Total spent time is {minute} minute"
   },
   "zh-TW": {
     "Publish": "發佈",
@@ -28,6 +36,14 @@
     "Copy Code": "複製程式碼",
     "Resize Original": "圖片設為原始尺寸",
     "Resize Thumbnail": "圖片設為縮圖尺寸",
-    "Reload Page": "重新讀取"
+    "Reload Page": "重新讀取",
+    "Total spent time is {hour} hours and {minute} minutes": "現在總共花費了{hour}小時{minute}分鐘",
+    "Total spent time is {hour} hours and {minute} minute": "現在總共花費了{hour}小時{minute}分鐘",
+    "Total spent time is {hour} hour and {minute} minutes": "現在總共花費了{hour}小時{minute}分鐘",
+    "Total spent time is {hour} hour and {minute} minute": "現在總共花費了{hour}小時{minute}分鐘",
+    "Total spent time is {hour} hours": "現在總共花費了{hour}小時",
+    "Total spent time is {hour} hour": "現在總共花費了{hour}小時",
+    "Total spent time is {minute} minutes": "現在總共花費了{minute}分鐘",
+    "Total spent time is {minute} minute": "現在總共花費了{minute}分鐘"
   }
 }

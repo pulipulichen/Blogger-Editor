@@ -1,3 +1,5 @@
+/* global DayjsHelper, GoogleAnalyticsHelper, DelayExecHelper, EventManager, WindowHelper */
+
 import SummerNoteImage from './../../EditorManager/SummerNote/SummerNoteImage.js'
 import SummerNoteCode from './../../EditorManager/SummerNote/SummerNoteCode.js'
 
@@ -8,7 +10,9 @@ let NavBarMenu = {
       name: 'NavBarMenu',
       ui: undefined,
       wordCount: 0,
-      imageCount: 56,
+      imageCount: 0,
+      tableCount: 0,
+      iframeCount: 0,
       //timeSpent: 130320,
       timeSpentSecond: 0,
       lastEditTimestamp: 0,
@@ -29,11 +33,25 @@ let NavBarMenu = {
       }
     },
     imageCountUnit: function () {
-      if (this.wordCount > 1) {
+      if (this.imageCount > 1) {
         return this.$t('pictures')
       }
       else {
         return this.$t('picture')
+      }
+    },
+    tableCountUnit: function () {
+      if (this.tableCount > 1) {
+        return this.$t('tables')
+      } else {
+        return this.$t('table')
+      }
+    },
+    iframeCountUnit: function () {
+      if (this.iframeCount > 1) {
+        return this.$t('iframes')
+      } else {
+        return this.$t('iframe')
       }
     },
     timeSpentDisplay: function () {
@@ -45,6 +63,51 @@ let NavBarMenu = {
     titleImageCount: function () {
       return this.imageCount + ' ' + this.imageCountUnit
     },
+    titleTableCount: function () {
+      return this.tableCount + ' ' + this.tableCountUnit
+    },
+    titleIframeCount: function () {
+      return this.iframeCount + ' ' + this.iframeCountUnit
+    },
+    timeSpentTitle: function () {
+      let display = DayjsHelper.timeSpentDisplay(this.timeSpentSecond).split(':')
+      
+      let hour = parseInt(display[0], 10)
+      let minute = parseInt(display[1], 10)
+      let data = {
+        'hour': hour,
+        'minute': minute
+      }
+      let totalMinutes = hour * 60 + minute
+      let key = 'Total spent time is {hour} hours and {minute} minutes'
+      if (hour === 0) {
+        if (minute > 1) {
+          key = 'Total spent time is {minute} minutes'
+        }
+        else {
+          key = 'Total spent time is {minute} minute'
+        }
+      }
+      else {
+        if (hour > 1) {
+          if (minute > 1) {
+            key = 'Total spent time is {hour} hours and {minute} minutes'
+          }
+          else {
+            key = 'Total spent time is {hour} hours and {minute} minute'
+          }
+        }
+        else {
+          if (minute > 1) {
+            key = 'Total spent time is {hour} hour and {minute} minutes'
+          }
+          else {
+            key = 'Total spent time is {hour} hour and {minute} minute'
+          }
+        }
+      }
+      return this.$tc(key, totalMinutes, data)
+    }
   },
   methods: {
     getUI: function () {
@@ -173,14 +236,17 @@ let NavBarMenu = {
     init: function (callback) {
       EventManager.on($v.EditorManager.FieldPostBody, ['set', 'change'], (FieldPostBody) => {
         //console.log('aaa')
-        let text = FieldPostBody.getText()
-        text = text.replace(/[^\x20-\x7E]/gmi, "")
-        text = text.split(' ').join('')
-        this.wordCount = text.length
+        //let text = FieldPostBody.getText()
+        //text = text.replace(/[^\x20-\x7E]/gmi, "")
+        //text = text.split(' ').join('')
+        this.wordCount = FieldPostBody.getTextCount()
         //console.log(this.wordCount)
         //
         
         this.imageCount = FieldPostBody.countImage()
+        
+        this.tableCount = FieldPostBody.countTable()
+        this.iframeCount = FieldPostBody.countIframe()
         
         this.updateTimeSpent()
       })

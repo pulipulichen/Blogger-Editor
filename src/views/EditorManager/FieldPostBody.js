@@ -1,3 +1,5 @@
+/* global FunctionHelper, ConfigHelper, FileSystemHelper */
+
 import SummerNoteConfig from './SummerNote/SummerNoteConfig.js'
 import FieldPostBodyCache from './FieldPostBodyCache.js'
 
@@ -275,10 +277,18 @@ let FieldPostBody = {
     let postBody = this.getElement()
     return postBody.find('img[src]').length
   },
+  countTable: function () {
+    let postBody = this.getElement()
+    return postBody.find('table').length
+  },
+  countIframe: function () {
+    let postBody = this.getElement()
+    return postBody.find('iframe[src]').length
+  },
   clearFileSystemAsset: function () {
     if (this.hasFileSystemImage()) {
       console.log('Filesystem Images are still used. You cannot remove them.')
-      return
+      return false
     }
 
     let id = $v.PostManager.editingPostId
