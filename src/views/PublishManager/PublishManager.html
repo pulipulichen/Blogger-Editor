@@ -44,6 +44,23 @@
         </div>
       </div>
       
+      <div class="field">
+        <label>
+          {{ $t("Blogger Console") }}
+        </label>
+        <div class="ui action input">
+          <input type="url" 
+                 v-model="bloggerConsoleURL"
+                 v-on:change="persist">
+          <button class="ui button"
+                  v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
+                  v-on:click="popup('bloggerConsoleURL')">
+            {{ $t("Open") }}
+          </button>
+        </div>
+      </div>
+
+      
       <div class="fields">
         <div class="ten wide field">
           <label>
@@ -81,23 +98,6 @@
           </div>
         </div>
       </div>
-
-      <div class="field">
-        <label>
-          {{ $t("Blogger Console") }}
-        </label>
-        <div class="ui action input">
-          <input type="url" 
-                 v-model="bloggerConsoleURL"
-                 v-on:change="persist">
-          <button class="ui button"
-                  v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
-                  v-on:click="popup('bloggerConsoleURL')">
-            {{ $t("Open") }}
-          </button>
-        </div>
-      </div>
-
 
       <div class="field">
         <label>
