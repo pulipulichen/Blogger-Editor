@@ -19,7 +19,8 @@
 
       <input type="file" name="uploadPosts"
              accept=".zip"
-             v-on:change="uploadPosts"/>
+             v-on:change="uploadPosts"
+             ondragstart="return false;" />
       
       <div class="three unstackable fields">
         <div class="field">
@@ -52,7 +53,8 @@
         <div class="ui action input">
           <input type="url" 
                  v-model="bloggerConsoleURL"
-                 v-on:change="persist">
+                 v-on:change="persist"
+                  ondragstart="return false;">
           <button class="ui button"
                   v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
                   v-on:click="popup('bloggerConsoleURL')">
@@ -71,11 +73,13 @@
             <input type="url" 
                    onfocus="this.select()"
                    v-model="postTitle"
-                   v-on:change="changePostMetadata" />
+                   v-on:change="changePostMetadata"
+                   ondragstart="return false;" />
             <button type="button" 
                     class="icon ui button"
                     v-bind:class="{disabled: (postTitle.trim() === '')}"
-                    v-on:click="copyInput">
+                    v-on:click="copyInput"
+                    ondragstart="return false;">
               <i class="copy icon"></i>
             </button>
           </div>
@@ -89,7 +93,8 @@
                    onfocus="this.select()"
                    id="PublishManager.postLabels"
                    v-model="postLabels"
-                   v-on:change="changePostMetadata" />
+                   v-on:change="changePostMetadata" 
+                   ondragstart="return false;"/>
             <button type="button" 
                     class="icon ui button"
                     v-bind:class="{disabled: (postLabels.trim() === '')}"
@@ -107,7 +112,8 @@
         <div class="ui action input">
           <input type="url" 
                  v-model="editURL"
-                 v-on:change="persistPost('editURL')">
+                 v-on:change="persistPost('editURL')"
+                 ondragstart="return false;">
           <button class="ui button"
                   v-bind:class="{disabled: disableOpenEditURL, green: (disableOpenEditURL === false && disableOpenPublicURL)}"
                   v-on:click="popup('editURL')">
@@ -142,7 +148,8 @@
         <div class="ui action input">
           <input type="url" 
                  v-model="publicURL"
-                 v-on:change="persistPost('publicURL')">
+                 v-on:change="persistPost('publicURL')"
+                 ondragstart="return false;" />
           <button class="ui button"
                   v-bind:class="{disabled: disableOpenPublicURL, green: disableOpenPublicURL === false}"
                   v-on:click="popup('publicURL')">
