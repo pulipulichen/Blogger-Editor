@@ -179,6 +179,11 @@ let config = {
       //console.log('afterUploadPost')
       //console.log(post)
       
+      if (typeof(post) !== 'object') {
+        console.log('This is not a valided post data.')
+        return false
+      }
+      
       this.postTitle = post.title
       this.postLabels = post.labels
       this.editURL = post.editURL

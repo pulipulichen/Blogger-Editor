@@ -1,3 +1,5 @@
+/* global ConfigHelper, FunctionHelper, DelayExecHelper */
+
 import SummerNoteConfig from './SummerNote/SummerNoteConfig.js'
 
 let FieldPostLabels = {
@@ -124,7 +126,7 @@ let FieldPostLabels = {
       }
       
       if (doAdd === false) {
-        return
+        return false
       }
 
       if (labels.trim() !== '') {
@@ -149,6 +151,11 @@ let FieldPostLabels = {
   },
   onPostLabelsChange: function (contents) {
     let fieldName = 'labels'
+    
+    console.log(contents)
+    if (Array.isArray(contents)) {
+      contents = contents.join(', ')
+    }
     
     contents = contents.trim()
     while (contents.endsWith('&nbsp;')) {
