@@ -18,7 +18,7 @@ let PostManagerBackup = {
     if (typeof(title) === 'string' && title.trim() !== '') {
       title = title.trim() + '-'
     }
-    let folderName = `blogger-editor-post-${id}-${title}${nowFormat}`
+    let folderName = `post-${id}-${title}${nowFormat}`
     this.createBackupZip(post, postBody, (zip) => {
       saveAs(zip, `${folderName}.zip`)
       $v.PageLoader.close()
@@ -45,7 +45,11 @@ let PostManagerBackup = {
 
       let zip = new JSZip()
       let nowFormat = DayjsHelper.nowMMDDFormat()
-      let folderName = `blogger-editor-post-${id}-${nowFormat}`
+      let title = this.getPostTitleAbstract(post.title)
+      if (typeof(title) === 'string' && title.trim() !== '') {
+      title = title.trim() + '-'
+    }
+      let folderName = `post-${id}-${title}${nowFormat}`
       let folder = zip.folder(folderName);
 
       //let thumb = post.thumbnail
@@ -55,7 +59,8 @@ let PostManagerBackup = {
       }
       //console.log(post.thumbnail)
       //return
-      folder.file('metadata.json', JSON.stringify(post))
+      let metadata = JSON.stringify(post, null, 2)
+      folder.file('metadata.json', metadata)
 
       if (postBody === undefined) {
         postBody = ''
@@ -107,7 +112,7 @@ let PostManagerBackup = {
     let loop = (i) => {
       if (i < posts.length) {
         let id = posts[i].id
-        let folderName = `blogger-editor-post-${id}`
+        let folderName = `post-${id}`
         this.createBackupZip(posts[i], (postZip) => {
           zip.file(`${folderName}.zip`, postZip)
 
@@ -117,7 +122,8 @@ let PostManagerBackup = {
       } else {
         zip.generateAsync({type: "blob"}).then((content) => {
           // see FileSaver.js
-          saveAs(content, `blogger-editor-posts.zip`)
+          let nowFormat = DayjsHelper.nowMMDDFormat()
+          saveAs(content, `posts-${nowFormat}.zip`)
           $v.PageLoader.close()
           FunctionHelper.triggerCallback(callback)
         })
@@ -169,7 +175,7 @@ let PostManagerBackup = {
             }
 
             //console.log(['readPostsZip', path])
-            if (path.startsWith('blogger-editor-post-')
+            if (path.startsWith('post-')
                     && path.endsWith('.zip')) {
               this.readAllPostsZip(zip, next)
             } else {
