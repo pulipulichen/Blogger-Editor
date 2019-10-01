@@ -63,7 +63,7 @@ let FieldPostBody = {
   },
   getSelectTarget: function () {
     if (this.debug.disableSummerNode === true) {
-      return
+      return false
     }
     
     let target = this.get().summernote('restoreTarget')
@@ -82,7 +82,7 @@ let FieldPostBody = {
           return $(target.sc).offset()
         }
         catch (e) {
-          return
+          return false
         }
       }
       return node.offset()
@@ -90,7 +90,7 @@ let FieldPostBody = {
   },
   getSelectText: function () {
     if (this.debug.disableSummerNode === true) {
-      return
+      return false
     }
     
     let range = this.get().summernote('createRange')

@@ -15,7 +15,10 @@ let PostManagerBackup = {
     $v.PageLoader.open()
     let nowFormat = DayjsHelper.nowMMDDFormat()
     let title = this.getPostTitleAbstract(post.title)
-    let folderName = `blogger-editor-post-${id}-${title}-${nowFormat}`
+    if (typeof(title) === 'string' && title.trim() !== '') {
+      title = title.trim() + '-'
+    }
+    let folderName = `blogger-editor-post-${id}-${title}${nowFormat}`
     this.createBackupZip(post, postBody, (zip) => {
       saveAs(zip, `${folderName}.zip`)
       $v.PageLoader.close()
