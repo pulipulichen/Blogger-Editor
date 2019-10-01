@@ -152,7 +152,7 @@ let FieldPostLabels = {
   onPostLabelsChange: function (contents) {
     let fieldName = 'labels'
     
-    console.log(contents)
+    //console.log(contents)
     if (Array.isArray(contents)) {
       contents = contents.join(', ')
     }
