@@ -22,7 +22,7 @@ let PostManagerFile = {
     FileSystemHelper.removeDir(dirPath, callback)
   },
   writePostBody: function (id, postBody, callback) {
-    let path = `/${id}/postBody.html`
+    let path = `/${id}/article.html`
     FileSystemHelper.writeFromString(path, postBody, () => {
       FunctionHelper.triggerCallback(callback)
     })
@@ -33,7 +33,7 @@ let PostManagerFile = {
       id = undefined
     }
 
-    let path = `/${id}/postBody.html`
+    let path = `/${id}/article.html`
     FileSystemHelper.read(path, (postBody) => {
       if (postBody === undefined) {
         postBody = ''
@@ -51,7 +51,7 @@ let PostManagerFile = {
    * @returns {PostManagerFile}
    */
    writePostBodyFile: function (id, content, callback) {
-    let path = `/${id}/postBody.html`
+    let path = `/${id}/article.html`
     
     FileSystemHelper.writeFromString(path, content, callback)
     return this
@@ -65,7 +65,7 @@ let PostManagerFile = {
    * @returns {PostManagerFile}
    */
   createPostBodyFile: function (id, content, callback) {
-    let path = `/${id}/postBody.html`
+    let path = `/${id}/article.html`
     
     FileSystemHelper.isExists(path, (isExists) => {
       if (isExists === true) {

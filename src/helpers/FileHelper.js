@@ -1,3 +1,5 @@
+/* global FunctionHelper */
+
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
 import {saveAs} from 'file-saver'
@@ -60,7 +62,7 @@ let FileHelper = {
         let key = []
         zip.forEach((relativePath) => {
           if (relativePath.endsWith('/')) {
-            return
+            return false
           }
           key.push(relativePath)
         })
@@ -129,7 +131,7 @@ let FileHelper = {
   },
   saveCSV: function (content, filename) {
     if (Array.isArray(content) === false || content.length === 0) {
-      return
+      return false
     }
     
     let fieldNameList = []

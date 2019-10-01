@@ -1,3 +1,5 @@
+/* global VueHelper, EventManager, FunctionHelper, ConfigHelper, WindowHelper, CopyPasteHelper */
+
 import SummerNoteCode from './../EditorManager/SummerNote/SummerNoteCode.js'
 
 let config = {
@@ -133,6 +135,7 @@ let config = {
       
       let fieldPostLabels = $v.EditorManager.FieldPostLabels
       fieldPostLabels.set(this.postLabels)
+      return this
     },
     copyInput: function (event) {
       //console.log(event)
@@ -140,9 +143,11 @@ let config = {
       let text = $(button).parents('.ui.input:first').find('input').val()
       //console.log(text)
       CopyPasteHelper.copyPlainText(text)
+      return this
     },
     copyHTML: function () {
       SummerNoteCode.CopyCodeClick()
+      return this
     },
     openBackupPage: function () {
       let config = $v.ConfigManager

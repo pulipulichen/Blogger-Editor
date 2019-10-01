@@ -1,4 +1,8 @@
+/* global SemanticUIHelper, BloggerImageHelper, CopyPasteHelper, GoogleAnalyticsHelper */
+
 import SummerNoteHelper from './SummerNoteHelper.js'
+require('./../../../vendor/beautify/beautify-html.js')
+//console.log(html_beautify)
 
 let SummerNoteCode = {
   insertMore: function ($t, context, doRender) {
@@ -66,6 +70,13 @@ let SummerNoteCode = {
     if (code.indexOf('<!--more-->') === -1) {
       alert($t('<!--more--> is not found'))
     }
+    
+    // Beautiful HTML
+    code = html_beautify(code, {
+      "indent_size": 2,
+      "indent_char": " ",
+      "indent_with_tabs": false
+    })
     
     CopyPasteHelper.copyPlainText(code)
     

@@ -1,4 +1,4 @@
-/* global FunctionHelper */
+/* global FunctionHelper, DayjsHelper, GoogleAnalyticsHelper, FileHelper, FileSystemHelper */
 
 import JSZip from 'jszip';
 import JSZipUtils from 'jszip-utils';
@@ -52,7 +52,7 @@ let PostManagerBackup = {
       }
       //console.log(post.thumbnail)
       //return
-      folder.file('post.json', JSON.stringify(post))
+      folder.file('metadata.json', JSON.stringify(post))
 
       if (postBody === undefined) {
         postBody = ''
@@ -60,7 +60,7 @@ let PostManagerBackup = {
 
       this.addFileSystemFiles(folder, postBody, () => {
         postBody = FieldPostBody.filterImageListToRelative(postBody)
-        folder.file('postBody.html', postBody)
+        folder.file('article.html', postBody)
         zip.generateAsync({type: "blob"}).then((content) => {
           // see FileSaver.js
           //saveAs(content, `blogger-editor-posts.zip`)
@@ -270,7 +270,7 @@ let PostManagerBackup = {
         let zipEntry = zip.files[path]
 
         if (path.indexOf('/assets/') === -1) {
-          if (path.endsWith('/post.json')) {
+          if (path.endsWith('/metadata.json')) {
             zipEntry.async('string').then((content) => {
               post = JSON.parse(content)
               post.id = postId
@@ -282,7 +282,7 @@ let PostManagerBackup = {
               //console.log(['thumb', thumb])
               next()
             })
-          } else if (path.endsWith('/postBody.html')) {
+          } else if (path.endsWith('/article.html')) {
             zipEntry.async('string').then((content) => {
               //console.log(['readSinglePostZip 1', content])
               content = FieldPostBody.filterImageListToFileSystem(content, postId)

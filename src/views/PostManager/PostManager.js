@@ -1,4 +1,4 @@
-/* global FunctionHelper, EventManager */
+/* global FunctionHelper, EventManager, FileSystemHelper, VueHelper, DayjsHelper */
 
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'

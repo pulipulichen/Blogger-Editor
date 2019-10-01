@@ -1,7 +1,8 @@
-/* global FunctionHelper, ConfigHelper, FileSystemHelper */
+/* global FunctionHelper, ConfigHelper, FileSystemHelper, EventManager, GoogleAnalyticsHelper, DelayExecHelper, DayjsHelper, BloggerImageHelper, decodeURIComponent */
 
 import SummerNoteConfig from './SummerNote/SummerNoteConfig.js'
 import FieldPostBodyCache from './FieldPostBodyCache.js'
+require('./../../vendor/beautify/beautify-html.js')
 
 let FieldPostBody = {
   ui: null,
@@ -197,7 +198,9 @@ let FieldPostBody = {
       aTag.href = filterUrl(aTag.href)
     })
     
-    return postBody.html()
+    let html = postBody.html()
+    
+    return html
   },
   filterImageListToFileSystem: function (postBodyString, postId) {
     let postBody = $(`<div>${postBodyString}</div>`)
@@ -326,7 +329,7 @@ let FieldPostBody = {
     
     let postBody = this.getHTML()
     if (typeof(postBody) !== 'string' || postBody.trim() === '') {
-      return
+      return false
     }
     
     DelayExecHelper.backExec('FieldPostBody.cleanUnusedFileSystem', 3, () => {
