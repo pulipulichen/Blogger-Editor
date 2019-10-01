@@ -16,9 +16,9 @@ let PostManagerBackup = {
     let nowFormat = DayjsHelper.nowMMDDFormat()
     let title = this.getPostTitleAbstract(post.title)
     if (typeof(title) === 'string' && title.trim() !== '') {
-      title = title.trim() + '-'
+      title = '-' + title.trim()
     }
-    let folderName = `post-${id}-${title}${nowFormat}`
+    let folderName = `post-${nowFormat}-${id}${title}`
     this.createBackupZip(post, postBody, (zip) => {
       saveAs(zip, `${folderName}.zip`)
       $v.PageLoader.close()
@@ -47,9 +47,9 @@ let PostManagerBackup = {
       let nowFormat = DayjsHelper.nowMMDDFormat()
       let title = this.getPostTitleAbstract(post.title)
       if (typeof(title) === 'string' && title.trim() !== '') {
-      title = title.trim() + '-'
+      title =  '-' + title.trim()
     }
-      let folderName = `post-${id}-${title}${nowFormat}`
+      let folderName = `post-${nowFormat}-${id}${title}`
       let folder = zip.folder(folderName);
 
       //let thumb = post.thumbnail
