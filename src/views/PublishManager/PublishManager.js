@@ -184,10 +184,37 @@ let config = {
         return false
       }
       
-      this.postTitle = post.title
-      this.postLabels = post.labels
-      this.editURL = post.editURL
-      this.publicURL = post.publicURL
+      if (typeof(post.title) === 'string') {
+        this.postTitle = post.title
+      }
+      else {
+        this.postTitle = ''
+      }
+      
+      if (typeof(post.labels) === 'string') {
+        this.postLabels = post.labels
+      }
+      else if (Array.isArray(post.labels)) {
+        this.postLabels = post.labels.join(', ')
+      }
+      else {
+        this.postLabels = ''
+      }
+      
+      if (typeof(post.editURL) === 'string') {
+        this.editURL = post.editURL
+      }
+      else {
+        this.editURL = ''
+      }
+      
+      if (typeof(post.publicURL) === 'string') {
+        this.publicURL = post.publicURL
+      }
+      else {
+        this.publicURL = ''
+      }
+      
       this.resetUploadInput()
       this.close()
       return this

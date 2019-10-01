@@ -1,4 +1,4 @@
-/* global FunctionHelper, EventManager, FileSystemHelper, VueHelper, DayjsHelper */
+/* global FunctionHelper, EventManager, FileSystemHelper, VueHelper, DayjsHelper, GoogleAnalyticsHelper, WindowHelper */
 
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
@@ -280,7 +280,7 @@ let PostManager = {
       // https://stackoverflow.com/a/23921775/6645399
       //var first = "role";
       this.posts.sort( function (x,y) { 
-        return x.id == id ? -1 : y.id == id ? 1 : 0; 
+        return x.id === id ? -1 : y.id === id ? 1 : 0; 
       })
       
       //PostManager.editingPostId = parseInt(id, 10)
