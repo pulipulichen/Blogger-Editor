@@ -9760,7 +9760,7 @@ sel.addRange(range);
           this.context.invoke('editor.saveRange');
           this.showIframeDialog().then(function (iframeInfo) {
               _this.context.invoke('editor.restoreRange');
-              console.log(iframeInfo)
+              //console.log(iframeInfo)
               _this.context.invoke('editor.insertIframe', iframeInfo);
           }).fail(function () {
               _this.context.invoke('editor.restoreRange');
