@@ -40,7 +40,7 @@
         </a>
       </div>
       
-      <!-- ----------------------------------------------------------- -->
+      <!-- ====================================== -->
       
       <div class="ui bottom attached tab segment form" 
            v-bind:class="{active: (tab === 'interface')}"
@@ -146,6 +146,15 @@
            v-bind:class="{active: (tab === 'google-analytics')}"
            data-tab="google-analytics">
         
+        <div class="field">
+          <a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/UsageStatistics.md"
+             target="_blank">
+          <label>
+            {{ $t('How to use the usage statistic data?') }}
+          </label>
+          </a>
+        </div>
+        
         <div class="inline field">
             <label for="eventTrackDayLimit">
               {{ $t('Download in') }}
@@ -172,6 +181,10 @@
               <button type="button" class="ui button" 
                       v-on:click="downloadEventTrackStrengthData">
                         {{ $t('Strength') }}
+              </button>
+              <button type="button" class="ui button" 
+                      v-on:click="downloadEventTrackModificationData">
+                        {{ $t('Modification') }}
               </button>
               <button type="button" class="ui button" 
                       v-on:click="clearEventTrackData">

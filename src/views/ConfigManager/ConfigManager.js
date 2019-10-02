@@ -278,7 +278,6 @@ let config = {
       })
       return this
     },
-    
     downloadEventTrackStrengthData: function (e) {
       let dayLimit = this.eventTrackDayLimit
       if (dayLimit <= 0) {
@@ -316,6 +315,48 @@ let config = {
         //console.log(aggrData)
         FileHelper.saveCSV(aggrData, filename)
       })
+      return this
+    },
+    downloadEventTrackModificationData: function (e) {
+      window.alert('TODO #278')
+      /*
+      let dayLimit = this.eventTrackDayLimit
+      if (dayLimit <= 0) {
+        dayLimit = undefined
+      }
+      GoogleAnalyticsHelper.databaseSelectStrength(this.eventTrackDayLimit, (data) => {
+        let aggrData = []
+        let lastTimestamp
+        let lastData
+        for (let i = 0; i < data.length; i++) {
+          let timestamp = DayjsHelper.format(data[i].unix, 'YYYY/MM/DD HH:')
+          let mm = DayjsHelper.format(data[i].unix, 'mm')
+          mm = Math.floor(parseInt(mm, 10) / 10) * 10
+          if (mm < 10) {
+            mm = '0' + mm
+          }
+          timestamp = timestamp + mm
+          if (lastTimestamp !== timestamp) {
+            if (lastData !== undefined) {
+              aggrData.push(lastData)
+            }
+            
+            lastData = {
+              timestamp: timestamp,
+              strength: 1
+            }
+            lastTimestamp = timestamp
+          }
+          else {
+            lastData.strength++
+          }
+        }
+        
+        let filename = this.buildEventTrackDownloadFilename('strength', dayLimit)
+        //console.log(aggrData)
+        FileHelper.saveCSV(aggrData, filename)
+      })
+       */
       return this
     },
     buildEventTrackDownloadFilename: function (basename, dayLimit) {
