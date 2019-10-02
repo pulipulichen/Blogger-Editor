@@ -83,29 +83,42 @@
                      v-on:start="drag=true" 
                      v-on:end="drag=false"
                      v-on:change="onSettingChange">
-              <div v-for="link in links" 
+              <div v-for="(link, i) in links" 
                    v-bind:key="link.name"
                    class="unstackable fields">
                 <div class="six wide field">
                   <div class="ui input mini">
                     <input type="text" 
                            v-model="link.name"
-                           placeholder="$t('Name')"
+                           v-bind:placeholder="$t('Name')"
                            v-on:change="onSettingChange"/>
                   </div>
                 </div>
-                <div class="ten wide field">
+                <div class="eight wide field">
                   <div class="ui icon input mini">
                     <input type="url" 
                            v-model="link.uploadURL"
-                           placeholder="$t('Upload URL')"
+                           v-bind:placeholder="$t('Upload URL')"
                            v-on:change="onSettingChange"/>
                     <i class="bars icon draggable"></i>
                   </div>
-                    
+                </div>
+                <div class="two wide field">
+                  <div class="ui icon fluid button mini"
+                       v-on:click="removeSetting(i)">
+                    <i class="minus icon"></i>
+                  </div>
                 </div>
               </div>
             </draggable>
+          </div>
+          
+          <div class="field">
+            <div class="fluid ui labeled icon button"
+                 v-on:click="addSetting">
+              <i class="plus icon"></i>
+              {{ $t("Add") }}
+            </div>
           </div>
         </div>
         

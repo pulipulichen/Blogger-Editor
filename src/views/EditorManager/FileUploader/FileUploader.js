@@ -1,3 +1,5 @@
+/* global VueHelper, WindowHelper, SemanticUIHelper, ConfigHelper */
+
 import draggable from 'vuedraggable'
 
 let config = {
@@ -98,7 +100,7 @@ let config = {
     },
     linkNameIcon: function (name) {
       if (name === undefined) {
-        return
+        return false
       }
       
       name = name.toLowerCase()
@@ -132,6 +134,15 @@ let config = {
       //console.log(links)
       this.links = links
       this.resetDownloadURL()
+    },
+    addSetting: function () {
+      this.links.push({
+        name: '',
+        uploadURL: ''
+      })
+    },
+    removeSetting: function (i) {
+      this.links.splice(i, 1)
     }
   }
 }

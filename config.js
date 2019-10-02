@@ -53,6 +53,10 @@ const CONFIG = {
         uploadURL: 'http://www.mediafire.com/myfiles.php'
       },
       {
+        name: 'SlideShare',
+        uploadURL: 'https://slideshare.net/upload'
+      },
+      {
         name: 'Uguu.se',
         uploadURL: 'https://uguu.se/'
       }
