@@ -8,7 +8,7 @@
   </div>
   <div class="content">
     <div class="ui form description">
-      
+
       <div class="ui top attached tabular menu">
         <a class="item" 
            v-bind:class="{active: (tab === 'interface')}"
@@ -39,13 +39,13 @@
           {{ $t('About') }}
         </a>
       </div>
-      
+
       <!-- ====================================== -->
-      
+
       <div class="ui bottom attached tab segment form" 
            v-bind:class="{active: (tab === 'interface')}"
            data-tab="interface">
-        
+
         <div class="field">
           <label>
             {{ $t('Language') }}
@@ -74,13 +74,13 @@
           </select>
         </div>
       </div>
-      
+
       <!-- ----------------------------------------------------------- -->
-      
+
       <div class="ui bottom attached tab segment form" 
            v-bind:class="{active: (tab === 'backup')}"
            data-tab="backup">
-        
+
         <div class="field">
           <label for="ConfigManager.backupPageURL">
             {{ $t('Backup URL') }}
@@ -140,59 +140,59 @@
         <!-- ------------------------- -->
 
       </div>
-      
-      
+
+
       <div class="ui bottom attached tab segment form" 
            v-bind:class="{active: (tab === 'google-analytics')}"
            data-tab="google-analytics">
-        
-        <div class="field">
-          <a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/UsageStatistics.md"
-             target="_blank">
-          <label>
-            {{ $t('How to use the usage statistic data?') }}
-          </label>
-          </a>
-        </div>
-        
+
         <div class="inline field">
-            <label for="eventTrackDayLimit">
-              {{ $t('Download in') }}
-            </label>
-            <input type="number" 
-                   v-model="eventTrackDayLimit"
-                   id="eventTrackDayLimit"
-                   v-on:change="persist" />
-            <label for="eventTrackDayLimit">
-              {{ $t('days event record.') }}
-            </label>
+          <label for="eventTrackDayLimit">
+            {{ $t('Download in') }}
+          </label>
+          <input type="number" 
+                 v-model="eventTrackDayLimit"
+                 id="eventTrackDayLimit"
+                 v-on:change="persist" />
+          <label for="eventTrackDayLimit">
+            {{ $t('days event record.') }}
+          </label>
         </div>
-          
-          <div class="inline field">
-            <div class="ui fluid buttons">
-              <button type="button" class="ui button" 
-                      v-on:click="downloadEventTrackData">
-                        {{ $t('Download') }}
-              </button>
-              <button type="button" class="ui button" 
-                      v-on:click="downloadEventTrackProductionData">
-                        {{ $t('Production') }}
-              </button>
-              <button type="button" class="ui button" 
-                      v-on:click="downloadEventTrackStrengthData">
-                        {{ $t('Strength') }}
-              </button>
-              <button type="button" class="ui button" 
-                      v-on:click="downloadEventTrackModificationData">
-                        {{ $t('Modification') }}
-              </button>
-              <button type="button" class="ui button" 
-                      v-on:click="clearEventTrackData">
-                        {{ $t('Clear') }}
-              </button>
-            </div>
+
+        <div class="inline field">
+          <div class="ui fluid buttons">
+            <button type="button" class="ui button" 
+                    v-on:click="downloadEventTrackData">
+              {{ $t('Download') }}
+            </button>
+            <button type="button" class="ui button" 
+                    v-on:click="downloadEventTrackProductionData">
+              {{ $t('Production') }}
+            </button>
+            <button type="button" class="ui button" 
+                    v-on:click="downloadEventTrackStrengthData">
+              {{ $t('Strength') }}
+            </button>
+            <button type="button" class="ui button" 
+                    v-on:click="downloadEventTrackModificationData">
+              {{ $t('Modification') }}
+            </button>
+            <button type="button" class="ui button" 
+                    v-on:click="clearEventTrackData">
+              {{ $t('Clear') }}
+            </button>
           </div>
-        
+        </div>
+
+        <div class="field">
+          <label>
+            <a href="https://github.com/pulipulichen/Blogger-Editor/blob/master/help/UsageStatistics.md"
+               target="_blank">
+              {{ $t('(How to use the usage statistic data?)') }}
+            </a>
+          </label>
+        </div>
+
         <div class="field">
           <label for="ConfigManager.googleAnalyticsTrackingId">
             {{ $t('Tracking ID') }}
@@ -209,7 +209,7 @@
                    v-on:change="persist" />
           </div>
         </div>
-        
+
         <div class="field">
           <label for="ConfigManager.googleAnalyticsRealtimeReportURL">
             {{ $t('Realtime Report URL') }}
@@ -231,7 +231,7 @@
             </button>
           </div>
         </div>
-        
+
         <div class="field">
           <label for="ConfigManager.googleAnalyticsReportURL">
             {{ $t('Report URL') }}
@@ -257,13 +257,13 @@
         <!-- ------------------------- -->
 
       </div>
-      
+
       <!-- ----------------------------------------------------------- -->
-      
+
       <div class="ui bottom attached tab segment form" 
            v-bind:class="{active: (tab === 'about')}"
            data-tab="about">
-        
+
         <!--
         <div class="ui card">
           <div class="image">
@@ -308,13 +308,13 @@
               <div class="three fields">
                 <div class="field">
                   <a href="http://blog.pulipuli.info"
-                    target="blog.pulipuli.info"
-                    class="ui labeled icon basic fluid button">
-                   <i class="blogger icon"></i>
-                   {{ $t('Blog') }}
-                 </a>
+                     target="blog.pulipuli.info"
+                     class="ui labeled icon basic fluid button">
+                    <i class="blogger icon"></i>
+                    {{ $t('Blog') }}
+                  </a>
                 </div>
-              
+
                 <div class="field">
                   <a href="http://blog.pulipuli.info/2005/12/blogger_113544406852218769.html#comment-editor"
                      target="blog.pulipuli.info-contact"
@@ -323,7 +323,7 @@
                     {{ $t('Contact') }}
                   </a>
                 </div>
-                  
+
                 <div class="field">
                   <a href="https://github.com/pulipulichen/Blogger-Editor/issues?q=is%3Aopen+is%3Aissue"
                      target="github.issues"
@@ -332,16 +332,16 @@
                     {{ $t('Issue') }}
                   </a>
                 </div>
-                  
+
               </div>
             </div>
           </div>
         </div>
-        
+
       </div>
-      
-      
-      
+
+
+
 
     </div>
   </div>
