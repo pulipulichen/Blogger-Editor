@@ -54,11 +54,37 @@ let config = {
     close: function () {
       this.getUI().modal('hide')
     },
+    convertGitHubPage: function (link) {
+      // https://github.com/pulipulichen/blog-pulipuli-info-data-2019/blob/master/10/20180518%20KALS.pptx
+      // https://pulipulichen.github.io/blog-pulipuli-info-data-2019/10/20180518%20KALS.pptx
+      
+      //let link = "https://github.com/pulipulichen/blog-pulipuli-info-data-2019/blob/master/10/20180518%20KALS.pptx"
+      if (link.startsWith('https://github.com/') === false || link.indexOf('/blob/master/') === -1) {
+        return link
+      }
+      
+      let parts = link.split('/')
+      let user = parts[3]
+      let repo = parts[4]
+      
+      let needle = '/blob/master/'
+      let path = link.slice(link.indexOf(needle) + needle.length)
+      
+      let pageLink = `https://${user}.github.io/${repo}/${path}`
+      //console.log(pageLink)
+      
+      return pageLink
+    },
     insert: function () {
       let output = []
       this.links.forEach((link) => {
         if (this.validateDownloadURL(link.downloadURL)) {
-          let aTag = `<a href="${link.downloadURL}" target="_blank">${link.name}</a>`
+          let url = link.downloadURL
+          if (url.startsWith('https://github.com/') && url.indexOf('/blob/master/') > 0) {
+            url = this.convertGitHubPage(url)
+          }
+          
+          let aTag = `<a href="${url}" target="_blank">${link.name}</a>`
           output.push(aTag)
         } 
       })
