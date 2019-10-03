@@ -50,6 +50,14 @@ let SummerNoteCode = {
     
     postBody.find('[data-filename]').removeAttr('data-filename')
     postBody.find('[data-ocr]').removeAttr('data-ocr')
+    
+    // 把最後幾個元素，沒有內容的部分刪除
+    let lastNode = postBody.children(':last')
+    while (lastNode.html().trim() === '') {
+      lastNode.remove()
+      
+      lastNode = postBody.children(':last')
+    }
 
     //let code = this.getPostSummerNote().summernote('code');
     let code = postBody.html()

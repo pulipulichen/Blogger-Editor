@@ -92,7 +92,7 @@ let config = {
       if (post === undefined) {
         console.error('post is not found')
         FunctionHelper.triggerCallback(callback)
-        return
+        return false
       }
       
       this.postId = post.id
