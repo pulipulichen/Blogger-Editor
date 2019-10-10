@@ -1,4 +1,4 @@
-/* global DayjsHelper, EventManager, FunctionHelper */
+/* global DayjsHelper, EventManager, FunctionHelper, InitHelper */
 
 let config = {
   data: function () {
@@ -122,10 +122,12 @@ let config = {
       return this.ui
     },
     open: function () {
-      this.getUI().fadeIn()
+      //this.getUI().fadeIn()
+      this.getUI().show()
     },
     close: function () {
-      this.getUI().fadeOut()
+      //this.getUI().fadeOut()
+      this.getUI().hide()
     },
     persist() {
       //VueHelper.persistLocalStorage(this, 'summerNoteConfigStyleTags')

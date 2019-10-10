@@ -1,3 +1,5 @@
+/* global DelayExecHelper */
+
 let config = {
   data: function () {
     return {
