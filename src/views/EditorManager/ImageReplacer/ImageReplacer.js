@@ -1,4 +1,4 @@
-/* global VueHelper */
+/* global VueHelper, DayjsHelper */
 
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
@@ -160,7 +160,7 @@ var config = {
         $v.PostManager.getEditingPostId((id) => {
           let zip = new JSZip();
           let nowFormat = DayjsHelper.nowFormat()
-          let baseFolderName = `post-${id}-images-${nowFormat}`
+          let baseFolderName = `images-${id}-${nowFormat}`
           //folder = zip.folder(folderName);
 
           let loop = (i) => {

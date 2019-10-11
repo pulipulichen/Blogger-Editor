@@ -1,3 +1,5 @@
+/* global SemanticUIHelper, FileHelper, FileSystemHelper */
+
 import SummerNoteHelper from './SummerNoteHelper.js'
 import SummerNoteImageOCR from './SummerNoteImageOCR.js'
 

@@ -1,4 +1,4 @@
-/* global GoogleAnalyticsHelper */
+/* global GoogleAnalyticsHelper, FunctionHelper */
 
 import SummerNoteImage from './SummerNoteImage.js'
 
