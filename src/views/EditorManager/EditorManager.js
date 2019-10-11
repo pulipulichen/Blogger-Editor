@@ -7,6 +7,8 @@ require('./views/EditorManager/SummerNoteButtons.js')
 require('./views/EditorManager/SummerNoteCallbacks.js')
 require('./views/EditorManager/SummerNoteConfig.js')
 */
+/* global ConfigHelper */
+
 import FieldPostBody from './FieldPostBody.js'
 import FieldPostLabels from './FieldPostLabels.js'
 import FieldPostTitle from './FieldPostTitle.js'

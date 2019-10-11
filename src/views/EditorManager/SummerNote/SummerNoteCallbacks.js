@@ -1,3 +1,5 @@
+/* global GoogleAnalyticsHelper */
+
 import SummerNoteImage from './SummerNoteImage.js'
 
 let SummerNoteCallbacks = {
@@ -75,12 +77,13 @@ let SummerNoteCallbacks = {
         currentPositionTop = currentPosition.top
       }
       if (currentPositionTop === undefined) {
-        return
+        return false
       }
 
-      //console.log(currentPositionTop)
-      if (window.innerHeight < 480) {
-        return
+      //console.log('beforeScrollTop', currentPositionTop)
+      if (currentPositionTop < 500 
+              || window.innerHeight < 480) {
+        return false
       }
 
       let padding = (window.innerHeight - this.toolbarHeight) / 10

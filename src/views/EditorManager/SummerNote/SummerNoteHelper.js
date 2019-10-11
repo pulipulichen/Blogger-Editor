@@ -1,3 +1,5 @@
+/* global GoogleAnalyticsHelper */
+
 import SummerNoteKeyMap from './SummerNoteKeyMap.js'
 
 let SummerNoteHelper = {

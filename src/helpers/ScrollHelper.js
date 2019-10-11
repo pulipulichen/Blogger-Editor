@@ -10,7 +10,7 @@ let ScrollHelper = {
     this.init()
     let top = localStorage.getItem(this.key)
     if (top === undefined) {
-      return
+      return false
     }
     top = parseInt(top, 10)
     this.window.scrollTop(top)

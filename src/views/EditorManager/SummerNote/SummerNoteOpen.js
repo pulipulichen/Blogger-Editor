@@ -1,3 +1,5 @@
+/* global SemanticUIHelper */
+
 import SummerNoteHelper from './SummerNoteHelper.js'
 import SummerNoteCode from './SummerNoteCode.js'
 import SummerNoteImage from './SummerNoteImage.js'
