@@ -24,7 +24,7 @@ let SummerNoteCode = {
     //postBody.insert('<p><a name="more"></a><!--more--></p>')
     //postBody.insert('<hr />')
     //postBody.insert('<h2>[H2 Title]</h2>')
-    postBody.insert('<p><a name="more"></a><!--more--></p><hr /><h2>[H2 Title]</h2>')
+    postBody.insert('<p><a name="more"></a><!--more--></p><hr /><h2>[H2 Title]</h2><p>paragraph...</p>')
   },
   CopyCode: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Copy Code'))
