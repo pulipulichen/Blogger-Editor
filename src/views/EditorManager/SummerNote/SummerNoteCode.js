@@ -51,6 +51,24 @@ let SummerNoteCode = {
     postBody.find('[data-filename]').removeAttr('data-filename')
     postBody.find('[data-ocr]').removeAttr('data-ocr')
     
+    postBody.find(`a[href*="http://pulipuli.blogspot.com/"],a[href*="https://pulipuli.blogspot.com/"]`).each((i, ele) => {
+      let value = ele.href
+      value = value.slice(value.indexOf('.com/') + 4)
+      ele.href = value
+    })
+    
+    postBody.find(`a[href*="http://pulipuli.blogspot.tw/"],a[href*="https://pulipuli.blogspot.tw/"]`).each((i, ele) => {
+      let value = ele.href
+      value = value.slice(value.indexOf('.tw/') + 3)
+      ele.href = value
+    })
+    
+    postBody.find(`a[href*="http://blog.pulipuli.info/"],a[href*="https://blog.pulipuli.info/"]`).each((i, ele) => {
+      let value = ele.href
+      value = value.slice(value.indexOf('.info/') + 5)
+      ele.href = value
+    })
+    
     // 把最後幾個元素，沒有內容的部分刪除
     let lastNode = postBody.children(':last')
     while (lastNode.html().trim() === '') {
