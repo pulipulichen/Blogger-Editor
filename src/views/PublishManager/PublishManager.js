@@ -7,7 +7,7 @@ let config = {
     return {
       name: 'PublishManager',
       ui: undefined,
-      bloggerConsoleURL: "https://www.blogger.com",
+      bloggerConsoleURL: "https://www.blogger.com/blog/posts/",
       editURL: "",
       publicURL: "",
       postId: null,
@@ -22,7 +22,8 @@ let config = {
   computed: {
     disableOpenBloggerConsole: function () {
       if (this.bloggerConsoleURL === 'https://www.blogger.com'
-            || this.bloggerConsoleURL.startsWith('https://www.blogger.com/blogger.g?blogID=')) {
+            //|| this.bloggerConsoleURL.startsWith('https://www.blogger.com/blogger.g?blogID=')) {
+            || this.bloggerConsoleURL.startsWith('https://www.blogger.com/blog/post/edit/')) {
         return false
       }
       else {
@@ -30,7 +31,8 @@ let config = {
       }
     },
     disableOpenEditURL: function () {
-      if (this.editURL.startsWith('https://www.blogger.com/blogger.g?blogID=')
+      //if (this.editURL.startsWith('https://www.blogger.com/blogger.g?blogID=')
+      if (this.editURL.startsWith('https://www.blogger.com/blog/post/edit/')
               && this.editURL.indexOf('postID=') > -1) {
         return false
       }

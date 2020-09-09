@@ -1,4 +1,4 @@
-/* global VueHelper, DayjsHelper */
+/* global VueHelper, DayjsHelper, EventManager, FunctionHelper, BloggerImageHelper, FileSystemHelper */
 
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
@@ -104,7 +104,7 @@ var config = {
       }
       
       let html = $('<div>' + this.imageHTML + '</div>')
-      this.disableReplaceImage = (html.find('a[href*="/s1600/"][imageanchor]:first').length === 0)
+      this.disableReplaceImage = (html.find('a[href*="/s"][imageanchor]:first').length === 0)
       return this.disableReplaceImage      
     },
     parseImageHTMLList: function () {
@@ -127,6 +127,7 @@ var config = {
           output[name] = link
         }
       })
+      console.log(output)
       return output
     },
     replaceImage: function () {
@@ -257,7 +258,7 @@ var config = {
       if (this.countdownSecond > 0) {
         clearTimeout(this.countdownTimer)
         this.countdownSecond = 0
-        return
+        return undefined
       }
       
       this.countdownSecond = this.countdownMaxSecond

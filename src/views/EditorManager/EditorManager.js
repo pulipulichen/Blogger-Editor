@@ -7,7 +7,7 @@ require('./views/EditorManager/SummerNoteButtons.js')
 require('./views/EditorManager/SummerNoteCallbacks.js')
 require('./views/EditorManager/SummerNoteConfig.js')
 */
-/* global ConfigHelper */
+/* global ConfigHelper, VueHelper, FunctionHelper, EventManager, DelayExecHelper */
 
 import FieldPostBody from './FieldPostBody.js'
 import FieldPostLabels from './FieldPostLabels.js'
@@ -203,10 +203,12 @@ var EditorManager = {
     validateUploadImageDrarfUrl: function (url) {
       if (typeof(url) === 'string') {
         url = url.trim()
-        return !url.startsWith('https://www.blogger.com/blogger.g?blogID=')
+        //return !url.startsWith('https://www.blogger.com/blogger.g?blogID=')
+        return !url.startsWith('https://www.blogger.com/blog/posts/')
       }
       else {
-        this.disableUploadImageDraft = !this.uploadImageDraft.startsWith('https://www.blogger.com/blogger.g?blogID=')
+        //this.disableUploadImageDraft = !this.uploadImageDraft.startsWith('https://www.blogger.com/blogger.g?blogID=')
+        this.disableUploadImageDraft = !this.uploadImageDraft.startsWith('https://www.blogger.com/blog/posts/')
         //console.log(this.disableUploadImageDraft)
         return this.disableUploadImageDraft
       }
