@@ -23,7 +23,7 @@ let config = {
     disableOpenBloggerConsole: function () {
       if (this.bloggerConsoleURL === 'https://www.blogger.com'
             //|| this.bloggerConsoleURL.startsWith('https://www.blogger.com/blogger.g?blogID=')) {
-            || this.bloggerConsoleURL.startsWith('https://www.blogger.com/blog/post/edit/')) {
+            || this.bloggerConsoleURL.startsWith('https://www.blogger.com/blog/posts/')) {
         return false
       }
       else {
@@ -32,8 +32,7 @@ let config = {
     },
     disableOpenEditURL: function () {
       //if (this.editURL.startsWith('https://www.blogger.com/blogger.g?blogID=')
-      if (this.editURL.startsWith('https://www.blogger.com/blog/post/edit/')
-              && this.editURL.indexOf('postID=') > -1) {
+      if (this.editURL.startsWith('https://www.blogger.com/blog/post/edit/')) {
         return false
       }
       else {
