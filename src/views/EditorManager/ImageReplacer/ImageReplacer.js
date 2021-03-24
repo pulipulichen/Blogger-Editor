@@ -104,7 +104,7 @@ var config = {
       }
       
       let html = $('<div>' + this.imageHTML + '</div>')
-      this.disableReplaceImage = (html.find('a[href*=".googleusercontent.com"]:first').length === 0)
+      this.disableReplaceImage = (html.find('a[href*=".com/"]:first').length === 0)
       return this.disableReplaceImage      
     },
     parseImageHTMLList: function () {
@@ -125,6 +125,28 @@ var config = {
         }
         else {
           output[name] = link
+        }
+        
+        if (name.indexOf('__') > -1) {
+          let nameCompact = name.replace(/__/g, '_')
+          if (typeof(output[nameCompact]) === 'string') {
+            console.log(['duplicate name', nameCompact, link])
+          }
+          else {
+            output[nameCompact] = link
+          }
+        }
+        
+        if (name.indexOf('__1.jpg') > -1) {
+          // 3._.jpg
+          // 3.__1.jpg
+          let nameCompact = name.replace('__1.jpg', '_.jpg')
+          if (typeof(output[nameCompact]) === 'string') {
+            console.log(['duplicate name', nameCompact, link])
+          }
+          else {
+            output[nameCompact] = link
+          }
         }
       })
       console.log(output)

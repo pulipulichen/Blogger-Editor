@@ -1,3 +1,5 @@
+/* global ElectronHelper */
+
 BloggerImageHelper = {
   //protocol: 'http',
   size: {
@@ -50,7 +52,12 @@ BloggerImageHelper = {
     link = this.changeProtocol(link)
     let slash1 = link.lastIndexOf('/')
     let slash2 = link.lastIndexOf('/', slash1 - 1)
-    return link.slice(0, slash2)
+    if (slash1 - slash2 > 10) {
+      return link.slice(0, slash1)
+    }
+    else {
+      return link.slice(0, slash2)
+    }
   },
   getImageElementSize: function (img) {
     /*
