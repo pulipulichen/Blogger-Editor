@@ -104,7 +104,7 @@ var config = {
       }
       
       let html = $('<div>' + this.imageHTML + '</div>')
-      this.disableReplaceImage = (html.find('a[href*="/s"][imageanchor]:first').length === 0)
+      this.disableReplaceImage = (html.find('a[href*=".googleusercontent.com"]:first').length === 0)
       return this.disableReplaceImage      
     },
     parseImageHTMLList: function () {
