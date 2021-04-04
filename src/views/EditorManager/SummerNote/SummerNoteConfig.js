@@ -23,7 +23,8 @@ let SummerNoteConfig = {
         eval(`config = ${config}`)
         if (config.length > 0) {
           return config
-        } else {
+        } 
+        else {
           return this.defaultToolbar(loadDefault)
         }
       }
@@ -103,7 +104,7 @@ let SummerNoteConfig = {
    
     if (typeof($t) !== 'function') {
       //console.trace('error')
-      return
+      return undefined
     }
   
     //let styleTags = ['p', 'blockquote', 'code', 'h2', 'h3', 'h4', 'h5', 'h6']

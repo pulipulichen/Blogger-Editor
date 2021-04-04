@@ -4,6 +4,7 @@ import SummerNoteCode from './../EditorManager/SummerNote/SummerNoteCode.js'
 
 let config = {
   data: function () {
+    this.$i18n.locale = 'auto'
     return {
       name: 'PublishManager',
       ui: undefined,
@@ -147,7 +148,9 @@ let config = {
       return this
     },
     copyHTML: function () {
-      SummerNoteCode.CopyCodeClick()
+      SummerNoteCode.CopyCodeClick((message) => {
+        return this.$t(message)
+      })
       return this
     },
     openBackupPage: function () {

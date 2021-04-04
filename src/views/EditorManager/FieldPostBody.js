@@ -29,7 +29,9 @@ let FieldPostBody = {
   },
   reload: function (callback) {
     this.ui = null
-    this.get().summernote(SummerNoteConfig.postBodyConfig(this.$t, callback))
+    this.get().summernote(SummerNoteConfig.postBodyConfig((message) => {
+      return this.$t(message)
+    }, callback))
     return this
   },
   get: function () {

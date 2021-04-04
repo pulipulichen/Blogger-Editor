@@ -200,12 +200,16 @@ let NavBarMenu = {
       
     },
     editorCleanCode: function () {
-      SummerNoteCode.CleanCodeClick()
+      SummerNoteCode.CleanCodeClick((message) => {
+        return this.$t(message)
+      })
       GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorCleanCode')
       this.hideNavBar()
     },
     editorCopyCode: function () {
-      SummerNoteCode.CopyCodeClick()
+      SummerNoteCode.CopyCodeClick((message) => {
+        return this.$t(message)
+      })
       GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorCopyCode')
       this.hideNavBar()
     },

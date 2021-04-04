@@ -1,3 +1,5 @@
+/* global EventManager, FunctionHelper, SemanticUIHelper, WebSQLDatabaseHelper, FileSystemHelper, ScrollHelper, DelayExecHelper */
+
 let InitHelper = {
   ready: false,
   onInit: function (callback) {

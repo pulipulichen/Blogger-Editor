@@ -42,7 +42,7 @@ let SummerNoteCode = {
     // 檢查第一個圖片有沒有height
     if (postBody.find('img:first').length > 0 
             && postBody.find('img:first').attr('width') !== undefined) {
-      alert('First image has width!')
+      alert($t('First image has width!'))
     }
 
     // 請把有http的部分全部換掉
