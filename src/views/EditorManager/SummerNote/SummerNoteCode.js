@@ -133,13 +133,13 @@ let SummerNoteCode = {
       let $child = $(child)
       let tagName = child.tagName.toLowerCase()
       if (this.skipTagList.indexOf(tagName) > -1) {
-        return
+        return false
       }
       
       let html = child.innerHTML.trim().toLowerCase()
       if (html === '' || html === '<br>') {
         $child.remove()
-        return
+        return false
       }
 
       let subchild = $child.children()
@@ -260,6 +260,11 @@ let SummerNoteCode = {
       if (a.innerHTML.trim() === '') {
         $(a).remove()
       }
+    })
+    
+    postBody.find('a[href^="file:///"][href*="index.htm#"]').each((i, a) => {
+      let href = a.href
+      a.href = href.slice(href.lastIndexOf('#'))
     })
     
     $v.EditorManager.FieldPostBody.cleanUnusedFileSystem()
