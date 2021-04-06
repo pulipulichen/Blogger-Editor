@@ -148,6 +148,17 @@ var config = {
             output[nameCompact] = link
           }
         }
+        else if (name.endsWith('_1.jpg')) {
+          // 3._.jpg
+          // 3.__1.jpg
+          let nameCompact = name.replace('_1.jpg', '.jpg')
+          if (typeof(output[nameCompact]) === 'string') {
+            console.log(['duplicate name', nameCompact, link])
+          }
+          else {
+            output[nameCompact] = link
+          }
+        }
       })
       console.log(output)
       return output

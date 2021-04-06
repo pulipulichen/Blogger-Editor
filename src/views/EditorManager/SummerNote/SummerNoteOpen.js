@@ -1,4 +1,4 @@
-/* global SemanticUIHelper */
+/* global SemanticUIHelper, WindowHelper */
 
 import SummerNoteHelper from './SummerNoteHelper.js'
 import SummerNoteCode from './SummerNoteCode.js'
@@ -231,7 +231,7 @@ let SummerNoteOpen = {
   // ------------------------------------
   insertGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
-      
+      SummerNoteCode.insertMore($t, c, false),
       //this.insertTable($t, c, false),
       this.transSelected($t, c, false),
       this.insertHR($t, c, false),
@@ -242,7 +242,7 @@ let SummerNoteOpen = {
       this.FileUploader($t, c, false),
       this.GoogleDocsLinkBuilder($t, c, false),
       this.OneDriveLinkBuilder($t, c, false),
-      SummerNoteCode.insertMore($t, c, false),
+      
     ])
   },
   
