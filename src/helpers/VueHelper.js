@@ -27,6 +27,14 @@ let VueHelper = {
       return parseInt(defaultValue, 10)
     }
   },
+  getLocalStorageNumber: function (key, defaultValue) {
+    if (localStorage.getItem(key)) {
+      return Number(localStorage.getItem(key))
+    }
+    else if (defaultValue !== undefined) {
+      return Number(defaultValue)
+    }
+  },
   mountLocalStorage: function (vue, key, defaultValue) {
     let lsKey = this.mergeKey(vue, key)
     if (localStorage.getItem(lsKey)) {
@@ -67,6 +75,20 @@ let VueHelper = {
     }
     else if (defaultValue !== undefined) {
       vue[key] = parseInt(defaultValue, 10)
+    }
+  },
+  mountLocalStorageNumber: function (vue, key, defaultValue) {
+    let lsKey = this.mergeKey(vue, key)
+    if (localStorage.getItem(lsKey)) {
+      try {
+        vue[key] = Number(localStorage.getItem(lsKey));
+      } catch(e) {
+        console.trace(e)
+        localStorage.removeItem(lsKey);
+      }
+    }
+    else if (defaultValue !== undefined) {
+      vue[key] = Number(defaultValue)
     }
   },
   mountLocalStorageBoolean: function (vue, key, defaultValue) {

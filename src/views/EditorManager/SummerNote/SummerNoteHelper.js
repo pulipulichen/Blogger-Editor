@@ -67,6 +67,9 @@ let SummerNoteHelper = {
     if (output !== '') {
       output = ` (${output})`
     }
+    
+    //console.log(key)
+    
     return output
   }
 }

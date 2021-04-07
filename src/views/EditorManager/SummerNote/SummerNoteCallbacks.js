@@ -29,6 +29,7 @@ let SummerNoteCallbacks = {
       },
       //onKeyup: (e) => {
       onKeyup: (e) => {
+        //console.log(e.keyCode)
         // 只有少數幾個鍵是允許觸發的
         //console.log(e.target.selectionStart)
         //console.log([e.keyCode], this.enableScrollPositionToCenterKeyCodes.indexOf(e.keyCode))

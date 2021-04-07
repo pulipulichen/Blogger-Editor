@@ -7,7 +7,7 @@ require('./views/EditorManager/SummerNoteButtons.js')
 require('./views/EditorManager/SummerNoteCallbacks.js')
 require('./views/EditorManager/SummerNoteConfig.js')
 */
-/* global ConfigHelper, VueHelper, FunctionHelper, EventManager, DelayExecHelper */
+/* global ConfigHelper, VueHelper, FunctionHelper, EventManager, DelayExecHelper, InitHelper, WindowHelper, SemanticUIHelper */
 
 import FieldPostBody from './FieldPostBody.js'
 import FieldPostLabels from './FieldPostLabels.js'
@@ -15,6 +15,7 @@ import FieldPostTitle from './FieldPostTitle.js'
 import FieldPostDate from './FieldPostDate.js'
 
 import SummerNoteConfig from './SummerNote/SummerNoteConfig.js'
+import SummerNoteSpeak from './SummerNote/SummerNoteSpeak.js'
 
 //import EditorManagerCache from './EditorManagerCache.js'
 import EditorManagerConfig from './EditorManagerConfig.js'
@@ -49,6 +50,8 @@ var EditorManager = {
       enableOCRImageAlt: false,
       OCRImageLang: 'chi_tra+eng',
       onCloseReload: false,
+      enableTypeWriterSoundEffect: true,
+      speakRate: 1.5,
       
       FieldPostBody: FieldPostBody,
       FieldPostLabels: FieldPostLabels,
@@ -80,8 +83,15 @@ var EditorManager = {
     VueHelper.mountLocalStorage(this, 'summerNoteConfigStyleTags')
     VueHelper.mountLocalStorage(this, 'summerNoteConfigLabels')
     
+    VueHelper.mountLocalStorageBoolean(this, 'enableTypeWriterSoundEffect')
+    
+    VueHelper.mountLocalStorageNumber(this, 'speakRate')
+    
+    //console.log(this.enableTypewriterSoundEffect)
+    
     this.initLabelsSearch()
     this.checkOCRThreshold()
+    this.initKeyBinds()
   },
   created: function () {
     $v.EditorManager = this
@@ -156,6 +166,9 @@ var EditorManager = {
         }
       })
       return list
+    },
+    summernote () {
+      return $('#summernotePostBody')
     }
   },
   watch: {
@@ -166,6 +179,17 @@ var EditorManager = {
     },
     OCRImageLang: function (value) {
       EventManager.trigger(this, 'OCRImageLangChanged')
+    },
+    enableTypeWriterSoundEffect () {
+      this.setEnableTypeWriterSoundEffect()
+    },
+    speakRate () {
+      let label = SummerNoteSpeak.getRateLabel()
+      if (!label) {
+        return false
+      }
+      //console.log(label, this.speakRate)
+      label.html(this.speakRate + this.$t('x'))
     }
   },
   methods: {
@@ -226,6 +250,9 @@ var EditorManager = {
       VueHelper.persistLocalStorage(this, 'summerNoteConfigToolbar')
       VueHelper.persistLocalStorage(this, 'summerNoteConfigStyleTags')
       VueHelper.persistLocalStorage(this, 'summerNoteConfigLabels')
+      
+      VueHelper.persistLocalStorage(this, 'enableTypeWriterSoundEffect')
+      VueHelper.persistLocalStorage(this, 'speakRate')
     },
     init: function (callback) {
       if (ConfigHelper.get('debug').disableEditorManager === true) {
@@ -292,6 +319,9 @@ var EditorManager = {
           if (postBody !== undefined) {
             FieldPostBody.set(postBody)
           }
+          
+          this.setEnableTypeWriterSoundEffect()
+          
           FunctionHelper.triggerCallback(callback)
         })
       })
@@ -309,7 +339,7 @@ var EditorManager = {
       if (force === false) {
         DelayExecHelper.forceExec()
         FunctionHelper.triggerCallback(callback)
-        return
+        return undefined
       }
       
       //console.log('title save')
@@ -420,9 +450,18 @@ var EditorManager = {
       }
       
       return this
+    },
+    setEnableTypeWriterSoundEffect () {
+      //console.log('設定', this.enableTypeWriterSoundEffect)
+      this.FieldPostBody.get().summernote('setOption', {
+        enableTypeWriterSoundEffect: this.enableTypeWriterSoundEffect
+      })
     }
   }
 }
+
+import EditorManagerMethodsKeyBindings from './EditorManagerMethodsKeyBindings.js'
+EditorManagerMethodsKeyBindings(EditorManager)
 
 //window.EditorManager = EditorManager
 export default EditorManager

@@ -272,7 +272,7 @@ let SummerNoteCode = {
     return postBody
   },
   SaveSnippet: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="cut icon"></i>` + $t('Snippet'))
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="file code outline icon"></i>` + $t('Snippet'))
     let tooltip = $t('Save Snippet')
     let click = () => {
       this.SaveSnippetClick()
@@ -284,7 +284,7 @@ let SummerNoteCode = {
     let FieldPostBody = $v.EditorManager.FieldPostBody
     if (FieldPostBody.hasSelectedRange() === false) {
       $v.SnippetInserter.open()
-      return
+      return undefined
     }
     
     //console.log('#TODO SaveSnippetClick')
@@ -294,7 +294,16 @@ let SummerNoteCode = {
     SnippetInserter.saveSnippet(nodeText, () => {
       SnippetInserter.loadSnippet()
     })
-  }
+  },
+  ReadAloud: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="assistive listening systems icon"></i>`)
+    let tooltip = $t('Read Aloud')
+    let click = () => {
+      //this.SaveSnippetClick()
+      console.log('Read Aloud')
+    }
+    return SummerNoteHelper.buildButton('readAloud', contents, tooltip, click, doRender)
+  },
 }
 
 export default SummerNoteCode

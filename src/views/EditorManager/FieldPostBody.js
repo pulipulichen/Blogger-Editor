@@ -108,6 +108,9 @@ let FieldPostBody = {
   getSelectedNodeAndRemove: function () {
     return this.get().summernote('editor.getSelectedNodeAndRemove')
   },
+  getCurrentElement: function () {
+    return this.get().summernote('editor.getCurrentElement')
+  },
   hasSelectedRange: function () {
     return this.get().summernote('editor.hasSelectedRange')
   },

@@ -3,6 +3,7 @@ import SummerNoteHelper from './SummerNoteHelper.js'
 import SummerNoteImage from './SummerNoteImage.js'
 import SummerNoteCode from './SummerNoteCode.js'
 import SummerNoteOpen from './SummerNoteOpen.js'
+import SummerNoteSpeak from './SummerNoteSpeak.js'
 
 let SummerNoteButtons = {
   config: function ($t) {
@@ -67,6 +68,12 @@ let SummerNoteButtons = {
       },
       insertTable: (c) => {
         return SummerNoteOpen.insertTable($t, c)
+      },
+      ReadAloud: (c) => {
+        return SummerNoteSpeak.ReadAloud($t, c)
+      },
+      ReadAloudSpeedGroup: (c) => {
+        return SummerNoteSpeak.ReadAloudSpeedGroup($t, c)
       },
       
       // ---------------

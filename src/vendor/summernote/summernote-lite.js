@@ -1,3 +1,6 @@
+import soundKeys from './sound/soundKeys.js'
+import summerNoteOptions from './options.js'
+
 /**
  * Super simple wysiwyg editor v0.8.11
  * https://summernote.org
@@ -1571,49 +1574,7 @@
    * If you want to map new key, please check if the key code you want in following list.
    * @type {Object}
    */
-  var KEY_MAP = {
-      'BACKSPACE': 8,
-      'TAB': 9,
-      'ENTER': 13,
-      'SPACE': 32,
-      'DELETE': 46,
-      // Arrow
-      'LEFT': 37,
-      'UP': 38,
-      'RIGHT': 39,
-      'DOWN': 40,
-      // Number: 0-9
-      'NUM0': 48,
-      'NUM1': 49,
-      'NUM2': 50,
-      'NUM3': 51,
-      'NUM4': 52,
-      'NUM5': 53,
-      'NUM6': 54,
-      'NUM7': 55,
-      'NUM8': 56,
-      // Alphabet: a-z
-      'B': 66,
-      'E': 69,
-      'H': 72,
-      'I': 73,
-      'J': 74,
-      'K': 75,
-      'L': 76,
-      'M': 77,
-      'R': 82,
-      'S': 83,
-      'U': 85,
-      'V': 86,
-      'X': 88,
-      'Y': 89,
-      'Z': 90,
-      'SLASH': 191,
-      'LEFTBRACKET': 219,
-      'BACKSLASH': 220,
-      'RIGHTBRACKET': 221,
-      'ESC': 27
-  };
+  var KEY_MAP = summerNoteOptions.KEY_MAP;
   /**
    * @class core.key
    *
@@ -5178,6 +5139,16 @@ ${links}`
               })(idx);
               this.context.memo('help.formatH' + idx, this.lang.help['formatH' + idx]);
           }
+          this.setOption = this.wrapCommand(function (name, value) {
+            if (name && value) {
+              this.context.options[name] = value
+            }
+            else if (typeof(name) === 'object') {
+              Object.keys(name).forEach(key => {
+                this.context.options[key] = name[key]
+              })
+            }
+          });
           this.insertParagraph = this.wrapCommand(function () {
               _this.typing.insertParagraph(_this.editable);
           });
@@ -5356,6 +5327,30 @@ ${links}`
               if (hrNode.nextSibling) {
                   range.create(hrNode.nextSibling, 0).normalize().select();
               }
+          });
+          
+          /**
+           * insert horizontal rule
+           */
+          this.removeElement = this.wrapCommand(function () {
+            _this.history.recordUndo()
+          
+            let rng = _this.createRange()
+            
+            let parent = $(rng.sc)[0]
+            while (parent.nodeName.toLowerCase() === '#text') {
+              parent = $(parent).parent()[0]
+            }
+            
+            parent = $(parent)
+            if (parent.hasClass('note-editable')) {
+              return false
+            }
+            else {
+              parent.remove()
+            }
+            //console.log(parent.nodeName, parent)
+            //$(rng.sc).remove()
           });
           
           /**
@@ -5876,6 +5871,26 @@ ${links}`
             return !(rng.sc === rng.ec && rng.so === rng.eo)
           }
           
+          this.getCurrentElement = function () {
+            let range = _this.createRange()
+            
+            let element = range.sc
+            //console.log(element, element.nodeType)
+            if (element.nodeType === 3) {
+              element = $$1(element).parent()
+            }
+            else {
+              element = $$1(element)
+            }
+            //console.log(element)
+            if (element.hasClass('note-editable')) {
+              return undefined
+            }
+            else {
+              return element
+            }
+          }
+          
           this.getSelectedNodeAndRemove = function () {
             if (this.hasSelectedRange() === false) {
               return ''
@@ -5923,6 +5938,11 @@ ${links}`
       }
       Editor.prototype.initialize = function () {
           var _this = this;
+          
+          let soundKeyAnyIndex = 0
+          let lastKeyCode = null
+          
+          
           // bind custom events
           let keydownEvent = function (event) {
               
@@ -5958,7 +5978,131 @@ ${links}`
               }
               */
               // 
+              
+              playTypeWriterSound(event)
+              scrollVerticalCenter(event)
           }
+          
+          // -------------------------------
+          
+          let {soundKeyEnterURL, soundKeyAny} = soundKeys
+          let audioEnterObject = new Audio(soundKeyEnterURL)
+          
+          let audioObjects = []
+          for (let i = 0; i < soundKeyAny.length; i++) {
+            audioObjects.push(new Audio(soundKeyAny[i]))
+          }
+          
+          let playTypeWriterSound = function (event) {
+            //let enableTypewriterSoundEffect = $v.EditorManager.enableTypeWriterSoundEffect
+            //console.log(enableTypewriterSoundEffect, _this.options.enableTypeWriterSoundEffect)
+            let enableTypewriterSoundEffect = _this.options.enableTypeWriterSoundEffect
+            if (enableTypewriterSoundEffect !== true
+                    || event.ctrlKey
+                    || event.altKey
+                    || scrollVerticalCenterSkipKeyCode.indexOf(event.keyCode) > -1) {
+              //console.log(event.keyCode)
+              return false
+            }
+            //console.log(event.keyCode)
+            
+            if (event.keyCode === key.code.ENTER) {
+              //console.log('play enter')
+              let audioEnter = audioEnterObject
+              if (!audioEnter.paused) {
+                audioEnter.currentTime = 0
+              }
+              else {
+                audioEnter.play()
+              }
+            }
+            else {
+              //console.log('play type')
+              if (event.keyCode !== lastKeyCode) {
+                soundKeyAnyIndex = (soundKeyAnyIndex + 1) % soundKeyAny.length
+              }
+
+
+              let soundKeyAnyURL = soundKeyAny[soundKeyAnyIndex]
+              //console.log(soundKeyAnyURL)
+              let audioAny = audioObjects[soundKeyAnyIndex]
+              //audioAny.play()
+              if (!audioAny.paused) {
+                audioAny.currentTime = 0
+              }
+              else {
+                audioAny.play()
+              }
+            }
+          }
+          
+          // ----------------------------
+          
+          let scrollVerticalCenterTimer = null
+          let scrollVerticalCenterSkipKeyCode = _this.options.scrollVerticalCenterSkipKeyCode
+          let scrollVerticalCenter = function (event) {
+            if (_this.options.enableScrollVerticalCenter !== true
+                    || scrollVerticalCenterSkipKeyCode.indexOf(event.keyCode) > -1) {
+              return false
+            }
+            
+            let range = _this.createRange()
+            
+            let scElement = range.sc
+            let y = getElementVerticalCenterY(scElement)
+            
+            if (range.sc !== range.ec) {
+              let ecElement = range.ec
+              let yEC = getElementVerticalCenterY(ecElement)
+              y = Math.round((y + yEC) / 2)
+            }
+            //console.log(range.sc, range.ec, range.sc === range.ec, $(range.sc).parent()[0])
+            //console.log(y)
+            
+            let verticalCenterY = getElementVerticalCenterY(_this.$editable)
+            
+            let scrollTopY = _this.$editable[0].scrollTop
+            let scrollTopTo = scrollTopY + (y - verticalCenterY)
+            // -------------------
+            //console.log(y, verticalCenterY, scrollTopY, scrollTopTo)
+            
+            
+            //_this.$editable[0].scrollTop(y, {method: 'smooth'})
+            //console.log(scrollTopTo, _this.$editable[0].scrollHeight)
+            if (scrollTopTo < 0) {
+              scrollTopTo = 0
+            } 
+            if (scrollTopTo > _this.$editable[0].scrollHeight) {
+              scrollTopTo = _this.$editable[0].scrollHeight
+            }
+            
+            clearTimeout(scrollVerticalCenterTimer)
+            scrollVerticalCenterTimer = setTimeout(() => {
+              _this.$editable.clearQueue()
+              _this.$editable.stop()
+              _this.$editable.animate({scrollTop: scrollTopTo}, 100)
+            }, 10)
+          }
+          
+          let getElementVerticalCenterY = function (element) {
+            //console.log(element.nodeType)
+            if (element.nodeType === 3) {
+              element = $(element).parent()
+            }
+            else {
+              element = $(element)
+            }
+            
+            if (!element || !element[0].getBoundingClientRect) {
+              return false
+            }
+            
+            let rect = element[0].getBoundingClientRect()
+            //console.log(rect)
+            return Math.round(rect.top + (rect.height / 2))
+          }
+          
+          // ----------------------------
           
           this.$editable.on('keydown', keydownEvent)
           //.on('compositionstart', keydownEvent)
@@ -6075,7 +6219,13 @@ ${links}`
       Editor.prototype.destroy = function () {
           this.$editable.off();
       };
+      
+      let applyToElementEventNames = summerNoteOptions.eventsWillApplyToElement
+      
       Editor.prototype.handleKeyMap = function (event) {
+          //console.log(event)
+          event.stopPropagation()
+        
           var keyMap = this.options.keyMap[env.isMac ? 'mac' : 'pc'];
           //console.log(keyMap)
           var keys = [];
@@ -6101,6 +6251,7 @@ ${links}`
           if (keyName) {
               keys.push(keyName);
           }
+          //console.log(keyName)
           var eventName = keyMap[keys.join('+')];
           //console.log([keys.join('+'), eventName, event.keyCode])
           //console.log(this.context.invoke(eventName))
@@ -11143,284 +11294,47 @@ sel.addRange(range);
           return this;
       }
   });
-
+  
+  // --------------------
+  
+  let modules = {
+    'editor': Editor,
+    'clipboard': Clipboard,
+    'dropzone': Dropzone,
+    'codeview': CodeView,
+    'statusbar': Statusbar,
+    'fullscreen': Fullscreen,
+    'handle': Handle,
+    // FIXME: HintPopover must be front of autolink
+    //  - Script error about range when Enter key is pressed on hint popover
+    'hintPopover': HintPopover,
+    'autoLink': AutoLink,
+    'autoSync': AutoSync,
+    'placeholder': Placeholder,
+    'buttons': Buttons,
+    'toolbar': Toolbar,
+    'commentDialog': CommentDialog,
+    'linkDialog': LinkDialog,
+    'iframeDialog': IframeDialog,
+    'linkPopover': LinkPopover,
+    'imageDialog': ImageDialog,
+    'imageEditDialog': ImageEditDialog,
+    'imagePopover': ImagePopover,
+    'tablePopover': TablePopover,
+    'videoDialog': VideoDialog,
+    'helpDialog': HelpDialog,
+    'airPopover': AirPopover
+  }
+  
+  summerNoteOptions.modules = modules
+  
+  // ---------------------
+          
   $$1.summernote = $$1.extend($$1.summernote, {
       version: '0.8.11',
       ui: ui,
       plugins: {},
-      options: {
-          modules: {
-              'editor': Editor,
-              'clipboard': Clipboard,
-              'dropzone': Dropzone,
-              'codeview': CodeView,
-              'statusbar': Statusbar,
-              'fullscreen': Fullscreen,
-              'handle': Handle,
-              // FIXME: HintPopover must be front of autolink
-              //  - Script error about range when Enter key is pressed on hint popover
-              'hintPopover': HintPopover,
-              'autoLink': AutoLink,
-              'autoSync': AutoSync,
-              'placeholder': Placeholder,
-              'buttons': Buttons,
-              'toolbar': Toolbar,
-              'commentDialog': CommentDialog,
-              'linkDialog': LinkDialog,
-              'imageEditDialog': ImageEditDialog,
-              'iframeDialog': IframeDialog,
-              'linkPopover': LinkPopover,
-              'imageDialog': ImageDialog,
-              'imagePopover': ImagePopover,
-              'tablePopover': TablePopover,
-              'videoDialog': VideoDialog,
-              'helpDialog': HelpDialog,
-              'airPopover': AirPopover
-          },
-          buttons: {},
-          lang: 'en-US',
-          followingToolbar: true,
-          otherStaticBar: '',
-          // toolbar
-          toolbar: [
-              ['formatBlockHeading', ['formatH1', 'formatH2', 'formatH3', 'formatH4', 'formatH5', 'formatH6']],
-              ['formatBlock', ['formatPara', 'formatCode']],
-              ['style', ['style']],
-              ['font', ['bold', 'italic', 'underline', 'clear']],
-              ['fontname', ['fontname']],
-              ['fontsize', ['fontsize']],
-              ['color', ['forecolor', 'backcolor']],
-              ['para', ['ul', 'ol', 'paragraph']],
-              ['table', ['table']],
-              ['insert', ['link', 'picture', 'video', 'hr', 'comment', 'htmlify', 'textify', 'iframe']],
-              ['view', ['fullscreen', 'codeview', 'help']]
-          ],
-          // popover
-          popatmouse: true,
-          popover: {
-              image: [
-                  ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
-                  ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                  ['imagesLink', ['openMedia', 'saveMedia', 'copyMediaLink', 'imgEdit']],
-                  ['remove', ['removeMedia']]
-              ],
-              link: [
-                  ['link', ['linkDialogShow', 'unlink', 'copyLink']],
-                  ['remove', ['removeLink']]
-              ],
-              table: [
-                  ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
-                  ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]
-              ],
-              air: [
-                  ['color', ['color']],
-                  ['font', ['bold', 'underline', 'clear']],
-                  ['para', ['ul', 'paragraph']],
-                  ['table', ['table']],
-                  ['insert', ['link', 'picture']]
-              ]
-          },
-          // air mode: inline editor
-          airMode: false,
-          width: null,
-          height: null,
-          linkTargetBlank: true,
-          focus: false,
-          tabSize: 4,
-          styleWithSpan: true,
-          shortcuts: true,
-          textareaAutoSync: true,
-          hintDirection: 'bottom',
-          tooltip: 'auto',
-          container: 'body',
-          maxTextLength: 0,
-          clearEnterFormat: false, // 記得要改成false
-          showHeadingLabel: false, // 記得要改成false
-          enableDropImage: true,
-          enablePasteImage: true,
-          allowEnter: true,
-          helpFooter: null,
-          blockquoteBreakingLevel: 2,
-          styleTags: ['p', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-          fontNames: [
-              'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
-              'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande',
-              'Tahoma', 'Times New Roman', 'Verdana'
-          ],
-          fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
-          // pallete colors(n x n)
-          colors: [
-              ['#000000', '#424242', '#636363', '#9C9C94', '#CEC6CE', '#EFEFEF', '#F7F7F7', '#FFFFFF'],
-              ['#FF0000', '#FF9C00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#9C00FF', '#FF00FF'],
-              ['#F7C6CE', '#FFE7CE', '#FFEFC6', '#D6EFD6', '#CEDEE7', '#CEE7F7', '#D6D6E7', '#E7D6DE'],
-              ['#E79C9C', '#FFC69C', '#FFE79C', '#B5D6A5', '#A5C6CE', '#9CC6EF', '#B5A5D6', '#D6A5BD'],
-              ['#E76363', '#F7AD6B', '#FFD663', '#94BD7B', '#73A5AD', '#6BADDE', '#8C7BC6', '#C67BA5'],
-              ['#CE0000', '#E79439', '#EFC631', '#6BA54A', '#4A7B8C', '#3984C6', '#634AA5', '#A54A7B'],
-              ['#9C0000', '#B56308', '#BD9400', '#397B21', '#104A5A', '#085294', '#311873', '#731842'],
-              ['#630000', '#7B3900', '#846300', '#295218', '#083139', '#003163', '#21104A', '#4A1031']
-          ],
-          // http://chir.ag/projects/name-that-color/
-          colorsName: [
-              ['Black', 'Tundora', 'Dove Gray', 'Star Dust', 'Pale Slate', 'Gallery', 'Alabaster', 'White'],
-              ['Red', 'Orange Peel', 'Yellow', 'Green', 'Cyan', 'Blue', 'Electric Violet', 'Magenta'],
-              ['Azalea', 'Karry', 'Egg White', 'Zanah', 'Botticelli', 'Tropical Blue', 'Mischka', 'Twilight'],
-              ['Tonys Pink', 'Peach Orange', 'Cream Brulee', 'Sprout', 'Casper', 'Perano', 'Cold Purple', 'Careys Pink'],
-              ['Mandy', 'Rajah', 'Dandelion', 'Olivine', 'Gulf Stream', 'Viking', 'Blue Marguerite', 'Puce'],
-              ['Guardsman Red', 'Fire Bush', 'Golden Dream', 'Chelsea Cucumber', 'Smalt Blue', 'Boston Blue', 'Butterfly Bush', 'Cadillac'],
-              ['Sangria', 'Mai Tai', 'Buddha Gold', 'Forest Green', 'Eden', 'Venice Blue', 'Meteorite', 'Claret'],
-              ['Rosewood', 'Cinnamon', 'Olive', 'Parsley', 'Tiber', 'Midnight Blue', 'Valentino', 'Loulou']
-          ],
-          lineHeights: ['1.0', '1.2', '1.4', '1.5', '1.6', '1.8', '2.0', '3.0'],
-          tableClassName: 'table table-bordered',
-          insertTableMaxSize: {
-              col: 10,
-              row: 10
-          },
-          dialogsInBody: false,
-          dialogsFade: false,
-          maximumImageFileSize: null,
-          callbacks: {
-              onInit: null,
-              onFocus: null,
-              onBlur: null,
-              onBlurCodeview: null,
-              onEnter: null,
-              onKeyup: null,
-              onKeydown: null,
-              onInput: null,
-              onImageUpload: null,
-              onImageUploadError: null,
-              onImageLinkInsert: null
-          },
-          codemirror: {
-              mode: 'text/html',
-              htmlMode: true,
-              lineNumbers: true
-          },
-          keyMap: {
-              pc: {
-                  'ENTER': 'insertParagraph',
-                  'CTRL+Z': 'undo',
-                  'CTRL+Y': 'redo',
-                  //'TAB': 'tab',
-                  //'SHIFT+TAB': 'untab',
-                  'CTRL+B': 'bold',
-                  'CTRL+I': 'italic',
-                  'CTRL+U': 'underline',
-                  'CTRL+SHIFT+S': 'strikethrough',
-                  'CTRL+M': 'comment',
-                  'CTRL+ALT+M': 'uncomment',
-                  'CTRL+ALT+H': 'htmlify',
-                  'CTRL+ALT+T': 'textify',
-                  //'CTRL+SHIFT+E': 'comment',
-                  'CTRL+BACKSLASH': 'removeFormat',
-                  'CTRL+SHIFT+L': 'justifyLeft',
-                  'CTRL+SHIFT+E': 'justifyCenter',
-                  'CTRL+SHIFT+R': 'justifyRight',
-                  'CTRL+SHIFT+J': 'justifyFull',
-                  'CTRL+SHIFT+NUM7': 'insertUnorderedList',
-                  'CTRL+SHIFT+NUM8': 'insertOrderedList',
-                  'CTRL+LEFTBRACKET': 'outdent',
-                  'CTRL+RIGHTBRACKET': 'indent',
-                  'SHIFT+TAB': 'outdent',
-                  'TAB': 'indent',
-                  'CTRL+NUM0': 'formatPara',
-                  'CTRL+NUM1': 'formatH1',
-                  'CTRL+NUM2': 'formatH2',
-                  'CTRL+NUM3': 'formatH3',
-                  'CTRL+NUM4': 'formatH4',
-                  'CTRL+NUM5': 'formatH5',
-                  'CTRL+NUM6': 'formatH6',
-                  'CTRL+ENTER': 'insertHorizontalRule',
-                  'CTRL+K': 'linkDialog.show',
-                  'CTRL+L': 'linkDialog.show'
-              },
-              mac: {
-                  'ENTER': 'insertParagraph',
-                  'CMD+Z': 'undo',
-                  'CMD+SHIFT+Z': 'redo',
-                  'TAB': 'tab',
-                  'SHIFT+TAB': 'untab',
-                  'CMD+B': 'bold',
-                  'CMD+I': 'italic',
-                  'CMD+U': 'underline',
-                  'CMD+SHIFT+S': 'strikethrough',
-                  'CMD+M': 'comment',
-                  'CMD+BACKSLASH': 'removeFormat',
-                  'CMD+SHIFT+L': 'justifyLeft',
-                  'CMD+SHIFT+E': 'justifyCenter',
-                  'CMD+SHIFT+R': 'justifyRight',
-                  'CMD+SHIFT+J': 'justifyFull',
-                  'CMD+SHIFT+NUM7': 'insertUnorderedList',
-                  'CMD+SHIFT+NUM8': 'insertOrderedList',
-                  'CMD+LEFTBRACKET': 'outdent',
-                  'CMD+RIGHTBRACKET': 'indent',
-                  'CMD+NUM0': 'formatPara',
-                  'CMD+NUM1': 'formatH1',
-                  'CMD+NUM2': 'formatH2',
-                  'CMD+NUM3': 'formatH3',
-                  'CMD+NUM4': 'formatH4',
-                  'CMD+NUM5': 'formatH5',
-                  'CMD+NUM6': 'formatH6',
-                  'CMD+ENTER': 'insertHorizontalRule',
-                  'CMD+K': 'linkDialog.show'
-              }
-          },
-          icons: {
-              'align': 'note-icon-align',
-              'alignCenter': 'note-icon-align-center',
-              'alignJustify': 'note-icon-align-justify',
-              'alignLeft': 'note-icon-align-left',
-              'alignRight': 'note-icon-align-right',
-              'rowBelow': 'note-icon-row-below',
-              'colBefore': 'note-icon-col-before',
-              'colAfter': 'note-icon-col-after',
-              'rowAbove': 'note-icon-row-above',
-              'rowRemove': 'note-icon-row-remove',
-              'colRemove': 'note-icon-col-remove',
-              'indent': 'note-icon-align-indent',
-              'outdent': 'note-icon-align-outdent',
-              'arrowsAlt': 'note-icon-arrows-alt',
-              'arrowsCircleDown': 'note-icon-arrow-circle-down',
-              'arrowsCircleLeft': 'note-icon-arrow-circle-left',
-              'arrowsCircleRight': 'note-icon-arrow-circle-right',
-              'arrowsCircleUp': 'note-icon-arrow-circle-up',
-              'bold': 'note-icon-bold',
-              'caret': 'note-icon-caret',
-              'circle': 'note-icon-circle',
-              'close': 'note-icon-close',
-              'code': 'note-icon-code',
-              'eraser': 'note-icon-eraser',
-              'font': 'note-icon-font',
-              'frame': 'note-icon-frame',
-              'italic': 'note-icon-italic',
-              'link': 'note-icon-link',
-              'unlink': 'note-icon-chain-broken',
-              'magic': 'note-icon-magic',
-              'menuCheck': 'note-icon-menu-check',
-              'minus': 'note-icon-minus',
-              'orderedlist': 'note-icon-orderedlist',
-              'pencil': 'note-icon-pencil',
-              'picture': 'note-icon-picture',
-              'question': 'note-icon-question',
-              'redo': 'note-icon-redo',
-              'square': 'note-icon-square',
-              'strikethrough': 'note-icon-strikethrough',
-              'comment': 'note-icon-pencil',
-              'uncomment': 'note-icon-pencil',
-              'htmlify': 'note-icon-pencil',  // 錯誤的圖示
-              'textify': 'note-icon-pencil',  // 錯誤的圖示
-              'subscript': 'note-icon-subscript',
-              'superscript': 'note-icon-superscript',
-              'table': 'note-icon-table',
-              'textHeight': 'note-icon-text-height',
-              'trash': 'note-icon-trash',
-              'underline': 'note-icon-underline',
-              'undo': 'note-icon-undo',
-              'unorderedlist': 'note-icon-unorderedlist',
-              'video': 'note-icon-video'
-          }
-      }
+      options: summerNoteOptions
   });
 
 })))

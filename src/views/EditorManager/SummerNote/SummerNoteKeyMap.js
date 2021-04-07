@@ -5,7 +5,7 @@ let SummerNoteKeyMap = {
     'CTRL+Y': 'redo',
     //'TAB': 'tab',
     //'SHIFT+TAB': 'untab',
-    'CTRL+S': 'DelayForceExec',
+    'CTRL+S': 'DelayForceExec',  // DelayForceExec
     'CTRL+B': 'bold',
     'CTRL+I': 'italic',
     'CTRL+U': 'underline',
@@ -14,6 +14,7 @@ let SummerNoteKeyMap = {
     'CTRL+ALT+M': 'uncomment',
     'CTRL+ALT+H': 'htmlify',
     'ALT+X': 'SaveSnippet',
+    'ALT+S': 'ReadAloud',
     //'CTRL+SHIFT+E': 'comment',
     'CTRL+BACKSLASH': 'removeFormat',
     'CTRL+SHIFT+L': 'justifyLeft',

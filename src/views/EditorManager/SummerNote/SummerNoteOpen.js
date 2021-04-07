@@ -1,4 +1,4 @@
-/* global SemanticUIHelper, WindowHelper */
+/* global SemanticUIHelper, WindowHelper, DelayExecHelper */
 
 import SummerNoteHelper from './SummerNoteHelper.js'
 import SummerNoteCode from './SummerNoteCode.js'
@@ -34,6 +34,15 @@ let SummerNoteOpen = {
       $v.CodeInserter.open()
     }
     return SummerNoteHelper.buildButton('CodeInserter', contents, tooltip, click, doRender)
+  },
+  CodeInserterOption: function ($t, context, doRender) {
+    //let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
+    let tooltip = $t('Insert Code')
+    let click = () => {
+      $v.CodeInserter.open()
+    }
+    return SummerNoteHelper.buildButton('CodeInserterOption', contents, tooltip, click, doRender)
   },
   OutlineNavigator: function ($t, context, doRender) {
     //let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i>` + $t('Outline') )
@@ -232,17 +241,17 @@ let SummerNoteOpen = {
   insertGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
       SummerNoteCode.insertMore($t, c, false),
+      this.SnippetInserter($t, c, false),
       //this.insertTable($t, c, false),
       this.transSelected($t, c, false),
       this.insertHR($t, c, false),
-      this.insertVideo($t, c, false),
-      this.SnippetInserter($t, c, false),
+      this.CodeInserterOption($t, c, false),
       this.insertIframe($t, c, false),
+      this.insertVideo($t, c, false),
       //this.CodeInserter(c, false),
       this.FileUploader($t, c, false),
       this.GoogleDocsLinkBuilder($t, c, false),
       this.OneDriveLinkBuilder($t, c, false),
-      
     ])
   },
   

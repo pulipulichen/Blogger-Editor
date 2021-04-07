@@ -10,6 +10,11 @@
           
           <div class="ui top attached tabular menu">
             <a class="item active" 
+               data-tab="text"
+               v-on:click="openTab">
+              {{ $t('Text') }}
+            </a>
+            <a class="item" 
                data-tab="image"
                v-on:click="openTab">
               {{ $t('Image') }}
@@ -36,6 +41,25 @@
         <!-- ------------------------------------------------ -->
         
           <div class="ui bottom attached tab segment active form" 
+             data-tab="text">
+            
+            <div class="field">              
+              <div class="ui checkbox">
+                <input type="checkbox" 
+                       name="enableTypeWriterSoundEffect"
+                       v-on:change="persist"
+                       v-model="enableTypeWriterSoundEffect">
+                <label>{{ $t(`Enable typewriter sound effect`) }}</label>
+              </div>
+            </div>
+            
+          </div> <!-- data-tab="text" -->
+          
+        <!-- ================================================= -->
+        
+        <!-- ================================================= -->
+        
+          <div class="ui bottom attached tab segment form" 
              data-tab="image">
             
             <div class="unstackable fields">

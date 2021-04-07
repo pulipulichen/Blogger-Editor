@@ -102,7 +102,7 @@ let config = {
     },
     buildEntryList: function () {
       if (this.opened === false) {
-        return
+        return undefined
       }
       
       if (this.postBody === null) {
