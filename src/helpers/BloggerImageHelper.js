@@ -1,6 +1,6 @@
 /* global ElectronHelper */
 
-BloggerImageHelper = {
+let BloggerImageHelper = {
   //protocol: 'http',
   size: {
     full: 1600,
@@ -153,3 +153,5 @@ BloggerImageHelper = {
     return postBody
   }
 }
+
+export default BloggerImageHelper

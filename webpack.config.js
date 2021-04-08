@@ -155,17 +155,18 @@ module.exports = (env, argv) => {
         'less-loader' // Step 1 要先執行這個
       ]
     }
-    webpackConfig.module.rules.push({
-      test: /\.m?js$/,
-      exclude: /(node_modules|bower_components)/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env'],
-          plugins: ['@babel/plugin-proposal-object-rest-spread']
-        }
-      }
-    })
+    
+//    webpackConfig.module.rules.push({
+//      test: /\.m?js$/,
+//      exclude: /(node_modules|bower_components)/,
+//      use: {
+//        loader: 'babel-loader',
+//        options: {
+//          presets: ['@babel/preset-env'],
+//          plugins: ['@babel/plugin-proposal-object-rest-spread']
+//        }
+//      }
+//    })
     
     
     if (typeof(webpackConfig.optimization) !== 'object') {
