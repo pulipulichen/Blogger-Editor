@@ -154,4 +154,6 @@ let BloggerImageHelper = {
   }
 }
 
+window.BloggerImageHelper = BloggerImageHelper
+
 export default BloggerImageHelper
