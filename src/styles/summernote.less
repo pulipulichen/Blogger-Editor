@@ -59,7 +59,10 @@
     }
     
     &.air-mode.new {
-      border-bottom: 1px solid #CCC;
+      .note-placeholder, .note-editable {
+        text-decoration: underline;
+      }
+      //border-bottom: 1px solid #CCC;
     }
   }
   .air-mode > .note-editor .note-editing-area .note-editable,
