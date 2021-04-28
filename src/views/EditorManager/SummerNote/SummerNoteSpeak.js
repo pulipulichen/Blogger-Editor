@@ -22,6 +22,14 @@ let SummerNoteRead = {
     //console.log('Read Aloud', selectedText)
     if (selectedText.length === 0) {
       let element = $v.EditorManager.FieldPostBody.getCurrentElement()
+      
+      while (true) {
+        let parent = element.parent()
+        if (parent.hasClass('note-editable')) {
+          break
+        }
+        element = parent
+      } 
       //console.log(element)
       if (element) {
         selectedText = element.text()

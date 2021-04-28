@@ -22,6 +22,7 @@ let SpeakUtil = {
   speechSynthesis: window.speechSynthesis,
   stop () {
     this.speechSynthesis.cancel()
+    this.isSpeaking = false
   },
   speak: function (text, rate) {
       //console.log(text)
