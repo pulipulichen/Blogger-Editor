@@ -6256,6 +6256,7 @@ ${links}`
           //console.log([keys.join('+'), eventName, event.keyCode])
           //console.log(this.context.invoke(eventName))
           if (eventName) {
+            
               //console.log(this.options.buttons)
               if (this.context.invoke(eventName) !== false) {
                   event.preventDefault();
@@ -6409,6 +6410,7 @@ ${links}`
        * restore lately range
        */
       Editor.prototype.restoreRange = function () {
+        
           if (this.lastRange) {
               this.lastRange.select();
               this.focus();
@@ -9506,9 +9508,10 @@ sel.addRange(range);
               //var $openInNewWindow = _this.$dialog
               //    .find('.sn-checkbox-open-in-new-window input[type=checkbox]');
               
-             
               _this.ui.onDialogShown(_this.$dialog, function () {
+                
                   _this.context.triggerEvent('dialog.shown');
+                  
                   // if no url was given, copy text to url
                   if (!linkInfo.url) {
                     let url = linkInfo.text
@@ -9560,10 +9563,14 @@ sel.addRange(range);
                   $linkUrl.on('input', handleLinkUrlUpdate).on('paste', function () {
                       setTimeout(handleLinkUrlUpdate, 0);
                   }).val(linkInfo.url);
+                  
+                  //console.log(linkInfo.url)
+                  $linkUrl.addClass("first-focus")
                   if (!env.isSupportTouch) {
-                    $linkUrl.addClass("first-focus")
                     //$linkUrl.trigger('focus');
-                    $linkUrl.trigger('select');
+                    setTimeout(() => {
+                      $linkUrl.trigger('select');
+                    }, 100)
                   }
                   $linkTarget.val(linkInfo.target);
                   $linkTarget.change(() => {
@@ -9663,9 +9670,12 @@ sel.addRange(range);
        */
       LinkDialog.prototype.show = function () {
           var _this = this;
+          
           var linkInfo = this.context.invoke('editor.getLinkInfo');
           this.context.invoke('editor.saveRange');
+          
           this.showLinkDialog(linkInfo).then(function (linkInfo) {
+            
               _this.context.invoke('editor.restoreRange');
               _this.context.invoke('editor.createLink', linkInfo);
           }).fail(function () {
@@ -9722,12 +9732,12 @@ sel.addRange(range);
           
           this.$dialog.find('input.note-iframe-url').focus(function (event) {
             if ($$1(this).hasClass('first-focus') === false) {
-              return
+              return false
             }
             $$1(this).removeClass('first-focus')
           
             if (this.value !== undefined && this.value.trim() !== "") {
-              return
+              return false
             }
             navigator.clipboard.readText()
               .then(text => {
@@ -9741,7 +9751,7 @@ sel.addRange(range);
                 }
               })
               .catch(err => {
-                //console.error('Failed to read clipboard contents: ', err);
+                console.error('Failed to read clipboard contents: ', err);
               });
           })
           
@@ -9750,7 +9760,7 @@ sel.addRange(range);
           checkbox.change(function () {
             //console.log([this.checked, this.value])
             if (this.checked !== true) {
-              return
+              return false
             }
             let name = this.name
             localStorage.setItem(openMethodKey + name, this.checked)
