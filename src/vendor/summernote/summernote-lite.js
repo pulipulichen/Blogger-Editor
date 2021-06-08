@@ -6860,6 +6860,7 @@ ${links}`
                 if (upperParent.prop('tagName').toLowerCase() === 'p') {
                   //upperParent.html(parent.html())
                   parent.contents().appendTo(upperParent)
+                  parent.remove()
                   parent = upperParent
                 }
               }
