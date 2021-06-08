@@ -1,3 +1,5 @@
+/* global Node */
+
 import soundKeys from './sound/soundKeys.js'
 import summerNoteOptions from './options.js'
 
@@ -3380,6 +3382,7 @@ import summerNoteOptions from './options.js'
        * @return {WrappedRange}
        */
       create: function (sc, so, ec, eo) {
+          //console.log(arguments.length, sc, so, ec, eo)
           if (arguments.length === 4) {
               return new WrappedRange(sc, so, ec, eo);
           }
@@ -3390,6 +3393,7 @@ import summerNoteOptions from './options.js'
           }
           else {
               var wrappedRange = this.createFromSelection();
+              //console.log(wrappedRange)
               if (!wrappedRange && arguments.length === 1) {
                   wrappedRange = this.createFromNode(arguments[0]);
                   return wrappedRange.collapse(dom.emptyPara === arguments[0].innerHTML);
@@ -3401,6 +3405,7 @@ import summerNoteOptions from './options.js'
           var sc, so, ec, eo;
           if (env.isW3CRangeSupport) {
               var selection = document.getSelection();
+              //console.log(selection)
               if (!selection || selection.rangeCount === 0) {
                   return null;
               }
@@ -4848,6 +4853,7 @@ import summerNoteOptions from './options.js'
             var rng = _this.createRange();
             
             var element = rng.ec
+            //console.log(element)
             if (element.nodeType === 3) {
               element = element.parentElement
             }
@@ -4855,13 +4861,12 @@ import summerNoteOptions from './options.js'
             if ($$1(element).hasClass('note-editor-comment')) {
               //console.log(rng)
               _this.context.invoke('commentDialog.show')
-              return
+              return false
             }
             
             if (this.hasSelectedRange() === false) {
               return false
             }
-            
             return _this.inlineStyling({
               tagName: 'span',
               className: 'note-editor-comment'
@@ -5496,7 +5501,7 @@ ${links}`
            */
           this.updateComment = this.wrapCommand(function (commentInfo) {
               var title = commentInfo.title
-              
+              //console.log(title)
               var rng = commentInfo.range || _this.createRange();
               //var additionalTextLength = commentInfo.length - rng.toString().length;
               //if (additionalTextLength > 0 && _this.isLimited(additionalTextLength)) {
@@ -6838,6 +6843,7 @@ ${links}`
       Editor.prototype.inlineStyling = function (options) {
           //this.saveRange()
           var rng = this.createRange();
+          //console.log(rng)
           if (rng) {
               //console.log(rng)
               
@@ -6848,6 +6854,15 @@ ${links}`
                 parent = $(rng.sc.parentElement)
               }
               
+              if (parent.prop('tagName').toLowerCase() === 'span') {
+                let upperParent = parent.parent()
+                
+                if (upperParent.prop('tagName').toLowerCase() === 'p') {
+                  //upperParent.html(parent.html())
+                  parent.contents().appendTo(upperParent)
+                  parent = upperParent
+                }
+              }
               
               let parentTagName = parent.prop('tagName').toLowerCase()
               let parentClassName = parent.prop('className')
@@ -6948,6 +6963,7 @@ sel.addRange(range);
                   }
                 }
                 else {
+                  //console.log(parentTagName, options.tagName.toLowerCase())
                   if (parentTagName !== options.tagName.toLowerCase()) {
                     let content = parent.html()
                     let t = options.tagName
