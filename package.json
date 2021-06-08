@@ -10,6 +10,7 @@
     "e0.run-development": "electron bin/electron/index-electron.js --mode development",
     "e1.run-production": "electron bin/electron/index-electron.js --mode production",
     "host": "node bin/host/host.js",
+    "host-without-open": "node bin/host/host-without-open.js",
     "webpack-help": "webpack --help",
     "webpack-test-build-development": "webpack --mode development --config [tmp/webpack.config.js",
     "mocha": "mocha lib-for-link/src/**/*.mocha-test.js",
