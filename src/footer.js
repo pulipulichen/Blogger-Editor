@@ -26,7 +26,7 @@ import BloggerImageHelper from './helpers/BloggerImageHelper.js'
 
 require('./helpers/WindowHelper.js')
 //require('./helpers/SummerNoteHelper.js')
-require('./helpers/DayjsHelper.js')
+require('./helpers/DayjsHelper/DayjsHelper.js')
 require('./helpers/SemanticUIHelper.js')
 require('./helpers/FileHelper.js')
 require('./helpers/ScrollHelper.js')

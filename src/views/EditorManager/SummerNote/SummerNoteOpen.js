@@ -103,7 +103,7 @@ let SummerNoteOpen = {
     let tooltip = $t('Video')
     let click = () => {
       //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
-      $v.EditorManager.FieldPostBody.get().summernote('video')
+      $v.EditorManager.FieldPostBody.get().summernote('videoDialog.show')
     }
     return SummerNoteHelper.buildButton('insertVideo', contents, tooltip, click, doRender)
   },

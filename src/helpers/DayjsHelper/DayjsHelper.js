@@ -1,27 +1,32 @@
 import dayjs from 'dayjs'
+import dayjsPluginUTC from 'dayjs-plugin-utc'
+ 
+dayjs.extend(dayjsPluginUTC)
 //const dayjs = require('dayjs')
+
+let timezoneOffset = 480
 
 let DayjsHelper = {
   nowFormat: function (format) {
     if (format === undefined) {
       format = 'YYYY-MMDD-HHmmss'
     }
-    return dayjs(new Date()).format(format)
+    return dayjs(new Date()).utcOffset(timezoneOffset).format(format)
   },
   nowMMDDFormat: function (format) {
     if (format === undefined) {
       format = 'MMDD-HHmmss'
     }
-    return dayjs(new Date()).format(format)
+    return dayjs(new Date()).utcOffset(timezoneOffset).format(format)
   },
   nowHHMMSSFormat: function (format) {
     if (format === undefined) {
       format = 'HHmmss'
     }
-    return dayjs(new Date()).format(format)
+    return dayjs(new Date()).utcOffset(timezoneOffset).format(format)
   },
   unix: function () {
-    return dayjs(new Date()).unix()
+    return dayjs(new Date()).utcOffset(timezoneOffset).unix()
   },
   postDate: function (unix) {
     if (unix === undefined) {
@@ -31,7 +36,7 @@ let DayjsHelper = {
       unix = unix * 1000
     }
     
-    return dayjs(unix).format('MM/DD HH:mm')
+    return dayjs(unix).utcOffset(timezoneOffset).format('MM/DD HH:mm')
   },
   format: function (unix, format) {
     if (typeof(unix) === 'string') {
@@ -41,7 +46,7 @@ let DayjsHelper = {
     else {
       unix = unix * 1000
     }
-    return dayjs(unix).format(format)
+    return dayjs(unix).utcOffset(timezoneOffset).format(format)
   },
   timeSpentDisplay: function (seconds) {
     let min = Math.round(seconds / 60)
