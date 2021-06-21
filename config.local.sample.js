@@ -1,4 +1,6 @@
 const CONFIG = {
+  //defaultTheme: 'blog.pulipuli.info',
+  //showReload: true,
 }
 export default CONFIG
   

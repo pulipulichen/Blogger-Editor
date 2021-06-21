@@ -20,6 +20,25 @@ let SpeakUtil = {
     
   },
   speechSynthesis: window.speechSynthesis,
+  voice: null,
+  getVoice () {
+    if (this.voice) {
+      return this.voice
+    }
+    
+    let voices = this.speechSynthesis.getVoices()
+    let v
+    for (let len = voices.length, i = len; i > 0; i--) {
+      v = voices[(len - i)]
+      if (v.lang === 'zh-TW') {
+        this.voice = v
+        return v
+      }
+    }
+    
+    this.voice = v
+    return v
+  },
   stop () {
     this.speechSynthesis.cancel()
     this.isSpeaking = false
@@ -51,6 +70,7 @@ let SpeakUtil = {
             //console.error(tooLongMessage, text)
             msg.text = tooLongMessage
             msg.rate = this.rate
+            msg.voice = this.getVoice()
             this.speechSynthesis.cancel()
             this.speechSynthesis.speak(msg)
             this.isSpeaking = false
@@ -69,6 +89,7 @@ let SpeakUtil = {
           if (i < textParts.length) {
             msg.text = textParts[i]
             msg.rate = this.rate
+            msg.voice = this.getVoice()
             //console.log(this.localConfig.speechSynthesisRate)
   //          let isEnd = false
             //console.log(msg.text)
