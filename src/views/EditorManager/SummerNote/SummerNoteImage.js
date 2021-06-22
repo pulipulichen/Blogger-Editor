@@ -58,7 +58,7 @@ let SummerNoteImage = {
   },
   
   downloadImageTamplateClick: function () {
-    let path = './static/image-template.dps'
+    let path = './static/ImageTemplate/image-template.dps'
     //FileHelper.download(path)
     //let title = "test.dps"
     let title = $v.EditorManager.FieldPostTitle.getText().trim()
