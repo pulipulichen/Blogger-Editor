@@ -19,6 +19,14 @@ let SpeakUtil = {
   setRate () {
     
   },
+  lang: 'zh-TW',
+  setLang (lang) {
+    if (lang === 'auto') {
+      return this.lang
+    }
+    this.lang = lang
+    return lang
+  },
   speechSynthesis: window.speechSynthesis,
   voice: null,
   getVoice () {
@@ -30,7 +38,7 @@ let SpeakUtil = {
     let v
     for (let len = voices.length, i = len; i > 0; i--) {
       v = voices[(len - i)]
-      if (v.lang === 'zh-TW') {
+      if (v.lang === this.lang) {
         this.voice = v
         return v
       }

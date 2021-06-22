@@ -1,4 +1,4 @@
-/* global SemanticUIHelper, BloggerImageHelper, CopyPasteHelper, GoogleAnalyticsHelper */
+/* global SemanticUIHelper, BloggerImageHelper, CopyPasteHelper, GoogleAnalyticsHelper, ConfigHelper */
 
 import SummerNoteHelper from './SummerNoteHelper.js'
 import SpeakUtil from './SpeakUtil.js'
@@ -42,6 +42,7 @@ let SummerNoteRead = {
     }
 
     this.readAloudButton.css('color', 'green')
+    SpeakUtil.setLang(ConfigHelper.get('locale'))
     await SpeakUtil.speak(selectedText, $v.EditorManager.speakRate)
     this.readAloudButton.css('color', '')
   },
