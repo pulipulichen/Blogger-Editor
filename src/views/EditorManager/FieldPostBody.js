@@ -111,6 +111,36 @@ let FieldPostBody = {
   getCurrentElement: function () {
     return this.get().summernote('editor.getCurrentElement')
   },
+  moveToNextElement: function () {
+    let element = this.getCurrentElement()
+    let nextElement = element.next()
+    //console.log(element)
+    if (nextElement.length === 0) {
+      return false
+    }
+
+    //console.log(nextElement)
+
+    //nextElement.focus()
+    /*
+    nextElement.select()
+    setTimeout(() => {
+      this.textSelect(nextElement[0], 1)
+      //this.ReadAloudClickEvent()
+    }, 100)
+    */
+    let range = document.createRange();
+    var sel = window.getSelection();
+    var childLength = nextElement.text().length;
+    if (childLength > 0) {
+        var lastNode = nextElement[0].childNodes[0];
+        range.setStart(lastNode, 0);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+    nextElement[0].scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+  },
   hasSelectedRange: function () {
     return this.get().summernote('editor.hasSelectedRange')
   },

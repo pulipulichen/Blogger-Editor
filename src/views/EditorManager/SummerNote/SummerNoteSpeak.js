@@ -17,7 +17,7 @@ let SummerNoteRead = {
     }
 
     let selectedText = $v.EditorManager.FieldPostBody.getSelectText()
-    
+    let hasSelected = true
     //this.SaveSnippetClick()
     //console.log('Read Aloud', selectedText)
     if (selectedText.length === 0) {
@@ -34,6 +34,7 @@ let SummerNoteRead = {
       if (element) {
         selectedText = element.text()
       }
+      hasSelected = false
       //console.log(selectedText)
     }
     
@@ -45,6 +46,36 @@ let SummerNoteRead = {
     SpeakUtil.setLang(ConfigHelper.get('locale'))
     await SpeakUtil.speak(selectedText, $v.EditorManager.speakRate)
     this.readAloudButton.css('color', '')
+    
+    // 這裡要考慮是否要唸下一段
+    //console.log('這裡要考慮是否要唸下一段')
+    //console.log(selectedText.length)
+    if (hasSelected === false) {
+      let element = $v.EditorManager.FieldPostBody.getCurrentElement()
+      let nextElement = element.next()
+      //console.log(element)
+      if (nextElement.length === 0) {
+        return false
+      }
+      
+      $v.EditorManager.FieldPostBody.moveToNextElement()
+      setTimeout(() => {
+        this.ReadAloudClickEvent()
+      }, 100)
+    }
+  },
+  textSelect: function (inp, s, e) {
+      e = e || s;
+      if (inp.createTextRange) {
+          var r = inp.createTextRange();
+          r.collapse(true);
+          r.moveEnd('character', e);
+          r.moveStart('character', s);
+          r.select();
+      } else if (inp.setSelectionRange) {
+          inp.focus();
+          inp.setSelectionRange(s, e);
+      }
   },
   ReadAloud: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="assistive listening systems icon speak-button"></i>`)
@@ -59,7 +90,7 @@ let SummerNoteRead = {
   getRateLabel: function () {
     if (!this.rateLabel) {
       this.rateLabel = $('.note-toolbar .rate-label')
-      console.log(this.rateLabel)
+      //console.log(this.rateLabel)
       if (this.rateLabel.length === 0) {
         this.rateLabel = null
         return false
