@@ -99,7 +99,42 @@ let SummerNoteImage = {
       }
     }
     
-    title = $v.PostManager.editingPostId + '-' + title
+    title = $v.PostManager.editingPostId + '-cover-' + title
+
+    title = title + '.dps'
+    //$(`<a href="${path}" download="${title}"></a>`).click()
+
+    FileHelper.download(path, title)
+  },
+  
+  downloadAnnotationTamplateTamplate: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="object group outline icon"></i>` + $t('Annotation Template'))
+    let tooltip = $t('Download annotation template')
+    let click = () => {
+      this.downloadAnnotationTamplateClick()
+    }
+    return SummerNoteHelper.buildButton('downloadAnnotationTamplate', contents, tooltip, click, doRender)
+  },
+  
+  downloadAnnotationTamplateClick: function () {
+    let path = './static/ImageTemplate/annotation-template.wps'
+    //FileHelper.download(path)
+    //let title = "test.dps"
+    let title = $v.EditorManager.FieldPostTitle.getText().trim()
+    
+    let titleList = title.match(/[A-Za-z\d]+/g).map((m) => {return m})
+    title = ''
+    for (let i = 0; i < titleList.length; i++) {
+      if (title !== '') {
+        title = title + '_'
+      }
+      title = title + titleList[i]
+      if (title.length > 30) {
+        break
+      }
+    }
+    
+    title = $v.PostManager.editingPostId + '-annotation-' + title
 
     title = title + '.dps'
     //$(`<a href="${path}" download="${title}"></a>`).click()

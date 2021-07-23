@@ -199,22 +199,36 @@ var config = {
 
           let loop = (i) => {
             if (i < list.length) {
-              if (i % folderFilesLimit === 0) {
-                folderCounter++
-                let folderName = `post-${id}-images-${nowFormat}-${folderCounter}`
-                folder = zip.folder(folderName);
-              } 
-              
-              let path = list[i]
-              let name = FileSystemHelper.getFileName(path)
-              //console.log([name, path])
-              JSZipUtils.getBinaryContent(path, (err, data) => {
-                //console.log(data)
-                name = decodeURIComponent(name)
-                folder.file(name, data)
-                i++
-                loop(i)
-              })
+              if (list.length > folderFilesLimit) {
+                if (i % folderFilesLimit === 0) {
+                  folderCounter++
+                  let folderName = `post-${id}-images-${nowFormat}-${folderCounter}`
+                  folder = zip.folder(folderName);
+                } 
+
+                let path = list[i]
+                let name = FileSystemHelper.getFileName(path)
+                //console.log([name, path])
+                JSZipUtils.getBinaryContent(path, (err, data) => {
+                  //console.log(data)
+                  name = decodeURIComponent(name)
+                  folder.file(name, data)
+                  i++
+                  loop(i)
+                })
+              }
+              else {
+                let path = list[i]
+                let name = FileSystemHelper.getFileName(path)
+                //console.log([name, path])
+                JSZipUtils.getBinaryContent(path, (err, data) => {
+                  //console.log(data)
+                  name = decodeURIComponent(name)
+                  zip.file(name, data)
+                  i++
+                  loop(i)
+                })
+              }
             }
             else {
               zip.generateAsync({type: "blob"}).then((content) => {
