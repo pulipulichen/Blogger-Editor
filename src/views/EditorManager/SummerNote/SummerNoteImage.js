@@ -136,7 +136,7 @@ let SummerNoteImage = {
     
     title = $v.PostManager.editingPostId + '-annotation-' + title
 
-    title = title + '.dps'
+    title = title + '.wps'
     //$(`<a href="${path}" download="${title}"></a>`).click()
 
     FileHelper.download(path, title)

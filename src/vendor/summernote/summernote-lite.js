@@ -6170,7 +6170,9 @@ ${links}`
               // hide popover
               setTimeout(() => {
                 //console.log('aaa')
+                
                 $$1('.note-popover').fadeOut()
+                
               }, 1000)
           }).on('mousedown', function (event) {
               _this.context.triggerEvent('mousedown', event);

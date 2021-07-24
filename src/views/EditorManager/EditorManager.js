@@ -52,6 +52,7 @@ var EditorManager = {
       onCloseReload: false,
       enableTypeWriterSoundEffect: true,
       speakRate: 1.5,
+      ImageUploadDraft: 'https://www.blogger.com/blog/post/edit/16607461/8994542276547065',
       
       FieldPostBody: FieldPostBody,
       FieldPostLabels: FieldPostLabels,
@@ -169,6 +170,14 @@ var EditorManager = {
     },
     summernote () {
       return $('#summernotePostBody')
+    },
+    isImageUploadDraftValid () {
+      if (typeof(this.ImageUploadDraft) !== 'string'
+        && !this.ImageUploadDraft.startsWith('https://www.blogger.com/blog/post/edit/')
+        && this.ImageUploadDraft.split('/').length !== 8) {
+        return false
+      }
+      return true
     }
   },
   watch: {
@@ -364,6 +373,9 @@ var EditorManager = {
       let url = 'https://www.blogger.com'
       let name = 'bloggerConsole'
       WindowHelper.popup(url, name)
+    },
+    openImageUploadDraft () {
+      WindowHelper.popup(this.ImageUploadDraft, 'image-upload-draft')
     },
     openImageReplacer: function () {
       this.ImageReplacer.open()

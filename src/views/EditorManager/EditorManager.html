@@ -112,6 +112,26 @@
                      v-model="imageSizeDefault" />
             </div>
             
+            <div class="field">
+              <label for="ImageUploadDraft">
+                {{ $t('Image Upload Draft') }}
+              </label>
+              
+              <div class="ui action input">
+                <input type="url" 
+                       name="ImageUploadDraft" 
+                       onfocus="this.select()"
+                       id="ImageUploadDraft"
+                       v-model="ImageUploadDraft"
+                       v-on:change="persist"
+                       placeholder="https://www.blogger.com/blog/post/edit/..." />
+                <button class="ui button"
+                        v-bind:class="{disabled: !isImageUploadDraftValid}"
+                        v-on:click="openImageUploadDraft"
+                        >{{ $t('OPEN') }}</button>
+              </div>
+            </div>
+            
           </div> <!-- data-tab="image" -->
           
           <!-- -------------------------------------- -->

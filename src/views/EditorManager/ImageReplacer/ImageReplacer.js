@@ -1,4 +1,4 @@
-/* global VueHelper, DayjsHelper, EventManager, FunctionHelper, BloggerImageHelper, FileSystemHelper */
+/* global VueHelper, DayjsHelper, EventManager, FunctionHelper, BloggerImageHelper, FileSystemHelper, WindowHelper */
 
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
@@ -282,7 +282,15 @@ var config = {
     },
     openBloggerDraft: function () {
       //$v.EditorManager.openBloggerDraft()
-      $v.PublishManager.popup('editURL')
+      //$v.PublishManager.popup('editURL')
+      
+      if ($v.PublishManager.publicURL !== '') {
+        WindowHelper.popup($v.EditorManager.ImageUploadDraft, 'image-upload-draft')
+      }
+      else {
+        $v.PublishManager.popup('editURL')
+      }
+      
       return this
     },
     openBloggerDraftSetting: function () {
