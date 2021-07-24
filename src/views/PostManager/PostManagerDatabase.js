@@ -1,3 +1,5 @@
+/* global DayjsHelper, WebSQLDatabaseHelper, FunctionHelper */
+
 let PostManagerDatabase = {
   createTableDone: false,
   createTable: function () {
@@ -16,7 +18,8 @@ let PostManagerDatabase = {
          abstract TEXT,
          thumbnail TEXT,
          editURL TEXT,
-         publicURL TEXT)`
+         publicURL TEXT,
+         editNote TEXT)`
     //console.log(sql)
     WebSQLDatabaseHelper.exec(sql)
   },
@@ -30,6 +33,7 @@ let PostManagerDatabase = {
     let thumbnail = post.thumbnail
     let editURL = post.editURL
     let publicURL = post.publicURL
+    let editNote = post.editNote
     let timeSpentSecond = post.timeSpentSecond
 
     //let sql = 'insert into posts(createUnix, updateUnix, title, labels, abstract, thumbnail) values(?,?,?,?,?,?)'
@@ -42,6 +46,7 @@ let PostManagerDatabase = {
         thumbnail = ?,
         editURL = ?,
         publicURL = ?,
+        editNote = ?,
         timeSpentSecond = ?
         WHERE id = ${id}`
     //console.log(sql)
@@ -54,6 +59,7 @@ let PostManagerDatabase = {
       thumbnail,
       editURL,
       publicURL,
+      editNote,
       timeSpentSecond
     ]
     //console.log(data)
@@ -84,11 +90,12 @@ let PostManagerDatabase = {
     let thumbnail = ''
     let editURL = ''
     let publicURL = ''
+    let editNote = ''
     let timeSpentSecond = 0
     let sql = `insert into 
-                  posts(createUnix, updateUnix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL) 
-                  values(?,?,?,?,?,?,?,?,?)`
-    let data = [unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL]
+                  posts(createUnix, updateUnix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote) 
+                  values(?,?,?,?,?,?,?,?,?,?)`
+    let data = [unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote]
     
     //console.log(sql)
     //console.log(data)
@@ -117,17 +124,20 @@ let PostManagerDatabase = {
       if (typeof (post.publicURL) === 'string') {
         publicURL = post.publicURL
       }
+      if (typeof (post.editNote) === 'string') {
+        editNote = post.editNote
+      }
       if (typeof (post.timeSpentSecond) === 'number') {
         timeSpentSecond = post.timeSpentSecond
       }
 
       if (typeof (post.id) === 'number') {
         sql = `insert into 
-                  posts(id, createUnix, updateUnix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL) 
-                  values(?,?,?,?,?,?,?,?,?,?)`
-        data = [postId, unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL]
+                  posts(id, createUnix, updateUnix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote) 
+                  values(?,?,?,?,?,?,?,?,?,?,?)`
+        data = [postId, unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote]
       } else {
-        data = [unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL]
+        data = [unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote]
       }
     }
 

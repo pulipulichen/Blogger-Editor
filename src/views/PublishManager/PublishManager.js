@@ -14,6 +14,7 @@ let config = {
       postId: null,
       postTitle: "",
       postLabels: "",
+      editNote: "",
       filesystemImageCount: 0,
     }
   },
@@ -101,6 +102,7 @@ let config = {
       this.postId = post.id
       this.editURL = post.editURL
       this.publicURL = post.publicURL
+      this.editNote = post.editNote
       
       let fieldPostTitle = $v.EditorManager.FieldPostTitle
       this.postTitle = fieldPostTitle.getText()
@@ -218,6 +220,14 @@ let config = {
       }
       else {
         this.publicURL = ''
+      }
+      
+      
+      if (typeof(post.editNote) === 'string') {
+        this.editNote = post.editNote
+      }
+      else {
+        this.editNote = ''
       }
       
       this.resetUploadInput()
