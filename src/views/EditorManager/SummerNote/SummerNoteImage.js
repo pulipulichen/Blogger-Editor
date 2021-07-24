@@ -107,7 +107,7 @@ let SummerNoteImage = {
     FileHelper.download(path, title)
   },
   
-  downloadAnnotationTamplateTamplate: function ($t, context, doRender) {
+  downloadAnnotationTamplate: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="object group outline icon"></i>` + $t('Annotation Template'))
     let tooltip = $t('Download annotation template')
     let click = () => {
