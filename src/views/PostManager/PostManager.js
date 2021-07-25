@@ -444,7 +444,7 @@ let PostManager = {
       
       this.getPost(id, post => {
         this.getPostBody(id, postBody => {
-          this.PostManagerBackup.createBackupZip(post, postBody, cabllack)
+          this.PostManagerBackup.createBackupZip(post, postBody, cabllback)
         })
       })
     },

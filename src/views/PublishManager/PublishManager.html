@@ -157,6 +157,17 @@
           </button>
         </div>
       </div>
+      
+      <div class="field">
+        <label>
+          {{ $t("Edit Note") }}
+        </label>
+        <div class="ui action input">
+          <textarea v-model="editNote"
+                 v-on:change="persistPost('editNote')"
+                 ondragstart="return false;" />
+        </div>
+      </div>
 
     </div> <!-- <div class="description"> -->
   </div> <!-- <div class="content"> -->
