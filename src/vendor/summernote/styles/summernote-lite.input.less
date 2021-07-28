@@ -38,7 +38,10 @@
   -moz-opacity: 0;
   opacity: 0;
   -ms-filter: alpha(opacity=0);
-  filter: alpha(opacity=0)
+  filter: alpha(opacity=0);
+  
+  //word-break: keep-all !important;
+  //white-space: nowrap !important;
 }
 
 .note-tooltip.in {
@@ -115,7 +118,18 @@
   padding: 3px 8px;
   color: #fff;
   text-align: center;
-  background-color: #000
+  background-color: #000;
+  
+  display: inline-block;
+  position: relative;
+  top: 5px;
+  left: -20px;
+  white-space: nowrap;
+}
+
+.note-tooltip.top .note-tooltip-content {
+  top: 0px;
+  bottom: 5px;
 }
 
 .note-popover {
@@ -249,8 +263,30 @@
   padding: 3px 8px;
   color: #000;
   text-align: center;
-  background-color: #fff
+  background-color: #fff;
 }
+
+
+.note-popover .popover-content {
+  //max-width: 400px;
+  //min-width: 400px;
+  position: relative;
+  top: 11px;
+  left: -40px;
+  background: white;
+  border: 1px solid #CCC;
+  display: inline-block;
+  
+  &> span {
+    white-space: nowrap;
+    display: block;
+  }
+  
+  &> .note-btn-group {
+    white-space: nowrap;
+  }
+}
+
 
 .note-popover .popover-content .note-hint-group .note-hint-item.active {
   background-color: #ccc;

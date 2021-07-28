@@ -117,6 +117,7 @@ let SummerNoteCode = {
     
     code = this.replaceAll(code , `<a href="//`, `<a href="https://`)
     code = this.replaceAll(code , `<img src="//`, `<img src="https://`)
+    code = this.replaceAll(code , `<!--more-->`, ``)
     
     code = code.split('<img src="').map((part, i) => {
       if (i === 0) {
@@ -132,7 +133,37 @@ let SummerNoteCode = {
       return part
     }).join('<img src="')
     
-    console.log(code)
+    code = code.split('<img src="').map((part, i) => {
+      if (i === 0) {
+        return part
+      }
+      
+      let url = part.slice(0, part.indexOf('"'))
+      let urlParts = url.split('/')
+      urlParts[7] = 's1600'
+      url = urlParts.join('/')
+      
+      part = url + part.slice(part.indexOf('"'))
+      return part
+    }).join('<img src="')
+    
+    let codeObj = $(`<div>${code}</div>`)
+    codeObj.find('img').each((i, img) => {
+      img = $(img)
+      img.removeAttr('width')
+      img.removeAttr('height')
+      
+      img.css({
+        width: '100%',
+        maxWidth: '14cm',
+        height: 'auto',
+        maxHeight: '24cm'
+      })
+    })
+    
+    code = codeObj.html()
+    
+    //console.log(code)
     
     return code
   },

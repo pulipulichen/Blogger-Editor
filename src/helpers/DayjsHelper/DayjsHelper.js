@@ -19,6 +19,12 @@ let DayjsHelper = {
     }
     return dayjs(new Date()).utcOffset(timezoneOffset).format(format)
   },
+  nowMMDDHHmmFormat: function (format) {
+    if (format === undefined) {
+      format = 'MMDD-HHmm'
+    }
+    return dayjs(new Date()).utcOffset(timezoneOffset).format(format)
+  },
   nowHHMMSSFormat: function (format) {
     if (format === undefined) {
       format = 'HHmmss'

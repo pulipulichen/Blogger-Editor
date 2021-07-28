@@ -156,8 +156,9 @@ import summerNoteOptions from './options.js'
           }
       };
       TooltipUI.prototype.hide = function () {
-          this.$tooltip.removeClass('in');
-          this.$tooltip.remove();
+        // 取消隱藏Tooltip
+        this.$tooltip.removeClass('in');
+        this.$tooltip.remove();
       };
       TooltipUI.prototype.toggle = function () {
           if (this.$tooltip.hasClass('in')) {

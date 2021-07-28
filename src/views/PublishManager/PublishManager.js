@@ -1,4 +1,4 @@
-/* global VueHelper, EventManager, FunctionHelper, ConfigHelper, WindowHelper, CopyPasteHelper */
+/* global VueHelper, EventManager, FunctionHelper, ConfigHelper, WindowHelper, CopyPasteHelper, DayjsHelper */
 
 import SummerNoteCode from './../EditorManager/SummerNote/SummerNoteCode.js'
 
@@ -53,6 +53,19 @@ let config = {
     },
     enableImageUpload: function () {
       return (this.filesystemImageCount > 0 && this.disableOpenEditURL === false)
+    },
+    postTitleSafe () {
+      let title = this.postTitle
+      
+      if (title.indexOf('/') > -1) {
+        title = title.slice(0, title.indexOf('/')).trim()
+      }
+      
+      if (title.length > 20) {
+        title = title.slice(0, 20).trim()
+      }
+      
+      return title
     }
   },
   created: function () {
@@ -161,7 +174,27 @@ let config = {
         return this.$t(message)
       })
       
-      console.log(html)
+      let htmlTemplate = `<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>${this.postTitle}</title>
+
+</head>
+
+<body>
+
+<h1>${this.postTitle}</h1>
+${html}
+
+</body>
+</html>`
+      
+      let blob = new Blob([htmlTemplate], {type: "text/html;charset=utf-8"});
+      saveAs(blob, DayjsHelper.nowMMDDHHmmFormat() + ` ${this.postTitleSafe}.html`)
       
       return this
     },

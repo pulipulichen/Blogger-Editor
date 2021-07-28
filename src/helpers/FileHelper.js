@@ -1,4 +1,4 @@
-/* global FunctionHelper */
+/* global FunctionHelper, DayjsHelper */
 
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
@@ -126,6 +126,15 @@ let FileHelper = {
     if (typeof(maxLength) === 'number' && output.length > maxLength) {
       output = output.slice(0, maxLength).trim()
     }
+    
+    let outputFilename = output.slice(0, output.lastIndexOf('.'))
+    
+    if (outputFilename.trim() === '') {
+      outputFilename = DayjsHelper.nowFormat()
+      output = outputFilename + output.slice(output.lastIndexOf('.'))
+    }
+    
+    
     
     return output
   },
