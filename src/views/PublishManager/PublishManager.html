@@ -6,12 +6,12 @@
     <i class="blogger icon"></i>
     {{ $t('Title') }}
   </div>
-  
+
   <!-- ========================== -->
 
   <div class="content">
     <div class="description ui form">
-      
+
       <div class="dragover-message"
            v-on:drop="dropPosts">
         {{ $t('Drop file to upload') }}
@@ -21,7 +21,7 @@
              accept=".zip"
              v-on:change="uploadPosts"
              ondragstart="return false;" />
-      
+
       <div class="three unstackable fields">
         <div class="field">
           <div class="fluid ui labeled icon button"
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="field">
         <label>
           {{ $t("Blogger Console") }}
@@ -54,7 +54,7 @@
           <input type="url" 
                  v-model="bloggerConsoleURL"
                  v-on:change="persist"
-                  ondragstart="return false;">
+                 ondragstart="return false;">
           <button class="ui button"
                   v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
                   v-on:click="popup('bloggerConsoleURL')">
@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      
+
       <div class="fields">
         <div class="ten wide field">
           <label>
@@ -121,7 +121,7 @@
           </button>
         </div>
       </div>
-      
+
       <div class="two unstackable fields">
         <div class="field">
           <div class="fluid ui labeled icon button"
@@ -137,6 +137,14 @@
                v-bind:class="{green: (filesystemImageCount === 0)}">
             <i class="copy icon"></i>
             {{ $t("Copy HTML") }}
+          </div>
+        </div>
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               v-on:click="saveOneFileHTML"
+               v-bind:class="{green: (filesystemImageCount === 0)}">
+            <i class="copy icon"></i>
+            {{ $t("Save HTML File") }}
           </div>
         </div>
       </div>
@@ -157,15 +165,15 @@
           </button>
         </div>
       </div>
-      
+
       <div class="field">
         <label>
           {{ $t("Edit Note") }}
         </label>
         <div class="ui action input">
           <textarea v-model="editNote"
-                 v-on:change="persistPost('editNote')"
-                 ondragstart="return false;" />
+                    v-on:change="persistPost('editNote')"
+                    ondragstart="return false;" />
         </div>
       </div>
 

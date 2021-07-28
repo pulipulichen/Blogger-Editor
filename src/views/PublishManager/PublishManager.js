@@ -156,6 +156,15 @@ let config = {
       })
       return this
     },
+    saveOneFileHTML () {
+      let html = SummerNoteCode.GetOneFileHTML((message) => {
+        return this.$t(message)
+      })
+      
+      console.log(html)
+      
+      return this
+    },
     openBackupPage: function () {
       let config = $v.ConfigManager
       if (config.enableBackupPageButton === false

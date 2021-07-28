@@ -109,6 +109,35 @@ let SummerNoteCode = {
     GoogleAnalyticsHelper.send('SummerNoteCode.CopyCodeClick', {
       'codeLength': code.length
     })
+    
+    return code
+  },
+  GetOneFileHTML: function ($t) {
+    let code = this.CopyCodeClick($t)
+    
+    code = this.replaceAll(code , `<a href="//`, `<a href="https://`)
+    code = this.replaceAll(code , `<img src="//`, `<img src="https://`)
+    
+    code = code.split('<img src="').map((part, i) => {
+      if (i === 0) {
+        return part
+      }
+      
+      let url = part.slice(0, part.indexOf('"'))
+      let urlParts = url.split('/')
+      urlParts[7] = 's1600'
+      url = urlParts.join('/')
+      
+      part = url + part.slice(part.indexOf('"'))
+      return part
+    }).join('<img src="')
+    
+    console.log(code)
+    
+    return code
+  },
+  replaceAll (code, replaced, replaceWith) {
+    return code.split(replaced).join(replaceWith)
   },
   CleanCode: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="eraser icon"></i>`+$t('Clean'))
