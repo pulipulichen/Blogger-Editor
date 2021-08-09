@@ -117,6 +117,7 @@ let SummerNoteCode = {
     
     code = this.replaceAll(code , `<a href="//`, `<a href="https://`)
     code = this.replaceAll(code , `<img src="//`, `<img src="https://`)
+    code = this.replaceAll(code , `<iframe frameborder="0" src="//`, `<iframe frameborder="0" src="https://`)
     code = this.replaceAll(code , `<!--more-->`, ``)
     
     code = code.split('<img src="').map((part, i) => {
