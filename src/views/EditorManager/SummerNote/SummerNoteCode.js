@@ -127,7 +127,9 @@ let SummerNoteCode = {
       
       let url = part.slice(0, part.indexOf('"'))
       let urlParts = url.split('/')
-      urlParts[7] = 's1600'
+      if (urlParts[7] && urlParts[7].startsWith('s')) {
+        urlParts[7] = 's1600'
+      }
       url = urlParts.join('/')
       
       part = url + part.slice(part.indexOf('"'))
