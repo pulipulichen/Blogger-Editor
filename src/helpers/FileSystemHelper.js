@@ -1,3 +1,5 @@
+/* global FunctionHelper, ConfigHelper, InitHelper, WindowHelper, WindowHelper */
+
 FileSystemHelper = {
   type: window.PERSISTENT,
   //type: window.PERSISTENT,
@@ -51,7 +53,7 @@ FileSystemHelper = {
     //console.log('Filesystem error')
     //console.trace(e)
     if (typeof(e.code) === 'undefined') {
-      return
+      return undefined
     }
     
     let message = `Error code: ${e.code}<br />
@@ -139,7 +141,7 @@ Message: ${e.message}`
   removeDir: function (dirPath, callback) {
     if (InitHelper.ready === false) {
       console.log('wait init ready')
-      return
+      return undefined
     }
     
     let fs = this.fs
@@ -503,6 +505,14 @@ Message: ${e.message}`
   appendAssetFileSystemPrefix: function (url, postId) {
     if (typeof(url) !== 'string') {
       return ''
+    }
+    
+    if (url.startsWith(location.href)) {
+      url = url.slice(location.href.length)
+    }
+    
+    if (url.startsWith('#')) {
+      return url
     }
     
     if (this.currentBaseUrl === null) {

@@ -239,7 +239,7 @@ let FieldPostBody = {
   },
   filterImageListToFileSystem: function (postBodyString, postId) {
     let postBody = $(`<div>${postBodyString}</div>`)
-    
+    //console.log(postBodyString)
     let filterUrl = function (url) {
       return FileSystemHelper.appendAssetFileSystemPrefix(url, postId)
     }
@@ -247,9 +247,12 @@ let FieldPostBody = {
     postBody.find('img[src]').each((i, img) => {
       img.src = filterUrl(img.src)
     })
+    
     postBody.find('a[href]').each((i, aTag) => {
       aTag.href = filterUrl(aTag.href)
     })
+    
+    //console.log(postBody.html())
     
     //console.log(['filterImageListToFileSystem', postBody.find('a[href]').length])
     
