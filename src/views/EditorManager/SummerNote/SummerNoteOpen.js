@@ -236,8 +236,8 @@ let SummerNoteOpen = {
   },
   
   downloadImageTemplate: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i> Image Template`)
-    let tooltip = 'Download Image Template'
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i> Cover Template`)
+    let tooltip = 'Download Cover Template'
     let click = () => {
       SummerNoteImage.downloadImageTamplateClick()
     }
