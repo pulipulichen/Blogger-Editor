@@ -27,3 +27,14 @@ https://korenetmedia.com/download/%E5%BE%AE%E8%BB%9F%E6%AD%A3%E9%BB%91%E9%AB%94t
 
 源樣黑體 B
 https://github.com/ButTaiwan/genyog-font/tree/master
+
+----
+
+圖片寬度
+
+Blogger可以接受的大小是1600x1600
+換算就是42.34x42.34cm
+
+封面圖的換算是
+33.87 : 19.05
+42.34	23.81
