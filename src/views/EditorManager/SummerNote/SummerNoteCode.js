@@ -325,9 +325,16 @@ let SummerNoteCode = {
       }
     })
     
+    // 處理anchor的問題
     postBody.find('a[href^="file:///"][href*="index.htm#"]').each((i, a) => {
       let href = a.href
       a.href = href.slice(href.lastIndexOf('#'))
+    })
+    
+    postBody.find('a[href^="http://#"]').each((i, a) => {
+      let href = a.href
+      a.href = href.slice(href.lastIndexOf('#'))
+      $(a).removeAttr("target")
     })
     
     $v.EditorManager.FieldPostBody.cleanUnusedFileSystem()

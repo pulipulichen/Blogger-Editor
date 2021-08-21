@@ -54,6 +54,7 @@ var EditorManager = {
       speakRate: 1.5,
       ImageUploadDraft: 'https://www.blogger.com/blog/post/edit/16607461/8994542276547065',
       PhotoRepository: '',
+      CommentAnchor: '#comment-form-iframe',
       
       FieldPostBody: FieldPostBody,
       FieldPostLabels: FieldPostLabels,
@@ -79,6 +80,7 @@ var EditorManager = {
     VueHelper.mountLocalStorageBoolean(this, 'enableOCRImageAlt')
     VueHelper.mountLocalStorage(this, 'uploadImageDraft')
     VueHelper.mountLocalStorage(this, 'PhotoRepository')
+    VueHelper.mountLocalStorage(this, 'CommentAnchor')
     
     VueHelper.mountLocalStorage(this, 'OCRImageLang')
     VueHelper.mountLocalStorageInt(this, 'imageSizeDefault')
@@ -270,6 +272,7 @@ var EditorManager = {
       VueHelper.persistLocalStorage(this, 'OCRImageLang')
       VueHelper.persistLocalStorage(this, 'uploadImageDraft')
       VueHelper.persistLocalStorage(this, 'PhotoRepository')
+      VueHelper.persistLocalStorage(this, 'CommentAnchor')
       
       VueHelper.persistLocalStorage(this, 'imageSizeDefault')
       
