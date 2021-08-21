@@ -86,7 +86,14 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton('GooglePhoto', contents, tooltip, click, doRender)
   },
-  
+  PhotoRepository: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i>` + $t('Photo Repository') )
+    let tooltip = $t('Open Photo Repository')
+    let click = () => {
+      WindowHelper.forcePopup($v.EditorManager.PhotoRepository, 'photo-repository-draft')
+    }
+    return SummerNoteHelper.buildButton('GooglePhoto', contents, tooltip, click, doRender)
+  },
   insertHR: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-minus icon"></i>` + $t('Horizontal Rule') )
     let tooltip = $t('Horizontal Rule')
@@ -244,6 +251,7 @@ let SummerNoteOpen = {
       this.SnippetInserter($t, c, false),
       //this.insertTable($t, c, false),
       this.transSelected($t, c, false),
+      this.PhotoRepository($t, c, false),
       this.insertHR($t, c, false),
       this.CodeInserterOption($t, c, false),
       this.insertIframe($t, c, false),
@@ -259,7 +267,8 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Format'), $t('Format Tools'), [
       SummerNoteImage.downloadImageTamplate($t, c, false),
       SummerNoteImage.downloadAnnotationTamplate($t, c, false),
-      this.GooglePhoto($t, c, false),
+      //this.GooglePhoto($t, c, false),
+      //this.PhotoRepository($t, c, false),
       SummerNoteImage.ImageReplacer($t, c, false),
       SummerNoteCode.CopyCode($t, c, false),
       SummerNoteCode.CleanCode($t, c, false),

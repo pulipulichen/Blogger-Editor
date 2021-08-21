@@ -132,6 +132,26 @@
               </div>
             </div>
             
+            <div class="field">
+              <label for="PhotoRepository">
+                {{ $t('Photo Repository') }}
+              </label>
+              
+              <div class="ui action input">
+                <input type="url" 
+                       name="PhotoRepository" 
+                       onfocus="this.select()"
+                       id="PhotoRepository"
+                       v-model="PhotoRepository"
+                       v-on:change="persist"
+                       placeholder="https://photos.google.com/?hl=zh-TW" />
+                <button class="ui button"
+                        v-bind:class="{disabled: !isPhotoRepositoryValid}"
+                        v-on:click="openPhotoRepository"
+                        >{{ $t('OPEN') }}</button>
+              </div>
+            </div>
+            
           </div> <!-- data-tab="image" -->
           
           <!-- -------------------------------------- -->

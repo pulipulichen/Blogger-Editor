@@ -53,6 +53,7 @@ var EditorManager = {
       enableTypeWriterSoundEffect: true,
       speakRate: 1.5,
       ImageUploadDraft: 'https://www.blogger.com/blog/post/edit/16607461/8994542276547065',
+      PhotoRepository: '',
       
       FieldPostBody: FieldPostBody,
       FieldPostLabels: FieldPostLabels,
@@ -77,6 +78,8 @@ var EditorManager = {
     VueHelper.mountLocalStorageBoolean(this, 'enableOCRImageFilename')
     VueHelper.mountLocalStorageBoolean(this, 'enableOCRImageAlt')
     VueHelper.mountLocalStorage(this, 'uploadImageDraft')
+    VueHelper.mountLocalStorage(this, 'PhotoRepository')
+    
     VueHelper.mountLocalStorage(this, 'OCRImageLang')
     VueHelper.mountLocalStorageInt(this, 'imageSizeDefault')
     
@@ -178,6 +181,18 @@ var EditorManager = {
         return false
       }
       return true
+    },
+    isPhotoRepositoryValid () {
+      if (typeof(this.PhotoRepository) === 'string') {
+        try {
+          new URL(this.PhotoRepository)
+          return true
+        }
+        catch (e) {
+          return false
+        }
+      }
+      return false
     }
   },
   watch: {
@@ -254,6 +269,8 @@ var EditorManager = {
       VueHelper.persistLocalStorage(this, 'enableOCRImageAlt')
       VueHelper.persistLocalStorage(this, 'OCRImageLang')
       VueHelper.persistLocalStorage(this, 'uploadImageDraft')
+      VueHelper.persistLocalStorage(this, 'PhotoRepository')
+      
       VueHelper.persistLocalStorage(this, 'imageSizeDefault')
       
       VueHelper.persistLocalStorage(this, 'summerNoteConfigToolbar')
@@ -376,6 +393,9 @@ var EditorManager = {
     },
     openImageUploadDraft () {
       WindowHelper.popup(this.ImageUploadDraft, 'image-upload-draft')
+    },
+    openPhotoRepository () {
+      WindowHelper.popup(this.PhotoRepository, 'photo-repository-draft')
     },
     openImageReplacer: function () {
       this.ImageReplacer.open()
