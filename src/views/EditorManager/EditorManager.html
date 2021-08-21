@@ -55,8 +55,13 @@
             
             <div class="field">              
               <div class="ui">
+                <label for="CommentAnchor">
+                  {{ $t('Comment Anchor') }}
+                </label>
                 <input type="text" 
                        name="CommentAnchor"
+                       id="CommentAnchor"
+                       onfocus="this.select()"
                        v-on:change="persist"
                        v-model="CommentAnchor" />
               </div>
