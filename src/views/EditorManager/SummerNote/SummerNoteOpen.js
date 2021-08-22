@@ -247,8 +247,8 @@ let SummerNoteOpen = {
   // ------------------------------------
   insertGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
-      SummerNoteCode.insertMore($t, c, false),
       this.SnippetInserter($t, c, false),
+      SummerNoteCode.insertMore($t, c, false),
       //this.insertTable($t, c, false),
       this.transSelected($t, c, false),
       this.PhotoRepository($t, c, false),
