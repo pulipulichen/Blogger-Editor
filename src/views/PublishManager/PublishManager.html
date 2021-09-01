@@ -46,79 +46,42 @@
         </div>
       </div>
 
-      <div class="field">
-        <label>
-          {{ $t("Blogger Console") }}
-        </label>
-        <div class="ui action input">
-          <input type="url" 
-                 v-model="bloggerConsoleURL"
-                 v-on:change="persist"
-                 ondragstart="return false;">
-          <button class="ui button"
-                  v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
-                  v-on:click="popup('bloggerConsoleURL')">
-            {{ $t("Open") }}
-          </button>
-        </div>
-      </div>
-
-
       <div class="fields">
-        <div class="ten wide field">
-          <label>
-            {{ $t("Post Title") }}
-          </label>
-          <div class="ui action input">
-            <input type="url" 
-                   onfocus="this.select()"
-                   v-model="postTitle"
-                   v-on:change="changePostMetadata"
-                   ondragstart="return false;" />
-            <button type="button" 
-                    class="icon ui button"
-                    v-bind:class="{disabled: (postTitle.trim() === '')}"
-                    v-on:click="copyInput"
-                    ondragstart="return false;">
-              <i class="copy icon"></i>
-            </button>
+        <div class="eight wide field">
+          <div class="field">
+            <label>
+              {{ $t("Blogger Console") }}
+            </label>
+            <div class="ui action input">
+              <input type="url" 
+                     v-model="bloggerConsoleURL"
+                     v-on:change="persist"
+                     ondragstart="return false;">
+              <button class="ui button"
+                      v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
+                      v-on:click="popup('bloggerConsoleURL')">
+                {{ $t("Open") }}
+              </button>
+            </div>
           </div>
         </div>
-        <div class="six wide field">
-          <label for="PublishManager.postLabels">
-            {{ $t("Post Labels") }}
-          </label>
-          <div class="ui action input">
-            <input type="text" 
-                   onfocus="this.select()"
-                   id="PublishManager.postLabels"
-                   v-model="postLabels"
-                   v-on:change="changePostMetadata" 
-                   ondragstart="return false;"/>
-            <button type="button" 
-                    class="icon ui button"
-                    v-bind:class="{disabled: (postLabels.trim() === '')}"
-                    v-on:click="copyInput">
-              <i class="copy icon"></i>
-            </button>
+        <div class="eight wide field">
+          <div class="field">
+            <label>
+              {{ $t("Post Draft URL") }}
+            </label>
+            <div class="ui action input">
+              <input type="url" 
+                     v-model="editURL"
+                     v-on:change="persistPost('editURL')"
+                     ondragstart="return false;">
+              <button class="ui button"
+                      v-bind:class="{disabled: disableOpenEditURL, green: (disableOpenEditURL === false && disableOpenPublicURL)}"
+                      v-on:click="popup('editURL')">
+                {{ $t("Open") }}
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>
-          {{ $t("Post Draft URL") }}
-        </label>
-        <div class="ui action input">
-          <input type="url" 
-                 v-model="editURL"
-                 v-on:change="persistPost('editURL')"
-                 ondragstart="return false;">
-          <button class="ui button"
-                  v-bind:class="{disabled: disableOpenEditURL, green: (disableOpenEditURL === false && disableOpenPublicURL)}"
-                  v-on:click="popup('editURL')">
-            {{ $t("Open") }}
-          </button>
         </div>
       </div>
 
@@ -148,6 +111,83 @@
           </div>
         </div>
       </div>
+
+      <div class="field">
+        <label>
+          {{ $t("Post Title") }}
+        </label>
+        <div class="ui action input">
+          <input type="url" 
+                 onfocus="this.select()"
+                 v-model="postTitle"
+                 v-on:change="changePostMetadata"
+                 ondragstart="return false;" />
+          <button type="button" 
+                  class="icon ui button"
+                  v-bind:class="{disabled: (postTitle.trim() === '')}"
+                  v-on:click="copyInput"
+                  ondragstart="return false;">
+            <i class="copy icon"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="fields">
+        <div class="ten wide field">
+          <label>
+            {{ $t("SEO Link") }}
+          </label>
+          <div class="ui action input">
+            <input type="url" 
+                   onfocus="this.select()"
+                   v-model="postSEOLink"
+                   v-on:change="changePostMetadata"
+                   v-on:blur="fixSEOLink"
+                   ondragstart="return false;" />
+            <button type="button" 
+                    class="icon ui button"
+                    v-on:click="generateSEOLink"
+                    v-bind:class="{positive: (postSEOLink.trim() === '')}"
+                    ondragstart="return false;">
+              <i class="linkify icon"></i>
+            </button>
+            <a target="trans"
+                    class="icon ui button"
+                    v-bind:href="googleTransLink"
+                    ondragstart="return false;">
+              <i class="language icon"></i>
+            </a>
+            <button type="button" 
+                    class="icon ui button"
+                    v-bind:class="{disabled: (postSEOLink.trim() === '')}"
+                    v-on:click="copyInput"
+                    ondragstart="return false;">
+              <i class="copy icon"></i>
+            </button>
+          </div>
+        </div>
+        <div class="six wide field">
+          <label for="PublishManager.postLabels">
+            {{ $t("Post Labels") }}
+          </label>
+          <div class="ui action input">
+            <input type="text" 
+                   onfocus="this.select()"
+                   id="PublishManager.postLabels"
+                   v-model="postLabels"
+                   v-on:change="changePostMetadata" 
+                   ondragstart="return false;"/>
+            <button type="button" 
+                    class="icon ui button"
+                    v-bind:class="{disabled: (postLabels.trim() === '')}"
+                    v-on:click="copyInput">
+              <i class="copy icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      
 
       <div class="field">
         <label>

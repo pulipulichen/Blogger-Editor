@@ -14,6 +14,7 @@ let config = {
       postId: null,
       postTitle: "",
       postLabels: "",
+      postSEOLink: "",
       editNote: "",
       filesystemImageCount: 0,
     }
@@ -66,6 +67,19 @@ let config = {
       }
       
       return title
+    },
+    googleTransLink () {
+      let postTitle = this.postTitle
+      
+      let slashPos = postTitle.indexOf(' / ')
+      if (slashPos > -1) {
+        postTitle = postTitle.slice(0, slashPos).trim()
+      }
+      
+      postTitle = postTitle.trim()
+      postTitle = encodeURIComponent(postTitle)
+      
+      return `https://translate.google.com.tw/?hl=zh-TW&sl=zh-CN&tl=en&text=${postTitle}&op=translate`
     }
   },
   created: function () {
@@ -279,6 +293,52 @@ ${html}
     resetUploadInput: function () {
       this.getUI().find('input:file[name="uploadPosts"]').val('')
     },
+    generateSEOLink () {
+      let postTitle = this.postTitle
+      
+      let slashPos = postTitle.indexOf(' / ')
+      if (slashPos > -1) {
+        postTitle = postTitle.slice(slashPos + 3).trim()
+      }
+      
+      this.convertPostTitleToSEOLink(postTitle)
+    },
+    fixSEOLink () {
+      let link = this.postSEOLink
+      
+      if (link.indexOf(' ') === -1
+              && (new RegExp('[^\x00-\x7F]', 'g')).test(link) === false
+              && (new RegExp('[A-Z]', 'g')).test(link) === false) {
+        return false
+      }
+      
+      this.convertPostTitleToSEOLink(link)
+    },
+    convertPostTitleToSEOLink (link) {
+      let seoLink = link.toLowerCase().trim()
+      seoLink = seoLink.replace(/[^\x00-\x7F]/g, "-")
+      seoLink = seoLink.split(' ').join('-')
+      seoLink = seoLink.split(':').join('-')
+      
+      while (seoLink.indexOf('--') > -1) {
+        seoLink = seoLink.split('--').join('-')
+      }
+      
+      while (seoLink.startsWith('-')) {
+        seoLink = seoLink.slice(1)
+      }
+      while (seoLink.endsWith('-')) {
+        seoLink = seoLink.slice(0, -1)
+      }
+      
+      if (seoLink === '-' 
+              || seoLink === '') {
+        return false
+      }
+      
+      
+      this.postSEOLink = seoLink
+    }
   }
 }
 

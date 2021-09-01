@@ -164,6 +164,13 @@ let SummerNoteCode = {
       })
     })
     
+    codeObj.find('iframe.note-video-clip').each((i, iframe) => {
+      let src = iframe.src
+      iframe = $(iframe)
+      iframe.parents('p:first').after(`<p><a href="${src}" target="_blank">${src}</a></p>`)
+      iframe.remove()
+    })
+    
     code = codeObj.html()
     
     //console.log(code)
