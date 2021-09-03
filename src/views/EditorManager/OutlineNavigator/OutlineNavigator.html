@@ -6,7 +6,7 @@
      v-on:click="scrollToTop()">
      {{ $t('Go to Top') }}
   </a>
-  <template v-for="mainHeading in entryHierarchy">
+  <template v-for="(mainHeading, i) in entryHierarchy">
     <a class="item" 
       v-bind:id="'OutlineNavigatorHeadingEq' + mainHeading.eq"
        v-bind:title="mainHeading.text"
@@ -26,7 +26,7 @@
        </span>
       
        <span class="heading-text">
-         {{ mainHeading.text }}
+         {{ (i+1) }}. {{ mainHeading.text }}
        </span>
       
     </a>
@@ -51,7 +51,7 @@
     
     <!-- ------------------------------------------------- -->
     
-    <template v-for="subheading in mainHeading.subheadings">
+    <template v-for="(subheading, j) in mainHeading.subheadings">
       <a class="item subheading"
          v-bind:id="'OutlineNavigatorHeadingEq' + subheading.eq"
          v-bind:title="subheading.text"
@@ -72,7 +72,7 @@
        </span>
         
         <span class="heading-text">
-          {{ subheading.text }}
+          {{ (i+1) }}-{{ (j+1) }}. {{ subheading.text }}
         </span> 
        
       </a>

@@ -2,6 +2,10 @@
 
 import SummerNoteCode from './../EditorManager/SummerNote/SummerNoteCode.js'
 
+import JSZip from 'jszip'
+import JSZipUtils from 'jszip-utils'
+import {saveAs} from 'file-saver'
+
 let config = {
   data: function () {
     this.$i18n.locale = 'auto'
@@ -209,6 +213,42 @@ ${html}
       
       let blob = new Blob([htmlTemplate], {type: "text/html;charset=utf-8"});
       saveAs(blob, DayjsHelper.nowMMDDHHmmFormat() + ` ${this.postTitleSafe}.html`)
+      
+      return this
+    },
+    saveOneFileHTMLtoDOC () {
+      let html = SummerNoteCode.GetOneFileHTML((message) => {
+        return this.$t(message)
+      })
+      
+      let htmlTemplate = `<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>${this.postTitle}</title>
+
+</head>
+
+<body>
+
+<h1>${this.postTitle}</h1>
+${html}
+
+</body>
+</html>`
+      
+      let zip = new JSZip()
+      let filename = DayjsHelper.nowMMDDHHmmFormat() + ` ${this.postTitleSafe}.doc`
+      zip.file(filename, htmlTemplate)
+      zip.generateAsync({type: "blob"}).then((content) => {
+        // see FileSaver.js
+        saveAs(content, filename + `.zip`)
+        //$v.PageLoader.close()
+        //FunctionHelper.triggerCallback(callback, content)
+      })
       
       return this
     },
