@@ -241,7 +241,7 @@ ${html}
 </html>`
       
       let zip = new JSZip()
-      let filename = DayjsHelper.nowMMDDHHmmFormat() + ` ${this.postTitleSafe}.doc`
+      let filename = DayjsHelper.nowMMDDHHmmFormat() + ` ${this.postTitleSafe}.rtf`
       zip.file(filename, htmlTemplate)
       zip.generateAsync({type: "blob"}).then((content) => {
         // see FileSaver.js
