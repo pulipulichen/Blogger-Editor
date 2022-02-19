@@ -7,8 +7,6 @@
     "2-webpack-watch-development": "webpack --watch --mode development --display errors-only",
     "3 webpack-watch-build-production": "webpack --watch --mode production --display errors-only",
     "4 webpack-build-production": "webpack --mode production",
-    "e0.run-development": "electron bin/electron/index-electron.js --mode development",
-    "e1.run-production": "electron bin/electron/index-electron.js --mode production",
     "host": "node bin/host/host.js",
     "host-without-open": "node bin/host/host-without-open.js",
     "webpack-help": "webpack --help",
@@ -43,10 +41,6 @@
     "depd": "2.0.0",
     "destroy": "1.0.4",
     "detect-browser": "4.4.0",
-    "electron-context-menu": "0.12.1",
-    "electron-dl": "1.14.0",
-    "electron-in-page-search": "1.3.2",
-    "electron-is-dev": "1.1.0",
     "encodeurl": "1.0.2",
     "escape-html": "1.0.3",
     "etag": "1.8.1",
@@ -115,43 +109,5 @@
     "webpack-bundle-analyzer": "3.3.2",
     "webpack-cli": "3.3.9",
     "webpack-shell-plugin": "0.5.0"
-  },
-  "build": {
-    "appId": "chrome.webapp.shortcuts.creator",
-    "compression": "maximum",
-    "mac": {
-      "category": "chrome.webapp.shortcuts.creator"
-    },
-    "win": {
-      "icon": "app/imgs/icon.ico",
-      "target": "portable"
-    },
-    "linux": {
-      "icon": "app/imgs/icon256.png",
-      "category": "Network",
-      "target": "deb",
-      "desktop": {
-        "Icon": "/opt/chrome-webapp-shortcuts-creator/app/imgs/icon256.png"
-      }
-    },
-    "portable": {
-      "artifactName": "chrome-webapp-shortcuts-creator.exe"
-    }
-  },
-  "files": [
-    "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
-    "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
-    "!**/node_modules/*.d.ts",
-    "!**/node_modules/.bin",
-    "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
-    "!.editorconfig",
-    "!**/._*",
-    "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
-    "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
-    "!**/{appveyor.yml,.travis.yml,circle.yml}",
-    "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
-    "main.js",
-    "ipc.js",
-    "app/*"
-  ]
+  }
 }
