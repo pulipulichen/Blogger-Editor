@@ -6,5 +6,6 @@ const path = require('path')
 const openBrowsers = require('open-browsers');
 
 ipc.on('open-url-in-browser', function (event, url) {
+  event.preventDefault()
   openBrowsers(url)
 })
