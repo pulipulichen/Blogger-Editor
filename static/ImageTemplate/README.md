@@ -22,6 +22,7 @@ https://www.downloadfonts.io/calibri-font-family-free/
 PMingLiU
 新細明體
 https://www.fonts.net.cn/font-35037496640.html
+https://freefontsdownload.net/free-pmingliu-font-79105.htm
 
 微軟正黑體
 https://korenetmedia.com/download/%E5%BE%AE%E8%BB%9F%E6%AD%A3%E9%BB%91%E9%AB%94ttf%E5%AD%97%E5%9E%8B/
@@ -29,6 +30,10 @@ https://korenetmedia.com/download/%E5%BE%AE%E8%BB%9F%E6%AD%A3%E9%BB%91%E9%AB%94t
 源樣黑體 B
 https://github.com/ButTaiwan/genyog-font/tree/master
 https://github.com/ButTaiwan/genyog-font/releases
+
+源石黑體 H
+https://github.com/ButTaiwan/genseki-font/releases/tag/v1.501
+
 
 ----
 
