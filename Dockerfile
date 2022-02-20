@@ -7,9 +7,8 @@ RUN apt-get update && apt-get install -y \
     sudo \
     #Get tools from internet
     wget \
-    #Use vim as an editor
-    vim 
-
+    vim \
+    apt-utils
 
 #Creating an application directory
 RUN mkdir /app
@@ -17,13 +16,15 @@ RUN mkdir /app
 WORKDIR /app
 
 #Package in container.json and packate-lock.Make sure that two of json are copied
-COPY package*.json ./
+COPY package.json ./
+COPY .babelrc ./
+COPY postcss.config.js ./
 # package.Install the package described in json.
 RUN npm i
 
 #installed node_Copy files such as module to the container side.
-COPY . .
+#COPY . .
 
-RUN ls /app/*
+#RUN ls /app/*
 
-CMD ["node","app.js"]
+CMD ["npm","run", "4.webpack-build-production"]
