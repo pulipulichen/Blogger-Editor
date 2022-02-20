@@ -1,5 +1,5 @@
-const globalConfig = require('../../config.js')
-const localConfig = require('../../config.local.js')
+const globalConfig = require('../../config/config.js')
+const localConfig = require('../../config/config.local.js')
 
 //console.log(globalConfig.default)
 let ConfigHelper = {
