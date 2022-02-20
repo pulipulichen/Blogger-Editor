@@ -1,7 +1,72 @@
-<div class="ImageReplacerRemapping ui list">
-  <div v-for="url in htmlImageList"
-       class="item">
-    <img class="ui image" v-bind:src="url" />
-    TEXT
+<div class="ImageReplacerRemapping">
+  <div class="ui grid">
+    <div class="eight wide column ui list uploaded-list">
+      <h4>{{ $t('Uploaded Images') }}</h4>
+      <div v-for="(item, i) in imageRemapList"
+           class="item"
+           v-bind:class="{positive: (item.mapPostBodyImage)}">
+        <div class="right floated content">
+          <a class="ui button"
+             v-on:click="previewImage(item.url)">
+            {{ $t('View') }}</a>
+        </div>
+        
+        <img class="ui image" 
+             v-bind:src="item.url" />
+
+        <a class="ui remap button"
+            v-if="!item.mapPostBodyImage"
+            v-on:click="selectToPair(i)">
+           {{ $t('Not paired.') }}
+         </a>
+         <a class="ui remap button"
+            v-if="item.mapPostBodyImage"
+            v-on:click="selectToPair(i)">
+           {{ getFilename(item.mapPostBodyImage) }}
+         </a>
+      </div>
+    </div>
+    
+    <div class="eight wide column">
+      
+      <div class="ui message">
+        <div class="ui list"
+             v-if="currentPairingItem !== null">
+          <div class="item">
+            <img class="ui image" 
+              v-bind:src="imageRemapList[currentPairingItem].url" />
+            <div class="middle aligned content">
+              <span class="header">{{ $t("pairing...") }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <template v-if="currentPairingItem === null">
+          {{ $t("No pairing.") }}
+        </template>
+      </div>
+      
+      <div class="ui list post-body-list">
+        <div v-for="(item, i) in postBodyImageList"
+             class="item"
+             v-bind:class="{pairable: (currentPairingItem !== null), selected: (selectedImageList.indexOf(item.url) > -1)}"
+             v-on:click="toPair(item.url)"
+             v-bind:title="item.filename">
+          <div class="right floated content">
+            <a class="ui button"
+               v-on:click="previewImage(item.url)">
+              {{ $t('View') }}</a>
+          </div>
+          <img class="ui image"
+               v-bind:src="item.url">
+          <div class="middle aligned content">
+            <span class="header">
+              {{ item.filename }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+      
 </div>
