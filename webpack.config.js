@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path')
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+//const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 //const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
@@ -11,6 +11,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const TerserPlugin = require("terser-webpack-plugin")
 
 let compileCount = 0
 
@@ -173,8 +174,17 @@ module.exports = (env, argv) => {
       webpackConfig.optimization = {}
     }
     
+    /*
     webpackConfig.optimization.minimizer = [
       new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: false // set to true if you want JS source maps
+      })
+    ]
+    */
+    webpackConfig.optimization.minimizer = [
+      new TerserPlugin({
         cache: true,
         parallel: true,
         sourceMap: false // set to true if you want JS source maps

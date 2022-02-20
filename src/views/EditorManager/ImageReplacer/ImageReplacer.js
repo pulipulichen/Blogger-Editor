@@ -169,7 +169,8 @@ var config = {
       return output
     },
     replaceImage: function () {
-      let imageList = this.parseImageHTMLList()
+      //let imageList = this.parseImageHTMLList()
+      let imageList = this.$refs.ImageReplacerRemapping.getImageList()
       if (this.debugEnableReplace === true) {
         this.replacedImageCount = FieldPostBody.setImageList(imageList)
       }

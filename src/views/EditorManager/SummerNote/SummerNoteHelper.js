@@ -23,7 +23,7 @@ let SummerNoteHelper = {
       contents: contents,
       tooltip: tooltip, // `<span>${tooltip}</span>`,
       click: gaClick
-    });
+    })
     
     if (doRender !== false) {
       let result = button.render(); 

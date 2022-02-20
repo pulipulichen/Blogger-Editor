@@ -21,6 +21,10 @@ let BloggerImageHelper = {
       size = this.getImageElementSize(size)
     }
     
+    if (link.startsWith('https://blogger.googleusercontent.com/img/a/')) {
+      return this.getSize2021(link, size)
+    }
+    
     if (link.indexOf('/s' + size + '/') > 10) {
       return this.changeProtocol(link)
     }
@@ -29,6 +33,22 @@ let BloggerImageHelper = {
     link = baseUrl + '/s' + size + '/' + name
     //console.log(link)
     return link
+  },
+  /**
+   * https://blogger.googleusercontent.com/img/a/AVvXsEgnpxfsLEwLmyCvqqTaNmS6dK5fw26Tzg2gcsk5agew6CfocTsfRWr14ROejq3bCcr_T2g23NfaKzVQwHNi60K2iAIBe3UQU2qFBFuUmhf5u9PJqjkEfea3-gR0OIzTtBOri9BR-tMkMIm6xJhsg6ycmtiBHNe9R_43PKV-1Ziw77_eRjSto_Y
+   * https://blogger.googleusercontent.com/img/a/AVvXsEgnpxfsLEwLmyCvqqTaNmS6dK5fw26Tzg2gcsk5agew6CfocTsfRWr14ROejq3bCcr_T2g23NfaKzVQwHNi60K2iAIBe3UQU2qFBFuUmhf5u9PJqjkEfea3-gR0OIzTtBOri9BR-tMkMIm6xJhsg6ycmtiBHNe9R_43PKV-1Ziw77_eRjSto_Y=s280
+   * @param {type} link
+   * @param {type} size
+   * @returns {undefined}
+   */
+  getSize2021 (link, size) {
+    // 先確定有沒有縮放參數
+    let resizeParameter = link.lastIndexOf('=s')
+    if (resizeParameter > link.length - 7) {
+      link = link.slice(0, resizeParameter)
+    }
+    
+    return link + '=s' + size
   },
   changeProtocol: function (link) {
     //if (typeof(this.protocol) === 'string') {

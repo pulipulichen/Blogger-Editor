@@ -31,3 +31,8 @@ Crostini
 Chrome OS
 ![image](https://user-images.githubusercontent.com/2345913/61374286-94853d00-a8ce-11e9-9f25-5d363607ce91.png)
 1310*768
+
+# Docker編譯
+
+由於此專案使用的是舊版的Node.js，不能在新版使用。我們必須要為它建構對應的虛擬環境。
+讓我想想要怎麼處理比較好。

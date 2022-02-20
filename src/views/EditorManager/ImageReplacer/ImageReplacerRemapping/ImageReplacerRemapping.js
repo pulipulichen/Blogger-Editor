@@ -21,18 +21,12 @@ var config = {
   },
   watch: {
     imageHTML () {
-      this.imageRemapList = this.htmlImageList.map(url => {
-        return {
-          url,
-          mapPostBodyImage: null
-        }
-      })
-      
+      this.buildImageRemapList()
       this.buildFieldPostBodyImageList()
     }
   },
-  computed: {
-    htmlImageList () {
+  methods: {
+    buildImageRemapList () {
       let html = this.imageHTML
       //console.log(html)
       if (!html) {
@@ -44,16 +38,16 @@ var config = {
       let images = $(`<div>${this.imageHTML}</div>`)
       let list = []
       images.find('a[href] > img[src]').each((i, ele) => {
-        list.push(ele.src)
+        list.push({
+          mapPostBodyImage: null,
+          url: ele.src,
+          height: Number(ele.getAttribute('data-original-height')),
+          width: Number(ele.getAttribute('data-original-width'))
+        })
       })
       
-      return list
-    }
-  },
-  created: function () {
-    
-  },
-  methods: {
+      this.imageRemapList = list
+    },
     buildFieldPostBodyImageList () {
       let list = FieldPostBody.getImageList()
       
@@ -105,6 +99,16 @@ var config = {
     },
     previewImage(url) {
       WindowHelper.popup(url, this.getFilename(url))
+    },
+    getImageList () {
+      let output = {}
+      this.imageRemapList.forEach(item => {
+        if (item.mapPostBodyImage) {
+          let filename = this.getFilename(item.mapPostBodyImage)
+          output[filename] = item.url
+        }
+      })
+      return output
     }
   }
 }

@@ -1,21 +1,13 @@
 {
   "name": "blogger-editor",
   "version": "1.0.0",
-  "description": "A editor for Blogger writer",
+  "description": "An editor for Blogger writer",
   "scripts": {
     "1-webpack-build-development": "webpack --mode development",
     "2-webpack-watch-development": "webpack --watch --mode development --display errors-only",
     "3 webpack-watch-build-production": "webpack --watch --mode production --display errors-only",
     "4 webpack-build-production": "webpack --mode production",
-    "host": "node bin/host/host.js",
-    "host-without-open": "node bin/host/host-without-open.js",
-    "webpack-help": "webpack --help",
-    "webpack-test-build-development": "webpack --mode development --config [tmp/webpack.config.js",
-    "mocha": "mocha lib-for-link/src/**/*.mocha-test.js",
-    "mocha-watch": "mocha --watch lib-for-link/src/**/*.mocha-test.js",
-    "selenium-side-runner": "selenium-side-runner lib-for-link/src/**/*.side",
-    "t1-webpack-build-development": "webpack --mode development --config test/webpack.config.js --display errors-only",
-    "t2-webpack-watch-development": "webpack --watch --mode development --config test/webpack.config.js --display errors-only"
+    "webpack-help": "webpack --help"
   },
   "repository": {
     "type": "git",
