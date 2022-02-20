@@ -295,6 +295,7 @@ let FieldPostBody = {
       })
       //postBody.find('a[href^="filesystem:"][href$="' + name + '"]').each((i, aTag) => {
       postBody.find('a[href^="filesystem:"][data-filename="' + name + '"]').each((i, aTag) => {
+        //console.log(fullsize)
         aTag.href = fullsize
         doSave = true
       })

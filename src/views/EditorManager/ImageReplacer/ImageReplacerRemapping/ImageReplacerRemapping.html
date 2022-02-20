@@ -1,13 +1,38 @@
 <div class="ImageReplacerRemapping">
   <div class="ui grid">
     <div class="eight wide column ui list uploaded-list">
+      
+      <div class="ui message"
+           v-bind:class="{green: fullPaired}">
+        <div class="ui list"
+             v-if="currentPairingItemPost !== null">
+          <div class="item">
+            <img class="ui image" 
+              v-bind:src="postBodyImageList[currentPairingItemPost].url" />
+            <div class="middle aligned content">
+              <span class="header">{{ $t("Pairing from post...") }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <template v-if="currentPairingItemPost === null">
+          {{ $t("Wait for pairing...") }}
+          <template v-if="fullPaired">
+            ({{ $t('full paired') }})
+          </template>
+        </template>
+      </div>
+      
       <h4>{{ $t('Uploaded Images') }}</h4>
+      
+      
       <div v-for="(item, i) in imageRemapList"
            class="item"
-           v-bind:class="{positive: (item.mapPostBodyImage)}">
+           v-bind:class="{positive: (item.mapPostBodyImage), pairable: (currentPairingItemPost !== null)}"
+           v-on:click="selectUploadedItem(i)">
         <div class="right floated content">
           <a class="ui button"
-             v-on:click="previewImage(item.url)">
+             v-on:click.stop.prevent="previewImage(item.url)">
             {{ $t('View') }}</a>
         </div>
         
@@ -15,13 +40,11 @@
              v-bind:src="item.url" />
 
         <a class="ui remap button"
-            v-if="!item.mapPostBodyImage"
-            v-on:click="selectToPair(i)">
-           {{ $t('Not paired.') }}
+            v-if="!item.mapPostBodyImage">
+           {{ $t('Not paired') }}
          </a>
          <a class="ui remap button"
-            v-if="item.mapPostBodyImage"
-            v-on:click="selectToPair(i)">
+            v-if="item.mapPostBodyImage">
            {{ getFilename(item.mapPostBodyImage) }}
          </a>
       </div>
@@ -29,32 +52,46 @@
     
     <div class="eight wide column">
       
-      <div class="ui message">
+      <div class="ui message"
+           v-bind:class="{green: fullPaired}">
         <div class="ui list"
              v-if="currentPairingItem !== null">
           <div class="item">
             <img class="ui image" 
               v-bind:src="imageRemapList[currentPairingItem].url" />
             <div class="middle aligned content">
-              <span class="header">{{ $t("pairing...") }}</span>
+              <span class="header">
+                {{ $t("Pairing from uploaded...") }}
+                <a v-on:click="resetPairred"
+                   v-if="imageRemapList[currentPairingItem].mapPostBodyImage"
+                   class="ui button">
+                  {{ $t("Reset") }}
+                </a>
+              </span>
             </div>
           </div>
         </div>
         
         <template v-if="currentPairingItem === null">
-          {{ $t("No pairing.") }}
+          {{ $t("Wait for pairing") }}
+          <template v-if="fullPaired">
+            ({{ $t('full paired') }})
+          </template>
         </template>
       </div>
+      
+      <h4>{{ $t('Images in the post') }}</h4>
+      
       
       <div class="ui list post-body-list">
         <div v-for="(item, i) in postBodyImageList"
              class="item"
              v-bind:class="{pairable: (currentPairingItem !== null), selected: (selectedImageList.indexOf(item.url) > -1)}"
-             v-on:click="toPair(item.url)"
+             v-on:click="selectPostItem(i)"
              v-bind:title="item.filename">
           <div class="right floated content">
             <a class="ui button"
-               v-on:click="previewImage(item.url)">
+               v-on:click.stop.prevent="previewImage(item.url)">
               {{ $t('View') }}</a>
           </div>
           <img class="ui image"

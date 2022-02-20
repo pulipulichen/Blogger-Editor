@@ -13,16 +13,23 @@ var config = {
       imageRemapList: [],
       postBodyImageList: [],
       currentPairingItem: null,
+      currentPairingItemPost: null,
       selectedImageList: []
     }
   },
-  mounted: function () {
-    
-  },
+//  mounted: function () {
+//    
+//  },
   watch: {
     imageHTML () {
       this.buildImageRemapList()
       this.buildFieldPostBodyImageList()
+    }
+  },
+  computed: {
+    fullPaired () {
+      //console.log(this.selectedImageList.length, this.postBodyImageList.length)
+      return (this.selectedImageList.length === this.postBodyImageList.length)
     }
   },
   methods: {
@@ -69,6 +76,7 @@ var config = {
     getFilename (url) {
       return url.slice(url.lastIndexOf('/') + 1)
     },
+    /*
     selectToPair (i) {
       if (this.currentPairingItem === i) {
         this.currentPairingItem = null
@@ -87,7 +95,37 @@ var config = {
       this.currentPairingItem = null
       this.updateSelectedImageList()
     },
+    */
+    selectUploadedItem (uploadI) {
+      if (this.currentPairingItemPost === null) {
+        if (this.currentPairingItem === uploadI) {
+          this.currentPairingItem = null
+          return false
+        }
+
+        this.currentPairingItem = uploadI
+      }
+      else {
+        this.imageRemapList[uploadI].mapPostBodyImage = this.postBodyImageList[this.currentPairingItemPost].url
+        this.resetSelected()
+      }
+    },
+    selectPostItem (postI) {
+      if (this.currentPairingItem === null) {
+        if (this.currentPairingItemPost === postI) {
+          this.currentPairingItemPost = null
+          return false
+        }
+
+        this.currentPairingItemPost = postI
+      }
+      else {
+        this.imageRemapList[this.currentPairingItem].mapPostBodyImage = this.postBodyImageList[postI].url
+        this.resetSelected()
+      }
+    },
     updateSelectedImageList () {
+      
       this.selectedImageList = []
       this.imageRemapList.forEach(item => {
         if (item.mapPostBodyImage
@@ -109,6 +147,15 @@ var config = {
         }
       })
       return output
+    },
+    resetSelected () {
+      this.updateSelectedImageList()
+      this.currentPairingItemPost = null
+      this.currentPairingItem = null
+    },
+    resetPairred () {
+      this.imageRemapList[this.currentPairingItem].mapPostBodyImage = null
+      this.resetSelected()
     }
   }
 }
