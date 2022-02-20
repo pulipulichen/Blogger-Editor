@@ -12,7 +12,7 @@ let config = {
     return {
       name: 'PublishManager',
       ui: undefined,
-      bloggerConsoleURL: "https://www.blogger.com/blog/posts/",
+      bloggerConsoleURL: "https://www.blogger.com/",
       editURL: "",
       publicURL: "",
       postId: null,
@@ -30,7 +30,7 @@ let config = {
     disableOpenBloggerConsole: function () {
       if (this.bloggerConsoleURL === 'https://www.blogger.com'
             //|| this.bloggerConsoleURL.startsWith('https://www.blogger.com/blogger.g?blogID=')) {
-            || this.bloggerConsoleURL.startsWith('https://www.blogger.com/blog/posts/')) {
+            || this.bloggerConsoleURL.startsWith('https://www.blogger.com/')) {
         return false
       }
       else {
@@ -356,9 +356,11 @@ ${html}
     },
     convertPostTitleToSEOLink (link) {
       let seoLink = link.toLowerCase().trim()
+      seoLink = seoLink.replace(/[^a-zA-Z ]/g, "")
       seoLink = seoLink.replace(/[^\x00-\x7F]/g, "-")
       seoLink = seoLink.split(' ').join('-')
       seoLink = seoLink.split(':').join('-')
+      
       
       while (seoLink.indexOf('--') > -1) {
         seoLink = seoLink.split('--').join('-')

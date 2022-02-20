@@ -7,6 +7,8 @@ import {saveAs} from 'file-saver'
 
 import FieldPostBody from './../FieldPostBody.js'
 
+import ImageReplacerRemapping from './ImageReplacerRemapping/ImageReplacerRemapping.vue'
+
 var config = {
   //name: "main-content",
   data: function () {
@@ -29,6 +31,9 @@ var config = {
       countdownSound: null,
       batchLimit: 6
     }
+  },
+  components: {
+    ImageReplacerRemapping
   },
   mounted: function () {
     VueHelper.mountLocalStorageBoolean(this, 'skipTutorial')
@@ -160,7 +165,7 @@ var config = {
           }
         }
       })
-      console.log(output)
+      //console.log(output)
       return output
     },
     replaceImage: function () {

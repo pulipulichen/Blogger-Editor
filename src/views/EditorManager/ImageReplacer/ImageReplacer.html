@@ -174,9 +174,18 @@
       </div>
     
       <!-- ============================================ -->
-    
+      
       <div class="step step-7"
            v-bind:class="{hide: (currentStep !== 7)}">
+        <ImageReplacerRemapping 
+          v-bind:imageHTML="imageHTML"
+          ></ImageReplacerRemapping>
+      </div>
+      
+      <!-- ============================================ -->
+    
+      <div class="step step-8"
+           v-bind:class="{hide: (currentStep !== 8)}">
         
         <div class="unstackable two fields">
           <div class="eight wide field">
@@ -281,13 +290,13 @@
     </div>
     <div class="ui green right labeled icon button"
          v-on:click='nextStep'
-         v-if="currentStep > 0 && currentStep < 6">
+         v-if="currentStep > 0 && currentStep < 7">
       {{ $t('Next') }}
       <i class="chevron right icon"></i>
     </div>
     <div class="ui right labeled icon button" 
          v-on:click='replaceImage'
-         v-if="currentStep === 6"
+         v-if="currentStep === 7"
          v-bind:class="{ disabled: disableReplaceImage, green: (disableReplaceImage === false) }">
       {{ $t('Next') }}
       <i class="chevron right icon"></i>
@@ -295,7 +304,7 @@
     <div class="ui button"
          v-on:click='close'
          v-bind:class="{ positive: (filesystemImageCount === 0) }"
-         v-if="currentStep === 0 || currentStep === 7">
+         v-if="currentStep === 0 || currentStep === 8">
       {{ $t('Close') }}
     </div>
   </div> <!-- <div class="actions"> -->

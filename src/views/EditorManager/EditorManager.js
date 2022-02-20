@@ -46,7 +46,7 @@ var EditorManager = {
       summerNoteConfigStyleTags: '',
       summerNoteConfigLabels: '',
       $summerNoteConfigLabelsSearch: null,
-      enableOCRImageFilename: true,
+      enableOCRImageFilename: false,
       enableOCRImageAlt: false,
       OCRImageLang: 'chi_tra+eng',
       onCloseReload: false,
