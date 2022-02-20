@@ -9,6 +9,36 @@ An editor for Blogger writer
 
 ----
 
+# How to build
+
+1. Build the docker file:
+
+````
+npm run d0.build
+````
+
+2. Start to watch files in ./src
+
+````
+npm run d2.webpack-watch-development
+````
+
+3. Run index.html in a web server.
+
+4. Modify a file in ./src and watch the changes.
+
+5. When you complete a modification, compiling the files in production mode:
+
+````
+npm run d4.webpack-build-production
+````
+
+6. Commit and push to GitHub.
+
+----
+
+# Reference
+
 https://summernote.org/getting-started/
 https://summernote.org/deep-dive/#basic-api
 
@@ -34,5 +64,17 @@ Chrome OS
 
 # Docker編譯
 
-由於此專案使用的是舊版的Node.js，不能在新版使用。我們必須要為它建構對應的虛擬環境。
-讓我想想要怎麼處理比較好。
+安裝必要元件
+
+````bash
+sudo apt-get install docker-compose -y
+````
+
+如果執行docker-compose build的時候發生錯誤，這表示需要修正權限：( https://stackoverflow.com/a/70031270 )
+
+````bash
+sudo usermod -aG docker $USER
+````
+
+需要重新登入。
+

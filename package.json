@@ -7,6 +7,7 @@
     "2.webpack-watch-development": "webpack --watch --config ./config/webpack.config.js --mode development --display errors-only",
     "3.webpack-watch-build-production": "webpack --watch --config ./config/webpack.config.js --mode production --display errors-only",
     "4.webpack-build-production": "webpack --config ./config/webpack.config.js --mode production",
+    "d0.build": "bash ./docker-compose/docker-compose-build.sh",
     "d1.webpack-build-development": "bash ./docker-compose/d1.webpack-build-development.sh",
     "d2.webpack-watch-development": "bash ./docker-compose/d2.webpack-watch-development.sh",
     "d3.webpack-watch-build-production": "bash ./docker-compose/d3.webpack-watch-build-production.sh",
