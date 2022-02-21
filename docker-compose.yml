@@ -17,5 +17,5 @@ services:
       - ./static:/app/static
       - ./themes:/app/themes
     #Mount port 1000 on the container side to port 8080 on the host side.
-    ports:
-      - "8080:8080"
+    #ports:
+    #  - "8080:8080"
