@@ -16,10 +16,11 @@ RUN mkdir /app
 WORKDIR /app
 
 #Package in container.json and packate-lock.Make sure that two of json are copied
-COPY package.json ./
 COPY .babelrc ./
 COPY postcss.config.js ./
+
 # package.Install the package described in json.
+COPY package.json ./
 RUN npm i
 
 #installed node_Copy files such as module to the container side.
