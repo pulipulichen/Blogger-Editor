@@ -24,6 +24,8 @@ var config = {
     imageHTML () {
       this.buildImageRemapList()
       this.buildFieldPostBodyImageList()
+      
+      this.checkOneImagePair()
     }
   },
   computed: {
@@ -156,6 +158,13 @@ var config = {
     resetPairred () {
       this.imageRemapList[this.currentPairingItem].mapPostBodyImage = null
       this.resetSelected()
+    },
+    checkOneImagePair () {
+      if (this.imageRemapList.length === 1 
+              && this.imageRemapList.length === this.postBodyImageList.length) {
+        this.imageRemapList[0].mapPostBodyImage = this.postBodyImageList[0].url
+        this.updateSelectedImageList()
+      }
     }
   }
 }
