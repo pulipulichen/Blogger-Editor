@@ -277,7 +277,13 @@ let FieldPostBody = {
       // '1-Webpack%2B_%25282%2529.png'
       
       //postBody.find('img[src^="filesystem:"][src$="' + name + '"]').each((i, imgTag) => {
-      postBody.find('img[src^="filesystem:"][data-filename="' + name + '"]').each((i, imgTag) => {
+      //let imageSelector = 'img[src^="filesystem:"][data-filename="' + name + '"]'
+      let imageSelector = 'img[src^="filesystem:"][src$="/' + name + '"]'
+      
+      // 20220306-1301 data-filename跟原本的名稱不一樣
+      //console.log('搜尋', imageSelector)
+      
+      postBody.find(imageSelector).each((i, imgTag) => {
         //console.log(['found', name])
         // we need to change the URL size to fit the image
         if ($(imgTag).hasClass('original-size') === false) {
@@ -293,8 +299,12 @@ let FieldPostBody = {
         doSave = true
         count++
       })
+      
+      let aSelector = 'a[href^="filesystem:"][href$="/' + name + '"]'
+      //console.log('搜尋a', aSelector, postBody.find(aSelector).length)
+      
       //postBody.find('a[href^="filesystem:"][href$="' + name + '"]').each((i, aTag) => {
-      postBody.find('a[href^="filesystem:"][data-filename="' + name + '"]').each((i, aTag) => {
+      postBody.find(aSelector).each((i, aTag) => {
         //console.log(fullsize)
         aTag.href = fullsize
         doSave = true

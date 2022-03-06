@@ -171,6 +171,10 @@ var config = {
     replaceImage: function () {
       //let imageList = this.parseImageHTMLList()
       let imageList = this.$refs.ImageReplacerRemapping.getImageList()
+      
+      // 20220306-1259 Pulipuli Chen 看來應該是正確的
+      //console.log(imageList)
+      
       if (this.debugEnableReplace === true) {
         this.replacedImageCount = FieldPostBody.setImageList(imageList)
       }

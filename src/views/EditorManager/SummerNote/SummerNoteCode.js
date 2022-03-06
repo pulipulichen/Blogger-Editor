@@ -46,7 +46,9 @@ let SummerNoteCode = {
     }
 
     // 請把有http的部分全部換掉
+    //console.log(postBody.html())
     postBody = BloggerImageHelper.filterPostBody(postBody)
+    //console.log(postBody.html())
     
     postBody.find('[data-filename]').removeAttr('data-filename')
     postBody.find('[data-ocr]').removeAttr('data-ocr')
@@ -283,14 +285,20 @@ let SummerNoteCode = {
       }
     })
     
-    postBody.find(`a[href*=".googleusercontent.com/"]`).each((i, ele) => {
+    /**
+     * @author Pulipuli Chen 20220306 
+     * Exclude https://blogger.googleusercontent.com/img/a/
+     */
+    // https://blogger.googleusercontent.com/img/a/AVvXsEhPDOJwwZqvyYrW6xR2A7JrTnvqmNZVdH73PGC3Nxy9k16oqUmG02QuDgXePDcRVY58QQyfE1-yj5sMuyrA17CDnpgXiF-2hfiLhvDoiewS8FnWV4GmZHIMXXuKc1P-CApX4pk0TMmY8ziKF-1vFLPTABbKT-Six7UmGNbT8AifuJmP6jXXOSU
+    postBody.find(`a[href*=".googleusercontent.com/"]:not(a[href*="https://blogger.googleusercontent.com/img/a/"])`).each((i, ele) => {
       let link = ele.href
+      
       link = link.slice(link.indexOf('//'))
       link = link.replace('/s1600-h/', '/s1600/')
       ele.href = link
     })
     
-    postBody.find(`img[src*=".googleusercontent.com/"]`).each((i, ele) => {
+    postBody.find(`img[src*=".googleusercontent.com/"]:not(img[src*="https://blogger.googleusercontent.com/img/a/"])`).each((i, ele) => {
       let link = ele.src
       link = link.slice(link.indexOf('//'))
       link = link.replace('/s1600-h/', '/s1600/')

@@ -136,6 +136,8 @@ var config = {
         }
       })
       // selectedImageList
+      
+      console.log(this.imageRemapList)
     },
     previewImage(url) {
       WindowHelper.popup(url, this.getFilename(url))

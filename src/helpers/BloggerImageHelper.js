@@ -7,6 +7,9 @@ let BloggerImageHelper = {
     normal: 450
   },
   getFullSize: function (link) {
+    if (link.startsWith('https://blogger.googleusercontent.com/img/a/')) {
+      return link
+    }
     return this.getSize(link, this.size.full)
   },
   getSize: function (link, size) {
@@ -58,8 +61,11 @@ let BloggerImageHelper = {
       //}
     //}
     if (ElectronHelper.isElectronEnvironment() === false) {
-      if (typeof(link) === 'string' && (link.startsWith('http://')
-              || link.startsWith('https://')) ) {
+      if (typeof(link) === 'string' 
+              && (link.startsWith('http://') || link.startsWith('https://'))
+              && !link.startsWith('https://blogger.googleusercontent.com/img/a/')
+              ) {
+        // 排除 https://blogger.googleusercontent.com/img/a/AVvXsEhPDOJwwZqvyYrW6xR2A7JrTnvqmNZVdH73PGC3Nxy9k16oqUmG02QuDgXePDcRVY58QQyfE1-yj5sMuyrA17CDnpgXiF-2hfiLhvDoiewS8FnWV4GmZHIMXXuKc1P-CApX4pk0TMmY8ziKF-1vFLPTABbKT-Six7UmGNbT8AifuJmP6jXXOSU
         link = link.slice(link.indexOf('//'))
       }
     }
@@ -162,6 +168,7 @@ let BloggerImageHelper = {
     return url
   },
   filterPostBody: function (postBody) {
+    //console.log(postBody)
     if (ElectronHelper.isElectronEnvironment()) {
       postBody.find('a[href*=".bp.blogspot.com/"]').each((i, ele) => {
         ele.href = this.removeProtocol(ele.href)
