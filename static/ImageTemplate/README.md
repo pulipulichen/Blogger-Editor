@@ -34,6 +34,13 @@ https://github.com/ButTaiwan/genyog-font/releases
 源石黑體 H
 https://github.com/ButTaiwan/genseki-font/releases/tag/v1.501
 
+隨峰體
+https://cjkfonts.io/blog/ThePeakFont
+
+----
+
+Linux安裝字體
+https://www.unixtutorial.org/how-to-install-ttf-fonts-in-linux/
 
 ----
 
