@@ -1,10 +1,15 @@
 {
-  "elements": {},
+  "elements": {
+    "ImageReplacer": {},
+    "ImageReplacerRemapping": {}
+  },
   "attributes": {
     "v-bind:class": {},
     "v-if": {},
+    "v-bind:imageHTML": {},
     "v-for": {},
     "v-on:keyup": {},
+    "v-bind:src": {},
     "v-model": {},
     "v-bind:value": {},
     "ref": {},
@@ -13,6 +18,7 @@
     "v-else": {},
     "v-bind:for": {},
     "v-on:drop": {},
+    "v-on:click.stop.prevent": {},
     "v-show": {},
     "v-on:dblclick": {}
   }
