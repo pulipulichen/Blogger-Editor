@@ -56,10 +56,11 @@ const CONFIG = {
         name: 'SlideShare',
         uploadURL: 'https://slideshare.net/upload'
       },
-      {
-        name: 'Uguu.se',
-        uploadURL: 'https://uguu.se/'
-      }
+      // {
+      //   // 只有48小時，還是不要用吧
+      //   name: 'Uguu.se',
+      //   uploadURL: 'https://uguu.se/'
+      // }
     ]
   }
 }
