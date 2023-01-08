@@ -286,7 +286,13 @@ let FieldPostBody = {
       postBody.find(imageSelector).each((i, imgTag) => {
         //console.log(['found', name])
         // we need to change the URL size to fit the image
-        if ($(imgTag).hasClass('original-size') === false) {
+        if (i === 0 && $(imgTag).hasClass('original-size') === false) {
+          imgTag.src = BloggerImageHelper.getFullSize(link)
+          imgTag.css('width', 'auto')
+          imgTag.css('height', 'auto')
+          $(imgTag).addClass('original-size')
+        }
+        else if ($(imgTag).hasClass('original-size') === false) {
           imgTag.src = BloggerImageHelper.getSize(link, imgTag)
         }
         else {

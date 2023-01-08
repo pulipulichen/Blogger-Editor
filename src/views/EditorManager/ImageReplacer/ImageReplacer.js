@@ -68,6 +68,17 @@ var config = {
       })
     })
   },
+  watch: {
+    currentStep (currentStep) {
+      // if (currentStep === 7) {
+        // console.log([currentStep, this.disableReplaceImage, FieldPostBody.getImageList()])
+      // }
+        
+      if (currentStep === 7 && this.disableReplaceImage === false && FieldPostBody.getImageList().length === 1) {
+        // this.currentStep++
+      } 
+    }
+  },
   methods: {
     getUI: function () {
       if (typeof(this.ui) === 'undefined') {
