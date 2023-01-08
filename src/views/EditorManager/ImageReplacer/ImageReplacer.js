@@ -78,6 +78,7 @@ var config = {
         // setTimeout(() => {
           // this.currentStep++
         // }, 3000)
+        this.replaceImage()
       } 
     }
   },
