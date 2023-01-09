@@ -211,7 +211,7 @@ var config = {
       this.isCreatingImagePackage = true
       let list = FieldPostBody.getImageList()
       //console.log(list)
-      if (list.length > 0) {
+      if (list.length > 1) {
         let folder
         let folderCounter = 0
         let folderFilesLimit = this.batchLimit
@@ -275,6 +275,11 @@ var config = {
         });
         */
 
+      }
+      else if (list.length === 1) {
+        let path = list[0]
+        let name = FileSystemHelper.getFileName(path)
+        saveAs(path, name)
       }
       else {
         this.isCreatingImagePackage = false

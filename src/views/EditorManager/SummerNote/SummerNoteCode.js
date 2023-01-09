@@ -94,6 +94,10 @@ let SummerNoteCode = {
     
     //code = code.replace(`<br /></p>`, '</p>')
     //code = code.replace(`<br /></`, '</')
+
+    while (code.endsWith('<p><br></p>')) {
+      code = code.slice(0, -11).trim()
+    }
     
     if (code.indexOf('<!--more-->') === -1) {
       alert($t('<!--more--> is not found'))

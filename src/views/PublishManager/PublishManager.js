@@ -337,9 +337,14 @@ ${html}
       let postTitle = this.postTitle
       
       let slashPos = postTitle.indexOf(' / ')
+      if (slashPos === -1) {
+        slashPos = postTitle.indexOf(' / ')
+      }
       if (slashPos > -1) {
         postTitle = postTitle.slice(slashPos + 3).trim()
       }
+
+      // console.log(postTitle)
       
       this.convertPostTitleToSEOLink(postTitle)
     },
