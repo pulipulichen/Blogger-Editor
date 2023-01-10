@@ -106,7 +106,7 @@
       </div>
       
       <div class="fields">
-        <div class="six wide field">
+        <div class="eight wide field">
           <label for="PublishManager.postLabels">
             {{ $t("Post Labels") }}
           </label>
@@ -125,41 +125,62 @@
             </button>
           </div>
         </div>
-        
-        <div class="ten wide field">
-          <label>
-            {{ $t("SEO Link") }}
+
+        <div class="eight wide field">
+          <label for="PublishManager.Date">
+            {{ $t("Date") }}
           </label>
           <div class="ui action input">
-            <input type="url" 
+            <input type="text" 
                    onfocus="this.select()"
-                   v-model="postSEOLink"
-                   v-on:change="changePostMetadata"
-                   v-on:blur="fixSEOLink"
-                   ondragstart="return false;" />
+                   id="PublishManager.Date"
+                   value="中午12:00"
+                   ondragstart="return false;"/>
             <button type="button" 
                     class="icon ui button"
-                    v-on:click="generateSEOLink"
-                    v-bind:class="{positive: (postSEOLink.trim() === '')}"
-                    ondragstart="return false;">
-              <i class="linkify icon"></i>
-            </button>
-            <a target="trans"
-                    class="icon ui button"
-                    v-bind:href="googleTransLink"
-                    ondragstart="return false;">
-              <i class="language icon"></i>
-            </a>
-            <button type="button" 
-                    class="icon ui button"
-                    v-bind:class="{disabled: (postSEOLink.trim() === '')}"
-                    v-on:click="copyInput"
-                    ondragstart="return false;">
+                    v-on:click="copyInput">
               <i class="copy icon"></i>
             </button>
           </div>
         </div>
+
         
+       
+        
+      </div>
+
+      <div class="field">
+        <label>
+          {{ $t("SEO Link") }}
+        </label>
+        <div class="ui action input">
+          <input type="url" 
+                 onfocus="this.select()"
+                 v-model="postSEOLink"
+                 v-on:change="changePostMetadata"
+                 v-on:blur="fixSEOLink"
+                 ondragstart="return false;" />
+          <button type="button" 
+                  class="icon ui button"
+                  v-on:click="generateSEOLink"
+                  v-bind:class="{positive: (postSEOLink.trim() === '')}"
+                  ondragstart="return false;">
+            <i class="linkify icon"></i>
+          </button>
+          <a target="trans"
+                  class="icon ui button"
+                  v-bind:href="googleTransLink"
+                  ondragstart="return false;">
+            <i class="language icon"></i>
+          </a>
+          <button type="button" 
+                  class="icon ui button"
+                  v-bind:class="{disabled: (postSEOLink.trim() === '')}"
+                  v-on:click="copyInput"
+                  ondragstart="return false;">
+            <i class="copy icon"></i>
+          </button>
+        </div>
       </div>
 
       <div class="two unstackable fields">
