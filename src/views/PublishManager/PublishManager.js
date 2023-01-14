@@ -23,6 +23,11 @@ let config = {
       filesystemImageCount: 0,
     }
   },
+  wath: {
+    'postId' () {
+      this.postSEOLink = ''
+    }
+  },
   mounted: function () {
     VueHelper.mountLocalStorage(this, 'bloggerConsoleURL')
   },

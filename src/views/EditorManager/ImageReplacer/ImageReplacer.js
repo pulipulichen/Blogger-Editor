@@ -205,6 +205,7 @@ var config = {
       this.nextStep()
     },
     close: function () {
+      this.isCreatingImagePackage = false
       this.getUI().modal('hide')
     },
     downloadImagePackage: function (callback) {
