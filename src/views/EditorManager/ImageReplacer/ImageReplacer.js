@@ -326,6 +326,7 @@ var config = {
     openBloggerDraftSetting: function () {
       //$v.EditorManager.open('#uploadImageDraft')
       this.close(() => {
+        this.isCreatingImagePackage = false
         $v.PublishManager.open()
       })
       
