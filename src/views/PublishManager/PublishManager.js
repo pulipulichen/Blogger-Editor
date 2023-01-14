@@ -23,11 +23,11 @@ let config = {
       filesystemImageCount: 0,
     }
   },
-  wath: {
-    'postId' () {
-      this.postSEOLink = ''
-    }
-  },
+  // wath: {
+  //   'postId' () {
+  //     this.postSEOLink = ''
+  //   }
+  // },
   mounted: function () {
     VueHelper.mountLocalStorage(this, 'bloggerConsoleURL')
   },
@@ -139,6 +139,7 @@ let config = {
       this.editURL = post.editURL
       this.publicURL = post.publicURL
       this.editNote = post.editNote
+      this.postSEOLink = post.postSEOLink
       
       let fieldPostTitle = $v.EditorManager.FieldPostTitle
       this.postTitle = fieldPostTitle.getText()
@@ -154,7 +155,7 @@ let config = {
     persistPost: function (key) {
       let pm = $v.PostManager
       let value = this[key]
-      //console.log([key, value])
+      console.log([key, value])
       pm.updateEditingPost(key, value)
     },
     popup: function (name) {
@@ -323,6 +324,12 @@ ${html}
         this.publicURL = ''
       }
       
+      if (typeof(post.postSEOLink) === 'string') {
+        this.postSEOLink = post.postSEOLink
+      }
+      else {
+        this.postSEOLink = ''
+      }
       
       if (typeof(post.editNote) === 'string') {
         this.editNote = post.editNote

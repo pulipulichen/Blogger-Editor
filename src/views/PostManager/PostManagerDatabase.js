@@ -14,6 +14,7 @@ let PostManagerDatabase = {
          updateUnix INTEGER, 
          timeSpentSecond INTEGER, 
          title TEXT, 
+         postSEOLink TEXT, 
          labels TEXT, 
          abstract TEXT,
          thumbnail TEXT,
@@ -28,6 +29,7 @@ let PostManagerDatabase = {
 
     let unix = DayjsHelper.unix()
     let title = post.title
+    let seoLink = post.postSEOLink
     let labels = post.labels
     let abstract = post.abstract
     let thumbnail = post.thumbnail
@@ -41,6 +43,7 @@ let PostManagerDatabase = {
     let sql = `UPDATE posts SET 
         updateUnix = ?,
         title = ?,
+        postSEOLink = ?,
         labels = ?,
         abstract = ?,
         thumbnail = ?,
@@ -54,6 +57,7 @@ let PostManagerDatabase = {
     let data = [
       unix,
       title,
+      seoLink,
       labels,
       abstract,
       thumbnail,
@@ -85,6 +89,7 @@ let PostManagerDatabase = {
     let postId
     let unix = DayjsHelper.unix()
     let title = ''
+    let seoLink = ''
     let abstract = ''
     let labels = ''
     let thumbnail = ''
@@ -93,9 +98,9 @@ let PostManagerDatabase = {
     let editNote = ''
     let timeSpentSecond = 0
     let sql = `insert into 
-                  posts(createUnix, updateUnix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote) 
-                  values(?,?,?,?,?,?,?,?,?,?)`
-    let data = [unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote]
+                  posts(createUnix, updateUnix, timeSpentSecond, title, postSEOLink, labels, abstract, thumbnail, editURL, publicURL, editNote) 
+                  values(?,?,?,?,?,?,?,?,?,?,?)`
+    let data = [unix, unix, timeSpentSecond, title, seoLink, labels, abstract, thumbnail, editURL, publicURL, editNote]
     
     //console.log(sql)
     //console.log(data)
@@ -108,6 +113,9 @@ let PostManagerDatabase = {
       }
       if (typeof (post.title) === 'string') {
         title = post.title
+      }
+      if (typeof (post.postSEOLink) === 'string') {
+        seoLink = post.postSEOLink
       }
       if (typeof (post.abstract) === 'string') {
         abstract = post.abstract
@@ -133,11 +141,11 @@ let PostManagerDatabase = {
 
       if (typeof (post.id) === 'number') {
         sql = `insert into 
-                  posts(id, createUnix, updateUnix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote) 
-                  values(?,?,?,?,?,?,?,?,?,?,?)`
-        data = [postId, unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote]
+                  posts(id, createUnix, updateUnix, timeSpentSecond, title, postSEOLink, labels, abstract, thumbnail, editURL, publicURL, editNote) 
+                  values(?,?,?,?,?,?,?,?,?,?,?,?)`
+        data = [postId, unix, unix, timeSpentSecond, title, seoLink, labels, abstract, thumbnail, editURL, publicURL, editNote]
       } else {
-        data = [unix, unix, timeSpentSecond, title, labels, abstract, thumbnail, editURL, publicURL, editNote]
+        data = [unix, unix, timeSpentSecond, title, seoLink, labels, abstract, thumbnail, editURL, publicURL, editNote]
       }
     }
 
