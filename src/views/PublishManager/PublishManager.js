@@ -146,6 +146,11 @@ let config = {
       
       let fieldPostLabels = $v.EditorManager.FieldPostLabels
       this.postLabels = fieldPostLabels.getText()
+
+      if (!this.postSEOLink || 
+          this.postSEOLink === '') {
+        this.generateSEOLink()
+      }
       
       FunctionHelper.triggerCallback(callback)
     },

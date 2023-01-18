@@ -23,7 +23,7 @@ var config = {
       filesystemImageCount: 0,
       disableUploadImageDraft: false,
       FieldPostBody: null,
-      skipTutorial: false,
+      skipTutorial: true,
       debugEnableReplace: true,
       countdownSecond: 0,
       countdownMaxSecond: 25,
@@ -99,6 +99,7 @@ var config = {
       
       this.getUI().modal('show')
       this.getUI().find('.ui.checkbox').checkbox()
+      this.downloadImagePackage()
     },
     validateHasFileSystemImage: function (callback) {
       if (FieldPostBody.hasFileSystemImage()) {
