@@ -61,12 +61,15 @@ img {
   max-height: calc(40vh);
   overflow-y: auto;
   
-  .content {
+  .middle.content {
     display: inline-block !important;
     width: calc(100% - 10rem) !important;
     
     span {
       //max-width: calc(100% - 8rem);
+      max-width: 100%;
+      overflow-y: hidden;
+      text-overflow: ellipsis !important;
     }
   }
 }
