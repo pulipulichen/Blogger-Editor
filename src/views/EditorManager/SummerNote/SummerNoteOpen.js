@@ -76,7 +76,15 @@ let SummerNoteOpen = {
     let click = () => {
       WindowHelper.forcePopup('https://blog.pulipuli.info/2019/02/onedrive-onedrive-file-download-link.html#postcataonedrive-onedrive-file-download-link.html0_anchor3', 'OneDriveDownload')
     }
-    return SummerNoteHelper.buildButton(contents, tooltip, click, doRender)
+    return SummerNoteHelper.buildButton('OneDrive', contents, tooltip, click, doRender)
+  },
+  openCoverBuilder: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="id badge outline icon"></i>` + $t('Cover Builder'))
+    let tooltip = $t('Open Cover Builder')
+    let click = () => {
+      WindowHelper.forcePopup('https://pulipulichen.github.io/PWA-Blog-Cover-Builder/#/', 'PWA-Blog-Cover-Builder')
+    }
+    return SummerNoteHelper.buildButton('CoverBuilder', contents, tooltip, click, doRender)
   },
   GooglePhoto: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="image icon"></i>` + $t('Google Photo') )
@@ -247,15 +255,17 @@ let SummerNoteOpen = {
   // ------------------------------------
   insertGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
-      this.SnippetInserter($t, c, false),
       SummerNoteCode.insertMore($t, c, false),
+      this.insertHR($t, c, false),
+      this.insertVideo($t, c, false),   
+      this.CodeInserterOption($t, c, false),
+      this.openCoverBuilder($t, c, false),
+      this.SnippetInserter($t, c, false),      
       //this.insertTable($t, c, false),
       this.transSelected($t, c, false),
-      this.PhotoRepository($t, c, false),
-      this.insertHR($t, c, false),
-      this.CodeInserterOption($t, c, false),
+      this.PhotoRepository($t, c, false),   
       this.insertIframe($t, c, false),
-      this.insertVideo($t, c, false),
+      
       //this.CodeInserter(c, false),
       this.FileUploader($t, c, false),
       this.GoogleDocsLinkBuilder($t, c, false),

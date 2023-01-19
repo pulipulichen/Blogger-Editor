@@ -162,8 +162,8 @@ var config = {
       this.resetSelected()
     },
     checkOneImagePair () {
-      if (this.imageRemapList.length === 1 
-              && this.imageRemapList.length === this.postBodyImageList.length) {
+      if (this.imageRemapList.length === 1 && 
+          this.imageRemapList.length === this.postBodyImageList.length) {
         this.imageRemapList[0].mapPostBodyImage = this.postBodyImageList[0].url
         this.updateSelectedImageList()
       }

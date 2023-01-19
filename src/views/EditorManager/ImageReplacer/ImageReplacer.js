@@ -74,11 +74,16 @@ var config = {
       //   console.log([currentStep, this.disableReplaceImage, FieldPostBody.getImageList()])
       // }
         
-      if (currentStep === 7 && this.disableReplaceImage === false && FieldPostBody.getImageList().length === 1) {
+      if (currentStep === 7 && 
+          this.disableReplaceImage === false && 
+          FieldPostBody.getImageList().length === 1) {
         // setTimeout(() => {
           // this.currentStep++
         // }, 3000)
-        this.replaceImage()
+        let imageList = this.$refs.ImageReplacerRemapping.getImageList()
+        if (Object.keys(imageList).length > 0) {
+          this.replaceImage()
+        }
       } 
     }
   },
@@ -294,8 +299,8 @@ var config = {
       })
     },
     prevStep: function () {
-      if (this.skipTutorial === true 
-              && this.currentStep === 6) {
+      if (this.skipTutorial === true && 
+          this.currentStep === 6) {
         this.currentStep = 1
       }
       else {
@@ -303,8 +308,8 @@ var config = {
       }
     },
     nextStep: function () {
-      if (this.skipTutorial === true 
-              && this.currentStep === 1) {
+      if (this.skipTutorial === true && 
+          this.currentStep === 1) {
         this.currentStep = 6
       }
       else {
