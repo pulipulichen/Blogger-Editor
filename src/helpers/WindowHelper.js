@@ -34,23 +34,25 @@ WindowHelper = {
     }
     
     if (width === undefined) {
-      width = 800
+      // width = 800
+      width =  window.screen.availWidth
     }
     if (height === undefined) {
-      height = 600
+      // height = 600
+      height = window.screen.availHeight
     }
     
     // ------------------
     
-    let maxWidth = window.screen.availWidth - 100
-    if (width > maxWidth) {
-      width = maxWidth
-    }
+    // let maxWidth = window.screen.availWidth - 100
+    // if (width > maxWidth) {
+    //   width = maxWidth
+    // }
 
-    let maxHeight = window.screen.availHeight - 50
-    if (height > maxHeight) {
-      height = maxHeight
-    }
+    // let maxHeight = window.screen.availHeight - 50
+    // if (height > maxHeight) {
+    //   height = maxHeight
+    // }
     
     // center the new Window
     let left = Math.ceil((window.screen.availWidth - width) / 2)
