@@ -53,8 +53,7 @@ let config = {
       }
     },
     disableOpenPublicURL: function () {
-      if (this.publicURL.startsWith('http')
-              || this.publicURL.startsWith('//')) {
+      if (this.publicURL.startsWith('http') || this.publicURL.startsWith('//')) {
         return false
       }
       else {
@@ -62,7 +61,8 @@ let config = {
       }
     },
     enableImageUpload: function () {
-      return (this.filesystemImageCount > 0 && this.disableOpenEditURL === false)
+      // return (this.filesystemImageCount > 0 && this.disableOpenEditURL === false)
+      return (this.filesystemImageCount > 0)
     },
     postTitleSafe () {
       let title = this.postTitle
@@ -384,19 +384,18 @@ ${html}
       seoLink = seoLink.split(':').join('-')
       
       
-      while (seoLink.indexOf('--') > -1) {
+      while (seoLink.length > 0 && seoLink.indexOf('--') > -1) {
         seoLink = seoLink.split('--').join('-')
       }
       
-      while (seoLink.startsWith('-')) {
+      while (seoLink.length > 0 && seoLink.startsWith('-')) {
         seoLink = seoLink.slice(1)
       }
-      while (seoLink.endsWith('-')) {
+      while (seoLink.length > 0 && seoLink.endsWith('-')) {
         seoLink = seoLink.slice(0, -1)
       }
       
-      if (seoLink === '-' 
-              || seoLink === '') {
+      if (seoLink === '-' || seoLink === '') {
         return false
       }
       

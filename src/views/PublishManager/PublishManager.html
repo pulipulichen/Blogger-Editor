@@ -22,29 +22,6 @@
              v-on:change="uploadPosts"
              ondragstart="return false;" />
 
-      <div class="three unstackable fields">
-        <div class="field">
-          <div class="fluid ui labeled icon button"
-               v-on:click="downloadPostBackup">
-            <i class="download icon"></i>
-            {{ $t("Save") }}
-          </div>
-        </div>
-        <div class="field">
-          <div class="fluid ui labeled icon button"
-               v-on:click="triggerUploadPostBackup">
-            <i class="file upload icon"></i>
-            {{ $t("Open") }}
-          </div>
-        </div>
-        <div class="field">
-          <div class="fluid ui labeled icon button"
-               v-on:click="openBackupPage">
-            <i class="cloud icon"></i>
-            {{ $t("Cloud Storage") }}
-          </div>
-        </div>
-      </div>
 
       <div class="fields">
         <div class="eight wide field">
@@ -85,26 +62,62 @@
         </div>
       </div>
 
-      <div class="field">
-        <label>
-          {{ $t("Post Title") }}
-        </label>
-        <div class="ui action input">
-          <input type="url" 
-                 onfocus="this.select()"
-                 v-model="postTitle"
-                 v-on:change="changePostMetadata"
-                 ondragstart="return false;" />
-          <button type="button" 
-                  class="icon ui button"
-                  v-bind:class="{disabled: (postTitle.trim() === '')}"
-                  v-on:click="copyInput"
-                  ondragstart="return false;">
-            <i class="copy icon"></i>
-          </button>
+      <div class="fields">
+        <div class="ten wide field">
+          <label>
+            {{ $t("Post Title") }}
+          </label>
+          <div class="ui action input">
+            <input type="url" 
+                   onfocus="this.select()"
+                   v-model="postTitle"
+                   v-on:change="changePostMetadata"
+                   ondragstart="return false;" />
+            <button type="button" 
+                    class="icon ui button"
+                    v-bind:class="{disabled: (postTitle.trim() === '')}"
+                    v-on:click="copyInput"
+                    ondragstart="return false;">
+              <i class="copy icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="six wide field">
+          <label>
+            {{ $t("SEO Link") }}
+          </label>
+          <div class="ui action input">
+            <input type="url" 
+                   onfocus="this.select()"
+                   v-model="postSEOLink"
+                   v-on:change="persistPost('postSEOLink')"
+                   v-on:blur="fixSEOLink"
+                   ondragstart="return false;" />
+            <button type="button" 
+                    class="icon ui button"
+                    v-on:click="generateSEOLink"
+                    v-bind:class="{positive: (postSEOLink.trim() === '')}"
+                    ondragstart="return false;">
+              <i class="linkify icon"></i>
+            </button>
+            <a target="trans"
+                    class="icon ui button"
+                    v-bind:href="googleTransLink"
+                    ondragstart="return false;">
+              <i class="language icon"></i>
+            </a>
+            <button type="button" 
+                    class="icon ui button"
+                    v-bind:class="{disabled: (postSEOLink.trim() === '')}"
+                    v-on:click="copyInput"
+                    ondragstart="return false;">
+              <i class="copy icon"></i>
+            </button>
+          </div>
         </div>
       </div>
-      
+        
       <div class="field">
         
           <label for="PublishManager.postLabels">
@@ -146,39 +159,7 @@
         -->
       </div>
 
-      <div class="field">
-        <label>
-          {{ $t("SEO Link") }}
-        </label>
-        <div class="ui action input">
-          <input type="url" 
-                 onfocus="this.select()"
-                 v-model="postSEOLink"
-                 v-on:change="persistPost('postSEOLink')"
-                 v-on:blur="fixSEOLink"
-                 ondragstart="return false;" />
-          <button type="button" 
-                  class="icon ui button"
-                  v-on:click="generateSEOLink"
-                  v-bind:class="{positive: (postSEOLink.trim() === '')}"
-                  ondragstart="return false;">
-            <i class="linkify icon"></i>
-          </button>
-          <a target="trans"
-                  class="icon ui button"
-                  v-bind:href="googleTransLink"
-                  ondragstart="return false;">
-            <i class="language icon"></i>
-          </a>
-          <button type="button" 
-                  class="icon ui button"
-                  v-bind:class="{disabled: (postSEOLink.trim() === '')}"
-                  v-on:click="copyInput"
-                  ondragstart="return false;">
-            <i class="copy icon"></i>
-          </button>
-        </div>
-      </div>
+        
 
       <div class="two unstackable fields">
         <div class="field">
@@ -244,6 +225,30 @@
           <textarea v-model="editNote"
                     v-on:change="persistPost('editNote')"
                     ondragstart="return false;" />
+        </div>
+      </div>
+
+      <div class="three unstackable fields">
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               v-on:click="downloadPostBackup">
+            <i class="download icon"></i>
+            {{ $t("Save") }}
+          </div>
+        </div>
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               v-on:click="triggerUploadPostBackup">
+            <i class="file upload icon"></i>
+            {{ $t("Open") }}
+          </div>
+        </div>
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               v-on:click="openBackupPage">
+            <i class="cloud icon"></i>
+            {{ $t("Cloud Storage") }}
+          </div>
         </div>
       </div>
 
