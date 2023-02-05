@@ -1,0 +1,36 @@
+<div class="ui modal"
+       :class="name"
+       ref="modal">
+    <i class="close icon" @click="close"></i>
+    <div class="header">
+      <i class="code icon"></i>
+      {{ $t('Title') }}
+    </div>
+    <!-- ---------------------------------------- -->
+    
+    <div class="content">
+      <div class="description ui form">
+
+        <div class="field">
+          <label>
+            {{ $t('Markdown Importer') }}
+          </label>
+          <textarea name="code"
+                    class="input"
+                    v-model="code"></textarea>
+        </div>
+        
+      </div> <!-- <div class="description"> -->
+    </div> <!-- <div class="content"> -->
+    <div class="actions">
+      <div class="ui button"
+           @click='close'>
+        {{ $t('Close') }}
+      </div>
+      <div class="ui button"
+           :class="enableInsert"
+           @click='insert'>
+        {{ $t('Insert') }}
+      </div>
+    </div>
+  </div>

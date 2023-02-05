@@ -44,6 +44,24 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton('CodeInserterOption', contents, tooltip, click, doRender)
   },
+  MarkdownImporter: function ($t, context, doRender) {
+    //let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="clipboard outline icon"></i>`)
+    let tooltip = $t('Import MD')
+    let click = () => {
+      $v.MarkdownImporter.open()
+    }
+    return SummerNoteHelper.buildButton('MarkdownImporter', contents, tooltip, click, doRender)
+  },
+  MarkdownImporterOption: function ($t, context, doRender) {
+    //let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="clipboard outline icon"></i>` + $t('Code'))
+    let tooltip = $t('Import MD')
+    let click = () => {
+      $v.MarkdownImporter.open()
+    }
+    return SummerNoteHelper.buildButton('MarkdownImporterOption', contents, tooltip, click, doRender)
+  },
   OutlineNavigator: function ($t, context, doRender) {
     //let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i>` + $t('Outline') )
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="sitemap icon"></i>` )
@@ -255,6 +273,7 @@ let SummerNoteOpen = {
   // ------------------------------------
   insertGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
+      this.MarkdownImporterOption($t, c, false),
       SummerNoteCode.insertMore($t, c, false),
       this.insertHR($t, c, false),
       this.insertVideo($t, c, false),   

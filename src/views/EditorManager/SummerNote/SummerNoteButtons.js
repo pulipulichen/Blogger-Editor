@@ -27,6 +27,9 @@ let SummerNoteButtons = {
       CodeInserter: (c) => {
         return SummerNoteOpen.CodeInserter($t, c)
       },
+      MarkdownImporter: (c) => {
+        return SummerNoteOpen.MarkdownImporter($t, c)
+      },
       OutlineNavigator: (c) => {
         return SummerNoteOpen.OutlineNavigator($t, c)
       },

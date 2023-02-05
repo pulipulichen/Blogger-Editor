@@ -170,7 +170,12 @@ let NavBarMenu = {
       GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorInsertCode')
       this.hideNavBar()
     },
-    
+    editorImportMarkdown: function () {
+      $v.MarkdownImporter.open()
+      GoogleAnalyticsHelper.send('NavBarMenu.open', 'editorImportMarkdown')
+      this.hideNavBar()
+    },
+
     // -------------------------------
     downloadImageTemplate: function () {
       SummerNoteImage.downloadImageTamplateClick()

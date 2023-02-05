@@ -21,6 +21,7 @@ const CONFIG = {
     disableIframePrompt: false,
     disableFileUploader: false,
     disableCodeInserter: false,
+    disableMarkdownImporter: false,
     disableOutlineNavigator: false,
     disableSnippetInserter: false,
     disableSaveIndicator: false,
