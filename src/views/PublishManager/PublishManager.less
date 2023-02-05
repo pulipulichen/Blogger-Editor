@@ -17,3 +17,14 @@ input[type='file'] {
     max-height: calc(100vh - 11rem) !important;
   }
 }
+
+label a {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+  
+  &.disabled {
+    cursor: progress;
+    color: gray !important;
+  }
+}

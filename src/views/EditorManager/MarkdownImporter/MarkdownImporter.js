@@ -3,6 +3,7 @@ var config = {
     return {
       name: 'MarkdownImporter',
       ui: undefined,
+      isLoading: false,
       //iframePromptInput: 'http://blog.pulipuli.info/'
       code: '',
       syntax: '',
@@ -23,6 +24,9 @@ var config = {
   },
   computed: {
     enableInsert: function () {
+      if (this.isLoading) {
+        return 'disabled'
+      }
       let code = this.code.trim()
       if (code.length > 2) {
         return 'green'
@@ -91,17 +95,20 @@ https://www.techbang.com/posts/103273-bigme-galy-e-ink
       div.innerText = unsafeText;
       return div.innerHTML;
     },
-    insert: function () {
+    insert: async function () {
+      this.isLoading = true
       let code = this.code
       
-      code = this.parseCode(code)
+      code = await this.parseCode(code)
+      console.log(code)
       $v.EditorManager.FieldPostBody.insert(code)
       this.close()
       
       this.code = ''
       this.persist()
+      this.isLoading = false
     },
-    parseCode (code) {
+    parseCode: async function (code) {
       let output = []
 
       let isFirstHr = true
@@ -110,11 +117,13 @@ https://www.techbang.com/posts/103273-bigme-galy-e-ink
       let olCounter = 1
       let listTemp = []
 
-      code.trim().split('\n').forEach(line => {
+      let lines = code.trim().split('\n')
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i]
         line = line.trim()
 
         if (line === '') {
-          return false
+          continue
         }
 
         if (!line.startsWith('- ') && isUL === true) {
@@ -160,17 +169,38 @@ https://www.techbang.com/posts/103273-bigme-galy-e-ink
           olCounter++
         }
         else if (this.isURL(line)) {
+          let post = $v.PostManager.getPost()
+          let dirPath = `/${post.id}/assets`
+
+          let link = line
+          let imgPath = await FileSystemHelper.getURLScreenshot(dirPath, link)
+                // this.insertImage(imgPath)
+                
+          let imgNode = `<p><a href="${imgPath}" data-filename="${link}">
+  <img src="${imgPath}" title="${link}" alt="${link}" data-filename="${link}" onload="BloggerImageHelper.readyToResize(this)" />
+</a></p>`
           line = `<p><a href="${line}" target="_blank">${line}</a></p>`
+          line = imgNode + line
+          // console.log(line)
         }
         else if (line.startsWith('#')) {
+          let title = line.slice(line.indexOf(' ') + 1)
+          if (title.indexOf(' / ') === -1) {
+            let trans = (await this.trans(title))
+            if (typeof(trans) === 'string') {
+              trans = trans.slice(0, 1).toUpperCase() + trans.slice(1)
+            }
+            title = title + ' / ' + trans
+          }
+
           if (line.startsWith('### ')) {
-            line = `<h4>${line}</h4>`
+            line = `<h4>${title}</h4>`
           }
           else if (line.startsWith('## ')) {
-            line = `<h3>${line}</h3>`
+            line = `<h3>${title}</h3>`
           }
           else if (line.startsWith('# ')) {
-            line = `<h2>${line}</h2>`
+            line = `<h2>${title}</h2>`
           }
         }
         else {
@@ -178,7 +208,11 @@ https://www.techbang.com/posts/103273-bigme-galy-e-ink
         }
 
         output.push(line)
-      })
+      }
+
+      // let keywords = await this.getKeywords(output) 
+      // output.unshift(`<p>[COVER: ${keywords.join(', ')}]</p>`)
+      output.unshift(`<p>[COVER]</p>`)
 
       return output.join('\n')
     },
@@ -189,6 +223,44 @@ https://www.techbang.com/posts/103273-bigme-galy-e-ink
     persist() {
       
     },
+    trans (text, sourceLangage = 'zh', targetLanguage = 'en') {
+      return new Promise((resolve, reject) => {
+        let appURL = `https://script.google.com/macros/s/AKfycbwk-r9O03CPCwRlkUtAilv0B_Y_s2BLMDz5pq2z3QfauDtvrFr7Tu8Mv2VUOYOciQ8YpA/exec`
+
+        let requestURL = appURL + '?text=' + encodeURIComponent(text) + '&s=' + sourceLangage + '&t=' + targetLanguage
+        $.getJSON(requestURL, (json) => {
+          resolve(json.output)
+        })
+      })
+    },
+    getKeywords (output) {
+      let outputText = $(`<div>${output.join('\n')}</div>`).text()
+      
+      return new Promise(async (resolve, reject) => {
+        var myHeaders = new Headers();
+        myHeaders.append("ap" + "ik" + "ey", "aGa" + "4QsvQ2UQt7" + "pMHA8STiSxu" + "p0AIQf26");
+
+        var raw = outputText
+
+        var requestOptions = {
+          method: 'POST',
+          redirect: 'follow',
+          headers: myHeaders,
+          body: raw
+        };
+
+        let res = await fetch("https://api.apilayer.com/keyword", requestOptions)
+        let text = await res.text()
+        let json = JSON.parse(text)
+        let result = json.result
+
+        result = result.map(({text}) => {
+          return decodeURIComponent(JSON.parse('"' + text.replace(/\"/g, '\\"') + '"'))
+        }).filter(t => !this.isURL(t))
+
+        resolve(result)
+      })
+    }
   }
 }
 

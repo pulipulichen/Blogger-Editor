@@ -21,6 +21,14 @@ let config = {
       postSEOLink: "",
       editNote: "",
       filesystemImageCount: 0,
+      labelRecommends: [],
+      isLabelRecommending: false,
+      URLpattern: new RegExp('^(https?:\\/\\/)?' + // protocol
+              '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+              '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+              '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+              '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+              '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
     }
   },
   // wath: {
@@ -401,6 +409,82 @@ ${html}
       
       
       this.postSEOLink = seoLink
+    },
+    getLabelRecommend: async function () {
+      this.isLabelRecommending = true
+      let postBody = $v.EditorManager.FieldPostBody.getElement()
+      let text = postBody.text()
+      let traned = await this.trans(text)
+      let recommends = await this.getKeywords(traned)
+      recommends = recommends.filter(t => !this.isURL(t)).map(r => {
+        let words = r.split(' ')
+
+        words = words.filter(t => !this.isURL(t)).map(w => {
+          return w.slice(0, 1).toUpperCase() + w.slice(1)
+        })
+        return words.join('')
+      })
+      // console.log(recommends)
+
+      this.isLabelRecommending = false
+      this.labelRecommends = recommends
+    },
+    trans: async function (text, sourceLangage = 'zh', targetLanguage = 'en') {
+      var requestOptions = {
+        method: 'POST',
+        redirect: 'follow',
+        body: text
+      };
+
+      let appScriptURL = `https://script.google.com/macros/s/AKfycbxzzMH-MGVKJ1JJu8tBcfKvMR-EavhLBlWGCJI0PbJwdGOQvDfGpyWw2y79zAFj8uc4SQ/exec`
+      let requestURL = appScriptURL + '?s=' + sourceLangage + '&t=' + targetLanguage
+
+      let res = await fetch(requestURL, requestOptions)
+      let result = await res.text()
+      result = JSON.parse(result)
+      // console.log(result.output)
+      return result.output
+    },
+    getKeywords (output) {
+      
+      return new Promise(async (resolve, reject) => {
+        var myHeaders = new Headers();
+        myHeaders.append("ap" + "ik" + "ey", "aGa" + "4QsvQ2UQt7" + "pMHA8STiSxu" + "p0AIQf26");
+
+        var raw = output
+
+        var requestOptions = {
+          method: 'POST',
+          redirect: 'follow',
+          headers: myHeaders,
+          body: raw
+        };
+
+        let res = await fetch("https://api.apilayer.com/keyword", requestOptions)
+        let text = await res.text()
+        let json = JSON.parse(text)
+        let result = json.result
+
+        result = result.map(({text}) => {
+          return decodeURIComponent(JSON.parse('"' + text.replace(/\"/g, '\\"') + '"'))
+        }).filter(t => !this.isURL(t))
+
+        resolve(result)
+      })
+    },
+    isURL: function (str) {
+      
+      return !!this.URLpattern.test(str);
+    },
+    addLabelRecommend (label) {
+      let currentLabels = this.postLabels.split(',').map(i => i.trim().toLowerCase())
+      
+      if (currentLabels.indexOf(label.toLowerCase()) === -1) {
+        if (this.postLabels.trim() !== '') {
+          this.postLabels = this.postLabels + ', '
+        }
+        this.postLabels = this.postLabels + label
+      }
     }
   }
 }

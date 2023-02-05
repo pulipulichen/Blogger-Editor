@@ -147,13 +147,14 @@ Message: ${e.message}`
     let fs = this.fs
     fs.root.getDirectory(dirPath, {}, function(dirEntry) {
 
-    dirEntry.removeRecursively(function() {
-      //console.log('Directory removed.');
-      FunctionHelper.triggerCallback(callback)
-    }, callback);
+      dirEntry.removeRecursively(function() {
+        //console.log('Directory removed.');
+        FunctionHelper.triggerCallback(callback)
+      }, callback);
 
-  }, callback);
+    }, callback);
   },
+  
   writeFromString: function (filePath, content, callback) {
     if (InitHelper.ready === false) {
       console.log('wait init ready')
@@ -210,12 +211,12 @@ Message: ${e.message}`
           fileWriter.onwriteend = (e) => {
             console.log('Write completed: ' + filePath);
             //console.log(content)
-            FunctionHelper.triggerCallback(callback)
+            FunctionHelper.triggerCallback(callback, this.getFileSystemUrl(filePath))
           };
 
           fileWriter.onerror = (e) => {
             //console.log('Write failed: ' + filePath + ': ' + e.toString());
-            FunctionHelper.triggerCallback(callback)
+            FunctionHelper.triggerCallback(callback, this.getFileSystemUrl(filePath))
           };
 
           // Create a new Blob and write it to log.txt.
@@ -229,6 +230,118 @@ Message: ${e.message}`
       }, errorHandler);
 
     }, errorHandler);
+  },
+  writeFromBase64: function (filePath, content, callback) {
+    if (InitHelper.ready === false) {
+      console.log('wait init ready')
+      return
+    }
+    
+    let fs = this.fs
+    
+    if (filePath.startsWith('/') === false) {
+      filePath = '/' + filePath
+    }
+    
+    //console.log()
+    
+    //let errorHandler = this.errorHandler
+    let errorHandler = (e) => {
+      let dirPath = filePath.slice(0, filePath.lastIndexOf('/') + 1).trim()
+      //if (dirPath === '') {
+      //  this.errorHandler(e)
+      //  return
+      //}
+      
+      //console.log(dirPath)
+      this.isExists(dirPath, (dirExists) => {
+        if (dirExists === false) {
+          this.createDir(fs.root, dirPath.split('/'), () => {
+            this.writeFromString(filePath, content, callback)
+          }); // fs.root is a 
+        }
+        else {
+          this.isExists(filePath, (fileExists) => {
+            if (fileExists === true) {
+              this.remove(filePath, () => {
+                this.writeFromString(filePath, content, callback)
+              })
+            }
+            else {
+              this.errorHandler(e)
+            }
+          })
+        }
+      })
+    }
+    
+    // we have to check dir is existed.
+    //console.log(['write', filePath])
+    fs.root.getFile(filePath, 
+      {create: true, exclusive: true}, 
+      (fileEntry) => {
+
+      // Create a FileWriter object for our FileEntry (log.txt).
+      fileEntry.createWriter(async (fileWriter) => {
+
+          fileWriter.onwriteend = (e) => {
+            console.log('Write completed: ' + filePath);
+            //console.log(content)
+            // console.log(fileEntry.toURL())
+            FunctionHelper.triggerCallback(callback, fileEntry.toURL())
+          };
+
+          fileWriter.onerror = (e) => {
+            console.log('Write failed: ' + filePath + ': ' + e.toString());
+            FunctionHelper.triggerCallback(callback, fileEntry.toURL())
+          };
+
+          // Create a new Blob and write it to log.txt.
+          //var bb = new BlobBuilder(); // Note: window.WebKitBlobBuilder in Chrome 12.
+          //bb.append(content);
+          //fileWriter.write(bb.getBlob('text/plain'));
+
+          // let res = await fetch(content)
+          // let blob = await res.blob()
+          // let fileName = filePath.slice(filePath.lastIndexOf('/') + 1)
+          // let blob = this.b64toBlob(content, fileName)
+          // console.log(blob)
+          let blob = await (await fetch(content)).blob()
+          fileWriter.write(blob)
+          //fileWriter.write(new Blob([content], {type: 'text/html'}));
+
+      }, errorHandler);
+
+    }, errorHandler);
+  },
+  b64toBlob: function (b64Data, filename, contentType, sliceSize) {
+    if (b64Data.startsWith('data:') && b64Data.indexOf(';base64,') > 0) {
+      contentType = b64Data.slice(5, b64Data.indexOf(';base64,'))
+      b64Data = b64Data.slice(b64Data.indexOf(';base64,') + 8)
+    }
+
+    contentType = contentType || "";
+    sliceSize = sliceSize || 512;
+  
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+  
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+  
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+  
+      var byteArray = new Uint8Array(byteNumbers);
+  
+      byteArrays.push(byteArray);
+    }
+  
+    // console.log(byteArrays);
+  
+    return new File(byteArrays, filename, { type: contentType });
   },
   isPlainText: function (path) {
     return (path.endsWith('.txt') 
@@ -373,7 +486,6 @@ Message: ${e.message}`
       }
       loop(0)
     })  // this.createDir(fs.root, dirPath, () => {
-      
   },
   remove: function (path, callback) {
     if (InitHelper.ready === false) {
@@ -673,6 +785,37 @@ Message: ${e.message}`
       })
 
     }, errorHandler);
+  },
+  getURLScreenshot (dirPath, url) {
+    let appsScriptURL = `https://script.google.com/macros/s/AKfycbxWLHQeNaJaVAhyBSD_g9tHctQcIt5EucFyOs30CgJ6l4AeV1AAdAI36TIVjsPtKc8/exec`
+
+    let safeURL = encodeURIComponent(url)
+    let requestURL = appsScriptURL + `?url=${safeURL}`
+
+    let shortenSafeURL = safeURL
+    if (shortenSafeURL.length > 30) {
+      shortenSafeURL = shortenSafeURL.slice(0, 10) + '-' + shortenSafeURL.slice(-10) + (new Date()).getTime()
+    }
+
+    if (dirPath.endsWith('/')) {
+      dirPath = dirPath.slice(0, -1)
+    }
+
+    return new Promise((resolve) => {
+      $.getJSON(requestURL, async (json) => {
+        let base64 = json.output
+        // console.log(base64)
+
+        // let res = await fetch(url)
+        // let blob = await res.blob()
+        
+        this.writeFromBase64(dirPath + '/' + shortenSafeURL + '.png', base64, (filePath) => {
+          // console.log(filePath)
+          resolve(filePath)
+        })
+      })
+    })
+      
   }
 }
 

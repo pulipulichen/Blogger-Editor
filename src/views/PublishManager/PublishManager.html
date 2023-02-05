@@ -120,8 +120,20 @@
         
       <div class="field">
         
-          <label for="PublishManager.postLabels">
+          <label>
             {{ $t("Post Labels") }}
+
+            <a @click="getLabelRecommend"
+              :class="{disabled: isLabelRecommending}"
+              v-if="labelRecommends.length === 0">({{ $t('Recommend...') }})</a>
+            
+            <template v-for="(label, i) in labelRecommends">
+              <span v-if="i === 0">: </span>
+              <span v-if="i > 0">, </span>
+              <a 
+                @click="addLabelRecommend(label)"
+                v-if="labelRecommends.length > 0">{{ label }}</a>
+            </template>
           </label>
           <div class="ui action input">
             <input type="text" 

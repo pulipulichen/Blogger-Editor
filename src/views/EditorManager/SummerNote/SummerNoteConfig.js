@@ -172,7 +172,7 @@ let SummerNoteConfig = {
   },
   popoverLink: function () {
     return [
-      ['link', ['linkDialogShow', 'unlink', 'copyLink']],
+      ['link', ['linkDialogShow', 'unlink', 'copyLink', 'insertScreenshot']],
       ['remove', ['removeLink']]
     ]
   },

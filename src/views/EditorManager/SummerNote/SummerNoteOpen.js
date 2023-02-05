@@ -55,7 +55,7 @@ let SummerNoteOpen = {
   },
   MarkdownImporterOption: function ($t, context, doRender) {
     //let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="clipboard outline icon"></i>` + $t('Code'))
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="clipboard outline icon"></i>` + $t('Import MD'))
     let tooltip = $t('Import MD')
     let click = () => {
       $v.MarkdownImporter.open()

@@ -979,7 +979,8 @@ import summerNoteOptions from './options.js'
               openInTargetWindow: 'Open in window with a target',
               openInPopup: 'Open in popup',
               remove: 'Remove',
-              copy: 'Copy'
+              copy: 'Copy',
+              screenshot: 'Screenshot',
           },
           comment: {
               dialogTitle: 'Edit Comment',
@@ -5709,6 +5710,37 @@ ${links}`
                   copyPlainText(link)
               }
           });
+
+          /**
+           * copy link
+           * @author Pulipuli Chen 20230206
+           */
+          this.insertScreenshot = this.wrapCommand(async function () {
+            let rng = this.createRange();
+            if (rng.isOnAnchor()) {
+                let anchor = dom.ancestor(rng.sc, dom.isAnchor);
+                rng = range.createFromNode(anchor);
+                // let parent = rng.sc.parentNode
+                let link = rng.sc.href
+                //console.log(link)
+                // copyPlainText(link)
+
+                let post = $v.PostManager.getPost()
+                let dirPath = `/${post.id}/assets`
+
+                // console.log({link, dirPath})
+                let imgPath = await FileSystemHelper.getURLScreenshot(dirPath, link)
+                // this.insertImage(imgPath)
+                
+                let imgNode = $(`<p><a href="${imgPath}" data-filename="${link}">
+      <img src="${imgPath}" title="${link}" alt="${link}" data-filename="${link}" onload="BloggerImageHelper.readyToResize(this)" />
+    </a></p>`)
+                // console.log(parent)
+                // parent.insertNode(imgNode);
+                $(anchor).parents('p:first').before(imgNode)
+                // _this.context.invoke('editor.insertNode', '<hr />');
+            }
+        });
           /**
            * save media object and Figure Elements if media object is img with Figure.
            * @author Pulipuli Chen 20190421
@@ -6620,6 +6652,7 @@ ${links}`
               range.create(_this.editable).insertNode($image[0]);
               range.createFromNodeAfter($image[0]).select();
               _this.afterCommand();
+              console.log('ok', src)
           }).fail(function (e) {
               _this.context.triggerEvent('image.upload.error', e);
           });
@@ -8853,6 +8886,15 @@ sel.addRange(range);
                   click: _this.context.createInvokeHandler('editor.copyLink')
               }).render();
           });
+
+          this.context.memo('button.insertScreenshot', function () {
+            return _this.button({
+                //contents: _this.ui.icon(_this.options.icons.copy),  // 
+                contents: _this.ui.icon(_this.options.icons.picture) + ' ' + _this.lang.link.screenshot,
+                tooltip: _this.lang.link.screenshot,
+                click: _this.context.createInvokeHandler('editor.insertScreenshot')
+            }).render();
+        });
       };
       /**
        * table : [
