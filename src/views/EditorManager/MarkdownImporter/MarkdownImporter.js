@@ -17,7 +17,7 @@ var config = {
     }
   },
   mounted: function () {
-    this.test20230205()
+    // this.test20230205()
   },
   created: function () {
     $v[this.name] = this
