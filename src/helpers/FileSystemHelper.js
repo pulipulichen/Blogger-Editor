@@ -797,7 +797,10 @@ Message: ${e.message}`
     let safeURL = encodeURIComponent(url)
     let requestURL = appsScriptURL + `?url=${safeURL}`
 
-    let shortenSafeURL = safeURL
+    let shortenSafeURL = safeURL.replace(/\d/g, '-')
+    while (shortenSafeURL.indexOf('--') > -1) {
+      shortenSafeURL = shortenSafeURL.replace(/--/g, '-')
+    }
     if (shortenSafeURL.length > 30) {
       shortenSafeURL = shortenSafeURL.slice(0, 10) + '-' + shortenSafeURL.slice(-10) + (new Date()).getTime()
     }
