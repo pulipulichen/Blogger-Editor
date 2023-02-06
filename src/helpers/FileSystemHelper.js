@@ -797,10 +797,21 @@ Message: ${e.message}`
     let safeURL = encodeURIComponent(url)
     let requestURL = appsScriptURL + `?url=${safeURL}`
 
-    let shortenSafeURL = safeURL.replace(/\d/g, '-')
+    let shortenSafeURL = safeURL
+    if (shortenSafeURL.indexOf('://') > -1) {
+      shortenSafeURL = shortenSafeURL.slice(shortenSafeURL.indexOf('://') + 3)
+    }
+    shortenSafeURL = shortenSafeURL.replace(/[\W]/g, '-')
     while (shortenSafeURL.indexOf('--') > -1) {
       shortenSafeURL = shortenSafeURL.replace(/--/g, '-')
     }
+    if (shortenSafeURL.startsWith('-')) {
+      shortenSafeURL = shortenSafeURL.slice(1)
+    }
+    if (shortenSafeURL.endsWith('-')) {
+      shortenSafeURL = shortenSafeURL.slice(0, -1)
+    }
+    
     if (shortenSafeURL.length > 30) {
       shortenSafeURL = shortenSafeURL.slice(0, 10) + '-' + shortenSafeURL.slice(-10) + (new Date()).getTime()
     }
