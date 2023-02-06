@@ -21,6 +21,8 @@ let config = {
       postSEOLink: "",
       editNote: "",
       filesystemImageCount: 0,
+      titleRecommend: false,
+      isTitleRecommending: false,
       labelRecommends: [],
       isLabelRecommending: false,
       URLpattern: new RegExp('^(https?:\\/\\/)?' + // protocol
@@ -96,7 +98,7 @@ let config = {
       postTitle = postTitle.trim()
       postTitle = encodeURIComponent(postTitle)
       
-      return `https://translate.google.com.tw/?hl=zh-TW&sl=zh-CN&tl=en&text=${postTitle}&op=translate`
+      return `https://translate.google.com.tw/?sl=zh-TW&tl=en&text=${postTitle}&op=translate`
     }
   },
   created: function () {
@@ -410,6 +412,19 @@ ${html}
       
       this.postSEOLink = seoLink
     },
+    getTitleRecommend: async function () {
+      let html = SummerNoteCode.CopyCodeClick((message) => {
+        return this.$t(message)
+      }, false)
+
+      let text = $(html).text()
+
+      // console.log(text)
+      let promot = `請為以下文字產生100字以內的中文文章標題：` + text
+      CopyPasteHelper.copyPlainText(promot)
+
+      WindowHelper.popup(`https://chat.openai.com/chat`)
+    },
     getLabelRecommend: async function () {
       this.isLabelRecommending = true
       let postBody = $v.EditorManager.FieldPostBody.getElement()
@@ -430,26 +445,36 @@ ${html}
       this.labelRecommends = recommends
     },
     trans: async function (text, sourceLangage = 'zh', targetLanguage = 'en') {
+      let appsScriptURL = $v.ConfigManager.apiKeysTrans
+
+      if (appsScriptURL === '') {
+        return `NoAPIKey`
+      }
+
       var requestOptions = {
         method: 'POST',
         redirect: 'follow',
         body: text
       };
 
-      let appScriptURL = `https://script.google.com/macros/s/AKfycbxzzMH-MGVKJ1JJu8tBcfKvMR-EavhLBlWGCJI0PbJwdGOQvDfGpyWw2y79zAFj8uc4SQ/exec`
-      let requestURL = appScriptURL + '?s=' + sourceLangage + '&t=' + targetLanguage
+      let requestURL = appsScriptURL + '?s=' + sourceLangage + '&t=' + targetLanguage
 
       let res = await fetch(requestURL, requestOptions)
       let result = await res.text()
-      result = JSON.parse(result)
+      console.log(result)
       // console.log(result.output)
+      result = JSON.parse(result)
       return result.output
     },
     getKeywords (output) {
-      
+      let apiKey = $v.ConfigManager.apiKeysAPILayer
+      if (apiKey === '') {
+        return ['NoAPIKey']
+      }
+
       return new Promise(async (resolve, reject) => {
         var myHeaders = new Headers();
-        myHeaders.append("ap" + "ik" + "ey", "aGa" + "4QsvQ2UQt7" + "pMHA8STiSxu" + "p0AIQf26");
+        myHeaders.append("ap" + "ik" + "ey", apiKey);
 
         var raw = output
 
@@ -469,6 +494,10 @@ ${html}
           return decodeURIComponent(JSON.parse('"' + text.replace(/\"/g, '\\"') + '"'))
         }).filter(t => !this.isURL(t))
 
+        result.sort((a, b) => {
+          return a.length - b.length
+        })
+
         resolve(result)
       })
     },
@@ -485,6 +514,9 @@ ${html}
         }
         this.postLabels = this.postLabels + label
       }
+    },
+    openGoogleTransLink () {
+      WindowHelper.popup(this.googleTransLink)
     }
   }
 }

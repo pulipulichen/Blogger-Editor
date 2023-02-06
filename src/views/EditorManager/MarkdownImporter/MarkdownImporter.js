@@ -100,7 +100,7 @@ https://www.techbang.com/posts/103273-bigme-galy-e-ink
       let code = this.code
       
       code = await this.parseCode(code)
-      console.log(code)
+      // console.log(code)
       $v.EditorManager.FieldPostBody.insert(code)
       this.close()
       
@@ -224,21 +224,32 @@ https://www.techbang.com/posts/103273-bigme-galy-e-ink
       
     },
     trans (text, sourceLangage = 'zh', targetLanguage = 'en') {
-      return new Promise((resolve, reject) => {
-        let appURL = `https://script.google.com/macros/s/AKfycbwk-r9O03CPCwRlkUtAilv0B_Y_s2BLMDz5pq2z3QfauDtvrFr7Tu8Mv2VUOYOciQ8YpA/exec`
+      let appsScriptURL = $v.ConfigManager.apiKeysTrans
 
-        let requestURL = appURL + '?text=' + encodeURIComponent(text) + '&s=' + sourceLangage + '&t=' + targetLanguage
+      if (appsScriptURL === '') {
+        return `NoAPIKey`
+      }
+
+      return new Promise((resolve, reject) => {
+        // let appURL = `https://script.google.com/macros/s/AKfycbwk-r9O03CPCwRlkUtAilv0B_Y_s2BLMDz5pq2z3QfauDtvrFr7Tu8Mv2VUOYOciQ8YpA/exec`
+
+        let requestURL = appsScriptURL + '?text=' + encodeURIComponent(text) + '&s=' + sourceLangage + '&t=' + targetLanguage
         $.getJSON(requestURL, (json) => {
           resolve(json.output)
         })
       })
     },
     getKeywords (output) {
+      let apiKey = $v.ConfigManager.apiKeysAPILayer
+      if (apiKey === '') {
+        return ['NoAPIKey']
+      }
+
       let outputText = $(`<div>${output.join('\n')}</div>`).text()
       
       return new Promise(async (resolve, reject) => {
         var myHeaders = new Headers();
-        myHeaders.append("ap" + "ik" + "ey", "aGa" + "4QsvQ2UQt7" + "pMHA8STiSxu" + "p0AIQf26");
+        myHeaders.append("ap" + "ik" + "ey", apiKey);
 
         var raw = outputText
 

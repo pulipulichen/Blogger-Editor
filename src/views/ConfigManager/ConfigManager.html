@@ -31,6 +31,13 @@
            ref="backup">
           {{ $t('Backup Manage') }}
         </a>
+        <a class="item"
+           v-bind:class="{active: (tab === 'apikeys')}"
+           data-tab="apikeys"
+           v-on:click="openTab"
+           ref="apikeys">
+          {{ $t('API Keys') }}
+        </a>
         <a class="item" 
            v-bind:class="{active: (tab === 'about')}"
            data-tab="about"
@@ -73,6 +80,85 @@
             </template>
           </select>
         </div>
+      </div>
+
+      <!-- ====================================== -->
+
+      <div class="ui bottom attached tab segment form" 
+           v-bind:class="{active: (tab === 'apikeys')}"
+           data-tab="apikeys">
+
+          <a href="https://docs.google.com/spreadsheets/d/1oO8gH6Le5IW8sWCQxqfBuGi-88QJ1s7G_ZGhNPpuAQs/edit#gid=0">Private Document</a>
+
+          <div class="field">
+            <label for="ConfigManager.apiKeysChatGPT">
+              {{ $t('ChatGPT') }}
+            </label>
+  
+            <div class="ui action input">
+              <input type="text" 
+                     name="apiKeysChatGPT" 
+                     onfocus="this.select()"
+                     id="ConfigManager.apiKeysChatGPT"
+                     v-model="apiKeysChatGPT"
+                     v-on:change="persist" />
+              <button type="button" 
+                      class="ui button"
+                      v-on:click="openChatGPTConfig">
+                {{ $t('OPEN') }}
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ConfigManager.apiKeysAPILayer">
+              {{ $t('API Layer') }}
+            </label>
+  
+            <div class="ui action input">
+              <input type="text" 
+                     name="apiKeysAPILayer" 
+                     onfocus="this.select()"
+                     id="ConfigManager.apiKeysAPILayer"
+                     v-model="apiKeysAPILayer"
+                     v-on:change="persist" />
+              <button type="button" 
+                      class="ui button"
+                      v-on:click="openAPILayerConfig">
+                {{ $t('OPEN') }}
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ConfigManager.apiKeysTrans">
+              {{ $t('Trans') }}
+            </label>
+  
+            <div class="ui action input">
+              <input type="text" 
+                     name="apiKeysTrans" 
+                     onfocus="this.select()"
+                     id="ConfigManager.apiKeysTrans"
+                     v-model="apiKeysTrans"
+                     v-on:change="persist" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ConfigManager.apiKeysURLScreenshot">
+              {{ $t('URL Screenshot') }}
+            </label>
+  
+            <div class="ui action input">
+              <input type="text" 
+                     name="apiKeysURLScreenshot" 
+                     onfocus="this.select()"
+                     id="ConfigManager.apiKeysURLScreenshot"
+                     v-model="apiKeysURLScreenshot"
+                     v-on:change="persist" />
+            </div>
+          </div>
       </div>
 
       <!-- ----------------------------------------------------------- -->

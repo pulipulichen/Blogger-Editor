@@ -18,7 +18,11 @@ let config = {
       googleAnalyticsTrackingId: '',
       googleAnalyticsReportURL: '',
       googleAnalyticsRealtimeReportURL: '',
-      eventTrackDayLimit: 3
+      eventTrackDayLimit: 3,
+      apiKeysChatGPT: '',
+      apiKeysAPILayer: '',
+      apiKeysTrans: '',
+      apiKeysURLScreenshot: '',
     }
   },
   mounted() {
@@ -29,6 +33,11 @@ let config = {
     VueHelper.mountLocalStorage(this, 'googleAnalyticsRealtimeReportURL')
     VueHelper.mountLocalStorageInt(this, 'eventTrackDayLimit')
     
+    VueHelper.mountLocalStorage(this, 'apiKeysChatGPT')
+    VueHelper.mountLocalStorage(this, 'apiKeysAPILayer')
+    VueHelper.mountLocalStorage(this, 'apiKeysTrans')
+    VueHelper.mountLocalStorage(this, 'apiKeysURLScreenshot')
+
     //console.log(this.enableBackupPageButton)
   },
   created: function () {
@@ -50,7 +59,7 @@ let config = {
       //console.log(this.backupPageURL)
       //console.log(this.backupPageURL.startsWith('https://drive.google.com/drive/u/0/'))
       return (this.googleAnalyticsRealtimeReportURL.startsWith('https://analytics.google.com/analytics/web/#/realtime/rt-event/'))
-    }
+    },
   },
   methods: {
     getUI: function () {
@@ -207,6 +216,11 @@ let config = {
       VueHelper.persistLocalStorage(this, 'googleAnalyticsReportURL')
       VueHelper.persistLocalStorage(this, 'googleAnalyticsRealtimeReportURL')
       VueHelper.persistLocalStorage(this, 'eventTrackDayLimit')
+
+      VueHelper.persistLocalStorage(this, 'apiKeysChatGPT')
+      VueHelper.persistLocalStorage(this, 'apiKeysAPILayer')
+      VueHelper.persistLocalStorage(this, 'apiKeysTrans')
+      VueHelper.persistLocalStorage(this, 'apiKeysURLScreenshot')
     },
     openBackupPageURL() {
       if (this.enableBackupPageButton) {
@@ -399,6 +413,12 @@ let config = {
     clearEventTrackData: function (e) {
       GoogleAnalyticsHelper.databaseReset()
       return this
+    },
+    openChatGPTConfig () {
+      WindowHelper.popup('https://platform.openai.com/account/api-keys', 'ChatGPT API Key')
+    },
+    openAPILayerConfig () {
+      WindowHelper.popup('https://apilayer.com/marketplace/keyword-api', 'APILayer API Key')
     }
   }
 }

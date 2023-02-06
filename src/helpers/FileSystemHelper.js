@@ -787,7 +787,12 @@ Message: ${e.message}`
     }, errorHandler);
   },
   getURLScreenshot (dirPath, url) {
-    let appsScriptURL = `https://script.google.com/macros/s/AKfycbxWLHQeNaJaVAhyBSD_g9tHctQcIt5EucFyOs30CgJ6l4AeV1AAdAI36TIVjsPtKc8/exec`
+    let appsScriptURL = $v.ConfigManager.apiKeysURLScreenshot
+
+    if (appsScriptURL === '') {
+      // 錯誤的圖片
+      return `https://i.ibb.co/Qpm8Qpw/6-Ways-to-Fix-Configuration-System-Failed-to-Initialize-in-Windows.jpg`
+    }
 
     let safeURL = encodeURIComponent(url)
     let requestURL = appsScriptURL + `?url=${safeURL}`

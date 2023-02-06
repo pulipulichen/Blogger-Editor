@@ -66,6 +66,7 @@
         <div class="ten wide field">
           <label>
             {{ $t("Post Title") }}
+
           </label>
           <div class="ui action input">
             <input type="url" 
@@ -73,6 +74,18 @@
                    v-model="postTitle"
                    v-on:change="changePostMetadata"
                    ondragstart="return false;" />
+            <a class="icon ui button"
+                 href="https://chat.openai.com/chat"
+                 @click.prevent="getTitleRecommend"
+                 ondragstart="return false;">
+              <i class="user md icon"></i>
+            </a>
+            <a class="icon ui button"
+                 v-bind:href="googleTransLink"
+                 @click.prevent="openGoogleTransLink"
+                 ondragstart="return false;">
+              <i class="language icon"></i>
+            </a>
             <button type="button" 
                     class="icon ui button"
                     v-bind:class="{disabled: (postTitle.trim() === '')}"

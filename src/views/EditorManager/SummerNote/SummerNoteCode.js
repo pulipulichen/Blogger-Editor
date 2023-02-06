@@ -34,7 +34,7 @@ let SummerNoteCode = {
     }
     return SummerNoteHelper.buildButton('CopyCode', contents, tooltip, click, doRender)
   },
-  CopyCodeClick: function ($t) {
+  CopyCodeClick: function ($t, warning = true) {
     let postBody = $v.EditorManager.FieldPostBody.getElement()
     postBody = this.CleanCodeClick(postBody)
     postBody = postBody.clone()
@@ -42,7 +42,9 @@ let SummerNoteCode = {
     // 檢查第一個圖片有沒有height
     if (postBody.find('img:first').length > 0 
             && postBody.find('img:first').attr('width') !== undefined) {
-      alert($t('First image has width!'))
+      if (warning === true) {
+        alert($t('First image has width!'))
+      }
     }
 
     // 請把有http的部分全部換掉
