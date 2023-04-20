@@ -309,7 +309,7 @@ Message: ${e.message}`
           let blob = await (await fetch(content)).blob()
           fileWriter.write(blob)
           //fileWriter.write(new Blob([content], {type: 'text/html'}));
-
+          
       }, errorHandler);
 
     }, errorHandler);

@@ -32,6 +32,9 @@ var config = {
     fullPaired () {
       //console.log(this.selectedImageList.length, this.postBodyImageList.length)
       return (this.selectedImageList.length === this.postBodyImageList.length)
+    },
+    postBodyImageListReverse () {
+      return this.postBodyImageList.reverse()
     }
   },
   methods: {
