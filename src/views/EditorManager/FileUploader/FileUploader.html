@@ -53,7 +53,8 @@
               <div class="ten wide field">
                 <div class="ui fluid mini input">
                   <input type="url" 
-                         v-model="link.downloadURL" />
+                         v-model="link.downloadURL"
+                         v-on:change="onSettingChange" />
                 </div>
               </div>
             </div>

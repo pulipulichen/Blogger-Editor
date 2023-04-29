@@ -20,8 +20,9 @@ let config = {
   },
   computed: {
     enableInsert: function () {
+      // console.log(this.links)
       for (let i = 0; i < this.links.length; i++) {
-        //console.log(this.links[i].downloadURL)
+        // console.log(this.links[i].downloadURL)
         if (this.validateDownloadURL(this.links[i].downloadURL)) {
           return 'green'
         }
@@ -115,6 +116,7 @@ let config = {
     },
     onSettingChange: function () {
       VueHelper.persistLocalStorage(this, 'links')
+      this.links = this.links.concat([])
     },
     resetDownloadURL: function () {
       if (Array.isArray(this.links) === false) {
@@ -139,8 +141,7 @@ let config = {
       }
     },
     validateDownloadURL: function (url) {
-      return (typeof(url) === 'string' 
-              && url.length > 4)
+      return (typeof(url) === 'string' && url.length > 4)
     },
     onDelimiterChange: function () {
       VueHelper.persistLocalStorage(this, 'delimiter')
