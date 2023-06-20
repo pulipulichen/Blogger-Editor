@@ -96,7 +96,7 @@
       
       
       <div class="ui list post-body-list item-list">
-        <div v-for="(item, i) in postBodyImageListReverse"
+        <div v-for="(item, i) in postBodyImageList"
              class="item"
              v-bind:class="{pairable: (currentPairingItem !== null), selected: (selectedImageList.indexOf(item.url) > -1)}"
              v-on:click="selectPostItem(i)"
