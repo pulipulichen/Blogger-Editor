@@ -1,15 +1,15 @@
 <fragment ref="modal">
-  <a class="item publish" 
-     v-on:click="openPublishManager">
-    <i class="blogger icon"
-       v-bind:title="$t('Publish')"></i>
-    <span>{{ $t('Publish') }}</span>
-  </a>
   <a class="item post" 
      v-on:click="openPostManager">
     <i class="list alternate icon"
        v-bind:title="$t('Post')"></i>
     <span>{{ $t('Post') }}</span>
+  </a>
+  <a class="item publish" 
+     v-on:click="openPublishManager">
+    <i class="blogger icon"
+       v-bind:title="$t('Publish')"></i>
+    <span>{{ $t('Publish') }}</span>
   </a>
   <a class="item theme" 
      v-on:click="openThemeManager">

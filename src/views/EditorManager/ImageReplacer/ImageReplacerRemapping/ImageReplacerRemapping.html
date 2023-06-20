@@ -1,6 +1,6 @@
 <div class="ImageReplacerRemapping">
   <div class="ui grid">
-    <div class="eight wide column ui list uploaded-list">
+    <div class="eight wide column uploaded-list">
       
       <div class="ui message"
            v-bind:class="{green: fullPaired}">
@@ -26,6 +26,7 @@
       <h4>{{ $t('Uploaded Images') }}</h4>
       
       
+      <div class="item-list ui list ">
       <div v-for="(item, i) in imageRemapList"
            class="item"
            v-bind:class="{positive: (item.mapPostBodyImage), pairable: (currentPairingItemPost !== null)}"
@@ -39,14 +40,22 @@
         <img class="ui image" 
              v-bind:src="item.url" />
 
-        <a class="ui remap button"
-            v-if="!item.mapPostBodyImage">
-           {{ $t('Not paired') }}
-         </a>
-         <a class="ui remap button"
-            v-if="item.mapPostBodyImage">
-           {{ getFilename(item.mapPostBodyImage) }}
-         </a>
+        <span class="header">
+          <a class="ui remap tiny button"
+              v-if="!item.mapPostBodyImage">
+             {{ $t('Not Paired') }}
+          </a>
+          <a class="ui remap tiny button"
+             v-if="item.mapPostBodyImage">
+            {{ getFilename(item.mapPostBodyImage) }}
+          </a>
+
+          <span class="subheader">
+            {{ item.sizeInfo }}
+          </span>
+        </span>
+          
+      </div>
       </div>
     </div>
     
@@ -62,11 +71,13 @@
             <div class="middle aligned content">
               <span class="header">
                 {{ $t("Pairing from uploaded...") }}
+                <!--
                 <a v-on:click="resetPairred"
                    v-if="imageRemapList[currentPairingItem].mapPostBodyImage"
                    class="ui button">
                   {{ $t("Reset") }}
                 </a>
+                -->
               </span>
             </div>
           </div>
@@ -83,7 +94,7 @@
       <h4>{{ $t('Images in the post') }}</h4>
       
       
-      <div class="ui list post-body-list">
+      <div class="ui list post-body-list item-list">
         <div v-for="(item, i) in postBodyImageListReverse"
              class="item"
              v-bind:class="{pairable: (currentPairingItem !== null), selected: (selectedImageList.indexOf(item.url) > -1)}"
@@ -98,7 +109,12 @@
                v-bind:src="item.url">
           <div class="middle aligned content">
             <span class="header">
+              <span class="filename">
               {{ item.filename }}
+              </span>
+              <span class="subheader">
+                {{ item.sizeInfo }}
+              </span>
             </span>
           </div>
         </div>

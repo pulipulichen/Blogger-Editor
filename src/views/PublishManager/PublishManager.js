@@ -175,7 +175,7 @@ let config = {
     },
     popup: function (name) {
       let url = this[name]
-      WindowHelper.popup(url, name)
+      WindowHelper.forcePopup(url, name)
     },
     openImageReplacer: function () {
       $v.EditorManager.ImageReplacer.open()

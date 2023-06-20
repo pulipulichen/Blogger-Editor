@@ -14,7 +14,8 @@ var config = {
       postBodyImageList: [],
       currentPairingItem: null,
       currentPairingItemPost: null,
-      selectedImageList: []
+      selectedImageList: [],
+      imageSize: {}
     }
   },
 //  mounted: function () {
@@ -57,8 +58,18 @@ var config = {
           width: Number(ele.getAttribute('data-original-width'))
         })
       })
-      
+
       this.imageRemapList = list
+      
+      setTimeout(async () => {
+        for (let i = 0; i < this.imageRemapList.length; i++) {
+          // let url = this.imageRemapList[i].url
+          // this.imageSize[url] = await this.getImageSizeInfo(this.postBodyImageList[i].url)
+          this.imageRemapList[i].sizeInfo = await this.getImageSizeInfo(this.imageRemapList[i].url)
+        }
+        this.$forceUpdate();
+      }, 0)
+      
     },
     buildFieldPostBodyImageList () {
       let list = FieldPostBody.getImageList()
@@ -75,6 +86,15 @@ var config = {
           url
         })
       })
+
+      setTimeout(async () => {
+        for (let i = 0; i < this.postBodyImageList.length; i++) {
+          // let url = this.postBodyImageList[i].url
+          // this.imageSize[url] = await this.getImageSizeInfo(this.postBodyImageList[i].url)
+          this.postBodyImageList[i].sizeInfo = await this.getImageSizeInfo(this.postBodyImageList[i].url)
+        }
+        this.$forceUpdate();
+      }, 0)
       
       return true
     },
@@ -140,7 +160,7 @@ var config = {
       })
       // selectedImageList
       
-      console.log(this.imageRemapList)
+      // console.log(this.imageRemapList)
     },
     previewImage(url) {
       WindowHelper.popup(url, this.getFilename(url))
@@ -170,6 +190,24 @@ var config = {
         this.imageRemapList[0].mapPostBodyImage = this.postBodyImageList[0].url
         this.updateSelectedImageList()
       }
+    },
+    getImageSizeInfo: async function (url) {
+      let {width, height, ratio} = await this.getImageSizePromise(url)
+      return `${width} / ${height} (${ratio})`
+    },
+    getImageSizePromise (url) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = function() {
+          let ratio = (this.width / this.height)
+          ratio = Math.round(ratio * 100) / 100
+          resolve({ width: this.width, height: this.height, ratio  });
+        };
+        img.onerror = function() {
+          reject(new Error('Failed to load image'));
+        };
+        img.src = url;
+      });
     }
   }
 }

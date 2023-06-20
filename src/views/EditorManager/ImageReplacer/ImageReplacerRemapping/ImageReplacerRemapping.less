@@ -46,14 +46,24 @@
 img {
   max-width: 3rem !important;
   height: auto;
+  max-height: 3rem !important;
+  width: auto !important;
 }
 
 .uploaded-list {
   max-height: calc(57vh);
   overflow-y: auto;
+
+  img {
+    float: left !important;
+    margin-right: 0.5rem !important;
+  }
+    
   
   a.remap.button {
-    max-width: calc(100% - 10rem)
+    max-width: calc(100% - 10rem);
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 }
 
@@ -80,4 +90,46 @@ img {
 
 .message {
   text-align: center;
+  height: 4rem;
+  max-height: 4rem;
+  overflow-y: hidden !important;
+
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 0.51rem;
+  padding-bottom: 0.5rem;
+
+  .ui.list {
+    margin: 0 !important;
+  }
+
+  .item {
+    margin-bottom: 0;
+
+    .middle.content {
+      margin-top: 0.9rem;
+    }
+  }
+}
+
+.subheader {
+  display: block !important;
+  font-weight: normal;
+  font-size: 90%;
+  margin-top: 0.2rem;
+}
+
+.item-list {
+  max-height: calc(100vh - 31rem);
+  overflow-y: auto;
+}
+
+.header .filename {
+  width: 100%; /* Set the width of the container */
+  display: inline-block !important;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Display ellipsis (...) for truncated text */
 }
