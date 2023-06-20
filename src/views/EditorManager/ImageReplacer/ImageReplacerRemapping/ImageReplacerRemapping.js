@@ -65,8 +65,32 @@ var config = {
         for (let i = 0; i < this.imageRemapList.length; i++) {
           // let url = this.imageRemapList[i].url
           // this.imageSize[url] = await this.getImageSizeInfo(this.postBodyImageList[i].url)
-          this.imageRemapList[i].sizeInfo = await this.getImageSizeInfo(this.imageRemapList[i].url)
+          // this.imageRemapList[i].sizeInfo = await this.getImageSizeInfo(this.imageRemapList[i].url)
+          // this.imageRemapList[i].sizeInfo = await this.getImageSizeInfo(this.imageRemapList[i].url)
+
+          let {width, height, ratio} = await this.getImageSizePromise(this.imageRemapList[i].url)
+          this.imageRemapList[i] = {
+            ...this.imageRemapList[i],
+            width,
+            height,
+            ratio,
+            sizeInfo: `${ratio}: ${width} / ${height}`
+          }
         }
+
+        this.imageRemapList.sort((a, b) => {
+          // return a.sizeInfo.localeCompare(b.sizeInfo.localeCompare)
+
+          if (a.ratio !== b.ratio) {
+            return a.ratio - b.ratio
+          }
+          else if (a.width !== b.width) {
+            return a.width - b.width
+          }
+          else if (a.height !== b.height) {
+            return a.height - b.height
+          }
+        })
         this.$forceUpdate();
       }, 0)
       
@@ -91,14 +115,40 @@ var config = {
         for (let i = 0; i < this.postBodyImageList.length; i++) {
           // let url = this.postBodyImageList[i].url
           // this.imageSize[url] = await this.getImageSizeInfo(this.postBodyImageList[i].url)
-          this.postBodyImageList[i].sizeInfo = await this.getImageSizeInfo(this.postBodyImageList[i].url)
+          
+          // this.postBodyImageList[i].sizeInfo = await this.getImageSizeInfo(this.postBodyImageList[i].url)
+
+          let {width, height, ratio} = await this.getImageSizePromise(this.postBodyImageList[i].url)
+          this.postBodyImageList[i] = {
+            ...this.postBodyImageList[i],
+            width,
+            height,
+            ratio,
+            sizeInfo: `${ratio}: ${width} / ${height}`
+          }
         }
+
+        this.postBodyImageList.sort((a, b) => {
+          if (a.ratio !== b.ratio) {
+            return a.ratio - b.ratio
+          }
+          else if (a.width !== b.width) {
+            return a.width - b.width
+          }
+          else if (a.height !== b.height) {
+            return a.height - b.height
+          }
+        })
+
         this.$forceUpdate();
       }, 0)
       
       return true
     },
     getFilename (url) {
+      if (!url) {
+        return false
+      }
       return url.slice(url.lastIndexOf('/') + 1)
     },
     /*
@@ -193,7 +243,8 @@ var config = {
     },
     getImageSizeInfo: async function (url) {
       let {width, height, ratio} = await this.getImageSizePromise(url)
-      return `${width} / ${height} (${ratio})`
+      // return `${width} / ${height} (${ratio})`
+      return `${ratio}: ${width} / ${height}`
     },
     getImageSizePromise (url) {
       return new Promise((resolve, reject) => {

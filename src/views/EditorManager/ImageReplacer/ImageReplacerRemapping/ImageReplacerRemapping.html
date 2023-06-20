@@ -30,7 +30,8 @@
       <div v-for="(item, i) in imageRemapList"
            class="item"
            v-bind:class="{positive: (item.mapPostBodyImage), pairable: (currentPairingItemPost !== null)}"
-           v-on:click="selectUploadedItem(i)">
+           v-on:click="selectUploadedItem(i)"
+           :title="getFilename(item.mapPostBodyImage)">
         <div class="right floated content">
           <a class="ui button"
              v-on:click.stop.prevent="previewImage(item.url)">
@@ -41,11 +42,11 @@
              v-bind:src="item.url" />
 
         <span class="header">
-          <a class="ui remap tiny button"
+          <a class="ui remap tiny button filename-button"
               v-if="!item.mapPostBodyImage">
              {{ $t('Not Paired') }}
           </a>
-          <a class="ui remap tiny button"
+          <a class="ui remap tiny button filename-button"
              v-if="item.mapPostBodyImage">
             {{ getFilename(item.mapPostBodyImage) }}
           </a>
