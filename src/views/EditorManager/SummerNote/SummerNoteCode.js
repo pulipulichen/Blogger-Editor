@@ -5,8 +5,13 @@ require('./../../../vendor/beautify/beautify-html.js')
 //console.log(html_beautify)
 
 let SummerNoteCode = {
-  insertMore: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="ellipsis horizontal icon"></i>` + $t('Read More'))
+  insertMore: function ($t, context, doRender = true, showLabel = true) {
+    let contents = `<i class="ellipsis horizontal icon"></i>`
+    if (showLabel) {
+      contents = contents + $t('Read More')
+    }
+    contents = SemanticUIHelper.wrapNIWSF(contents)
+    
     let tooltip = $t('Insert Read More')
     let click = () => {
       this.insertMoreClick()

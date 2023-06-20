@@ -35,9 +35,14 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton('CodeInserter', contents, tooltip, click, doRender)
   },
-  CodeInserterOption: function ($t, context, doRender) {
+  CodeInserterOption: function ($t, context, doRender = true, showLabel = true) {
     //let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="code icon"></i>` + $t('Code'))
+    let contents = `<i class="code icon"></i>`
+    if (showLabel) {
+      contents = contents + $t('Code')
+    }
+    contents = SemanticUIHelper.wrapNIWSF(contents)
+
     let tooltip = $t('Insert Code')
     let click = () => {
       $v.CodeInserter.open()
@@ -96,8 +101,12 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton('OneDrive', contents, tooltip, click, doRender)
   },
-  openCoverBuilder: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="id badge outline icon"></i>` + $t('Cover Builder'))
+  openCoverBuilder: function ($t, context, doRender, showLabel = true) {
+    let contents = `<i class="id badge outline icon"></i>`
+    if (showLabel) {
+      contents = contents + $t('Cover Builder')
+    }
+    contents = SemanticUIHelper.wrapNIWSF(contents)
     let tooltip = $t('Open Cover Builder')
     let click = () => {
       WindowHelper.forcePopup('https://pulipulichen.github.io/PWA-Blog-Cover-Builder/#/', 'PWA-Blog-Cover-Builder')
@@ -120,8 +129,12 @@ let SummerNoteOpen = {
     }
     return SummerNoteHelper.buildButton('GooglePhoto', contents, tooltip, click, doRender)
   },
-  insertHR: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="note-icon-minus icon"></i>` + $t('Horizontal Rule') )
+  insertHR: function ($t, context, doRender = true, showLabel = true) {
+    let contents = `<i class="note-icon-minus icon"></i>`
+    if (showLabel) {
+      contents = contents + $t('Horizontal Rule')
+    }
+    contents = SemanticUIHelper.wrapNIWSF(contents)
     let tooltip = $t('Horizontal Rule')
     let click = () => {
       //$v.EditorManager.FieldPostBody.summernote('iframeDialog.show')
@@ -291,6 +304,7 @@ let SummerNoteOpen = {
       this.OneDriveLinkBuilder($t, c, false),
     ])
   },
+
   
   formatGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Format'), $t('Format Tools'), [

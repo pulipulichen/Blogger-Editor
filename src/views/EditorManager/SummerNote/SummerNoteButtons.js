@@ -105,6 +105,18 @@ let SummerNoteButtons = {
       insertGroup: (c) => {
         return SummerNoteOpen.insertGroup($t, c)
       },
+      buttonOpenCoverBuilder: (c) => {
+        return SummerNoteOpen.openCoverBuilder($t, c, true, false)
+      },
+      buttonInsertMore: (c) => {
+        return SummerNoteCode.insertMore($t, c, true, false)
+      },
+      buttonInsertHR: (c) => {
+        return SummerNoteOpen.insertHR($t, c, true, false)
+      },
+      buttonInsertCode: (c) => {
+        return SummerNoteOpen.CodeInserterOption($t, c, true, false)
+      },
       formatGroup: (c) => {
         return SummerNoteOpen.formatGroup($t, c)
       },
