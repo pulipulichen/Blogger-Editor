@@ -112,7 +112,8 @@ let config = {
       SemanticUIHelper.openTab(e)
     },
     openUploadURL: function (url, name) {
-      WindowHelper.popup(url, name)
+      // WindowHelper.popup(url, name)
+      WindowHelper.forcePopup(url, name)
     },
     onSettingChange: function () {
       VueHelper.persistLocalStorage(this, 'links')
@@ -170,6 +171,9 @@ let config = {
     },
     removeSetting: function (i) {
       this.links.splice(i, 1)
+    },
+    popup: function (url) {
+      WindowHelper.forcePopup(url)
     }
   }
 }

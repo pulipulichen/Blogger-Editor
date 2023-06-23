@@ -34,20 +34,24 @@
                  class="unstackable fields">
               <div class="six wide field">
                 <template v-if="linkNameIcon(link.name) !== undefined">
-                  <div class="ui icon labeled fluid mini button"
+                  <a class="ui icon labeled fluid mini button"
                        v-bind:class="{'positive': validateDownloadURL(link.downloadURL)}"
-                       v-on:click="openUploadURL(link.uploadURL, link.name)">
+                       v-on:click="openUploadURL(link.uploadURL, link.name)"
+                       :href="link.uploadURL"
+                       :target="link.name">
                     <i class="icon" 
                        v-bind:class="linkNameIcon(link.name)"></i>
                     {{ link.name }}
-                  </div>
+                </a>
                 </template>
                 <template v-else>
-                  <div class="ui fluid mini button"
+                  <a class="ui fluid mini button"
                        v-bind:class="{'positive': validateDownloadURL(link.downloadURL)}"
-                       v-on:click="openUploadURL(link.uploadURL, link.name)">
+                       v-on:click="openUploadURL(link.uploadURL, link.name)"
+                       :href="link.uploadURL"
+                       :target="link.name">
                     {{ link.name }}
-                  </div>
+                </a>
                 </template>
               </div>
               <div class="ten wide field">
@@ -78,6 +82,15 @@
         <div class="ui bottom attached tab segment form" 
              data-tab="setting">
           
+          <a href="https://docs.google.com/spreadsheets/d/1oO8gH6Le5IW8sWCQxqfBuGi-88QJ1s7G_ZGhNPpuAQs/edit#gid=267891918"
+             target="file_upload"
+             class="ui fluid button"
+             @click="popup('https://docs.google.com/spreadsheets/d/1oO8gH6Le5IW8sWCQxqfBuGi-88QJ1s7G_ZGhNPpuAQs/edit#gid=267891918')">
+            File Upload Configuration (Private)
+          </a>
+
+          </a>
+
           <div class="setting-list">
             <draggable v-model="links" 
                      group="settings" 
