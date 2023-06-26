@@ -34,9 +34,33 @@ var config = {
       //console.log(this.selectedImageList.length, this.postBodyImageList.length)
       return (this.selectedImageList.length === this.postBodyImageList.length)
     },
-    postBodyImageListReverse () {
-      return this.postBodyImageList.reverse()
-    }
+    // postBodyImageListReverse () {
+    //   return this.postBodyImageList.reverse()
+    // },
+    sameSizePostBodyImageList () {
+      let sizeList = {}
+
+      this.postBodyImageList.forEach(item => {
+        let {url, ratio, width, height} = item
+
+        let key = [ratio, width, height].join(',')
+        if (!sizeList[key]) {
+          sizeList[key] = []
+        }
+        sizeList[key].push(url)
+      })
+
+      let output = []
+      Object.keys(sizeList).forEach(key => {
+        let list = sizeList[key]
+        if (list.length > 1) {
+          // output = output.concat(list)
+          output.push(key)
+        }
+      })
+
+      return output
+    },
   },
   methods: {
     buildImageRemapList () {
@@ -68,7 +92,9 @@ var config = {
           // this.imageRemapList[i].sizeInfo = await this.getImageSizeInfo(this.imageRemapList[i].url)
           // this.imageRemapList[i].sizeInfo = await this.getImageSizeInfo(this.imageRemapList[i].url)
 
-          let {width, height, ratio} = await this.getImageSizePromise(this.imageRemapList[i].url)
+          let url = this.imageRemapList[i].url
+          let {width, height, ratio} = await this.getImageSizePromise(url)
+          
           this.imageRemapList[i] = {
             ...this.imageRemapList[i],
             width,
@@ -78,22 +104,73 @@ var config = {
           }
         }
 
-        this.imageRemapList.sort((a, b) => {
-          // return a.sizeInfo.localeCompare(b.sizeInfo.localeCompare)
+        this.sortImageRemapList()
+        this.premapImageRemapList()
+        
+        // console.log(this.imageRemapList)
+        // mapPostBodyImage
 
-          if (a.ratio !== b.ratio) {
-            return a.ratio - b.ratio
-          }
-          else if (a.width !== b.width) {
-            return a.width - b.width
-          }
-          else if (a.height !== b.height) {
-            return a.height - b.height
-          }
-        })
         this.$forceUpdate();
-      }, 0)
+      }, 100)
       
+    },
+    sortImageRemapList () {
+      this.imageRemapList.sort((a, b) => {
+        // return a.sizeInfo.localeCompare(b.sizeInfo.localeCompare)
+
+        if (a.ratio !== b.ratio) {
+          return a.ratio - b.ratio
+        }
+        else if (a.width !== b.width) {
+          return a.width - b.width
+        }
+        else if (a.height !== b.height) {
+          return a.height - b.height
+        }
+      })
+    },
+    premapImageRemapList () {
+      let sizeKeyPostImageList = this.sizeKeyPostImageList()
+      // console.log(sizeKeyPostImageList)
+      // console.log(this.postBodyImageList)
+      for (let i = 0; i < this.imageRemapList.length; i++) {
+        let {width, height, ratio} = this.imageRemapList[i]
+
+        // 略過重複的圖片
+        let key = [ratio, width, height].join(',')
+        // console.log(key)
+        if (this.sameSizePostBodyImageList.indexOf(key) > -1) {
+          continue
+        }
+
+        let filename = sizeKeyPostImageList[key]
+        this.imageRemapList[i].mapPostBodyImage = filename
+
+        // this.selectedImageList.push(this.imageRemapList[i].url)
+        // this.selectedImageList.push(filename)
+      }
+      // console.log(this.selectedImageList)
+      this.updateSelectedImageList()
+      // console.log(this.imageRemapList)
+      // console.log(this.selectedImageList)
+
+    },
+    
+    sizeKeyPostImageList () {
+      let sizeList = {}
+
+      this.postBodyImageList.forEach(item => {
+        let {url, ratio, width, height} = item
+
+        let key = [ratio, width, height].join(',')
+        // if (!sizeList[key]) {
+        //   sizeList[key] = []
+        // }
+        // sizeList[key].push(filename)
+        sizeList[key] = url
+      })
+
+      return sizeList
     },
     buildFieldPostBodyImageList () {
       let list = FieldPostBody.getImageList()
@@ -118,13 +195,15 @@ var config = {
           
           // this.postBodyImageList[i].sizeInfo = await this.getImageSizeInfo(this.postBodyImageList[i].url)
 
-          let {width, height, ratio} = await this.getImageSizePromise(this.postBodyImageList[i].url)
+          let url = this.postBodyImageList[i].url
+          let {width, height, ratio} = await this.getImageSizePromise(url)
+          
           this.postBodyImageList[i] = {
             ...this.postBodyImageList[i],
             width,
             height,
             ratio,
-            sizeInfo: `${ratio}: ${width} / ${height}`
+            sizeInfo: `${ratio}: ${width} / ${height}`,
           }
         }
 
@@ -203,8 +282,8 @@ var config = {
       
       this.selectedImageList = []
       this.imageRemapList.forEach(item => {
-        if (item.mapPostBodyImage
-                && this.selectedImageList.indexOf(item.mapPostBodyImage) === -1) {
+        if (item.mapPostBodyImage && 
+              this.selectedImageList.indexOf(item.mapPostBodyImage) === -1) {
           this.selectedImageList.push(item.mapPostBodyImage)
         }
       })
@@ -259,7 +338,7 @@ var config = {
         };
         img.src = url;
       });
-    }
+    },
   }
 }
 

@@ -107,7 +107,10 @@ let VueHelper = {
     }
   },
   mergeKey: function (vue, key) {
-    if (typeof(vue.name) === "string") {
+    if (typeof(vue) === "string") {
+      key = vue + '.' + key
+    }
+    else if (typeof(vue.name) === "string") {
       key = vue.name + '.' + key
     }
     return key

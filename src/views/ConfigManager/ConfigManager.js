@@ -23,6 +23,7 @@ let config = {
       apiKeysAPILayer: '',
       apiKeysTrans: '',
       apiKeysURLScreenshot: '',
+      bloggerConsoleURL: 'https://www.blogger.com/'
     }
   },
   mounted() {
@@ -37,6 +38,8 @@ let config = {
     VueHelper.mountLocalStorage(this, 'apiKeysAPILayer')
     VueHelper.mountLocalStorage(this, 'apiKeysTrans')
     VueHelper.mountLocalStorage(this, 'apiKeysURLScreenshot')
+
+    // VueHelper.mountLocalStorage('PublishManager', 'bloggerConsoleURL')
 
     //console.log(this.enableBackupPageButton)
   },
@@ -221,6 +224,8 @@ let config = {
       VueHelper.persistLocalStorage(this, 'apiKeysAPILayer')
       VueHelper.persistLocalStorage(this, 'apiKeysTrans')
       VueHelper.persistLocalStorage(this, 'apiKeysURLScreenshot')
+
+      // VueHelper.persistLocalStorage('PublishManager', 'bloggerConsoleURL')
     },
     openBackupPageURL() {
       if (this.enableBackupPageButton) {

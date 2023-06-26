@@ -321,6 +321,10 @@ let NavBarMenu = {
       */
       //$v.NavBar.toggle()
       $v.NavBar.unpin()
+    },
+    newPost () {
+      // console.log($v.PostManager)
+      $v.PostManager.newPost()
     }
   },
 }

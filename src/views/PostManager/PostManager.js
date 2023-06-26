@@ -189,6 +189,12 @@ let PostManager = {
       })
     },
     newPost: function (callback) {
+      let fieldPostTitle = $v.EditorManager.FieldPostTitle
+      let postTitle = fieldPostTitle.getText()
+      if (postTitle === '') {
+        return false
+      }
+
       this.createPost(callback)
       
       setTimeout(() => {

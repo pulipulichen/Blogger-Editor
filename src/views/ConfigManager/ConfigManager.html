@@ -107,11 +107,11 @@
                      id="ConfigManager.apiKeysChatGPT"
                      v-model="apiKeysChatGPT"
                      v-on:change="persist" />
-              <button type="button" 
+              <a href="https://platform.openai.com/account/api-keys"
                       class="ui button"
                       v-on:click="openChatGPTConfig">
                 {{ $t('OPEN') }}
-              </button>
+              </a>
             </div>
           </div>
 
@@ -127,11 +127,11 @@
                      id="ConfigManager.apiKeysAPILayer"
                      v-model="apiKeysAPILayer"
                      v-on:change="persist" />
-              <button type="button" 
+              <a href="https://apilayer.com/marketplace/keyword-api"
                       class="ui button"
                       v-on:click="openAPILayerConfig">
                 {{ $t('OPEN') }}
-              </button>
+            </a>
             </div>
           </div>
 
