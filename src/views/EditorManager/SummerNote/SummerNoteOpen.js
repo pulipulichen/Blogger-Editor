@@ -316,7 +316,7 @@ let SummerNoteOpen = {
       SummerNoteCode.CopyCode($t, c, false),
       SummerNoteCode.CleanCode($t, c, false),
       SummerNoteImage.imageSizeOriginal($t, c, false),
-      SummerNoteImage.imageSizeThumbnail($t, c, false),
+      SummerNoteImage.imageSizeThumbnail($t, c, false)
     ])
   }
 }

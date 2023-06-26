@@ -29,7 +29,7 @@ var config = {
       countdownMaxSecond: 25,
       countdownTimer: null,
       countdownSound: null,
-      batchLimit: 6
+      batchLimit: 60
     }
   },
   components: {
