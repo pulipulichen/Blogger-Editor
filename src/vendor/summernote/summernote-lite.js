@@ -2277,7 +2277,7 @@ import summerNoteOptions from './options.js'
           return false;
       }
       var ch = point.node.nodeValue.charAt(point.offset - 1);
-      return ch && (ch !== ' ' && ch !== NBSP_CHAR);
+      return ch && (ch !== ' ' && ch !== NBSP_CHAR && ch !== '：');
   }
   /**
    * @method walkPoint
@@ -7858,7 +7858,7 @@ sel.addRange(range);
       return Handle;
   }());
 
-  var defaultScheme = 'http://';
+  var defaultScheme = 'https://';
   var linkPattern = /^([A-Za-z][A-Za-z0-9+-.]*\:[\/]{2}|mailto:[A-Z0-9._%+-]+@)?(www\.)?(.+)$/i;
   var AutoLink = /** @class */ (function () {
       function AutoLink(context) {
@@ -7886,15 +7886,34 @@ sel.addRange(range);
               return;
           }
           var keyword = this.lastWordRange.toString();
+        //   console.log(keyword)
+        //   var colonPos = keyword.lastIndexOf('：')
+        //   if (colonPos > -1) {
+        //     keyword = keyword.slice(colonPos + 1)
+        //   }
           var match = keyword.match(linkPattern);
           if (match && (match[1] || match[2])) {
               var link = match[1] ? keyword : defaultScheme + keyword;
-              var node = $$1('<a />').html(keyword).attr('href', link)[0];
+              var node
+              
+              node = $$1('<a />').html(keyword).attr('href', link)[0];
               if (this.context.options.linkTargetBlank) {
-                  $$1(node).attr('target', '_blank');
+                $$1(node).attr('target', '_blank');
               }
-              this.lastWordRange.insertNode(node);
-              this.lastWordRange = null;
+              console.log(node)
+            //   if (colonPos > -1) {
+                // var container = this.lastWordRange.parentElement();
+                // $$1(container).append(node)
+                // node = container
+                // console.log(this.lastWordRange)
+                // console.log(node)
+                // this.lastWordRange.append(node)
+            //   }
+            //   else {
+                this.lastWordRange.insertNode(node);
+            //   }
+                
+            //   this.lastWordRange = null;
               this.context.invoke('editor.focus');
           }
       };
