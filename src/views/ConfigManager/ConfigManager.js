@@ -415,10 +415,15 @@ let config = {
       return this
     },
     openChatGPTConfig () {
-      WindowHelper.popup('https://platform.openai.com/account/api-keys', 'ChatGPT API Key')
+      // WindowHelper.popup('https://platform.openai.com/account/api-keys', 'ChatGPT API Key')
+      this.popup('https://platform.openai.com/account/api-keys', 'ChatGPT API Key')
     },
     openAPILayerConfig () {
-      WindowHelper.popup('https://apilayer.com/marketplace/keyword-api', 'APILayer API Key')
+      // WindowHelper.popup('https://apilayer.com/marketplace/keyword-api', 'APILayer API Key')
+      this.popup('https://apilayer.com/marketplace/keyword-api', 'APILayer API Key')
+    },
+    popup(url, name) {
+      WindowHelper.forcePopup(url, name)
     }
   }
 }
