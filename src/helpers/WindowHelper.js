@@ -122,7 +122,7 @@ WindowHelper = {
           newWindow.document.title = url.title
         }
 
-        $(newWindow.document.head).append(`<link rel="stylesheet" href="/static/preview-post.css" />`)
+        $(newWindow.document.head).append(`<link rel="stylesheet" href="https://pulipulichen.github.io/Blogger-Editor/static/preview-post.css" />`)
         
         if (window.focus && newWindow !== null) {
           newWindow.focus()
