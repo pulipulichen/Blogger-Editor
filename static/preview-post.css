@@ -1,0 +1,14 @@
+body {
+  /* background-color: red; */
+  padding: 1rem;
+}
+
+body > h1 {
+  text-align: center;
+}
+
+body > p > a > img {
+  max-width: 512px;
+  height: auto;
+  border: 1px solid gray;
+}

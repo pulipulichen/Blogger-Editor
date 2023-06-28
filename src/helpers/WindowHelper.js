@@ -114,11 +114,15 @@ WindowHelper = {
       else {
         // let $doc = $(newWindow.document)
         if (url.body) {
+          $(newWindow.document.body).empty()
+          // console.log()
           newWindow.document.write(url.body)
         }
         if (url.title) {
           newWindow.document.title = url.title
         }
+
+        $(newWindow.document.head).append(`<link rel="stylesheet" href="/static/preview-post.css" />`)
         
         if (window.focus && newWindow !== null) {
           newWindow.focus()
