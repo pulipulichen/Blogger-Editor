@@ -10,15 +10,19 @@ export default function (app) {
   app.methods.copyPromptSpellCheck  = function () {
 
     let fieldPostTitle = $v.EditorManager.FieldPostTitle
-    let postTitle = fieldPostTitle.getText()
-    let text = this.getPostBodyText()
+    let postTitle = fieldPostTitle.getText().trim()
+    let text = this.getPostBodyText().trim()
 
 
-    let prompt = `請問以下文字有沒有錯字：
+    let prompt = `forget previous conversations
+請為下方的「##START##」跟「##END##」之間的文本有沒有錯字、或是存在邏輯不通的問題給出修改建議。請不要列出文本原本的內容。只要用列點的方式給出建議即可。
+
+##START##
 
 ${postTitle}
 
-${text}`
+${text}
+##END##`
 
     CopyPasteHelper.copyPlainText(prompt)
 
