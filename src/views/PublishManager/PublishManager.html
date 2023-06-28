@@ -34,11 +34,13 @@
                      v-model="bloggerConsoleURL"
                      v-on:change="persist"
                      ondragstart="return false;">
-              <button class="ui button"
-                      v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
-                      v-on:click="popup(bloggerConsoleURL)">
+              <a class="ui button"
+                 :href="bloggerConsoleURL"
+                 target="bloggerConsoleURL"
+                 v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
+                 v-on:click.prevent.stop="popup('bloggerConsoleURL')">
                 {{ $t("Open") }}
-              </button>
+            </a>
             </div>
           </div>
         </div>
