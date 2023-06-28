@@ -1,10 +1,5 @@
 /* global VueHelper, EventManager, FunctionHelper, ConfigHelper, WindowHelper, CopyPasteHelper, DayjsHelper */
 
-import SummerNoteCode from './../EditorManager/SummerNote/SummerNoteCode.js'
-
-import JSZip from 'jszip'
-import JSZipUtils from 'jszip-utils'
-import {saveAs} from 'file-saver'
 
 let config = {
   data: function () {
