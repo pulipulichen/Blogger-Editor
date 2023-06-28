@@ -14,7 +14,7 @@ let config = {
       locale: ConfigHelper.get('locale'),
       localeOptions: ConfigHelper.get('localeOptions'),
       backupPageURL: '',
-      tab: 'interface',
+      tab: 'apikeys',
       googleAnalyticsTrackingId: '',
       googleAnalyticsReportURL: '',
       googleAnalyticsRealtimeReportURL: '',
@@ -23,7 +23,8 @@ let config = {
       apiKeysAPILayer: '',
       apiKeysTrans: '',
       apiKeysURLScreenshot: '',
-      bloggerConsoleURL: 'https://www.blogger.com/'
+      bloggerConsoleURL: 'https://www.blogger.com/',
+      urlChatGPTBlogger: 'https://chat.openai.com/'
     }
   },
   mounted() {
@@ -38,6 +39,9 @@ let config = {
     VueHelper.mountLocalStorage(this, 'apiKeysAPILayer')
     VueHelper.mountLocalStorage(this, 'apiKeysTrans')
     VueHelper.mountLocalStorage(this, 'apiKeysURLScreenshot')
+
+    VueHelper.mountLocalStorage(this, 'bloggerConsoleURL')
+    VueHelper.mountLocalStorage(this, 'urlChatGPTBlogger')
 
     // VueHelper.mountLocalStorage('PublishManager', 'bloggerConsoleURL')
 
@@ -225,7 +229,8 @@ let config = {
       VueHelper.persistLocalStorage(this, 'apiKeysTrans')
       VueHelper.persistLocalStorage(this, 'apiKeysURLScreenshot')
 
-      // VueHelper.persistLocalStorage('PublishManager', 'bloggerConsoleURL')
+      VueHelper.persistLocalStorage(this, 'bloggerConsoleURL')
+      VueHelper.persistLocalStorage(this, 'urlChatGPTBlogger')
     },
     openBackupPageURL() {
       if (this.enableBackupPageButton) {

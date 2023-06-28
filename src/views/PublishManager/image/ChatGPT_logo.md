@@ -1,0 +1,1 @@
+https://commons.wikimedia.org/wiki/File:ChatGPT_logo.svg

@@ -10,6 +10,13 @@
     <div class="ui form description">
 
       <div class="ui top attached tabular menu">
+        <a class="item"
+           v-bind:class="{active: (tab === 'apikeys')}"
+           data-tab="apikeys"
+           v-on:click="openTab"
+           ref="apikeys">
+          {{ $t('API Keys') }}
+        </a>
         <a class="item" 
            v-bind:class="{active: (tab === 'interface')}"
            data-tab="interface"
@@ -30,13 +37,6 @@
            v-on:click="openTab"
            ref="backup">
           {{ $t('Backup Manage') }}
-        </a>
-        <a class="item"
-           v-bind:class="{active: (tab === 'apikeys')}"
-           data-tab="apikeys"
-           v-on:click="openTab"
-           ref="apikeys">
-          {{ $t('API Keys') }}
         </a>
         <a class="item" 
            v-bind:class="{active: (tab === 'about')}"
@@ -91,12 +91,32 @@
           <a href="https://docs.google.com/spreadsheets/d/1oO8gH6Le5IW8sWCQxqfBuGi-88QJ1s7G_ZGhNPpuAQs/edit#gid=0"
              class="ui mini fluid button"
              style="margin-bottom: 0.5rem;width: calc(100% - 0.5rem)"
-             @click="popup('https://docs.google.com/spreadsheets/d/1oO8gH6Le5IW8sWCQxqfBuGi-88QJ1s7G_ZGhNPpuAQs/edit#gid=0')">
+             @click.prevent.stop="popup('https://docs.google.com/spreadsheets/d/1oO8gH6Le5IW8sWCQxqfBuGi-88QJ1s7G_ZGhNPpuAQs/edit#gid=0')">
             {{ $t('Private Document') }}
           </a>
 
           <div class="field">
-            <label for="ConfigManager.apiKeysChatGPT">
+            <label for="ConfigManager.bloggerConsoleURL">
+              {{ $t('Blogger Console URL') }}
+            </label>
+  
+            <div class="ui action input">
+              <input type="text" 
+                     name="bloggerConsoleURL" 
+                     onfocus="this.select()"
+                     id="ConfigManager.bloggerConsoleURL"
+                     v-model="bloggerConsoleURL"
+                     v-on:change="persist" />
+              <a :href="bloggerConsoleURL"
+                      class="ui button"
+                      v-on:click.prevent.stop="popup(bloggerConsoleURL, 'bloggerConsoleURL')">
+                {{ $t('OPEN') }}
+              </a>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ConfigManager.apiKeysChatGPTBlog">
               {{ $t('ChatGPT') }}
             </label>
   
@@ -109,7 +129,27 @@
                      v-on:change="persist" />
               <a href="https://platform.openai.com/account/api-keys"
                       class="ui button"
-                      v-on:click="openChatGPTConfig">
+                      v-on:click.prevent.stop="openChatGPTConfig">
+                {{ $t('OPEN') }}
+              </a>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ConfigManager.urlChatGPTBlogger">
+              {{ $t('ChatGPT Blogger') }}
+            </label>
+  
+            <div class="ui action input">
+              <input type="text" 
+                     name="urlChatGPTBlogger" 
+                     onfocus="this.select()"
+                     id="ConfigManager.urlChatGPTBlogger"
+                     v-model="urlChatGPTBlogger"
+                     v-on:change="persist" />
+              <a :href="urlChatGPTBlogger"
+                      class="ui button"
+                      v-on:click.prevent.stop="popup(urlChatGPTBlogger, 'chatgpt_blogger')">
                 {{ $t('OPEN') }}
               </a>
             </div>
@@ -129,7 +169,7 @@
                      v-on:change="persist" />
               <a href="https://apilayer.com/marketplace/keyword-api"
                       class="ui button"
-                      v-on:click="openAPILayerConfig">
+                      v-on:click.prevent.stop="openAPILayerConfig">
                 {{ $t('OPEN') }}
             </a>
             </div>
@@ -187,7 +227,7 @@
             <button type="button" 
                     class="ui button"
                     v-bind:class="{ disabled: (enableBackupPageButton === false) }"
-                    v-on:click="openBackupPageURL">
+                    v-on:click.prevent.stop="openBackupPageURL">
               {{ $t('OPEN') }}
             </button>
           </div>
@@ -201,7 +241,7 @@
 
             <button type="button" 
                     class="backup ui labeled icon fluid button"
-                    v-on:click="configDownload">
+                    v-on:click.prevent.stop="configDownload">
               <i class="download icon"></i>
               {{ $t('Backup') }}
             </button>

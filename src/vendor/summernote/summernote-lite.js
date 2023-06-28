@@ -7900,7 +7900,7 @@ sel.addRange(range);
               if (this.context.options.linkTargetBlank) {
                 $$1(node).attr('target', '_blank');
               }
-              console.log(node)
+            //   console.log(node)
             //   if (colonPos > -1) {
                 // var container = this.lastWordRange.parentElement();
                 // $$1(container).append(node)

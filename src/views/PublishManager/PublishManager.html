@@ -36,7 +36,7 @@
                      ondragstart="return false;">
               <button class="ui button"
                       v-bind:class="{disabled: disableOpenBloggerConsole, green: disableOpenEditURL}"
-                      v-on:click="popup('bloggerConsoleURL')">
+                      v-on:click="popup(bloggerConsoleURL)">
                 {{ $t("Open") }}
               </button>
             </div>
@@ -75,14 +75,14 @@
                    v-on:change="changePostMetadata"
                    ondragstart="return false;" />
             <a class="icon ui button"
-                 href="https://chat.openai.com/chat"
-                 @click.prevent="getTitleRecommend"
+                 :href="urlChatGPTBlogger"
+                 @click.prevent.stop="getTitleRecommend"
                  ondragstart="return false;">
               <i class="user md icon"></i>
             </a>
             <a class="icon ui button"
                  v-bind:href="googleTransLink"
-                 @click.prevent="openGoogleTransLink"
+                 @click.prevent.stop="openGoogleTransLink"
                  ondragstart="return false;">
               <i class="language icon"></i>
             </a>
@@ -130,8 +130,11 @@
           </div>
         </div>
       </div>
-        
-      <div class="field">
+      
+      <div class="fields">
+
+      
+      <div class="eight wide field">
         
           <label>
             {{ $t("Post Labels") }}
@@ -184,6 +187,26 @@
         -->
       </div>
 
+      <div class="eight wide field">
+        
+        <label>
+          {{ $t("AI Review") }}
+        </label>
+        <div class="ui fluid buttons">
+          <button type="button" class="ui button"
+            @click="copyPromptSpellCheck">
+            {{ $t('錯字') }}
+          </button>
+          <a class="icon ui positive button"
+             :href="urlChatGPTBlogger"
+             target="chatgpt"
+             :title="$t('ChatGPT')"
+             @click.prevent.stop="popupChatGPT">
+            <img src="./image/ChatGPT_logo.svg" class="icon" />
+          </a>
+        </div>
+      </div>
+    </div>
         
 
       <div class="two unstackable fields">
