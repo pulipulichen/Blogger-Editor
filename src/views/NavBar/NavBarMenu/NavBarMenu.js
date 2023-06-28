@@ -325,6 +325,10 @@ let NavBarMenu = {
     newPost () {
       // console.log($v.PostManager)
       $v.PostManager.newPost()
+    },
+    previewPost () {
+      // console.log($v.PostManager)
+      $v.PostManager.previewPost()
     }
   },
 }

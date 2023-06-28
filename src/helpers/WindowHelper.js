@@ -1,6 +1,6 @@
 WindowHelper = {
   popup: function (url, name, width, height, forcePopup) {
-    if (typeof(url) !== 'string' || url.length < 2) {
+    if ((typeof(url) !== 'string' && typeof(url) !== 'object') || url.length < 2) {
       return
     }
     
@@ -66,7 +66,7 @@ WindowHelper = {
     
     let newWindow
     
-    if (url.startsWith('filesystem:') === false) {
+    if (typeof(url) === 'string' && url.startsWith('filesystem:') === false) {
       newWindow = window.open(url, name, windowSetting);
       if (newWindow === null) {
         this.alert('Please allow popup.')
@@ -84,36 +84,45 @@ WindowHelper = {
         return
       }
       
-      if (url.endsWith('.html') 
-              || url.endsWith('.css')
-              || url.endsWith('.json')) {
-        //console.log(newWindow)
-        $.get(url, (content) => {
-          //console.log(content)
-          newWindow.document.write(content)
-          if (window.focus && newWindow !== null) {
-            newWindow.focus()
-          }
-        })
+      if (typeof(url) === 'string') {
+        if (url.endsWith('.html') || url.endsWith('.css') || url.endsWith('.json')) {
+          //console.log(newWindow)
+          $.get(url, (content) => {
+            //console.log(content)
+            newWindow.document.write(content)
+            if (window.focus && newWindow !== null) {
+              newWindow.focus()
+            }
+          })
+        }
+        else if (url.endsWith('.jpg') || url.endsWith('.png') || url.endsWith('.jpeg') || url.endsWith('.gif') || url.endsWith('.svg')) {
+          FileSystemHelper.read(url, (dataURI) => {
+            let $doc = $(newWindow.document)
+            if ($doc.find('body img').length === 0) {
+              $doc.find('body').css('margin', 0).append(`<img />`)
+            }
+            $doc.find('body img').attr('src', dataURI)
+            newWindow.document.title = decodeURIComponent(url.slice(url.lastIndexOf('/') + 1))
+            //let mime = dataURI.slice(dataURI.indexOf(':') + 1, dataURI.indexOf(';'))
+            //$(newWindow.document).find('head').append(`<link rel="icon" type="${mime}" href="${url}" />`)
+            if (window.focus && newWindow !== null) {
+              newWindow.focus()
+            }
+          })
+        }
       }
-      if (url.endsWith('.jpg') 
-              || url.endsWith('.png')
-              || url.endsWith('.jpeg')
-              || url.endsWith('.gif')
-              || url.endsWith('.svg')) {
-        FileSystemHelper.read(url, (dataURI) => {
-          let $doc = $(newWindow.document)
-          if ($doc.find('body img').length === 0) {
-            $doc.find('body').css('margin', 0).append(`<img />`)
-          }
-          $doc.find('body img').attr('src', dataURI)
-          newWindow.document.title = decodeURIComponent(url.slice(url.lastIndexOf('/') + 1))
-          //let mime = dataURI.slice(dataURI.indexOf(':') + 1, dataURI.indexOf(';'))
-          //$(newWindow.document).find('head').append(`<link rel="icon" type="${mime}" href="${url}" />`)
-          if (window.focus && newWindow !== null) {
-            newWindow.focus()
-          }
-        })
+      else {
+        // let $doc = $(newWindow.document)
+        if (url.body) {
+          newWindow.document.write(url.body)
+        }
+        if (url.title) {
+          newWindow.document.title = url.title
+        }
+        
+        if (window.focus && newWindow !== null) {
+          newWindow.focus()
+        }
       }
     }
     return newWindow
@@ -152,5 +161,9 @@ Message: ${e.message}`
   },
   isRunningStandalone () {
     return (window.matchMedia('(display-mode: standalone)').matches);
+  },
+  createNewWindow: function (name, title, body) {
+    // console.log({name, title, body})
+    return this.popup({title, body}, name, false, false, true)
   }
 }

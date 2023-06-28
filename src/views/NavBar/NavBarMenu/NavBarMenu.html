@@ -1,8 +1,13 @@
 <fragment ref="modal">
-  <a class="item post" 
+  <a class="item new-post" 
      @click="newPost">
     <i class="plus icon"
       v-bind:title="$t('New Post')"></i>
+  </a>
+  <a class="item preview-post" 
+     @click="previewPost">
+    <i class="eye icon"
+      v-bind:title="$t('Preview Post')"></i>
   </a>
   <a class="item post" 
      v-on:click="openPostManager">

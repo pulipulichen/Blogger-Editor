@@ -129,11 +129,14 @@
                         {{ $t('EDITING') }}
                     </div>
 
-                    <div class='ui mini labeled icon button'
+                    <div class='ui mini icon button'
+                         v-on:click='previewPost(post.id)'>
+                      <i class="eye icon"></i>
+                    </div>
+                    <div class='ui mini icon button'
                          v-if="enableRemovePost"
                          v-on:click='removePost(post.id)'>
                       <i class="close icon"></i>
-                      {{ $t('REMOVE') }}
                     </div>
                     <div class='ui icon mini button' 
                          v-on:click='clonePost(post.id)'>
