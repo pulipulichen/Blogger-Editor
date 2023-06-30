@@ -64,6 +64,7 @@ var config = {
   },
   methods: {
     buildImageRemapList () {
+      this.imageRemapList = []
       let html = this.imageHTML
       //console.log(html)
       if (!html) {
@@ -83,29 +84,34 @@ var config = {
         })
       })
 
-      this.imageRemapList = list
+      // this.imageRemapList = list
       
       setTimeout(async () => {
-        for (let i = 0; i < this.imageRemapList.length; i++) {
+        for (let i = 0; i < list.length; i++) {
           // let url = this.imageRemapList[i].url
           // this.imageSize[url] = await this.getImageSizeInfo(this.postBodyImageList[i].url)
           // this.imageRemapList[i].sizeInfo = await this.getImageSizeInfo(this.imageRemapList[i].url)
           // this.imageRemapList[i].sizeInfo = await this.getImageSizeInfo(this.imageRemapList[i].url)
 
-          let url = this.imageRemapList[i].url
+          let url = list[i].url
           let {width, height, ratio} = await this.getImageSizePromise(url)
           
-          this.imageRemapList[i] = {
-            ...this.imageRemapList[i],
+          list[i] = {
+            ...list[i],
             width,
             height,
             ratio,
             sizeInfo: `${ratio}: ${width} / ${height}`
           }
+
+          
         }
+
+        this.imageRemapList = list
 
         this.sortImageRemapList()
         this.premapImageRemapList()
+        
         
         // console.log(this.imageRemapList)
         // mapPostBodyImage
@@ -176,30 +182,32 @@ var config = {
       let list = FieldPostBody.getImageList()
       
       this.postBodyImageList = []
+
+      let postBodyImageList = []
       list.map(url => {
         if (!url.startsWith('filesystem:')) {
           return false
         }
         
         let filename = url.slice(url.lastIndexOf('/') + 1)
-        this.postBodyImageList.push({
+        postBodyImageList.push({
           filename,
           url
         })
       })
 
       setTimeout(async () => {
-        for (let i = 0; i < this.postBodyImageList.length; i++) {
+        for (let i = 0; i < postBodyImageList.length; i++) {
           // let url = this.postBodyImageList[i].url
           // this.imageSize[url] = await this.getImageSizeInfo(this.postBodyImageList[i].url)
           
           // this.postBodyImageList[i].sizeInfo = await this.getImageSizeInfo(this.postBodyImageList[i].url)
 
-          let url = this.postBodyImageList[i].url
+          let url = postBodyImageList[i].url
           let {width, height, ratio} = await this.getImageSizePromise(url)
           
-          this.postBodyImageList[i] = {
-            ...this.postBodyImageList[i],
+          postBodyImageList[i] = {
+            ...postBodyImageList[i],
             width,
             height,
             ratio,
@@ -207,7 +215,7 @@ var config = {
           }
         }
 
-        this.postBodyImageList.sort((a, b) => {
+        postBodyImageList.sort((a, b) => {
           if (a.ratio !== b.ratio) {
             return a.ratio - b.ratio
           }
@@ -218,6 +226,8 @@ var config = {
             return a.height - b.height
           }
         })
+
+        this.postBodyImageList = postBodyImageList
 
         this.$forceUpdate();
       }, 0)
