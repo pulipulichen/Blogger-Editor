@@ -6,6 +6,9 @@ import {saveAs} from 'file-saver'
 
 import PublishManagerMethodsChatGPT from './PublishManagerMethodsChatGPT'
 
+import TurndownService from 'turndown'
+var turndownService = new TurndownService()
+
 export default function (app) {
   if (!app.methods) {
     app.methods = {}
@@ -332,7 +335,25 @@ ${html}
     app.methods.getPostBodyText = function () {
       let postBody = $v.EditorManager.FieldPostBody.getElement()
       let text = postBody.text()
+      // let text = postBody.html()
+      // text = text.replace(/<\/?[^>]+(>|$)/g, ' ');
+      // while (text.indexOf('  ') > -1) {
+      //   text = text.split('  ').join(' ')
+      // }
       return text
+    }
+
+    app.methods.getPostBodyMarkdown = function () {
+      let postBody = $v.EditorManager.FieldPostBody.getElement()
+      // let text = postBody.text()
+      let text = postBody.html()
+      // text = text.replace(/<\/?[^>]+(>|$)/g, ' ');
+      // while (text.indexOf('  ') > -1) {
+      //   text = text.split('  ').join(' ')
+      // }
+      
+      var markdown = turndownService.turndown(text)
+      return markdown
     }
 
     app.methods.getLabelRecommend = async function () {

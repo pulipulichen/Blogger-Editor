@@ -11,7 +11,7 @@ export default function (app) {
 
     let fieldPostTitle = $v.EditorManager.FieldPostTitle
     let postTitle = fieldPostTitle.getText().trim()
-    let text = this.getPostBodyText().trim()
+    let text = this.getPostBodyMarkdown().trim()
 
 
     let prompt = `forget previous conversations
