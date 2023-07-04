@@ -1,4 +1,5 @@
 WindowHelper = {
+  windows: {},
   popup: function (url, name, width, height, forcePopup) {
     if ((typeof(url) !== 'string' && typeof(url) !== 'object') || url.length < 2) {
       return
@@ -65,9 +66,18 @@ WindowHelper = {
     //console.log(windowSetting)
     
     let newWindow
+      
+    // if (this.windows[name]) {
+    //   this.windows[name].focus()
+    //   return
+    // }
     
     if (typeof(url) === 'string' && url.startsWith('filesystem:') === false) {
+
+      // console.log({name})
       newWindow = window.open(url, name, windowSetting);
+      // this.windows[name] = newWindow
+      // window.W = newWindow
       if (newWindow === null) {
         this.alert('Please allow popup.')
         return
@@ -132,6 +142,7 @@ WindowHelper = {
     return newWindow
   },
   forcePopup: function (url, name, width, height) {
+    // console.log({url, name})
     return this.popup(url, name, width, height, true)
   },
   confirm: function (message, yesCallback, noCallback) {
