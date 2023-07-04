@@ -138,6 +138,11 @@ let SummerNoteConfig = {
         className: 'note-editor-comment'
       },
       'blockquote', 
+      {
+        tag: 'blockquote',
+        title: $t('reference'),
+        style: 'padding-left: 3rem; text-indent: -2rem;'
+      }, 
       'h1',
       {
         tag: 'h5',
