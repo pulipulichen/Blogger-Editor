@@ -199,6 +199,10 @@
             @click="copyPromptSpellCheck">
             {{ $t('錯字') }}
           </button>
+          <button type="button" class="ui button"
+            @click="copyPromptSpellCheckAgain">
+            {{ $t('更多建議') }}
+          </button>
           <a class="icon ui positive button"
              :href="urlChatGPTBlogger"
              target="chatgpt"
