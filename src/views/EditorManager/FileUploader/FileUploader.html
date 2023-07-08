@@ -22,6 +22,11 @@
              v-on:click="openTab">
             {{ $t('Setting') }}
           </a>
+          <a class="item" 
+             data-tab="templates"
+             v-on:click="openTab">
+            {{ $t('Templates') }}
+          </a>
         </div>
         
         <div class="ui bottom attached tab segment active form" 
@@ -103,19 +108,28 @@
                    class="unstackable fields">
                 <div class="six wide field">
                   <div class="ui input mini">
+                    <i class="bars icon draggable"></i>
                     <input type="text" 
                            v-model="link.name"
                            v-bind:placeholder="$t('Name')"
                            v-on:change="onSettingChange"/>
                   </div>
                 </div>
-                <div class="eight wide field">
+                <div class="four wide field">
                   <div class="ui icon input mini">
                     <input type="url" 
                            v-model="link.uploadURL"
+                           :title="link.uploadURL"
                            v-bind:placeholder="$t('Upload URL')"
                            v-on:change="onSettingChange"/>
-                    <i class="bars icon draggable"></i>
+                  </div>
+                </div>
+                <div class="four wide field">
+                  <div class="ui icon input mini">
+                    <input type="text" 
+                           v-model="link.parameters"
+                           v-bind:placeholder="$t('Parameters')"
+                           v-on:change="onSettingChange"/>
                   </div>
                 </div>
                 <div class="two wide field">
@@ -134,6 +148,22 @@
               <i class="plus icon"></i>
               {{ $t("Add") }}
             </div>
+          </div>
+        </div>
+
+        <div class="ui bottom attached tab segment active form" 
+             data-tab="templates">
+          <div class="field">
+            <label for="FileUploaderDownloadTemplate">
+              {{ $t('Template') }}
+            </label>
+            <textarea v-model="downloadTemplate" />
+          </div>
+          <div class="field">
+            <label for="FileUploaderDownloadTemplateSlide">
+              {{ $t('Template Slide') }}
+            </label>
+            <textarea v-model="downloadTemplateSlide" />
           </div>
         </div>
         

@@ -8,15 +8,20 @@ let config = {
       name: 'FileUploader',
       ui: undefined,
       delimiter: ', ',
-      links: []
+      links: [],
+      template: ``,
+      templateSlide: ``,
     }
   },
   mounted: function () {
     //console.log(ConfigHelper.get('FileUploader').links)
     VueHelper.mountLocalStorageJSON(this, 'links', ConfigHelper.get('FileUploader').links)
+    VueHelper.mountLocalStorageJSON(this, 'delimiter', ConfigHelper.get('FileUploader').delimiter)
+    VueHelper.mountLocalStorageJSON(this, 'downloadTemplate', ConfigHelper.get('FileUploader').downloadTemplate)
+    VueHelper.mountLocalStorageJSON(this, 'downloadTemplateSlide', ConfigHelper.get('FileUploader').downloadTemplateSlide)
     this.resetDownloadURL()
     
-    VueHelper.mountLocalStorage(this, 'delimiter')
+    // VueHelper.mountLocalStorage(this, 'delimiter')
   },
   computed: {
     enableInsert: function () {
@@ -78,15 +83,39 @@ let config = {
     },
     insert: function () {
       let output = []
-      this.links.forEach((link) => {
+
+      let template = this.downloadTemplate
+      let GOOGLE_SLIDE, GOOGLE_SLIDE_PDF
+
+      this.links.forEach((link, i) => {
         if (this.validateDownloadURL(link.downloadURL)) {
           let url = link.downloadURL
           if (url.startsWith('https://github.com/') && url.indexOf('/blob/master/') > 0) {
             url = this.convertGitHubPage(url)
           }
+          else if (url.startsWith(`https://docs.google.com/presentation/d/`) && url.endsWith('/edit?usp=sharing')) {
+            template = this.downloadTemplateSlide
+
+            GOOGLE_SLIDE = url
+            GOOGLE_SLIDE_PDF = this.convertGoogleDrive(url, 'pdf')
+
+            url = this.convertGoogleDrive(url, link.parameters)
+          }
+
+          if (link.name === 'GitHub' && !url.startsWith('https://')) {
+            url = this.convertGitHubPagePrefix(link)
+            
+          }
+          // https://docs.google.com/presentation/d/1-g9QmXvH6I0-cd6rIbwwORgGST86vGsxOIjrcJxNCDs/edit?usp=sharing
+
           
           let aTag = `<a href="${url}" target="_blank">${link.name}</a>`
+          // if (i > 0) {
+          //   aTag = this.delimiter + aTag
+          // }
           output.push(aTag)
+
+          // $v.EditorManager.FieldPostBody.insert(aTag)
         } 
       })
       
@@ -102,8 +131,23 @@ let config = {
       */
       //console.log(output.join(this.delimiter))
       //console.log(output)
-      $v.EditorManager.FieldPostBody.insert('<p>' + output.join(this.delimiter) + '</p>')
-      
+      if (output.length > 0) {
+        // $v.EditorManager.FieldPostBody.insert('<p>' + output.join(this.delimiter) + '</p>')
+
+        if (GOOGLE_SLIDE && template.indexOf(`{GOOGLE_SLIDE}`) > -1) {
+          template = template.split(`{GOOGLE_SLIDE}`).join(GOOGLE_SLIDE)
+        }
+
+        if (GOOGLE_SLIDE_PDF && template.indexOf(`{GOOGLE_SLIDE_PDF}`) > -1) {
+          template = template.split(`{GOOGLE_SLIDE_PDF}`).join(GOOGLE_SLIDE_PDF)
+        }
+
+        if (template.indexOf(`{DOWNLOADS}`) > -1) {
+          template = template.split(`{DOWNLOADS}`).join(output.join(this.delimiter))
+        }
+
+        $v.EditorManager.FieldPostBody.insert(template)
+      }
       
       this.close()
       this.resetDownloadURL()
@@ -117,6 +161,9 @@ let config = {
     },
     onSettingChange: function () {
       VueHelper.persistLocalStorage(this, 'links')
+      VueHelper.persistLocalStorage(this, 'delimiter')
+      VueHelper.persistLocalStorage(this, 'downloadTemplate')
+      VueHelper.persistLocalStorage(this, 'downloadTemplateSlide')
       this.links = this.links.concat([])
     },
     resetDownloadURL: function () {
@@ -174,6 +221,33 @@ let config = {
     },
     popup: function (url) {
       WindowHelper.forcePopup(url)
+    },
+    convertGoogleDrive (url, type = 'pdf') {
+      let parts = url.trim().split('/')
+      let format = parts[3]
+      let id = parts[5]
+      return `https://docs.google.com/${format}/d/${id}/export/${type}`
+    },
+    convertGitHubPagePrefix (link) {
+      let url = link.downloadURL
+      if (url.startsWith('/')) {
+        url = url.slice(1)
+      }
+      let prefixURL = link.parameters
+
+      let date = new Date()
+      let YY = (date.getFullYear() + '').slice(2)
+      prefixURL = prefixURL.split(`{YY}`).join(YY)
+
+      let MM = date.getMonth() + 1
+      if (MM < 10) {
+        MM = '0' + MM
+      }
+      prefixURL = prefixURL.split(`{MM}`).join(MM)
+
+      url = prefixURL + url
+
+      return url
     }
   }
 }

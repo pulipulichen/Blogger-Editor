@@ -287,21 +287,27 @@ let SummerNoteOpen = {
   insertGroup: function ($t, c) {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
       this.MarkdownImporterOption($t, c, false),
+      this.transSelected($t, c, false),
+      this.FileUploader($t, c, false),
+      this.insertIframe($t, c, false),
+      this.insertVideo($t, c, false),   
+
+      this.SnippetInserter($t, c, false),      
+
+      //this.insertTable($t, c, false),
+      
+      this.PhotoRepository($t, c, false),   
+      
+      //this.CodeInserter(c, false),
+      
+      this.GoogleDocsLinkBuilder($t, c, false),
+      this.OneDriveLinkBuilder($t, c, false),
+
       this.openCoverBuilder($t, c, false),
       SummerNoteCode.insertMore($t, c, false),
       this.insertHR($t, c, false),
       this.CodeInserterOption($t, c, false),
-      this.insertVideo($t, c, false),   
-      this.SnippetInserter($t, c, false),      
-      //this.insertTable($t, c, false),
-      this.transSelected($t, c, false),
-      this.PhotoRepository($t, c, false),   
-      this.insertIframe($t, c, false),
-      
-      //this.CodeInserter(c, false),
-      this.FileUploader($t, c, false),
-      this.GoogleDocsLinkBuilder($t, c, false),
-      this.OneDriveLinkBuilder($t, c, false),
+
     ])
   },
 

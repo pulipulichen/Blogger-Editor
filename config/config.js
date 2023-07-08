@@ -30,39 +30,55 @@ const CONFIG = {
   FileUploader: {
     links: [
       {
-        name: 'GitHub',
-        uploadURL: 'https://github.com/',
+        name: 'Google Drive',
+        uploadURL: 'https://drive.google.com/drive/u/0/',
+        parameters: 'pptx'
       },
       {
-        name: 'Google Drive',
-        uploadURL: 'https://drive.google.com/drive/u/0/'
+        name: 'GitHub',
+        uploadURL: 'https://github.com/',
+        parameters: 'https://pulipulichen.github.io/blog-pulipuli-info-data-2020-2025/{YY}/{MM}/'
       },
       {
         name: 'One Drive',
-        uploadURL: 'https://onedrive.live.com'
+        uploadURL: 'https://onedrive.live.com',
+        parameters: ''
       },
       {
         name: 'Mega',
-        uploadURL: 'https://mega.nz/'
+        uploadURL: 'https://mega.nz/',
+        parameters: ''
       },
       {
         name: 'Box',
-        uploadURL: 'https://app.box.com/folder/0'
+        uploadURL: 'https://app.box.com/folder/0',
+        parameters: ''
       },
       {
         name: 'MediaFire',
-        uploadURL: 'http://www.mediafire.com/myfiles.php'
+        uploadURL: 'http://www.mediafire.com/myfiles.php',
+        parameters: ''
       },
       {
         name: 'SlideShare',
-        uploadURL: 'https://slideshare.net/upload'
+        uploadURL: 'https://slideshare.net/upload',
+        parameters: ''
       },
       // {
       //   // 只有48小時，還是不要用吧
       //   name: 'Uguu.se',
       //   uploadURL: 'https://uguu.se/'
       // }
-    ]
+    ],
+    downloadTemplate: `<ul>
+    <li>檔案備份：{DOWNLOADS}</li>
+  </ul>`,
+  downloadTemplateSlide: `<ul>
+      <li><a href="{GOOGLE_SLIDE}" target="_blank">Google簡報線上檢視</a></li>
+      <li><a href="{GOOGLE_SLIDE_PDF}" target="_blank">PDF格式下載</a></li>
+      <li>Power Point格式備份：{DOWNLOADS}</li>
+    </ul>`,
+    delimiter: '、'
   }
 }
 export default CONFIG
