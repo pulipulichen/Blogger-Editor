@@ -32,7 +32,7 @@ export default function (app) {
         this.bloggerConsoleURL = $v.ConfigManager.bloggerConsoleURL
         this.urlChatGPTBlogger = $v.ConfigManager.urlChatGPTBlogger
 
-        this.buildPrompts()
+        this.buildPrompts() // 還行
         this.getUI().modal('show')
       })
     }
