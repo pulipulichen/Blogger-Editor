@@ -35,6 +35,11 @@ const CONFIG = {
         parameters: 'pptx'
       },
       {
+        name: 'SlideShare',
+        uploadURL: 'https://slideshare.net/upload',
+        parameters: ''
+      },
+      {
         name: 'GitHub',
         uploadURL: 'https://github.com/',
         parameters: 'https://pulipulichen.github.io/blog-pulipuli-info-data-2020-2025/{YY}/{MM}/'
@@ -60,8 +65,23 @@ const CONFIG = {
         parameters: ''
       },
       {
-        name: 'SlideShare',
-        uploadURL: 'https://slideshare.net/upload',
+        name: 'pCloud',
+        uploadURL: 'https://my.pcloud.com/',
+        parameters: ''
+      },
+      {
+        name: 'sync.com',
+        uploadURL: 'https://cp.sync.com/',
+        parameters: ''
+      },
+      {
+        name: 'icdedrive',
+        uploadURL: 'https://icedrive.net/dashboard/#/cloud/',
+        parameters: ''
+      },
+      {
+        name: 'Degoo',
+        uploadURL: 'https://app.degoo.com/',
         parameters: ''
       },
       // {
