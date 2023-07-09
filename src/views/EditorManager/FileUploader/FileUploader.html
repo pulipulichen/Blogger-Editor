@@ -157,13 +157,25 @@
             <label for="FileUploaderDownloadTemplate">
               {{ $t('Template') }}
             </label>
-            <textarea v-model="downloadTemplate" />
+            <textarea id="FileUploaderDownloadTemplate" v-model="downloadTemplate" />
           </div>
           <div class="field">
             <label for="FileUploaderDownloadTemplateSlide">
               {{ $t('Template Slide') }}
             </label>
-            <textarea v-model="downloadTemplateSlide" />
+            <textarea id="FileUploaderDownloadTemplateSlide" v-model="downloadTemplateSlide" />
+          </div>
+          <div class="field">
+            <label for="FileUploaderDownloadTemplateSheet">
+              {{ $t('Template Sheet') }}
+            </label>
+            <textarea id="FileUploaderDownloadTemplateSheet" v-model="downloadTemplateSheet" />
+          </div>
+          <div class="field">
+            <label for="FileUploaderDownloadTemplateDoc">
+              {{ $t('Template Doc') }}
+            </label>
+            <textarea id="FileUploaderDownloadTemplateDoc" v-model="downloadTemplateDoc" />
           </div>
         </div>
         

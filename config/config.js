@@ -93,11 +93,24 @@ const CONFIG = {
     downloadTemplate: `<ul>
     <li>檔案備份：{DOWNLOADS}</li>
   </ul>`,
-  downloadTemplateSlide: `<ul>
-      <li><a href="{GOOGLE_SLIDE}" target="_blank">Google簡報線上檢視</a></li>
-      <li><a href="{GOOGLE_SLIDE_PDF}" target="_blank">PDF格式下載</a></li>
-      <li>Power Point格式備份：{DOWNLOADS}</li>
-    </ul>`,
+    downloadTemplateSlide: `<p><a href="{THUMBNAIL_URL}" target="_blank">{THUMBNAIL_URL}</a></p>
+  <ul>
+    <li><a href="{GOOGLE_SLIDE}" target="_blank">Google簡報線上檢視</a></li>
+    <li><a href="{GOOGLE_SLIDE_PDF}" target="_blank">PDF格式下載</a></li>
+    <li>Power Point (.pptx) 格式備份：{DOWNLOADS}</li>
+  </ul>`,
+    downloadTemplateDoc: `<p><a href="{THUMBNAIL_URL}" target="_blank">{THUMBNAIL_URL}</a></p>
+  <ul>
+    <li><a href="{GOOGLE_DOC}" target="_blank">Google文件線上檢視</a></li>
+    <li><a href="{GOOGLE_DOC_PDF}" target="_blank">PDF格式下載</a></li>
+    <li>OpenDocument Text (.odt) 格式備份：{DOWNLOADS}</li>
+  </ul>`,
+    downloadTemplateSheet: `<p><a href="{THUMBNAIL_URL}" target="_blank">{THUMBNAIL_URL}</a></p>
+  <ul>
+    <li><a href="{GOOGLE_SHEET}" target="_blank">Google試算表線上檢視</a></li>
+    <li><a href="{GOOGLE_SHEET_ODS}" target="_blank">ODS格式下載</a></li>
+    <li>OpenDoucment Spreadsheet (.ods) 格式備份：{DOWNLOADS}</li>
+  </ul>`,
     delimiter: '、'
   }
 }

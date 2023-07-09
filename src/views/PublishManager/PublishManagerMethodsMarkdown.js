@@ -140,6 +140,15 @@ export default function (app) {
       ele.remove()
     })
 
+    postBody.children(`pre`).each(function () {
+      let ele = $(this)
+
+      if (ele.children('code').length === 1) {
+        ele.after('[CODE]')
+        ele.remove()
+      }
+    })
+
     // postBody.find(`table`).each(function () {
     //   let ele = $(this)
 
