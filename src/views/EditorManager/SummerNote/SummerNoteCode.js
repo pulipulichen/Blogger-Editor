@@ -45,8 +45,7 @@ let SummerNoteCode = {
     postBody = postBody.clone()
 
     // 檢查第一個圖片有沒有height
-    if (postBody.find('img:first').length > 0 
-            && postBody.find('img:first').attr('width') !== undefined) {
+    if (postBody.find('img:first').length > 0 && postBody.find('img:first').attr('width') !== undefined) {
       if (warning === true) {
         alert($t('First image has width!'))
       }
@@ -125,8 +124,8 @@ let SummerNoteCode = {
     
     return code
   },
-  GetOneFileHTML: function ($t) {
-    let code = this.CopyCodeClick($t)
+  GetOneFileHTML: function ($t, warning = true) {
+    let code = this.CopyCodeClick($t, warning)
     
     code = this.replaceAll(code , `<a href="//`, `<a href="https://`)
     code = this.replaceAll(code , `<img src="//`, `<img src="https://`)

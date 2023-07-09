@@ -127,8 +127,8 @@ export default function (app) {
 
   app.methods.getPostBodyMarkdown = function () {
     // let postBody = $v.EditorManager.FieldPostBody.getElement()
-
-    let html = SummerNoteCode.GetOneFileHTML(this.$t)
+    // console.log(this.$t)
+    let html = SummerNoteCode.GetOneFileHTML(this.$t, false)
     // console.log(html)
     let postBody = $(`<div>${html}</div>`)
 
