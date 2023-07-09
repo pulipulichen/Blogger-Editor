@@ -172,6 +172,7 @@ let SummerNoteConfig = {
   },
   popoverTable: function () {
     return [
+      ['format', ['cleanTable']],
       ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
       ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]
     ]

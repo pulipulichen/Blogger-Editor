@@ -995,7 +995,8 @@ import summerNoteOptions from './options.js'
               addColRight: 'Add column right',
               delRow: 'Delete row',
               delCol: 'Delete column',
-              delTable: 'Delete table'
+              delTable: 'Delete table',
+              cleanTable: 'Clean table'
           },
           hr: {
               insert: 'Insert Horizontal Rule'
@@ -4524,6 +4525,90 @@ import summerNoteOptions from './options.js'
               range.create(nextCell, 0).select();
           }
       };
+
+      function removeHTMLTagsKeepLineBreaks(input) {
+        // return input.replace(/<([^br\/>]*)>/gi, function (match, p1) {
+        //   if (p1.toLowerCase() === 'br') {
+        //     return match; // Keep <br /> tags
+        //   } else {
+        //     return ''; // Remove other tags
+        //   }
+        // });
+
+        input = input.split('</p>').join('<br>')
+        input = input.split('</div>').join('<br>')
+        input = input.replace(/<(?!br\s*\/?)[^>]+>/gi, '').trim()
+
+        if (input === '<br>' || input === '<br />' || input === '<br/>') {
+            input = '&nbsp;'
+        }
+        else {
+            while (input.endsWith('<br>')) {
+                input = input.slice(0, -4).trim()
+            }
+            while (input.endsWith('<br/>')) {
+                input = input.slice(0, -5).trim()
+            }
+            while (input.endsWith('<br />')) {
+                input = input.slice(0, -6).trim()
+            }
+            while (input.startsWith('<br>')) {
+                input = input.slice(4).trim()
+            }
+            while (input.startsWith('<br/>')) {
+                input = input.slice(5).trim()
+            }
+            while (input.startsWith('<br />')) {
+                input = input.slice(6).trim()
+            }
+        }
+            
+
+        return input
+      }
+
+      /**
+       * Add a new row
+       *
+       * @param {WrappedRange} rng
+       * @param {String} position (top/bottom)
+       * @return {Node}
+       */
+      Table.prototype.cleanTable = function (rng) {
+        console.log('ok?')
+        var cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
+        var currentTable = $$1(cell).closest('table');
+        // var tableAttributes = this.recoverAttributes(currentTable);
+        console.log(currentTable.find('col[width]').length)
+
+        currentTable.removeAttr('style')
+        currentTable.removeAttr('border')
+        currentTable.removeAttr('width')
+        currentTable.removeAttr('height')
+        currentTable.removeAttr('class')
+
+        currentTable.children('colgroup').remove()
+        currentTable.find('col[width]').removeAttr('width')
+
+        currentTable.find('tr[style]').removeAttr('style')
+        currentTable.find('td[style]').removeAttr('style')
+        currentTable.find('th[style]').removeAttr('style')
+
+        let cleanCell = function (i) {
+            let ele = $$1(this)
+
+            let html = ele.html()
+
+            // console.log(1, html)
+            html = removeHTMLTagsKeepLineBreaks(html)
+            // console.log(2, html)
+            ele.html(html)
+        }
+
+        currentTable.find('td').each(cleanCell).attr('valign', 'top')
+        currentTable.find('th').each(cleanCell).attr('valign', 'top')
+
+    };
       /**
        * Add a new row
        *
@@ -7185,6 +7270,15 @@ sel.addRange(range);
           //console.log(imgInfo)
           return imgInfo;
       };
+
+      Editor.prototype.cleanTable = function () {
+        var rng = this.createRange(this.$editable);
+        if (rng.isCollapsed() && rng.isOnCell()) {
+            this.beforeCommand();
+            this.table.cleanTable(rng);
+            this.afterCommand();
+        }
+      };
       Editor.prototype.addRow = function (position) {
           var rng = this.createRange(this.$editable);
           if (rng.isCollapsed() && rng.isOnCell()) {
@@ -8923,6 +9017,14 @@ sel.addRange(range);
        */
       Buttons.prototype.addTablePopoverButtons = function () {
           var _this = this;
+          this.context.memo('button.cleanTable', function () {
+            return _this.button({
+                className: 'btn-md',
+                contents: _this.ui.icon(_this.options.icons.eraser),
+                tooltip: _this.lang.table.cleanTable,
+                click: _this.context.createInvokeHandler('editor.cleanTable')
+            }).render();
+        });
           this.context.memo('button.addRowUp', function () {
               return _this.button({
                   className: 'btn-md',
