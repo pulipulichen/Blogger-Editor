@@ -1,4 +1,4 @@
-<div class="ui modal"
+<div class="ui modal PublishManager"
      v-bind:class="name"
      ref="modal">
   <i class="close icon" v-on:click="close"></i>
@@ -194,14 +194,27 @@
         <label>
           {{ $t("AI Review") }}
         </label>
-        <div class="ui fluid buttons">
+        <div class="ui fluid buttons"
+          v-if="prompts.length === 0">
           <button type="button" class="ui button"
-            @click="copyPromptSpellCheck">
-            {{ $t('錯字') }}
+            @click="buildPrompts()">
+            {{ $t('Build Prompts') }}
+          </button>
+        </div>
+        <div class="ui fluid buttons prompts"
+          v-if="prompts.length > 0">
+          <button v-for="(prompt, i) in prompts"
+            type="button" class="ui button"
+            @click="copyPromptSpellCheck(prompt, i)">
+            {{ $t('P') }}{{ (i+1) }}
           </button>
           <button type="button" class="ui button"
             @click="copyPromptSpellCheckAgain">
-            {{ $t('更多建議') }}
+            {{ $t('更多') }}
+          </button>
+          <button type="button" class="ui icon button"
+            @click="buildPrompts()">
+            <i class="refresh icon" />
           </button>
           <a class="icon ui positive button"
              :href="urlChatGPTBlogger"

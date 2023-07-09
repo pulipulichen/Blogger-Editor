@@ -362,6 +362,20 @@ let SummerNoteCode = {
       a.href = href.slice(href.lastIndexOf('#'))
       $(a).removeAttr("target")
     })
+
+    let ulList = postBody.children('ul')
+    for (let i = 0; i < ulList.length; i++) {
+      let ul = ulList.eq(i)
+
+      let next = ul.next()
+      if (next.prop('tagName').toLowerCase() === 'ul') {
+        next.children().appendTo(ul)
+        next.remove()
+
+        ulList = postBody.children('ul')
+        i = 0
+      }
+    }
     
     $v.EditorManager.FieldPostBody.cleanUnusedFileSystem()
     

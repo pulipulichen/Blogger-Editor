@@ -73,7 +73,11 @@
     "vue-fragment": "1.5.1",
     "vuedraggable": "2.23.2",
     "webpack-sources": "1.4.3",
-    "turndown": "7.1.2"
+    "turndown": "7.1.2",
+    "turndown-plugin-gfm": "1.0.2",
+    "markdown-it": "13.0.1",
+    "markdown-it-multimd-table": "4.2.2",
+    "he": "1.2.0"
   },
   "devDependencies": {
     "@babel/core": "7.13.10",

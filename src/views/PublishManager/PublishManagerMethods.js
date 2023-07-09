@@ -5,9 +5,7 @@ import JSZipUtils from 'jszip-utils'
 import {saveAs} from 'file-saver'
 
 import PublishManagerMethodsChatGPT from './PublishManagerMethodsChatGPT'
-
-import TurndownService from 'turndown'
-var turndownService = new TurndownService()
+import PublishManagerMethodsMarkdown from './PublishManagerMethodsMarkdown'
 
 export default function (app) {
   if (!app.methods) {
@@ -33,6 +31,8 @@ export default function (app) {
         //console.log(this.filesystemImageCount)
         this.bloggerConsoleURL = $v.ConfigManager.bloggerConsoleURL
         this.urlChatGPTBlogger = $v.ConfigManager.urlChatGPTBlogger
+
+        this.buildPrompts()
         this.getUI().modal('show')
       })
     }
@@ -343,18 +343,6 @@ ${html}
       return text
     }
 
-    app.methods.getPostBodyMarkdown = function () {
-      let postBody = $v.EditorManager.FieldPostBody.getElement()
-      // let text = postBody.text()
-      let text = postBody.html()
-      // text = text.replace(/<\/?[^>]+(>|$)/g, ' ');
-      // while (text.indexOf('  ') > -1) {
-      //   text = text.split('  ').join(' ')
-      // }
-      
-      var markdown = turndownService.turndown(text)
-      return markdown
-    }
 
     app.methods.getLabelRecommend = async function () {
       this.isLabelRecommending = true
@@ -450,4 +438,5 @@ ${html}
     }
 
     PublishManagerMethodsChatGPT(app)
+    PublishManagerMethodsMarkdown(app)
 }
