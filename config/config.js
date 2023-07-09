@@ -111,7 +111,7 @@ const CONFIG = {
     <li><a href="{GOOGLE_SHEET_ODS}" target="_blank">ODS格式下載</a></li>
     <li>OpenDoucment Spreadsheet (.ods) 格式備份：{DOWNLOADS}</li>
   </ul>`,
-    delimiter: '、'
+    delimiter: '、' //sdsd
   }
 }
 export default CONFIG
