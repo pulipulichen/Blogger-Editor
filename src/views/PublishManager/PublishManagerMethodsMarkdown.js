@@ -237,7 +237,7 @@ export default function (app) {
       return part
     })
 
-    console.log(output)
+    // console.log(output)
 
     return output
   }
