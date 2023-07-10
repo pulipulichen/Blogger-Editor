@@ -257,14 +257,14 @@ Message: ${e.message}`
       this.isExists(dirPath, (dirExists) => {
         if (dirExists === false) {
           this.createDir(fs.root, dirPath.split('/'), () => {
-            this.writeFromString(filePath, content, callback)
+            this.writeFromBase64(filePath, content, callback)
           }); // fs.root is a 
         }
         else {
           this.isExists(filePath, (fileExists) => {
             if (fileExists === true) {
               this.remove(filePath, () => {
-                this.writeFromString(filePath, content, callback)
+                this.writeFromBase64(filePath, content, callback)
               })
             }
             else {

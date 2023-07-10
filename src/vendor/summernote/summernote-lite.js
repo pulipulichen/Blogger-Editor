@@ -5815,6 +5815,7 @@ ${links}`
 
                 // console.log({link, dirPath})
                 let imgPath = await FileSystemHelper.getURLScreenshot(dirPath, link)
+                // console.log({imgPath})
                 // this.insertImage(imgPath)
                 
                 let imgNode = $(`<p><a href="${imgPath}" data-filename="${link}">
