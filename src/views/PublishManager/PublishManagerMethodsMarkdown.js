@@ -214,7 +214,7 @@ export default function (app) {
     for (let i = 1; i < parts.length; i++) {
       if (tempPart.length > limit) {
         output.push(tempPart)
-        tempPart = ''
+        tempPart = parts[i]
       }
       else if (tempPart === '') {
         tempPart = '## ' + parts[i]
@@ -236,6 +236,8 @@ export default function (app) {
       }
       return part
     })
+
+    console.log(output)
 
     return output
   }

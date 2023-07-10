@@ -69,16 +69,16 @@ const CONFIG = {
         uploadURL: 'https://my.pcloud.com/',
         parameters: ''
       },
-      {
-        name: 'sync.com',
-        uploadURL: 'https://cp.sync.com/',
-        parameters: ''
-      },
-      {
-        name: 'icdedrive',
-        uploadURL: 'https://icedrive.net/dashboard/#/cloud/',
-        parameters: ''
-      },
+      // {
+      //   name: 'sync.com',
+      //   uploadURL: 'https://cp.sync.com/',
+      //   parameters: ''
+      // },
+      // {
+      //   name: 'icdedrive',
+      //   uploadURL: 'https://icedrive.net/dashboard/#/cloud/',
+      //   parameters: ''
+      // },
       {
         name: 'Degoo',
         uploadURL: 'https://app.degoo.com/',
