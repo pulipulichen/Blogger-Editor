@@ -222,7 +222,7 @@ export default function (app) {
       else {
         tempPart = tempPart + '\n\n## ' + parts[i]
       }
-    }
+    } // 
 
     if (tempPart !== '') {
       output.push(tempPart)
