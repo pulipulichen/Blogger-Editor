@@ -367,7 +367,7 @@ let SummerNoteCode = {
       let ul = ulList.eq(i)
 
       let next = ul.next()
-      if (next.prop('tagName').toLowerCase() === 'ul') {
+      if (next.length === 1 && next.prop('tagName') && next.prop('tagName').toLowerCase() === 'ul') {
         next.children().appendTo(ul)
         next.remove()
 
