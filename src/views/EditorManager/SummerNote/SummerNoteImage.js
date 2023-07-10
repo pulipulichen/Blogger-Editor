@@ -112,7 +112,7 @@ let SummerNoteImage = {
     let tooltip = $t('Download annotation template')
     let click = () => {
       this.downloadAnnotationTamplateClick()
-    }
+    } // sdsd
     return SummerNoteHelper.buildButton('downloadAnnotationTamplate', contents, tooltip, click, doRender)
   },
   
