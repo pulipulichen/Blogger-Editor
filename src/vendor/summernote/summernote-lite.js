@@ -4526,6 +4526,11 @@ import summerNoteOptions from './options.js'
           }
       };
 
+      function removeAttributes(htmlString, attributes) {
+        var regex = new RegExp(`\\s(${attributes.join('|')})="[^"]+"`, 'gi');
+        return htmlString.replace(regex, '');
+      }
+
       function removeHTMLTagsKeepLineBreaks(input) {
         // return input.replace(/<([^br\/>]*)>/gi, function (match, p1) {
         //   if (p1.toLowerCase() === 'br') {
@@ -4537,7 +4542,11 @@ import summerNoteOptions from './options.js'
 
         input = input.split('</p>').join('<br>')
         input = input.split('</div>').join('<br>')
-        input = input.replace(/<(?!br\s*\/?)[^>]+>/gi, '').trim()
+        // console.log(1, input)
+        input = input.replace(/<(?!br\s*\/?|\/?a\s*\/?)[^>]+>/gi, '').trim()
+        input = removeAttributes(input, ['class', 'style']);
+        // console.log(2, input)
+
 
         if (input === '<br>' || input === '<br />' || input === '<br/>') {
             input = '&nbsp;'
