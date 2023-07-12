@@ -205,6 +205,7 @@
           v-if="prompts.length > 0">
           <button v-for="(prompt, i) in prompts"
             type="button" class="ui button"
+            :class="{positive: (copied.indexOf(i) > -1)}"
             @click="copyPromptSpellCheck(prompt, i)">
             {{ $t('P') }}{{ (i+1) }}
           </button>

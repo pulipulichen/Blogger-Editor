@@ -24,6 +24,9 @@ let SummerNoteButtons = {
       FileUploader: (c) => {
         return SummerNoteOpen.FileUploader($t, c)
       },
+      AbstractInserter: (c) => {
+        return SummerNoteOpen.AbstractInserter($t, c)
+      },
       CodeInserter: (c) => {
         return SummerNoteOpen.CodeInserter($t, c)
       },

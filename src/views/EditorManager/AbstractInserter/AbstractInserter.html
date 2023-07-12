@@ -1,0 +1,75 @@
+<div class="ui modal"
+       :class="name"
+       ref="modal">
+    <i class="close icon" @click="close"></i>
+    <div class="header">
+      <i class="code icon"></i>
+      {{ $t('Title') }}
+    </div>
+    <!-- ---------------------------------------- -->
+    
+    <div class="content">
+      <div class="description ui form">
+
+        <div class="field">
+          <label>
+            {{ $t('ChatGPT') }}
+          </label>
+          <div class="ui fluid buttons">
+            <a href="https://chat.openai.com/chat" target="chatgpt"
+              @click.prevent.stop="popupChatGPT"
+              class="ui positive button">
+              {{ $t('Opening') }}
+            </a>
+            <button v-for="(part, i) in contentParts"
+              type="button" class="ui button"
+              :class="{positive: (copied.indexOf(i) > -1)}"
+              @click="copy(part, i)">
+              {{ $t('P') + (i+1) }}
+            </button>
+            <button type="button" class="ui positive button"
+              @click="copy(promptEnd)">
+              {{ $t('End') }}
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>
+            {{ $t('Abstract') }}
+          </label>
+          <textarea name="abstract"
+                    id="AbstractInserterTextarea"
+                    v-model="abstract"></textarea>
+        </div>
+        
+        <!-- ------------------- -->
+        
+        <!-- ------------------- -->
+        
+        <!--
+        <div class="field" @click="toggleNl2br">
+          <div class="ui checkbox">
+            <input type="checkbox"
+                   class="hidden" 
+                   v-model="nl2br"
+                   value="true">
+            <label>{{ $t('Enable new line to &lt;br /&gt;') }}</label>
+          </div>
+        </div>
+        -->
+
+      </div> <!-- <div class="description"> -->
+    </div> <!-- <div class="content"> -->
+    <div class="actions">
+      <div class="ui button"
+           @click='close'>
+        {{ $t('Close') }}
+      </div>
+      <div class="ui button"
+           :class="enableInsert"
+           @click='insert'>
+        {{ $t('Insert') }}
+      </div>
+    </div>
+  </div>

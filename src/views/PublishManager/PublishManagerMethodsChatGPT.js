@@ -8,7 +8,8 @@ export default function (app) {
   }
 
   app.methods.buildPrompts = function () {
-    let markdownParts = this.getPostBodyMarkdownParts()
+    this.copied = []
+    let markdownParts = MarkdownHelper.getPostBodyMarkdownParts('mask')
 
     if (markdownParts[0]) {
       let fieldPostTitle = $v.EditorManager.FieldPostTitle
@@ -29,7 +30,7 @@ ${text}`
     if (!promptText) {
       let fieldPostTitle = $v.EditorManager.FieldPostTitle
       let postTitle = fieldPostTitle.getText().trim()
-      let text = this.getPostBodyMarkdown()
+      let text = this.getPostBodyMarkdown('mask')
 
       promptText = `TITLE: ${postTitle}
 
@@ -45,6 +46,10 @@ ${promptText}
     CopyPasteHelper.copyPlainText(prompt)
     if (i === 0) {
       this.popupChatGPT()
+    }
+
+    if (this.copied.indexOf(i) === -1) {
+      this.copied.push(i)
     }
   }
 

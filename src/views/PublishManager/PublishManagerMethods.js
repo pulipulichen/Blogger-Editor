@@ -5,7 +5,7 @@ import JSZipUtils from 'jszip-utils'
 import {saveAs} from 'file-saver'
 
 import PublishManagerMethodsChatGPT from './PublishManagerMethodsChatGPT'
-import PublishManagerMethodsMarkdown from './PublishManagerMethodsMarkdown'
+// import PublishManagerMethodsMarkdown from './PublishManagerMethodsMarkdown'
 
 export default function (app) {
   if (!app.methods) {
@@ -438,5 +438,5 @@ ${html}
     }
 
     PublishManagerMethodsChatGPT(app)
-    PublishManagerMethodsMarkdown(app)
+    // PublishManagerMethodsMarkdown(app)
 }

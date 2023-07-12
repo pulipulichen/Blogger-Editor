@@ -46,8 +46,11 @@ let SummerNoteCode = {
 
     // 檢查第一個圖片有沒有height
     if (postBody.find('img:first').length > 0 && postBody.find('img:first').attr('width') !== undefined) {
-      if (warning === true) {
-        alert($t('First image has width!'))
+      if (warning === true && typeof($t) === 'function') {
+        try {
+          alert($t('First image has width!'))
+        }
+        catch (e) {}
       }
     }
 
@@ -106,7 +109,10 @@ let SummerNoteCode = {
     }
     
     if (code.indexOf('<!--more-->') === -1) {
-      alert($t('<!--more--> is not found'))
+      try {
+        alert($t('<!--more--> is not found'))
+      }
+      catch (e) {}
     }
     
     // Beautiful HTML

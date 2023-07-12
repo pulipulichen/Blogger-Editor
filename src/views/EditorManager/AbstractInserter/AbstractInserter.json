@@ -1,0 +1,40 @@
+{
+  "en-US": {
+    "Title": "Abstract Inserter"
+  },
+  "zh-TW": {
+    "Title": "插入程式碼",
+    "Syntax": "語法",
+    "Help": "說明",
+    "(Auto)": "(自動判斷)",
+    "No Highlight": "不標亮",
+    "Enable new line to <br />": "將換行取代爲<br />",
+    "Code": "程式碼",
+    "JavaScript": "JavaScript",
+    "HTML, XML": "HTML, XML",
+    "CSS": "CSS",
+    "Bash": "Bash",
+    "ini": "ini",
+    "JSON": "JSON",
+    "Java": "Java",
+    "PHP": "PHP",
+    "Perl": "Perl",
+    "SQL": "SQL",
+    "R Script": "R腳本",
+    "AutoIT": "AutoIT",
+    "C#": "C#",
+    "C++": "C++",
+    "DOS": "DOS",
+    "Excel": "Excel",
+    "Markdown": "Markdown",
+    "Nginx": "Nginx",
+    "Python": "Python",
+    "Ruby": "Ruby",
+    "Swift": "Swift",
+    "TypeScript": "TypeScript",
+    "VB.Net": "VB.Net",
+    "VBscript": "VBscript",
+    "XQuery, Xpath": "XQuery, Xpath",
+    "Matlab": "Matlab"
+  }
+}

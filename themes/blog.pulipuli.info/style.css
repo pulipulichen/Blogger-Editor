@@ -38,3 +38,9 @@ body {
 .meta1 .timestamp {
   padding-right: 1rem;
 }
+
+.note-editable .abstract {
+  display: block !important;
+  opacity: 0.7;
+  border: 1px gray dotted;
+}

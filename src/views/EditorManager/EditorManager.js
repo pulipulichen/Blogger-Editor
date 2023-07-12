@@ -23,6 +23,7 @@ import EditorManagerConfig from './EditorManagerConfig.js'
 import ImageReplacerSfc from './ImageReplacer/ImageReplacer.vue'
 import IframePromptSfc from './IframePrompt/IframePrompt.vue'
 import FileUploaderSfc from './FileUploader/FileUploader.vue'
+import AbstractInserterSfc from './AbstractInserter/AbstractInserter.vue'
 import CodeInserterSfc from './CodeInserter/CodeInserter.vue'
 import MarkdownImporterSfc from './MarkdownImporter/MarkdownImporter.vue'
 import OutlineNavigatorSfc from './OutlineNavigator/OutlineNavigator.vue'
@@ -33,6 +34,7 @@ import GoogleDocLinkBuilderSfc from './GoogleDocLinkBuilder/GoogleDocLinkBuilder
 var EditorManager = {
   //name: "main-content",
   data: function () {
+    this.$i18n.locale = 'en'
     return {
       ui: undefined,
       uploadImageDraft: ConfigHelper.get('uploadImageDraft'),
@@ -70,6 +72,7 @@ var EditorManager = {
       IframePrompt: null,
       FileUploader: null,
       CodeInserter: null,
+      AbstractInserter: null,
       MarkdownImporter: null,
       OutlineNavigator: null,
       SnippetInserter: null,
@@ -121,6 +124,13 @@ var EditorManager = {
     if (ConfigHelper.get('debug').disableFileUploader === false) {
       VueHelper.init(FileUploaderSfc, (vue) => {
         this.FileUploader = vue
+      })
+    }
+
+    if (ConfigHelper.get('debug').disableAbstractInserter === false) {
+      VueHelper.init(AbstractInserterSfc, (vue) => {
+        console.log('ok')
+        this.AbstractInserter = vue
       })
     }
     

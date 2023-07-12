@@ -26,6 +26,8 @@ const CONFIG = {
     disableSnippetInserter: false,
     disableSaveIndicator: false,
     disableGoogleDocLinkBuilder: false,
+
+    disableAbstractInserter: false,
   },
   FileUploader: {
     links: [
@@ -82,6 +84,11 @@ const CONFIG = {
       {
         name: 'Degoo',
         uploadURL: 'https://app.degoo.com/',
+        parameters: ''
+      },
+      {
+        name: '4shared',
+        uploadURL: 'https://www.4shared.com/',
         parameters: ''
       },
       // {
