@@ -155,6 +155,7 @@ var config = {
     // },
     initMarkdownParts () {
       this.copied = []
+      this.copiedReview = []
       this.contentParts = MarkdownHelper.getPostBodyMarkdownParts('mask')
 
       let fieldPostTitle = $v.EditorManager.FieldPostTitle
