@@ -54,6 +54,16 @@ var config = {
     promptEndReview () {
       return this.$t(`你還有其他建議嗎？請用繁體中文回答。`)
     },
+    abstractWordCount () {
+      if (this.abstract.trim() === '') {
+        return false
+      }
+
+      let abstract = this.abstract
+      abstract = abstract.split('\n', '')
+      abstract = abstract.split(' ', '')
+      return abstract.length
+    }
   },
   methods: {
     // ---------------------

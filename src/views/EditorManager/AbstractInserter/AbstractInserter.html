@@ -68,6 +68,9 @@
         <div class="field">
           <label>
             {{ $t('Abstract') }}
+            <span v-if="abstractWordCount">
+              ({{ abstractWordCount }} {{ $t('characters') }})
+            </span>
           </label>
           <textarea name="abstract"
                     id="AbstractInserterTextarea"
