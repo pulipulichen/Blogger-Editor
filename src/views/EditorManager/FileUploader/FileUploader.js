@@ -7,7 +7,7 @@ let config = {
     return {
       name: 'FileUploader',
       ui: undefined,
-      delimiter: ', ',
+      delimiter: '、',
       links: [],
       downloadTemplate: ``,
       downloadTemplateSlide: ``,

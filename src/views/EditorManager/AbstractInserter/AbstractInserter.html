@@ -18,17 +18,19 @@
           <div class="ui fluid buttons">
             <a href="https://chat.openai.com/chat" target="chatgpt"
               @click.prevent.stop="popupChatGPT"
-              class="ui positive button">
+              :class="{positive: (copied.indexOf('opening') > -1)}"
+              class="ui button">
               {{ $t('Opening') }}
             </a>
             <button v-for="(part, i) in contentParts"
               type="button" class="ui button"
               :class="{positive: (copied.indexOf(i) > -1)}"
-              @click="copy(part, i)">
+              @click.prevent.stop="copy(part, i)">
               {{ $t('P') + (i+1) }}
             </button>
-            <button type="button" class="ui positive button"
-              @click="copy(promptEnd)">
+            <button type="button" class="ui button"
+              :class="{positive: (copied.indexOf('end') > -1)}"
+              @click.prevent.stop="copy(promptEnd, 'end')">
               {{ $t('End') }}
             </button>
           </div>
@@ -41,6 +43,18 @@
           <textarea name="abstract"
                     id="AbstractInserterTextarea"
                     v-model="abstract"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" v-model="insertLast"
+              id="AbstractInserter.insertLast" />
+
+            <label for="AbstractInserter.insertLast">
+              {{ $t('Append to last paragraph') }}
+            </label>
+          </div>
+            
         </div>
         
         <!-- ------------------- -->

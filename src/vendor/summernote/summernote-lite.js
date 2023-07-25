@@ -3293,6 +3293,30 @@ import summerNoteOptions from './options.js'
           }
           return childNodes;
       };
+
+      WrappedRange.prototype.placeCursorAtEnd = function () {
+        // Places the cursor at the end of a contenteditable container (should also work for textarea / input)
+        if (this.length === 0) {
+            throw new Error("Cannot manipulate an element if there is no element!");
+        }
+        // var el = this[0];
+        var range = document.createRange();
+        let parent = range.sc
+        console.log(parent)
+        var sel = window.getSelection();
+        var contentsContainer = this.$node;
+        var childNodes = lists.from(contentsContainer.childNodes);
+        var childLength = childNodes.length;
+        if (childLength > 0) {
+            var lastNode = childNodes[childLength - 1];
+            var lastNodeChildren = lastNode.childNodes.length;
+            range.setStart(lastNode, lastNodeChildren);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+        return this;
+    };
       /**
        * returns text in range
        *
@@ -5066,7 +5090,7 @@ import summerNoteOptions from './options.js'
             //let text = ''
             //console.log(rng)
             let sel = window.getSelection();
-            console.log(sel)
+            // console.log(sel)
             if (typeof(sel.focusNode) === 'object') {
               let node = sel.focusNode
               if (node.nodeType === 3) {
@@ -5395,6 +5419,14 @@ ${links}`
               }
               var contents = _this.createRange().pasteHTML(markup);
               range.createFromNodeAfter(lists.last(contents)).select();
+          });
+
+          /**
+           * paste HTML
+           * @param {String} markup
+           */
+          this.placeCursorAtEnd = this.wrapCommand(function (markup) {
+            _this.createRange().placeCursorAtEnd()
           });
           
           /**
@@ -8332,7 +8364,7 @@ sel.addRange(range);
                           var $button = $$1(event.target);
                           var eventName = $button.data('event');
                           var value = $button.attr('data-value');
-                          console.log([eventName, value])
+                        //   console.log([eventName, value])
                           //$parent.find('.note-dropdown-menu').addClass('close')
                           //console.log($parent[0])
                           //return

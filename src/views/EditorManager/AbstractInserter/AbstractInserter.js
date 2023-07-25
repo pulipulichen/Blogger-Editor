@@ -15,13 +15,15 @@ var config = {
       name: 'AbstractInserter',
       ui: undefined,
       //iframePromptInput: 'http://blog.pulipuli.info/'
-      abstract: '',
+      abstract: 'asasas',
       contentParts: [],
-      copied: []
+      copied: [],
+      insertLast: true
     }
   },
   mounted: function () {
     VueHelper.mountLocalStorage(this, 'abstract')
+    VueHelper.mountLocalStorageBoolean(this, 'insertLast')
   },
   created: function () {
     $v[this.name] = this
@@ -37,7 +39,10 @@ var config = {
       }
     },
     promptOpen () {
-      return this.$t(`接下來我要寫一篇文章的內容，以Markdown格式撰寫。但是因為內容很長，我必須要分段貼上來。接著不論我說些什麼，都請你回答「####」，不要說任何話。直到我只說「完成」這兩個字之後，再請你扮演書評員，把我說過的話，總結成一段200字至300字之間有邏輯的摘要，以跟讀者介紹的角度介紹這篇文章。用臺灣人習慣的繁體中文來撰寫。`)
+      return this.$t(`接下來我要寫一篇文章的內容，以Markdown格式撰寫。` +
+        `但是因為內容很長，我必須要分段貼上來。接著不論我說些什麼，都請你回答「####」，不要給我任何回應。`  + 
+        `直到我只說「完成」這兩個字，之後再請你扮演書評員，把我說過的話，總結成一段200字至300字之間有邏輯的摘要，以跟讀者介紹的角度介紹這篇文章。` +
+        `請用臺灣人習慣的繁體中文來撰寫。`)
     },
     promptEnd () {
       return this.$t(`完成`)
@@ -70,7 +75,13 @@ var config = {
       abstract = `<pre class="abstract" style="display: none;">${abstract}</pre>`
       //console.log(code)
       //let code = '<img src="icon.png" />'
-      $v.EditorManager.FieldPostBody.insert(abstract)
+      if (this.insertLast) {
+        $v.EditorManager.FieldPostBody.insertLast(abstract)
+      }
+      else {
+        $v.EditorManager.FieldPostBody.insert(abstract)
+      }
+        
       this.close()
       
       this.abstract = ''
@@ -78,9 +89,11 @@ var config = {
     },
     persist() {
       VueHelper.persistLocalStorage(this, 'abstract')
+      VueHelper.persistLocalStorage(this, 'insertLast')
     },
     popupChatGPT (e) {
-      CopyPasteHelper.copyPlainText(this.promptOpen)
+      // CopyPasteHelper.copyPlainText(this.promptOpen)
+      this.copy(this.promptOpen, 'opening')
       WindowHelper.forcePopup(e.target.href, e.target.target)
     },
     // initHTMLParts () {

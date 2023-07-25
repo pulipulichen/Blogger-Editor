@@ -166,6 +166,14 @@ let FieldPostBody = {
     
     return this
   },
+  insertLast: function (html) {
+    
+    let s = this.get()
+    s.summernote('placeCursorAtEnd')
+    // s.summernote('insert', html)
+    this.onChange()
+    return this
+  },
   change: function () {
     this.insert('')
   },
