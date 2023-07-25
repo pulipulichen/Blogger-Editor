@@ -35,7 +35,15 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton('FileUploaderOption', contents, tooltip, click, doRender)
   },
   AbstractInserter: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="upload icon"></i>` + $t('Insert Abstract') )
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="quote right icon"></i>`)
+    let tooltip = $t('Insert abstract with ChatGPT')
+    let click = () => {
+      $v.AbstractInserter.open()
+    }
+    return SummerNoteHelper.buildButton('AbstractInserter', contents, tooltip, click, doRender)
+  },
+  AbstractInserterOption: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="quote right icon"></i>` + $t('Insert Abstract') )
     let tooltip = $t('Insert abstract with ChatGPT')
     let click = () => {
       $v.AbstractInserter.open()
@@ -305,7 +313,7 @@ let SummerNoteOpen = {
       this.MarkdownImporterOption($t, c, false),
       this.transSelected($t, c, false),
       this.FileUploaderOption($t, c, false),
-      this.AbstractInserter($t, c, false),
+      this.AbstractInserterOption($t, c, false),
       this.insertIframe($t, c, false),
       this.insertVideo($t, c, false),   
 

@@ -3294,26 +3294,61 @@ import summerNoteOptions from './options.js'
           return childNodes;
       };
 
+      WrappedRange.prototype.insertLast = function (markup) {
+        var contentsContainer = $$1(markup)[0];
+        // console.
+        // console.log(this)
+        // var childNodes = lists.from(this.ec.childNodes);
+        // var rng = this.wrapBodyInlineWithPara().deleteContents();
+        // if (rng.so > 0) {
+        //     childNodes = childNodes.reverse();
+        // }
+        // childNodes = childNodes.map(function (childNode) {
+        //     return rng.insertNode(childNode);
+        // });
+        // if (rng.so > 0) {
+        //     childNodes = childNodes.reverse();
+        // }
+        // return childNodes;
+        let noteEditable = $$1(this.ec.childNodes[0]).parents('.note-editable:first')
+        noteEditable.append(contentsContainer)
+        contentsContainer.scrollIntoView({ behavior: 'smooth' });
+        return contentsContainer
+
+    };
+
       WrappedRange.prototype.placeCursorAtEnd = function () {
         // Places the cursor at the end of a contenteditable container (should also work for textarea / input)
         if (this.length === 0) {
             throw new Error("Cannot manipulate an element if there is no element!");
         }
-        // var el = this[0];
-        var range = document.createRange();
-        let parent = range.sc
-        console.log(parent)
-        var sel = window.getSelection();
-        var contentsContainer = this.$node;
-        var childNodes = lists.from(contentsContainer.childNodes);
+
+        // console.log(this)
+
+        // // var el = this[0];
+        
+        // let parent = range.sc
+        // console.log(parent, range)
+        // var sel = window.getSelection();
+        // var contentsContainer = this;
+        // var childNodes = lists.from(contentsContainer.childNodes);
+        var childNodes = this.ec.childNodes
+        console.log(1)
         var childLength = childNodes.length;
+        console.log(2)
         if (childLength > 0) {
             var lastNode = childNodes[childLength - 1];
+            console.log(3)
             var lastNodeChildren = lastNode.childNodes.length;
+            console.log(4)
+
+            var range = document.createRange();
+            var sel = window.getSelection();
             range.setStart(lastNode, lastNodeChildren);
             range.collapse(true);
             sel.removeAllRanges();
             sel.addRange(range);
+            console.log(sel, range)
         }
         return this;
     };
@@ -5420,6 +5455,17 @@ ${links}`
               var contents = _this.createRange().pasteHTML(markup);
               range.createFromNodeAfter(lists.last(contents)).select();
           });
+
+          this.insertLast = this.wrapCommand(function (markup) {
+            if (_this.isLimited(markup.length)) {
+                return;
+            }
+            // console.log(markup)
+            // var contents = _this.createRange().insertLast(markup);
+            _this.createRange().insertLast(markup);
+            // console.log(contents)
+            // range.createFromNodeAfter(lists.last(contents)).select();
+        });
 
           /**
            * paste HTML

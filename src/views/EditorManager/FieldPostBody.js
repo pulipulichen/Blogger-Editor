@@ -169,8 +169,8 @@ let FieldPostBody = {
   insertLast: function (html) {
     
     let s = this.get()
-    s.summernote('placeCursorAtEnd')
-    // s.summernote('insert', html)
+    // s.summernote('placeCursorAtEnd')
+    s.summernote('insertLast', html)
     this.onChange()
     return this
   },

@@ -41,8 +41,9 @@ let SummerNoteConfig = {
     
     let toolbar = [
         ['menu', [/*'ReloadPage',*/ 'toggleMenu', 'codeview', 'OutlineNavigator']],
+        ['insertStart', ['buttonInsertMore', 'buttonInsertHR', 'buttonInsertCode', 'buttonFilesUploader']],
+        ['insertEnd', ['buttonOpenCoverBuilder', 'buttonAbstractInserter']],
         ['clear', ['undo', 'clear']],
-        ['mainInset', ['buttonInsertMore', 'buttonInsertHR', 'buttonInsertCode', 'buttonFilesUploader', 'buttonOpenCoverBuilder']],
         ['style', ['style', 'forecolor', 'backcolor']],
         //['formatBlockHeading1', ['formatH1']],
         ['formatBlockHeading2', ['formatH2', 'formatH3', 'formatH4']],

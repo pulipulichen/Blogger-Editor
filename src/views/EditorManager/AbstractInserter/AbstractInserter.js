@@ -15,9 +15,13 @@ var config = {
       name: 'AbstractInserter',
       ui: undefined,
       //iframePromptInput: 'http://blog.pulipuli.info/'
-      abstract: '',
+      abstract: 'asas',
       contentParts: [],
       copied: [],
+
+      contentPartsReview: [],
+      copiedReview: [],
+
       insertLast: true
     }
   },
@@ -46,6 +50,9 @@ var config = {
     },
     promptEnd () {
       return this.$t(`完成`)
+    },
+    promptEndReview () {
+      return this.$t(`你還有其他建議嗎？請用繁體中文回答。`)
     },
   },
   methods: {
@@ -76,6 +83,8 @@ var config = {
       //console.log(code)
       //let code = '<img src="icon.png" />'
       if (this.insertLast) {
+        // console.log($v.EditorManager.FieldPostBody.ui)
+        $v.EditorManager.FieldPostBody.getElement().children('pre.abstract').remove()
         $v.EditorManager.FieldPostBody.insertLast(abstract)
       }
       else {
@@ -125,6 +134,20 @@ var config = {
     initMarkdownParts () {
       this.copied = []
       this.contentParts = MarkdownHelper.getPostBodyMarkdownParts('mask')
+
+      let fieldPostTitle = $v.EditorManager.FieldPostTitle
+      let postTitle = fieldPostTitle.getText().trim()
+      this.contentPartsReview = this.contentParts.map((promptText, i) => {
+        let prompt = `這是一份標題為「${postTitle}」，編號為「text-${(i+1)}」的文本，以Markdown語法撰寫。` +
+      `請檢查標題和文本內容有沒有出現錯字、邏輯不通、需要補充的問題，並且給出具體的修改建議。` +
+      `請不要列出文本原本的內容。只要用列點的方式給出建議即可。` +
+      `請用臺灣人習慣的用詞，以繁體中文回答。
+
+` + '````md' + `
+${promptText.trim()}
+` + '````'
+        return prompt
+      })
     },
     copy (str, i = false) {
       if (i !== false) {
@@ -133,6 +156,18 @@ var config = {
         }
       }
       CopyPasteHelper.copyPlainText(str)
+    },
+    copyReview (str, i = false) {
+      if (i !== false) {
+        if (this.copiedReview.indexOf(i) === -1) {
+          this.copiedReview.push(i)
+        }
+      }
+      CopyPasteHelper.copyPlainText(str)
+
+      if (i === 0) {
+        WindowHelper.forcePopup("https://chat.openai.com/chat", "chatgptReview")
+      }
     }
   }
 }

@@ -123,6 +123,9 @@ let SummerNoteButtons = {
       buttonFilesUploader: (c) => {
         return SummerNoteOpen.FileUploader($t, c, true, false)
       },
+      buttonAbstractInserter: (c) => {
+        return SummerNoteOpen.AbstractInserter($t, c, true, false)
+      },
       formatGroup: (c) => {
         return SummerNoteOpen.formatGroup($t, c)
       },
