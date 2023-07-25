@@ -15,7 +15,7 @@ var config = {
       name: 'AbstractInserter',
       ui: undefined,
       //iframePromptInput: 'http://blog.pulipuli.info/'
-      abstract: 'asasas',
+      abstract: '',
       contentParts: [],
       copied: [],
       insertLast: true
