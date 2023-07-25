@@ -68,7 +68,9 @@
         <div class="field">
           <label>
             {{ $t('Abstract') }}
-            <span v-if="abstractWordCount">
+            <span v-if="abstractWordCount" 
+              class="word-count"
+              :class="computedWordCountClass">
               ({{ abstractWordCount }} {{ $t('characters') }})
             </span>
           </label>

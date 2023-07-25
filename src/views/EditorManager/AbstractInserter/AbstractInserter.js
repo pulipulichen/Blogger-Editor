@@ -60,9 +60,21 @@ var config = {
       }
 
       let abstract = this.abstract
-      abstract = abstract.split('\n', '')
-      abstract = abstract.split(' ', '')
+      abstract = abstract.split('\n').join('')
+      abstract = abstract.split(' ').join('')
       return abstract.length
+    },
+    computedWordCountClass () {
+      let classNames = []
+
+      if (this.abstractWordCount > 500) {
+        classNames.push('error')
+      }
+      else if (this.abstractWordCount > 200) {
+        classNames.push('warning')
+      }
+
+      return classNames
     }
   },
   methods: {
