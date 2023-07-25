@@ -7,11 +7,11 @@ export default function (app) {
     
     //console.log(ConfigHelper.get('FileUploader').links)
     VueHelper.mountLocalStorageJSON(this, 'links', ConfigHelper.get('FileUploader').links)
-    VueHelper.mountLocalStorageJSON(this, 'delimiter', ConfigHelper.get('FileUploader').delimiter)
-    VueHelper.mountLocalStorageJSON(this, 'downloadTemplate', ConfigHelper.get('FileUploader').downloadTemplate)
-    VueHelper.mountLocalStorageJSON(this, 'downloadTemplateSlide', ConfigHelper.get('FileUploader').downloadTemplateSlide)
-    VueHelper.mountLocalStorageJSON(this, 'downloadTemplateSheet', ConfigHelper.get('FileUploader').downloadTemplateSheet)
-    VueHelper.mountLocalStorageJSON(this, 'downloadTemplateDoc', ConfigHelper.get('FileUploader').downloadTemplateDoc)
+    VueHelper.mountLocalStorage(this, 'delimiter', ConfigHelper.get('FileUploader').delimiter)
+    VueHelper.mountLocalStorage(this, 'downloadTemplate', ConfigHelper.get('FileUploader').downloadTemplate)
+    VueHelper.mountLocalStorage(this, 'downloadTemplateSlide', ConfigHelper.get('FileUploader').downloadTemplateSlide)
+    VueHelper.mountLocalStorage(this, 'downloadTemplateSheet', ConfigHelper.get('FileUploader').downloadTemplateSheet)
+    VueHelper.mountLocalStorage(this, 'downloadTemplateDoc', ConfigHelper.get('FileUploader').downloadTemplateDoc)
     this.resetDownloadURL()
   }
 
@@ -174,6 +174,30 @@ export default function (app) {
     }
     else if (name === 'googledrive') {
       return 'google drive'
+    }
+    else if (name === 'onedrive') {
+      return 'microsoft'
+    }
+    else if (name === 'mega') {
+      return 'medium'
+    }
+    else if (name === 'box') {
+      return 'blogger b'
+    }
+    else if (name === 'mediafire') {
+      return 'gripfire'
+    }
+    else if (name === 'pcloud') {
+      return 'mixcloud'
+    }
+    else if (name === 'degoo') {
+      return 'dashcube'
+    }
+    else if (name === '4shared') {
+      return 'page4'
+    }
+    else if (name === 'slideshare') {
+      return 'slideshare'
     }
   }
   

@@ -19,12 +19,20 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildButton('IframePrompt', contents, tooltip, click, doRender)
   },
   FileUploader: function ($t, context, doRender) {
-    let contents = SemanticUIHelper.wrapNIWSF(`<i class="upload icon"></i>` + $t('Upload File') )
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="file alternate icon"></i>`)
     let tooltip = $t('Upload file and insert links')
     let click = () => {
       $v.FileUploader.open()
     }
     return SummerNoteHelper.buildButton('FileUploader', contents, tooltip, click, doRender)
+  },
+  FileUploaderOption: function ($t, context, doRender) {
+    let contents = SemanticUIHelper.wrapNIWSF(`<i class="file alternate icon"></i>` + $t('Upload File') )
+    let tooltip = $t('Upload file and insert links')
+    let click = () => {
+      $v.FileUploader.open()
+    }
+    return SummerNoteHelper.buildButton('FileUploaderOption', contents, tooltip, click, doRender)
   },
   AbstractInserter: function ($t, context, doRender) {
     let contents = SemanticUIHelper.wrapNIWSF(`<i class="upload icon"></i>` + $t('Insert Abstract') )
@@ -296,7 +304,7 @@ let SummerNoteOpen = {
     return SummerNoteHelper.buildDropdownButtonsGroup(c, $t('Insert'), $t('Insert Tools'), [
       this.MarkdownImporterOption($t, c, false),
       this.transSelected($t, c, false),
-      this.FileUploader($t, c, false),
+      this.FileUploaderOption($t, c, false),
       this.AbstractInserter($t, c, false),
       this.insertIframe($t, c, false),
       this.insertVideo($t, c, false),   
