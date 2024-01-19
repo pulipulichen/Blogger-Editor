@@ -91,6 +91,11 @@ const CONFIG = {
         uploadURL: 'https://www.4shared.com/',
         parameters: ''
       },
+      {
+        name: 'ASUS WebStorage',
+        uploadURL: 'https://www.asuswebstorage.com/navigate/a/#/MySync',
+        parameters: ''
+      },
       // {
       //   // 只有48小時，還是不要用吧
       //   name: 'Uguu.se',
