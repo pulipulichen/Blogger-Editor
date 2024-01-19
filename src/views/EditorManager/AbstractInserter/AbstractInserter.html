@@ -62,6 +62,12 @@
               @click.prevent.stop="copy(promptEnd, 'end')">
               {{ $t('End') }}
             </button>
+
+            <button type="button" class="ui button"
+              :class="{positive: (copied.indexOf('shorten') > -1)}"
+              @click.prevent.stop="copy(promptShorten, 'shorten')">
+              {{ $t('Shorten') }}
+            </button>
           </div>
         </div>
 
