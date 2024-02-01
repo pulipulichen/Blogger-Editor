@@ -62,7 +62,8 @@ export default function (app) {
     
     return `https://translate.google.com.tw/?sl=zh-TW&tl=en&text=${postTitle}&op=translate`
   }
-  app.computed.bloggerConsoleURL = function () {
-    // @TODO
-  }
+  
+  // app.computed.bloggerConsoleURL = function () {
+  //   // @TODO
+  // }
 }

@@ -132,7 +132,7 @@ export default function (app) {
 
 <body>
 
-<h1>${this.postTitle}</h1>
+<h1 class="blogger-title">${this.postTitle}</h1>
 ${html}
 
 </body>

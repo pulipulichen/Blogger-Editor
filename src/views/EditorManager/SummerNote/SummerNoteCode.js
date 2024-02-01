@@ -130,6 +130,16 @@ let SummerNoteCode = {
     
     return code
   },
+  extractYouTubeVideoId: function (url) {
+    var videoId = false;
+    var match = url.match(/(?:\?v=|\/embed\/|\/watch\?v=|\/vi\/|\/e\/|youtu\.be\/|\/user\/\w+\/u\/\d+\/|\/attribution_link\?a=|\/embed\/videoseries\?list=|\/playlist\?list=)([A-Za-z0-9_-]+)/);
+    
+      if (match) {
+          videoId = match[1];
+      }
+      
+      return videoId;
+  },
   GetOneFileHTML: function ($t, warning = true) {
     let code = this.CopyCodeClick($t, warning)
     
@@ -138,49 +148,67 @@ let SummerNoteCode = {
     code = this.replaceAll(code , `<iframe frameborder="0" src="//`, `<iframe frameborder="0" src="https://`)
     code = this.replaceAll(code , `<!--more-->`, ``)
     
-    code = code.split('<img src="').map((part, i) => {
+    let partProcess = (part, i) => {
       if (i === 0) {
         return part
       }
       
       let url = part.slice(0, part.indexOf('"'))
       let urlParts = url.split('/')
-      if (urlParts[7] && urlParts[7].startsWith('s')) {
+      if (url.startsWith('https://blogger.googleusercontent.com/img/a/') === false && urlParts[7] && urlParts[7].startsWith('s')) {
         urlParts[7] = 's1600'
       }
       url = urlParts.join('/')
       
       part = url + part.slice(part.indexOf('"'))
       return part
-    }).join('<img src="')
+    }
+
+    code = code.split('<img src="').map(partProcess).join('<img src="')
     
-    code = code.split('<img src="').map((part, i) => {
-      if (i === 0) {
-        return part
-      }
-      
-      let url = part.slice(0, part.indexOf('"'))
-      let urlParts = url.split('/')
-      urlParts[7] = 's1600'
-      url = urlParts.join('/')
-      
-      part = url + part.slice(part.indexOf('"'))
-      return part
-    }).join('<img src="')
+    code = code.split('<img src="').map(partProcess).join('<img src="')
+
     
     let codeObj = $(`<div>${code}</div>`)
+
+    codeObj.find('*[style*="text-decoration-line: underline"]').each(function() {
+      $(this).wrapInner('<u></u>');
+    });
+
+    codeObj.find('*[style*="font-weight: bold"]').each(function() {
+      $(this).wrapInner('<b></b>');
+    });
+    
+    let _this = this
+    codeObj.find('iframe.note-video-clip').each(function() {
+      var iframeSrc = $(this).attr('src');
+      let videoID = _this.extractYouTubeVideoId(iframeSrc)
+      
+      if (videoID) {
+          var thumbnailUrl = 'https://img.youtube.com/vi/' + videoID + '/maxresdefault.jpg';
+          $(this).replaceWith('<a href="https://youtu.be/' + videoID + '"><img src="' + thumbnailUrl + '" alt="YouTube Thumbnail"></a>');
+      }
+    });
+
+
     codeObj.find('img').each((i, img) => {
       img = $(img)
       img.removeAttr('width')
       img.removeAttr('height')
       
       img.css({
-        width: '100%',
+        // width: '100%',
+        width: '50%',
         maxWidth: '14cm',
         height: 'auto',
         maxHeight: '24cm'
       })
+
+      img.attr('width', "50%")
+      img.attr('border', "1")
     })
+
+    codeObj.find('*[style*="display: none"]').remove()
     
     codeObj.find('iframe.note-video-clip').each((i, iframe) => {
       let src = iframe.src
