@@ -196,15 +196,15 @@ let SummerNoteCode = {
       img.removeAttr('width')
       img.removeAttr('height')
       
-      img.css({
-        // width: '100%',
-        width: '50%',
-        maxWidth: '14cm',
-        height: 'auto',
-        maxHeight: '24cm'
-      })
+      // img.css({
+      //   // width: '100%',
+      //   width: '50%',
+      //   maxWidth: '14cm',
+      //   height: 'auto',
+      //   maxHeight: '24cm'
+      // })
 
-      img.attr('width', "50%")
+      // img.attr('width', "50%")
       img.attr('border', "1")
     })
 
