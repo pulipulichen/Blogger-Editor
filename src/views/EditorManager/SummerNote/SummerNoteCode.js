@@ -178,6 +178,14 @@ let SummerNoteCode = {
     codeObj.find('*[style*="font-weight: bold"]').each(function() {
       $(this).wrapInner('<b></b>');
     });
+
+    codeObj.find('h2,h3,h4,h5,h6').each(function() {
+      $(this).wrapInner('<b></b>');
+    });
+
+    codeObj.find('h5,h6').each(function() {
+      $(this).wrapInner('<i></i>');
+    });
     
     let _this = this
     codeObj.find('iframe.note-video-clip').each(function() {
