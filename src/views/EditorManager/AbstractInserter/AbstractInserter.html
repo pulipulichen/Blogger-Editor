@@ -16,6 +16,11 @@
             {{ $t('Ask for review') }}
           </label>
           <div class="ui fluid buttons">
+            <a v-if="i === 0"
+                href="https://chat.openai.com/?model=text-davinci-002-render-sha" target="chatgptReview"
+                class="ui button">
+                Open
+            </a>
             <template v-for="(part, i) in contentPartsReview">
               <a v-if="i === 0"
                 href="https://chat.openai.com/chat" target="chatgptReview"
@@ -45,11 +50,15 @@
             {{ $t('Ask for abstract') }}
           </label>
           <div class="ui fluid buttons">
+            <a href="https://chat.openai.com/?model=gpt-4" target="chatgpt"
+              class="ui button">
+              {{ $t('Open') }}
+            </a>
             <a href="https://chat.openai.com/chat" target="chatgpt"
               @click.prevent.stop="popupChatGPT"
               :class="{positive: (copied.indexOf('opening') > -1)}"
               class="ui button">
-              {{ $t('Opening') }}
+              {{ $t('Guide') }}
             </a>
             <button v-for="(part, i) in contentParts"
               type="button" class="ui button"

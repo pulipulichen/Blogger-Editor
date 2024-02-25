@@ -135,7 +135,7 @@ var config = {
     popupChatGPT (e) {
       // CopyPasteHelper.copyPlainText(this.promptOpen)
       this.copy(this.promptOpen, 'opening')
-      WindowHelper.forcePopup(e.target.href, e.target.target)
+      // WindowHelper.forcePopup(e.target.href, e.target.target)
     },
     // initHTMLParts () {
     //   this.copied = []
@@ -199,7 +199,7 @@ ${promptText.trim()}
       CopyPasteHelper.copyPlainText(str)
 
       if (i === 0) {
-        WindowHelper.forcePopup("https://chat.openai.com/chat", "chatgptReview")
+        // WindowHelper.forcePopup("https://chat.openai.com/chat", "chatgptReview")
       }
     }
   }
