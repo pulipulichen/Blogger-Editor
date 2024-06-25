@@ -88,10 +88,10 @@
            v-bind:class="{active: (tab === 'apikeys')}"
            data-tab="apikeys">
 
-          <a href="https://docs.google.com/spreadsheets/d/1oO8gH6Le5IW8sWCQxqfBuGi-88QJ1s7G_ZGhNPpuAQs/edit#gid=0"
+          <a :href="privateDocumentURL"
              class="ui mini fluid button"
              style="margin-bottom: 0.5rem;width: calc(100% - 0.5rem)"
-             @click.prevent.stop="popup('https://docs.google.com/spreadsheets/d/1oO8gH6Le5IW8sWCQxqfBuGi-88QJ1s7G_ZGhNPpuAQs/edit#gid=0')">
+             @click.prevent.stop="popup(privateDocumentURL)">
             {{ $t('Private Document') }}
           </a>
 
@@ -110,6 +110,26 @@
               <a :href="bloggerConsoleURL"
                       class="ui button"
                       v-on:click.prevent.stop="popup(bloggerConsoleURL, 'bloggerConsoleURL')">
+                {{ $t('OPEN') }}
+              </a>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ConfigManager.commonImageDraftURL">
+              {{ $t('Blogger Common Image Draft URL') }}
+            </label>
+  
+            <div class="ui action input">
+              <input type="text" 
+                     name="commonImageDraftURL" 
+                     onfocus="this.select()"
+                     id="ConfigManager.commonImageDraftURL"
+                     v-model="commonImageDraftURL"
+                     v-on:change="persist" />
+              <a :href="commonImageDraftURL"
+                      class="ui button"
+                      v-on:click.prevent.stop="popup(commonImageDraftURL, 'commonImageDraftURL')">
                 {{ $t('OPEN') }}
               </a>
             </div>

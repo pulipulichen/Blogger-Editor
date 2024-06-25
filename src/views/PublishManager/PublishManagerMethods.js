@@ -87,6 +87,11 @@ export default function (app) {
       $v.EditorManager.ImageReplacer.open()
       return this
     }
+    app.methods.downloadImages = function () {
+      $v.EditorManager.ImageReplacer.downloadImagePackage()
+      return this
+    }
+
     app.methods.downloadPostBackup = function () {
       $v.PostManager.backupPost()
       //this.close()

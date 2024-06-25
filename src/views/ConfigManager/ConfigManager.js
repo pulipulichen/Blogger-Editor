@@ -24,7 +24,10 @@ let config = {
       apiKeysTrans: '',
       apiKeysURLScreenshot: '',
       bloggerConsoleURL: 'https://www.blogger.com/',
-      urlChatGPTBlogger: 'https://chat.openai.com/'
+      urlChatGPTBlogger: 'https://chat.openai.com/',
+      commonImageDraftURL: '',
+
+      privateDocumentURL: `https://docs.google.com/spreadsheets/d/1oO8gH6Le5IW8sWCQxqfBuGi-88QJ1s7G_ZGhNPpuAQs/edit#gid=0`
     }
   },
   mounted() {
@@ -42,6 +45,7 @@ let config = {
 
     VueHelper.mountLocalStorage(this, 'bloggerConsoleURL')
     VueHelper.mountLocalStorage(this, 'urlChatGPTBlogger')
+    VueHelper.mountLocalStorage(this, 'commonImageDraftURL')
 
     // VueHelper.mountLocalStorage('PublishManager', 'bloggerConsoleURL')
 

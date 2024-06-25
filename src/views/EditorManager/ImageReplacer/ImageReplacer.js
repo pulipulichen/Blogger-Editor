@@ -104,7 +104,7 @@ var config = {
       
       this.getUI().modal('show')
       this.getUI().find('.ui.checkbox').checkbox()
-      this.downloadImagePackage()
+      // this.downloadImagePackage()
     },
     validateHasFileSystemImage: function (callback) {
       if (FieldPostBody.hasFileSystemImage()) {
@@ -325,6 +325,20 @@ var config = {
       }
       else {
         $v.PublishManager.popup('editURL')
+      }
+      
+      return this
+    },
+    openCommonImageDraft: function () {
+      //$v.EditorManager.openBloggerDraft()
+      //$v.PublishManager.popup('editURL')
+      
+      let url = $v.ConfigManager.commonImageDraftURL
+      if (url !== '') {
+        WindowHelper.popup(url, 'common-image-upload-draft')
+      }
+      else {
+        $v.ConfigManager.open()
       }
       
       return this

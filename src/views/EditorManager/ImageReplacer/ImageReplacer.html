@@ -95,6 +95,10 @@
                  v-if="disableUploadImageDraft">
               {{ $t('Setting') }}
             </div>
+            <div class="ui fluid positive button"
+                 v-on:click="openCommonImageDraft">
+              {{ $t('Open Common Image Draft') }}  
+            </div>
           </div>
           <div class="field">
             <div class="ui image">
@@ -135,7 +139,7 @@
            v-bind:class="{hide: (currentStep !== 6)}">
         <div class="ui form">
           <div class="field">
-            <div class="unstackable two fields">
+            <div class="unstackable three fields">
               <div class="field">
                 <button type="button" 
                         class="ui fluid button"
@@ -149,6 +153,13 @@
                         v-on:click="openBloggerDraftSetting">
                   {{ $t('Open Setting') }}
                 </button>
+              </div>
+              <div class="field">
+                <button type="button"
+                   class="ui positive button"
+                    v-on:click="openCommonImageDraft">
+                   {{ $t('Open Common Image Draft') }}  
+                 </button>
               </div>
               <div class="field">
                 <button type="button" 

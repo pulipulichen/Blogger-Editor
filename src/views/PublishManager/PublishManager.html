@@ -230,13 +230,21 @@
     </div>
         
 
-      <div class="two unstackable fields">
+      <div class="three unstackable fields">
+        <div class="field">
+          <div class="fluid ui labeled icon button"
+               v-on:click="downloadImages"
+               v-bind:class="{green: enableImageUpload, disabled: !enableImageUpload}">
+            <i class="download icon"></i>
+            {{ $t("Download Images") }}
+          </div>
+        </div>
         <div class="field">
           <div class="fluid ui labeled icon button"
                v-on:click="openImageReplacer"
                v-bind:class="{green: enableImageUpload, disabled: !enableImageUpload}">
             <i class="image icon"></i>
-            {{ $t("Upload Image") }}
+            {{ $t("Upload Images") }}
           </div>
         </div>
         <div class="field">
