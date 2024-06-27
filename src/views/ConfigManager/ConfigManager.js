@@ -235,6 +235,7 @@ let config = {
 
       VueHelper.persistLocalStorage(this, 'bloggerConsoleURL')
       VueHelper.persistLocalStorage(this, 'urlChatGPTBlogger')
+      VueHelper.persistLocalStorage(this, 'commonImageDraftURL')
     },
     openBackupPageURL() {
       if (this.enableBackupPageButton) {
