@@ -80,6 +80,18 @@ let SummerNoteCode = {
       ele.href = value
     })
     
+    // 把註解的部分刪掉
+    let comments = postBody.find('.note-editor-comment')
+    for (let i = 0; i < comments.length; i++) {
+      let comment = comments.eq(i)
+      let commentContainer = comment.parent()
+
+      comment.remove()
+      if (commentContainer.children().length === 0) {
+        commentContainer.remove()
+      }
+    }
+    
     // 把最後幾個元素，沒有內容的部分刪除
     let lastNode = postBody.children(':last')
     while (lastNode.html().trim() === '') {
@@ -87,6 +99,8 @@ let SummerNoteCode = {
       
       lastNode = postBody.children(':last')
     }
+
+    // ---------------------
 
     //let code = this.getPostSummerNote().summernote('code');
     let code = postBody.html()
@@ -359,7 +373,7 @@ let SummerNoteCode = {
     
     postBody.find(`[style=""]`).removeAttr('style')
     
-    postBody.find(`.note-editor-comment`).removeAttr('title').removeClass('note-editor-comment')
+    // postBody.find(`.note-editor-comment`).removeAttr('title').removeClass('note-editor-comment')
     
     postBody.find('span').each((i, span) => {
       let outerHTML = span.outerHTML
