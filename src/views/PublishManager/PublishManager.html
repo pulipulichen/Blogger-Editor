@@ -319,11 +319,22 @@
                  v-model="publicURL"
                  v-on:change="persistPost('publicURL')"
                  ondragstart="return false;" />
-          <button class="ui button"
-                  v-bind:class="{disabled: disableOpenPublicURL, green: disableOpenPublicURL === false}"
-                  v-on:click="popup('publicURL')">
+          <a class="ui button"
+              v-bind:class="{disabled: disableOpenPublicURL, green: disableOpenPublicURL === false}"
+              :href="publicURL"
+              v-on:click="popup">
             {{ $t("Open") }}
-          </button>
+          </a>
+          <a class="ui button"
+             href="https://github.dev/pulipulichen/l"
+             v-on:click="popup">
+            {{ $t("GitHub L") }}
+          </a>
+          <a class="ui button"
+             href="https://free-url-shortener.rb.gy/"
+             v-on:click="popup">
+            {{ $t("rb.gy") }}
+          </a>
         </div>
       </div>
 

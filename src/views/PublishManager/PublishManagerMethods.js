@@ -79,9 +79,22 @@ export default function (app) {
       console.log([key, value])
       pm.updateEditingPost(key, value)
     }
-    app.methods.popup = function (name) {
-      let url = this[name]
-      WindowHelper.forcePopup(url, name)
+    app.methods.popup = function (url) {
+      if (!url) {
+        return false
+      }
+      if (url.preventDefault) {
+        url.preventDefault()
+        url.stopPropagation()
+      }
+      if (url.target && url.target.href) {
+        url = url.target.href
+      }
+      else if (this[url]) {
+        url = this[url]
+      }
+
+      WindowHelper.forcePopup(url, url)
     }
     app.methods.openImageReplacer = function () {
       $v.EditorManager.ImageReplacer.open()
