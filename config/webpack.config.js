@@ -137,7 +137,7 @@ module.exports = (env, argv) => {
   //console.log(argv.mode)
 
   if (argv.mode === 'production') {
-    webpackConfig.devtool = false
+    // webpackConfig.devtool = false
 
     webpackConfig.module.rules[0] = {
       test: /\.css$/, // 針對所有.css 的檔案作預處理，這邊是用 regular express 的格式

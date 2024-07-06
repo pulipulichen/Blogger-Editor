@@ -129,7 +129,7 @@ var EditorManager = {
 
     if (ConfigHelper.get('debug').disableAbstractInserter === false) {
       VueHelper.init(AbstractInserterSfc, (vue) => {
-        console.log('ok')
+        // console.log('ok')
         this.AbstractInserter = vue
       })
     }
@@ -499,7 +499,7 @@ var EditorManager = {
       if (window.performance.memory.totalJSHeapSize < threshold) {
         this.enableOCRImageFilename = false
         this.enableOCRImageAlt = false
-        console.log('disable OCR')
+        // console.log('disable OCR')
       }
       
       return this

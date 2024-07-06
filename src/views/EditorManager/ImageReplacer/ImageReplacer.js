@@ -109,6 +109,7 @@ var config = {
     validateHasFileSystemImage: function (callback) {
       if (FieldPostBody.hasFileSystemImage()) {
         this.filesystemImageCount = FieldPostBody.countFileSystemImage()
+        this.$refs.ImageReplacerRemapping.buildFieldPostBodyImageList()
         EventManager.trigger(this, 'onFilesystemImageCountChange')
         //console.log(['ImageReplacer', this.filesystemImageCount])
         this.currentStep = 1
@@ -185,7 +186,7 @@ var config = {
           }
         }
       })
-      //console.log(output)
+      // console.log(output)
       return output
     },
     replaceImage: function () {
@@ -193,7 +194,7 @@ var config = {
       let imageList = this.$refs.ImageReplacerRemapping.getImageList()
       
       // 20220306-1259 Pulipuli Chen 看來應該是正確的
-      //console.log(imageList)
+      // console.log(imageList)
       
       if (this.debugEnableReplace === true) {
         this.replacedImageCount = FieldPostBody.setImageList(imageList)

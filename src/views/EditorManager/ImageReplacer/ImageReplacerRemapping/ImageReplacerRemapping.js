@@ -66,7 +66,9 @@ var config = {
     buildImageRemapList () {
       this.imageRemapList = []
       let html = this.imageHTML
-      //console.log(html)
+      
+      // console.log(html)
+      
       if (!html) {
         return []
       }
@@ -83,6 +85,8 @@ var config = {
           width: Number(ele.getAttribute('data-original-width'))
         })
       })
+
+      // console.log(images)
 
       // this.imageRemapList = list
       
@@ -180,7 +184,7 @@ var config = {
     },
     buildFieldPostBodyImageList () {
       let list = FieldPostBody.getImageList()
-      
+      // console.log({list}) 
       this.postBodyImageList = []
 
       let postBodyImageList = []
