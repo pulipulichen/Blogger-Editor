@@ -29,10 +29,9 @@ let NavBarMenu = {
 }
 
 import NavBarMenuMethods from './NavBarMenuMethods.js'
-NavBarMenuMethods(config)
+NavBarMenuMethods(NavBarMenu)
 
 import NavBarMenuComputed from './NavBarMenuComputed.js'
-NavBarMenuComputed(config)
-
+NavBarMenuComputed(NavBarMenu)
 
 export default NavBarMenu

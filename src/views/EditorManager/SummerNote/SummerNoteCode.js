@@ -94,10 +94,16 @@ let SummerNoteCode = {
     
     // 把最後幾個元素，沒有內容的部分刪除
     let lastNode = postBody.children(':last')
-    while (lastNode.html().trim() === '') {
+    let lastNodeHTML = lastNode.html()
+    while (typeof(lastNodeHTML) === 'string' && lastNodeHTML.trim() === '') {
       lastNode.remove()
       
       lastNode = postBody.children(':last')
+      lastNodeHTML = lastNode.html()
+
+      if (!lastNodeHTML) {
+        break
+      }
     }
 
     // ---------------------
@@ -122,7 +128,7 @@ let SummerNoteCode = {
       code = code.slice(0, -11).trim()
     }
     
-    if (code.indexOf('<!--more-->') === -1) {
+    if (code.length > 0 && code.indexOf('<!--more-->') === -1) {
       try {
         alert($t('<!--more--> is not found'))
       }
@@ -136,7 +142,10 @@ let SummerNoteCode = {
       "indent_with_tabs": false
     })
     
-    CopyPasteHelper.copyPlainText(code)
+    if (code.length > 0) {
+      CopyPasteHelper.copyPlainText(code)
+    }
+    
     
     GoogleAnalyticsHelper.send('SummerNoteCode.CopyCodeClick', {
       'codeLength': code.length
