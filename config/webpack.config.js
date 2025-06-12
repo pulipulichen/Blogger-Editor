@@ -9,6 +9,7 @@ const WebpackShellPlugin = require('webpack-shell-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin'); // 引入 CopyWebpackPlugin
 
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const TerserPlugin = require("terser-webpack-plugin")
@@ -111,6 +112,15 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new VueLoaderPlugin(),
+      // // 複製 sql-wasm.wasm 到 static 目錄，以便 sql.js 可以載入
+      // new CopyWebpackPlugin({ // 修改：新增 CopyWebpackPlugin
+      //   patterns: [
+      //     { 
+      //       from: 'node_modules/sql.js/dist/sql-wasm.wasm', 
+      //       to: 'static/sql-wasm.wasm' // 目標路徑
+      //     }
+      //   ]
+      // }),
       {
         apply: (compiler) => {
           compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
@@ -137,23 +147,23 @@ module.exports = (env, argv) => {
   //console.log(argv.mode)
 
   if (argv.mode === 'production') {
-    // webpackConfig.devtool = false
+    webpackConfig.devtool = 'source-map'
 
     webpackConfig.module.rules[0] = {
       test: /\.css$/, // 針對所有.css 的檔案作預處理，這邊是用 regular express 的格式
       use: [
-        'style-loader', // 這個會後執行 (順序很重要)
-        'css-loader', // 這個會先執行
-        'postcss-loader',
+        'style-loader?sourceMap', // 這個會後執行 (順序很重要)
+        'css-loader?sourceMap', // 這個會先執行
+        'postcss-loader?sourceMap',
       ]
     }
     webpackConfig.module.rules[1] = {
       test: /\.less$/,
       use: [
-        'style-loader', // Step 3
-        'css-loader', // Step 2再執行這個
-        'postcss-loader',
-        'less-loader' // Step 1 要先執行這個
+        'style-loader?sourceMap', // Step 3
+        'css-loader?sourceMap', // Step 2再執行這個
+        'postcss-loader?sourceMap',
+        'less-loader?sourceMap' // Step 1 要先執行這個
       ]
     }
     
@@ -187,7 +197,7 @@ module.exports = (env, argv) => {
       new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: false // set to true if you want JS source maps
+        sourceMap: true // set to true if you want JS source maps
       })
     ]
     
