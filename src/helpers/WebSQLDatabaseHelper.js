@@ -68,7 +68,8 @@ let SQLiteDatabaseHelper = {
         resolve(this.SQL);
       } else {
         const config = {
-          locateFile: filename => `https://unpkg.com/sql.js@latest/dist/${filename}`
+          // locateFile: filename => `https://unpkg.com/sql.js@latest/dist/${filename}`
+          locateFile: filename => `static/sql.js/sql-wasm.wasm`
         };
         // 如果 SQL 尚未載入，則載入 sql.js 模組
         initSqlJs(config).then((SQL) => {
