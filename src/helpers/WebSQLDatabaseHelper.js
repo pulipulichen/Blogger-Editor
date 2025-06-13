@@ -1,5 +1,5 @@
 // 引入 sql.js 庫，用於在 WebAssembly 中操作 SQLite 資料庫
-import initSqlJs from 'sql.js';
+// import initSqlJs from 'sql.js';
 
 // 引入 FunctionHelper 和 WindowHelper，這些是原始程式碼中使用的輔助函數
 // FunctionHelper 用於觸發回調函數
@@ -19,7 +19,7 @@ let SQLiteDatabaseHelper = {
         // 載入 sql.js WASM 模組
         // 這裡假設 sql.js 的 WASM 檔案位於 /static/sql-wasm.wasm
         // 根據實際部署路徑可能需要調整 locateFile 函數
-        this.SQL = await initSqlJs({ locateFile: file => `/static/sql.js/${file}` }); // 修改：載入 sql.js WASM 模組
+        this.SQL = await initSqlJs({ locateFile: file => `/static/sql.js/sql-wasm.wasm` }); // 修改：載入 sql.js WASM 模組
         // 建立一個新的記憶體資料庫
         this.db = new this.SQL.Database(); // 修改：建立 SQLite 資料庫實例
         console.log('SQLite database initialized successfully.');
