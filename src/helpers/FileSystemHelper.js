@@ -788,8 +788,9 @@ Message: ${e.message}`
   },
   getURLScreenshot (dirPath, url) {
     let appsScriptURL = $v.ConfigManager.apiKeysURLScreenshot
+    console.log('0', appsScriptURL)
 
-    if (appsScriptURL === '') {
+    if (!appsScriptURL || appsScriptURL === '') {
       // 錯誤的圖片
       return `https://i.ibb.co/Qpm8Qpw/6-Ways-to-Fix-Configuration-System-Failed-to-Initialize-in-Windows.jpg`
     }
@@ -822,7 +823,7 @@ Message: ${e.message}`
       dirPath = dirPath.slice(0, -1)
     }
 
-    console.log('3', shortdirPathenSafeURL)
+    console.log('3', shortenSafeURL)
 
     return new Promise((resolve) => {
       console.log(4, requestURL)
