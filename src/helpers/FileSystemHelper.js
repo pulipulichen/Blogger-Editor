@@ -821,6 +821,7 @@ Message: ${e.message}`
     }
 
     return new Promise((resolve) => {
+      // console.log(requestURL)
       $.getJSON(requestURL, async (json) => {
         let base64 = json.output
         // console.log(base64)
