@@ -9,7 +9,6 @@ const WebpackShellPlugin = require('webpack-shell-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin'); // 引入 CopyWebpackPlugin
 
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const TerserPlugin = require("terser-webpack-plugin")
@@ -67,6 +66,12 @@ module.exports = (env, argv) => {
           ],
         },
         {
+          test: /\.wasm$/,
+          use: [
+            'wasm-loader'
+          ],
+        },
+        {
           test: /\.(eot|woff|woff2|svg|wav|ogg|gif|mp3|png|jpg|ttf)([\?]?.*)$/,
           use: [
             {
@@ -112,15 +117,6 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new VueLoaderPlugin(),
-      // // 複製 sql-wasm.wasm 到 static 目錄，以便 sql.js 可以載入
-      // new CopyWebpackPlugin({ // 修改：新增 CopyWebpackPlugin
-      //   patterns: [
-      //     { 
-      //       from: 'node_modules/sql.js/dist/sql-wasm.wasm', 
-      //       to: 'static/sql-wasm.wasm' // 目標路徑
-      //     }
-      //   ]
-      // }),
       {
         apply: (compiler) => {
           compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
