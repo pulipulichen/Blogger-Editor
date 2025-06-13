@@ -788,7 +788,7 @@ Message: ${e.message}`
   },
   getURLScreenshot (dirPath, url) {
     let appsScriptURL = $v.ConfigManager.apiKeysURLScreenshot
-    console.log('0', appsScriptURL)
+    // console.log('0', appsScriptURL)
 
     if (!appsScriptURL || appsScriptURL === '') {
       // 錯誤的圖片
@@ -797,7 +797,7 @@ Message: ${e.message}`
 
     let safeURL = encodeURIComponent(url)
     let requestURL = appsScriptURL + `?url=${safeURL}`
-    console.log('1', requestURL)
+    // console.log('1', requestURL)
 
     let shortenSafeURL = safeURL
     if (shortenSafeURL.indexOf('://') > -1) {
@@ -817,16 +817,16 @@ Message: ${e.message}`
     if (shortenSafeURL.length > 30) {
       shortenSafeURL = shortenSafeURL.slice(0, 10) + '-' + shortenSafeURL.slice(-10) + (new Date()).getTime()
     }
-    console.log('2', shortenSafeURL)
+    // console.log('2', shortenSafeURL)
 
     if (dirPath.endsWith('/')) {
       dirPath = dirPath.slice(0, -1)
     }
 
-    console.log('3', shortenSafeURL)
+    // console.log('3', shortenSafeURL)
 
     return new Promise((resolve) => {
-      console.log(4, requestURL)
+      // console.log(4, requestURL)
       $.getJSON(requestURL, async (json) => {
         let base64 = json.output
         // console.log(base64)
