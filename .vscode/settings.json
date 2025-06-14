@@ -1,0 +1,5 @@
+{
+    "liveServer.settings.port": 55501,
+    "liveServer.settings.root": "/",
+    "liveServer.settings.ignoreFiles": ["**/*"],     // 忽略所有檔案變動
+}

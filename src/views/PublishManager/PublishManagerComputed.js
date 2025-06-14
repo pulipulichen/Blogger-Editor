@@ -16,8 +16,8 @@ export default function (app) {
   }
   app.computed.disableOpenEditURL = function () {
     //if (this.editURL.startsWith('https://www.blogger.com/blogger.g?blogID=')
-    if (this.editURL.startsWith('https://www.blogger.com/blog/post/edit/')
-            || this.editURL.startsWith('https://www.blogger.com/blog/page/edit/')) {
+    if (this.editURL.startsWith('https://www.blogger.com/blog/post/edit/') || 
+        this.editURL.startsWith('https://www.blogger.com/post-edit.g?blogID=')) {
       return false
     }
     else {

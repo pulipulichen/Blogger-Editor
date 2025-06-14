@@ -6,10 +6,19 @@ let WebSQLDatabaseHelper = {
       let version = '1.0'
       let databaseDescription = 'Database for posts stroages'
       let size = 5*1024*1024
-      this.db = window.openDatabase( databaseName, 
-        version, 
-        databaseDescription, 
-        size);
+      try {
+          this.db = window.openDatabase( databaseName, 
+          version, 
+          databaseDescription, 
+          size);
+      }
+      catch (e) {
+        window.alert('WebSQLDatabaseHelper init error:', e);
+        if (window.confirm('WebSQLDatabaseHelper init error: ' + e + '\n\n是否要離開頁面？')) {
+          window.close();
+        }
+        return;
+      }
     }
     FunctionHelper.triggerCallback(callback)
   },

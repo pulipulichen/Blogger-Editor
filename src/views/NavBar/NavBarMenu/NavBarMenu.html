@@ -9,6 +9,11 @@
     <i class="eye icon"
       v-bind:title="$t('Preview Post')"></i>
   </a>
+  <a class="item copy-post-html" 
+     @click="copyPostHTML">
+    <i class="code icon"
+      v-bind:title="$t('Copy Post\'s HTML')"></i>
+  </a>
   <a class="item post" 
      v-on:click="openPostManager">
     <i class="list alternate icon"

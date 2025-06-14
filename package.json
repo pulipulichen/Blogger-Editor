@@ -4,10 +4,10 @@
   "description": "An editor for Blogger writer",
   "scripts": {
     "start": "bash ./docker-compose/d3.webpack-watch-build-production.sh",
+    "d3.webpack-watch-build-production": "bash ./docker-compose/d3.webpack-watch-build-production.sh",
     "d2.webpack-watch-development": "bash ./docker-compose/d2.webpack-watch-development.sh",
     "d4.webpack-build-production": "bash ./docker-compose/d4.webpack-build-production.sh",
     "d1.webpack-build-development": "bash ./docker-compose/d1.webpack-build-development.sh",
-    "d3.webpack-watch-build-production": "bash ./docker-compose/d3.webpack-watch-build-production.sh",
     "1.webpack-build-development": "webpack --config ./config/webpack.config.js --mode development",
     "2.webpack-watch-development": "webpack --watch --config ./config/webpack.config.js --mode development --display errors-only",
     "3.webpack-watch-build-production": "webpack --watch --config ./config/webpack.config.js --mode production --display errors-only",
