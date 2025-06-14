@@ -6,6 +6,7 @@ An editor for Blogger writer
 - Online Demo: https://pulipulichen.github.io/Blogger-Editor/
 
 * 需要Webpack編譯後才能生效，不能直接修改原始碼。
+ok
 
 ----
 
