@@ -25,12 +25,21 @@ FileSystemHelper = {
       requestFS(this.quota)
     }
     else {
-      navigator.webkitPersistentStorage.requestQuota(this.quota, (grantedBytes) => {
+      navigator.storage.persist().then(granted => {
+        if (!granted) {
+          console.warn("⚠️ 使用者未授權 persistent storage，資料可能不會永久保存。");
+          // console.log('Error', e);
+        } else if (this.debug) {
+          console.log("✅ 已取得 persistent storage 授權");
+        }
+        let grantedBytes = 1024 * 1024 * 1024 * 5 // 5MB
         requestFS(grantedBytes)
-        //window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
-      }, function(e) {
-        console.log('Error', e);
       });
+      // navigator.webkitPersistentStorage.requestQuota(this.quota, (grantedBytes) => {
+        
+      //   //window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
+      // }, function(e) {
+      // });
     }
 
   },
