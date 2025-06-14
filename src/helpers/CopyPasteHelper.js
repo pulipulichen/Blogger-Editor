@@ -1,9 +1,5 @@
 CopyPasteHelper = {
   copyPlainText: function (text) {
-    if (typeof(text) !== 'string' || text.trim().length === 0) {
-      return false
-    }
-
     var copyTextInput = document.getElementById("puliClipboardInput")
     if (copyTextInput === null) {
       var copyTextInput = document.createElement("textarea");

@@ -66,12 +66,6 @@ module.exports = (env, argv) => {
           ],
         },
         {
-          test: /\.wasm$/,
-          use: [
-            'wasm-loader'
-          ],
-        },
-        {
           test: /\.(eot|woff|woff2|svg|wav|ogg|gif|mp3|png|jpg|ttf)([\?]?.*)$/,
           use: [
             {
@@ -143,23 +137,23 @@ module.exports = (env, argv) => {
   //console.log(argv.mode)
 
   if (argv.mode === 'production') {
-    webpackConfig.devtool = 'source-map'
+    webpackConfig.devtool = "source-map"
 
     webpackConfig.module.rules[0] = {
       test: /\.css$/, // 針對所有.css 的檔案作預處理，這邊是用 regular express 的格式
       use: [
-        'style-loader?sourceMap', // 這個會後執行 (順序很重要)
-        'css-loader?sourceMap', // 這個會先執行
-        'postcss-loader?sourceMap',
+        'style-loader', // 這個會後執行 (順序很重要)
+        'css-loader', // 這個會先執行
+        'postcss-loader',
       ]
     }
     webpackConfig.module.rules[1] = {
       test: /\.less$/,
       use: [
-        'style-loader?sourceMap', // Step 3
-        'css-loader?sourceMap', // Step 2再執行這個
-        'postcss-loader?sourceMap',
-        'less-loader?sourceMap' // Step 1 要先執行這個
+        'style-loader', // Step 3
+        'css-loader', // Step 2再執行這個
+        'postcss-loader',
+        'less-loader' // Step 1 要先執行這個
       ]
     }
     

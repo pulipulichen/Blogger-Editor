@@ -16,9 +16,10 @@
             {{ $t('Ask for review') }}
           </label>
           <div class="ui fluid buttons">
-            <a href="https://chat.openai.com/?model=text-davinci-002-render-sha" target="chatgptReview"
-               class="ui button">
-               Open
+            <a v-if="i === 0"
+                href="https://chat.openai.com/?model=text-davinci-002-render-sha" target="chatgptReview"
+                class="ui button">
+                Open
             </a>
             <template v-for="(part, i) in contentPartsReview">
               <a v-if="i === 0"

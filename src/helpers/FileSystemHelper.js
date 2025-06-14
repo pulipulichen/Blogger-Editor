@@ -25,21 +25,12 @@ FileSystemHelper = {
       requestFS(this.quota)
     }
     else {
-      navigator.storage.persist().then(granted => {
-        if (!granted) {
-          console.warn("⚠️ 使用者未授權 persistent storage，資料可能不會永久保存。");
-          // console.log('Error', e);
-        } else if (this.debug) {
-          console.log("✅ 已取得 persistent storage 授權");
-        }
-        let grantedBytes = 1024 * 1024 * 1024 * 5 // 5MB
+      navigator.webkitPersistentStorage.requestQuota(this.quota, (grantedBytes) => {
         requestFS(grantedBytes)
+        //window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
+      }, function(e) {
+        console.log('Error', e);
       });
-      // navigator.webkitPersistentStorage.requestQuota(this.quota, (grantedBytes) => {
-        
-      //   //window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
-      // }, function(e) {
-      // });
     }
 
   },
@@ -797,16 +788,14 @@ Message: ${e.message}`
   },
   getURLScreenshot (dirPath, url) {
     let appsScriptURL = $v.ConfigManager.apiKeysURLScreenshot
-    console.log('0', appsScriptURL)
 
-    if (!appsScriptURL || appsScriptURL === '') {
+    if (appsScriptURL === '') {
       // 錯誤的圖片
       return `https://i.ibb.co/Qpm8Qpw/6-Ways-to-Fix-Configuration-System-Failed-to-Initialize-in-Windows.jpg`
     }
 
     let safeURL = encodeURIComponent(url)
     let requestURL = appsScriptURL + `?url=${safeURL}`
-    console.log('1', requestURL)
 
     let shortenSafeURL = safeURL
     if (shortenSafeURL.indexOf('://') > -1) {
@@ -826,26 +815,20 @@ Message: ${e.message}`
     if (shortenSafeURL.length > 30) {
       shortenSafeURL = shortenSafeURL.slice(0, 10) + '-' + shortenSafeURL.slice(-10) + (new Date()).getTime()
     }
-    console.log('2', shortenSafeURL)
 
     if (dirPath.endsWith('/')) {
       dirPath = dirPath.slice(0, -1)
     }
 
-    console.log('3', shortenSafeURL)
-
     return new Promise((resolve) => {
-      console.log(4, requestURL)
       $.getJSON(requestURL, async (json) => {
         let base64 = json.output
         // console.log(base64)
 
         // let res = await fetch(url)
         // let blob = await res.blob()
-        let filePathToWrite = dirPath + '/' + shortenSafeURL + '.png'
-        console.log('5', filePathToWrite)
         
-        this.writeFromBase64(filePathToWrite, base64, (filePath) => {
+        this.writeFromBase64(dirPath + '/' + shortenSafeURL + '.png', base64, (filePath) => {
           // console.log(filePath)
           resolve(filePath)
         })
